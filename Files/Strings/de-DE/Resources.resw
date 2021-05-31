@@ -51,9 +51,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Feedback geben</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Den Entwicklern einen Fehlerbericht mit detaillierten Informationen senden</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Lizenzen von Drittanbietern</value>
   </data>
@@ -335,9 +332,6 @@
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5 Hashwert:</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>Einstellungen</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Auswahl umkehren</value>
@@ -723,14 +717,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Mitwirkende</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Ansehen, wer an Files mitgewirkt hat</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Release Notes</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Finden Sie heraus, welche Neuigkeiten es in Files gibt</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>Das Element auf das verwiesen wurde ist fehlerhaft oder nicht erreichbar {0}Fehlermeldung:{0}{1}</value>
@@ -875,9 +863,6 @@
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Unterstützen Sie uns</value>
-  </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>Unterstützen Sie uns auf PayPal</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Wir können diese Element nicht erstellen</value>
@@ -1287,18 +1272,6 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Status Center</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>Lizenz</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>Lizenz</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>Homepage</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>Homepage</value>
-  </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Mehr über Datumsformate erfahren</value>
   </data>
@@ -1586,9 +1559,6 @@
   </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>Dokumentation</value>
-  </data>
-  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>Lerne Tipps &amp; Tricks und erfahre mehr über Files</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Files Dokumenation aufrufen</value>
@@ -2141,9 +2111,6 @@
   </data>
   <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
     <value>Datenschutzerklärung</value>
-  </data>
-  <data name="SettingsAboutPrivacyPolicyDescription.Text" xml:space="preserve">
-    <value>Files Datenschutzerklärung anzeigen</value>
   </data>
   <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Files Datenschutzerklärung anzeigen</value>

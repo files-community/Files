@@ -51,9 +51,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Soumettre un commentaire</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Envoyer un rapport d'incident aux développeurs avec des informations détaillées</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Licences tierces</value>
   </data>
@@ -335,9 +332,6 @@
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Fichier</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>Paramètres</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Inverser la sélection</value>
@@ -723,14 +717,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Contributeurs</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Voir qui a contribué à Files</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Notes de version</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Découvrez les nouveautés de Files</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>L'élément référencé est invalide ou inaccessible.{0}Message d'erreur : {0}{1}</value>
@@ -872,9 +860,6 @@
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Soutenez-nous</value>
-  </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>Soutenez-nous sur PayPal</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Cet élément n'a pas pu être créé</value>
@@ -1257,18 +1242,6 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Centre de status</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>Licence</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>Licence</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>Site web</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>Site web</value>
-  </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>En savoir plus sur les formats de date</value>
   </data>
@@ -1559,9 +1532,6 @@
   </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>Documentation</value>
-  </data>
-  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>Découvrez des trucs &amp; astuces et apprenez-en plus sur Files</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Accéder à la documentation web de Files</value>

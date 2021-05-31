@@ -51,9 +51,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>提交反馈</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>向开发者报告问题，并提供更多信息</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>第三方许可证</value>
   </data>
@@ -335,9 +332,6 @@
   </data>
   <data name="ErrorDialogCancel" xml:space="preserve">
     <value>取消</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>设置</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>反选</value>
@@ -723,14 +717,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>贡献者</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>查看 Files 贡献者</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>发行说明</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>发现 Files 新增功能</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>引用的项无效或无法访问。{0}代码:{0}{1}</value>
@@ -875,9 +863,6 @@
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>支持我们</value>
-  </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>在PayPal上支持我们</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>我们不能创建这个项目</value>
@@ -1287,18 +1272,6 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>状态中心</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>许可证</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>许可证</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>网站</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>网站</value>
-  </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>了解有关日期格式的更多信息</value>
   </data>
@@ -1589,9 +1562,6 @@
   </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>文档</value>
-  </data>
-  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>发现提示 &amp; 技巧并进一步了解 Files</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>访问 Files 文档网站</value>

@@ -30,7 +30,7 @@
 
                 <TextBlock
                     x:Uid="SettingsAppearanceTitle"
-                    FontSize="22"
+                    FontSize="20"
                     FontWeight="Medium"
                     Text="Appearance" />
 
@@ -41,7 +41,6 @@
                     MinWidth="200"
                     MaxWidth="250"
                     Header="App theme"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     ItemsSource="{Binding Themes}"
                     SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}" />
 
@@ -53,7 +52,6 @@
                     MaxWidth="250"
                     x:Load="{x:Bind ShowColorSchemeSelector}"
                     Header="Color scheme"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     ItemsSource="{Binding ColorSchemes}"
                     SelectedItem="{Binding SelectedTheme, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
@@ -83,7 +81,6 @@
                         MinWidth="200"
                         MaxWidth="250"
                         Header="Date format"
-                        HeaderTemplate="{StaticResource CustomHeaderStyle}"
                         ItemsSource="{Binding DateFormats}"
                         SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
 
@@ -102,20 +99,18 @@
                     x:Name="AcrylicSidebarSwitch"
                     x:Uid="SettingsAppearanceAcrylicSidebar"
                     Header="Acrylic sidebar"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding IsAcrylicDisabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}" />
 
                 <TextBlock
                     x:Uid="SettingsContextMenu"
                     Padding="0,10,0,0"
-                    FontSize="18"
+                    FontSize="16"
                     Text="Customize the right click context menu" />
 
                 <ToggleSwitch
                     x:Name="ContextMenuToggleSwitch"
                     x:Uid="SettingsContextMenuOverflowSwitch"
                     Header="Move overflow items into a sub menu"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>

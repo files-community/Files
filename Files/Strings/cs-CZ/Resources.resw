@@ -135,9 +135,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Odeslat zpětnou vazbu</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Zašlete vývojářům zprávu o problému s podrobnými informacemi</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Licence třetích stran</value>
   </data>
@@ -170,9 +167,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimentální funkce</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>Nastavení</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>O aplikaci</value>
@@ -753,14 +747,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Přispěvatelé</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Podívejte se, kdo přispěl do „Files"</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Poznámky k vydání</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Zjistěte, co je nového v aplikaci Files</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>Odkazovaná položka je buď neplatná nebo nepřístupná.{0}Chybová zpráva:{0}{1}</value>
@@ -818,9 +806,6 @@
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Podpořte nás</value>
-  </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>Podpořte nás na PayPalu</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Nemohli jsme vytvořit tuto položku</value>
@@ -1298,18 +1283,6 @@
   </data>
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Stavové centrum</value>
-  </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>Licence</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>Licence</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>Web</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>Web</value>
   </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Další informace o formátech data</value>

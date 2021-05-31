@@ -129,9 +129,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>フィードバックを送信</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>詳細情報を含む問題レポートを開発者に送信します</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>サードパーティライセンス</value>
   </data>
@@ -146,9 +143,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>実験的機能</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>設定</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Filesについて</value>
@@ -723,14 +717,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>共同作成者</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>ファイルの作成者を見る</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>リリース ノート</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Filesの新機能を見る</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>参照されているファイルは無効であるか、アクセスできません。{0}エラーメッセージ:{0}{1}</value>
@@ -875,9 +863,6 @@
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>支援する</value>
-  </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>PayPal で支援する</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>このファイルを作成できませんでした</value>
@@ -1278,18 +1263,6 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>ステータス センター</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>ライセンス</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>ライセンス</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>Web サイト</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>Web サイト</value>
-  </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>日付書式について知る</value>
   </data>
@@ -1580,9 +1553,6 @@
   </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>ドキュメンテーション</value>
-  </data>
-  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>Filesを使いこなす秘訣を学ぶ</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Filesの資料ページを表示</value>
@@ -2132,9 +2102,6 @@
   </data>
   <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
     <value>プライバシーポリシー</value>
-  </data>
-  <data name="SettingsAboutPrivacyPolicyDescription.Text" xml:space="preserve">
-    <value>Filesのプライバシーポリシーを見る</value>
   </data>
   <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Filesのプライバシーポリシーを見る</value>

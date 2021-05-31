@@ -141,9 +141,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Iesniegt atsauksmes</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Nosūtīt izstrādātājiem kļūdas detalizēto aprakstu</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Trešās puses licences</value>
   </data>
@@ -176,9 +173,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Eksperimentāli</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>Iestatījumi</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Par</value>
@@ -762,14 +756,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Ieguldītāji</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Skatīt, kas izstrādāja Failus</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Laidiena piezīmes</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Uzzini jaunums lietotnē Faili</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>Atsauktais vienums ir vai nu nederīgs vai nepieejams.{0}Kļūdas ziņojums:{0}{1}</value>
@@ -827,9 +815,6 @@
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Atbalstiet mūs</value>
-  </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>Atbalstiet mūs PayPal</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Mēs nevarējām izveidot šo vienumu</value>
@@ -1311,18 +1296,6 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Statusa centrs</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>Licence</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>Licence</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>Tīmekļa vietne</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>Tīmekļa vietne</value>
-  </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Uzzināt vairāk par datumu formātiem</value>
   </data>
@@ -1601,9 +1574,6 @@
   </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>Dokumentācija</value>
-  </data>
-  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>Atrast padomus &amp; un uzzināt vairāk par Failiem</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Apmeklējiet Failu dokumentācijas vietni</value>

@@ -135,9 +135,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Visszajelzés küldése</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Visszajelzés küldése a fejlesztőknek</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Harmadik fél licencei</value>
   </data>
@@ -164,9 +161,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Kísérleti beállítások</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>Beállítások</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Névjegy</value>
@@ -735,14 +729,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Közreműködők</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Akik hozzájárultak a Files-hoz</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Változások</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Újdonságok a Files-ban</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>A hivatkozott elem érvénytelen vagy nem elérhető.{0}Hibaüzenet:{0}{1}</value>
@@ -800,9 +788,6 @@
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Támogatás</value>
-  </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>Támogatás PayPal-on</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Nem sikerült létrehozni a fájlt</value>
@@ -1287,18 +1272,6 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Állapotközpont</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>Licenc</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>Licenc</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>Weboldal</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>Weboldal</value>
-  </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Tudjon meg többet a dátumformátumokról</value>
   </data>
@@ -1613,9 +1586,6 @@
   </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>Dokumentáció</value>
-  </data>
-  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>Tudjon meg többet a Files-ról</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Látogasson el a Files dokumentációs oldalára</value>
@@ -2135,9 +2105,6 @@
   </data>
   <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
     <value>Adatvédelmi irányelvek</value>
-  </data>
-  <data name="SettingsAboutPrivacyPolicyDescription.Text" xml:space="preserve">
-    <value>A Files program adatvédelmi irányelvei</value>
   </data>
   <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>A Files program adatvédelmi irányelvei</value>

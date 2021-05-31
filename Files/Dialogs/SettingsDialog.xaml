@@ -1,83 +1,54 @@
-﻿<Page
-    x:Class="Files.Views.Settings"
+﻿<ContentDialog
+    x:Class="Files.Dialogs.SettingsDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
-    NavigationCacheMode="Enabled"
+    Closing="ContentDialog_Closing"
+    CornerRadius="{StaticResource OverlayCornerRadius}"
     mc:Ignorable="d">
-
-    <Page.Resources>
+    <ContentDialog.Resources>
         <ResourceDictionary>
+            <x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
-                    <AcrylicBrush
-                        x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="{ThemeResource SidebarTintLuminosityOpacity}"
-                        AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
-                        BackgroundSource="HostBackdrop"
-                        FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
-                        TintColor="{ThemeResource SolidBackgroundAcrylic}"
-                        TintOpacity="{ThemeResource SidebarTintOpacity}" />
+                    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+                    <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
-                    <AcrylicBrush
-                        x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="{ThemeResource SidebarTintLuminosityOpacity}"
-                        AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
-                        BackgroundSource="HostBackdrop"
-                        FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
-                        TintColor="{ThemeResource SolidBackgroundAcrylic}"
-                        TintOpacity="{ThemeResource SidebarTintOpacity}" />
+                    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+                    <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
-                    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="{ThemeResource SystemColorWindowColor}" />
+                    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+                    <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
-    </Page.Resources>
+    </ContentDialog.Resources>
 
-    <Grid>
-        <Grid
-            x:Name="DragArea"
-            Height="32"
-            Margin="40,0,0,0"
-            VerticalAlignment="Top"
-            Background="Transparent"
-            Canvas.ZIndex="100" />
-
+    <Grid
+        x:Name="ContainerGrid"
+        Height="600"
+        HorizontalAlignment="Stretch">
         <muxc:NavigationView
             x:Name="SettingsPane"
-            BackRequested="SettingsPane_BackRequested"
-            CompactModeThresholdWidth="0"
-            ExpandedModeThresholdWidth="750"
-            IsBackButtonVisible="Visible"
-            IsBackEnabled="True"
+            IsBackButtonVisible="Collapsed"
+            IsBackEnabled="False"
             IsPaneOpen="True"
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
             IsTitleBarAutoPaddingEnabled="False"
-            OpenPaneLength="250"
-            PaneDisplayMode="Auto"
+            OpenPaneLength="200"
+            PaneDisplayMode="Left"
             SelectionChanged="SettingsPane_SelectionChanged">
-
-            <muxc:NavigationView.PaneHeader>
-                <TextBlock
-                    x:Uid="SettingsPageHeader"
-                    Margin="10,6"
-                    FontSize="20"
-                    FontWeight="Medium"
-                    Text="Settings" />
-            </muxc:NavigationView.PaneHeader>
 
             <muxc:NavigationView.MenuItems>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavAppearance"
                     AccessKey="A"
-                    BorderThickness="0.8"
                     Content="Appearance"
                     IsSelected="True">
                     <muxc:NavigationViewItem.Icon>
@@ -87,7 +58,6 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavOnStartup"
                     AccessKey="O"
-                    BorderThickness="0.8"
                     Content="On Startup">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7E8;" />
@@ -96,7 +66,6 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavPreferences"
                     AccessKey="P"
-                    BorderThickness="0.8"
                     Content="Preferences">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF116;" />
@@ -105,7 +74,6 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavMultitasking"
                     AccessKey="M"
-                    BorderThickness="0.8"
                     Content="Multitasking">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xEE40;" />
@@ -114,7 +82,6 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavFilesAndFolders"
                     AccessKey="F"
-                    BorderThickness="0.8"
                     Content="Files and Folders">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8B7;" />
@@ -123,7 +90,6 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavExperimental"
                     AccessKey="E"
-                    BorderThickness="0.8"
                     Content="Experimental">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF1AD;" />
@@ -132,17 +98,37 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavAbout"
                     AccessKey="B"
-                    BorderThickness="0.8"
                     Content="About">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE946;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>
-            <Frame
-                x:Name="SettingsContentFrame"
-                Padding="14,30,0,0"
-                Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" />
+
+            <ScrollViewer
+                Margin="8,4,4,4"
+                Padding="8,0,0,0"
+                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                CornerRadius="{StaticResource OverlayCornerRadius}"
+                HorizontalScrollMode="Disabled"
+                VerticalScrollBarVisibility="Hidden"
+                VerticalScrollMode="Enabled">
+                <Frame x:Name="SettingsContentFrame" Width="380" />
+            </ScrollViewer>
         </muxc:NavigationView>
+
+        <Button
+            x:Name="ButtonClose"
+            x:Uid="SettingsDialogCloseButton"
+            Width="36"
+            Height="36"
+            Margin="12"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Click="ButtonClose_Click"
+            CornerRadius="20"
+            ToolTipService.ToolTip="Close">
+            <FontIcon FontSize="12" Glyph="&#xE8BB;" />
+        </Button>
     </Grid>
-</Page>
+</ContentDialog>

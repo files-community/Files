@@ -30,13 +30,13 @@
 
                 <TextBlock
                     x:Uid="SettingsOnStartupTitle"
-                    FontSize="22"
+                    FontSize="20"
                     FontWeight="Medium"
                     Text="On Startup" />
 
                 <TextBlock
                     x:Uid="SettingsWhenLaunchingFiles"
-                    FontSize="18"
+                    FontSize="16"
                     Text="When launching Files" />
 
                 <RadioButton
@@ -45,7 +45,6 @@
                     Padding="8,4,0,0"
                     VerticalAlignment="Center"
                     Content="Open a new tab"
-                    FontSize="16"
                     GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{Binding OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -55,7 +54,6 @@
                     Padding="8,4,0,0"
                     VerticalAlignment="Center"
                     Content="Continue where you left off"
-                    FontSize="16"
                     GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{Binding ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -66,7 +64,6 @@
                     Padding="8,4,0,0"
                     VerticalAlignment="Center"
                     Content="Open a specific page or pages"
-                    FontSize="16"
                     GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{Binding OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -87,7 +84,7 @@
                         x:Uid="SettingsOnStartupPages"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        FontSize="18"
+                        FontSize="16"
                         Text="Pages: " />
                     <CommandBar
                         Grid.Column="1"
@@ -141,7 +138,7 @@
 
                 <TextBlock
                     x:Uid="SettingsOnStartupNewInstanceBehavior"
-                    FontSize="18"
+                    FontSize="16"
                     Text="When opening a folder in Files" />
 
                 <RadioButton
@@ -149,7 +146,6 @@
                     Padding="8,3,0,0"
                     VerticalAlignment="Center"
                     Content="Open folder in a new tab"
-                    FontSize="16"
                     GroupName="StartupPageLaunchRadioGroup"
                     IsChecked="{Binding AlwaysOpenANewInstance, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}" />
 
@@ -158,7 +154,6 @@
                     Padding="8,3,0,0"
                     VerticalAlignment="Center"
                     Content="Always open a new instance"
-                    FontSize="16"
                     GroupName="StartupPageLaunchRadioGroup"
                     IsChecked="{Binding AlwaysOpenANewInstance, Mode=TwoWay}" />
             </StackPanel>

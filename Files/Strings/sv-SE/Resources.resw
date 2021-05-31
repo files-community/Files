@@ -135,9 +135,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Skicka feedback</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Skicka en felrapport med detaljerad information till utvecklarna</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Tredjepartslicenser</value>
   </data>
@@ -170,9 +167,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimentellt</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>Senast ändrad</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Om</value>
@@ -756,14 +750,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Medarbetare</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Se vilka som bidragit till Files</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Uppdateringslogg</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Se vad som är nytt i Files</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>Det hänvisade objektet är antingen ogiltigt eller oåtkomligt.{0}Felmeddelande:{0}{1}</value>
@@ -821,9 +809,6 @@
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Stöd oss</value>
-  </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>Stöd oss på PayPal</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Vi kunde inte skapa det här objektet</value>
@@ -1305,18 +1290,6 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Statuscenter</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>Licens</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>Licens</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>Webbplats</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>Webbplats</value>
-  </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Läs mer om datumformat</value>
   </data>
@@ -1583,9 +1556,6 @@
   </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>Dokumentation</value>
-  </data>
-  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>Hitta tips &amp; tricks och läs mer om Files</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Visa Files dokumentationssida</value>

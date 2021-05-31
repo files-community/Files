@@ -132,9 +132,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>שלח משוב</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>שלח למפתחים דיווח עם מידע מפורט</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>רישיונות צד שלישי</value>
   </data>
@@ -149,9 +146,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>תכונות ניסיוניות</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>הגדרות</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>אודות</value>
@@ -609,14 +603,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>‏‏תורמים</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>ראה מי תרם ל-Files</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>הערות מוצר</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>גלה מה החדש ב-Files</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>גירסה</value>
@@ -731,9 +719,6 @@
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>תמכו בנו</value>
-  </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>תמכו בנו באמצעות PayPal</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>לא הצלחנו לייצר פריט זה</value>
@@ -1052,18 +1037,6 @@
   </data>
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>לא צוין</value>
-  </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>רשיון</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>רשיון</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>אתר אינטרנט</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>אתר אינטרנט</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">
     <value>שחרר כאן...</value>
