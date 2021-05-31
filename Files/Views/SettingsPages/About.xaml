@@ -182,24 +182,10 @@
                     </TextBlock.Transitions>
                 </TextBlock>
 
-                <StackPanel Orientation="Horizontal" Spacing="20">
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="QuickLook:" />
-
-                    <HyperlinkButton
-                        x:Uid="SettingsAboutWebsite"
-                        AutomationProperties.Name="Website"
-                        Content="Website"
-                        NavigateUri="https://github.com/QL-Win/QuickLook" />
-
-                    <HyperlinkButton
-                        x:Uid="SettingsAboutLicense"
-                        AutomationProperties.Name="License"
-                        Content="License"
-                        NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt" />
-                </StackPanel>
+                <HyperlinkButton
+                    AutomationProperties.Name="QuickLook"
+                    Content="QuickLook"
+                    NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
