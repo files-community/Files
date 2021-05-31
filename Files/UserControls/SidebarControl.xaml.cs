@@ -611,14 +611,6 @@ namespace Files.UserControls
             SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(item));
         }
 
-        private void SettingsButton_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigate(typeof(Views.Settings));
-
-            return;
-        }
-
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
             await DriveHelpers.EjectDeviceAsync(RightClickedItem.Path);

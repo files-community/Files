@@ -1,5 +1,5 @@
-﻿<Page
-    x:Class="Files.Views.Settings"
+﻿<ContentDialog
+    x:Class="Files.Dialogs.SettingsDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
@@ -7,10 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
-    NavigationCacheMode="Enabled"
+    CornerRadius="{StaticResource OverlayCornerRadius}"
     mc:Ignorable="d">
 
-    <Page.Resources>
+    <ContentDialog.Resources>
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
@@ -38,24 +38,15 @@
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
-    </Page.Resources>
+    </ContentDialog.Resources>
 
-    <Grid>
-        <Grid
-            x:Name="DragArea"
-            Height="32"
-            Margin="40,0,0,0"
-            VerticalAlignment="Top"
-            Background="Transparent"
-            Canvas.ZIndex="100" />
-
+    <Grid Width="1000" Height="600">
         <muxc:NavigationView
             x:Name="SettingsPane"
-            BackRequested="SettingsPane_BackRequested"
             CompactModeThresholdWidth="0"
             ExpandedModeThresholdWidth="750"
-            IsBackButtonVisible="Visible"
-            IsBackEnabled="True"
+            IsBackButtonVisible="Collapsed"
+            IsBackEnabled="False"
             IsPaneOpen="True"
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
@@ -145,4 +136,4 @@
                 Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" />
         </muxc:NavigationView>
     </Grid>
-</Page>
+</ContentDialog>
