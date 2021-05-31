@@ -20,12 +20,6 @@
                 </StackPanel.ChildrenTransitions>
 
                 <TextBlock
-                    x:Uid="SettingsMultitaskingTitle"
-                    FontSize="22"
-                    FontWeight="Medium"
-                    Text="Multitasking" />
-
-                <TextBlock
                     x:Uid="SettingsTabCustomization"
                     Padding="0,10,0,0"
                     FontSize="16"

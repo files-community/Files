@@ -252,9 +252,6 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Third party licenses</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
-    <value>About</value>
-  </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Acrylic sidebar</value>
   </data>
@@ -264,9 +261,6 @@
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>App theme</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
-    <value>Appearance</value>
-  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>Show extensions for known file types</value>
   </data>
@@ -275,12 +269,6 @@
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
     <value>Show hidden files and folders</value>
-  </data>
-  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Files and Folders</value>
-  </data>
-  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
-    <value>Experimental</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>About</value>
@@ -312,14 +300,8 @@
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Open a specific page or pages</value>
   </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>On Startup</value>
-  </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>Show item owner in properties</value>
-  </data>
-  <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
-    <value>Preferences</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Desktop</value>
@@ -968,9 +950,6 @@
   </data>
   <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
     <value>Always hides the vertical multitasking flyout from the navigation toolbar, and shows the traditional horizontal tabstrip on the app window. This is suited for users who need to keep track of every open app instance at all times.</value>
-  </data>
-  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
-    <value>Multitasking</value>
   </data>
   <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
     <value>Vertical</value>

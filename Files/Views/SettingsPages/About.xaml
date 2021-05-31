@@ -26,12 +26,6 @@
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
-                <TextBlock
-                    x:Uid="SettingsAboutTitle"
-                    FontSize="22"
-                    FontWeight="Medium"
-                    Text="About" />
-
                 <StackPanel Orientation="Horizontal">
                     <Image
                         Width="60"
