@@ -221,7 +221,7 @@
                 <TextBlock
                     x:Uid="SettingsAboutThirdPartyLicenses"
                     Margin="0,16,0,0"
-                    FontSize="18"
+                    FontSize="16"
                     Text="Third party licenses">
                     <TextBlock.Transitions>
                         <TransitionCollection>
