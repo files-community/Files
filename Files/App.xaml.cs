@@ -82,7 +82,6 @@ namespace Files
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
 
-
             //LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
             AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
 
