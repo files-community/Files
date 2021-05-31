@@ -1,9 +1,9 @@
-﻿using Files.DataModels.NavigationControlItems;
+﻿using Files.Common;
+using Files.DataModels.NavigationControlItems;
 using Files.Helpers;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,7 +18,7 @@ namespace Files.Filesystem
 {
     public class NetworkDrivesManager : ObservableObject
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
         public IReadOnlyList<DriveItem> Drives

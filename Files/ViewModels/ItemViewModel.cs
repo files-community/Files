@@ -522,7 +522,7 @@ namespace Files.ViewModels
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                App.Logger.Warn(ex, ex.Message);
             }
         }
 
@@ -623,7 +623,7 @@ namespace Files.ViewModels
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                App.Logger.Warn(ex, ex.Message);
             }
             finally
             {
@@ -1605,7 +1605,7 @@ namespace Files.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                            App.Logger.Warn(ex, ex.Message);
                         }
 
                         if (sampler.CheckNow())

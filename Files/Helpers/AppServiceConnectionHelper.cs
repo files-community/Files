@@ -107,7 +107,7 @@ namespace Files.Helpers
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Could not initialize FTP connection!");
+                App.Logger.Warn(ex, "Could not initialize FTP connection!");
             }
             return null;
         }
@@ -232,7 +232,7 @@ namespace Files.Helpers
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Error sending request on pipe.");
+                App.Logger.Warn(ex, "Error sending request on pipe.");
             }
 
             return (AppServiceResponseStatus.Failure, null);
@@ -261,7 +261,7 @@ namespace Files.Helpers
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Error sending request on pipe.");
+                App.Logger.Warn(ex, "Error sending request on pipe.");
             }
 
             return AppServiceResponseStatus.Failure;

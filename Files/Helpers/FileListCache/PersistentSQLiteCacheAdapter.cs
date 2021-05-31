@@ -126,7 +126,7 @@ namespace Files.Helpers.FileListCache
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, $"Failed initializing database with path: {dbPath}");
+                App.Logger.Warn(ex, $"Failed initializing database with path: {dbPath}");
                 return false;
             }
         }

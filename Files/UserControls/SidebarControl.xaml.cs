@@ -415,7 +415,7 @@ namespace Files.UserControls
                 }
                 catch (Exception ex)
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                    App.Logger.Warn(ex, ex.Message);
                     e.AcceptedOperation = DataPackageOperation.None;
                     deferral.Complete();
                     return;
@@ -530,7 +530,7 @@ namespace Files.UserControls
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                App.Logger.Warn(ex, ex.Message);
                 e.AcceptedOperation = DataPackageOperation.None;
                 deferral.Complete();
                 return;

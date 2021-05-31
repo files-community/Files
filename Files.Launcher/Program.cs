@@ -1,7 +1,6 @@
 using Files.Common;
 using Microsoft.Win32;
 using Newtonsoft.Json;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,15 +25,14 @@ namespace FilesFullTrust
 {
     internal class Program
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        public static Logger Logger { get; private set; }
+        private static readonly LogWriter logWriter = new LogWriter();
 
         [STAThread]
         private static void Main(string[] args)
         {
-            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-            LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NLog.config"));
-            LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
-
+            Logger = new Logger(logWriter);
+            logWriter.InitializeAsync("debug_fulltrust.log").Wait();
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
             if (HandleCommandLineArgs())
@@ -603,7 +601,7 @@ namespace FilesFullTrust
             {
                 case "Enumerate":
                     // Read library information and send response to UWP
-                    var enumerateResponse = await Win32API.StartSTATask(() =>
+                    var enumerateResponse = await Win32API.StartSTATask((Func<ValueSet>)(() =>
                     {
                         var response = new ValueSet();
                         try
@@ -626,13 +624,13 @@ namespace FilesFullTrust
                             Logger.Error(e);
                         }
                         return response;
-                    });
+                    }));
                     await Win32API.SendMessageAsync(connection, enumerateResponse, message.Get("RequestID", (string)null));
                     break;
 
                 case "Create":
                     // Try create new library with the specified name and send response to UWP
-                    var createResponse = await Win32API.StartSTATask(() =>
+                    var createResponse = await Win32API.StartSTATask((Func<ValueSet>)(() =>
                     {
                         var response = new ValueSet();
                         try
@@ -645,13 +643,13 @@ namespace FilesFullTrust
                             Logger.Error(e);
                         }
                         return response;
-                    });
+                    }));
                     await Win32API.SendMessageAsync(connection, createResponse, message.Get("RequestID", (string)null));
                     break;
 
                 case "Update":
                     // Update details of the specified library and send response to UWP
-                    var updateResponse = await Win32API.StartSTATask(() =>
+                    var updateResponse = await Win32API.StartSTATask((Func<ValueSet>)(() =>
                     {
                         var response = new ValueSet();
                         try
@@ -708,7 +706,7 @@ namespace FilesFullTrust
                             Logger.Error(e);
                         }
                         return response;
-                    });
+                    }));
                     await Win32API.SendMessageAsync(connection, updateResponse, message.Get("RequestID", (string)null));
                     break;
             }
