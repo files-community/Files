@@ -89,17 +89,17 @@ namespace FilesFullTrust
                 librariesWatcher.Renamed += (object _, RenamedEventArgs e) => OnLibraryChanged(e.ChangeType, e.OldFullPath, e.FullPath);
                 librariesWatcher.EnableRaisingEvents = true;
 
-                // Preload context menu for better performance
-                // We query the context menu for the app's local folder
-                var preloadPath = ApplicationData.Current.LocalFolder.Path;
-                using var _ = Win32API.ContextMenu.GetContextMenuForFiles(new string[] { preloadPath }, Shell32.CMF.CMF_NORMAL | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(false));
-
                 // Create cancellation token for drop window
                 cancellation = new CancellationTokenSource();
 
                 // Connect to app service and wait until the connection gets closed
-                appServiceExit = new AutoResetEvent(false);
+                appServiceExit = new ManualResetEvent(false);
                 InitializeAppServiceConnection();
+
+                // Preload context menu for better performance
+                // We query the context menu for the app's local folder
+                var preloadPath = ApplicationData.Current.LocalFolder.Path;
+                using var _ = Win32API.ContextMenu.GetContextMenuForFiles(new string[] { preloadPath }, Shell32.CMF.CMF_NORMAL | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(false));
 
                 // Initialize device watcher
                 deviceWatcher = new DeviceWatcher(connection);
@@ -158,7 +158,7 @@ namespace FilesFullTrust
         }
 
         private static NamedPipeServerStream connection;
-        private static AutoResetEvent appServiceExit;
+        private static ManualResetEvent appServiceExit;
         private static CancellationTokenSource cancellation;
         private static Win32API.DisposableDictionary handleTable;
         private static IList<FileSystemWatcher> binWatchers;
@@ -182,12 +182,25 @@ namespace FilesFullTrust
             }
             connection.SetAccessControl(Security);
 
-            await connection.WaitForConnectionAsync();
+            try
+            {
+                using var cts = new CancellationTokenSource();
+                cts.CancelAfter(TimeSpan.FromSeconds(10));
+                await connection.WaitForConnectionAsync(cts.Token);
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex, "Could not initialize pipe!");
+            }
 
             if (connection.IsConnected)
             {
                 var info = (Buffer: new byte[connection.InBufferSize], Message: new StringBuilder());
                 BeginRead(info);
+            }
+            else
+            {
+                appServiceExit.Set();
             }
         }
 
