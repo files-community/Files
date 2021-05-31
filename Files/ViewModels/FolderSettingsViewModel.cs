@@ -433,7 +433,7 @@ namespace Files.ViewModels
         }
 
         public RelayCommand<GroupOption> ChangeGroupOptionCommand => new RelayCommand<GroupOption>(x => DirectoryGroupOption = x);
-        
+
         public GroupOption DirectoryGroupOption
         {
             get => LayoutPreference.DirectoryGroupOption;
@@ -501,11 +501,22 @@ namespace Files.ViewModels
                 App.AppSettings.DefaultGridViewSize = prefs.GridViewSize;
                 // Do not save OriginalPath as global sort option (only works in recycle bin)
                 if (prefs.DirectorySortOption != SortOption.OriginalPath &&
-                    prefs.DirectorySortOption != SortOption.DateDeleted)
+                    prefs.DirectorySortOption != SortOption.DateDeleted &&
+                    prefs.DirectorySortOption != SortOption.SyncStatus)
                 {
                     App.AppSettings.DefaultDirectorySortOption = prefs.DirectorySortOption;
                 }
+                if (prefs.DirectoryGroupOption != GroupOption.OriginalFolder &&
+                    prefs.DirectoryGroupOption != GroupOption.DateDeleted &&
+                    prefs.DirectoryGroupOption != GroupOption.SyncStatus)
+                {
+                    App.AppSettings.DefaultDirectoryGroupOption = prefs.DirectoryGroupOption;
+                }
                 App.AppSettings.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
+                App.AppSettings.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
+                App.AppSettings.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
+                App.AppSettings.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
+                App.AppSettings.ShowSizeColumn = !prefs.ColumnsViewModel.SizeColumn.UserCollapsed;
             }
         }
 
@@ -541,7 +552,7 @@ namespace Files.ViewModels
                 ApplicationDataCompositeValue adcv = (ApplicationDataCompositeValue)dataContainer.Values[folderPath];
                 return LayoutPreferences.FromCompositeValue(adcv);
             }
-            else if(folderPath == App.AppSettings.DownloadsPath)
+            else if (folderPath == App.AppSettings.DownloadsPath)
             {
                 // Default for downloads folder is to group by date created
                 return new LayoutPreferences
@@ -553,7 +564,8 @@ namespace Files.ViewModels
                     ColumnsViewModel = new ColumnsViewModel(),
                     DirectoryGroupOption = GroupOption.DateCreated,
                 };
-            } else
+            }
+            else
             {
                 return LayoutPreferences.DefaultLayoutPreferences; // Either global setting or smart guess
             }
@@ -574,12 +586,12 @@ namespace Files.ViewModels
         }
 
         private LayoutPreferences layoutPreference;
-        public LayoutPreferences LayoutPreference 
+        public LayoutPreferences LayoutPreference
         {
             get => layoutPreference;
             private set
             {
-                if(SetProperty(ref layoutPreference, value))
+                if (SetProperty(ref layoutPreference, value))
                 {
                     OnPropertyChanged(nameof(DirectoryGroupOption));
                     OnPropertyChanged(nameof(DirectorySortOption));
@@ -609,7 +621,12 @@ namespace Files.ViewModels
                 this.DirectorySortOption = App.AppSettings.DefaultDirectorySortOption;
                 this.DirectoryGroupOption = App.AppSettings.DefaultDirectoryGroupOption;
                 this.DirectorySortDirection = App.AppSettings.DefaultDirectorySortDirection;
+
                 this.ColumnsViewModel = new ColumnsViewModel();
+                this.ColumnsViewModel.DateCreatedColumn.UserCollapsed = !App.AppSettings.ShowDateCreatedColumn;
+                this.ColumnsViewModel.DateModifiedColumn.UserCollapsed = !App.AppSettings.ShowDateColumn;
+                this.ColumnsViewModel.ItemTypeColumn.UserCollapsed = !App.AppSettings.ShowTypeColumn;
+                this.ColumnsViewModel.SizeColumn.UserCollapsed = !App.AppSettings.ShowSizeColumn;
 
                 this.IsAdaptiveLayoutOverridden = false; // Default is always turned on for every dir
             }
@@ -625,7 +642,7 @@ namespace Files.ViewModels
                     IsAdaptiveLayoutOverridden = (bool?)compositeValue[nameof(IsAdaptiveLayoutOverridden)] != null,
                 };
 
-                if(compositeValue.TryGetValue(nameof(DirectoryGroupOption), out var gpOption))
+                if (compositeValue.TryGetValue(nameof(DirectoryGroupOption), out var gpOption))
                 {
                     pref.DirectoryGroupOption = (GroupOption)(int)gpOption;
                 }

@@ -78,5 +78,18 @@ namespace Files.UserControls
             get => (bool)GetValue(IsPageTypeRecycleBinProperty);
             set => SetValue(IsPageTypeRecycleBinProperty, value);
         }
+
+        public static readonly DependencyProperty IsPageTypeCloudDriveProperty = DependencyProperty.Register(
+         nameof(IsPageTypeCloudDrive),
+         typeof(bool),
+         typeof(ArrangementOptions),
+         new PropertyMetadata(null)
+        );
+
+        public bool IsPageTypeCloudDrive
+        {
+            get => (bool)GetValue(IsPageTypeCloudDriveProperty);
+            set => SetValue(IsPageTypeCloudDriveProperty, value);
+        }
     }
 }

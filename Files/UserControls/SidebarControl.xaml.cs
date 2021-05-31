@@ -66,14 +66,15 @@ namespace Files.UserControls
 
         private bool IsInPointerPressed = false;
 
-        private DispatcherQueueTimer dragOverTimer;
+        private DispatcherQueueTimer dragOverSectionTimer, dragOverItemTimer;
 
         public SidebarControl()
         {
             this.InitializeComponent();
             this.Loaded += SidebarNavView_Loaded;
 
-            dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            dragOverSectionTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            dragOverItemTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         public static readonly DependencyProperty SelectedSidebarItemProperty = DependencyProperty.Register(nameof(SelectedSidebarItem), typeof(INavigationControlItem), typeof(SidebarControl), new PropertyMetadata(null));
@@ -350,29 +351,45 @@ namespace Files.UserControls
             args.Data.Properties.Add("sourceLocationItem", navItem);
         }
 
-        private object dragOverItem = null;
+        private object dragOverSection, dragOverItem = null;
 
         private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
         {
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragEnter", false);
 
-            if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is INavigationControlItem)
+            if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is INavigationControlItem iNavItem)
             {
-                dragOverItem = sender;
-                dragOverTimer.Stop();
-                dragOverTimer.Debounce(() =>
+                if (string.IsNullOrEmpty(iNavItem.Path))
                 {
-                    if (dragOverItem != null)
+                    dragOverSection = sender;
+                    dragOverSectionTimer.Stop();
+                    dragOverSectionTimer.Debounce(() =>
                     {
-                        dragOverTimer.Stop();
-                        if ((dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locItem)
+                        if (dragOverSection != null)
                         {
-                            locItem.IsExpanded = true;
+                            dragOverSectionTimer.Stop();
+                            if ((dragOverSection as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem section)
+                            {
+                                section.IsExpanded = true;
+                            }
+                            dragOverSection = null;
                         }
-                        SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItemBase));
-                        dragOverItem = null;
-                    }
-                }, TimeSpan.FromMilliseconds(1000), false);
+                    }, TimeSpan.FromMilliseconds(1000), false);
+                }
+                else
+                {
+                    dragOverItem = sender;
+                    dragOverItemTimer.Stop();
+                    dragOverItemTimer.Debounce(() =>
+                    {
+                        if (dragOverItem != null)
+                        {
+                            dragOverItemTimer.Stop();
+                            SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItemBase));
+                            dragOverItem = null;
+                        }
+                    }, TimeSpan.FromMilliseconds(1000), false);
+                }
             }
         }
 
@@ -386,6 +403,11 @@ namespace Files.UserControls
                 {
                     // Reset dragged over item
                     dragOverItem = null;
+                }
+                if (sender == dragOverSection)
+                {
+                    // Reset dragged over item
+                    dragOverSection = null;
                 }
             }
         }
@@ -478,6 +500,7 @@ namespace Files.UserControls
         private void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
         {
             dragOverItem = null; // Reset dragged over item
+            dragOverSection = null; // Reset dragged over section
 
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem))
             {
@@ -563,6 +586,7 @@ namespace Files.UserControls
         private void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
         {
             dragOverItem = null; // Reset dragged over item
+            dragOverSection = null; // Reset dragged over section
 
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem))
             {
