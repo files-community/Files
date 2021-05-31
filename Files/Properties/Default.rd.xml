@@ -25,7 +25,6 @@
     <Namespace Name="Microsoft.Toolkit.Uwp.Notifications" Dynamic="Required All" />
     <Namespace Name="Microsoft.Xaml.Interactivity" Dynamic="Required All" />
     <Namespace Name="Microsoft.Xaml.Interactions.Core" Dynamic="Required All" />
-    <Namespace Name="NLog" Dynamic="Required All" />
     <Namespace Name="Microsoft.Toolkit.Uwp.UI.Behaviors" Dynamic="Required All" />
 
     <Type Name="Files.Views.PaneNavigationArguments" Dynamic="Required All" />
