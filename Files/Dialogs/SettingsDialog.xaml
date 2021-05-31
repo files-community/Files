@@ -49,7 +49,6 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavAppearance"
                     AccessKey="A"
-                    BorderThickness="0.8"
                     Content="Appearance"
                     IsSelected="True">
                     <muxc:NavigationViewItem.Icon>
@@ -59,7 +58,6 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavOnStartup"
                     AccessKey="O"
-                    BorderThickness="0.8"
                     Content="On Startup">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7E8;" />
@@ -68,7 +66,6 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavPreferences"
                     AccessKey="P"
-                    BorderThickness="0.8"
                     Content="Preferences">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF116;" />
@@ -77,7 +74,6 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavMultitasking"
                     AccessKey="M"
-                    BorderThickness="0.8"
                     Content="Multitasking">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xEE40;" />
@@ -86,7 +82,6 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavFilesAndFolders"
                     AccessKey="F"
-                    BorderThickness="0.8"
                     Content="Files and Folders">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8B7;" />
@@ -95,7 +90,6 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavExperimental"
                     AccessKey="E"
-                    BorderThickness="0.8"
                     Content="Experimental">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF1AD;" />
@@ -104,7 +98,6 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavAbout"
                     AccessKey="B"
-                    BorderThickness="0.8"
                     Content="About">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE946;" />
@@ -126,15 +119,15 @@
 
         <Button
             x:Name="ButtonClose"
+            x:Uid="SettingsDialogCloseButton"
             Width="36"
             Height="36"
             Margin="12"
-            x:Uid="SettingsDialogCloseButton"
-            ToolTipService.ToolTip="Close"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Click="ButtonClose_Click"
-            CornerRadius="20">
+            CornerRadius="20"
+            ToolTipService.ToolTip="Close">
             <FontIcon FontSize="12" Glyph="&#xE8BB;" />
         </Button>
     </Grid>
