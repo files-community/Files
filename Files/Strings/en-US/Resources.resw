@@ -282,9 +282,6 @@
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimental</value>
   </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>Settings</value>
-  </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>About</value>
   </data>
