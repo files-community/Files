@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     Closing="ContentDialog_Closing"
     CornerRadius="{StaticResource OverlayCornerRadius}"
     mc:Ignorable="d">
@@ -114,17 +113,29 @@
             </muxc:NavigationView.MenuItems>
 
             <ScrollViewer
+                Margin="8,4,4,4"
+                Padding="8,0,0,0"
+                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                CornerRadius="{StaticResource OverlayCornerRadius}"
                 HorizontalScrollMode="Disabled"
-                VerticalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Hidden"
                 VerticalScrollMode="Enabled">
-                <Frame
-                    x:Name="SettingsContentFrame"
-                    Width="380"
-                    Margin="8,4,4,4"
-                    Padding="8,0,0,0"
-                    Background="{ThemeResource SubtleFillColorTertiary}"
-                    CornerRadius="{StaticResource OverlayCornerRadius}" />
+                <Frame x:Name="SettingsContentFrame" Width="380" />
             </ScrollViewer>
         </muxc:NavigationView>
+
+        <Button
+            x:Name="ButtonClose"
+            Width="36"
+            Height="36"
+            Margin="12"
+            x:Uid="SettingsDialogCloseButton"
+            ToolTipService.ToolTip="Close"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Click="ButtonClose_Click"
+            CornerRadius="20">
+            <FontIcon FontSize="12" Glyph="&#xE8BB;" />
+        </Button>
     </Grid>
 </ContentDialog>

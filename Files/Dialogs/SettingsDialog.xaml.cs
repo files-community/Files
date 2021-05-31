@@ -48,5 +48,10 @@ namespace Files.Dialogs
         {
             Window.Current.SizeChanged -= Current_SizeChanged;
         }
+
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+        }
     }
 }

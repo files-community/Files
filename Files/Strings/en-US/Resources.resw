@@ -933,6 +933,9 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>We weren't able to create this item</value>
   </data>
+  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Close</value>
+  </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Access Denied</value>
   </data>
