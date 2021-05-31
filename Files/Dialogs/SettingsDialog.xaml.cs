@@ -22,12 +22,10 @@ namespace Files.Dialogs
             if (Window.Current.Bounds.Width <= 750)
             {
                 SettingsPane.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.LeftCompact;
-                SettingsContentFrame.Width = 380;
             }
             else
             {
                 SettingsPane.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Left;
-                SettingsContentFrame.Width = 440;
             }
         }
 
