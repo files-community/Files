@@ -121,7 +121,7 @@
                     x:Name="SettingsContentFrame"
                     Width="380"
                     Margin="8,4,4,4"
-                    Padding="8,8,0,0"
+                    Padding="8,0,0,0"
                     Background="{ThemeResource SubtleFillColorTertiary}"
                     CornerRadius="{StaticResource OverlayCornerRadius}" />
             </ScrollViewer>

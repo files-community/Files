@@ -28,7 +28,7 @@
 
                 <TextBlock
                     x:Uid="SettingsAboutTitle"
-                    FontSize="22"
+                    FontSize="20"
                     FontWeight="Medium"
                     Text="About" />
 
@@ -73,12 +73,6 @@
                             <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xED15;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutSubmitFeedback" Text="Submit feedback" />
-                                <TextBlock
-                                    x:Uid="SettingsAboutSubmitFeedbackDescription"
-                                    FontSize="12"
-                                    Foreground="Gray"
-                                    Text="Send the developers an issue report with more information"
-                                    TextWrapping="Wrap" />
                             </StackPanel>
                         </StackPanel>
                     </ListViewItem>
@@ -97,12 +91,6 @@
                             <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xF000;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutReleaseNotes" Text="Release notes" />
-                                <TextBlock
-                                    x:Uid="SettingsAboutReleaseNotesDescription"
-                                    FontSize="12"
-                                    Foreground="Gray"
-                                    Text="Find out what's new in Files"
-                                    TextWrapping="Wrap" />
                             </StackPanel>
                         </StackPanel>
                     </ListViewItem>
@@ -121,12 +109,6 @@
                             <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE736;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutDocumentation" Text="Documentation" />
-                                <TextBlock
-                                    x:Uid="SettingsAboutDocumentationDescription"
-                                    FontSize="12"
-                                    Foreground="Gray"
-                                    Text="Find tips &amp; tricks and learn more about Files"
-                                    TextWrapping="Wrap" />
                             </StackPanel>
                         </StackPanel>
                     </ListViewItem>
@@ -145,12 +127,6 @@
                             <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE72E;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutPrivacyPolicy" Text="Privacy policy" />
-                                <TextBlock
-                                    x:Uid="SettingsAboutPrivacyPolicyDescription"
-                                    FontSize="12"
-                                    Foreground="Gray"
-                                    Text="View Files privacy policy"
-                                    TextWrapping="Wrap" />
                             </StackPanel>
                         </StackPanel>
                     </ListViewItem>
@@ -169,12 +145,6 @@
                             <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE716;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutContributors" Text="Contributors" />
-                                <TextBlock
-                                    x:Uid="SettingsAboutContributorsDescription"
-                                    FontSize="12"
-                                    Foreground="Gray"
-                                    Text="See who contributed to Files"
-                                    TextWrapping="Wrap" />
                             </StackPanel>
                         </StackPanel>
                     </ListViewItem>
@@ -196,12 +166,6 @@
                                 Glyph="&#xF119;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutSupportUs" Text="Support us" />
-                                <TextBlock
-                                    x:Uid="SettingsAboutSupportUsDescription"
-                                    FontSize="12"
-                                    Foreground="Gray"
-                                    Text="Support us on PayPal"
-                                    TextWrapping="Wrap" />
                             </StackPanel>
                         </StackPanel>
                     </ListViewItem>

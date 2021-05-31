@@ -27,7 +27,7 @@
 
                 <TextBlock
                     x:Uid="SettingsPreferencesTitle"
-                    FontSize="22"
+                    FontSize="20"
                     FontWeight="Medium"
                     Text="Preferences" />
 
@@ -59,7 +59,6 @@
                             MinWidth="200"
                             MaxWidth="250"
                             Header="Terminal applications"
-                            
                             ItemsSource="{Binding Terminals}"
                             SelectedItem="{Binding SelectedTerminal, Mode=TwoWay}">
                             <ComboBox.ItemTemplate>
@@ -95,28 +94,24 @@
                 <ToggleSwitch
                     x:Uid="SettingsPreferencesRecycleBinSwitch"
                     Header="Pin Recycle Bin to the sidebar"
-                    
                     IsOn="{Binding PinRecycleBinToSideBar, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Name="ShowConfirmDeleteDialogSwitch"
                     x:Uid="SettingsPreferencesShowConfirmDeleteDialogSwitch"
                     Header="Show a confirmation dialog when deleting files or folders"
-                    
                     IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Name="ShowLibrarySection"
                     x:Uid="SettingsPreferencesShowLibrarySection"
                     Header="Show library section on the sidebar"
-                    
                     IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Name="OpenFoldersNewTab"
                     x:Uid="SettingsPreferencesOpenFoldersNewTab"
                     Header="Open folders in new tab"
-                    
                     IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>

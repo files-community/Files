@@ -246,9 +246,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Submit feedback</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Send the developers an issue report with detailed information</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Third party licenses</value>
   </data>
@@ -873,14 +870,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Contributors</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>See who contributed to Files</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Release notes</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Find out what's new in Files</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</value>
@@ -938,9 +929,6 @@
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Support us</value>
-  </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>Support us on PayPal</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>We weren't able to create this item</value>
@@ -1740,9 +1728,6 @@
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>Documentation</value>
   </data>
-  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>Find tips &amp; tricks and learn more about Files</value>
-  </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Visit the Files documentation website</value>
   </data>
@@ -2276,9 +2261,6 @@
   </data>
   <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
     <value>Privacy policy</value>
-  </data>
-  <data name="SettingsAboutPrivacyPolicyDescription.Text" xml:space="preserve">
-    <value>View Files privacy policy</value>
   </data>
   <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>View Files privacy policy</value>

@@ -30,7 +30,7 @@
 
                 <TextBlock
                     x:Uid="SettingsAppearanceTitle"
-                    FontSize="22"
+                    FontSize="20"
                     FontWeight="Medium"
                     Text="Appearance" />
 

@@ -21,7 +21,7 @@
 
                 <TextBlock
                     x:Uid="SettingsMultitaskingTitle"
-                    FontSize="22"
+                    FontSize="20"
                     FontWeight="Medium"
                     Text="Multitasking" />
 
