@@ -7,27 +7,29 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+    Closing="ContentDialog_Closing"
     CornerRadius="{StaticResource OverlayCornerRadius}"
     mc:Ignorable="d">
-
     <ContentDialog.Resources>
         <ResourceDictionary>
-            <x:Double x:Key="ContentDialogMaxWidth">1000</x:Double>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+                    <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+                    <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
                     <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+                    <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
     </ContentDialog.Resources>
 
-    <Grid Width="600" Height="600">
+    <Grid Height="600">
         <muxc:NavigationView
             x:Name="SettingsPane"
             IsBackButtonVisible="Collapsed"
@@ -109,7 +111,6 @@
 
             <Frame
                 x:Name="SettingsContentFrame"
-                Width="Auto"
                 Margin="12,4,4,4"
                 Padding="12,0,0,0"
                 Background="{ThemeResource SubtleFillColorTertiary}"

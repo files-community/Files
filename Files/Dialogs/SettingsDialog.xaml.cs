@@ -1,11 +1,8 @@
 ﻿using Files.SettingsPages;
 using Files.ViewModels;
-using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.Resources.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Files.Dialogs
 {
@@ -17,7 +14,21 @@ namespace Files.Dialogs
         {
             this.InitializeComponent();
             SettingsPane.SelectedItem = SettingsPane.MenuItems[0];
+            Window.Current.SizeChanged += Current_SizeChanged;
+        }
 
+        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        {
+            if (Window.Current.Bounds.Width <= 750)
+            {
+                SettingsPane.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.LeftCompact;
+                SettingsContentFrame.Width = 380;
+            }
+            else
+            {
+                SettingsPane.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Left;
+                SettingsContentFrame.Width = 440;
+            }
         }
 
         private void SettingsPane_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
@@ -33,6 +44,11 @@ namespace Files.Dialogs
                 6 => SettingsContentFrame.Navigate(typeof(About)),
                 _ => SettingsContentFrame.Navigate(typeof(Appearance))
             };
+        }
+
+        private void ContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
+        {
+            Window.Current.SizeChanged -= Current_SizeChanged;
         }
     }
 }
