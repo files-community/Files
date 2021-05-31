@@ -29,6 +29,12 @@
                 </StackPanel.ChildrenTransitions>
 
                 <TextBlock
+                    x:Uid="SettingsOnStartupTitle"
+                    FontSize="22"
+                    FontWeight="Medium"
+                    Text="On Startup" />
+
+                <TextBlock
                     x:Uid="SettingsWhenLaunchingFiles"
                     FontSize="16"
                     Text="When launching Files" />

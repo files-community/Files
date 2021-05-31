@@ -28,6 +28,12 @@
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
+                <TextBlock
+                    x:Uid="SettingsAppearanceTitle"
+                    FontSize="22"
+                    FontWeight="Medium"
+                    Text="Appearance" />
+
                 <ComboBox
                     x:Name="ThemeChooser"
                     x:Uid="SettingsAppearanceTheme"

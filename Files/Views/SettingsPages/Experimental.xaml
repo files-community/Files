@@ -25,6 +25,12 @@
                 </StackPanel.ChildrenTransitions>
 
                 <TextBlock
+                    x:Uid="SettingsExperimentalTitle"
+                    FontSize="22"
+                    FontWeight="Medium"
+                    Text="Experimental" />
+
+                <TextBlock
                     x:Uid="SettingsExperimentalDescription"
                     FontStyle="Italic"
                     Text="WARNING: EXPERIMENTAL FEATURES AHEAD!" />
@@ -32,6 +38,7 @@
                 <ToggleSwitch
                     x:Uid="SettingsShowFileOwnerInProperties"
                     Header="Show item owner in properties"
+                    
                     IsOn="{Binding ShowFileOwner, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
