@@ -31,6 +31,7 @@
 
     <Grid
         x:Name="ContainerGrid"
+        Width="Auto"
         Height="600"
         HorizontalAlignment="Stretch">
         <muxc:NavigationView
@@ -106,7 +107,7 @@
             </muxc:NavigationView.MenuItems>
 
             <ScrollViewer
-                Margin="8,4,4,4"
+                Margin="16,4,4,4"
                 Padding="8,0,0,0"
                 Background="{ThemeResource SubtleFillColorSecondaryBrush}"
                 CornerRadius="{StaticResource OverlayCornerRadius}"
