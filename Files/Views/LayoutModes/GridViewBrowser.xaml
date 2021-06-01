@@ -15,6 +15,7 @@
     xmlns:local3="using:Files.Filesystem.Cloud"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
     x:Name="PageRoot"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -480,6 +481,7 @@
                     animations:ItemsReorderAnimation.Duration="0:0:0.350"
                     behaviors:StretchedGridViewItems.FillBeforeWrap="True"
                     behaviors:StretchedGridViewItems.MinItemWidth="{x:Bind GridViewItemMinWidth, Mode=OneWay}"
+                    tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
                     x:FieldModifier="public"
                     AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                     CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"

@@ -62,6 +62,20 @@ namespace Files
 
         public bool IsRenamingItem { get; set; } = false;
 
+        private bool isMiddleClickToScrollEnabled = true;
+        public bool IsMiddleClickToScrollEnabled
+        {
+            get => isMiddleClickToScrollEnabled;
+            set
+            {
+                if (isMiddleClickToScrollEnabled != value)
+                {
+                    isMiddleClickToScrollEnabled = value;
+                    NotifyPropertyChanged(nameof(IsMiddleClickToScrollEnabled));
+                }
+            }
+        }
+
         private CollectionViewSource collectionViewSource = new CollectionViewSource()
         {
             IsSourceGrouped = true,
