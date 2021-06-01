@@ -13,7 +13,7 @@
     <ContentDialog.Resources>
         <ResourceDictionary>
             <x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
-            <SolidColorBrush x:Key="ContentDialogTopOverlay" Color="{StaticResource SolidBackgroundFillColorBaseBrush}" />
+            <SolidColorBrush x:Key="ContentDialogTopOverlay" Color="Transparent" />
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
@@ -43,7 +43,7 @@
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
             IsTitleBarAutoPaddingEnabled="False"
-            OpenPaneLength="200"
+            OpenPaneLength="180"
             PaneDisplayMode="Left"
             SelectionChanged="SettingsPane_SelectionChanged">
 
@@ -108,7 +108,7 @@
             </muxc:NavigationView.MenuItems>
 
             <ScrollViewer
-                Margin="8,4,4,4"
+                Margin="20,4,4,4"
                 Padding="8,0,0,0"
                 Background="{ThemeResource SubtleFillColorSecondaryBrush}"
                 CornerRadius="{StaticResource OverlayCornerRadius}"
