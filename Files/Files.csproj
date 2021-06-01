@@ -28,7 +28,7 @@
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <AppxBundlePlatforms>x86|x64|arm|arm64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-	<Win32Resource>Resources\MiddleClickScrolling-CursorType.res</Win32Resource>
+    <Win32Resource>Resources\MiddleClickScrolling-CursorType.res</Win32Resource>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -513,6 +513,9 @@
     <Compile Include="Views\Pages\PropertiesLibrary.xaml.cs">
       <DependentUpon>PropertiesLibrary.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Pages\PropertiesSecurity.xaml.cs">
+      <DependentUpon>PropertiesSecurity.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PaneHolderPage.xaml.cs">
       <DependentUpon>PaneHolderPage.xaml</DependentUpon>
     </Compile>
@@ -983,6 +986,10 @@
     <Page Include="Views\Pages\PropertiesLibrary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Pages\PropertiesSecurity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PaneHolderPage.xaml">
       <SubType>Designer</SubType>

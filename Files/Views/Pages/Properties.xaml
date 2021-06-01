@@ -64,6 +64,15 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
+                    x:Name="TabSecurity"
+                    x:Uid="PropertiesDialogTabSecurity"
+                    Content="Security"
+                    Tag="Security">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE730;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
                     x:Name="TabShorcut"
                     x:Uid="PropertiesDialogTabShortcut"
                     AccessKey="S"
