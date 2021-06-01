@@ -1,5 +1,4 @@
-﻿using NLog;
-using System;
+﻿using System;
 using System.IO;
 
 namespace Files.Helpers
@@ -56,7 +55,7 @@ namespace Files.Helpers
                 }
                 catch (UriFormatException ex)
                 {
-                    LogManager.GetCurrentClassLogger().Warn(ex, path);
+                    App.Logger.Warn(ex, path);
                     return path;
                 }
             }

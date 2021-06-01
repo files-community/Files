@@ -204,6 +204,7 @@
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupedCollection.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupingHelper.cs" />
+    <Compile Include="Helpers\UniversalLogWriter.cs" />
     <Compile Include="Helpers\SaveImageToFile.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
     <Compile Include="Filesystem\LibraryLocationItem.cs" />
@@ -715,9 +716,6 @@
     <PRIResource Include="Strings\pt-PT\Resources.resw" />
     <XliffResource Include="MultilingualResources\Files.id-ID.xlf" />
     <XliffResource Include="MultilingualResources\Files.pt-PT.xlf" />
-    <None Include="NLog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />
@@ -1131,12 +1129,6 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="NLog">
-      <Version>4.7.10</Version>
-    </PackageReference>
-    <PackageReference Include="NLog.Schema">
-      <Version>4.7.10</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
       <Version>2.0.4</Version>

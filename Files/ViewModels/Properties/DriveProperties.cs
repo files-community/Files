@@ -56,7 +56,7 @@ namespace Files.ViewModels.Properties
             catch (Exception e)
             {
                 ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
-                NLog.LogManager.GetCurrentClassLogger().Warn(e, e.Message);
+                App.Logger.Warn(e, e.Message);
             }
         }
     }
