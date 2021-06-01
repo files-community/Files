@@ -689,7 +689,7 @@ namespace Files.Filesystem
                 }
                 catch (Exception ex)
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                    App.Logger.Warn(ex, ex.Message);
                     return ReturnResult.UnknownException;
                 }
                 ReturnResult returnStatus = ReturnResult.InProgress;
@@ -933,7 +933,7 @@ namespace Files.Filesystem
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                App.Logger.Warn(ex, ex.Message);
                 return ReturnResult.UnknownException;
             }
             ReturnResult returnStatus = ReturnResult.InProgress;

@@ -1,7 +1,6 @@
 using Files.Common;
 using Microsoft.Win32;
 using Newtonsoft.Json;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,15 +25,14 @@ namespace FilesFullTrust
 {
     internal class Program
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        public static Logger Logger { get; private set; }
+        private static readonly LogWriter logWriter = new LogWriter();
 
         [STAThread]
         private static void Main(string[] args)
         {
-            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-            LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NLog.config"));
-            LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
-
+            Logger = new Logger(logWriter);
+            logWriter.InitializeAsync("debug_fulltrust.log").Wait();
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
             if (HandleCommandLineArgs())
