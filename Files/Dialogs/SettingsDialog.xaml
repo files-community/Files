@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    Width="800"
     Closing="ContentDialog_Closing"
     CornerRadius="{StaticResource OverlayCornerRadius}"
     Style="{StaticResource DefaultContentDialogStyle}"
@@ -14,23 +13,19 @@
     <ContentDialog.Resources>
         <ResourceDictionary>
             <x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
+            <SolidColorBrush x:Key="ContentDialogTopOverlay" Color="{StaticResource SolidBackgroundFillColorBaseBrush}" />
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
                     <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
-                    <SolidColorBrush x:Key="ContentDialogTopOverlay" Color="{StaticResource SolidBackgroundFillColorBaseBrush}" />
-
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
                     <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
-                    <SolidColorBrush x:Key="ContentDialogTopOverlay" Color="{StaticResource SolidBackgroundFillColorBaseBrush}" />
-
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
                     <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
                     <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
-                    <SolidColorBrush x:Key="ContentDialogTopOverlay" Color="{StaticResource SolidBackgroundFillColorBaseBrush}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
@@ -113,7 +108,6 @@
             </muxc:NavigationView.MenuItems>
 
             <ScrollViewer
-                Width="380"
                 Margin="8,4,4,4"
                 Padding="8,0,0,0"
                 Background="{ThemeResource SubtleFillColorSecondaryBrush}"
