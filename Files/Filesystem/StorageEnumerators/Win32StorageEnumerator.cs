@@ -39,29 +39,28 @@ namespace Files.Filesystem.StorageEnumerators
 
             do
             {
-                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System || !App.AppSettings.AreSystemItemsHidden)
+                var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
+                var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+                if (!isHidden || (App.AppSettings.AreHiddenItemsVisible && (!isSystem || !App.AppSettings.AreSystemItemsHidden)))
                 {
-                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden || App.AppSettings.AreHiddenItemsVisible)
+                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
-                        if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+                        var file = await GetFile(findData, path, returnformat, connection, cancellationToken);
+                        if (file != null)
                         {
-                            var file = await GetFile(findData, path, returnformat, connection, cancellationToken);
-                            if (file != null)
-                            {
-                                tempList.Add(file);
-                                ++count;
-                            }
+                            tempList.Add(file);
+                            ++count;
                         }
-                        else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                    }
+                    else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                    {
+                        if (findData.cFileName != "." && findData.cFileName != "..")
                         {
-                            if (findData.cFileName != "." && findData.cFileName != "..")
+                            var folder = await GetFolder(findData, path, returnformat, cancellationToken);
+                            if (folder != null)
                             {
-                                var folder = await GetFolder(findData, path, returnformat, cancellationToken);
-                                if (folder != null)
-                                {
-                                    tempList.Add(folder);
-                                    ++count;
-                                }
+                                tempList.Add(folder);
+                                ++count;
                             }
                         }
                     }
