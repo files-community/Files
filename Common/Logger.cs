@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Files.Common
 {
     public class Logger
-    {       
+    {
         ILogWriter LogWriter { get; }
 
         public Logger(ILogWriter logWriter, [System.Runtime.CompilerServices.CallerMemberName] string caller = "")

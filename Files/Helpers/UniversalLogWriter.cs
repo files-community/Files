@@ -17,7 +17,7 @@ namespace Files.Helpers
 
         public async Task InitializeAsync(string name)
         {
-            if(!initialized)
+            if (!initialized)
             {
                 logFile = await ApplicationData.Current.LocalFolder.CreateFileAsync(name, CreationCollisionOption.OpenIfExists);
                 initialized = true;
@@ -26,7 +26,7 @@ namespace Files.Helpers
 
         public async void WriteLineToLog(string text)
         {
-            if(logFile is null)
+            if (logFile is null)
             {
                 return;
             }
