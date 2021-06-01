@@ -223,6 +223,8 @@ namespace Files
 
         protected override async void OnActivated(IActivatedEventArgs args)
         {
+            await logWriter.InitializeAsync("debug.log");
+
             Logger.Info("App activated");
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
