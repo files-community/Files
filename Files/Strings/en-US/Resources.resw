@@ -2337,7 +2337,7 @@
   <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
     <value>Failed to delete {0} item from {1}</value>
   </data>
-  <data name="StatusDeletionFailedDetailsDetails_Plural" xml:space="preserve">
+  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>Failed to delete {0} items from {1}</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
