@@ -57,7 +57,7 @@ namespace Files.Views
 
         public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
 
-        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+        public MainViewModel MainViewModel => App.MainViewModel;
 
         private bool isCurrentInstance { get; set; } = false;
 
@@ -1011,7 +1011,7 @@ namespace Files.Views
                 case (false, false, false, true, VirtualKey.Space): // space, quick look
                     if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchBoxVisible)
                     {
-                        if (App.InteractionViewModel.IsQuickLookEnabled)
+                        if (App.MainViewModel.IsQuickLookEnabled)
                         {
                             QuickLookHelpers.ToggleQuickLook(this);
                         }

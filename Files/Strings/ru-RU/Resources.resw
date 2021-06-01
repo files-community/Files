@@ -51,9 +51,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Отправить отзыв</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Отправить отчет о проблеме, чтобы предоставить разработчикам больше информации о ней</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Сторонние лицензии</value>
   </data>
@@ -335,9 +332,6 @@
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5 Хэш:</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>Параметры</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Инвертировать выделение</value>
@@ -708,14 +702,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Авторы</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Узнайте, кто участвовал в разработке Files</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Заметки о выпуске</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Узнайте, что нового в Files</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>Указанный элемент недействителен или недоступен.{0}Сообщение об ошибке:{0}{1}</value>
@@ -875,9 +863,6 @@
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Поддержать нас</value>
-  </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>Поддержите нас через PayPal</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Элемент не может быть создан</value>
@@ -1248,18 +1233,6 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Центр операций</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>Лицензия</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>Лицензия</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>Веб-сайт</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>Веб-сайт</value>
-  </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Узнайте больше о форматах даты</value>
   </data>
@@ -1547,9 +1520,6 @@
   </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>Документация</value>
-  </data>
-  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>Найдите советы &amp; хитрости и узнайте больше о Files</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Посетите веб-сайт документации по файлам</value>

@@ -231,6 +231,7 @@ namespace Files.Views.LayoutModes
             DateCreatedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateCreated ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
             FileTypeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileType ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
             ItemSizeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Size ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
+            SyncStatusHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.SyncStatus ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
         }
 
         private void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
@@ -434,7 +435,7 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavigationToolbar.IsEditModeEnabled)
                 {
-                    if (InteractionViewModel.IsQuickLookEnabled)
+                    if (MainViewModel.IsQuickLookEnabled)
                     {
                         QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
@@ -540,7 +541,7 @@ namespace Files.Views.LayoutModes
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
             // Skip code if the control or shift key is pressed or if the user is using multiselect
-            if (ctrlPressed || shiftPressed || InteractionViewModel.MultiselectEnabled)
+            if (ctrlPressed || shiftPressed || MainViewModel.MultiselectEnabled)
             {
                 return;
             }
@@ -579,7 +580,7 @@ namespace Files.Views.LayoutModes
             // Skip opening selected items if the double tap doesn't capture an item
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
-                if (!InteractionViewModel.MultiselectEnabled)
+                if (!MainViewModel.MultiselectEnabled)
                 {
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }

@@ -168,29 +168,35 @@
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
         <KeyboardAccelerator
-            Key="Number1" Modifiers="Control,Shift"
+            Key="Number1"
             Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
         <KeyboardAccelerator
-            Key="Number2" Modifiers="Control,Shift"
+            Key="Number2"
             Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
         <KeyboardAccelerator
-            Key="Number3" Modifiers="Control,Shift"
+            Key="Number3"
             Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
         <KeyboardAccelerator
-            Key="Number4" Modifiers="Control,Shift"
+            Key="Number4"
             Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
         <KeyboardAccelerator
-            Key="Number5" Modifiers="Control,Shift"
+            Key="Number5"
             Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
         <KeyboardAccelerator
-            Key="Number6" Modifiers="Control,Shift"
+            Key="Number6"
             Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
     </Page.KeyboardAccelerators>
     <Grid
         x:Name="RootGrid"
@@ -285,7 +291,7 @@
                 IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 ItemDraggedOverPathItem="ModernShellPage_NavigationRequested"
                 LayoutModeInformation="{x:Bind FolderSettings.LayoutModeInformation, Mode=OneWay}"
-                MultiselectEnabled="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=TwoWay}"
+                MultiselectEnabled="{x:Bind MainViewModel.MultiselectEnabled, Mode=TwoWay}"
                 NewFileInvokedCommand="{x:Bind CreateNewFileCommand, Mode=OneWay}"
                 NewFolderInvokedCommand="{x:Bind CreateNewFolderCommand, Mode=OneWay}"
                 NewPaneInvokedCommand="{x:Bind OpenNewPaneCommand, Mode=OneWay}"
@@ -309,6 +315,7 @@
                 <controls:NavigationToolbar.ArrangementOptionsFlyoutContent>
                     <controls:ArrangementOptions
                         x:Name="ArrangementOptionsFlyoutContent"
+                        IsPageTypeCloudDrive="{x:Bind InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
                         IsPageTypeRecycleBin="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
                         SelectedGroupMode="{x:Bind InstanceViewModel.FolderSettings.DirectoryGroupOption, Mode=TwoWay}"
                         SelectedSortDirection="{x:Bind InstanceViewModel.FolderSettings.DirectorySortDirection, Mode=TwoWay}"

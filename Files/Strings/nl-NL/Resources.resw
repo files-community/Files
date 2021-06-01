@@ -51,9 +51,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Verstuur feedback</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Stuur de ontwikkelaars een probleemrapport met gedetailleerde informatie</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Licenties van derden</value>
   </data>
@@ -335,9 +332,6 @@
   </data>
   <data name="ErrorDialogCancel" xml:space="preserve">
     <value>Annuleren</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>Instellingen</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Selectie omkeren</value>
@@ -720,14 +714,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Bijdragers</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Bekijk wie heeft bijgedragen aan Files</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Releaseopmerkingen</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Ontdek wat er nieuw is in Files</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>Het item waarnaar wordt verwezen, is ongeldig of niet toegankelijk. {0} Foutmelding: {0} {1}</value>
@@ -833,9 +821,6 @@
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Steun ons</value>
-  </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>Steun ons via PayPal</value>
   </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Toegang geweigerd</value>
@@ -1170,18 +1155,6 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Status Centrum</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>Licentie</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>Licentie</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>Website</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>Website</value>
-  </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Meer informatie over datumnotaties</value>
   </data>
@@ -1433,9 +1406,6 @@
   </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>Documentatie</value>
-  </data>
-  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>Ontdek meer over de werking en functies van Files</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>Online beschikbaar</value>

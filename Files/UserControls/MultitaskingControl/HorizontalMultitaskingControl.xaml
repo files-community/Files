@@ -537,7 +537,7 @@
             CanDragTabs="True"
             DragLeave="TabStrip_DragLeave"
             IsAddTabButtonVisible="True"
-            SelectedIndex="{x:Bind local1:App.InteractionViewModel.TabStripSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            SelectedIndex="{x:Bind local1:App.MainViewModel.TabStripSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             SelectionChanged="TabStrip_SelectionChanged"
             TabCloseRequested="TabStrip_TabCloseRequested"
             TabDragCompleted="TabStrip_TabDragCompleted"

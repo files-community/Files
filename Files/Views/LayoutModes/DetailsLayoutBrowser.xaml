@@ -15,6 +15,7 @@
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:uc="using:Files.UserControls"
     x:Name="PageRoot"
     NavigationCacheMode="Enabled"
@@ -201,6 +202,7 @@
                     Padding="8,0,8,8"
                     HorizontalAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
+                    tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
                     x:FieldModifier="public"
                     AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                     CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
@@ -217,7 +219,7 @@
                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
                     ScrollViewer.HorizontalScrollMode="Auto"
                     SelectionChanged="FileList_SelectionChanged"
-                    SelectionMode="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
+                    SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
                     Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
                     <i:Interaction.Behaviors>
                         <behaviors:StickyHeaderBehavior />
@@ -381,7 +383,8 @@
                                 x:Name="SyncStatusHeader"
                                 x:Uid="syncStatusColumn"
                                 Grid.Column="8"
-                                CanBeSorted="False"
+                                Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+                                CommandParameter="SyncStatus"
                                 Header="Status"
                                 Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 

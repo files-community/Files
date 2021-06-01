@@ -12,6 +12,8 @@ namespace Files
 
         bool IsItemSelected { get; }
 
+        bool IsMiddleClickToScrollEnabled { get; set; }
+
         public List<ListedItem> SelectedItems { get; }
 
         public ListedItem SelectedItem { get; }

@@ -19,7 +19,7 @@ namespace Files.Filesystem
 {
     public class LibraryManager : ObservableObject, IDisposable
     {
-        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+        public MainViewModel MainViewModel => App.MainViewModel;
 
         private LocationItem librarySection;
 
@@ -62,7 +62,7 @@ namespace Files.Filesystem
                                 {
                                     if (await lib.CheckDefaultSaveFolderAccess())
                                     {
-                                        lib.Font = InteractionViewModel.FontName;
+                                        lib.Font = MainViewModel.FontName;
                                         librarySection.ChildItems.AddSorted(lib);
                                     }
                                 }
@@ -81,7 +81,7 @@ namespace Files.Filesystem
                             {
                                 if (await lib.CheckDefaultSaveFolderAccess())
                                 {
-                                    lib.Font = InteractionViewModel.FontName;
+                                    lib.Font = MainViewModel.FontName;
                                     librarySection.ChildItems.AddSorted(lib);
                                 }
                             }

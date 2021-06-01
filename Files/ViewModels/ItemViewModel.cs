@@ -171,6 +171,7 @@ namespace Files.ViewModels
             NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
             NotifyPropertyChanged(nameof(IsSortedByDateDeleted));
             NotifyPropertyChanged(nameof(IsSortedByDateCreated));
+            NotifyPropertyChanged(nameof(IsSortedBySyncStatus));
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
         }
@@ -270,6 +271,19 @@ namespace Files.ViewModels
                 {
                     folderSettings.DirectorySortOption = SortOption.Size;
                     NotifyPropertyChanged(nameof(IsSortedBySize));
+                }
+            }
+        }
+
+        public bool IsSortedBySyncStatus
+        {
+            get => folderSettings.DirectorySortOption == SortOption.SyncStatus;
+            set
+            {
+                if (value)
+                {
+                    folderSettings.DirectorySortOption = SortOption.SyncStatus;
+                    NotifyPropertyChanged(nameof(IsSortedBySyncStatus));
                 }
             }
         }
@@ -1747,7 +1761,7 @@ namespace Files.ViewModels
 
             var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
             var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-            if ((isSystem && !AppSettings.AreSystemItemsHidden) || (isHidden && !AppSettings.AreHiddenItemsVisible))
+            if (isHidden && (!AppSettings.AreHiddenItemsVisible || (isSystem && AppSettings.AreSystemItemsHidden)))
             {
                 // Do not add to file list if hidden/system attribute is set and system/hidden file are not to be shown
                 return;

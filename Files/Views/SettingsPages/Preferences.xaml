@@ -27,7 +27,7 @@
 
                 <TextBlock
                     x:Uid="SettingsPreferencesTitle"
-                    FontSize="22"
+                    FontSize="20"
                     FontWeight="Medium"
                     Text="Preferences" />
 
@@ -37,7 +37,6 @@
                     Width="200"
                     HorizontalAlignment="Left"
                     Header="App language"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     ItemsSource="{Binding DefaultLanguages}"
                     SelectedIndex="{Binding SelectedLanguageIndex, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
@@ -60,7 +59,6 @@
                             MinWidth="200"
                             MaxWidth="250"
                             Header="Terminal applications"
-                            HeaderTemplate="{StaticResource CustomHeaderStyle}"
                             ItemsSource="{Binding Terminals}"
                             SelectedItem="{Binding SelectedTerminal, Mode=TwoWay}">
                             <ComboBox.ItemTemplate>
@@ -96,28 +94,24 @@
                 <ToggleSwitch
                     x:Uid="SettingsPreferencesRecycleBinSwitch"
                     Header="Pin Recycle Bin to the sidebar"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding PinRecycleBinToSideBar, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Name="ShowConfirmDeleteDialogSwitch"
                     x:Uid="SettingsPreferencesShowConfirmDeleteDialogSwitch"
                     Header="Show a confirmation dialog when deleting files or folders"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Name="ShowLibrarySection"
                     x:Uid="SettingsPreferencesShowLibrarySection"
                     Header="Show library section on the sidebar"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Name="OpenFoldersNewTab"
                     x:Uid="SettingsPreferencesOpenFoldersNewTab"
                     Header="Open folders in new tab"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>

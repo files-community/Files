@@ -125,54 +125,56 @@ namespace Files.Filesystem.Search
                             break;
                         }
                         var itemPath = Path.Combine(folder, findData.cFileName);
-                        if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System
-                            || !App.AppSettings.AreSystemItemsHidden)
-                        {
-                            var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-                            if ((!isHidden && !hiddenOnly) || (isHidden && App.AppSettings.AreHiddenItemsVisible))
-                            {
-                                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
-                                {
-                                    string itemFileExtension = null;
-                                    string itemType = null;
-                                    if (findData.cFileName.Contains("."))
-                                    {
-                                        itemFileExtension = Path.GetExtension(itemPath);
-                                        itemType = itemFileExtension.Trim('.') + " " + itemType;
-                                    }
 
+                        var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
+                        var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+                        bool shouldBeListed = hiddenOnly ?
+                            isHidden && (!isSystem || !App.AppSettings.AreSystemItemsHidden) :
+                            !isHidden || (App.AppSettings.AreHiddenItemsVisible && (!isSystem || !App.AppSettings.AreSystemItemsHidden));
+
+                        if (shouldBeListed)
+                        {
+                            if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+                            {
+                                string itemFileExtension = null;
+                                string itemType = null;
+                                if (findData.cFileName.Contains("."))
+                                {
+                                    itemFileExtension = Path.GetExtension(itemPath);
+                                    itemType = itemFileExtension.Trim('.') + " " + itemType;
+                                }
+
+                                results.Add(new ListedItem(null)
+                                {
+                                    PrimaryItemAttribute = StorageItemTypes.File,
+                                    ItemName = findData.cFileName,
+                                    ItemPath = itemPath,
+                                    IsHiddenItem = true,
+                                    LoadFileIcon = false,
+                                    LoadUnknownTypeGlyph = true,
+                                    LoadFolderGlyph = false,
+                                    ItemPropertiesInitialized = false, // Load thumbnail
+                                    FileExtension = itemFileExtension,
+                                    ItemType = itemType,
+                                    Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
+                                });
+                            }
+                            else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                            {
+                                if (findData.cFileName != "." && findData.cFileName != "..")
+                                {
                                     results.Add(new ListedItem(null)
                                     {
-                                        PrimaryItemAttribute = StorageItemTypes.File,
+                                        PrimaryItemAttribute = StorageItemTypes.Folder,
                                         ItemName = findData.cFileName,
                                         ItemPath = itemPath,
                                         IsHiddenItem = true,
                                         LoadFileIcon = false,
-                                        LoadUnknownTypeGlyph = true,
-                                        LoadFolderGlyph = false,
-                                        ItemPropertiesInitialized = false, // Load thumbnail
-                                        FileExtension = itemFileExtension,
-                                        ItemType = itemType,
+                                        LoadUnknownTypeGlyph = false,
+                                        LoadFolderGlyph = true,
+                                        ItemPropertiesInitialized = true,
                                         Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
                                     });
-                                }
-                                else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
-                                {
-                                    if (findData.cFileName != "." && findData.cFileName != "..")
-                                    {
-                                        results.Add(new ListedItem(null)
-                                        {
-                                            PrimaryItemAttribute = StorageItemTypes.Folder,
-                                            ItemName = findData.cFileName,
-                                            ItemPath = itemPath,
-                                            IsHiddenItem = true,
-                                            LoadFileIcon = false,
-                                            LoadUnknownTypeGlyph = false,
-                                            LoadFolderGlyph = true,
-                                            ItemPropertiesInitialized = true,
-                                            Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
-                                        });
-                                    }
                                 }
                             }
                         }

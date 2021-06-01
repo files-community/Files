@@ -3,9 +3,13 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
 using Files.Views;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -50,6 +54,8 @@ namespace Files.ViewModels
             OpenNewWindowAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
             CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
             AddNewInstanceAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
+
+            StartAppCenter();
         }
 
         private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs e)
@@ -97,9 +103,9 @@ namespace Files.ViewModels
 
                 case VirtualKey.Tab:
                     // Select the next tab
-                    if ((App.InteractionViewModel.TabStripSelectedIndex + 1) < AppInstances.Count)
+                    if ((App.MainViewModel.TabStripSelectedIndex + 1) < AppInstances.Count)
                     {
-                        indexToSelect = App.InteractionViewModel.TabStripSelectedIndex + 1;
+                        indexToSelect = App.MainViewModel.TabStripSelectedIndex + 1;
                     }
                     else
                     {
@@ -111,7 +117,7 @@ namespace Files.ViewModels
             // Only select the tab if it is in the list
             if (indexToSelect < AppInstances.Count)
             {
-                App.InteractionViewModel.TabStripSelectedIndex = indexToSelect;
+                App.MainViewModel.TabStripSelectedIndex = indexToSelect;
             }
             e.Handled = true;
         }
@@ -125,14 +131,14 @@ namespace Files.ViewModels
 
         private void CloseSelectedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
-            if (App.InteractionViewModel.TabStripSelectedIndex >= AppInstances.Count)
+            if (App.MainViewModel.TabStripSelectedIndex >= AppInstances.Count)
             {
                 TabItem tabItem = AppInstances[AppInstances.Count - 1];
                 MultitaskingControl?.CloseTab(tabItem);
             }
             else
             {
-                TabItem tabItem = AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
+                TabItem tabItem = AppInstances[App.MainViewModel.TabStripSelectedIndex];
                 MultitaskingControl?.CloseTab(tabItem);
             }
             e.Handled = true;
@@ -156,7 +162,7 @@ namespace Files.ViewModels
         public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
         {
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.InteractionViewModel.FontName;
+            fontIconSource.FontFamily = App.MainViewModel.FontName;
 
             if (string.IsNullOrEmpty(path))
             {
@@ -206,7 +212,7 @@ namespace Files.ViewModels
         {
             string tabLocationHeader;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.InteractionViewModel.FontName;
+            fontIconSource.FontFamily = App.MainViewModel.FontName;
 
             if (currentPath == null || currentPath == "SidebarSettings/Text".GetLocalized())
             {
@@ -413,14 +419,14 @@ namespace Files.ViewModels
                 updater.CheckForUpdatesAsync();
 
                 // Initial setting of SelectedTabItem
-                SelectedTabItem = AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
+                SelectedTabItem = AppInstances[App.MainViewModel.TabStripSelectedIndex];
             }
         }
 
         public static async Task AddNewTabAsync()
         {
             await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
-            App.InteractionViewModel.TabStripSelectedIndex = AppInstances.Count - 1;
+            App.MainViewModel.TabStripSelectedIndex = AppInstances.Count - 1;
         }
 
         public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
@@ -447,7 +453,7 @@ namespace Files.ViewModels
         public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
         {
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.InteractionViewModel.FontName;
+            fontIconSource.FontFamily = App.MainViewModel.FontName;
 
             TabItem tabItem = new TabItem()
             {
@@ -475,5 +481,21 @@ namespace Files.ViewModels
             await UpdateTabInfo(matchingTabItem, e.NavigationArg);
         }
 
+        private async void StartAppCenter()
+        {
+            JObject obj;
+            try
+            {
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
+                var lines = await FileIO.ReadTextAsync(file);
+                obj = JObject.Parse(lines);
+            }
+            catch
+            {
+                return;
+            }
+
+            AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
+        }
     }
 }

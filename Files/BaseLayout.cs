@@ -50,7 +50,7 @@ namespace Files
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
-        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+        public MainViewModel MainViewModel => App.MainViewModel;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
         public Microsoft.UI.Xaml.Controls.CommandBarFlyout ItemContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
@@ -61,6 +61,20 @@ namespace Files
         public IShellPage ParentShellPageInstance { get; private set; } = null;
 
         public bool IsRenamingItem { get; set; } = false;
+
+        private bool isMiddleClickToScrollEnabled = true;
+        public bool IsMiddleClickToScrollEnabled
+        {
+            get => isMiddleClickToScrollEnabled;
+            set
+            {
+                if (isMiddleClickToScrollEnabled != value)
+                {
+                    isMiddleClickToScrollEnabled = value;
+                    NotifyPropertyChanged(nameof(IsMiddleClickToScrollEnabled));
+                }
+            }
+        }
 
         private CollectionViewSource collectionViewSource = new CollectionViewSource()
         {
@@ -235,7 +249,7 @@ namespace Files
 
             if (isQuickLookIntegrationEnabled != null && isQuickLookIntegrationEnabled.Equals(true))
             {
-                App.InteractionViewModel.IsQuickLookEnabled = true;
+                App.MainViewModel.IsQuickLookEnabled = true;
             }
 
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
@@ -457,7 +471,17 @@ namespace Files
         {
             try
             {
-                LoadMenuItemsAsync();
+                if (!IsItemSelected) // Workaround for item sometimes not getting selected
+                {
+                    if (((sender as Microsoft.UI.Xaml.Controls.CommandBarFlyout)?.Target as ListViewItem)?.Content is ListedItem li)
+                    {
+                        ItemManipulationModel.SetSelectedItem(li);
+                    }
+                }
+                if (IsItemSelected)
+                {
+                    LoadMenuItemsAsync();
+                }
             }
             catch (Exception error)
             {

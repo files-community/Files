@@ -135,9 +135,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>ମତାମତ ଦାଖଲ କରନ୍ତୁ</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>ଅଧିକ ସୂଚନା ସହିତ ବିକାଶକାରୀଙ୍କୁ ଏକ ଇସୁ ରିପୋର୍ଟ ପଠାନ୍ତୁ</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>ତୃତୀୟ ପକ୍ଷ ଲାଇସେନ୍ସ</value>
   </data>
@@ -152,9 +149,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>ପରୀକ୍ଷାମୂଳକ</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>ସେଟିଂସମୂହ</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>ବିଷୟରେ</value>
@@ -968,18 +962,6 @@
   </data>
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>ଅନିର୍ଦ୍ଦିଷ୍ଟ</value>
-  </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>ଲାଇସେନ୍ସ</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>ଲାଇସେନ୍ସ</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>ୱେବ୍‌ସାଇଟ୍</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>ୱେବ୍‌ସାଇଟ୍</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>ସନ୍ଧାନ ଫଳାଫଳ</value>

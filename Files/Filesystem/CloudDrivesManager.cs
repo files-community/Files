@@ -98,7 +98,7 @@ namespace Files.Filesystem
                     SidebarControl.SideBarItems.BeginBulkOperation();
 
                     var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalized()) as LocationItem;
-                    if (section == null)
+                    if (section == null && Drives.Any())
                     {
                         section = new LocationItem()
                         {
@@ -111,11 +111,14 @@ namespace Files.Filesystem
                         SidebarControl.SideBarItems.Add(section);
                     }
 
-                    foreach (DriveItem drive in Drives.ToList())
+                    if (section != null)
                     {
-                        if (!section.ChildItems.Contains(drive))
+                        foreach (DriveItem drive in Drives.ToList())
                         {
-                            section.ChildItems.Add(drive);
+                            if (!section.ChildItems.Contains(drive))
+                            {
+                                section.ChildItems.Add(drive);
+                            }
                         }
                     }
 

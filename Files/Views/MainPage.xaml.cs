@@ -1,4 +1,5 @@
 ﻿using Files.DataModels.NavigationControlItems;
+using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
@@ -24,6 +25,7 @@ namespace Files.Views
     public sealed partial class MainPage : Page
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+        public MainViewModel MainViewModel => App.MainViewModel;
 
         public MainPageViewModel ViewModel
         {
@@ -99,10 +101,10 @@ namespace Files.Views
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments.NavigationArg.ToString());
             UpdateStatusBarProperties();
         }
-        
+
         private void UpdateStatusBarProperties()
         {
-            if(StatusBarControl != null)
+            if (StatusBarControl != null)
             {
                 StatusBarControl.DirectoryPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage?.DirectoryPropertiesViewModel;
                 StatusBarControl.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage?.SelectedItemsPropertiesViewModel;
@@ -176,15 +178,15 @@ namespace Files.Views
             }
         }
 
-        private void SidebarControl_SidebarItemInvoked(object sender, SidebarItemInvokedEventArgs e)
+        private async void SidebarControl_SidebarItemInvoked(object sender, SidebarItemInvokedEventArgs e)
         {
             var invokedItemContainer = e.InvokedItemContainer;
 
             // All items must have DataContext except Settings item
             if (invokedItemContainer.DataContext is MainPageViewModel)
             {
-                Frame rootFrame = Window.Current.Content as Frame;
-                rootFrame.Navigate(typeof(Settings));
+                SettingsDialog settingsDialog = new SettingsDialog();
+                await settingsDialog.ShowAsync();
 
                 return;
             }

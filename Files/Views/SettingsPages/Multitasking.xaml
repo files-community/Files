@@ -21,14 +21,14 @@
 
                 <TextBlock
                     x:Uid="SettingsMultitaskingTitle"
-                    FontSize="22"
+                    FontSize="20"
                     FontWeight="Medium"
                     Text="Multitasking" />
 
                 <TextBlock
                     x:Uid="SettingsTabCustomization"
                     Padding="0,10,0,0"
-                    FontSize="18"
+                    FontSize="16"
                     Text="Tab customization" />
 
                 <StackPanel Orientation="Vertical" Spacing="12">
@@ -36,10 +36,9 @@
                         <RadioButton
                             x:Name="AdaptiveMultToggle"
                             x:Uid="SettingsMultitaskingAdaptive"
-                            Padding="8,3,0,0"
+                            Padding="8,4,0,0"
                             Checked="HorizontalMultToggle_Checked"
                             Content="Adaptive (Recommended)"
-                            FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
                             IsChecked="{x:Bind ViewModel.IsMultitaskingExperienceAdaptive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
@@ -54,10 +53,9 @@
                             x:Name="HorizontalMultToggle"
                             x:Uid="SettingsMultitaskingHorizontal"
                             Margin="0,18,0,0"
-                            Padding="8,3,0,0"
+                            Padding="8,4,0,0"
                             Checked="HorizontalMultToggle_Checked"
                             Content="Horizontal"
-                            FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
                             IsChecked="{x:Bind ViewModel.IsHorizontalTabStripOn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
@@ -72,10 +70,9 @@
                             x:Name="VerticalMultToggle"
                             x:Uid="SettingsMultitaskingVertical"
                             Margin="0,18,0,0"
-                            Padding="8,3,0,0"
+                            Padding="8,4,0,0"
                             Checked="HorizontalMultToggle_Checked"
                             Content="Vertical"
-                            FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
                             IsChecked="{x:Bind ViewModel.IsVerticalTabFlyoutOn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
@@ -91,20 +88,18 @@
                 <TextBlock
                     x:Uid="SettingsDualPane"
                     Padding="0,10,0,0"
-                    FontSize="18"
+                    FontSize="16"
                     Text="Dual pane" />
 
                 <ToggleSwitch
                     x:Uid="SettingsMultitaskingEnableDualPane"
                     Header="Enable dual pane view"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{x:Bind ViewModel.IsDualPaneEnabled, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Name="SettingsMultitaskingAlwaysOpenDualPane"
                     x:Uid="SettingsMultitaskingAlwaysOpenDualPane"
                     Header="Always open new tabs in dual pane mode"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsEnabled="{x:Bind ViewModel.IsDualPaneEnabled, Mode=OneWay}"
                     IsOn="{x:Bind ViewModel.AlwaysOpenDualPaneInNewTab, Mode=TwoWay}" />
             </StackPanel>

@@ -51,9 +51,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>提交問題</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>向開發者回報詳細的問題資訊</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>第三方許可證</value>
   </data>
@@ -335,9 +332,6 @@
   </data>
   <data name="ErrorDialogCancel" xml:space="preserve">
     <value>取消</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>設定</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>反選</value>
@@ -744,14 +738,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>貢獻者</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>看看誰為通用檔案管理器做出貢獻</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>版本資訊</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>看看通用檔案管理器的新功能</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>參考項目無效或無法存取。{0}錯誤訊息：{0}{1}</value>
@@ -809,9 +797,6 @@
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>贊助我們</value>
-  </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>透過PayPal贊助我們</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>我們無法建立此項目</value>
@@ -1257,18 +1242,6 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>狀態儀表板</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>授權</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>授權</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>網站</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>網站</value>
-  </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>深入了解日期格式</value>
   </data>
@@ -1583,9 +1556,6 @@
   </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>說明文件</value>
-  </data>
-  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>探索訣竅並深入了解通用檔案管理器</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>前往通用檔案管理器的說明文件網站</value>
