@@ -202,7 +202,7 @@
                     Padding="8,0,8,8"
                     HorizontalAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
-                    tui:ScrollViewerExtensions.EnableMiddleClickScrolling="True"
+                    tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
                     x:FieldModifier="public"
                     AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                     CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"

@@ -401,19 +401,28 @@ namespace Files.Interacts
 
         public virtual async void ItemPointerPressed(PointerRoutedEventArgs e)
         {
-            if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
+            try
             {
-                if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem Item && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
                 {
-                    if (Item.IsShortcutItem)
+                    if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem Item && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
-                        await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
-                    }
-                    else
-                    {
-                        await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
+                        SlimContentPage.IsMiddleClickToScrollEnabled = false;
+
+                        if (Item.IsShortcutItem)
+                        {
+                            await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                        }
+                        else
+                        {
+                            await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
+                        }
                     }
                 }
+            }
+            finally
+            {
+                SlimContentPage.IsMiddleClickToScrollEnabled = true;
             }
         }
 

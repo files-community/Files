@@ -481,7 +481,7 @@
                     animations:ItemsReorderAnimation.Duration="0:0:0.350"
                     behaviors:StretchedGridViewItems.FillBeforeWrap="True"
                     behaviors:StretchedGridViewItems.MinItemWidth="{x:Bind GridViewItemMinWidth, Mode=OneWay}"
-                    tui:ScrollViewerExtensions.EnableMiddleClickScrolling="True"
+                    tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
                     x:FieldModifier="public"
                     AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                     CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
