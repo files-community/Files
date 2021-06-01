@@ -35,15 +35,12 @@
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Light">
                             <SolidColorBrush x:Key="FilesystemOperationDialogExclamationMarkIconColor" Color="Goldenrod" />
-                            <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <SolidColorBrush x:Key="FilesystemOperationDialogExclamationMarkIconColor" Color="Yellow" />
-                            <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
                             <SolidColorBrush x:Key="FilesystemOperationDialogExclamationMarkIconColor" Color="Yellow" />
-                            <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
