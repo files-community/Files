@@ -2615,10 +2615,6 @@
           <source>Skip</source>
           <target state="translated">Kihagyás</target>
         </trans-unit>
-        <trans-unit id="FileOperationsDialogDetailsExpander.Header" translate="yes" xml:space="preserve">
-          <source>Details</source>
-          <target state="translated">Részletek</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
           <target state="translated">Új név létrehozása</target>
