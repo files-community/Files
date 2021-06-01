@@ -614,7 +614,7 @@ namespace FilesFullTrust
             {
                 case "Enumerate":
                     // Read library information and send response to UWP
-                    var enumerateResponse = await Win32API.StartSTATask((Func<ValueSet>)(() =>
+                    var enumerateResponse = await Win32API.StartSTATask(() =>
                     {
                         var response = new ValueSet();
                         try
@@ -637,13 +637,13 @@ namespace FilesFullTrust
                             Logger.Error(e);
                         }
                         return response;
-                    }));
+                    });
                     await Win32API.SendMessageAsync(connection, enumerateResponse, message.Get("RequestID", (string)null));
                     break;
 
                 case "Create":
                     // Try create new library with the specified name and send response to UWP
-                    var createResponse = await Win32API.StartSTATask((Func<ValueSet>)(() =>
+                    var createResponse = await Win32API.StartSTATask(() =>
                     {
                         var response = new ValueSet();
                         try
@@ -656,13 +656,13 @@ namespace FilesFullTrust
                             Logger.Error(e);
                         }
                         return response;
-                    }));
+                    });
                     await Win32API.SendMessageAsync(connection, createResponse, message.Get("RequestID", (string)null));
                     break;
 
                 case "Update":
                     // Update details of the specified library and send response to UWP
-                    var updateResponse = await Win32API.StartSTATask((Func<ValueSet>)(() =>
+                    var updateResponse = await Win32API.StartSTATask(() =>
                     {
                         var response = new ValueSet();
                         try
@@ -719,7 +719,7 @@ namespace FilesFullTrust
                             Logger.Error(e);
                         }
                         return response;
-                    }));
+                    });
                     await Win32API.SendMessageAsync(connection, updateResponse, message.Get("RequestID", (string)null));
                     break;
             }

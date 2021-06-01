@@ -24,7 +24,7 @@ namespace Files.Helpers
             }
         }
 
-        public async void WriteLineToLog(string text)
+        public async Task WriteLineToLog(string text)
         {
             if (logFile is null)
             {

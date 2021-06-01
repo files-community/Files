@@ -23,13 +23,12 @@ namespace FilesFullTrust
             }
         }
 
-        public async void WriteLineToLog(string text)
+        public async Task WriteLineToLog(string text)
         {
             if (logFile is null)
             {
                 return;
             }
-
             await FileIO.AppendTextAsync(logFile, $"\n{text}");
             Debug.WriteLine($"Logged event: {text}");
         }

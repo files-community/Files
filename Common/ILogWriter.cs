@@ -7,7 +7,7 @@ namespace Files.Common
 {
     public interface ILogWriter
     {
-        void WriteLineToLog(string text);
+        Task WriteLineToLog(string text);
         Task InitializeAsync(string name);
     }
 }
