@@ -401,28 +401,23 @@ namespace Files.Interacts
 
         public virtual async void ItemPointerPressed(PointerRoutedEventArgs e)
         {
-            try
+            if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
             {
-                if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
+                if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem Item && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem Item && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                    {
-                        SlimContentPage.IsMiddleClickToScrollEnabled = false;
+                    // If a folder item was clicked, disable middle mouse click to scroll to cancel the mouse scrolling state and re-enable it
+                    SlimContentPage.IsMiddleClickToScrollEnabled = false;
+                    SlimContentPage.IsMiddleClickToScrollEnabled = true;
 
-                        if (Item.IsShortcutItem)
-                        {
-                            await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
-                        }
-                        else
-                        {
-                            await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
-                        }
+                    if (Item.IsShortcutItem)
+                    {
+                        await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                    }
+                    else
+                    {
+                        await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
                     }
                 }
-            }
-            finally
-            {
-                SlimContentPage.IsMiddleClickToScrollEnabled = true;
             }
         }
 
