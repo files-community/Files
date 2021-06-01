@@ -2620,10 +2620,6 @@
           <source>Skip</source>
           <target state="new">Skip</target>
         </trans-unit>
-        <trans-unit id="FileOperationsDialogDetailsExpander.Header" translate="yes" xml:space="preserve">
-          <source>Details</source>
-          <target state="new">Details</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
           <target state="new">Generate new name</target>

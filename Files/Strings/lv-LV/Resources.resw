@@ -1944,9 +1944,6 @@
   <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
     <value>Izlaist</value>
   </data>
-  <data name="FileOperationsDialogDetailsExpander.Header" xml:space="preserve">
-    <value>Detaļas</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
     <value>Ģenerēt jaunu nosaukumu</value>
   </data>

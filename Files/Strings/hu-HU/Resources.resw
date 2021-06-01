@@ -1938,9 +1938,6 @@
   <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
     <value>Kihagyás</value>
   </data>
-  <data name="FileOperationsDialogDetailsExpander.Header" xml:space="preserve">
-    <value>Részletek</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
     <value>Új név létrehozása</value>
   </data>

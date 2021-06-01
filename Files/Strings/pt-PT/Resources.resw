@@ -1941,9 +1941,6 @@
   <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
     <value>Ignorar</value>
   </data>
-  <data name="FileOperationsDialogDetailsExpander.Header" xml:space="preserve">
-    <value>Detalhes</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
     <value>Gerar novo nome</value>
   </data>

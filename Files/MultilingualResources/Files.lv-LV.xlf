@@ -2595,10 +2595,6 @@
           <source>Skip</source>
           <target state="translated">Izlaist</target>
         </trans-unit>
-        <trans-unit id="FileOperationsDialogDetailsExpander.Header" translate="yes" xml:space="preserve">
-          <source>Details</source>
-          <target state="translated">Detaļas</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
           <target state="translated">Ģenerēt jaunu nosaukumu</target>
