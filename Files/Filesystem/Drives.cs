@@ -249,28 +249,6 @@ namespace Files.Filesystem
 
             var drives = DriveInfo.GetDrives().ToList();
 
-            var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
-            List<string> supportedDevicesNames = new List<string>();
-            foreach (var item in remDevices)
-            {
-                try
-                {
-                    supportedDevicesNames.Add(StorageDevice.FromId(item.Id).Name);
-                }
-                catch (Exception e)
-                {
-                    Logger.Warn($"Can't get storage device name: {e.Message}, skipping...");
-                }
-            }
-
-            foreach (DriveInfo driveInfo in drives.ToList())
-            {
-                if (!supportedDevicesNames.Contains(driveInfo.Name) && driveInfo.DriveType == System.IO.DriveType.Removable)
-                {
-                    drives.Remove(driveInfo);
-                }
-            }
-
             foreach (var drive in drives)
             {
                 StorageItemThumbnail thumbnail;
@@ -463,11 +441,11 @@ namespace Files.Filesystem
                     DriveItem matchingDriveEjected = Drives.FirstOrDefault(x => x.DeviceID == deviceId);
                     if (rootModified && matchingDriveEjected != null)
                     {
-                        _ = CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                        _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                         {
                             matchingDriveEjected.Root = rootModified.Result;
                             matchingDriveEjected.Text = rootModified.Result.DisplayName;
-                            await matchingDriveEjected.UpdatePropertiesAsync();
+                            return matchingDriveEjected.UpdatePropertiesAsync();
                         });
                     }
                     break;
