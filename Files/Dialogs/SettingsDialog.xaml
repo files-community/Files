@@ -107,12 +107,12 @@
             </muxc:NavigationView.MenuItems>
 
             <ScrollViewer
-                Margin="16,4,4,4"
-                Padding="8,0,0,0"
+                Margin="20,4,4,4"
+                Padding="8,0,8,0"
                 Background="{ThemeResource SubtleFillColorSecondaryBrush}"
                 CornerRadius="{StaticResource OverlayCornerRadius}"
                 HorizontalScrollMode="Disabled"
-                VerticalScrollBarVisibility="Hidden"
+                VerticalScrollBarVisibility="Auto"
                 VerticalScrollMode="Enabled">
                 <Frame x:Name="SettingsContentFrame" Width="380" />
             </ScrollViewer>
