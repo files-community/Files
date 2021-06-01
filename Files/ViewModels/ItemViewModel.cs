@@ -1761,7 +1761,7 @@ namespace Files.ViewModels
 
             var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
             var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-            if ((isSystem && !AppSettings.AreSystemItemsHidden) || (isHidden && !AppSettings.AreHiddenItemsVisible))
+            if (isHidden && (!AppSettings.AreHiddenItemsVisible || (isSystem && AppSettings.AreSystemItemsHidden)))
             {
                 // Do not add to file list if hidden/system attribute is set and system/hidden file are not to be shown
                 return;
