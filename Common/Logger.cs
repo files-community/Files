@@ -74,12 +74,13 @@ namespace Files.Common
             }
             catch (IOException e) when (!(e is FileNotFoundException))
             {
-                if(attemptNumber < 5) // check the attempt count to prevent a stack overflow exception
+                if (attemptNumber < 5) // check the attempt count to prevent a stack overflow exception
                 {
                     // Log is likely in use by another process instance, so wait then try again
                     await Task.Delay(50);
                     Log(type, caller, message, attemptNumber + 1);
-                } else
+                }
+                else
                 {
                     Debug.WriteLine($"Writing to log file failed after 5 attempts with the following exception:\n{e}");
                 }
@@ -87,7 +88,8 @@ namespace Files.Common
             catch (Exception e)
             {
                 Debug.WriteLine($"Writing to log file failed with the following exception:\n{e}");
-            } finally
+            }
+            finally
             {
                 semaphoreSlim.Release();
             }
