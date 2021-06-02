@@ -1,9 +1,13 @@
 ﻿using Files.Filesystem;
+using Files.Filesystem.Permissions;
+using Files.Helpers;
 using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -18,11 +22,18 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views
 {
-    public sealed partial class PropertiesSecurity : PropertiesTab
+    public sealed partial class PropertiesSecurity : PropertiesTab, INotifyPropertyChanged
     {
         public PropertiesSecurity()
         {
             this.InitializeComponent();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public async override Task<bool> SaveChangesAsync(ListedItem item)
@@ -32,6 +43,35 @@ namespace Files.Views
 
         public override void Dispose()
         {
+        }
+
+        private RulesForUser selectedAccessRule;
+        public RulesForUser SelectedAccessRule
+        {
+            get => selectedAccessRule;
+            set
+            {
+                if (value != selectedAccessRule)
+                {
+                    selectedAccessRule = value;
+                    NotifyPropertyChanged(nameof(SelectedAccessRule));
+                }
+            }
+        }
+
+        private async void UserGroupList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
+        {
+            if (args.ItemContainer == null)
+            {
+                args.ItemContainer = new ListViewItem();
+            }
+            args.ItemContainer.DataContext = args.Item;
+
+            if (args.Item is RulesForUser item && item.UserGroup.Icon == null)
+            {
+                await item.UserGroup.LoadUserGroupTile();
+                item.UserGroup.Icon = await item.UserGroup.IconData?.ToBitmapAsync();
+            }
         }
     }
 }

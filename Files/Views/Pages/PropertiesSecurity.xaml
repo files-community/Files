@@ -2,10 +2,12 @@
     x:Class="Files.Views.PropertiesSecurity"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.ViewModels.Properties"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:perm="using:Files.Filesystem.Permissions"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:usercontrols="using:Files.UserControls"
     d:Background="LightGray"
@@ -19,6 +21,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -53,62 +56,37 @@
             Background="White"
             BorderBrush="Gray"
             BorderThickness="1"
-            CornerRadius="4">
+            ChoosingItemContainer="UserGroupList_ChoosingItemContainer"
+            CornerRadius="4"
+            ItemsSource="{x:Bind ViewModel.FilePermissions.RulesForUsers, Mode=OneWay}"
+            SelectedItem="{x:Bind SelectedAccessRule, Mode=TwoWay}"
+            SelectionMode="Single">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="MinHeight" Value="44" />
                     <Setter Property="Height" Value="44" />
                 </Style>
             </ListView.ItemContainerStyle>
-            <ListView.Items>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="32" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="perm:RulesForUser">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="32" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
 
-                    <FontIcon
-                        HorizontalAlignment="Left"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        Glyph="&#xE716;" />
+                        <FontIcon
+                            HorizontalAlignment="Left"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Glyph="{x:Bind UserGroup.Glyph}" />
 
-                    <TextBlock Grid.Column="1" Margin="0,0,4,0">
-                        <Run Text="SYSTEM" />
-                    </TextBlock>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="32" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-                    <FontIcon
-                        HorizontalAlignment="Left"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        Glyph="&#xE716;" />
-
-                    <TextBlock Grid.Column="1" Margin="0,0,4,0">
-                        <Run Text="Marco" />
-                        <Run Text="(Elvia-PC\Marco)" />
-                    </TextBlock>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="32" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-                    <FontIcon
-                        HorizontalAlignment="Left"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        Glyph="&#xE716;" />
-
-                    <TextBlock Grid.Column="1" Margin="0,0,4,0">
-                        <Run Text="Administrators" />
-                        <Run Text="(Elvia-PC\Administrators)" />
-                    </TextBlock>
-                </Grid>
-            </ListView.Items>
+                        <TextBlock Grid.Column="1" Margin="0,0,4,0">
+                            <Run Text="{x:Bind UserGroup.Name}" />
+                            <Span>&#160;(</Span><Run FontWeight="Light" Text="{x:Bind UserGroup.FullName}" /><Span>)</Span>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
 
         <Grid Margin="0,12,0,0">
@@ -135,8 +113,10 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 FontWeight="Bold"
-                Style="{StaticResource PropertyName}"
-                Text="Permissions for SYSTEM" />
+                Style="{StaticResource PropertyName}">
+                <Run Text="Permissions for&#160;" />
+                <Run Text="{x:Bind SelectedAccessRule.UserGroup.Name, Mode=OneWay}" />
+            </TextBlock>
 
             <TextBlock
                 x:Name="ItemAllowLabel"
@@ -174,7 +154,8 @@
                 Padding="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                IsChecked="{Binding Allow}" />
+                IsChecked="{x:Bind SelectedAccessRule.GrantsFullControl, Mode=OneWay}"
+                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedFullControl, Converter={StaticResource BoolNegationConverter}}" />
 
             <CheckBox
                 Grid.Row="1"
@@ -183,7 +164,8 @@
                 Padding="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                IsChecked="{Binding Deny}" />
+                IsChecked="{x:Bind SelectedAccessRule.DeniesFullControl, Mode=OneWay}"
+                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedFullControl, Converter={StaticResource BoolNegationConverter}}" />
 
             <TextBlock
                 Grid.Row="2"
@@ -199,7 +181,8 @@
                 Padding="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                IsChecked="{Binding Allow}" />
+                IsChecked="{x:Bind SelectedAccessRule.GrantsModify, Mode=OneWay}"
+                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedModify, Converter={StaticResource BoolNegationConverter}}" />
 
             <CheckBox
                 Grid.Row="2"
@@ -208,7 +191,8 @@
                 Padding="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                IsChecked="{Binding Deny}" />
+                IsChecked="{x:Bind SelectedAccessRule.DeniesModify, Mode=OneWay}"
+                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedModify, Converter={StaticResource BoolNegationConverter}}" />
 
             <TextBlock
                 Grid.Row="3"
@@ -224,7 +208,8 @@
                 Padding="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                IsChecked="{Binding Allow}" />
+                IsChecked="{x:Bind SelectedAccessRule.GrantsReadAndExecute, Mode=OneWay}"
+                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedReadAndExecute, Converter={StaticResource BoolNegationConverter}}" />
 
             <CheckBox
                 Grid.Row="3"
@@ -233,7 +218,8 @@
                 Padding="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                IsChecked="{Binding Deny}" />
+                IsChecked="{x:Bind SelectedAccessRule.DeniesReadAndExecute, Mode=OneWay}"
+                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedReadAndExecute, Converter={StaticResource BoolNegationConverter}}" />
 
             <TextBlock
                 Grid.Row="4"
@@ -249,7 +235,8 @@
                 Padding="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                IsChecked="{Binding Allow}" />
+                IsChecked="{x:Bind SelectedAccessRule.GrantsListDirectory, Mode=OneWay}"
+                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedListDirectory, Converter={StaticResource BoolNegationConverter}}" />
 
             <CheckBox
                 Grid.Row="4"
@@ -258,7 +245,8 @@
                 Padding="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                IsChecked="{Binding Deny}" />
+                IsChecked="{x:Bind SelectedAccessRule.DeniesListDirectory, Mode=OneWay}"
+                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedListDirectory, Converter={StaticResource BoolNegationConverter}}" />
 
             <TextBlock
                 Grid.Row="5"
@@ -274,7 +262,8 @@
                 Padding="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                IsChecked="{Binding Allow}" />
+                IsChecked="{x:Bind SelectedAccessRule.GrantsRead, Mode=OneWay}"
+                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedRead, Converter={StaticResource BoolNegationConverter}}" />
 
             <CheckBox
                 Grid.Row="5"
@@ -283,7 +272,8 @@
                 Padding="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                IsChecked="{Binding Deny}" />
+                IsChecked="{x:Bind SelectedAccessRule.DeniesRead, Mode=OneWay}"
+                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedRead, Converter={StaticResource BoolNegationConverter}}" />
 
             <TextBlock
                 Grid.Row="6"
@@ -299,7 +289,8 @@
                 Padding="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                IsChecked="{Binding Allow}" />
+                IsChecked="{x:Bind SelectedAccessRule.GrantsWrite, Mode=OneWay}"
+                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedWrite, Converter={StaticResource BoolNegationConverter}}" />
 
             <CheckBox
                 Grid.Row="6"
@@ -308,7 +299,8 @@
                 Padding="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                IsChecked="{Binding Deny}" />
+                IsChecked="{x:Bind SelectedAccessRule.DeniesWrite, Mode=OneWay}"
+                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedWrite, Converter={StaticResource BoolNegationConverter}}" />
         </Grid>
 
         <Button Margin="0,12,0,0" HorizontalAlignment="Left">

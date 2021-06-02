@@ -54,14 +54,34 @@ namespace Files.Filesystem.Permissions
             Groups = new List<string>();
         }
 
-        public static async Task<UserGroup> FromSid(string sid)
+        public static UserGroup FromSid(string sid)
         {
             var userGroup = new UserGroup() { Sid = sid };
-            await userGroup.GetUserGroupInfo();
+            userGroup.GetUserGroupInfo();
             return userGroup;
         }
 
-        public async Task GetUserGroupInfo()
+        public async Task LoadUserGroupTile()
+        {
+            if (string.IsNullOrEmpty(Domain))
+            {
+                return;
+            }
+
+            if (Domain == Environment.UserDomainName)
+            {
+                var localAccounts = await User.FindAllAsync(UserType.LocalUser | UserType.LocalGuest);
+                var matches = await localAccounts.WhereAsync(async (x) => await x.GetPropertyAsync(KnownUserProperties.DisplayName) as string == Name);
+                var streamRef = await matches.FirstOrDefault()?.GetPictureAsync(UserPictureSize.Size208x208);
+                if (streamRef != null)
+                {
+                    using var stream = await streamRef.OpenReadAsync();
+                    IconData = await stream.ToByteArrayAsync();
+                }
+            }
+        }
+
+        public void GetUserGroupInfo()
         {
             if (string.IsNullOrEmpty(Sid))
             {
@@ -96,18 +116,6 @@ namespace Files.Filesystem.Permissions
                 };
                 Name = userName.ToString();
                 Domain = domainName.ToString();
-
-                if (Domain == Environment.UserDomainName)
-                {
-                    var localAccounts = await User.FindAllAsync(UserType.LocalUser | UserType.LocalGuest);
-                    var matches = await localAccounts.WhereAsync(async (x) => await x.GetPropertyAsync(KnownUserProperties.DisplayName) as string == Name);
-                    var streamRef = await matches.FirstOrDefault()?.GetPictureAsync(UserPictureSize.Size208x208);
-                    if (streamRef != null)
-                    {
-                        using var stream = await streamRef.OpenReadAsync();
-                        IconData = await stream.ToByteArrayAsync();
-                    }
-                }
             }
         }
 

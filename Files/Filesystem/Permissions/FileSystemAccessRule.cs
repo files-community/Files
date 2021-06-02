@@ -9,12 +9,16 @@ namespace Files.Filesystem.Permissions
     public class FilePermissions
     {
         public string Path { get; set; }
-        public List<FileSystemAccessRule> AccessRules { get; set; }
 
         public FilePermissions()
         {
             AccessRules = new List<FileSystemAccessRule>();
         }
+
+        public List<FileSystemAccessRule> AccessRules { get; set; }
+
+        // Consolidated view 1
+        public List<RulesForUser> RulesForUsers => RulesForUser.ForAllUsers(AccessRules);
 
         public FileSystemRights GetEffectiveRights(UserGroup user)
         {
@@ -54,20 +58,85 @@ namespace Files.Filesystem.Permissions
         }
     }
 
+    public class RulesForUser
+    {
+        public FileSystemRights InheritedDenyRights { get; set; }
+        public FileSystemRights InheritedAllowRights { get; set; }
+        public FileSystemRights DenyRights { get; set; }
+        public FileSystemRights AllowRights { get; set; }
+        public UserGroup UserGroup { get; set; }
+
+        public bool GrantsInheritedWrite => InheritedAllowRights.HasFlag(FileSystemRights.Write);
+        public bool GrantsInheritedRead => InheritedAllowRights.HasFlag(FileSystemRights.Read);
+        public bool GrantsInheritedListDirectory => InheritedAllowRights.HasFlag(FileSystemRights.ListDirectory);
+        public bool GrantsInheritedReadAndExecute => InheritedAllowRights.HasFlag(FileSystemRights.ReadAndExecute);
+        public bool GrantsInheritedModify => InheritedAllowRights.HasFlag(FileSystemRights.Modify);
+        public bool GrantsInheritedFullControl => InheritedAllowRights.HasFlag(FileSystemRights.FullControl);
+
+        public bool GrantsWrite => AllowRights.HasFlag(FileSystemRights.Write) || GrantsInheritedWrite;
+        public bool GrantsRead => AllowRights.HasFlag(FileSystemRights.Read) || GrantsInheritedRead;
+        public bool GrantsListDirectory => AllowRights.HasFlag(FileSystemRights.ListDirectory) || GrantsInheritedListDirectory;
+        public bool GrantsReadAndExecute => AllowRights.HasFlag(FileSystemRights.ReadAndExecute) || GrantsInheritedReadAndExecute;
+        public bool GrantsModify => AllowRights.HasFlag(FileSystemRights.Modify) || GrantsInheritedModify;
+        public bool GrantsFullControl => AllowRights.HasFlag(FileSystemRights.FullControl) || GrantsInheritedFullControl;
+
+        public bool DeniesInheritedWrite => InheritedDenyRights.HasFlag(FileSystemRights.Write);
+        public bool DeniesInheritedRead => InheritedDenyRights.HasFlag(FileSystemRights.Read);
+        public bool DeniesInheritedListDirectory => InheritedDenyRights.HasFlag(FileSystemRights.ListDirectory);
+        public bool DeniesInheritedReadAndExecute => InheritedDenyRights.HasFlag(FileSystemRights.ReadAndExecute);
+        public bool DeniesInheritedModify => InheritedDenyRights.HasFlag(FileSystemRights.Modify);
+        public bool DeniesInheritedFullControl => InheritedDenyRights.HasFlag(FileSystemRights.FullControl);
+
+        public bool DeniesWrite => DenyRights.HasFlag(FileSystemRights.Write) || DeniesInheritedWrite;
+        public bool DeniesRead => DenyRights.HasFlag(FileSystemRights.Read) || DeniesInheritedRead;
+        public bool DeniesListDirectory => DenyRights.HasFlag(FileSystemRights.ListDirectory) || DeniesInheritedListDirectory;
+        public bool DeniesReadAndExecute => DenyRights.HasFlag(FileSystemRights.ReadAndExecute) || DeniesInheritedReadAndExecute;
+        public bool DeniesModify => DenyRights.HasFlag(FileSystemRights.Modify) || DeniesInheritedModify;
+        public bool DeniesFullControl => DenyRights.HasFlag(FileSystemRights.FullControl) || DeniesInheritedFullControl;
+
+        public static List<RulesForUser> ForAllUsers(IEnumerable<FileSystemAccessRule> rules)
+        {
+            return rules.Select(x => x.IdentityReference).Distinct().Select(x => PermissionsForUser.ForUser(rules, x)).ToList();
+        }
+
+        public static RulesForUser ForUser(IEnumerable<FileSystemAccessRule> rules, string identity)
+        {
+            var perm = new RulesForUser() { UserGroup = UserGroup.FromSid(identity) };
+            foreach (var Rule in rules.Where(x => x.IdentityReference == identity))
+            {
+                if (Rule.AccessControlType == AccessControlType.Deny)
+                {
+                    if (Rule.IsInherited)
+                    {
+                        perm.InheritedDenyRights |= Rule.FileSystemRights;
+                    }
+                    else
+                    {
+                        perm.DenyRights |= Rule.FileSystemRights;
+                    }
+                }
+                else if (Rule.AccessControlType == AccessControlType.Allow)
+                {
+                    if (Rule.IsInherited)
+                    {
+                        perm.InheritedAllowRights |= Rule.FileSystemRights;
+                    }
+                    else
+                    {
+                        perm.AllowRights |= Rule.FileSystemRights;
+                    }
+                }
+            }
+            return perm;
+        }
+    }
+
     public class FileSystemAccessRule
     {
         public AccessControlType AccessControlType { get; set; }
         public FileSystemRights FileSystemRights { get; set; }
         public string IdentityReference { get; set; }
         public bool IsInherited { get; set; }
-
-        public bool CanRead => FileSystemRights.HasFlag(FileSystemRights.Read);
-        public bool CanWrite => FileSystemRights.HasFlag(FileSystemRights.Write);
-        public bool CanModify => FileSystemRights.HasFlag(FileSystemRights.Modify);
-        public bool CanReadAndExecute => FileSystemRights.HasFlag(FileSystemRights.ReadAndExecute);
-        public bool CanListDirectory => FileSystemRights.HasFlag(FileSystemRights.ListDirectory);
-        public bool CanTakeOwnership => FileSystemRights.HasFlag(FileSystemRights.TakeOwnership);
-        public bool HasFullControl => FileSystemRights.HasFlag(FileSystemRights.FullControl);
     }
 
     public enum AccessControlType
