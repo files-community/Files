@@ -27,7 +27,7 @@ namespace Files.Views
 
         public async override Task<bool> SaveChangesAsync(ListedItem item)
         {
-            return await Task.FromResult(false);
+            return await Task.FromResult(true);
         }
 
         public override void Dispose()

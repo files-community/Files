@@ -8,7 +8,317 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:usercontrols="using:Files.UserControls"
+    d:Background="LightGray"
+    d:Height="1000"
+    d:Width="700"
     Loaded="Properties_Loaded"
     mc:Ignorable="d">
-    <Grid />
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <StackPanel Style="{StaticResource PropertiesTab}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                x:Uid="ItemUsersGroupLabel"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Style="{StaticResource PropertyName}"
+                Text="Group or user names" />
+
+            <CommandBar
+                Grid.Column="1"
+                IsDynamicOverflowEnabled="False"
+                OverflowButtonVisibility="Collapsed">
+                <CommandBar.PrimaryCommands>
+                    <AppBarButton Icon="Edit" />
+                    <AppBarButton Icon="Add" />
+                    <AppBarButton Icon="Remove" />
+                </CommandBar.PrimaryCommands>
+            </CommandBar>
+        </Grid>
+
+        <ListView
+            MaxHeight="134"
+            Background="White"
+            BorderBrush="Gray"
+            BorderThickness="1"
+            CornerRadius="4">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="MinHeight" Value="44" />
+                    <Setter Property="Height" Value="44" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.Items>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="32" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <FontIcon
+                        HorizontalAlignment="Left"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Glyph="&#xE716;" />
+
+                    <TextBlock Grid.Column="1" Margin="0,0,4,0">
+                        <Run Text="SYSTEM" />
+                    </TextBlock>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="32" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <FontIcon
+                        HorizontalAlignment="Left"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Glyph="&#xE716;" />
+
+                    <TextBlock Grid.Column="1" Margin="0,0,4,0">
+                        <Run Text="Marco" />
+                        <Run Text="(Elvia-PC\Marco)" />
+                    </TextBlock>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="32" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <FontIcon
+                        HorizontalAlignment="Left"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Glyph="&#xE716;" />
+
+                    <TextBlock Grid.Column="1" Margin="0,0,4,0">
+                        <Run Text="Administrators" />
+                        <Run Text="(Elvia-PC\Administrators)" />
+                    </TextBlock>
+                </Grid>
+            </ListView.Items>
+        </ListView>
+
+        <Grid Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                x:Uid="ItemPermissionsLabel"
+                Grid.Row="0"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Style="{StaticResource PropertyName}"
+                Text="Permissions for SYSTEM" />
+
+            <TextBlock
+                x:Name="ItemAllowLabel"
+                x:Uid="ItemAllowLabel"
+                Grid.Row="0"
+                Grid.Column="2"
+                Margin="24,0,24,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Style="{StaticResource PropertyName}"
+                Text="Allow" />
+
+            <TextBlock
+                x:Name="ItemDenyLabel"
+                x:Uid="ItemDenyLabel"
+                Grid.Row="0"
+                Grid.Column="3"
+                Margin="24,0,24,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Style="{StaticResource PropertyName}"
+                Text="Deny" />
+
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="Controllo completo" />
+
+            <CheckBox
+                Grid.Row="1"
+                Grid.Column="2"
+                MinWidth="0"
+                Padding="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsChecked="{Binding Allow}" />
+
+            <CheckBox
+                Grid.Row="1"
+                Grid.Column="3"
+                MinWidth="0"
+                Padding="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsChecked="{Binding Deny}" />
+
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="Modifica" />
+
+            <CheckBox
+                Grid.Row="2"
+                Grid.Column="2"
+                MinWidth="0"
+                Padding="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsChecked="{Binding Allow}" />
+
+            <CheckBox
+                Grid.Row="2"
+                Grid.Column="3"
+                MinWidth="0"
+                Padding="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsChecked="{Binding Deny}" />
+
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="Lettura ed esecuzione" />
+
+            <CheckBox
+                Grid.Row="3"
+                Grid.Column="2"
+                MinWidth="0"
+                Padding="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsChecked="{Binding Allow}" />
+
+            <CheckBox
+                Grid.Row="3"
+                Grid.Column="3"
+                MinWidth="0"
+                Padding="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsChecked="{Binding Deny}" />
+
+            <TextBlock
+                Grid.Row="4"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="Visualizzazione contenuto cartella" />
+
+            <CheckBox
+                Grid.Row="4"
+                Grid.Column="2"
+                MinWidth="0"
+                Padding="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsChecked="{Binding Allow}" />
+
+            <CheckBox
+                Grid.Row="4"
+                Grid.Column="3"
+                MinWidth="0"
+                Padding="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsChecked="{Binding Deny}" />
+
+            <TextBlock
+                Grid.Row="5"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="Lettura" />
+
+            <CheckBox
+                Grid.Row="5"
+                Grid.Column="2"
+                MinWidth="0"
+                Padding="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsChecked="{Binding Allow}" />
+
+            <CheckBox
+                Grid.Row="5"
+                Grid.Column="3"
+                MinWidth="0"
+                Padding="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsChecked="{Binding Deny}" />
+
+            <TextBlock
+                Grid.Row="6"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="Scrittura" />
+
+            <CheckBox
+                Grid.Row="6"
+                Grid.Column="2"
+                MinWidth="0"
+                Padding="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsChecked="{Binding Allow}" />
+
+            <CheckBox
+                Grid.Row="6"
+                Grid.Column="3"
+                MinWidth="0"
+                Padding="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsChecked="{Binding Deny}" />
+        </Grid>
+
+        <Button Margin="0,12,0,0" HorizontalAlignment="Left">
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                <FontIcon
+                    Margin="0,0,12,0"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    Glyph="&#xE74C;" />
+                <TextBlock Text="Advanced permissions" />
+            </StackPanel>
+        </Button>
+    </StackPanel>
 </local:PropertiesTab>
