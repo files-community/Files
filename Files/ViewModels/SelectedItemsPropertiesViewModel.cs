@@ -714,5 +714,13 @@ namespace Files.ViewModels
             get => filePermissions;
             set => SetProperty(ref filePermissions, value);
         }
+
+        public bool isFolder;
+
+        public bool IsFolder
+        {
+            get => isFolder;
+            set => SetProperty(ref isFolder, value);
+        }
     }
 }

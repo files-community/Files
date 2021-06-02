@@ -32,7 +32,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <TextBlock
-                x:Uid="ItemUsersGroupLabel"
+                x:Uid="SecurityUsersGroupLabel"
                 Grid.Column="0"
                 VerticalAlignment="Center"
                 FontWeight="Bold"
@@ -109,20 +109,18 @@
             </Grid.RowDefinitions>
 
             <TextBlock
-                x:Uid="ItemPermissionsLabel"
                 Grid.Row="0"
                 Grid.Column="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 FontWeight="Bold"
                 Style="{StaticResource PropertyName}">
-                <Run Text="Permissions for" />
+                <Run x:Uid="SecurityPermissionsLabel" Text="Permissions for" />
                 <Run Text="{x:Bind SelectedAccessRule.UserGroup.Name, Mode=OneWay}" />
             </TextBlock>
 
             <TextBlock
-                x:Name="ItemAllowLabel"
-                x:Uid="ItemAllowLabel"
+                x:Uid="SecurityAllowLabel"
                 Grid.Row="0"
                 Grid.Column="2"
                 Margin="24,0,24,0"
@@ -132,8 +130,7 @@
                 Text="Allow" />
 
             <TextBlock
-                x:Name="ItemDenyLabel"
-                x:Uid="ItemDenyLabel"
+                x:Uid="SecurityDenyLabel"
                 Grid.Row="0"
                 Grid.Column="3"
                 Margin="24,0,24,0"
@@ -143,11 +140,12 @@
                 Text="Deny" />
 
             <TextBlock
+                x:Uid="SecurityFullControlLabel"
                 Grid.Row="1"
                 Grid.Column="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Text="Controllo completo" />
+                Text="Full control" />
 
             <CheckBox
                 Grid.Row="1"
@@ -170,11 +168,12 @@
                 IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedFullControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
             <TextBlock
+                x:Uid="SecurityModifyLabel"
                 Grid.Row="2"
                 Grid.Column="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Text="Modifica" />
+                Text="Modify" />
 
             <CheckBox
                 Grid.Row="2"
@@ -197,11 +196,12 @@
                 IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedModify, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
             <TextBlock
+                x:Uid="SecurityReadAndExecuteLabel"
                 Grid.Row="3"
                 Grid.Column="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Text="Lettura ed esecuzione" />
+                Text="Read and execute" />
 
             <CheckBox
                 Grid.Row="3"
@@ -224,38 +224,46 @@
                 IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedReadAndExecute, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
             <TextBlock
+                x:Name="ListFolderLabel"
+                x:Uid="SecurityListDirectoryLabel"
                 Grid.Row="4"
                 Grid.Column="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Text="Visualizzazione contenuto cartella" />
+                x:Load="{x:Bind ViewModel.IsFolder, Mode=OneWay}"
+                Text="List directory contents" />
 
             <CheckBox
+                x:Name="ListFolderAllowCheck"
                 Grid.Row="4"
                 Grid.Column="2"
                 MinWidth="0"
                 Padding="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
+                x:Load="{x:Bind ViewModel.IsFolder, Mode=OneWay}"
                 IsChecked="{x:Bind SelectedAccessRule.GrantsListDirectory, Mode=OneWay}"
                 IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedListDirectory, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
             <CheckBox
+                x:Name="ListFolderDenyCheck"
                 Grid.Row="4"
                 Grid.Column="3"
                 MinWidth="0"
                 Padding="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
+                x:Load="{x:Bind ViewModel.IsFolder, Mode=OneWay}"
                 IsChecked="{x:Bind SelectedAccessRule.DeniesListDirectory, Mode=OneWay}"
                 IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedListDirectory, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
             <TextBlock
+                x:Uid="SecurityReadLabel"
                 Grid.Row="5"
                 Grid.Column="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Text="Lettura" />
+                Text="Read" />
 
             <CheckBox
                 Grid.Row="5"
@@ -278,11 +286,12 @@
                 IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedRead, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
             <TextBlock
+                x:Uid="SecurityWriteLabel"
                 Grid.Row="6"
                 Grid.Column="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Text="Scrittura" />
+                Text="Write" />
 
             <CheckBox
                 Grid.Row="6"
@@ -311,7 +320,7 @@
                     Margin="0,0,12,0"
                     FontFamily="{StaticResource SymbolThemeFontFamily}"
                     Glyph="&#xE74C;" />
-                <TextBlock Text="Advanced permissions" />
+                <TextBlock x:Uid="SecurityAdvancedPermissions" Text="Advanced permissions" />
             </StackPanel>
         </Button>
     </StackPanel>
