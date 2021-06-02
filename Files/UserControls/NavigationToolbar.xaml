@@ -755,7 +755,7 @@
                 DisplayMemberPath="ItemName"
                 FocusDisengaged="VisiblePath_LostFocus"
                 FontWeight="SemiBold"
-                ItemsSource="{x:Bind NavigationBarSuggestions}"
+                ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions}"
                 Loaded="VisiblePath_Loaded"
                 LostFocus="VisiblePath_LostFocus"
                 PlaceholderText="Enter a path"
@@ -763,10 +763,10 @@
                 QuerySubmitted="VisiblePath_QuerySubmitted"
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                Text="{x:Bind PathText, Mode=OneWay}"
+                Text="{x:Bind ViewModel.PathText, Mode=OneWay}"
                 TextChanged="{x:Bind ViewModel.VisiblePath_TextChanged, Mode=OneWay}"
                 TextMemberPath="ItemPath"
-                Visibility="{x:Bind IsSearchBoxVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />
+                Visibility="{x:Bind ViewModel.IsSearchBoxVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />
 
             <Grid
                 x:Name="ClickablePath"
@@ -781,7 +781,7 @@
                 BorderThickness="1"
                 CornerRadius="{StaticResource ControlCornerRadius}"
                 PointerPressed="ManualPathEntryItem_Click"
-                Visibility="{x:Bind IsSearchBoxVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
+                Visibility="{x:Bind ViewModel.IsSearchBoxVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
 
                 <ListView
                     x:Name="PathViewInteract"
@@ -889,19 +889,19 @@
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowLibraryWidget"
                                     Header="Show Library widget"
-                                    IsOn="{x:Bind ShowLibraryCardsWidget, Mode=TwoWay}" />
+                                    IsOn="{x:Bind ViewModel.ShowLibraryCardsWidget, Mode=TwoWay}" />
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowDrivesWidget"
                                     Header="Show Drives widget"
-                                    IsOn="{x:Bind ShowDrivesWidget, Mode=TwoWay}" />
+                                    IsOn="{x:Bind ViewModel.ShowDrivesWidget, Mode=TwoWay}" />
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowBundlesWidget"
                                     Header="Show Bundles widget"
-                                    IsOn="{x:Bind ShowBundlesWidget, Mode=TwoWay}" />
+                                    IsOn="{x:Bind ViewModel.ShowBundlesWidget, Mode=TwoWay}" />
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowRecentFilesWidget"
                                     Header="Show Recent Files widget"
-                                    IsOn="{x:Bind ShowRecentFilesWidget, Mode=TwoWay}" />
+                                    IsOn="{x:Bind ViewModel.ShowRecentFilesWidget, Mode=TwoWay}" />
                             </StackPanel>
                         </StackPanel>
                     </Flyout>

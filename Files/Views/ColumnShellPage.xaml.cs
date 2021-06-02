@@ -58,6 +58,7 @@ namespace Files.Views
         public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
 
         public MainViewModel MainViewModel => App.MainViewModel;
+        public INavigationToolbar NavigationToolbar => NavToolbarViewModel;
 
         private bool isCurrentInstance { get; set; } = false;
 
@@ -78,7 +79,7 @@ namespace Files.Views
                     }
                     else
                     {
-                        NavigationToolbar.IsEditModeEnabled = false;
+                        //NavigationToolbar.IsEditModeEnabled = false;
                     }
                     NotifyPropertyChanged(nameof(IsCurrentInstance));
                 }
@@ -398,8 +399,7 @@ namespace Files.Views
 
         private async void SetAddressBarSuggestions(AutoSuggestBox sender, int maxSuggestions = 7)
         {
-            var mNavToolbar = (NavigationToolbar as NavigationToolbar);
-            if (mNavToolbar != null && !string.IsNullOrWhiteSpace(sender.Text))
+            if (!string.IsNullOrWhiteSpace(sender.Text))
             {
                 try
                 {
@@ -439,43 +439,43 @@ namespace Files.Views
 
                     // NavigationBarSuggestions becoming empty causes flickering of the suggestion box
                     // Here we check whether at least an element is in common between old and new list
-                    if (!mNavToolbar.NavigationBarSuggestions.IntersectBy(suggestions, x => x.ItemName).Any())
+                    if (!NavToolbarViewModel.NavigationBarSuggestions.IntersectBy(suggestions, x => x.ItemName).Any())
                     {
                         // No elements in common, update the list in-place
                         for (int si = 0; si < suggestions.Count; si++)
                         {
-                            if (si < mNavToolbar.NavigationBarSuggestions.Count)
+                            if (si < NavToolbarViewModel.NavigationBarSuggestions.Count)
                             {
-                                mNavToolbar.NavigationBarSuggestions[si].ItemName = suggestions[si].ItemName;
-                                mNavToolbar.NavigationBarSuggestions[si].ItemPath = suggestions[si].ItemPath;
+                                NavToolbarViewModel.NavigationBarSuggestions[si].ItemName = suggestions[si].ItemName;
+                                NavToolbarViewModel.NavigationBarSuggestions[si].ItemPath = suggestions[si].ItemPath;
                             }
                             else
                             {
-                                mNavToolbar.NavigationBarSuggestions.Add(suggestions[si]);
+                                NavToolbarViewModel.NavigationBarSuggestions.Add(suggestions[si]);
                             }
                         }
-                        while (mNavToolbar.NavigationBarSuggestions.Count > suggestions.Count)
+                        while (NavToolbarViewModel.NavigationBarSuggestions.Count > suggestions.Count)
                         {
-                            mNavToolbar.NavigationBarSuggestions.RemoveAt(mNavToolbar.NavigationBarSuggestions.Count - 1);
+                            NavToolbarViewModel.NavigationBarSuggestions.RemoveAt(NavToolbarViewModel.NavigationBarSuggestions.Count - 1);
                         }
                     }
                     else
                     {
                         // At least an element in common, show animation
-                        foreach (var s in mNavToolbar.NavigationBarSuggestions.ExceptBy(suggestions, x => x.ItemName).ToList())
+                        foreach (var s in NavToolbarViewModel.NavigationBarSuggestions.ExceptBy(suggestions, x => x.ItemName).ToList())
                         {
-                            mNavToolbar.NavigationBarSuggestions.Remove(s);
+                            NavToolbarViewModel.NavigationBarSuggestions.Remove(s);
                         }
-                        foreach (var s in suggestions.ExceptBy(mNavToolbar.NavigationBarSuggestions, x => x.ItemName).ToList())
+                        foreach (var s in suggestions.ExceptBy(NavToolbarViewModel.NavigationBarSuggestions, x => x.ItemName).ToList())
                         {
-                            mNavToolbar.NavigationBarSuggestions.Insert(suggestions.IndexOf(s), s);
+                            NavToolbarViewModel.NavigationBarSuggestions.Insert(suggestions.IndexOf(s), s);
                         }
                     }
                 }
                 catch
                 {
-                    mNavToolbar.NavigationBarSuggestions.Clear();
-                    mNavToolbar.NavigationBarSuggestions.Add(new ListedItem(null)
+                    NavToolbarViewModel.NavigationBarSuggestions.Clear();
+                    NavToolbarViewModel.NavigationBarSuggestions.Add(new ListedItem(null)
                     {
                         ItemPath = FilesystemViewModel.WorkingDirectory,
                         ItemName = "NavigationToolbarVisiblePathNoResults".GetLocalized()
@@ -483,7 +483,6 @@ namespace Files.Views
                 }
             }
         }
-
         private async void ColumnShellPage_ToolbarPathItemLoaded(object sender, ToolbarPathItemLoadedEventArgs e)
         {
             await SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, e.Item);
@@ -680,15 +679,11 @@ namespace Files.Views
 
         private void NavigationToolbar_EditModeEnabled(object sender, EventArgs e)
         {
-            if (NavigationToolbar is NavigationToolbar)
-            {
-                var mNavToolbar = NavigationToolbar as NavigationToolbar;
-                mNavToolbar.ManualEntryBoxLoaded = true;
-                mNavToolbar.ClickablePathLoaded = false;
-                mNavToolbar.PathText = string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory)
-                    ? AppSettings.HomePath
-                    : FilesystemViewModel.WorkingDirectory;
-            }
+            NavToolbarViewModel.ManualEntryBoxLoaded = true;
+            NavToolbarViewModel.ClickablePathLoaded = false;
+            NavToolbarViewModel.PathText = string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory)
+                ? AppSettings.HomePath
+                : FilesystemViewModel.WorkingDirectory;
         }
 
         private void ColumnShellPage_BackRequested(object sender, BackRequestedEventArgs e)
@@ -1089,25 +1084,20 @@ namespace Files.Views
             Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested -= ColumnShellPage_BackRequested;
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
-            NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
-            NavigationToolbar.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
-            NavigationToolbar.BackRequested -= ColumnShellPage_BackNavRequested;
-            NavigationToolbar.ForwardRequested -= ColumnShellPage_ForwardNavRequested;
-            NavigationToolbar.UpRequested -= ColumnShellPage_UpNavRequested;
-            NavigationToolbar.RefreshRequested -= ColumnShellPage_RefreshRequested;
-            NavigationToolbar.ItemDraggedOverPathItem -= ColumnShellPage_NavigationRequested;
-            NavigationToolbar.SearchBox.QueryChanged -= ColumnShellPage_QueryChanged;
-            NavigationToolbar.SearchBox.QuerySubmitted -= ColumnShellPage_QuerySubmitted;
-            NavigationToolbar.SearchBox.SuggestionChosen -= ColumnShellPage_SuggestionChosen;
 
-            if (NavigationToolbar is NavigationToolbar navToolbar)
-            {
-                navToolbar.ToolbarPathItemInvoked -= ColumnShellPage_NavigationRequested;
-                navToolbar.ToolbarFlyoutOpened -= ColumnShellPage_ToolbarFlyoutOpened;
-                navToolbar.ToolbarPathItemLoaded -= ColumnShellPage_ToolbarPathItemLoaded;
-                navToolbar.AddressBarTextEntered -= ColumnShellPage_AddressBarTextEntered;
-                navToolbar.PathBoxItemDropped -= ColumnShellPage_PathBoxItemDropped;
-            }
+            NavToolbarViewModel.ToolbarPathItemInvoked -= ColumnShellPage_NavigationRequested;
+            NavToolbarViewModel.ToolbarFlyoutOpened -= ColumnShellPage_ToolbarFlyoutOpened;
+            NavToolbarViewModel.ToolbarPathItemLoaded -= ColumnShellPage_ToolbarPathItemLoaded;
+            NavToolbarViewModel.AddressBarTextEntered -= ColumnShellPage_AddressBarTextEntered;
+            NavToolbarViewModel.PathBoxItemDropped -= ColumnShellPage_PathBoxItemDropped;
+            NavToolbarViewModel.BackRequested -= ColumnShellPage_BackNavRequested;
+            NavToolbarViewModel.UpRequested -= ColumnShellPage_UpNavRequested;
+            NavToolbarViewModel.RefreshRequested -= ColumnShellPage_RefreshRequested;
+            NavToolbarViewModel.ForwardRequested -= ColumnShellPage_ForwardNavRequested;
+            NavToolbarViewModel.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
+            NavToolbarViewModel.ItemDraggedOverPathItem -= ColumnShellPage_NavigationRequested;
+            NavToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
+            //NavToolbarViewModel.RefreshWidgetsRequested -= ColumnShellPage_RefreshWidgetsRequested;
 
             InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;

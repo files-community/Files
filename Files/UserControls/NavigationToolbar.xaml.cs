@@ -45,65 +45,6 @@ namespace Files.UserControls
 
         public ISearchBox SearchBox => SearchRegion;
 
-        #region YourHome Widgets
-
-        public bool ShowLibraryCardsWidget
-        {
-            get => App.AppSettings.ShowLibraryCardsWidget;
-            set
-            {
-                if (App.AppSettings.ShowLibraryCardsWidget != value)
-                {
-                    App.AppSettings.ShowLibraryCardsWidget = value;
-
-                    RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
-
-        public bool ShowDrivesWidget
-        {
-            get => App.AppSettings.ShowDrivesWidget;
-            set
-            {
-                if (App.AppSettings.ShowDrivesWidget != value)
-                {
-                    App.AppSettings.ShowDrivesWidget = value;
-
-                    RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
-
-        public bool ShowBundlesWidget
-        {
-            get => App.AppSettings.ShowBundlesWidget;
-            set
-            {
-                if (App.AppSettings.ShowBundlesWidget != value)
-                {
-                    App.AppSettings.ShowBundlesWidget = value;
-
-                    RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
-
-        public bool ShowRecentFilesWidget
-        {
-            get => App.AppSettings.ShowRecentFilesWidget;
-            set
-            {
-                if (App.AppSettings.ShowRecentFilesWidget != value)
-                {
-                    App.AppSettings.ShowRecentFilesWidget = value;
-
-                    RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
-
-        #endregion YourHome Widgets
 
         #region Selection Options
 
@@ -879,9 +820,9 @@ namespace Files.UserControls
             }
         }
 
-        private void SearchButton_Click(object sender, RoutedEventArgs e) => SwitchSearchBoxVisibility();
+        private void SearchButton_Click(object sender, RoutedEventArgs e) => ViewModel.SwitchSearchBoxVisibility();
 
-        private void SearchBox_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args) => CloseSearchBox();
+        private void SearchBox_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args) => ViewModel.CloseSearchBox();
 
         private void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -891,13 +832,7 @@ namespace Files.UserControls
                 return;
             }
 
-            CloseSearchBox();
-        }
-
-        private void CloseSearchBox()
-        {
-            SearchRegion.Query = string.Empty;
-            IsSearchBoxVisible = false;
+            ViewModel.CloseSearchBox();
         }
 
         private void NavMoreButtonFlyout_Opening(object sender, object e)

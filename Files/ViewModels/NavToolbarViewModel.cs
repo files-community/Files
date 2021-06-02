@@ -376,5 +376,71 @@ namespace Files.ViewModels
                 //SearchRegion.Focus(FocusState.Programmatic); // TODO: Repimplement
             }
         }
+
+        #region YourHome Widgets
+
+        public bool ShowLibraryCardsWidget
+        {
+            get => App.AppSettings.ShowLibraryCardsWidget;
+            set
+            {
+                if (App.AppSettings.ShowLibraryCardsWidget != value)
+                {
+                    App.AppSettings.ShowLibraryCardsWidget = value;
+
+                    RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        public bool ShowDrivesWidget
+        {
+            get => App.AppSettings.ShowDrivesWidget;
+            set
+            {
+                if (App.AppSettings.ShowDrivesWidget != value)
+                {
+                    App.AppSettings.ShowDrivesWidget = value;
+
+                    RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        public bool ShowBundlesWidget
+        {
+            get => App.AppSettings.ShowBundlesWidget;
+            set
+            {
+                if (App.AppSettings.ShowBundlesWidget != value)
+                {
+                    App.AppSettings.ShowBundlesWidget = value;
+
+                    RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        public bool ShowRecentFilesWidget
+        {
+            get => App.AppSettings.ShowRecentFilesWidget;
+            set
+            {
+                if (App.AppSettings.ShowRecentFilesWidget != value)
+                {
+                    App.AppSettings.ShowRecentFilesWidget = value;
+
+                    RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        #endregion YourHome Widgets
+
+        public void CloseSearchBox()
+        {
+            SearchBox.Query = string.Empty;
+            IsSearchBoxVisible = false;
+        }
     }
 }
