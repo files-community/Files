@@ -1,10 +1,12 @@
 ﻿using ByteSizeLib;
 using Files.Extensions;
 using Files.Filesystem;
+using Files.Filesystem.Permissions;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -156,6 +158,28 @@ namespace Files.ViewModels.Properties
             {
                 NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                 ViewModel.ItemMD5HashCalcError = true;
+            }
+
+            await GetFilePermissionProperties();
+        }
+
+        private async Task GetFilePermissionProperties()
+        {
+            if (AppInstance.ServiceConnection != null)
+            {
+                var value = new ValueSet()
+                {
+                    { "Arguments", "FileOperation" },
+                    { "fileop", "GetFilePermissions" },
+                    { "filepath", Item.ItemPath },
+                    { "isfolder", Item.PrimaryItemAttribute == StorageItemTypes.Folder }
+                };
+                var (status, response) = await AppInstance.ServiceConnection.SendMessageForResponseAsync(value);
+                if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
+                {
+                    var filePermissions = JsonConvert.DeserializeObject<FilePermissions>((string)response["FilePermissions"]);
+                    ViewModel.FilePermissions = filePermissions;
+                }
             }
         }
 

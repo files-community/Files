@@ -142,7 +142,7 @@ namespace Files.Filesystem.Permissions
             ref int cchReferencedDomainName,
             out SID_NAME_USE peUse);
 
-        [DllImport("api-ms-win-security-sddl-l1-1-0.dll", SetLastError = true)]
+        [DllImport("api-ms-win-security-sddl-l1-1-0.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern bool ConvertStringSidToSid(
             string StringSid,
             out IntPtr ptrSid);

@@ -82,7 +82,9 @@
 
                         <TextBlock Grid.Column="1" Margin="0,0,4,0">
                             <Run Text="{x:Bind UserGroup.Name}" />
-                            <Span>&#160;(</Span><Run FontWeight="Light" Text="{x:Bind UserGroup.FullName}" /><Span>)</Span>
+                            <Span FontWeight="Light">&#160;(</Span>
+                            <Run FontWeight="Light" Text="{x:Bind UserGroup.FullName}" />
+                            <Span FontWeight="Light">)</Span>
                         </TextBlock>
                     </Grid>
                 </DataTemplate>
@@ -114,7 +116,7 @@
                 VerticalAlignment="Center"
                 FontWeight="Bold"
                 Style="{StaticResource PropertyName}">
-                <Run Text="Permissions for&#160;" />
+                <Run Text="Permissions for" />
                 <Run Text="{x:Bind SelectedAccessRule.UserGroup.Name, Mode=OneWay}" />
             </TextBlock>
 

@@ -2,9 +2,11 @@
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem;
+using Files.Filesystem.Permissions;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Threading;
@@ -153,6 +155,28 @@ namespace Files.ViewModels.Properties
                         ViewModel.ItemFileOwnerVisibility = Visibility.Collapsed;
                         ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
                     }
+                }
+            }
+
+            await GetFilePermissionProperties();
+        }
+
+        private async Task GetFilePermissionProperties()
+        {
+            if (AppInstance.ServiceConnection != null)
+            {
+                var value = new ValueSet()
+                {
+                    { "Arguments", "FileOperation" },
+                    { "fileop", "GetFilePermissions" },
+                    { "filepath", Item.ItemPath },
+                    { "isfolder", Item.PrimaryItemAttribute == StorageItemTypes.Folder }
+                };
+                var (status, response) = await AppInstance.ServiceConnection.SendMessageForResponseAsync(value);
+                if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
+                {
+                    var filePermissions = JsonConvert.DeserializeObject<FilePermissions>((string)response["FilePermissions"]);
+                    ViewModel.FilePermissions = filePermissions;
                 }
             }
         }

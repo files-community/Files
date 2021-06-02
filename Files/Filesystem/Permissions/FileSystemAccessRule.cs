@@ -96,7 +96,7 @@ namespace Files.Filesystem.Permissions
 
         public static List<RulesForUser> ForAllUsers(IEnumerable<FileSystemAccessRule> rules)
         {
-            return rules.Select(x => x.IdentityReference).Distinct().Select(x => PermissionsForUser.ForUser(rules, x)).ToList();
+            return rules.Select(x => x.IdentityReference).Distinct().Select(x => RulesForUser.ForUser(rules, x)).ToList();
         }
 
         public static RulesForUser ForUser(IEnumerable<FileSystemAccessRule> rules, string identity)

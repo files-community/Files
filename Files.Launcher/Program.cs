@@ -1023,6 +1023,28 @@ namespace FilesFullTrust
                         });
                     }
                     break;
+
+                case "GetFilePermissions":
+                    var filePathForPerm = (string)message["filepath"];
+                    var isFolder = (bool)message["isfolder"];
+                    var filePermissions = new FilePermissions() { Path = filePathForPerm };
+                    if (isFolder && Directory.Exists(filePathForPerm))
+                    {
+                        var acs = Directory.GetAccessControl(filePathForPerm);
+                        var accessRules = acs.GetAccessRules(true, true, typeof(SecurityIdentifier));
+                        filePermissions.AccessRules.AddRange(accessRules.Cast<FileSystemAccessRule>().Select(x => FileSystemAccessRule2.FromFileSystemAccessRule(x)));
+                    }
+                    else if(File.Exists(filePathForPerm))
+                    {
+                        var acs = File.GetAccessControl(filePathForPerm);
+                        var accessRules = acs.GetAccessRules(true, true, typeof(SecurityIdentifier));
+                        filePermissions.AccessRules.AddRange(accessRules.Cast<FileSystemAccessRule>().Select(x => FileSystemAccessRule2.FromFileSystemAccessRule(x)));
+                    }
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "FilePermissions", JsonConvert.SerializeObject(filePermissions) }
+                    }, message.Get("RequestID", (string)null));
+                    break;
             }
         }
 
