@@ -186,7 +186,7 @@ namespace Files.Views
             if (invokedItemContainer.DataContext is MainPageViewModel)
             {
                 SettingsDialog settingsDialog = new SettingsDialog();
-                await settingsDialog.ShowAsync();
+                _ = await settingsDialog.ShowAsync();
 
                 return;
             }
