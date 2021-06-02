@@ -76,11 +76,28 @@
                         </Grid.ColumnDefinitions>
 
                         <FontIcon
+                            x:Name="FontIcon"
+                            Width="24"
+                            Height="24"
                             HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            x:Load="{x:Bind UserGroup.LoadIcon, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                             FontFamily="{StaticResource SymbolThemeFontFamily}"
                             Glyph="{x:Bind UserGroup.Glyph}" />
 
-                        <TextBlock Grid.Column="1" Margin="0,0,4,0">
+                        <Ellipse
+                            x:Name="ImageIcon"
+                            Width="24"
+                            Height="24"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            x:Load="{x:Bind UserGroup.LoadIcon, Mode=OneWay}">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{x:Bind UserGroup.Icon, Mode=OneWay}" Stretch="UniformToFill" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center">
                             <Run Text="{x:Bind UserGroup.Name}" />
                             <Span FontWeight="Light">&#160;(</Span>
                             <Run FontWeight="Light" Text="{x:Bind UserGroup.FullName}" />
@@ -157,7 +174,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsChecked="{x:Bind SelectedAccessRule.GrantsFullControl, Mode=OneWay}"
-                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedFullControl, Converter={StaticResource BoolNegationConverter}}" />
+                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedFullControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
             <CheckBox
                 Grid.Row="1"
@@ -167,7 +184,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsChecked="{x:Bind SelectedAccessRule.DeniesFullControl, Mode=OneWay}"
-                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedFullControl, Converter={StaticResource BoolNegationConverter}}" />
+                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedFullControl, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
             <TextBlock
                 Grid.Row="2"
@@ -184,7 +201,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsChecked="{x:Bind SelectedAccessRule.GrantsModify, Mode=OneWay}"
-                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedModify, Converter={StaticResource BoolNegationConverter}}" />
+                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedModify, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
             <CheckBox
                 Grid.Row="2"
@@ -194,7 +211,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsChecked="{x:Bind SelectedAccessRule.DeniesModify, Mode=OneWay}"
-                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedModify, Converter={StaticResource BoolNegationConverter}}" />
+                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedModify, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
             <TextBlock
                 Grid.Row="3"
@@ -211,7 +228,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsChecked="{x:Bind SelectedAccessRule.GrantsReadAndExecute, Mode=OneWay}"
-                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedReadAndExecute, Converter={StaticResource BoolNegationConverter}}" />
+                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedReadAndExecute, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
             <CheckBox
                 Grid.Row="3"
@@ -221,7 +238,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsChecked="{x:Bind SelectedAccessRule.DeniesReadAndExecute, Mode=OneWay}"
-                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedReadAndExecute, Converter={StaticResource BoolNegationConverter}}" />
+                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedReadAndExecute, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
             <TextBlock
                 Grid.Row="4"
@@ -238,7 +255,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsChecked="{x:Bind SelectedAccessRule.GrantsListDirectory, Mode=OneWay}"
-                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedListDirectory, Converter={StaticResource BoolNegationConverter}}" />
+                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedListDirectory, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
             <CheckBox
                 Grid.Row="4"
@@ -248,7 +265,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsChecked="{x:Bind SelectedAccessRule.DeniesListDirectory, Mode=OneWay}"
-                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedListDirectory, Converter={StaticResource BoolNegationConverter}}" />
+                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedListDirectory, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
             <TextBlock
                 Grid.Row="5"
@@ -265,7 +282,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsChecked="{x:Bind SelectedAccessRule.GrantsRead, Mode=OneWay}"
-                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedRead, Converter={StaticResource BoolNegationConverter}}" />
+                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedRead, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
             <CheckBox
                 Grid.Row="5"
@@ -275,7 +292,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsChecked="{x:Bind SelectedAccessRule.DeniesRead, Mode=OneWay}"
-                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedRead, Converter={StaticResource BoolNegationConverter}}" />
+                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedRead, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
             <TextBlock
                 Grid.Row="6"
@@ -292,7 +309,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsChecked="{x:Bind SelectedAccessRule.GrantsWrite, Mode=OneWay}"
-                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedWrite, Converter={StaticResource BoolNegationConverter}}" />
+                IsEnabled="{x:Bind SelectedAccessRule.GrantsInheritedWrite, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
             <CheckBox
                 Grid.Row="6"
@@ -302,7 +319,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 IsChecked="{x:Bind SelectedAccessRule.DeniesWrite, Mode=OneWay}"
-                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedWrite, Converter={StaticResource BoolNegationConverter}}" />
+                IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedWrite, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
         </Grid>
 
         <Button Margin="0,12,0,0" HorizontalAlignment="Left">

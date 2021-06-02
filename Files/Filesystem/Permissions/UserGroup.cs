@@ -68,15 +68,18 @@ namespace Files.Filesystem.Permissions
                 return;
             }
 
-            if (Domain == Environment.UserDomainName)
+            if (Domain == Environment.MachineName)
             {
-                var localAccounts = await User.FindAllAsync(UserType.LocalUser | UserType.LocalGuest);
+                var localAccounts = await User.FindAllAsync(UserType.LocalUser);
                 var matches = await localAccounts.WhereAsync(async (x) => await x.GetPropertyAsync(KnownUserProperties.DisplayName) as string == Name);
-                var streamRef = await matches.FirstOrDefault()?.GetPictureAsync(UserPictureSize.Size208x208);
-                if (streamRef != null)
+                if (matches.Any())
                 {
-                    using var stream = await streamRef.OpenReadAsync();
-                    IconData = await stream.ToByteArrayAsync();
+                    var streamRef = await matches.First().GetPictureAsync(UserPictureSize.Size208x208);
+                    if (streamRef != null)
+                    {
+                        using var stream = await streamRef.OpenReadAsync();
+                        IconData = await stream.ToByteArrayAsync();
+                    }
                 }
             }
         }
