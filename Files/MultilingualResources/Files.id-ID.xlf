@@ -14,14 +14,6 @@
           <source>Open in new window</source>
           <target state="translated" state-qualifier="tm-suggestion">Buka di jendela baru</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarNewTab.Text" translate="yes" xml:space="preserve">
-          <source>New tab</source>
-          <target state="translated" state-qualifier="tm-suggestion">Tab baru</target>
-        </trans-unit>
-        <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
-          <source>New window</source>
-          <target state="translated" state-qualifier="tm-suggestion">Jendela baru</target>
-        </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewFolder.Text" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated" state-qualifier="tm-suggestion">Folder</target>
@@ -33,14 +25,6 @@
         <trans-unit id="ModernNavigationToolbaNewTextDocument.Text" translate="yes" xml:space="preserve">
           <source>Text Document</source>
           <target state="translated" state-qualifier="tm-suggestion">Dokumen Teks</target>
-        </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Text" translate="yes" xml:space="preserve">
-          <source>Copy location</source>
-          <target state="translated" state-qualifier="tm-suggestion">Salin lokasi</target>
-        </trans-unit>
-        <trans-unit id="NavigationToolbarPaste.Text" translate="yes" xml:space="preserve">
-          <source>Paste</source>
-          <target state="translated" state-qualifier="tm-suggestion">Tempel</target>
         </trans-unit>
         <trans-unit id="Browse" translate="yes" xml:space="preserve">
           <source>Browse</source>
@@ -69,10 +53,6 @@
         <trans-unit id="sizeColumn.Header" translate="yes" xml:space="preserve">
           <source>Size</source>
           <target state="translated" state-qualifier="tm-suggestion">Ukuran</target>
-        </trans-unit>
-        <trans-unit id="NavigationToolbarOpenInTerminal.Text" translate="yes" xml:space="preserve">
-          <source>Open in Terminal...</source>
-          <target state="translated">Buka di Terminal...</target>
         </trans-unit>
         <trans-unit id="PropertiesCreated.Text" translate="yes" xml:space="preserve">
           <source>Created:</source>
@@ -350,10 +330,6 @@
           <source>MD5Hash:</source>
           <target state="translated">MD5Hash:</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNew.Text" translate="yes" xml:space="preserve">
-          <source>New</source>
-          <target state="translated" state-qualifier="tm-suggestion">Baru</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNewFolder.Text" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated" state-qualifier="tm-suggestion">Folder</target>
@@ -509,10 +485,6 @@
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search (Ctrl+F)</source>
           <target state="translated" state-qualifier="tm-suggestion">Cari (Ctrl+F)</target>
-        </trans-unit>
-        <trans-unit id="NavMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>More options</source>
-          <target state="translated" state-qualifier="tm-suggestion">Opsi lainnya</target>
         </trans-unit>
         <trans-unit id="PropertiesTitle" translate="yes" xml:space="preserve">
           <source>Properties</source>
@@ -1651,10 +1623,6 @@
           <source>Tabs</source>
           <target state="translated" state-qualifier="tm-suggestion">Tab</target>
         </trans-unit>
-        <trans-unit id="NavMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>More options</source>
-          <target state="translated" state-qualifier="tm-suggestion">Opsi lainnya</target>
-        </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated" state-qualifier="tm-suggestion">Opsi pilihan</target>
@@ -1879,10 +1847,6 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
           <target state="translated">Buka di panel sekunder</target>
-        </trans-unit>
-        <trans-unit id="NavigationToolbarNewPane.Text" translate="yes" xml:space="preserve">
-          <source>New pane</source>
-          <target state="translated">Panel baru</target>
         </trans-unit>
         <trans-unit id="SideBarOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
@@ -2640,10 +2604,6 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
           <source>Skip</source>
           <target state="translated" state-qualifier="tm-suggestion">Lewati</target>
         </trans-unit>
-        <trans-unit id="FileOperationsDialogDetailsExpander.Header" translate="yes" xml:space="preserve">
-          <source>Details</source>
-          <target state="translated">Rincian</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
           <target state="translated">Buat nama baru</target>
@@ -2968,10 +2928,6 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
           <source>Failed to delete {0} item from {1}</source>
           <target state="translated">Gagal menghapus {0} item dari {1}</target>
         </trans-unit>
-        <trans-unit id="StatusDeletionFailedDetailsDetails_Plural" translate="yes" xml:space="preserve">
-          <source>Failed to delete {0} items from {1}</source>
-          <target state="translated">Gagal menghapus {0} items dari {1}</target>
-        </trans-unit>
         <trans-unit id="TheRecycleBin" translate="yes" xml:space="preserve">
           <source>the Recycle Bin</source>
           <target state="translated">Keranjang sampah</target>
@@ -3023,6 +2979,38 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
         <trans-unit id="NavToolbarArrangementOption_SyncStatus.Content" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="translated" state-qualifier="tm-suggestion">Status sinkronisasi</target>
+        </trans-unit>
+        <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
+          <source>Failed to delete {0} items from {1}</source>
+          <target state="new">Failed to delete {0} items from {1}</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarNewTab.Label" translate="yes" xml:space="preserve">
+          <source>New tab</source>
+          <target state="new">New tab</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarNewWindow.Label" translate="yes" xml:space="preserve">
+          <source>New window</source>
+          <target state="new">New window</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
+          <source>Copy location</source>
+          <target state="new">Copy location</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarPaste.Label" translate="yes" xml:space="preserve">
+          <source>Paste</source>
+          <target state="new">Paste</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarOpenInTerminal.Label" translate="yes" xml:space="preserve">
+          <source>Open in Terminal...</source>
+          <target state="new">Open in Terminal...</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutNew.Label" translate="yes" xml:space="preserve">
+          <source>New</source>
+          <target state="new">New</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarNewPane.Label" translate="yes" xml:space="preserve">
+          <source>New pane</source>
+          <target state="new">New pane</target>
         </trans-unit>
       </group>
     </body>

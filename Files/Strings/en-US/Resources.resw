@@ -123,10 +123,10 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>Open in new window</value>
   </data>
-  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
+  <data name="NavigationToolbarNewTab.Label" xml:space="preserve">
     <value>New tab</value>
   </data>
-  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
+  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>New window</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
@@ -138,10 +138,10 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Text Document</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
+  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
     <value>Copy location</value>
   </data>
-  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
+  <data name="NavigationToolbarPaste.Label" xml:space="preserve">
     <value>Paste</value>
   </data>
   <data name="Browse" xml:space="preserve">
@@ -165,7 +165,7 @@
   <data name="sizeColumn.Header" xml:space="preserve">
     <value>Size</value>
   </data>
-  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
+  <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
     <value>Open in Terminal...</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
@@ -375,7 +375,7 @@
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5Hash:</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>New</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
@@ -494,9 +494,6 @@
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Search (Ctrl+F)</value>
-  </data>
-  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>More options</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Properties</value>
@@ -1350,9 +1347,6 @@
   <data name="VerticalTabStrip.Label" xml:space="preserve">
     <value>Tabs</value>
   </data>
-  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>More options</value>
-  </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Selection options</value>
   </data>
@@ -1521,7 +1515,7 @@
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Open in secondary pane</value>
   </data>
-  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
+  <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>New pane</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">

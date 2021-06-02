@@ -18,12 +18,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>فتح في نافذة جديدة</value>
   </data>
-  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>علامة تبويب جديدة</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>نافذة جديدة</value>
-  </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>مجلد</value>
   </data>
@@ -32,12 +26,6 @@
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>مستند نصي</value>
-  </data>
-  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>نسخ الموقع</value>
-  </data>
-  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
-    <value>لصق</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>محركات الأقراص</value>
@@ -53,9 +41,6 @@
   </data>
   <data name="sizeColumn.Header" xml:space="preserve">
     <value>الحجم</value>
-  </data>
-  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>فتح في طرفيه</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>تم الانشاء</value>
@@ -264,9 +249,6 @@
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5Hash:</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>جديد</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>مجلد</value>
   </data>
@@ -380,9 +362,6 @@
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>بحث</value>
-  </data>
-  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>خيارات إضافية</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>خصائص</value>
@@ -1206,9 +1185,6 @@
   <data name="PropertyAddress" xml:space="preserve">
     <value>العنوان</value>
   </data>
-  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>خيارات إضافية</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>مركز الحالة</value>
   </data>
@@ -1364,9 +1340,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>فتح في الجزء الثانوي</value>
-  </data>
-  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
-    <value>جزء جديد</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>فتح في الجزء الثانوي</value>

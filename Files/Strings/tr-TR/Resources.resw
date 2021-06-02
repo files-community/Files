@@ -120,9 +120,6 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>Videolar</value>
   </data>
-  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>Yeni Sekme</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sıralama</value>
   </data>
@@ -152,9 +149,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
     <value>Uç Birimde Aç...</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>Yeni</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Klasör</value>
@@ -194,18 +188,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Özellikler</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>Yeni Pencere</value>
-  </data>
-  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>Kopyalanacak yol</value>
-  </data>
-  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
-    <value>Yapıştır</value>
-  </data>
-  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>Uç Birimde Aç...</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Bir yol yazın</value>
@@ -305,9 +287,6 @@
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Arama</value>
-  </data>
-  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Diğer seçenekler</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>Sürücüler</value>
@@ -891,9 +870,6 @@
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>Özellikle içinde Sahip görüntülensin</value>
   </data>
-  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Diğer seçenekler</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Durum merkezi</value>
   </data>
@@ -1370,9 +1346,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>İkinci panoda aç</value>
-  </data>
-  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
-    <value>Yeni pano</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>İkinci panoda aç</value>

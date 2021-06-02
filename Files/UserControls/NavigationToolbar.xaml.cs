@@ -1288,14 +1288,13 @@ namespace Files.UserControls
 
         private void NavMoreButtonFlyout_Opening(object sender, object e)
         {
-            var newItemMenu = (MenuFlyoutSubItem)(sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "NewEmptySpace");
-            if (newItemMenu == null || cachedNewContextMenuEntries == null)
+            if (cachedNewContextMenuEntries == null)
             {
                 return;
             }
-            if (!newItemMenu.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
+            if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
             {
-                var separatorIndex = newItemMenu.Items.IndexOf(newItemMenu.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
+                var separatorIndex = NewEmptySpace.Items.IndexOf(NewEmptySpace.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
                 foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
                 {
                     MenuFlyoutItem menuLayoutItem;
@@ -1327,7 +1326,7 @@ namespace Files.UserControls
                     }
                     menuLayoutItem.Command = NewFileInvokedCommand;
                     menuLayoutItem.CommandParameter = newEntry;
-                    newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
+                    NewEmptySpace.Items.Insert(separatorIndex + 1, menuLayoutItem);
                 }
             }
         }
