@@ -1236,31 +1236,31 @@
                     Command="{x:Bind CopyPathInvokedCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind CanCopyPathInPage, Mode=OneWay}"
                     Label="Copy location"
-                    Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE167;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarSeparator x:Name="SeparatorBar" Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                <AppBarSeparator x:Name="SeparatorBar" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="OpenInTerminalButton"
                     x:Uid="NavigationToolbarOpenInTerminal"
                     Command="{x:Bind OpenInTerminalInvokedCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind CanOpenTerminalInPage, Mode=OneWay}"
                     Label="Open in Terminal..."
-                    Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE756;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarSeparator x:Name="SeparatorBar1" Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                <AppBarSeparator x:Name="SeparatorBar1" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="PasteButton"
                     x:Uid="NavigationToolbarPaste"
                     Command="{x:Bind PasteInvokedCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(CanPasteInPage, local1:App.MainViewModel.IsPasteEnabled), Mode=OneWay}"
                     Label="Paste"
-                    Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE77F;" />
                     </AppBarButton.Icon>
@@ -1271,13 +1271,13 @@
                             Modifiers="Control" />
                     </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
-                <AppBarSeparator x:Name="SeparatorBar2" Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                <AppBarSeparator x:Name="SeparatorBar2" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="NewEmptySpaceAppBarButton"
                     x:Uid="BaseLayoutContextFlyoutNew"
                     IsEnabled="{x:Bind IsCreateButtonEnabledInPage, Mode=OneWay}"
                     Label="New"
-                    Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE710;" />
                     </AppBarButton.Icon>
