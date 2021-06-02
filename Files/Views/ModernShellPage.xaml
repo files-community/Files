@@ -273,7 +273,6 @@
                 HorizontalAlignment="Stretch"
                 x:FieldModifier="public"
                 AreKeyboardAcceleratorsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-                BackRequested="ModernShellPage_BackNavRequested"
                 CanCopyPathInPage="{x:Bind InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
                 CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                 CanGoBack="False"
@@ -282,14 +281,11 @@
                 CanPasteInPage="{x:Bind InstanceViewModel.CanPasteInPage, Mode=OneWay}"
                 ClearSelectionInvokedCommand="{x:Bind ClearContentPageSelectionCommand, Mode=OneWay}"
                 CopyPathInvokedCommand="{x:Bind CopyPathOfWorkingDirectoryCommand}"
-                EditModeEnabled="NavigationToolbar_EditModeEnabled"
-                ForwardRequested="ModernShellPage_ForwardNavRequested"
                 InvertSelectionInvokedCommand="{x:Bind InvertContentPageSelctionCommand, Mode=OneWay}"
                 IsCreateButtonEnabledInPage="{x:Bind InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
                 IsMultiPaneActive="{x:Bind IsMultiPaneActive, Mode=OneWay}"
                 IsPageMainPane="{x:Bind IsPageMainPane, Mode=OneWay}"
                 IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                ItemDraggedOverPathItem="ModernShellPage_NavigationRequested"
                 LayoutModeInformation="{x:Bind FolderSettings.LayoutModeInformation, Mode=OneWay}"
                 MultiselectEnabled="{x:Bind MainViewModel.MultiselectEnabled, Mode=TwoWay}"
                 NewFileInvokedCommand="{x:Bind CreateNewFileCommand, Mode=OneWay}"
@@ -299,10 +295,7 @@
                 NewWindowInvokedCommand="{x:Bind OpenNewWindowCommand, Mode=OneWay}"
                 OpenInTerminalInvokedCommand="{x:Bind OpenDirectoryInDefaultTerminalCommand, Mode=OneWay}"
                 PasteInvokedCommand="{x:Bind PasteItemsFromClipboardCommand, Mode=OneWay}"
-                PathBoxQuerySubmitted="NavigationToolbar_QuerySubmitted"
                 PreviewPaneEnabled="{x:Bind PreviewPaneEnabled, Mode=TwoWay}"
-                RefreshRequested="ModernShellPage_RefreshRequested"
-                RefreshWidgetsRequested="ModernShellPage_RefreshWidgetsRequested"
                 SelectAllInvokedCommand="{x:Bind SelectAllContentPageItemsCommand, Mode=OneWay}"
                 ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}"
                 ToggleLayoutModeColumnView="{x:Bind FolderSettings.ToggleLayoutModeColumnView}"
@@ -311,7 +304,7 @@
                 ToggleLayoutModeGridViewMedium="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
                 ToggleLayoutModeGridViewSmall="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
                 ToggleLayoutModeTiles="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
-                UpRequested="ModernShellPage_UpNavRequested">
+                ViewModel="{x:Bind NavToolbarViewModel, Mode=OneWay}">
                 <controls:NavigationToolbar.ArrangementOptionsFlyoutContent>
                     <controls:ArrangementOptions
                         x:Name="ArrangementOptionsFlyoutContent"

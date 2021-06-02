@@ -15,6 +15,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uc="using:Files.UserControls"
     xmlns:xh="using:Files.Helpers.XamlHelpers"
+    x:Name="NavToolbar"
     d:DesignHeight="72"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -109,7 +110,7 @@
                         </Setter>
                     </Style>
 
-                    <Style x:Key="TextBoxStyleForPathBar" TargetType="TextBox">
+                    <Style x:Key="TextBoxStyleFor                                                        Bar" TargetType="TextBox">
                         <Setter Property="Foreground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
                         <Setter Property="Background" Value="{ThemeResource SolidBackgroundFillColorBaseBrush}" />
                         <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}" />
@@ -493,7 +494,7 @@
                             AllowDrop="True"
                             AutomationProperties.Name="{Binding Title}"
                             Background="Transparent"
-                            DragLeave="PathBoxItem_DragLeave"
+                            DragLeave="                             BoxItem_DragLeave"
                             DragOver="PathBoxItem_DragOver"
                             Drop="PathBoxItem_Drop"
                             Tag="{Binding Path}">
@@ -527,7 +528,7 @@
                                     x:Name="PathSeaparatorIcon"
                                     Width="32"
                                     Margin="-11,0,-11,0"
-                                    DataContextChanged="PathItemSeparator_DataContextChanged"
+                                    DataContextChanged="{Binding ElementName=NavToolbar, Path=ViewModel.PathItemSeparator_DataContextChanged, Mode=OneWay}"
                                     FontSize="10"
                                     Glyph="&#xE76C;"
                                     Loaded="PathItemSeparator_Loaded">
@@ -551,7 +552,7 @@
 
                                     <FontIcon.ContextFlyout>
                                         <MenuFlyout
-                                            Opened="PathboxItemFlyout_Opened"
+                                            Opened="{Binding ElementName=NavToolbar, Path=ViewModel.PathboxItemFlyout_Opened, Mode=OneWay}"
                                             Placement="BottomEdgeAlignedLeft"
                                             ScrollViewer.VerticalScrollBarVisibility="Auto"
                                             ScrollViewer.VerticalScrollMode="Auto">
@@ -573,7 +574,7 @@
                             AllowDrop="True"
                             AutomationProperties.Name="{Binding Title}"
                             Background="Transparent"
-                            DragLeave="PathBoxItem_DragLeave"
+                            DragLeave="                             BoxItem_DragLeave"
                             DragOver="PathBoxItem_DragOver"
                             Drop="PathBoxItem_Drop"
                             Tag="{Binding Path}">
@@ -660,8 +661,8 @@
                     AccessKey="B"
                     AutomationProperties.Name="Navigate backwards"
                     Background="Transparent"
-                    Click="Back_Click"
-                    IsEnabled="{x:Bind CanGoBack}"
+                    Command="{x:Bind ViewModel.BackClickCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Back (Alt+Left Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE72B;" />
@@ -684,8 +685,8 @@
                     AccessKey="F"
                     AutomationProperties.Name="Navigate forward"
                     Background="Transparent"
-                    Click="Forward_Click"
-                    IsEnabled="{x:Bind CanGoForward}"
+                    Command="{x:Bind ViewModel.ForwardClickCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanGoForward, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Forward (Alt+Right Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE72A;" />
@@ -707,7 +708,8 @@
                     AccessKey="U"
                     AutomationProperties.Name="Go up one directory"
                     Background="Transparent"
-                    Click="Up_Click"
+                    Command="{x:Bind ViewModel.UpClickCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanNavigateToParent, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Up (Alt+Up Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE74A;" />
@@ -728,7 +730,8 @@
                     AccessKey="R"
                     AutomationProperties.Name="Refresh the directory"
                     Background="Transparent"
-                    Click="Refresh_Click"
+                    Command="{x:Bind ViewModel.RefreshClickCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanRefresh, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Refresh (F5)">
                     <FontIcon FontSize="14" Glyph="&#xE72C;" />
@@ -744,7 +747,7 @@
                 Grid.Column="1"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
-                x:Load="{x:Bind ManualEntryBoxLoaded, Mode=OneWay}"
+                x:Load="{x:Bind ViewModel.ManualEntryBoxLoaded, Mode=OneWay}"
                 Background="Transparent"
                 BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
                 BorderThickness="0"
@@ -761,7 +764,7 @@
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
                 Text="{x:Bind PathText, Mode=OneWay}"
-                TextChanged="VisiblePath_TextChanged"
+                TextChanged="{x:Bind ViewModel.VisiblePath_TextChanged, Mode=OneWay}"
                 TextMemberPath="ItemPath"
                 Visibility="{x:Bind IsSearchBoxVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />
 
@@ -772,7 +775,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 extensions:FrameworkElementExtensions.Cursor="Hand"
-                x:Load="{x:Bind ClickablePathLoaded, Mode=OneWay}"
+                x:Load="{x:Bind ViewModel.ClickablePathLoaded, Mode=OneWay}"
                 Background="{ThemeResource SolidBackgroundFillColorQuarternaryBrush}"
                 BorderBrush="{ThemeResource ControlElevationBorderBrush}"
                 BorderThickness="1"
@@ -791,7 +794,7 @@
                     CornerRadius="{StaticResource ControlCornerRadius}"
                     IsItemClickEnabled="True"
                     ItemContainerStyle="{StaticResource ListViewItemContainerStyle_NoRevealBorder}"
-                    ItemsSource="{x:Bind PathComponents, Mode=OneWay}"
+                    ItemsSource="{x:Bind ViewModel.PathComponents, Mode=OneWay}"
                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                     ScrollViewer.HorizontalScrollMode="Enabled"
                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -822,7 +825,7 @@
                 Escaped="SearchRegion_Escaped"
                 LostFocus="SearchRegion_LostFocus"
                 SuggestionChosen="SearchRegion_SuggestionChosen"
-                Visibility="{x:Bind IsSearchBoxVisible, Mode=OneWay}">
+                Visibility="{x:Bind ViewModel.IsSearchBoxVisible, Mode=OneWay}">
                 <uc:SearchBox.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Escape" Invoked="SearchBox_Escaped" />
                 </uc:SearchBox.KeyboardAccelerators>
@@ -841,7 +844,7 @@
                 IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Search (Ctrl+F)">
-                <FontIcon FontSize="14" Glyph="{x:Bind SearchButtonGlyph, Mode=OneWay}" />
+                <FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator
                         Key="F"
@@ -1233,10 +1236,10 @@
                 <AppBarButton
                     x:Name="CopyPathButton"
                     x:Uid="NavigationToolbarCopyPath"
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     Command="{x:Bind CopyPathInvokedCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind CanCopyPathInPage, Mode=OneWay}"
-                    Label="Copy location"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                    IsEnabled="{x:Bind ViewModel.CanCopyPathInPage, Mode=OneWay}"
+                    Label="Copy location">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE167;" />
                     </AppBarButton.Icon>
@@ -1245,10 +1248,10 @@
                 <AppBarButton
                     x:Name="OpenInTerminalButton"
                     x:Uid="NavigationToolbarOpenInTerminal"
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     Command="{x:Bind OpenInTerminalInvokedCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind CanOpenTerminalInPage, Mode=OneWay}"
-                    Label="Open in Terminal..."
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                    Label="Open in Terminal...">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE756;" />
                     </AppBarButton.Icon>
@@ -1257,10 +1260,10 @@
                 <AppBarButton
                     x:Name="PasteButton"
                     x:Uid="NavigationToolbarPaste"
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     Command="{x:Bind PasteInvokedCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(CanPasteInPage, local1:App.MainViewModel.IsPasteEnabled), Mode=OneWay}"
-                    Label="Paste"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                    Label="Paste">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE77F;" />
                     </AppBarButton.Icon>
@@ -1275,9 +1278,9 @@
                 <AppBarButton
                     x:Name="NewEmptySpaceAppBarButton"
                     x:Uid="BaseLayoutContextFlyoutNew"
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     IsEnabled="{x:Bind IsCreateButtonEnabledInPage, Mode=OneWay}"
-                    Label="New"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                    Label="New">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE710;" />
                     </AppBarButton.Icon>

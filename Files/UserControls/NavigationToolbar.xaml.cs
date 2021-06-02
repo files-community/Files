@@ -28,48 +28,20 @@ using static Files.UserControls.INavigationToolbar;
 
 namespace Files.UserControls
 {
-    public sealed partial class NavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
+    public sealed partial class NavigationToolbar : UserControl
     {
         // TODO: Remove this MainPage reference when we work on new Vertical Tabs control in MainPage
         private MainPage mainPage => ((Window.Current.Content as Frame).Content as MainPage);
 
-        public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
+        public NavToolbarViewModel ViewModel
+        {
+            get => (NavToolbarViewModel)GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
+        }
 
-        public delegate void ToolbarFlyoutOpenedEventHandler(object sender, ToolbarFlyoutOpenedEventArgs e);
-
-        public delegate void ToolbarPathItemLoadedEventHandler(object sender, ToolbarPathItemLoadedEventArgs e);
-
-        public delegate void AddressBarTextEnteredEventHandler(object sender, AddressBarTextEnteredEventArgs e);
-
-        public delegate void PathBoxItemDroppedEventHandler(object sender, PathBoxItemDroppedEventArgs e);
-
-        public event ToolbarPathItemInvokedEventHandler ToolbarPathItemInvoked;
-
-        public event ToolbarFlyoutOpenedEventHandler ToolbarFlyoutOpened;
-
-        public event ToolbarPathItemLoadedEventHandler ToolbarPathItemLoaded;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public event ItemDraggedOverPathItemEventHandler ItemDraggedOverPathItem;
-
-        public event EventHandler EditModeEnabled;
-
-        public event ToolbarQuerySubmittedEventHandler PathBoxQuerySubmitted;
-
-        public event AddressBarTextEnteredEventHandler AddressBarTextEntered;
-
-        public event PathBoxItemDroppedEventHandler PathBoxItemDropped;
-
-        public event EventHandler BackRequested;
-
-        public event EventHandler ForwardRequested;
-
-        public event EventHandler UpRequested;
-
-        public event EventHandler RefreshRequested;
-
-        public event EventHandler RefreshWidgetsRequested;
+        // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register(nameof(ViewModel), typeof(NavToolbarViewModel), typeof(NavigationToolbar), new PropertyMetadata(null));
 
         public ISearchBox SearchBox => SearchRegion;
 
@@ -363,8 +335,6 @@ namespace Files.UserControls
 
         #endregion Layout Options
 
-        public bool IsSingleItemOverride { get; set; } = false;
-
         public static readonly DependencyProperty IsPageTypeNotHomeProperty = DependencyProperty.Register(
           "IsPageTypeNotHome",
           typeof(bool),
@@ -422,24 +392,24 @@ namespace Files.UserControls
             }
         }
 
-        public static readonly DependencyProperty CanCopyPathInPageProperty = DependencyProperty.Register(
-          "CanCopyPathInPage",
-          typeof(bool),
-          typeof(NavigationToolbar),
-          new PropertyMetadata(null)
-        );
+        //public static readonly DependencyProperty CanCopyPathInPageProperty = DependencyProperty.Register(
+        //  "CanCopyPathInPage",
+        //  typeof(bool),
+        //  typeof(NavigationToolbar),
+        //  new PropertyMetadata(null)
+        //);
 
-        public bool CanCopyPathInPage
-        {
-            get
-            {
-                return (bool)GetValue(CanCopyPathInPageProperty);
-            }
-            set
-            {
-                SetValue(CanCopyPathInPageProperty, value);
-            }
-        }
+        //public bool CanCopyPathInPage
+        //{
+        //    get
+        //    {
+        //        return (bool)GetValue(CanCopyPathInPageProperty);
+        //    }
+        //    set
+        //    {
+        //        SetValue(CanCopyPathInPageProperty, value);
+        //    }
+        //}
 
         public static readonly DependencyProperty CanPasteInPageProperty = DependencyProperty.Register(
           "CanPasteInPage",
@@ -648,55 +618,16 @@ namespace Files.UserControls
 
         private List<ShellNewEntry> cachedNewContextMenuEntries { get; set; }
 
-        private DispatcherQueueTimer dragOverTimer;
 
         public NavigationToolbar()
         {
             InitializeComponent();
             Loading += NavigationToolbar_Loading;
-
-            dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         private async void NavigationToolbar_Loading(FrameworkElement sender, object args)
         {
             cachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
-        }
-
-        private bool manualEntryBoxLoaded = false;
-
-        public bool ManualEntryBoxLoaded
-        {
-            get
-            {
-                return manualEntryBoxLoaded;
-            }
-            set
-            {
-                if (value != manualEntryBoxLoaded)
-                {
-                    manualEntryBoxLoaded = value;
-                    NotifyPropertyChanged(nameof(ManualEntryBoxLoaded));
-                }
-            }
-        }
-
-        private bool clickablePathLoaded = true;
-
-        public bool ClickablePathLoaded
-        {
-            get
-            {
-                return clickablePathLoaded;
-            }
-            set
-            {
-                if (value != clickablePathLoaded)
-                {
-                    clickablePathLoaded = value;
-                    NotifyPropertyChanged(nameof(ClickablePathLoaded));
-                }
-            }
         }
 
         private bool showMultiPaneControls;
@@ -775,69 +706,6 @@ namespace Files.UserControls
             }
         }
 
-        public string PathText { get; set; }
-
-        private bool isSearchBoxVisible;
-
-        public bool IsSearchBoxVisible
-        {
-            get
-            {
-                return isSearchBoxVisible;
-            }
-            set
-            {
-                if (value != isSearchBoxVisible)
-                {
-                    isSearchBoxVisible = value;
-                    NotifyPropertyChanged(nameof(IsSearchBoxVisible));
-                    SearchButtonGlyph = value ? "\uE711" : "\uE721";
-                }
-            }
-        }
-
-        private string searchButtonGlyph = "\uE721";
-
-        public string SearchButtonGlyph
-        {
-            get
-            {
-                return searchButtonGlyph;
-            }
-            set
-            {
-                if (value != searchButtonGlyph)
-                {
-                    searchButtonGlyph = value;
-                    NotifyPropertyChanged(nameof(SearchButtonGlyph));
-                }
-            }
-        }
-
-        bool INavigationToolbar.IsEditModeEnabled
-        {
-            get
-            {
-                return ManualEntryBoxLoaded;
-            }
-            set
-            {
-                if (value)
-                {
-                    EditModeEnabled?.Invoke(this, new EventArgs());
-                    VisiblePath.Focus(FocusState.Programmatic);
-                    DependencyObjectHelpers.FindChild<TextBox>(VisiblePath)?.SelectAll();
-                }
-                else
-                {
-                    ManualEntryBoxLoaded = false;
-                    ClickablePathLoaded = true;
-                }
-            }
-        }
-
-        public ObservableCollection<ListedItem> NavigationBarSuggestions = new ObservableCollection<ListedItem>();
-
         private void VisiblePath_Loaded(object sender, RoutedEventArgs e)
         {
             // AutoSuggestBox won't receive focus unless it's fully loaded
@@ -845,85 +713,24 @@ namespace Files.UserControls
             DependencyObjectHelpers.FindChild<TextBox>(VisiblePath)?.SelectAll();
         }
 
-        public bool CanRefresh
-        {
-            get
-            {
-                return Refresh.IsEnabled;
-            }
-            set
-            {
-                Refresh.IsEnabled = value;
-            }
-        }
-
-        public bool CanNavigateToParent
-        {
-            get
-            {
-                return Up.IsEnabled;
-            }
-            set
-            {
-                Up.IsEnabled = value;
-            }
-        }
-
-        public bool CanGoBack
-        {
-            get
-            {
-                return Back.IsEnabled;
-            }
-            set
-            {
-                Back.IsEnabled = value;
-            }
-        }
-
-        public bool CanGoForward
-        {
-            get
-            {
-                return Forward.IsEnabled;
-            }
-            set
-            {
-                Forward.IsEnabled = value;
-            }
-        }
-
-        string INavigationToolbar.PathControlDisplayText
-        {
-            get
-            {
-                return PathText;
-            }
-            set
-            {
-                PathText = value;
-                NotifyPropertyChanged(nameof(PathText));
-            }
-        }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public ObservableCollection<PathBoxItem> PathComponents { get; } = new ObservableCollection<PathBoxItem>();
         public UserControl MultitaskingControl => VerticalTabs;
 
         private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
         {
-            (this as INavigationToolbar).IsEditModeEnabled = true;
+            ViewModel.IsEditModeEnabled = true;
         }
 
         private void VisiblePath_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Escape)
             {
-                (this as INavigationToolbar).IsEditModeEnabled = false;
+                ViewModel.IsEditModeEnabled = false;
             }
         }
 
@@ -944,11 +751,11 @@ namespace Files.UserControls
             }
             else if (elementAsControl.FocusState != FocusState.Programmatic && elementAsControl.FocusState != FocusState.Keyboard)
             {
-                (this as INavigationToolbar).IsEditModeEnabled = false;
+                ViewModel.IsEditModeEnabled = false;
             }
             else
             {
-                if ((this as INavigationToolbar).IsEditModeEnabled)
+                if (ViewModel.IsEditModeEnabled)
                 {
                     this.VisiblePath.Focus(FocusState.Programmatic);
                 }
@@ -1050,166 +857,12 @@ namespace Files.UserControls
             }
         }
 
-        private string dragOverPath = null;
-
-        private void PathBoxItem_DragLeave(object sender, DragEventArgs e)
-        {
-            if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
-            {
-                return;
-            }
-
-            if (pathBoxItem.Path == dragOverPath)
-            {
-                // Reset dragged over pathbox item
-                dragOverPath = null;
-            }
-        }
-
-        private async void PathBoxItem_DragOver(object sender, DragEventArgs e)
-        {
-            if (IsSingleItemOverride || !((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
-            {
-                return;
-            }
-
-            if (dragOverPath != pathBoxItem.Path)
-            {
-                dragOverPath = pathBoxItem.Path;
-                dragOverTimer.Stop();
-                if (dragOverPath != (this as INavigationToolbar).PathComponents.LastOrDefault()?.Path)
-                {
-                    dragOverTimer.Debounce(() =>
-                    {
-                        if (dragOverPath != null)
-                        {
-                            dragOverTimer.Stop();
-                            ItemDraggedOverPathItem?.Invoke(this, new PathNavigationEventArgs()
-                            {
-                                ItemPath = dragOverPath
-                            });
-                            dragOverPath = null;
-                        }
-                    }, TimeSpan.FromMilliseconds(1000), false);
-                }
-            }
-
-            if (!e.DataView.Contains(StandardDataFormats.StorageItems))
-            {
-                e.AcceptedOperation = DataPackageOperation.None;
-                return;
-            }
-
-            e.Handled = true;
-            var deferral = e.GetDeferral();
-
-            IReadOnlyList<IStorageItem> storageItems;
-            try
-            {
-                storageItems = await e.DataView.GetStorageItemsAsync();
-            }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
-            {
-                e.AcceptedOperation = DataPackageOperation.None;
-                deferral.Complete();
-                return;
-            }
-            catch (Exception ex)
-            {
-                App.Logger.Warn(ex, ex.Message);
-                e.AcceptedOperation = DataPackageOperation.None;
-                deferral.Complete();
-                return;
-            }
-
-            if (!storageItems.Any(storageItem =>
-            storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
-            Trim(Path.DirectorySeparatorChar).
-            Contains(Path.DirectorySeparatorChar)))
-            {
-                e.AcceptedOperation = DataPackageOperation.None;
-            }
-            else
-            {
-                e.DragUIOverride.IsCaptionVisible = true;
-                e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), pathBoxItem.Title);
-                e.AcceptedOperation = DataPackageOperation.Move;
-            }
-
-            deferral.Complete();
-        }
-
-        private void PathBoxItem_Drop(object sender, DragEventArgs e)
-        {
-            dragOverPath = null; // Reset dragged over pathbox item
-
-            if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
-            {
-                return;
-            }
-
-            var deferral = e.GetDeferral();
-            PathBoxItemDropped?.Invoke(this, new PathBoxItemDroppedEventArgs()
-            {
-                AcceptedOperation = e.AcceptedOperation,
-                Package = e.DataView,
-                Path = pathBoxItem.Path
-            });
-            deferral.Complete();
-        }
-
-        private void VisiblePath_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                AddressBarTextEntered?.Invoke(this, new AddressBarTextEnteredEventArgs() { AddressBarTextField = sender });
-            }
-        }
-
-        private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            PathBoxQuerySubmitted?.Invoke(this, new ToolbarQuerySubmittedEventArgs() { QueryText = args.QueryText });
-
-            (this as INavigationToolbar).IsEditModeEnabled = false;
-        }
-
-        private void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            var itemTappedPath = ((sender as TextBlock).DataContext as PathBoxItem).Path;
-            ToolbarPathItemInvoked?.Invoke(this, new PathNavigationEventArgs()
-            {
-                ItemPath = itemTappedPath
-            });
-        }
-
         private void PathItemSeparator_Loaded(object sender, RoutedEventArgs e)
         {
             var pathSeparatorIcon = sender as FontIcon;
             pathSeparatorIcon.Tapped += (s, e) => pathSeparatorIcon.ContextFlyout.ShowAt(pathSeparatorIcon);
             pathSeparatorIcon.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE70D"; };
             pathSeparatorIcon.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE76C"; };
-        }
-
-        private void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-        {
-            var pathSeparatorIcon = sender as FontIcon;
-            if (pathSeparatorIcon.DataContext == null)
-            {
-                return;
-            }
-            ToolbarPathItemLoaded?.Invoke(pathSeparatorIcon, new ToolbarPathItemLoadedEventArgs()
-            {
-                Item = pathSeparatorIcon.DataContext as PathBoxItem,
-                OpenedFlyout = pathSeparatorIcon.ContextFlyout as MenuFlyout
-            });
-        }
-
-        private void PathboxItemFlyout_Opened(object sender, object e)
-        {
-            ToolbarFlyoutOpened?.Invoke(this, new ToolbarFlyoutOpenedEventArgs() { OpenedFlyout = sender as MenuFlyout });
         }
 
         private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
@@ -1223,45 +876,6 @@ namespace Files.UserControls
                 }
                 mainPage.ViewModel.MultitaskingControl = VerticalTabs;
                 mainPage.ViewModel.MultitaskingControl.CurrentInstanceChanged += mainPage.MultitaskingControl_CurrentInstanceChanged;
-            }
-        }
-
-        private void Back_Click(object sender, RoutedEventArgs e)
-        {
-            BackRequested?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void Forward_Click(object sender, RoutedEventArgs e)
-        {
-            ForwardRequested?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void Up_Click(object sender, RoutedEventArgs e)
-        {
-            UpRequested?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void Refresh_Click(object sender, RoutedEventArgs e)
-        {
-            RefreshRequested?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void SwitchSearchBoxVisibility()
-        {
-            if (IsSearchBoxVisible)
-            {
-                SearchRegion.Query = string.Empty;
-                IsSearchBoxVisible = false;
-            }
-            else
-            {
-                IsSearchBoxVisible = true;
-
-                // Given that binding and layouting might take a few cycles, when calling UpdateLayout
-                // we can guarantee that the focus call will be able to find an open ASB
-                SearchRegion.UpdateLayout();
-
-                SearchRegion.Focus(FocusState.Programmatic);
             }
         }
 
@@ -1338,12 +952,12 @@ namespace Files.UserControls
 
         private void SearchRegion_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            IsSearchBoxVisible = false;
+            ViewModel.IsSearchBoxVisible = false;
         }
 
         private void SearchRegion_Escaped(object sender, AutoSuggestBox e)
         {
-            IsSearchBoxVisible = false;
+            ViewModel.IsSearchBoxVisible = false;
         }
     }
 }

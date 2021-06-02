@@ -160,7 +160,7 @@ namespace Files.Views
 
         public Type CurrentPageType => ItemDisplayFrame.SourcePageType;
 
-        public INavigationToolbar NavigationToolbar => NavToolbar;
+        public NavToolbarViewModel NavToolbarViewModel = new NavToolbarViewModel();
 
         public ColumnShellPage()
         {
@@ -181,28 +181,28 @@ namespace Files.Views
                 FlowDirection = FlowDirection.RightToLeft;
             }
             ColumnViewBase.ItemInvoked += ColumnViewBase_ItemInvoked;
-            NavigationToolbar.EditModeEnabled += NavigationToolbar_EditModeEnabled;
-            NavigationToolbar.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
-            NavigationToolbar.BackRequested += ColumnShellPage_BackNavRequested;
-            NavigationToolbar.ForwardRequested += ColumnShellPage_ForwardNavRequested;
-            NavigationToolbar.UpRequested += ColumnShellPage_UpNavRequested;
-            NavigationToolbar.RefreshRequested += ColumnShellPage_RefreshRequested;
-            NavigationToolbar.ItemDraggedOverPathItem += ColumnShellPage_NavigationRequested;
-            NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
-            NavigationToolbar.CanGoBack = false;
-            NavigationToolbar.CanGoForward = false;
-            NavigationToolbar.SearchBox.QueryChanged += ColumnShellPage_QueryChanged;
-            NavigationToolbar.SearchBox.QuerySubmitted += ColumnShellPage_QuerySubmitted;
-            NavigationToolbar.SearchBox.SuggestionChosen += ColumnShellPage_SuggestionChosen;
 
-            if (NavigationToolbar is NavigationToolbar navToolbar)
-            {
-                navToolbar.ToolbarPathItemInvoked += ColumnShellPage_NavigationRequested;
-                navToolbar.ToolbarFlyoutOpened += ColumnShellPage_ToolbarFlyoutOpened;
-                navToolbar.ToolbarPathItemLoaded += ColumnShellPage_ToolbarPathItemLoaded;
-                navToolbar.AddressBarTextEntered += ColumnShellPage_AddressBarTextEntered;
-                navToolbar.PathBoxItemDropped += ColumnShellPage_PathBoxItemDropped;
-            }
+            //NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
+            //NavigationToolbar.CanGoBack = false;
+            //NavigationToolbar.CanGoForward = false;
+            //NavigationToolbar.SearchBox.QueryChanged += ColumnShellPage_QueryChanged;
+            //NavigationToolbar.SearchBox.QuerySubmitted += ColumnShellPage_QuerySubmitted;
+            //NavigationToolbar.SearchBox.SuggestionChosen += ColumnShellPage_SuggestionChosen;
+
+
+            NavToolbarViewModel.ToolbarPathItemInvoked += ColumnShellPage_NavigationRequested;
+            NavToolbarViewModel.ToolbarFlyoutOpened += ColumnShellPage_ToolbarFlyoutOpened;
+            NavToolbarViewModel.ToolbarPathItemLoaded += ColumnShellPage_ToolbarPathItemLoaded;
+            NavToolbarViewModel.AddressBarTextEntered += ColumnShellPage_AddressBarTextEntered;
+            NavToolbarViewModel.PathBoxItemDropped += ColumnShellPage_PathBoxItemDropped;
+            NavToolbarViewModel.BackRequested += ColumnShellPage_BackNavRequested;
+            NavToolbarViewModel.UpRequested += ColumnShellPage_UpNavRequested;
+            NavToolbarViewModel.RefreshRequested += ColumnShellPage_RefreshRequested;
+            NavToolbarViewModel.ForwardRequested += ColumnShellPage_ForwardNavRequested;
+            NavToolbarViewModel.EditModeEnabled += NavigationToolbar_EditModeEnabled;
+            NavToolbarViewModel.ItemDraggedOverPathItem += ColumnShellPage_NavigationRequested;
+            NavToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
+            //NavToolbarViewModel.RefreshWidgetsRequested += refreshwid;
 
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;

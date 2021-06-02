@@ -28,7 +28,7 @@
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <AppxBundlePlatforms>x86|x64|arm|arm64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-	<Win32Resource>Resources\MiddleClickScrolling-CursorType.res</Win32Resource>
+    <Win32Resource>Resources\MiddleClickScrolling-CursorType.res</Win32Resource>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -328,7 +328,9 @@
     <Compile Include="UserControls\Widgets\WidgetsListControl.xaml.cs">
       <DependentUpon>WidgetsListControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\NavToolbarViewModel.cs" />
     <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
+    <Compile Include="ViewModels\SearchBoxViewModel.cs" />
     <Compile Include="ViewModels\SidebarViewModel.cs" />
     <Compile Include="ViewModels\BaseJsonSettingsViewModel.cs" />
     <Compile Include="ViewModels\ColumnsViewModel.cs" />
