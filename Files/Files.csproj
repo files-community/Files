@@ -202,6 +202,8 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
+    <Compile Include="Filesystem\Permissions\FileSystemAccessRule.cs" />
+    <Compile Include="Filesystem\Permissions\UserGroup.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupedCollection.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupingHelper.cs" />
     <Compile Include="Helpers\SaveImageToFile.cs" />

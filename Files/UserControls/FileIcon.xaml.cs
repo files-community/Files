@@ -13,13 +13,14 @@ namespace Files.UserControls
     public sealed partial class FileIcon : UserControl
     {
         private SelectedItemsPropertiesViewModel viewModel;
-        public SelectedItemsPropertiesViewModel ViewModel 
+        public SelectedItemsPropertiesViewModel ViewModel
         {
-            get => viewModel; 
-            set {
+            get => viewModel;
+            set
+            {
                 viewModel = value;
 
-                if(value == null)
+                if (value == null)
                 {
                     return;
                 }
@@ -46,7 +47,7 @@ namespace Files.UserControls
         private double LargerItemSize { get; set; }
 
         private static DependencyProperty FileIconImageSourceProperty { get; } = DependencyProperty.Register(nameof(FileIconImageSource), typeof(BitmapImage), typeof(FileIcon), null);
-        private BitmapImage FileIconImageSource 
+        private BitmapImage FileIconImageSource
         {
             get => GetValue(FileIconImageSourceProperty) as BitmapImage;
             set => SetValue(FileIconImageSourceProperty, value);
@@ -55,10 +56,10 @@ namespace Files.UserControls
         public byte[] FileIconImageData
         {
             get => GetValue(FileIconImageDataProperty) as byte[];
-            set 
-            { 
+            set
+            {
                 SetValue(FileIconImageDataProperty, value);
-                if(value != null)
+                if (value != null)
                 {
                     UpdateImageSourceAsync();
                 }
@@ -73,7 +74,7 @@ namespace Files.UserControls
 
         public async void UpdateImageSourceAsync()
         {
-            if(FileIconImageData != null)
+            if (FileIconImageData != null)
             {
                 FileIconImageSource = new BitmapImage();
                 using InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream();

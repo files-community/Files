@@ -240,7 +240,7 @@ namespace Files
             jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
             jumpTimer.Tick += JumpTimer_Tick;
 
-            SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel(this);
+            SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
             DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
 
             // QuickLook Integration
@@ -506,7 +506,7 @@ namespace Files
 
         private void LoadMenuItemsAsync()
         {
-            SelectedItemsPropertiesViewModel.CheckFileExtension();
+            SelectedItemsPropertiesViewModel.CheckFileExtension(SelectedItem?.FileExtension);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var items = ContextFlyoutItemHelper.GetItemContextCommands(connection: Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
             ItemContextMenuFlyout.PrimaryCommands.Clear();
