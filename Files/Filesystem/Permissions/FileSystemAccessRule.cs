@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -58,12 +59,47 @@ namespace Files.Filesystem.Permissions
         }
     }
 
-    public class RulesForUser
+    public class RulesForUser : ObservableObject
     {
         public FileSystemRights InheritedDenyRights { get; set; }
         public FileSystemRights InheritedAllowRights { get; set; }
-        public FileSystemRights DenyRights { get; set; }
-        public FileSystemRights AllowRights { get; set; }
+
+        public FileSystemRights denyRights;
+        public FileSystemRights DenyRights
+        {
+            get => denyRights;
+            set
+            {
+                if (SetProperty(ref denyRights, value))
+                {
+                    OnPropertyChanged(nameof(DeniesWrite));
+                    OnPropertyChanged(nameof(DeniesFullControl));
+                    OnPropertyChanged(nameof(DeniesListDirectory));
+                    OnPropertyChanged(nameof(DeniesModify));
+                    OnPropertyChanged(nameof(DeniesRead));
+                    OnPropertyChanged(nameof(DeniesReadAndExecute));
+                }
+            }
+        }
+
+        public FileSystemRights allowRights;
+        public FileSystemRights AllowRights
+        {
+            get => allowRights;
+            set
+            {
+                if (SetProperty(ref allowRights, value))
+                {
+                    OnPropertyChanged(nameof(GrantsWrite));
+                    OnPropertyChanged(nameof(GrantsFullControl));
+                    OnPropertyChanged(nameof(GrantsListDirectory));
+                    OnPropertyChanged(nameof(GrantsModify));
+                    OnPropertyChanged(nameof(GrantsRead));
+                    OnPropertyChanged(nameof(GrantsReadAndExecute));
+                }
+            }
+        }
+
         public UserGroup UserGroup { get; set; }
 
         public bool GrantsInheritedWrite => InheritedAllowRights.HasFlag(FileSystemRights.Write);
@@ -73,13 +109,6 @@ namespace Files.Filesystem.Permissions
         public bool GrantsInheritedModify => InheritedAllowRights.HasFlag(FileSystemRights.Modify);
         public bool GrantsInheritedFullControl => InheritedAllowRights.HasFlag(FileSystemRights.FullControl);
 
-        public bool GrantsWrite => AllowRights.HasFlag(FileSystemRights.Write) || GrantsInheritedWrite;
-        public bool GrantsRead => AllowRights.HasFlag(FileSystemRights.Read) || GrantsInheritedRead;
-        public bool GrantsListDirectory => AllowRights.HasFlag(FileSystemRights.ListDirectory) || GrantsInheritedListDirectory;
-        public bool GrantsReadAndExecute => AllowRights.HasFlag(FileSystemRights.ReadAndExecute) || GrantsInheritedReadAndExecute;
-        public bool GrantsModify => AllowRights.HasFlag(FileSystemRights.Modify) || GrantsInheritedModify;
-        public bool GrantsFullControl => AllowRights.HasFlag(FileSystemRights.FullControl) || GrantsInheritedFullControl;
-
         public bool DeniesInheritedWrite => InheritedDenyRights.HasFlag(FileSystemRights.Write);
         public bool DeniesInheritedRead => InheritedDenyRights.HasFlag(FileSystemRights.Read);
         public bool DeniesInheritedListDirectory => InheritedDenyRights.HasFlag(FileSystemRights.ListDirectory);
@@ -87,12 +116,94 @@ namespace Files.Filesystem.Permissions
         public bool DeniesInheritedModify => InheritedDenyRights.HasFlag(FileSystemRights.Modify);
         public bool DeniesInheritedFullControl => InheritedDenyRights.HasFlag(FileSystemRights.FullControl);
 
-        public bool DeniesWrite => DenyRights.HasFlag(FileSystemRights.Write) || DeniesInheritedWrite;
-        public bool DeniesRead => DenyRights.HasFlag(FileSystemRights.Read) || DeniesInheritedRead;
-        public bool DeniesListDirectory => DenyRights.HasFlag(FileSystemRights.ListDirectory) || DeniesInheritedListDirectory;
-        public bool DeniesReadAndExecute => DenyRights.HasFlag(FileSystemRights.ReadAndExecute) || DeniesInheritedReadAndExecute;
-        public bool DeniesModify => DenyRights.HasFlag(FileSystemRights.Modify) || DeniesInheritedModify;
-        public bool DeniesFullControl => DenyRights.HasFlag(FileSystemRights.FullControl) || DeniesInheritedFullControl;
+        private void ToggleAllowPermission(FileSystemRights permission, bool value)
+        {
+            if (value && !AllowRights.HasFlag(permission))
+            {
+                AllowRights |= permission;
+                DenyRights = DenyRights & ~permission;
+            }
+            else if (!value && AllowRights.HasFlag(permission))
+            {
+                AllowRights = AllowRights & ~permission;
+            }
+        }
+
+        private void ToggleDenyPermission(FileSystemRights permission, bool value)
+        {
+            if (value && !DenyRights.HasFlag(permission))
+            {
+                DenyRights |= permission;
+                AllowRights = AllowRights & ~permission;
+            }
+            else if (!value && DenyRights.HasFlag(permission))
+            {
+                DenyRights = DenyRights & ~permission;
+            }
+        }
+
+        public bool GrantsWrite
+        {
+            get => AllowRights.HasFlag(FileSystemRights.Write) || GrantsInheritedWrite;
+            set => ToggleAllowPermission(FileSystemRights.Write, value);
+        }
+        public bool GrantsRead
+        {
+            get => AllowRights.HasFlag(FileSystemRights.Read) || GrantsInheritedRead;
+            set => ToggleAllowPermission(FileSystemRights.Read, value);
+        }
+        public bool GrantsListDirectory
+        {
+            get => AllowRights.HasFlag(FileSystemRights.ListDirectory) || GrantsInheritedListDirectory;
+            set => ToggleAllowPermission(FileSystemRights.ListDirectory, value);
+        }
+        public bool GrantsReadAndExecute
+        {
+            get => AllowRights.HasFlag(FileSystemRights.ReadAndExecute) || GrantsInheritedReadAndExecute;
+            set => ToggleAllowPermission(FileSystemRights.ReadAndExecute, value);
+        }
+        public bool GrantsModify
+        {
+            get => AllowRights.HasFlag(FileSystemRights.Modify) || GrantsInheritedModify;
+            set => ToggleAllowPermission(FileSystemRights.Modify, value);
+        }
+
+        public bool GrantsFullControl
+        {
+            get => AllowRights.HasFlag(FileSystemRights.FullControl) || GrantsInheritedFullControl;
+            set => ToggleAllowPermission(FileSystemRights.FullControl, value);
+        }
+
+        public bool DeniesWrite
+        {
+            get => DenyRights.HasFlag(FileSystemRights.Write) || DeniesInheritedWrite;
+            set => ToggleDenyPermission(FileSystemRights.Write, value);
+        }
+        public bool DeniesRead
+        {
+            get => DenyRights.HasFlag(FileSystemRights.Read) || DeniesInheritedRead;
+            set => ToggleDenyPermission(FileSystemRights.Read, value);
+        }
+        public bool DeniesListDirectory
+        {
+            get => DenyRights.HasFlag(FileSystemRights.ListDirectory) || DeniesInheritedListDirectory;
+            set => ToggleDenyPermission(FileSystemRights.ListDirectory, value);
+        }
+        public bool DeniesReadAndExecute
+        {
+            get => DenyRights.HasFlag(FileSystemRights.ReadAndExecute) || DeniesInheritedReadAndExecute;
+            set => ToggleDenyPermission(FileSystemRights.ReadAndExecute, value);
+        }
+        public bool DeniesModify
+        {
+            get => DenyRights.HasFlag(FileSystemRights.Modify) || DeniesInheritedModify;
+            set => ToggleDenyPermission(FileSystemRights.Modify, value);
+        }
+        public bool DeniesFullControl
+        {
+            get => DenyRights.HasFlag(FileSystemRights.FullControl) || DeniesInheritedFullControl;
+            set => ToggleDenyPermission(FileSystemRights.FullControl, value);
+        }
 
         public static List<RulesForUser> ForAllUsers(IEnumerable<FileSystemAccessRule> rules)
         {
