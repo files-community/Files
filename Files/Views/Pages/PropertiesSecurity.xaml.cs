@@ -58,23 +58,5 @@ namespace Files.Views
                 }
             }
         }
-
-        private async void UserGroupList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
-        {
-            if (args.ItemContainer == null)
-            {
-                args.ItemContainer = new ListViewItem();
-            }
-            args.ItemContainer.DataContext = args.Item;
-
-            if (args.Item is RulesForUser item && item.UserGroup.Icon == null)
-            {
-                await item.UserGroup.LoadUserGroupTile();
-                if (item.UserGroup.IconData != null)
-                {
-                    item.UserGroup.Icon = await item.UserGroup.IconData.ToBitmapAsync();
-                }
-            }
-        }
     }
 }

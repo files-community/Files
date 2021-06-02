@@ -23,25 +23,6 @@ namespace Files.Filesystem.Permissions
             _ => "\xE716",
         };
 
-        [JsonIgnore]
-        public byte[] IconData { get; set; }
-
-        private BitmapImage icon;
-        [JsonIgnore]
-        public BitmapImage Icon
-        {
-            get => icon;
-            set
-            {
-                if (SetProperty(ref icon, value))
-                {
-                    OnPropertyChanged(nameof(LoadIcon));
-                }
-            }
-        }
-        [JsonIgnore]
-        public bool LoadIcon => Icon != null;
-
         public string Sid { get; set; }
         public string Name { get; set; }
         public string Domain { get; set; }
@@ -59,29 +40,6 @@ namespace Files.Filesystem.Permissions
             var userGroup = new UserGroup() { Sid = sid };
             userGroup.GetUserGroupInfo();
             return userGroup;
-        }
-
-        public async Task LoadUserGroupTile()
-        {
-            if (string.IsNullOrEmpty(Domain))
-            {
-                return;
-            }
-
-            if (Domain == Environment.MachineName)
-            {
-                var localAccounts = await User.FindAllAsync(UserType.LocalUser);
-                var matches = await localAccounts.WhereAsync(async (x) => await x.GetPropertyAsync(KnownUserProperties.DisplayName) as string == Name);
-                if (matches.Any())
-                {
-                    var streamRef = await matches.First().GetPictureAsync(UserPictureSize.Size208x208);
-                    if (streamRef != null)
-                    {
-                        using var stream = await streamRef.OpenReadAsync();
-                        IconData = await stream.ToByteArrayAsync();
-                    }
-                }
-            }
         }
 
         public void GetUserGroupInfo()

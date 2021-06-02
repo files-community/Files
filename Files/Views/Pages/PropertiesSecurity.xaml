@@ -56,7 +56,6 @@
             Background="White"
             BorderBrush="Gray"
             BorderThickness="1"
-            ChoosingItemContainer="UserGroupList_ChoosingItemContainer"
             CornerRadius="4"
             ItemsSource="{x:Bind ViewModel.FilePermissions.RulesForUsers, Mode=OneWay}"
             SelectedItem="{x:Bind SelectedAccessRule, Mode=TwoWay}"
@@ -77,27 +76,11 @@
 
                         <FontIcon
                             x:Name="FontIcon"
-                            Width="24"
-                            Height="24"
                             HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            x:Load="{x:Bind UserGroup.LoadIcon, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                             FontFamily="{StaticResource SymbolThemeFontFamily}"
                             Glyph="{x:Bind UserGroup.Glyph}" />
 
-                        <Ellipse
-                            x:Name="ImageIcon"
-                            Width="24"
-                            Height="24"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            x:Load="{x:Bind UserGroup.LoadIcon, Mode=OneWay}">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="{x:Bind UserGroup.Icon, Mode=OneWay}" Stretch="UniformToFill" />
-                            </Ellipse.Fill>
-                        </Ellipse>
-
-                        <TextBlock Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Grid.Column="1">
                             <Run Text="{x:Bind UserGroup.Name}" />
                             <Span FontWeight="Light">&#160;(</Span>
                             <Run FontWeight="Light" Text="{x:Bind UserGroup.FullName}" />
