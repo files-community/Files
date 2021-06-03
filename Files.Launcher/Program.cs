@@ -1025,28 +1025,7 @@ namespace FilesFullTrust
                 case "GetFilePermissions":
                     var filePathForPerm = (string)message["filepath"];
                     var isFolder = (bool)message["isfolder"];
-                    var filePermissions = new FilePermissions() { Path = filePathForPerm };
-                    try
-                    {
-                        if (isFolder && Directory.Exists(filePathForPerm))
-                        {
-                            var acs = Directory.GetAccessControl(filePathForPerm);
-                            var accessRules = acs.GetAccessRules(true, true, typeof(SecurityIdentifier));
-                            filePermissions.AccessRules.AddRange(accessRules.Cast<FileSystemAccessRule>().Select(x => FileSystemAccessRule2.FromFileSystemAccessRule(x)));
-                        }
-                        else if (File.Exists(filePathForPerm))
-                        {
-                            var acs = File.GetAccessControl(filePathForPerm);
-                            var accessRules = acs.GetAccessRules(true, true, typeof(SecurityIdentifier));
-                            filePermissions.AccessRules.AddRange(accessRules.Cast<FileSystemAccessRule>().Select(x => FileSystemAccessRule2.FromFileSystemAccessRule(x)));
-                        }
-                        filePermissions.CanReadFilePermissions = true;
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        // User does not have rights to read access rules
-                        filePermissions.CanReadFilePermissions = false;
-                    }
+                    var filePermissions = FilePermissions.FromFilePath(filePathForPerm, isFolder);
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
                         { "FilePermissions", JsonConvert.SerializeObject(filePermissions) }
