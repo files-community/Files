@@ -276,7 +276,7 @@ namespace Files.DataModels
                     24,
                     Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
 
-                if(getImage != null)
+                if (getImage != null)
                 {
                     await locationItem.SetBitmapImage(await getImage);
                 }

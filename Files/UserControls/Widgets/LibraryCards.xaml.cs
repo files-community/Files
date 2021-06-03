@@ -80,8 +80,6 @@ namespace Files.UserControls.Widgets
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Func<string, uint, Task<byte[]>> LoadIconOverlay;
-
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public bool IsWidgetSettingEnabled => App.AppSettings.ShowLibraryCardsWidget;
@@ -166,7 +164,7 @@ namespace Files.UserControls.Widgets
 
         private async Task<byte[]> GetIcon(string path)
         {
-            return await LoadIconOverlay(path, 48u);
+            return await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 48u);
         }
 
         private async Task GetItemsAddedIcon()

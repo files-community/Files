@@ -44,7 +44,6 @@ namespace Files.ViewModels.Properties
                 ViewModel.ItemName = Library.ItemName;
                 ViewModel.OriginalItemName = Library.ItemName;
                 ViewModel.ItemType = Library.ItemType;
-                //ViewModel.FileIconSource = Library.FileImage;
                 ViewModel.LoadCustomIcon = Library.LoadCustomIcon;
                 ViewModel.CustomIconSource = Library.CustomIconSource;
                 ViewModel.IconData = Library.CustomIconData;
