@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 
 namespace Files
 {
@@ -12,7 +11,7 @@ namespace Files
         event TypedEventHandler<ISearchBox, SearchBoxTextChangedEventArgs> TextChanged;
         event TypedEventHandler<ISearchBox, SearchBoxSuggestionChosenEventArgs> SuggestionChosen;
         event TypedEventHandler<ISearchBox, SearchBoxQuerySubmittedEventArgs> QuerySubmitted;
-        event EventHandler<AutoSuggestBox> Escaped;
+        event EventHandler<ISearchBox> Escaped;
 
         string Query { get; set; }
 

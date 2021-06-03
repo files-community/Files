@@ -1,5 +1,4 @@
-﻿using Files.Extensions;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,7 +15,7 @@ namespace Files.UserControls
         public event TypedEventHandler<ISearchBox, SearchBoxTextChangedEventArgs> TextChanged;
         public event TypedEventHandler<ISearchBox, SearchBoxSuggestionChosenEventArgs> SuggestionChosen;
         public event TypedEventHandler<ISearchBox, SearchBoxQuerySubmittedEventArgs> QuerySubmitted;
-        public event EventHandler<AutoSuggestBox> Escaped;
+        public event EventHandler<ISearchBox> Escaped;
 
         public static readonly DependencyProperty QueryProperty =
             DependencyProperty.Register("Query", typeof(string), typeof(SearchBox), new PropertyMetadata(string.Empty));
@@ -86,7 +85,7 @@ namespace Files.UserControls
         }
         private void SearchRegion_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
         {
-            Escaped?.Invoke(this, SearchRegion);
+            Escaped?.Invoke(this, this);
         }
 
         private class SuggestionComparer : IEqualityComparer<ListedItem>, IComparer<ListedItem>

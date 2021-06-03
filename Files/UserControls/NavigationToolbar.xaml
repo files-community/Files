@@ -823,9 +823,6 @@
                 LostFocus="SearchRegion_LostFocus"
                 SuggestionChosen="SearchRegion_SuggestionChosen"
                 Visibility="{x:Bind IsSearchBoxVisible, Mode=OneWay}">
-                <uc:SearchBox.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="Escape" Invoked="SearchBox_Escaped" />
-                </uc:SearchBox.KeyboardAccelerators>
             </uc:SearchBox>
 
             <Button
