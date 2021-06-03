@@ -152,14 +152,7 @@ namespace Files.ViewModels.Widgets.Bundles
                     if (Path.EndsWith(".lnk"))
                     {
                         var (IconData, OverlayData, IsCustom) = await FileThumbnailHelper.LoadIconOverlayAsync(Path, 24u);
-
-                        if (IconData != null)
-                        {
-                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                            {
-                                Icon = await IconData.ToBitmapAsync();
-                            });
-                        }
+                        Icon = IconData != null ? await IconData.ToBitmapAsync() : null;
 
                         return;
                     }
