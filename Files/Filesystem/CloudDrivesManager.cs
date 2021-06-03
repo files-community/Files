@@ -50,10 +50,14 @@ namespace Files.Filesystem
                     Type = DriveType.CloudDrive,
                 };
 
-                await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
+                var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24);
+                if (iconData != null)
                 {
-                    cloudProviderItem.Icon = await (await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24)).ToBitmapAsync();
-                });
+                    await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
+                    {
+                        cloudProviderItem.Icon = await iconData.ToBitmapAsync();
+                    });
+                }
 
                 lock (drivesList)
                 {

@@ -162,23 +162,14 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private async Task<byte[]> GetIcon(string path)
-        {
-            return await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 48u);
-        }
-
         private async Task GetItemsAddedIcon()
         {
             foreach (var item in ItemsAdded)
             {
-                var iconData = await GetIcon(item.Path);
-                item.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.Path, 48u);
+                if (iconData != null)
                 {
-                    return await iconData.ToBitmapAsync();
-                });
-                if (item.Library != null)
-                {
-                    item.Library.IconData = iconData;
+                    item.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => iconData.ToBitmapAsync());
                 }
                 item.SelectCommand = LibraryCardClicked;
                 item.AutomationProperties = item.Text;
@@ -343,14 +334,10 @@ namespace Files.UserControls.Widgets
             }
             foreach (var lib in App.LibraryManager.Libraries)
             {
-                var iconData = await GetIcon(lib.Path);
-                lib.IconData = iconData;
+                var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(lib.Path, 48u);
                 ItemsAdded.Add(new LibraryCardItem
                 {
-                    Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                    {
-                        return await iconData.ToBitmapAsync();
-                    }),
+                    Icon = iconData != null ? await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => iconData.ToBitmapAsync()) : null,
                     Text = lib.Text,
                     Path = lib.Path,
                     SelectCommand = LibraryCardClicked,
