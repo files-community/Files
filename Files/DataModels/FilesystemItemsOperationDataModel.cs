@@ -67,12 +67,12 @@ namespace Files.DataModels
             // Add conflicting items first
             foreach (var item in ConflictingItems)
             {
-                BitmapImage icon = await FileThumbnailHelper.GetFileThumbnailAsync(item.SourcePath, 64u);
+                var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.SourcePath, 64u);
 
                 items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
                     IsConflict = true,
-                    ItemIcon = icon,
+                    ItemIcon = iconData != null ? await iconData.ToBitmapAsync() : null,
                     OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
                     SourcePath = item.SourcePath,
                     DestinationPath = item.DestinationPath,
@@ -86,12 +86,12 @@ namespace Files.DataModels
             // Then add non-conflicting items
             foreach (var item in nonConflictingItems)
             {
-                BitmapImage icon = await FileThumbnailHelper.GetFileThumbnailAsync(item.SourcePath, 64u);
+                var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.SourcePath, 64u);
 
                 items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
                     IsConflict = false,
-                    ItemIcon = icon,
+                    ItemIcon = iconData != null ? await iconData.ToBitmapAsync() : null,
                     OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
                     SourcePath = item.SourcePath,
                     DestinationPath = item.DestinationPath,

@@ -60,21 +60,5 @@ namespace Files.Helpers
             }
             return null;
         }
-
-        public static async Task<BitmapImage> GetFileThumbnailAsync(string filePath, uint thumbnailSize)
-        {
-            var (IconData, OverlayData, IsCustom) = await LoadIconOverlayAsync(filePath, thumbnailSize);
-            BitmapImage icon = null;
-
-            if (IconData != null)
-            {
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                {
-                    icon = await IconData.ToBitmapAsync();
-                });
-            }
-
-            return icon;
-        }
     }
 }
