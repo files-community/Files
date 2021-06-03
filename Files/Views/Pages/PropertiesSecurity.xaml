@@ -53,7 +53,7 @@
 
         <ListView
             MaxHeight="134"
-            Background="White"
+            Background="{ThemeResource SolidBackgroundAcrylic}"
             BorderBrush="Gray"
             BorderThickness="1"
             CornerRadius="4"
@@ -93,7 +93,6 @@
 
         <Grid Margin="0,12,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -114,7 +113,8 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 FontWeight="Bold"
-                Style="{StaticResource PropertyName}">
+                Style="{StaticResource PropertyName}"
+                TextTrimming="CharacterEllipsis">
                 <Run x:Uid="SecurityPermissionsLabel" Text="Permissions for" />
                 <Run Text="{x:Bind SelectedAccessRule.UserGroup.DisplayName, Mode=OneWay}" />
             </TextBlock>
@@ -122,7 +122,7 @@
             <TextBlock
                 x:Uid="SecurityAllowLabel"
                 Grid.Row="0"
-                Grid.Column="2"
+                Grid.Column="1"
                 Margin="24,0,24,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -132,7 +132,7 @@
             <TextBlock
                 x:Uid="SecurityDenyLabel"
                 Grid.Row="0"
-                Grid.Column="3"
+                Grid.Column="2"
                 Margin="24,0,24,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -149,7 +149,7 @@
 
             <CheckBox
                 Grid.Row="1"
-                Grid.Column="2"
+                Grid.Column="1"
                 MinWidth="0"
                 Padding="0"
                 HorizontalAlignment="Center"
@@ -159,7 +159,7 @@
 
             <CheckBox
                 Grid.Row="1"
-                Grid.Column="3"
+                Grid.Column="2"
                 MinWidth="0"
                 Padding="0"
                 HorizontalAlignment="Center"
@@ -177,7 +177,7 @@
 
             <CheckBox
                 Grid.Row="2"
-                Grid.Column="2"
+                Grid.Column="1"
                 MinWidth="0"
                 Padding="0"
                 HorizontalAlignment="Center"
@@ -187,7 +187,7 @@
 
             <CheckBox
                 Grid.Row="2"
-                Grid.Column="3"
+                Grid.Column="2"
                 MinWidth="0"
                 Padding="0"
                 HorizontalAlignment="Center"
@@ -205,7 +205,7 @@
 
             <CheckBox
                 Grid.Row="3"
-                Grid.Column="2"
+                Grid.Column="1"
                 MinWidth="0"
                 Padding="0"
                 HorizontalAlignment="Center"
@@ -215,7 +215,7 @@
 
             <CheckBox
                 Grid.Row="3"
-                Grid.Column="3"
+                Grid.Column="2"
                 MinWidth="0"
                 Padding="0"
                 HorizontalAlignment="Center"
@@ -234,7 +234,7 @@
 
             <CheckBox
                 Grid.Row="4"
-                Grid.Column="2"
+                Grid.Column="1"
                 MinWidth="0"
                 Padding="0"
                 HorizontalAlignment="Center"
@@ -245,7 +245,7 @@
 
             <CheckBox
                 Grid.Row="4"
-                Grid.Column="3"
+                Grid.Column="2"
                 MinWidth="0"
                 Padding="0"
                 HorizontalAlignment="Center"
@@ -264,7 +264,7 @@
 
             <CheckBox
                 Grid.Row="5"
-                Grid.Column="2"
+                Grid.Column="1"
                 MinWidth="0"
                 Padding="0"
                 HorizontalAlignment="Center"
@@ -274,7 +274,7 @@
 
             <CheckBox
                 Grid.Row="5"
-                Grid.Column="3"
+                Grid.Column="2"
                 MinWidth="0"
                 Padding="0"
                 HorizontalAlignment="Center"
@@ -292,7 +292,7 @@
 
             <CheckBox
                 Grid.Row="6"
-                Grid.Column="2"
+                Grid.Column="1"
                 MinWidth="0"
                 Padding="0"
                 HorizontalAlignment="Center"
@@ -302,7 +302,7 @@
 
             <CheckBox
                 Grid.Row="6"
-                Grid.Column="3"
+                Grid.Column="2"
                 MinWidth="0"
                 Padding="0"
                 HorizontalAlignment="Center"
