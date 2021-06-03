@@ -108,6 +108,8 @@ namespace Files.UserControls.Widgets
 
         public RelayCommand ShowCreateNewLibraryDialogCommand => new RelayCommand(LibraryHelper.ShowCreateNewLibraryDialog);
 
+        public readonly RelayCommand ShowRestoreLibrariesDialogCommand = new RelayCommand(LibraryHelper.ShowRestoreDefaultLibrariesDialog);
+
         public bool ShowMultiPaneControls
         {
             get
