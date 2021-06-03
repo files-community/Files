@@ -225,13 +225,16 @@
                 VerticalAlignment="Top"
                 Canvas.ZIndex="4"
                 IsHitTestVisible="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition x:Name="RightPaddingColumn" Width="0" />
+                </Grid.ColumnDefinitions>
                 <usercontrols:HorizontalMultitaskingControl
                     x:Name="horizontalMultitaskingControl"
                     Height="50"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     x:FieldModifier="public"
-                    x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripOn, MainViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
                     Canvas.ZIndex="40"
                     Loaded="HorizontalMultitaskingControl_Loaded" />
             </Grid>
