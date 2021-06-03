@@ -53,7 +53,7 @@
 
         <ListView
             x:Name="ListView"
-            MaxHeight="134"
+            Height="124"
             x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
             Background="{ThemeResource SolidBackgroundAcrylic}"
             BorderBrush="Gray"
@@ -63,9 +63,9 @@
             SelectedItem="{x:Bind SelectedAccessRule, Mode=TwoWay}"
             SelectionMode="Single">
             <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="MinHeight" Value="44" />
-                    <Setter Property="Height" Value="44" />
+                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                    <Setter Property="MinHeight" Value="40" />
+                    <Setter Property="Height" Value="40" />
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
