@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="Files.UserControls.Widgets.LibraryCards"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -52,9 +52,9 @@
                 <Button.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem
-                            x:Uid="LibraryCardsOptionsFlyoutCreateBundleMenuItem"
-                            Command="{x:Bind OpenCreateNewLibraryDialogCommand, Mode=OneWay}"
-                            Text="Create Library">
+                            x:Uid="LibraryCardsOptionsFlyoutCreateLibraryMenuItem"
+                            Command="{x:Bind ShowCreateNewLibraryDialogCommand, Mode=OneWay}"
+                            Text="Create new library">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE710;" />
                             </MenuFlyoutItem.Icon>

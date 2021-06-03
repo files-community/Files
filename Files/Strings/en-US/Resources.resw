@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -1920,8 +1920,8 @@
   <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>More options...</value>
   </data>
-  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>Create Library</value>
+  <data name="LibraryCardsOptionsFlyoutCreateLibraryMenuItem.Text" xml:space="preserve">
+    <value>Create new library</value>
   </data>
   <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Desired name</value>
@@ -2369,5 +2369,11 @@
   </data>
   <data name="NavToolbarArrangementOption_SyncStatus.Content" xml:space="preserve">
     <value>Sync status</value>
+  </data>
+  <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
+    <value>Create new library</value>
+  </data>
+  <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
+    <value>Restore default libraries</value>
   </data>
 </root>

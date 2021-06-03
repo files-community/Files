@@ -1,4 +1,4 @@
-﻿using Files.DataModels;
+using Files.DataModels;
 using Files.Filesystem;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -117,21 +117,8 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref showLibrarySection, value))
                 {
                     App.AppSettings.ShowLibrarySection = value;
-                    
-                    LibraryVisibility(App.AppSettings.ShowLibrarySection);
+                    LibraryManager.UpdateLibrariesSectionVisibility();
                 }
-            }
-        }
-
-        public async void LibraryVisibility(bool visible)
-        {
-            if (visible)
-            {
-                await LibraryManager.EnumerateLibrariesAsync();
-            }
-            else
-            {
-                LibraryManager.RemoveLibrariesSideBarSection();
             }
         }
 

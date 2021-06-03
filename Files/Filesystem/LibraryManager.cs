@@ -141,6 +141,18 @@ namespace Files.Filesystem
             }
         }
 
+        public async void UpdateLibrariesSectionVisibility()
+        {
+            if (App.AppSettings.ShowLibrarySection)
+            {
+                await EnumerateLibrariesAsync();
+            }
+            else
+            {
+                RemoveLibrariesSideBarSection();
+            }
+        }
+
         private async void EnumerateLibrariesAsync(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
         {
             await SyncLibrarySideBarItemsUI();

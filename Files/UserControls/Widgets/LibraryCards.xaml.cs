@@ -1,4 +1,4 @@
-﻿using Files.Dialogs;
+using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
@@ -106,7 +106,7 @@ namespace Files.UserControls.Widgets
             LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs { Path = item.Path });
         });
 
-        public RelayCommand OpenCreateNewLibraryDialogCommand => new RelayCommand(OpenCreateNewLibraryDialog);
+        public RelayCommand ShowCreateNewLibraryDialogCommand => new RelayCommand(LibraryHelper.ShowCreateNewLibraryDialog);
 
         public bool ShowMultiPaneControls
         {
@@ -221,71 +221,6 @@ namespace Files.UserControls.Widgets
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private async void OpenCreateNewLibraryDialog()
-        {
-            var inputText = new TextBox
-            {
-                PlaceholderText = "LibraryCardsCreateNewLibraryInputPlaceholderText".GetLocalized()
-            };
-            var tipText = new TextBlock
-            {
-                Text = string.Empty,
-                Visibility = Visibility.Collapsed
-            };
-
-            var dialog = new DynamicDialog(new DynamicDialogViewModel
-            {
-                DisplayControl = new Grid
-                {
-                    Children =
-                    {
-                        new StackPanel
-                        {
-                            Spacing = 4d,
-                            Children =
-                            {
-                                inputText,
-                                tipText
-                            }
-                        }
-                    }
-                },
-                TitleText = "LibraryCardsCreateNewLibraryDialogTitleText".GetLocalized(),
-                SubtitleText = "LibraryCardsCreateNewLibraryDialogSubtitleText".GetLocalized(),
-                PrimaryButtonText = "DialogCreateLibraryButtonText".GetLocalized(),
-                CloseButtonText = "DialogCancelButtonText".GetLocalized(),
-                PrimaryButtonAction = async (vm, e) =>
-                {
-                    var (result, reason) = App.LibraryManager.CanCreateLibrary(inputText.Text);
-                    tipText.Text = reason;
-                    tipText.Visibility = result ? Visibility.Collapsed : Visibility.Visible;
-                    if (!result)
-                    {
-                        e.Cancel = true;
-                        return;
-                    }
-                    await App.LibraryManager.CreateNewLibrary(inputText.Text);
-                },
-                CloseButtonAction = (vm, e) =>
-                {
-                    vm.HideDialog();
-                },
-                KeyDownAction = async (vm, e) =>
-                {
-                    if (e.Key == VirtualKey.Enter)
-                    {
-                        await App.LibraryManager.CreateNewLibrary(inputText.Text);
-                    }
-                    else if (e.Key == VirtualKey.Escape)
-                    {
-                        vm.HideDialog();
-                    }
-                },
-                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
-            });
-            await dialog.ShowAsync();
         }
 
         private void OpenInNewPane_Click(object sender, RoutedEventArgs e)

@@ -1,12 +1,20 @@
 ﻿using Files.Common;
+using Files.Dialogs;
+using Files.Enums;
 using Files.Filesystem;
+using Files.ViewModels.Dialogs;
+using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
+using Windows.System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Files.Helpers
 {
@@ -137,6 +145,76 @@ namespace Files.Helpers
                 library = new LibraryLocationItem(JsonConvert.DeserializeObject<ShellLibraryItem>((string)response["Update"]));
             }
             return library;
+        }
+
+        public static async void ShowRestoreDefaultLibrariesDialog()
+        {
+            // TODO
+        }
+
+        public static async void ShowCreateNewLibraryDialog()
+        {
+            var inputText = new TextBox
+            {
+                PlaceholderText = "LibraryCardsCreateNewLibraryInputPlaceholderText".GetLocalized()
+            };
+            var tipText = new TextBlock
+            {
+                Text = string.Empty,
+                Visibility = Visibility.Collapsed
+            };
+
+            var dialog = new DynamicDialog(new DynamicDialogViewModel
+            {
+                DisplayControl = new Grid
+                {
+                    Children =
+                    {
+                        new StackPanel
+                        {
+                            Spacing = 4d,
+                            Children =
+                            {
+                                inputText,
+                                tipText
+                            }
+                        }
+                    }
+                },
+                TitleText = "LibraryCardsCreateNewLibraryDialogTitleText".GetLocalized(),
+                SubtitleText = "LibraryCardsCreateNewLibraryDialogSubtitleText".GetLocalized(),
+                PrimaryButtonText = "DialogCreateLibraryButtonText".GetLocalized(),
+                CloseButtonText = "DialogCancelButtonText".GetLocalized(),
+                PrimaryButtonAction = async (vm, e) =>
+                {
+                    var (result, reason) = App.LibraryManager.CanCreateLibrary(inputText.Text);
+                    tipText.Text = reason;
+                    tipText.Visibility = result ? Visibility.Collapsed : Visibility.Visible;
+                    if (!result)
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+                    await App.LibraryManager.CreateNewLibrary(inputText.Text);
+                },
+                CloseButtonAction = (vm, e) =>
+                {
+                    vm.HideDialog();
+                },
+                KeyDownAction = async (vm, e) =>
+                {
+                    if (e.Key == VirtualKey.Enter)
+                    {
+                        await App.LibraryManager.CreateNewLibrary(inputText.Text);
+                    }
+                    else if (e.Key == VirtualKey.Escape)
+                    {
+                        vm.HideDialog();
+                    }
+                },
+                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
+            });
+            await dialog.ShowAsync();
         }
     }
 }
