@@ -101,30 +101,33 @@
                                         <RowDefinition Height="20" />
                                     </Grid.RowDefinitions>
 
-                                    <!--  Operation type icon  -->
-                                    <FontIcon
-                                        Grid.RowSpan="2"
-                                        Grid.Column="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="24"
-                                        Glyph="{Binding OperationIconGlyph, Mode=OneWay}" />
+                                    <Grid Grid.RowSpan="2" Grid.Column="0">
+                                        <!--  File icon  -->
+                                        <Image Source="{Binding ItemIcon}" />
 
-                                    <!--  Exclamation mark icon for conflicts  -->
-                                    <Grid
-                                        Grid.RowSpan="2"
-                                        Grid.Column="0"
-                                        Margin="0,0,-2,8"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Bottom"
-                                        Visibility="{Binding ExclamationMarkVisibility}">
-                                        <!--  Background  -->
-                                        <Polygon Fill="{ThemeResource SolidBackgroundFillColorBaseBrush}" Points="6,0 0,10, 12,10" />
-                                        <!--  Exclamation mark  -->
+                                        <!--  Operation type icon  -->
                                         <FontIcon
-                                            FontSize="12"
-                                            Foreground="{ThemeResource FilesystemOperationDialogExclamationMarkIconColor}"
-                                            Glyph="&#xE7BA;" />
+                                            Margin="0,0,-8,-2"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            FontSize="14"
+                                            Glyph="{Binding OperationIconGlyph, Mode=OneWay}"
+                                            Visibility="{Binding ExclamationMarkVisibility, Converter={StaticResource VisiblityInvertConverter}}" />
+
+                                        <!--  Exclamation mark icon for conflicts  -->
+                                        <Grid
+                                            Margin="0,0,-8,-2"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            Visibility="{Binding ExclamationMarkVisibility}">
+                                            <!--  Background  -->
+                                            <Polygon Fill="{ThemeResource SolidBackgroundFillColorBaseBrush}" Points="7,0 0,13, 12,13" />
+                                            <!--  Exclamation mark  -->
+                                            <FontIcon
+                                                FontSize="14"
+                                                Foreground="{ThemeResource FilesystemOperationDialogExclamationMarkIconColor}"
+                                                Glyph="&#xE7BA;" />
+                                        </Grid>
                                     </Grid>
 
                                     <!--  Destination Filename  -->

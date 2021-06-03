@@ -5,6 +5,8 @@ using Microsoft.Toolkit.Uwp;
 using System;
 using System.Windows.Input;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels.Dialogs
 {
@@ -23,6 +25,13 @@ namespace Files.ViewModels.Dialogs
         {
             get => isConflict;
             set => SetProperty(ref isConflict, value);
+        }
+
+        private ImageSource _ItemIcon;
+        public ImageSource ItemIcon
+        {
+            get => _ItemIcon;
+            set => SetProperty(ref _ItemIcon, value);
         }
 
         public string SourceDirectoryDisplayName
@@ -131,10 +140,12 @@ namespace Files.ViewModels.Dialogs
 
         public ICommand OptionSkipCommand { get; private set; }
 
-        public FilesystemOperationItemViewModel(Action updatePrimaryButtonEnabled, Action optionGenerateNewName, Action optionReplaceExisting, Action optionSkip)
+        public FilesystemOperationItemViewModel(Action updatePrimaryButtonEnabled, Action optionGenerateNewName, Action optionReplaceExisting, Action optionSkip, BitmapImage itemIcon)
         {
             this.updatePrimaryButtonEnabled = updatePrimaryButtonEnabled;
+            this.ItemIcon = itemIcon;
 
+            // Create commands
             GenerateNewNameCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.GenerateNewName));
             ReplaceExistingCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.ReplaceExisting));
             SkipCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.Skip));

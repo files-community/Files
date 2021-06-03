@@ -115,13 +115,13 @@ namespace Files.Filesystem
                     incomingItems.Add(new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, null));
                 }
 
-                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     FilesystemOperationType.Delete,
                     false,
                     !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
                     !deleteFromRecycleBin,
                     incomingItems,
-                    new List<FilesystemItemsOperationItemModel>()));
+                    new List<FilesystemItemsOperationItemModel>()), associatedInstance);
 
                 ContentDialogResult result = await dialog.ShowAsync();
 
@@ -321,13 +321,13 @@ namespace Files.Filesystem
                     new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.Path ?? source.Item.Path, null)
                 };
 
-                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     FilesystemOperationType.Delete,
                     false,
                     !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
                     !deleteFromRecycleBin,
                     incomingItems,
-                    new List<FilesystemItemsOperationItemModel>()));
+                    new List<FilesystemItemsOperationItemModel>()), associatedInstance);
 
                 ContentDialogResult result = await dialog.ShowAsync();
 
@@ -401,13 +401,13 @@ namespace Files.Filesystem
                     new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.Path, null)
                 };
 
-                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     FilesystemOperationType.Delete,
                     false,
                     !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
                     !deleteFromRecycleBin,
                     incomingItems,
-                    new List<FilesystemItemsOperationItemModel>()));
+                    new List<FilesystemItemsOperationItemModel>()), associatedInstance);
 
                 ContentDialogResult result = await dialog.ShowAsync();
 
@@ -1024,7 +1024,7 @@ namespace Files.Filesystem
 
         #endregion IFilesystemHelpers
 
-        private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
+        private async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
         {
             List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
             List<FilesystemItemsOperationItemModel> conflictingItems = new List<FilesystemItemsOperationItemModel>();
@@ -1046,13 +1046,13 @@ namespace Files.Filesystem
 
             if (mustResolveConflicts || forceDialog)
             {
-                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     operationType,
                     mustResolveConflicts,
                     false,
                     false,
                     incomingItems,
-                    conflictingItems));
+                    conflictingItems), associatedInstance);
 
                 ContentDialogResult result = await dialog.ShowAsync();
 
