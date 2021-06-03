@@ -1336,7 +1336,7 @@ namespace Files.UserControls
             PreviewPaneEnabled = !PreviewPaneEnabled;
         }
 
-        private void SearchRegion_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        private void SearchRegion_SuggestionChosen(ISearchBox sender, SearchBoxSuggestionChosenEventArgs args)
         {
             IsSearchBoxVisible = false;
         }

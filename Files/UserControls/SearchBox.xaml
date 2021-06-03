@@ -68,13 +68,14 @@
         QuerySubmitted="SearchRegion_QuerySubmitted"
         SuggestionChosen="SearchRegion_SuggestionChosen"
         TextBoxStyle="{StaticResource TextBoxStyle}"
+        ItemsSource="{x:Bind Suggestions}"
         ItemTemplate="{StaticResource SuggestionTemplate}"
         >
         <AutoSuggestBox.QueryIcon>
             <FontIcon FontSize="14" Glyph="&#xE094;" />
         </AutoSuggestBox.QueryIcon>
         <AutoSuggestBox.KeyboardAccelerators>
-            <KeyboardAccelerator Key="Escape" Invoked="SearchBox_Escaped" />
+            <KeyboardAccelerator Key="Escape" Invoked="SearchRegion_Escaped" />
         </AutoSuggestBox.KeyboardAccelerators>
     </AutoSuggestBox>
 
