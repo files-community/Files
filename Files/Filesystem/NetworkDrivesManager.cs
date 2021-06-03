@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
 using Files.Helpers;
 using Files.UserControls;
@@ -121,6 +122,7 @@ namespace Files.Filesystem
                             Text = "SidebarNetworkDrives".GetLocalized(),
                             Section = SectionType.Network,
                             SelectsOnInvoked = false,
+                            Icon = (Windows.UI.Xaml.Media.Imaging.BitmapImage)SidebarPinnedModel.IconResources.FirstOrDefault(x => x.Index == Constants.ImageRes.NetworkDrives).Image,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         SidebarControl.SideBarItems.Add(section);

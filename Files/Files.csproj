@@ -28,7 +28,7 @@
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <AppxBundlePlatforms>x86|x64|arm|arm64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-	<Win32Resource>Resources\MiddleClickScrolling-CursorType.res</Win32Resource>
+    <Win32Resource>Resources\MiddleClickScrolling-CursorType.res</Win32Resource>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -200,6 +200,7 @@
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\FileIconInfoExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupedCollection.cs" />
@@ -259,7 +260,6 @@
     </Compile>
     <Compile Include="Helpers\DriveHelpers.cs" />
     <Compile Include="Helpers\ExternalResourcesHelper.cs" />
-    <Compile Include="Helpers\GlyphHelper.cs" />
     <Compile Include="Helpers\FileThumbnailHelper.cs" />
     <Compile Include="Helpers\LibraryHelper.cs" />
     <Compile Include="Helpers\MenuFlyoutHelper.cs" />
