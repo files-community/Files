@@ -1267,8 +1267,6 @@ namespace Files.UserControls
 
         private void SearchButton_Click(object sender, RoutedEventArgs e) => SwitchSearchBoxVisibility();
 
-        private void SearchBox_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args) => CloseSearchBox();
-
         private void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
         {
             var focusedElement = FocusManager.GetFocusedElement();
@@ -1336,14 +1334,13 @@ namespace Files.UserControls
             PreviewPaneEnabled = !PreviewPaneEnabled;
         }
 
-        private void SearchRegion_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        private void SearchRegion_SuggestionChosen(ISearchBox sender, SearchBoxSuggestionChosenEventArgs args)
         {
-            IsSearchBoxVisible = false;
+            CloseSearchBox();
         }
-
-        private void SearchRegion_Escaped(object sender, AutoSuggestBox e)
+        private void SearchRegion_Escaped(object sender, ISearchBox e)
         {
-            IsSearchBoxVisible = false;
+            CloseSearchBox();
         }
     }
 }

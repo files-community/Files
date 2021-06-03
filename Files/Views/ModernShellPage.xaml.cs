@@ -2,12 +2,10 @@
 using Files.DataModels;
 using Files.Dialogs;
 using Files.EventArguments;
-using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
 using Files.Helpers;
-using Files.Interacts;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
@@ -177,9 +175,9 @@ namespace Files.Views
             FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
             storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
 
-            NavToolbar.SearchBox.QueryChanged += ModernShellPage_QueryChanged;
-            NavToolbar.SearchBox.QuerySubmitted += ModernShellPage_QuerySubmitted;
+            NavToolbar.SearchBox.TextChanged += ModernShellPage_TextChanged;
             NavToolbar.SearchBox.SuggestionChosen += ModernShellPage_SuggestionChosen;
+            NavToolbar.SearchBox.QuerySubmitted += ModernShellPage_QuerySubmitted;
 
             DisplayFilesystemConsentDialog();
 
@@ -277,51 +275,50 @@ namespace Files.Views
             }
         }
 
-        private async void ModernShellPage_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        private async void ModernShellPage_TextChanged(ISearchBox sender, SearchBoxTextChangedEventArgs e)
         {
-            var invokedItem = (args.SelectedItem as ListedItem);
-            if (invokedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+            if (e.Reason == SearchBoxTextChangeReason.UserInput)
             {
-                ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(invokedItem.ItemPath), new NavigationArguments()
+                if (!string.IsNullOrWhiteSpace(sender.Query))
                 {
-                    NavPathParam = invokedItem.ItemPath,
+                    var search = new FolderSearch
+                    {
+                        Query = sender.Query,
+                        Folder = FilesystemViewModel.WorkingDirectory,
+                        MaxItemCount = 10,
+                        SearchUnindexedItems = App.AppSettings.SearchUnindexedItems
+                    };
+                    sender.SetSuggestions(await search.SearchAsync());
+                }
+                else
+                {
+                    sender.ClearSuggestions();
+                }
+            }
+        }
+
+        private async void ModernShellPage_SuggestionChosen(ISearchBox sender, SearchBoxSuggestionChosenEventArgs e)
+        {
+            if (e.SelectedSuggestion.PrimaryItemAttribute == StorageItemTypes.Folder)
+            {
+                ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(e.SelectedSuggestion.ItemPath), new NavigationArguments()
+                {
+                    NavPathParam = e.SelectedSuggestion.ItemPath,
                     AssociatedTabInstance = this
                 });
             }
             else
             {
                 // TODO: Add fancy file launch options similar to Interactions.cs OpenSelectedItems()
-                await Win32Helpers.InvokeWin32ComponentAsync(invokedItem.ItemPath, this);
+                await Win32Helpers.InvokeWin32ComponentAsync(e.SelectedSuggestion.ItemPath, this);
             }
         }
 
-        private async void ModernShellPage_QueryChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private void ModernShellPage_QuerySubmitted(ISearchBox sender, SearchBoxQuerySubmittedEventArgs e)
         {
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            if (e.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(sender.Query))
             {
-                if (!string.IsNullOrWhiteSpace(sender.Text))
-                {
-                    var search = new FolderSearch
-                    {
-                        Query = sender.Text,
-                        Folder = FilesystemViewModel.WorkingDirectory,
-                        MaxItemCount = 10,
-                        SearchUnindexedItems = App.AppSettings.SearchUnindexedItems
-                    };
-                    sender.ItemsSource = await search.SearchAsync();
-                }
-                else
-                {
-                    sender.ItemsSource = null;
-                }
-            }
-        }
-
-        private void ModernShellPage_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
-            {
-                SubmitSearch(args.QueryText, AppSettings.SearchUnindexedItems);
+                SubmitSearch(sender.Query, AppSettings.SearchUnindexedItems);
             }
         }
 
@@ -1217,9 +1214,9 @@ namespace Files.Views
             NavigationToolbar.RefreshRequested -= ModernShellPage_RefreshRequested;
             NavigationToolbar.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
             NavigationToolbar.ItemDraggedOverPathItem -= ModernShellPage_NavigationRequested;
-            NavigationToolbar.SearchBox.QueryChanged -= ModernShellPage_QueryChanged;
-            NavigationToolbar.SearchBox.QuerySubmitted -= ModernShellPage_QuerySubmitted;
+            NavigationToolbar.SearchBox.TextChanged -= ModernShellPage_TextChanged;
             NavigationToolbar.SearchBox.SuggestionChosen -= ModernShellPage_SuggestionChosen;
+            NavigationToolbar.SearchBox.QuerySubmitted -= ModernShellPage_QuerySubmitted;
             if (NavigationToolbar is NavigationToolbar navToolbar)
             {
                 navToolbar.ToolbarPathItemInvoked -= ModernShellPage_NavigationRequested;
