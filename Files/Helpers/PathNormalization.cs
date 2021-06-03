@@ -63,6 +63,10 @@ namespace Files.Helpers
 
         public static string GetParentDir(string path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                return string.Empty;
+            }
             var index = path.LastIndexOf("\\");
             return path.Substring(0, index != -1 ? index : path.Length);
         }

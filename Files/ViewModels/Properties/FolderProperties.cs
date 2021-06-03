@@ -43,9 +43,11 @@ namespace Files.ViewModels.Properties
                     (Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
                 ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
-                //ViewModel.FileIconSource = Item.FileImage;
                 ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
+                ViewModel.IconData = Item.CustomIconData;
                 ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
+                ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
+                ViewModel.CustomIconSource = Item.CustomIconSource;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
                 ViewModel.ContainsFilesOrFolders = Item.ContainsFilesOrFolders;
 
@@ -75,11 +77,12 @@ namespace Files.ViewModels.Properties
             ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
-            var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
-            if (fileIconInfo.IconData != null && fileIconInfo.IsCustom)
+            var fileIconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 80);
+            if (fileIconData != null)
             {
-                ViewModel.FileIconSource = await fileIconInfo.IconData.ToBitmapAsync();
-                ViewModel.IconData = fileIconInfo.IconData;
+                ViewModel.IconData = fileIconData;
+                ViewModel.LoadFolderGlyph = false;
+                ViewModel.LoadFileIcon = true;
             }
 
             if (Item.IsShortcutItem)
