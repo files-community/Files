@@ -102,7 +102,7 @@ namespace Files.Helpers
                 catch (Exception e)
                 {
                     // This is to try and figure out the root cause of AppCenter error #985932119u
-                    NLog.LogManager.GetCurrentClassLogger().Warn(e, e.Message);
+                    App.Logger.Warn(e, e.Message);
                 }
             }
         }

@@ -85,7 +85,7 @@ namespace Files.ViewModels.Properties
                 }
                 catch (Exception ex)
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                    App.Logger.Warn(ex, ex.Message);
                 }
             }
 
@@ -118,7 +118,7 @@ namespace Files.ViewModels.Properties
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                App.Logger.Warn(ex, ex.Message);
             }
 
             ViewModel.ItemSizeProgressVisibility = Visibility.Collapsed;

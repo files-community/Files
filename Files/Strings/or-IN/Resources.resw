@@ -18,12 +18,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>ନୂଆ ୱିଣ୍ଡୋରେ ଖୋଲ</value>
   </data>
-  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>ନୂତନ ଟ୍ୟାବ୍</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>ନୂତନ ୱିଣ୍ଡୋ</value>
-  </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>ଫୋଲ୍ଡର</value>
   </data>
@@ -32,12 +26,6 @@
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>ପାଠ୍ୟ ଦସ୍ତାବେଜ</value>
-  </data>
-  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>ପଥ କପି କରନ୍ତୁ</value>
-  </data>
-  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
-    <value>ଲେପନ କର</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>ଡ୍ରାଇଭଗୁଡ଼ିକ</value>
@@ -53,9 +41,6 @@
   </data>
   <data name="sizeColumn.Header" xml:space="preserve">
     <value>ଆକାର</value>
-  </data>
-  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>ଟର୍ମିନାଲ୍ ରେ ଖୋଲ ...</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>ସୃଷ୍ଟି:</value>
@@ -246,9 +231,6 @@
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5ହ୍ୟାସ୍:</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>ନୂତନ</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>ଫୋଲ୍ଡର</value>
   </data>
@@ -356,9 +338,6 @@
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ସନ୍ଧାନ କର</value>
-  </data>
-  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ଅଧିକ ବିକଳ୍ପ</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>ଗୁଣଧର୍ମ</value>
@@ -905,9 +884,6 @@
   </data>
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>ଡକ୍ୟୁମେଣ୍ଟ୍</value>
-  </data>
-  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>ଅଧିକ ବିକଳ୍ପସମୂହ</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>ଫାଇଲ୍:</value>

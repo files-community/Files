@@ -1,4 +1,5 @@
 using Files.CommandLine;
+using Files.Common;
 using Files.Controllers;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
@@ -14,7 +15,6 @@ using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json.Linq;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -57,7 +57,8 @@ namespace Files
         public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
         public static OptionalPackageManager OptionalPackageManager { get; private set; } = new OptionalPackageManager();
 
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        public static Logger Logger { get; private set; }
+        private static readonly UniversalLogWriter logWriter = new UniversalLogWriter();
 
         public static StatusCenterViewModel StatusCenterViewModel { get; } = new StatusCenterViewModel();
 
@@ -72,16 +73,16 @@ namespace Files
 
         public App()
         {
+            // Initialize logger
+            Logger = new Logger(logWriter);
+
             UnhandledException += OnUnhandledException;
             TaskScheduler.UnobservedTaskException += OnUnobservedException;
-
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
-           
-            // Initialize NLog
-            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-            LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
+
+            //LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
             AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
         }
 
@@ -130,6 +131,7 @@ namespace Files
         /// <param name="e">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
+            await logWriter.InitializeAsync("debug.log");
             //start tracking app usage
             SystemInformation.Instance.TrackAppUse(e);
 
@@ -202,6 +204,8 @@ namespace Files
 
         protected override async void OnActivated(IActivatedEventArgs args)
         {
+            await logWriter.InitializeAsync("debug.log");
+
             Logger.Info("App activated");
 
             await EnsureSettingsAndConfigurationAreBootstrapped();

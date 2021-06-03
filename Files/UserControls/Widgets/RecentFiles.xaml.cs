@@ -46,7 +46,7 @@ namespace Files.UserControls.Widgets
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info(ex, "Could not fetch recent items");
+                App.Logger.Info(ex, "Could not fetch recent items");
             }
         }
 

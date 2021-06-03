@@ -61,7 +61,7 @@ namespace Files.Filesystem.Search
                     }
                     catch (Exception ex)
                     {
-                        NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Error creating ListedItem from StorageItem");
+                        App.Logger.Warn(ex, "Error creating ListedItem from StorageItem");
                     }
                 }
 

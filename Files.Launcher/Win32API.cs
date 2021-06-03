@@ -32,7 +32,7 @@ namespace FilesFullTrust
                 catch (Exception ex)
                 {
                     tcs.SetResult(default);
-                    NLog.LogManager.GetCurrentClassLogger().Info(ex, ex.Message);
+                    Program.Logger.Info(ex, ex.Message);
                     //tcs.SetException(e);
                 }
             });

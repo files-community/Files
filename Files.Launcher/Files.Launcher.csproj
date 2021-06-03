@@ -129,6 +129,7 @@
     <Compile Include="DragDropForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="LogWriter.cs" />
     <Compile Include="FilePermissions.cs" />
     <Compile Include="NetworkDrivesAPI.cs" />
     <Compile Include="Program.cs" />
@@ -139,9 +140,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <Content Include="NLog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.Contracts">
@@ -149,9 +147,6 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="NLog">
-      <Version>4.7.10</Version>
     </PackageReference>
     <PackageReference Include="System.Runtime.WindowsRuntime">
       <Version>4.7.0</Version>
