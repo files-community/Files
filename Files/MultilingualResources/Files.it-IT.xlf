@@ -3063,6 +3063,10 @@
           <source>Unknown account</source>
           <target state="translated">Account sconosciuto</target>
         </trans-unit>
+        <trans-unit id="SecurityCannotReadProperties.Text" translate="yes" xml:space="preserve">
+          <source>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</source>
+          <target state="translated">Non hai i permessi necessari per vedere le proprietà di questo oggetto. Clicca "Impostazioni avanzate" per continuare.</target>
+        </trans-unit>
       </group>
     </body>
   </file>

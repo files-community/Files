@@ -11,6 +11,8 @@ namespace Files.Filesystem.Permissions
     {
         public string Path { get; set; }
 
+        public bool CanReadFilePermissions { get; set; }
+
         public FilePermissions()
         {
             AccessRules = new List<FileSystemAccessRule>();

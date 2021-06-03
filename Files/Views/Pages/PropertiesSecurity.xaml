@@ -10,7 +10,7 @@
     xmlns:perm="using:Files.Filesystem.Permissions"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:usercontrols="using:Files.UserControls"
-    d:Background="LightGray"
+    d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:Height="1000"
     d:Width="700"
     Loaded="Properties_Loaded"
@@ -52,7 +52,9 @@
         </Grid>
 
         <ListView
+            x:Name="ListView"
             MaxHeight="134"
+            x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
             Background="{ThemeResource SolidBackgroundAcrylic}"
             BorderBrush="Gray"
             BorderThickness="1"
@@ -91,7 +93,10 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Grid Margin="0,12,0,0">
+        <Grid
+            x:Name="CheckBoxGrid"
+            Margin="0,12,0,0"
+            x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Mode=OneWay}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -310,6 +315,14 @@
                 IsChecked="{x:Bind SelectedAccessRule.DeniesWrite, Mode=TwoWay}"
                 IsEnabled="{x:Bind SelectedAccessRule.DeniesInheritedWrite, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
         </Grid>
+
+        <TextBlock
+            x:Name="CannotReadPropsText"
+            x:Uid="SecurityCannotReadProperties"
+            HorizontalAlignment="Left"
+            x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+            Text="You do not have permissions to view the security properties of this object. Click &quot;Advanced permissions&quot; to proceed."
+            TextWrapping="WrapWholeWords" />
 
         <Button Margin="0,12,0,0" HorizontalAlignment="Left">
             <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
