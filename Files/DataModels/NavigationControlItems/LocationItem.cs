@@ -13,7 +13,13 @@ namespace Files.DataModels.NavigationControlItems
 {
     public class LocationItem : ObservableObject, INavigationControlItem
     {
-        public BitmapImage Icon { get; set; }
+        public BitmapImage icon;
+        public BitmapImage Icon
+        {
+            get => icon;
+            set => SetProperty(ref icon, value);
+        }
+
         public Uri IconSource { get; set; }
         public byte[] IconData { get; set; }
 

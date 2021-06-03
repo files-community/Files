@@ -63,12 +63,8 @@ namespace Files.Filesystem
                                     if (await lib.CheckDefaultSaveFolderAccess())
                                     {
                                         lib.Font = MainViewModel.FontName;
-                                        lib.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(lib.Path, 24u);
-                                        if (lib.IconData != null)
-                                        {
-                                            lib.Icon = await lib.IconData.ToBitmapAsync();
-                                        }
                                         librarySection.ChildItems.AddSorted(lib);
+                                        this.LoadLibraryIcon(lib);
                                     }
                                 }
                             }
@@ -87,12 +83,8 @@ namespace Files.Filesystem
                                 if (await lib.CheckDefaultSaveFolderAccess())
                                 {
                                     lib.Font = MainViewModel.FontName;
-                                    lib.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(lib.Path, 24u);
-                                    if (lib.IconData != null)
-                                    {
-                                        lib.Icon = await lib.IconData.ToBitmapAsync();
-                                    }
                                     librarySection.ChildItems.AddSorted(lib);
+                                    this.LoadLibraryIcon(lib);
                                 }
                             }
                             break;
@@ -106,6 +98,15 @@ namespace Files.Filesystem
         }
 
         private static bool IsLibraryOnSidebar(LibraryLocationItem item) => item != null && !item.IsEmpty && item.IsDefaultLocation;
+
+        private async void LoadLibraryIcon(LibraryLocationItem lib)
+        {
+            lib.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(lib.Path, 24u);
+            if (lib.IconData != null)
+            {
+                lib.Icon = await lib.IconData.ToBitmapAsync();
+            }
+        }
 
         public void Dispose()
         {

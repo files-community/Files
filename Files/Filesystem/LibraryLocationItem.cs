@@ -41,9 +41,13 @@ namespace Files.Filesystem
             {
                 return false;
             }
-            var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(DefaultSaveFolder));
-            var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(DefaultSaveFolder, item));
-            return res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(DefaultSaveFolder);
+            var res = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(DefaultSaveFolder);
+            if (!res)
+            {
+                var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(DefaultSaveFolder));
+                res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(DefaultSaveFolder, item));
+            }
+            return res;
         }
     }
 }
