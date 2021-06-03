@@ -764,7 +764,6 @@ namespace Files.ViewModels
                                 if (fileIconInfo.IconData == null) // Loading icon from fulltrust process failed
                                 {
                                     using var Thumbnail = await matchingStorageFile.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale);
-                                    using var headerThumbnail = loadGroupHeaderInfo && isFileTypeGroupMode ? await matchingStorageFile.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale) : null;
                                     if (Thumbnail != null)
                                     {
                                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
@@ -854,7 +853,6 @@ namespace Files.ViewModels
                         }, Windows.System.DispatcherQueuePriority.Low);
                     }
 
-
                     if (loadGroupHeaderInfo)
                     {
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
@@ -862,7 +860,6 @@ namespace Files.ViewModels
                             gp.Model.ImageSource = groupImage;
                             gp.InitializeExtendedGroupHeaderInfoAsync();
                         });
-
                     }
 
                     loadExtendedPropsSemaphore.Release();
