@@ -25,9 +25,9 @@ namespace Files.Views
         private Bundles bundles;
         private RecentFiles recentFiles;
 
-        public WidgetsPageViewModel ViewModel
+        public YourHomeViewModel ViewModel
         {
-            get => (WidgetsPageViewModel)DataContext;
+            get => (YourHomeViewModel)DataContext;
             set => DataContext = value;
         }
 
@@ -35,7 +35,7 @@ namespace Files.Views
         {
             InitializeComponent();
 
-            ViewModel = new WidgetsPageViewModel(Widgets.ViewModel, AppInstance);
+            ViewModel = new YourHomeViewModel(Widgets.ViewModel, AppInstance);
             ViewModel.YourHomeLoadedInvoked += ViewModel_YourHomeLoadedInvoked;
             Widgets.ViewModel.WidgetListRefreshRequestedInvoked += ViewModel_WidgetListRefreshRequestedInvoked;
         }

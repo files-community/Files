@@ -10,7 +10,7 @@ using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Pages
 {
-    public class WidgetsPageViewModel : ObservableObject, IDisposable
+    public class YourHomeViewModel : ObservableObject, IDisposable
     {
         private BundlesViewModel bundlesViewModel;
 
@@ -24,7 +24,7 @@ namespace Files.ViewModels.Pages
 
         public ICommand LoadBundlesCommand { get; private set; }
 
-        public WidgetsPageViewModel(WidgetsListControlViewModel widgetsViewModel, IShellPage associatedInstance)
+        public YourHomeViewModel(WidgetsListControlViewModel widgetsViewModel, IShellPage associatedInstance)
         {
             this.widgetsViewModel = widgetsViewModel;
             this.associatedInstance = associatedInstance;
