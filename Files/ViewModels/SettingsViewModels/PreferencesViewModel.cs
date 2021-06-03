@@ -1,4 +1,4 @@
-using Files.DataModels;
+﻿using Files.DataModels;
 using Files.Filesystem;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;

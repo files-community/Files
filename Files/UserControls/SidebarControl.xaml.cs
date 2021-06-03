@@ -1,4 +1,4 @@
-using Files.DataModels;
+﻿using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;

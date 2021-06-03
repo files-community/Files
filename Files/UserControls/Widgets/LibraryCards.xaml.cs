@@ -1,4 +1,4 @@
-using Files.Dialogs;
+﻿using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
