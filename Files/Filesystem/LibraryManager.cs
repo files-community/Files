@@ -63,6 +63,11 @@ namespace Files.Filesystem
                                     if (await lib.CheckDefaultSaveFolderAccess())
                                     {
                                         lib.Font = MainViewModel.FontName;
+                                        lib.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(lib.Path, 24u);
+                                        if (lib.IconData != null)
+                                        {
+                                            lib.Icon = await lib.IconData.ToBitmapAsync();
+                                        }
                                         librarySection.ChildItems.AddSorted(lib);
                                     }
                                 }
@@ -82,6 +87,11 @@ namespace Files.Filesystem
                                 if (await lib.CheckDefaultSaveFolderAccess())
                                 {
                                     lib.Font = MainViewModel.FontName;
+                                    lib.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(lib.Path, 24u);
+                                    if (lib.IconData != null)
+                                    {
+                                        lib.Icon = await lib.IconData.ToBitmapAsync();
+                                    }
                                     librarySection.ChildItems.AddSorted(lib);
                                 }
                             }

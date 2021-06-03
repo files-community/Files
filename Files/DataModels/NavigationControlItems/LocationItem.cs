@@ -52,15 +52,5 @@ namespace Files.DataModels.NavigationControlItems
         public SectionType Section { get; set; }
 
         public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
-
-        public async Task SetBitmapImage(IRandomAccessStream imageStream)
-        {
-            if (imageStream != null)
-            {
-                var image = new BitmapImage();
-                await image.SetSourceAsync(imageStream);
-                Icon = image;
-            }
-        }
     }
 }
