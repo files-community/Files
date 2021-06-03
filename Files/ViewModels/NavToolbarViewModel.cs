@@ -143,7 +143,7 @@ namespace Files.ViewModels
 
         private DispatcherQueueTimer dragOverTimer;
 
-        private ISearchBox searchBox;
+        private ISearchBox searchBox = new SearchBoxViewModel();
         public ISearchBox SearchBox
         {
             get => searchBox;
