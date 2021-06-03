@@ -164,7 +164,7 @@ namespace Files.UserControls.Widgets
 
         private async Task<byte[]> GetIcon(string path)
         {
-            return (await FileThumbnailHelper.LoadIconOverlayAsync(path, 48u)).IconData;
+            return await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 48u);
         }
 
         private async Task GetItemsAddedIcon()
