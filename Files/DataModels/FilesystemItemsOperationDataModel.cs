@@ -58,7 +58,7 @@ namespace Files.DataModels
             this.ConflictingItems = conflictingItems;
         }
 
-        public async Task<List<FilesystemOperationItemViewModel>> ToItems(Action updatePrimaryButtonEnabled, Action optionGenerateNewName, Action optionReplaceExisting, Action optionSkip, IShellPage associatedInstance)
+        public async Task<List<FilesystemOperationItemViewModel>> ToItems(Action updatePrimaryButtonEnabled, Action optionGenerateNewName, Action optionReplaceExisting, Action optionSkip)
         {
             List<FilesystemOperationItemViewModel> items = new List<FilesystemOperationItemViewModel>();
 
@@ -67,17 +67,12 @@ namespace Files.DataModels
             // Add conflicting items first
             foreach (var item in ConflictingItems)
             {
-                var (IconData, OverlayData, IsCustom) = await associatedInstance.FilesystemViewModel.LoadIconOverlayAsync(item.SourcePath, 64u);
+                BitmapImage icon = await FileThumbnailHelper.GetFileThumbnailAsync(item.SourcePath, 64u);
 
-                BitmapImage icon = null;
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                {
-                    icon = await IconData.ToBitmapAsync();
-                });
-
-                items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip, icon)
+                items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
                     IsConflict = true,
+                    ItemIcon = icon,
                     OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
                     SourcePath = item.SourcePath,
                     DestinationPath = item.DestinationPath,
@@ -91,17 +86,12 @@ namespace Files.DataModels
             // Then add non-conflicting items
             foreach (var item in nonConflictingItems)
             {
-                var (IconData, OverlayData, IsCustom) = await associatedInstance.FilesystemViewModel.LoadIconOverlayAsync(item.SourcePath, 64u);
+                BitmapImage icon = await FileThumbnailHelper.GetFileThumbnailAsync(item.SourcePath, 64u);
 
-                BitmapImage icon = null;
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                {
-                    icon = await IconData.ToBitmapAsync();
-                });
-
-                items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip, icon)
+                items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
                     IsConflict = false,
+                    ItemIcon = icon,
                     OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
                     SourcePath = item.SourcePath,
                     DestinationPath = item.DestinationPath,

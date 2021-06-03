@@ -140,10 +140,9 @@ namespace Files.ViewModels.Dialogs
 
         public ICommand OptionSkipCommand { get; private set; }
 
-        public FilesystemOperationItemViewModel(Action updatePrimaryButtonEnabled, Action optionGenerateNewName, Action optionReplaceExisting, Action optionSkip, BitmapImage itemIcon)
+        public FilesystemOperationItemViewModel(Action updatePrimaryButtonEnabled, Action optionGenerateNewName, Action optionReplaceExisting, Action optionSkip)
         {
             this.updatePrimaryButtonEnabled = updatePrimaryButtonEnabled;
-            this.ItemIcon = itemIcon;
 
             // Create commands
             GenerateNewNameCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.GenerateNewName));

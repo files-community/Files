@@ -181,7 +181,7 @@ namespace Files.ViewModels.Dialogs
             return Items.Cast<IFilesystemOperationItemModel>().ToList();
         }
 
-        public static async Task<FilesystemOperationDialog> GetDialog(FilesystemItemsOperationDataModel itemsData, IShellPage associatedInstance)
+        public static async Task<FilesystemOperationDialog> GetDialog(FilesystemItemsOperationDataModel itemsData)
         {
             string titleText = null;
             string subtitleText = null;
@@ -271,7 +271,7 @@ namespace Files.ViewModels.Dialogs
                 MustResolveConflicts = itemsData.MustResolveConflicts
             };
             viewModel.Items = new ObservableCollection<FilesystemOperationItemViewModel>(await itemsData.ToItems(
-                viewModel.UpdatePrimaryButtonEnabled, viewModel.OptionGenerateNewName, viewModel.OptionReplaceExisting, viewModel.OptionSkip, associatedInstance));
+                viewModel.UpdatePrimaryButtonEnabled, viewModel.OptionGenerateNewName, viewModel.OptionReplaceExisting, viewModel.OptionSkip));
 
             FilesystemOperationDialog dialog = new FilesystemOperationDialog(viewModel);
 

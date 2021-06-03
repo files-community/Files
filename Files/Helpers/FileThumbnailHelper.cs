@@ -1,8 +1,11 @@
 ﻿using Files.Common;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Helpers
 {
@@ -56,6 +59,22 @@ namespace Files.Helpers
                 }
             }
             return null;
+        }
+
+        public static async Task<BitmapImage> GetFileThumbnailAsync(string filePath, uint thumbnailSize)
+        {
+            var (IconData, OverlayData, IsCustom) = await LoadIconOverlayAsync(filePath, thumbnailSize);
+            BitmapImage icon = null;
+
+            if (IconData != null)
+            {
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                {
+                    icon = await IconData.ToBitmapAsync();
+                });
+            }
+
+            return icon;
         }
     }
 }
