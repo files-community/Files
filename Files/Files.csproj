@@ -28,7 +28,7 @@
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <AppxBundlePlatforms>x86|x64|arm|arm64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-	<Win32Resource>Resources\MiddleClickScrolling-CursorType.res</Win32Resource>
+    <Win32Resource>Resources\MiddleClickScrolling-CursorType.res</Win32Resource>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -195,7 +195,6 @@
     <Compile Include="Enums\FilesystemOperationType.cs" />
     <Compile Include="Enums\FolderLayout.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
-    <Compile Include="EventArguments\Bundles\BundlesLoadIconOverlayEventArgs.cs" />
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
@@ -332,7 +331,7 @@
     <Compile Include="ViewModels\SidebarViewModel.cs" />
     <Compile Include="ViewModels\BaseJsonSettingsViewModel.cs" />
     <Compile Include="ViewModels\ColumnsViewModel.cs" />
-    <Compile Include="ViewModels\Pages\YourHomeViewModel.cs" />
+    <Compile Include="ViewModels\Pages\WidgetsPageViewModel.cs" />
     <Compile Include="ViewModels\StatusCenterViewModel.cs" />
     <Compile Include="ViewModels\Widgets\Bundles\BundleContainerViewModel.cs" />
     <Compile Include="ViewModels\Widgets\Bundles\BundleItemViewModel.cs" />

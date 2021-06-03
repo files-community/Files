@@ -25,9 +25,9 @@ namespace Files.Views
         private Bundles bundles;
         private RecentFiles recentFiles;
 
-        public YourHomeViewModel ViewModel
+        public WidgetsPageViewModel ViewModel
         {
-            get => (YourHomeViewModel)DataContext;
+            get => (WidgetsPageViewModel)DataContext;
             set => DataContext = value;
         }
 
@@ -35,7 +35,7 @@ namespace Files.Views
         {
             InitializeComponent();
 
-            ViewModel = new YourHomeViewModel(Widgets.ViewModel, AppInstance);
+            ViewModel = new WidgetsPageViewModel(Widgets.ViewModel, AppInstance);
             ViewModel.YourHomeLoadedInvoked += ViewModel_YourHomeLoadedInvoked;
             Widgets.ViewModel.WidgetListRefreshRequestedInvoked += ViewModel_WidgetListRefreshRequestedInvoked;
         }
@@ -64,7 +64,6 @@ namespace Files.Views
             if (shouldReloadLibraryCards && libraryCards != null)
             {
                 Widgets.ViewModel.InsertWidget(libraryCards, 0);
-                libraryCards.LoadIconOverlay = AppInstance.FilesystemViewModel.LoadIconWithoutOverlayAsync;
 
                 libraryCards.LibraryCardInvoked -= LibraryWidget_LibraryCardInvoked;
                 libraryCards.LibraryCardNewPaneInvoked -= LibraryWidget_LibraryCardNewPaneInvoked;
