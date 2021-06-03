@@ -2406,4 +2406,7 @@
   <data name="SecurityWriteLabel.Text" xml:space="preserve">
     <value>Write</value>
   </data>
+  <data name="SecurityUnknownAccount" xml:space="preserve">
+    <value>Unknown account</value>
+  </data>
 </root>

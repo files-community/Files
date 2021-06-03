@@ -81,9 +81,9 @@
                             Glyph="{x:Bind UserGroup.Glyph}" />
 
                         <TextBlock Grid.Column="1">
-                            <Run Text="{x:Bind UserGroup.Name}" />
+                            <Run Text="{x:Bind UserGroup.DisplayName}" />
                             <Span FontWeight="Light">&#160;(</Span>
-                            <Run FontWeight="Light" Text="{x:Bind UserGroup.FullName}" />
+                            <Run FontWeight="Light" Text="{x:Bind UserGroup.FullNameOrSid}" />
                             <Span FontWeight="Light">)</Span>
                         </TextBlock>
                     </Grid>
@@ -116,7 +116,7 @@
                 FontWeight="Bold"
                 Style="{StaticResource PropertyName}">
                 <Run x:Uid="SecurityPermissionsLabel" Text="Permissions for" />
-                <Run Text="{x:Bind SelectedAccessRule.UserGroup.Name, Mode=OneWay}" />
+                <Run Text="{x:Bind SelectedAccessRule.UserGroup.DisplayName, Mode=OneWay}" />
             </TextBlock>
 
             <TextBlock

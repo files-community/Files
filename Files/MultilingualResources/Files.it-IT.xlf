@@ -3059,6 +3059,10 @@
           <source>New pane</source>
           <target state="translated">Nuovo pannello</target>
         </trans-unit>
+        <trans-unit id="SecurityUnknownAccount" translate="yes" xml:space="preserve">
+          <source>Unknown account</source>
+          <target state="translated">Account sconosciuto</target>
+        </trans-unit>
       </group>
     </body>
   </file>

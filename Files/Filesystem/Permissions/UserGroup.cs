@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.Extensions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -26,13 +27,16 @@ namespace Files.Filesystem.Permissions
         public string Sid { get; set; }
         public string Name { get; set; }
         public string Domain { get; set; }
-        public string FullName => string.IsNullOrEmpty(Domain) ? Name : $"{Domain}\\{Name}";
         public List<string> Groups { get; set; }
         public SecurityType ItemType { get; set; }
+
+        public string DisplayName => string.IsNullOrEmpty(Name) ? "SecurityUnknownAccount".GetLocalized() : Name;
+        public string FullNameOrSid => string.IsNullOrEmpty(Name) ? Sid : string.IsNullOrEmpty(Domain) ? Name : $"{Domain}\\{Name}";
 
         public UserGroup()
         {
             Groups = new List<string>();
+            ItemType = SecurityType.Other;
         }
 
         public static UserGroup FromSid(string sid)
