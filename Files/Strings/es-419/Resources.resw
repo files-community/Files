@@ -2247,7 +2247,4 @@
   <data name="NavToolbarArrangementOption_SyncStatus.Content" xml:space="preserve">
     <value>Estado de sincronización</value>
   </data>
-  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
-    <value>Modo de vista</value>
-  </data>
 </root>

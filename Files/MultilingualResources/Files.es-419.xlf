@@ -3006,9 +3006,9 @@
           <source>Sync status</source>
           <target state="translated">Estado de sincronización</target>
         </trans-unit>
-        <trans-unit id="NavToolbarLayoutMode.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarLayout.Text" translate="yes" xml:space="preserve">
           <source>Layout</source>
-          <target state="translated">Modo de vista</target>
+          <target state="new">Layout</target>
         </trans-unit>
       </group>
     </body>

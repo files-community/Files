@@ -3029,7 +3029,7 @@
           <source>New pane</source>
           <target state="new">New pane</target>
         </trans-unit>
-        <trans-unit id="NavToolbarLayoutMode.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarLayout.Text" translate="yes" xml:space="preserve">
           <source>Layout</source>
           <target state="new">Layout</target>
         </trans-unit>
