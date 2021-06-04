@@ -24,7 +24,15 @@ namespace Files.Views
 
         public async override Task<bool> SaveChangesAsync(ListedItem item)
         {
-            return await Task.FromResult(true);
+            if (BaseProperties is FileProperties fileProps)
+            {
+                return await fileProps.SetFilePermissionProperties();
+            }
+            else if (BaseProperties is FolderProperties folderProps)
+            {
+                return await folderProps.SetFolderPermissionProperties();
+            }
+            return false;
         }
 
         protected override void Properties_Loaded(object sender, RoutedEventArgs e)
@@ -37,7 +45,7 @@ namespace Files.Views
             }
             else if (BaseProperties is FolderProperties folderProps)
             {
-                folderProps.GetFilePermissionProperties();
+                folderProps.GetFolderPermissionProperties();
             }
         }
 

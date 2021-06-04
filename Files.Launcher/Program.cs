@@ -1031,6 +1031,15 @@ namespace FilesFullTrust
                         { "FilePermissions", JsonConvert.SerializeObject(filePermissions) }
                     }, message.Get("RequestID", (string)null));
                     break;
+
+                case "SetFilePermissions":
+                    var filePermissionsString = (string)message["permissions"];
+                    var filePermissionsToSet = JsonConvert.DeserializeObject<FilePermissions>(filePermissionsString);
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "Success", filePermissionsToSet.SetPermissions() }
+                    }, message.Get("RequestID", (string)null));
+                    break;
             }
         }
 

@@ -11,11 +11,16 @@ namespace FilesFullTrust
 {
     public class FilePermissions
     {
-        public string Path { get; set; }
+        public string FilePath { get; set; }
+        public bool IsFolder { get; set; }
 
         public bool CanReadFilePermissions { get; set; }
 
-        public FilePermissions()
+        public string OwnerSID { get; set; }
+
+        public string CurrentUserSID { get; set; }
+
+        private FilePermissions()
         {
             AccessRules = new List<FileSystemAccessRule2>();
         }
@@ -24,29 +29,120 @@ namespace FilesFullTrust
 
         public static FilePermissions FromFilePath(string filePath, bool isFolder)
         {
-            var filePermissions = new FilePermissions() { Path = filePath };
+            var filePermissions = new FilePermissions() { FilePath = filePath, IsFolder = isFolder };
+            var acsResult = GetAccessControl(filePath, isFolder, out var acs);
+            if (acsResult)
+            {
+                var accessRules = acs.GetAccessRules(true, true, typeof(SecurityIdentifier));
+                filePermissions.AccessRules.AddRange(accessRules.Cast<FileSystemAccessRule>().Select(x => FileSystemAccessRule2.FromFileSystemAccessRule(x)));
+                filePermissions.OwnerSID = acs.GetOwner(typeof(SecurityIdentifier)).Value;
+            }
+            filePermissions.CanReadFilePermissions = acsResult;
+            return filePermissions;
+        }
+
+        public bool SetPermissions()
+        {
+            var acsResult = GetAccessControl(FilePath, IsFolder, out var acs);
+            if (acsResult)
+            {
+                try
+                {
+                    var accessRules = acs.GetAccessRules(true, true, typeof(SecurityIdentifier));
+                    foreach (var existingRule in accessRules.Cast<FileSystemAccessRule>().Where(x => !x.IsInherited))
+                    {
+                        acs.RemoveAccessRule(existingRule);
+                    }
+                    foreach (var rule in AccessRules.Where(x => !x.IsInherited))
+                    {
+                        acs.AddAccessRule(rule.ToFileSystemAccessRule());
+                    }
+                    if (IsFolder)
+                    {
+                        Directory.SetAccessControl(FilePath, acs as DirectorySecurity);
+                    }
+                    else
+                    {
+                        File.SetAccessControl(FilePath, acs as FileSecurity);
+                    }
+                    return true;
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    // User does not have rights to set access rules
+                    return false;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool SetOwner(string ownerSid)
+        {
+            var acsResult = GetAccessControl(FilePath, IsFolder, out var acs);
+            if (acsResult)
+            {
+                try
+                {
+                    acs.SetOwner(new SecurityIdentifier(ownerSid));
+                    if (IsFolder)
+                    {
+                        Directory.SetAccessControl(FilePath, acs as DirectorySecurity);
+                    }
+                    else
+                    {
+                        File.SetAccessControl(FilePath, acs as FileSecurity);
+                    }
+                    return true;
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    // User does not have rights to set the owner
+                    return false;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        private static bool GetAccessControl(string filePath, bool isFolder, out FileSystemSecurity fss)
+        {
             try
             {
                 if (isFolder && Directory.Exists(filePath))
                 {
-                    var acs = Directory.GetAccessControl(filePath);
-                    var accessRules = acs.GetAccessRules(true, true, typeof(SecurityIdentifier));
-                    filePermissions.AccessRules.AddRange(accessRules.Cast<FileSystemAccessRule>().Select(x => FileSystemAccessRule2.FromFileSystemAccessRule(x)));
+                    fss = Directory.GetAccessControl(filePath);
+                    return true;
                 }
                 else if (File.Exists(filePath))
                 {
-                    var acs = File.GetAccessControl(filePath);
-                    var accessRules = acs.GetAccessRules(true, true, typeof(SecurityIdentifier));
-                    filePermissions.AccessRules.AddRange(accessRules.Cast<FileSystemAccessRule>().Select(x => FileSystemAccessRule2.FromFileSystemAccessRule(x)));
+                    fss = File.GetAccessControl(filePath);
+                    return true;
                 }
-                filePermissions.CanReadFilePermissions = true;
+                else
+                {
+                    // File or folder does not exists
+                    fss = null;
+                    return false;
+                }
             }
             catch (UnauthorizedAccessException)
             {
                 // User does not have rights to read access rules
-                filePermissions.CanReadFilePermissions = false;
+                fss = null;
+                return false;
             }
-            return filePermissions;
+            catch (Exception)
+            {
+                fss = null;
+                return false;
+            }
         }
     }
 
@@ -56,15 +152,30 @@ namespace FilesFullTrust
         public FileSystemRights FileSystemRights { get; set; }
         public string IdentityReference { get; set; }
         public bool IsInherited { get; set; }
+        public InheritanceFlags InheritanceFlags { get; set; }
+        public PropagationFlags PropagationFlags { get; set; }
 
         public static FileSystemAccessRule2 FromFileSystemAccessRule(FileSystemAccessRule rule)
         {
-            var fsa2 = new FileSystemAccessRule2();
-            fsa2.AccessControlType = rule.AccessControlType;
-            fsa2.FileSystemRights = rule.FileSystemRights;
-            fsa2.IsInherited = rule.IsInherited;
-            fsa2.IdentityReference = rule.IdentityReference.Value;
-            return fsa2;
+            return new FileSystemAccessRule2()
+            {
+                AccessControlType = rule.AccessControlType,
+                FileSystemRights = rule.FileSystemRights,
+                IsInherited = rule.IsInherited,
+                IdentityReference = rule.IdentityReference.Value,
+                InheritanceFlags = rule.InheritanceFlags,
+                PropagationFlags = rule.PropagationFlags
+            };
+        }
+
+        public FileSystemAccessRule ToFileSystemAccessRule()
+        {
+            return new FileSystemAccessRule(
+                identity: new SecurityIdentifier(IdentityReference),
+                fileSystemRights: FileSystemRights,
+                inheritanceFlags: InheritanceFlags,
+                propagationFlags: PropagationFlags,
+                type: AccessControlType);
         }
     }
 }

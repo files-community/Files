@@ -1,4 +1,5 @@
 ﻿using ByteSizeLib;
+using Files.Common;
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem;
@@ -163,7 +164,7 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        public async void GetFilePermissionProperties()
+        public async void GetFolderPermissionProperties()
         {
             if (AppInstance.ServiceConnection != null)
             {
@@ -181,6 +182,23 @@ namespace Files.ViewModels.Properties
                     ViewModel.FilePermissions = filePermissions;
                 }
             }
+        }
+
+        public async Task<bool> SetFolderPermissionProperties()
+        {
+            if (AppInstance.ServiceConnection != null)
+            {
+                var value = new ValueSet()
+                {
+                    { "Arguments", "FileOperation" },
+                    { "fileop", "SetFilePermissions" },
+                    { "permissions", JsonConvert.SerializeObject(ViewModel.FilePermissions) }
+                };
+                var (status, response) = await AppInstance.ServiceConnection.SendMessageForResponseAsync(value);
+                return (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
+                    && response.Get("Success", false));
+            }
+            return false;
         }
 
         private async void GetFolderSize(StorageFolder storageFolder, CancellationToken token)
