@@ -752,7 +752,7 @@ namespace FilesFullTrust
 
                 case "OpenMapNetworkDriveDialog":
                     var hwnd = (long)message["HWND"];
-                    NetworkDrivesAPI.OpenMapNetworkDriveDialog(hwnd);
+                    _ = Win32API.StartSTATask(() => NetworkDrivesAPI.OpenMapNetworkDriveDialog(hwnd));
                     break;
 
                 case "DisconnectNetworkDrive":

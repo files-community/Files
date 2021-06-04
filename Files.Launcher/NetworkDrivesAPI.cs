@@ -125,7 +125,7 @@ namespace FilesFullTrust
 
         public static bool DisconnectNetworkDrive(string drive)
         {
-            return !WNetCancelConnection2(drive.TrimEnd('\\'), CONNECT.CONNECT_UPDATE_PROFILE, true).Failed;
+            return WNetCancelConnection2(drive.TrimEnd('\\'), CONNECT.CONNECT_UPDATE_PROFILE, true).Succeeded;
         }
     }
 }
