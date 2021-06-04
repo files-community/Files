@@ -159,11 +159,9 @@ namespace Files.ViewModels.Properties
                 App.Logger.Warn(ex, ex.Message);
                 ViewModel.ItemMD5HashCalcError = true;
             }
-
-            await GetFilePermissionProperties();
         }
 
-        private async Task GetFilePermissionProperties()
+        public async void GetFilePermissionProperties()
         {
             if (AppInstance.ServiceConnection != null)
             {

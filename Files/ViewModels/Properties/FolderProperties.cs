@@ -161,11 +161,9 @@ namespace Files.ViewModels.Properties
                     }
                 }
             }
-
-            await GetFilePermissionProperties();
         }
 
-        private async Task GetFilePermissionProperties()
+        public async void GetFilePermissionProperties()
         {
             if (AppInstance.ServiceConnection != null)
             {
