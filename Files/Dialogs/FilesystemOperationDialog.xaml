@@ -30,24 +30,7 @@
     <ContentDialog.Resources>
         <ResourceDictionary>
             <x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary>
-                    <ResourceDictionary.ThemeDictionaries>
-                        <ResourceDictionary x:Key="Light">
-                            <SolidColorBrush x:Key="FilesystemOperationDialogExclamationMarkIconColor" Color="Goldenrod" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="Dark">
-                            <SolidColorBrush x:Key="FilesystemOperationDialogExclamationMarkIconColor" Color="Yellow" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="HighContrast">
-                            <SolidColorBrush x:Key="FilesystemOperationDialogExclamationMarkIconColor" Color="Yellow" />
-                        </ResourceDictionary>
-                    </ResourceDictionary.ThemeDictionaries>
-                </ResourceDictionary>
-                <ResourceDictionary>
-                    <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
-                </ResourceDictionary>
-            </ResourceDictionary.MergedDictionaries>
+            <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
         </ResourceDictionary>
     </ContentDialog.Resources>
 
@@ -74,7 +57,7 @@
 
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <ItemsStackPanel Orientation="Vertical" />
+                            <ItemsStackPanel HorizontalAlignment="Stretch" Orientation="Vertical" />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
 
@@ -101,31 +84,13 @@
                                         <RowDefinition Height="20" />
                                     </Grid.RowDefinitions>
 
-                                    <!--  Operation type icon  -->
-                                    <FontIcon
+                                    <!--  File icon  -->
+                                    <Image
                                         Grid.RowSpan="2"
                                         Grid.Column="0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        FontSize="24"
-                                        Glyph="{Binding OperationIconGlyph, Mode=OneWay}" />
-
-                                    <!--  Exclamation mark icon for conflicts  -->
-                                    <Grid
-                                        Grid.RowSpan="2"
-                                        Grid.Column="0"
-                                        Margin="0,0,-2,8"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Bottom"
-                                        Visibility="{Binding ExclamationMarkVisibility}">
-                                        <!--  Background  -->
-                                        <Polygon Fill="{ThemeResource SolidBackgroundFillColorBaseBrush}" Points="6,0 0,10, 12,10" />
-                                        <!--  Exclamation mark  -->
-                                        <FontIcon
-                                            FontSize="12"
-                                            Foreground="{ThemeResource FilesystemOperationDialogExclamationMarkIconColor}"
-                                            Glyph="&#xE7BA;" />
-                                    </Grid>
+                                        Source="{Binding ItemIcon}" />
 
                                     <!--  Destination Filename  -->
                                     <TextBlock
@@ -138,6 +103,7 @@
                                         Text="{Binding DisplayFileName}"
                                         TextTrimming="CharacterEllipsis" />
 
+                                    <!--  Taken action | source and destination folders  -->
                                     <Grid Grid.Row="1" Grid.Column="1">
 
                                         <!--  Taken action text  -->
@@ -159,7 +125,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Foreground="Gray"
+                                                Foreground="{Binding SrcDestFoldersTextBrush}"
                                                 Text="{Binding SourceDirectoryDisplayName}" />
 
                                             <!--  Arrow icon  -->
@@ -167,7 +133,7 @@
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 FontSize="12"
-                                                Foreground="Gray"
+                                                Foreground="{Binding SrcDestFoldersTextBrush}"
                                                 Glyph="&#xEA62;"
                                                 Visibility="{Binding DestinationLocationVisibility}" />
 
@@ -175,7 +141,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Foreground="Gray"
+                                                Foreground="{Binding SrcDestFoldersTextBrush}"
                                                 Text="{Binding DestinationDirectoryDisplayName}"
                                                 Visibility="{Binding DestinationLocationVisibility}" />
                                         </StackPanel>
