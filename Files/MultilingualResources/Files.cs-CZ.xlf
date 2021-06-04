@@ -2998,10 +2998,6 @@
           <source>Sort</source>
           <target state="new">Sort</target>
         </trans-unit>
-        <trans-unit id="NavToolbarLayout.Text" translate="yes" xml:space="preserve">
-          <source>Layout</source>
-          <target state="new">Layout</target>
-        </trans-unit>
         <trans-unit id="SettingsDialogCloseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Close</source>
           <target state="new">Close</target>
@@ -3045,6 +3041,10 @@
         <trans-unit id="NavigationToolbarNewPane.Label" translate="yes" xml:space="preserve">
           <source>New pane</source>
           <target state="new">New pane</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarLayoutMode.Text" translate="yes" xml:space="preserve">
+          <source>Layout</source>
+          <target state="new">Layout</target>
         </trans-unit>
       </group>
     </body>

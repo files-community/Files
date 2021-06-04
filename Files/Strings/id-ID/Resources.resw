@@ -453,9 +453,6 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>Oke</value>
   </data>
-  <data name="NavToolbarLayout.Text" xml:space="preserve">
-    <value>Tata letak</value>
-  </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opsi pilihan</value>
   </data>
