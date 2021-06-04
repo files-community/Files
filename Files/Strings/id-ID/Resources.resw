@@ -2240,4 +2240,7 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
   <data name="NavToolbarArrangementOption_SyncStatus.Content" xml:space="preserve">
     <value>Status sinkronisasi</value>
   </data>
+  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
+    <value>Tata letak</value>
+  </data>
 </root>

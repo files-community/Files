@@ -3010,7 +3010,7 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
         </trans-unit>
         <trans-unit id="NavToolbarLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout</source>
-          <target state="new">Layout</target>
+          <target state="translated">Tata letak</target>
         </trans-unit>
       </group>
     </body>
