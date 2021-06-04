@@ -8,63 +8,34 @@ using Windows.UI.Xaml;
 
 namespace Files.Views
 {
-    public sealed partial class PropertiesSecurity : PropertiesTab, INotifyPropertyChanged
+    public sealed partial class PropertiesSecurity : PropertiesTab
     {
         public PropertiesSecurity()
         {
             this.InitializeComponent();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public async override Task<bool> SaveChangesAsync(ListedItem item)
         {
-            if (BaseProperties is FileProperties fileProps)
+            if (BaseProperties is FileSystemProperties fileSysProps)
             {
-                return await fileProps.SetFilePermissionProperties();
+                return await fileSysProps.SetFilePermissions();
             }
-            else if (BaseProperties is FolderProperties folderProps)
-            {
-                return await folderProps.SetFolderPermissionProperties();
-            }
-            return false;
+            return true;
         }
 
         protected override void Properties_Loaded(object sender, RoutedEventArgs e)
         {
             base.Properties_Loaded(sender, e);
 
-            if (BaseProperties is FileProperties fileProps)
+            if (BaseProperties is FileSystemProperties fileSysProps)
             {
-                fileProps.GetFilePermissionProperties();
-            }
-            else if (BaseProperties is FolderProperties folderProps)
-            {
-                folderProps.GetFolderPermissionProperties();
+                fileSysProps.GetFilePermissions();
             }
         }
 
         public override void Dispose()
         {
-        }
-
-        private RulesForUser selectedAccessRule;
-        public RulesForUser SelectedAccessRule
-        {
-            get => selectedAccessRule;
-            set
-            {
-                if (value != selectedAccessRule)
-                {
-                    selectedAccessRule = value;
-                    NotifyPropertyChanged(nameof(SelectedAccessRule));
-                }
-            }
         }
     }
 }

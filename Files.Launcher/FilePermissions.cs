@@ -6,6 +6,8 @@ using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using Tulpep.ActiveDirectoryObjectPicker;
 
 namespace FilesFullTrust
 {
@@ -143,6 +145,41 @@ namespace FilesFullTrust
                 fss = null;
                 return false;
             }
+        }
+
+        public static async Task<string> OpenObjectPicker(long hwnd)
+        {
+            return await Win32API.StartSTATask(() =>
+            {
+                DirectoryObjectPickerDialog picker = new DirectoryObjectPickerDialog()
+                {
+                    AllowedObjectTypes = ObjectTypes.All,
+                    DefaultObjectTypes = ObjectTypes.Users | ObjectTypes.Groups,
+                    AllowedLocations = Locations.All,
+                    DefaultLocations = Locations.LocalComputer,
+                    MultiSelect = false,
+                    ShowAdvancedView = true
+                };
+                picker.AttributesToFetch.Add("objectSid");
+                using (picker)
+                {
+                    if (picker.ShowDialog(Win32API.Win32Window.FromLong(hwnd)) == DialogResult.OK)
+                    {
+                        try
+                        {
+                            var attribs = picker.SelectedObject.FetchedAttributes;
+                            if (attribs.Any() && attribs[0] is byte[] objectSid)
+                            {
+                                return new SecurityIdentifier(objectSid, 0).Value;
+                            }
+                        }
+                        catch
+                        {
+                        }
+                    }
+                }
+                return null;
+            });
         }
     }
 

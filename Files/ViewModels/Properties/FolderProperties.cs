@@ -1,13 +1,10 @@
 ﻿using ByteSizeLib;
-using Files.Common;
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem;
-using Files.Filesystem.Permissions;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
-using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Threading;
@@ -19,24 +16,18 @@ using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Properties
 {
-    internal class FolderProperties : BaseProperties
+    internal class FolderProperties : FileSystemProperties
     {
-        public ListedItem Item { get; }
-
         public FolderProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ListedItem item, IShellPage instance)
+            : base(viewModel, tokenSource, coreDispatcher, item, instance)
         {
-            ViewModel = viewModel;
-            TokenSource = tokenSource;
-            Dispatcher = coreDispatcher;
-            Item = item;
-            AppInstance = instance;
-
-            GetBaseProperties();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
         public override void GetBaseProperties()
         {
+            base.GetBaseProperties();
+
             if (Item != null)
             {
                 ViewModel.ItemName = Item.ItemName;
@@ -78,6 +69,8 @@ namespace Files.ViewModels.Properties
 
         public async override void GetSpecialProperties()
         {
+            base.GetSpecialProperties();
+
             ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
@@ -162,43 +155,6 @@ namespace Files.ViewModels.Properties
                     }
                 }
             }
-        }
-
-        public async void GetFolderPermissionProperties()
-        {
-            if (AppInstance.ServiceConnection != null)
-            {
-                var value = new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "GetFilePermissions" },
-                    { "filepath", Item.ItemPath },
-                    { "isfolder", Item.PrimaryItemAttribute == StorageItemTypes.Folder }
-                };
-                var (status, response) = await AppInstance.ServiceConnection.SendMessageForResponseAsync(value);
-                if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
-                {
-                    var filePermissions = JsonConvert.DeserializeObject<FilePermissions>((string)response["FilePermissions"]);
-                    ViewModel.FilePermissions = filePermissions;
-                }
-            }
-        }
-
-        public async Task<bool> SetFolderPermissionProperties()
-        {
-            if (AppInstance.ServiceConnection != null)
-            {
-                var value = new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "SetFilePermissions" },
-                    { "permissions", JsonConvert.SerializeObject(ViewModel.FilePermissions) }
-                };
-                var (status, response) = await AppInstance.ServiceConnection.SendMessageForResponseAsync(value);
-                return (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
-                    && response.Get("Success", false));
-            }
-            return false;
         }
 
         private async void GetFolderSize(StorageFolder storageFolder, CancellationToken token)

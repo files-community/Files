@@ -1,12 +1,9 @@
 ﻿using ByteSizeLib;
-using Files.Common;
 using Files.Extensions;
 using Files.Filesystem;
-using Files.Filesystem.Permissions;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -27,27 +24,21 @@ using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Properties
 {
-    public class FileProperties : BaseProperties
+    public class FileProperties : FileSystemProperties
     {
         private IProgress<float> hashProgress;
 
-        public ListedItem Item { get; }
-
         public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, IProgress<float> hashProgress, ListedItem item, IShellPage instance)
+            : base(viewModel, tokenSource, coreDispatcher, item, instance)
         {
-            ViewModel = viewModel;
-            TokenSource = tokenSource;
             this.hashProgress = hashProgress;
-            Dispatcher = coreDispatcher;
-            Item = item;
-            AppInstance = instance;
-
-            GetBaseProperties();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
         public override void GetBaseProperties()
         {
+            base.GetBaseProperties();
+
             if (Item != null)
             {
                 ViewModel.ItemName = Item.ItemName;
@@ -103,6 +94,8 @@ namespace Files.ViewModels.Properties
 
         public override async void GetSpecialProperties()
         {
+            base.GetSpecialProperties();
+
             ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.ReadOnly);
             ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
@@ -159,43 +152,6 @@ namespace Files.ViewModels.Properties
                 App.Logger.Warn(ex, ex.Message);
                 ViewModel.ItemMD5HashCalcError = true;
             }
-        }
-
-        public async void GetFilePermissionProperties()
-        {
-            if (AppInstance.ServiceConnection != null)
-            {
-                var value = new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "GetFilePermissions" },
-                    { "filepath", Item.ItemPath },
-                    { "isfolder", Item.PrimaryItemAttribute == StorageItemTypes.Folder }
-                };
-                var (status, response) = await AppInstance.ServiceConnection.SendMessageForResponseAsync(value);
-                if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
-                {
-                    var filePermissions = JsonConvert.DeserializeObject<FilePermissions>((string)response["FilePermissions"]);
-                    ViewModel.FilePermissions = filePermissions;
-                }
-            }
-        }
-
-        public async Task<bool> SetFilePermissionProperties()
-        {
-            if (AppInstance.ServiceConnection != null)
-            {
-                var value = new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "SetFilePermissions" },
-                    { "permissions", JsonConvert.SerializeObject(ViewModel.FilePermissions) }
-                };
-                var (status, response) = await AppInstance.ServiceConnection.SendMessageForResponseAsync(value);
-                return (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
-                    && response.Get("Success", false));
-            }
-            return false;
         }
 
         public async void GetSystemFileProperties()

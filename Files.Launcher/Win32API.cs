@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Vanara.PInvoke;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -330,6 +331,15 @@ namespace FilesFullTrust
                     }
                 }
             });
+        }
+
+        public class Win32Window : IWin32Window
+        {
+            public IntPtr Handle { get; set; }
+            public static Win32Window FromLong(long hwnd)
+            {
+                return new Win32Window() { Handle = new IntPtr(hwnd) };
+            }
         }
 
         // Get information from recycle bin.

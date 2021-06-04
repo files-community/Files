@@ -752,12 +752,12 @@ namespace FilesFullTrust
 
                 case "OpenMapNetworkDriveDialog":
                     var hwnd = (long)message["HWND"];
-                    _ = Win32API.StartSTATask(() => NetworkDrivesAPI.OpenMapNetworkDriveDialog(hwnd));
+                    _ = NetworkDrivesAPI.OpenMapNetworkDriveDialog(hwnd);
                     break;
 
                 case "DisconnectNetworkDrive":
                     var drivePath = (string)message["drive"];
-                    NetworkDrivesAPI.DisconnectNetworkDrive(drivePath);
+                    _ = NetworkDrivesAPI.DisconnectNetworkDrive(drivePath);
                     break;
             }
         }
@@ -1038,6 +1038,15 @@ namespace FilesFullTrust
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
                         { "Success", filePermissionsToSet.SetPermissions() }
+                    }, message.Get("RequestID", (string)null));
+                    break;
+
+                case "OpenObjectPicker":
+                    var hwnd = (long)message["HWND"];
+                    var pickedObject = await FilePermissions.OpenObjectPicker(hwnd);
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "PickedObject", pickedObject }
                     }, message.Get("RequestID", (string)null));
                     break;
             }

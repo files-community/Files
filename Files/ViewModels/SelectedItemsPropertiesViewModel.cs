@@ -684,12 +684,36 @@ namespace Files.ViewModels
             set => SetProperty(ref isHidden, value);
         }
 
-        public FilePermissions filePermissions;
+        public RelayCommand AddRulesForUserCommand { get; set; }
 
-        public FilePermissions FilePermissions
+        public RelayCommand RemoveRulesForUserCommand { get; set; }
+
+        public FilePermissionsManager filePermissions;
+
+        public FilePermissionsManager FilePermissions
         {
             get => filePermissions;
-            set => SetProperty(ref filePermissions, value);
+            set
+            {
+                if (SetProperty(ref filePermissions, value))
+                {
+                    AddRulesForUserCommand.NotifyCanExecuteChanged();
+                    RemoveRulesForUserCommand.NotifyCanExecuteChanged();
+                }
+            }
+        }
+
+        private RulesForUser selectedRuleForUser;
+        public RulesForUser SelectedRuleForUser
+        {
+            get => selectedRuleForUser;
+            set
+            {
+                if (SetProperty(ref selectedRuleForUser, value))
+                {
+                    RemoveRulesForUserCommand.NotifyCanExecuteChanged();
+                }
+            }
         }
 
         public bool isFolder;
