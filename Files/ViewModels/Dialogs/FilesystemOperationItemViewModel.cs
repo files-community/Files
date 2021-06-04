@@ -1,4 +1,5 @@
 ﻿using Files.Enums;
+using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -15,15 +16,34 @@ namespace Files.ViewModels.Dialogs
     {
         private readonly Action updatePrimaryButtonEnabled;
 
+        private readonly ElementTheme RootTheme = ThemeHelper.RootTheme;
+
         public string SourcePath { get; set; }
 
         public string DestinationPath { get; set; }
 
         public Brush SrcDestFoldersTextBrush
         {
-            get => !ActionTaken && ConflictResolveOption != FileNameConflictResolveOptionType.NotAConflict
-                ? new SolidColorBrush(Color.FromArgb(255, 237, 237, 40)) // Yellow
-                : new SolidColorBrush(Color.FromArgb(255, 128, 128, 128)); // Gray
+            get
+            {
+                if (!ActionTaken && ConflictResolveOption != FileNameConflictResolveOptionType.NotAConflict)
+                {
+                    if (RootTheme == ElementTheme.Dark || (RootTheme == ElementTheme.Default && Application.Current.RequestedTheme == ApplicationTheme.Dark))
+                    {
+                        // For dark theme
+                        return new SolidColorBrush(Color.FromArgb(255, 237, 237, 40)); // Yellow
+                    }
+                    else
+                    {
+                        // For light theme
+                        return new SolidColorBrush(Color.FromArgb(255, 218, 165, 32)); // Goldenrod
+                    }
+                }
+                else
+                {
+                    return new SolidColorBrush(Color.FromArgb(255, 128, 128, 128)); // Gray
+                }
+            }
         }
 
         private bool isConflict;

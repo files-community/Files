@@ -30,24 +30,7 @@
     <ContentDialog.Resources>
         <ResourceDictionary>
             <x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary>
-                    <ResourceDictionary.ThemeDictionaries>
-                        <ResourceDictionary x:Key="Light">
-                            <SolidColorBrush x:Key="FilesystemOperationDialogExclamationMarkIconColor" Color="Goldenrod" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="Dark">
-                            <SolidColorBrush x:Key="FilesystemOperationDialogExclamationMarkIconColor" Color="Yellow" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="HighContrast">
-                            <SolidColorBrush x:Key="FilesystemOperationDialogExclamationMarkIconColor" Color="Yellow" />
-                        </ResourceDictionary>
-                    </ResourceDictionary.ThemeDictionaries>
-                </ResourceDictionary>
-                <ResourceDictionary>
-                    <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
-                </ResourceDictionary>
-            </ResourceDictionary.MergedDictionaries>
+            <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
         </ResourceDictionary>
     </ContentDialog.Resources>
 
