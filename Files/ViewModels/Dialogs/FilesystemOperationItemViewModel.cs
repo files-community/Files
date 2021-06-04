@@ -4,6 +4,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Windows.Input;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -14,11 +15,16 @@ namespace Files.ViewModels.Dialogs
     {
         private readonly Action updatePrimaryButtonEnabled;
 
-        public string OperationIconGlyph { get; set; }
-
         public string SourcePath { get; set; }
 
         public string DestinationPath { get; set; }
+
+        public Brush SrcDestFoldersTextBrush
+        {
+            get => !ActionTaken && ConflictResolveOption != FileNameConflictResolveOptionType.NotAConflict
+                ? new SolidColorBrush(Color.FromArgb(255, 237, 237, 40)) // Yellow
+                : new SolidColorBrush(Color.FromArgb(255, 128, 128, 128)); // Gray
+        }
 
         private bool isConflict;
         public bool IsConflict
@@ -83,14 +89,6 @@ namespace Files.ViewModels.Dialogs
         public Visibility DestinationLocationVisibility
         {
             get => string.IsNullOrEmpty(DestinationPath) ? Visibility.Collapsed : Visibility.Visible;
-        }
-
-        private Visibility exclamationMarkVisibility = Visibility.Collapsed;
-
-        public Visibility ExclamationMarkVisibility
-        {
-            get => exclamationMarkVisibility;
-            set => SetProperty(ref exclamationMarkVisibility, value);
         }
 
         public FileNameConflictResolveOptionType ConflictResolveOption { get; set; }
@@ -162,7 +160,6 @@ namespace Files.ViewModels.Dialogs
             {
                 ConflictResolveOption = action;
                 ActionTaken = actionTaken;
-                ExclamationMarkVisibility = actionTaken ? Visibility.Collapsed : Visibility.Visible;
                 OnPropertyChanged(nameof(ShowSubFolders));
                 OnPropertyChanged(nameof(ShowResolveOption));
                 OnPropertyChanged(nameof(ShowUndoButton));

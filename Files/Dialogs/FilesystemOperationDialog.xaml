@@ -74,7 +74,7 @@
 
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <ItemsStackPanel Orientation="Vertical" />
+                            <ItemsStackPanel HorizontalAlignment="Stretch" Orientation="Vertical" />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
 
@@ -101,34 +101,13 @@
                                         <RowDefinition Height="20" />
                                     </Grid.RowDefinitions>
 
-                                    <Grid Grid.RowSpan="2" Grid.Column="0">
-                                        <!--  File icon  -->
-                                        <Image Source="{Binding ItemIcon}" />
-
-                                        <!--  Operation type icon  -->
-                                        <FontIcon
-                                            Margin="0,0,-8,-2"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Bottom"
-                                            FontSize="14"
-                                            Glyph="{Binding OperationIconGlyph, Mode=OneWay}"
-                                            Visibility="{Binding ExclamationMarkVisibility, Converter={StaticResource VisiblityInvertConverter}}" />
-
-                                        <!--  Exclamation mark icon for conflicts  -->
-                                        <Grid
-                                            Margin="0,0,-8,-2"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Bottom"
-                                            Visibility="{Binding ExclamationMarkVisibility}">
-                                            <!--  Background  -->
-                                            <Polygon Fill="{ThemeResource SolidBackgroundFillColorBaseBrush}" Points="7,0 0,13, 12,13" />
-                                            <!--  Exclamation mark  -->
-                                            <FontIcon
-                                                FontSize="14"
-                                                Foreground="{ThemeResource FilesystemOperationDialogExclamationMarkIconColor}"
-                                                Glyph="&#xE7BA;" />
-                                        </Grid>
-                                    </Grid>
+                                    <!--  File icon  -->
+                                    <Image
+                                        Grid.RowSpan="2"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Source="{Binding ItemIcon}" />
 
                                     <!--  Destination Filename  -->
                                     <TextBlock
@@ -141,6 +120,7 @@
                                         Text="{Binding DisplayFileName}"
                                         TextTrimming="CharacterEllipsis" />
 
+                                    <!--  Taken action | source and destination folders  -->
                                     <Grid Grid.Row="1" Grid.Column="1">
 
                                         <!--  Taken action text  -->
@@ -162,7 +142,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Foreground="Gray"
+                                                Foreground="{Binding SrcDestFoldersTextBrush}"
                                                 Text="{Binding SourceDirectoryDisplayName}" />
 
                                             <!--  Arrow icon  -->
@@ -170,7 +150,7 @@
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 FontSize="12"
-                                                Foreground="Gray"
+                                                Foreground="{Binding SrcDestFoldersTextBrush}"
                                                 Glyph="&#xEA62;"
                                                 Visibility="{Binding DestinationLocationVisibility}" />
 
@@ -178,7 +158,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Foreground="Gray"
+                                                Foreground="{Binding SrcDestFoldersTextBrush}"
                                                 Text="{Binding DestinationDirectoryDisplayName}"
                                                 Visibility="{Binding DestinationLocationVisibility}" />
                                         </StackPanel>

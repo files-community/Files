@@ -73,11 +73,9 @@ namespace Files.DataModels
                 {
                     IsConflict = true,
                     ItemIcon = icon,
-                    OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
                     SourcePath = item.SourcePath,
                     DestinationPath = item.DestinationPath,
                     ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName,
-                    ExclamationMarkVisibility = Visibility.Visible,
                     ItemOperation = item.OperationType,
                     ActionTaken = false
                 });
@@ -92,11 +90,9 @@ namespace Files.DataModels
                 {
                     IsConflict = false,
                     ItemIcon = icon,
-                    OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
                     SourcePath = item.SourcePath,
                     DestinationPath = item.DestinationPath,
                     ConflictResolveOption = FileNameConflictResolveOptionType.NotAConflict,
-                    ExclamationMarkVisibility = Visibility.Collapsed,
                     ItemOperation = item.OperationType,
                     ActionTaken = true
                 });
