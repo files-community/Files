@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.DataModels;
 using Files.Extensions;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Helpers
 {
@@ -49,6 +51,18 @@ namespace Files.Helpers
                 }
             }
             return null;
+        }
+
+        public static BitmapImage GetImageForIconOrNull(object image)
+        {
+            if (SidebarPinnedModel.IconResources is null)
+            {
+                return null;
+            }
+            else
+            {
+                return (BitmapImage)image;
+            }
         }
     }
 }

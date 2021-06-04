@@ -94,7 +94,7 @@ namespace Files.DataModels
                         Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                         Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
                         IsDefaultLocation = true,
-                        Icon = (Windows.UI.Xaml.Media.Imaging.BitmapImage)IconResources.FirstOrDefault(x => x.Index == Constants.ImageRes.RecycleBin).Image,
+                        Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.RecycleBin).Image),
                         Path = App.AppSettings.RecycleBinPath
                     };
                     // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
@@ -326,7 +326,7 @@ namespace Files.DataModels
                 Text = "SidebarFavorites".GetLocalized(),
                 Section = SectionType.Favorites,
                 SelectsOnInvoked = false,
-                Icon = (Windows.UI.Xaml.Media.Imaging.BitmapImage)IconResources.FirstOrDefault(x => x.Index == Constants.ImageRes.QuickAccess).Image,
+                Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.QuickAccess).Image),
                 Font = MainViewModel.FontName,
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };

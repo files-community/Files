@@ -208,7 +208,7 @@ namespace Files.Filesystem
                             Text = "SidebarLibraries".GetLocalized(),
                             Section = SectionType.Library,
                             SelectsOnInvoked = false,
-                            Icon = (Windows.UI.Xaml.Media.Imaging.BitmapImage)SidebarPinnedModel.IconResources.FirstOrDefault(x => x.Index == Constants.ImageRes.Libraries).Image,
+                            Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.Libraries).Image),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         SidebarControl.SideBarItems.Insert(1, librarySection);
