@@ -393,7 +393,7 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutContextFlyoutNew/Text".GetLocalized(),
+                    Text = "BaseLayoutContextFlyoutNew/Label".GetLocalized(),
                     Glyph = "\uE710",
                     KeyboardAccelerator = new KeyboardAccelerator
                     {

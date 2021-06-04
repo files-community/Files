@@ -60,7 +60,7 @@
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
-                        <muxc:ImageIcon Source="{x:Bind Icon}" />
+                        <muxc:ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>

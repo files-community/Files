@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.Controllers;
 using Files.DataModels.NavigationControlItems;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
@@ -271,14 +272,18 @@ namespace Files.DataModels
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };
 
-                var getImage = res.Result?.GetThumbnailAsync(
-                    Windows.Storage.FileProperties.ThumbnailMode.ListView,
-                    24,
-                    Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
-
-                if(getImage != null)
+                if (res)
                 {
-                    await locationItem.SetBitmapImage(await getImage);
+                    var thumbnail = await res.Result.GetThumbnailAsync(
+                        Windows.Storage.FileProperties.ThumbnailMode.ListView,
+                        24,
+                        Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+
+                    if (thumbnail != null)
+                    {
+                        locationItem.IconData = await thumbnail.ToByteArrayAsync();
+                        locationItem.Icon = await locationItem.IconData.ToBitmapAsync();
+                    }
                 }
 
                 if (!favoriteSection.ChildItems.Contains(locationItem))

@@ -169,7 +169,7 @@
     <Thickness x:Key="TabViewItemHeaderPadding">8,3,4,3</Thickness>
     <Thickness x:Key="TabViewSelectedItemHeaderPadding">9,3,5,4</Thickness>
 
-    <x:Double x:Key="TabViewItemMinHeight">38</x:Double>
+    <x:Double x:Key="TabViewItemMinHeight">36</x:Double>
     <x:Double x:Key="TabViewItemMaxWidth">240</x:Double>
     <x:Double x:Key="TabViewItemMinWidth">100</x:Double>
 

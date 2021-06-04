@@ -741,7 +741,7 @@ namespace Files.ViewModels
 
                     if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File)
                     {
-                        var fileIconInfo = await LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
+                        var fileIconInfo = await FileThumbnailHelper.LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
 
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
@@ -764,7 +764,6 @@ namespace Files.ViewModels
                                 if (fileIconInfo.IconData == null) // Loading icon from fulltrust process failed
                                 {
                                     using var Thumbnail = await matchingStorageFile.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale);
-                                    using var headerThumbnail = loadGroupHeaderInfo && isFileTypeGroupMode ? await matchingStorageFile.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale) : null;
                                     if (Thumbnail != null)
                                     {
                                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
@@ -778,7 +777,7 @@ namespace Files.ViewModels
                                 }
 
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
-                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                                 {
                                     item.FolderRelativeId = matchingStorageFile.FolderRelativeId;
                                     item.ItemType = matchingStorageFile.DisplayType;
@@ -790,7 +789,7 @@ namespace Files.ViewModels
                     }
                     else
                     {
-                        var fileIconInfo = await LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
+                        var fileIconInfo = await FileThumbnailHelper.LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
 
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
@@ -854,7 +853,6 @@ namespace Files.ViewModels
                         }, Windows.System.DispatcherQueuePriority.Low);
                     }
 
-
                     if (loadGroupHeaderInfo)
                     {
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
@@ -862,7 +860,6 @@ namespace Files.ViewModels
                             gp.Model.ImageSource = groupImage;
                             gp.InitializeExtendedGroupHeaderInfoAsync();
                         });
-
                     }
 
                     loadExtendedPropsSemaphore.Release();
@@ -875,7 +872,7 @@ namespace Files.ViewModels
             ImageSource groupImage = null;
             if (item.PrimaryItemAttribute != StorageItemTypes.Folder)
             {
-                (byte[] iconData, byte[] overlayData, bool isCustom) headerIconInfo = await LoadIconOverlayAsync(item.ItemPath, 76);
+                (byte[] iconData, byte[] overlayData, bool isCustom) headerIconInfo = await FileThumbnailHelper.LoadIconOverlayAsync(item.ItemPath, 76);
 
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                 {
@@ -918,51 +915,6 @@ namespace Files.ViewModels
             }
 
             return groupImage;
-        }
-        public async Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconOverlayAsync(string filePath, uint thumbnailSize)
-        {
-            if (Connection != null)
-            {
-                var value = new ValueSet();
-                value.Add("Arguments", "GetIconOverlay");
-                value.Add("filePath", filePath);
-                value.Add("thumbnailSize", (int)thumbnailSize);
-                var (status, response) = await Connection.SendMessageForResponseAsync(value);
-                if (status == AppServiceResponseStatus.Success)
-                {
-                    var hasCustomIcon = response.Get("HasCustomIcon", false);
-                    var icon = response.Get("Icon", (string)null);
-                    var overlay = response.Get("Overlay", (string)null);
-
-                    // BitmapImage can only be created on UI thread, so return raw data and create
-                    // BitmapImage later to prevent exceptions once SynchorizationContext lost
-                    return (icon == null ? null : Convert.FromBase64String(icon),
-                        overlay == null ? null : Convert.FromBase64String(overlay),
-                        hasCustomIcon);
-                }
-            }
-            return (null, null, false);
-        }
-
-        public async Task<byte[]> LoadIconWithoutOverlayAsync(string filePath, uint thumbnailSize)
-        {
-            if (Connection != null)
-            {
-                var value = new ValueSet();
-                value.Add("Arguments", "GetIconWithoutOverlay");
-                value.Add("filePath", filePath);
-                value.Add("thumbnailSize", (int)thumbnailSize);
-                var (status, response) = await Connection.SendMessageForResponseAsync(value);
-                if (status == AppServiceResponseStatus.Success)
-                {
-                    var icon = response.Get("Icon", (string)null);
-
-                    // BitmapImage can only be created on UI thread, so return raw data and create
-                    // BitmapImage later to prevent exceptions once SynchorizationContext lost
-                    return (icon == null ? null : Convert.FromBase64String(icon));
-                }
-            }
-            return null;
         }
 
         public void RefreshItems(string previousDir)
