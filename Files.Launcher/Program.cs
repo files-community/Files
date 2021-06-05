@@ -1,7 +1,5 @@
 using Files.Common;
 using Microsoft.Win32;
-using Newtonsoft.Json;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,9 +25,10 @@ using Windows.Storage;
 namespace FilesFullTrust
 {
     internal class Program
+    {
         public static Logger Logger { get; private set; }
         private static readonly LogWriter logWriter = new LogWriter();
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static JsonSerializerOptions includeFieldsOptions = new JsonSerializerOptions { IncludeFields = true };
 
         [STAThread]
         private static void Main(string[] args)
