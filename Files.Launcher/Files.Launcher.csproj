@@ -110,15 +110,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.2" />
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="1.2.6" />
     <PackageReference Include="NamedPipeServerStream.NetFrameworkVersion" Version="1.0.8" />
-    <PackageReference Include="NLog">
-      <Version>4.7.10</Version>
-    </PackageReference>
     <PackageReference Include="Vanara.PInvoke.Mpr">
       <Version>3.3.10</Version>
     </PackageReference>
