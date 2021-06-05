@@ -2,6 +2,11 @@
 {
     public static class Constants
     {
+        public static class AdaptiveLayout
+        {
+
+        }
+
         public static class UI
         {
             public const float DimItemOpacity = 0.4f;
