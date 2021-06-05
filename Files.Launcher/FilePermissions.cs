@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text;
@@ -180,6 +181,39 @@ namespace FilesFullTrust
                 }
                 return null;
             });
+        }
+
+        private IEnumerable<string> SearchForUserOrGroup(string userName, string domain = "")
+        {
+            try
+            {
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher($"select * from Win32_Account where Name like '%{userName}%' and Domain like '%{domain}%'");
+                return searcher.Get().Cast<ManagementObject>().Select(x => x.Properties["SID"].Value as string);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private IEnumerable<string> GetGroupsForUser(string sid)
+        {
+            try
+            {
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher($"select * from Win32_UserAccount where SID='{sid}'");
+                var user = searcher.Get().Cast<ManagementObject>().FirstOrDefault();
+
+                if (user != null)
+                {
+                    var groups = user.GetRelated("Win32_Group");
+                    return groups.Cast<ManagementObject>().Select(x => x.Properties["SID"].Value as string);
+                }
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 
