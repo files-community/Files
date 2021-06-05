@@ -282,7 +282,7 @@ namespace Files.Helpers
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex);
+                App.Logger.Warn(ex);
             }
         }
 

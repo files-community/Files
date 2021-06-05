@@ -1,6 +1,7 @@
 ﻿using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -8,17 +9,41 @@ using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
-    public class InteractionViewModel : ObservableObject
+    public class MainViewModel : ObservableObject
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        public InteractionViewModel()
+        public MainViewModel()
         {
             Window.Current.SizeChanged += Current_SizeChanged;
+            Clipboard.ContentChanged += Clipboard_ContentChanged;
 
             DetectFontName();
             SetMultitaskingControl();
         }
+
+        public void Clipboard_ContentChanged(object sender, object e)
+        {
+            try
+            {
+                // Clipboard.GetContent() will throw UnauthorizedAccessException
+                // if the app window is not in the foreground and active
+                DataPackageView packageView = Clipboard.GetContent();
+                if (packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap))
+                {
+                    IsPasteEnabled = true;
+                }
+                else
+                {
+                   IsPasteEnabled = false;
+                }
+            }
+            catch
+            {
+                IsPasteEnabled = false;
+            }
+        }
+
 
         private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
@@ -63,15 +88,12 @@ namespace Files.ViewModels
                     {
                         SetProperty(ref tabStripSelectedIndex, value);
                     }
-                    if (MainPageViewModel.MultitaskingControl is null)
-                    {
-                        return;
-                    }
-                    if (value < MainPageViewModel.MultitaskingControl.Items.Count)
+
+                    if (value < MainPageViewModel.AppInstances.Count)
                     {
                         Frame rootFrame = Window.Current.Content as Frame;
                         var mainView = rootFrame.Content as MainPage;
-                        mainView.ViewModel.SelectedTabItem = MainPageViewModel.MultitaskingControl.Items[value];
+                        mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
                     }
                 }
             }

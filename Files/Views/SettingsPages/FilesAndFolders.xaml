@@ -24,51 +24,44 @@
 
                 <TextBlock
                     x:Uid="SettingsFilesAndFoldersTitle"
-                    FontSize="22"
+                    FontSize="20"
                     FontWeight="Medium"
                     Text="Files and Folders" />
 
                 <ToggleSwitch
                     x:Uid="SettingsFilesAndFoldersShowHiddenItems"
                     Header="Show hidden files and folders"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding AreHiddenItemsVisible, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Uid="SettingsFilesAndFoldersHideSystemItems"
                     Header="Hide protected operating system files (Recommended)"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding AreSystemItemsHidden, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Name="FileExtensionsToggle"
                     x:Uid="SettingsFilesAndFoldersShowFileExtensions"
                     Header="Show extensions for known file types"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowFileExtensions, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Uid="SettingsOpenItemsWithOneclick"
                     Header="Open items with a single click"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding OpenItemsWithOneclick, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Uid="SettingsListAndSortDirectoriesAlongsideFiles"
                     Header="List and sort directories alongside files"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Uid="SettingsSearchUnindexedItems"
                     Header="Show unindexed items when searching for files and folders (searches may take longer)"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding SearchUnindexedItems, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Uid="SettingsEnableLayoutPreferencesPerFolder"
                     Header="Enable individual preferences for individual directories"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding AreLayoutPreferencesPerFolder, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>

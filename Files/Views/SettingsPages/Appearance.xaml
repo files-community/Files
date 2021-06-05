@@ -5,8 +5,9 @@
     xmlns:UserControls="using:Files.UserControls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels" xmlns:helpers="using:Files.Helpers"
+    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -29,7 +30,7 @@
 
                 <TextBlock
                     x:Uid="SettingsAppearanceTitle"
-                    FontSize="22"
+                    FontSize="20"
                     FontWeight="Medium"
                     Text="Appearance" />
 
@@ -40,7 +41,6 @@
                     MinWidth="200"
                     MaxWidth="250"
                     Header="App theme"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     ItemsSource="{Binding Themes}"
                     SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}" />
 
@@ -50,15 +50,14 @@
                     Width="Auto"
                     MinWidth="200"
                     MaxWidth="250"
+                    x:Load="{x:Bind ShowColorSchemeSelector}"
                     Header="Color scheme"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     ItemsSource="{Binding ColorSchemes}"
-                    SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
-                    x:Load="{x:Bind ShowColorSchemeSelector}" >
+                    SelectedItem="{Binding SelectedTheme, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="helpers:AppTheme">
                             <Grid>
-                                <TextBlock Text="{x:Bind Name}"/>
+                                <TextBlock Text="{x:Bind Name}" />
                             </Grid>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
@@ -67,9 +66,9 @@
                 <HyperlinkButton
                     x:Name="OpenThemesFolderButton"
                     x:Uid="SettingsAppearanceOpenThemesFolderButton"
+                    x:Load="{x:Bind ShowColorSchemeSelector}"
                     Command="{Binding OpenThemesFolderCommand}"
-                    Content="Open themes folder"
-                    x:Load="{x:Bind ShowColorSchemeSelector}" />
+                    Content="Open themes folder" />
 
                 <StackPanel
                     Width="Auto"
@@ -82,7 +81,6 @@
                         MinWidth="200"
                         MaxWidth="250"
                         Header="Date format"
-                        HeaderTemplate="{StaticResource CustomHeaderStyle}"
                         ItemsSource="{Binding DateFormats}"
                         SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
 
@@ -101,27 +99,20 @@
                     x:Name="AcrylicSidebarSwitch"
                     x:Uid="SettingsAppearanceAcrylicSidebar"
                     Header="Acrylic sidebar"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding IsAcrylicDisabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}" />
 
                 <TextBlock
                     x:Uid="SettingsContextMenu"
                     Padding="0,10,0,0"
-                    FontSize="18"
+                    FontSize="16"
                     Text="Customize the right click context menu" />
 
                 <ToggleSwitch
                     x:Name="ContextMenuToggleSwitch"
                     x:Uid="SettingsContextMenuOverflowSwitch"
                     Header="Move overflow items into a sub menu"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
-
-        <UserControls:RestartControl
-            x:Name="RestartControl"
-            VerticalAlignment="Bottom"
-            ShowDialog="{Binding ShowRestartControl, Mode=TwoWay}" />
     </Grid>
 </Page>

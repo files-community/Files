@@ -1,5 +1,6 @@
 using Files.Common;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -26,17 +27,15 @@ using Windows.Storage;
 namespace FilesFullTrust
 {
     internal class Program
-    {
+        public static Logger Logger { get; private set; }
+        private static readonly LogWriter logWriter = new LogWriter();
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private static JsonSerializerOptions includeFieldsOptions = new JsonSerializerOptions { IncludeFields = true };
 
         [STAThread]
         private static void Main(string[] args)
         {
-            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-            LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NLog.config"));
-            LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
-
+            Logger = new Logger(logWriter);
+            logWriter.InitializeAsync("debug_fulltrust.log").Wait();
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
             if (HandleCommandLineArgs())
@@ -91,17 +90,17 @@ namespace FilesFullTrust
                 librariesWatcher.Renamed += (object _, RenamedEventArgs e) => OnLibraryChanged(e.ChangeType, e.OldFullPath, e.FullPath);
                 librariesWatcher.EnableRaisingEvents = true;
 
-                // Preload context menu for better performance
-                // We query the context menu for the app's local folder
-                var preloadPath = ApplicationData.Current.LocalFolder.Path;
-                using var _ = Win32API.ContextMenu.GetContextMenuForFiles(new string[] { preloadPath }, Shell32.CMF.CMF_NORMAL | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(false));
-
                 // Create cancellation token for drop window
                 cancellation = new CancellationTokenSource();
 
                 // Connect to app service and wait until the connection gets closed
-                appServiceExit = new AutoResetEvent(false);
+                appServiceExit = new ManualResetEvent(false);
                 InitializeAppServiceConnection();
+
+                // Preload context menu for better performance
+                // We query the context menu for the app's local folder
+                var preloadPath = ApplicationData.Current.LocalFolder.Path;
+                using var _ = Win32API.ContextMenu.GetContextMenuForFiles(new string[] { preloadPath }, Shell32.CMF.CMF_NORMAL | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(false));
 
                 // Initialize device watcher
                 deviceWatcher = new DeviceWatcher(connection);
@@ -160,7 +159,7 @@ namespace FilesFullTrust
         }
 
         private static NamedPipeServerStream connection;
-        private static AutoResetEvent appServiceExit;
+        private static ManualResetEvent appServiceExit;
         private static CancellationTokenSource cancellation;
         private static Win32API.DisposableDictionary handleTable;
         private static IList<FileSystemWatcher> binWatchers;
@@ -194,13 +193,26 @@ namespace FilesFullTrust
             }
             connection.SetAccessControl(Security);
 
-            await connection.WaitForConnectionAsync();
+            try
+            {
+                using var cts = new CancellationTokenSource();
+                cts.CancelAfter(TimeSpan.FromSeconds(10));
+                await connection.WaitForConnectionAsync(cts.Token);
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex, "Could not initialize pipe!");
+            }
 
             if (connection.IsConnected)
             {
                 connection.ReadMode = PipeTransmissionMode.Message;
                 var info = (Buffer: new byte[connection.InBufferSize], Message: new StringBuilder());
                 BeginRead(info);
+            }
+            else
+            {
+                appServiceExit.Set();
             }
         }
 
@@ -397,6 +409,7 @@ namespace FilesFullTrust
                     var driveName = (string)message["drivename"];
                     var newLabel = (string)message["newlabel"];
                     Win32API.SetVolumeLabel(driveName, newLabel);
+                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "SetVolumeLabel", driveName } }, message.Get("RequestID", (string)null));
                     break;
 
                 case "FileOperation":
@@ -759,7 +772,8 @@ namespace FilesFullTrust
                     break;
 
                 case "OpenMapNetworkDriveDialog":
-                    NetworkDrivesAPI.OpenMapNetworkDriveDialog();
+                    var hwnd = (long)message["HWND"];
+                    NetworkDrivesAPI.OpenMapNetworkDriveDialog(hwnd);
                     break;
 
                 case "DisconnectNetworkDrive":
@@ -894,6 +908,62 @@ namespace FilesFullTrust
                         op.PostDeleteItem += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
                         op.PerformOperations();
                         var result = await deleteTcs.Task;
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
+                    }
+                    break;
+
+                case "RenameItem":
+                    var fileToRenamePath = (string)message["filepath"];
+                    var newName = (string)message["newName"];
+                    var overwriteOnRename = (bool)message["overwrite"];
+                    using (var op = new ShellFileOperations())
+                    {
+                        op.Options = ShellFileOperations.OperationFlags.NoUI;
+                        op.Options |= !overwriteOnRename ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision : 0;
+                        using var shi = new ShellItem(fileToRenamePath);
+                        op.QueueRenameOperation(shi, newName);
+                        var renameTcs = new TaskCompletionSource<bool>();
+                        op.PostRenameItem += (s, e) => renameTcs.TrySetResult(e.Result.Succeeded);
+                        op.PerformOperations();
+                        var result = await renameTcs.Task;
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
+                    }
+                    break;
+
+                case "MoveItem":
+                    var fileToMovePath = (string)message["filepath"];
+                    var moveDestination = (string)message["destpath"];
+                    var overwriteOnMove = (bool)message["overwrite"];
+                    using (var op = new ShellFileOperations())
+                    {
+                        op.Options = ShellFileOperations.OperationFlags.NoUI;
+                        op.Options |= !overwriteOnMove ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision : 0;
+                        using var shi = new ShellItem(fileToMovePath);
+                        using var shd = new ShellFolder(Path.GetDirectoryName(moveDestination));
+                        op.QueueMoveOperation(shi, shd, Path.GetFileName(moveDestination));
+                        var moveTcs = new TaskCompletionSource<bool>();
+                        op.PostMoveItem += (s, e) => moveTcs.TrySetResult(e.Result.Succeeded);
+                        op.PerformOperations();
+                        var result = await moveTcs.Task;
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
+                    }
+                    break;
+
+                case "CopyItem":
+                    var fileToCopyPath = (string)message["filepath"];
+                    var copyDestination = (string)message["destpath"];
+                    var overwriteOnCopy = (bool)message["overwrite"];
+                    using (var op = new ShellFileOperations())
+                    {
+                        op.Options = ShellFileOperations.OperationFlags.NoUI;
+                        op.Options |= !overwriteOnCopy ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision : 0;
+                        using var shi = new ShellItem(fileToCopyPath);
+                        using var shd = new ShellFolder(Path.GetDirectoryName(copyDestination));
+                        op.QueueCopyOperation(shi, shd, Path.GetFileName(copyDestination));
+                        var copyTcs = new TaskCompletionSource<bool>();
+                        op.PostCopyItem += (s, e) => copyTcs.TrySetResult(e.Result.Succeeded);
+                        op.PerformOperations();
+                        var result = await copyTcs.Task;
                         await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
                     }
                     break;
@@ -1066,6 +1136,7 @@ namespace FilesFullTrust
         {
             var arguments = message.Get("Arguments", "");
             var workingDirectory = message.Get("WorkingDirectory", "");
+            var currentWindows = Win32API.GetDesktopWindows();
 
             try
             {
@@ -1100,6 +1171,7 @@ namespace FilesFullTrust
                 }
                 process.StartInfo.WorkingDirectory = workingDirectory;
                 process.Start();
+                Win32API.BringToForeground(currentWindows);
             }
             catch (Win32Exception)
             {
@@ -1112,6 +1184,7 @@ namespace FilesFullTrust
                 try
                 {
                     process.Start();
+                    Win32API.BringToForeground(currentWindows);
                 }
                 catch (Win32Exception)
                 {
@@ -1123,6 +1196,7 @@ namespace FilesFullTrust
                             if (split.Count() == 1)
                             {
                                 Process.Start(split.First());
+                                Win32API.BringToForeground(currentWindows);
                             }
                             else
                             {

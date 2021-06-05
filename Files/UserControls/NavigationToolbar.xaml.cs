@@ -17,7 +17,6 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -43,12 +42,6 @@ namespace Files.UserControls
         public delegate void AddressBarTextEnteredEventHandler(object sender, AddressBarTextEnteredEventArgs e);
 
         public delegate void PathBoxItemDroppedEventHandler(object sender, PathBoxItemDroppedEventArgs e);
-
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmitted;
-
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs> SearchTextChanged;
-
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs> SearchSuggestionChosen;
 
         public event ToolbarPathItemInvokedEventHandler ToolbarPathItemInvoked;
 
@@ -77,6 +70,8 @@ namespace Files.UserControls
         public event EventHandler RefreshRequested;
 
         public event EventHandler RefreshWidgetsRequested;
+
+        public ISearchBox SearchBox => SearchRegion;
 
         #region YourHome Widgets
 
@@ -217,6 +212,19 @@ namespace Files.UserControls
         }
 
         #endregion Selection Options
+
+        public static readonly DependencyProperty ArrangementOptionsFlyoutContentProperty = DependencyProperty.Register(
+         nameof(ArrangementOptionsFlyoutContent),
+         typeof(UIElement),
+         typeof(NavigationToolbar),
+         new PropertyMetadata(null)
+        );
+
+        public UIElement ArrangementOptionsFlyoutContent
+        {
+            get => (UIElement)GetValue(ArrangementOptionsFlyoutContentProperty);
+            set => SetValue(ArrangementOptionsFlyoutContentProperty, value);
+        }
 
         #region Layout Options
 
@@ -644,8 +652,8 @@ namespace Files.UserControls
 
         public NavigationToolbar()
         {
-            this.InitializeComponent();
-            this.Loading += NavigationToolbar_Loading;
+            InitializeComponent();
+            Loading += NavigationToolbar_Loading;
 
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
@@ -769,20 +777,39 @@ namespace Files.UserControls
 
         public string PathText { get; set; }
 
-        private bool isSearchRegionVisible;
+        private bool isSearchBoxVisible;
 
-        public bool IsSearchRegionVisible
+        public bool IsSearchBoxVisible
         {
             get
             {
-                return isSearchRegionVisible;
+                return isSearchBoxVisible;
             }
             set
             {
-                if (value != isSearchRegionVisible)
+                if (value != isSearchBoxVisible)
                 {
-                    isSearchRegionVisible = value;
-                    NotifyPropertyChanged(nameof(IsSearchRegionVisible));
+                    isSearchBoxVisible = value;
+                    NotifyPropertyChanged(nameof(IsSearchBoxVisible));
+                    SearchButtonGlyph = value ? "\uE711" : "\uE721";
+                }
+            }
+        }
+
+        private string searchButtonGlyph = "\uE721";
+
+        public string SearchButtonGlyph
+        {
+            get
+            {
+                return searchButtonGlyph;
+            }
+            set
+            {
+                if (value != searchButtonGlyph)
+                {
+                    searchButtonGlyph = value;
+                    NotifyPropertyChanged(nameof(SearchButtonGlyph));
                 }
             }
         }
@@ -1091,7 +1118,7 @@ namespace Files.UserControls
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                App.Logger.Warn(ex, ex.Message);
                 e.AcceptedOperation = DataPackageOperation.None;
                 deferral.Complete();
                 return;
@@ -1187,15 +1214,15 @@ namespace Files.UserControls
 
         private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!(MainPageViewModel.MultitaskingControl is VerticalTabViewControl))
+            if (!(mainPage.ViewModel.MultitaskingControl is VerticalTabViewControl))
             {
                 // Set multitasking control if changed and subscribe it to event for sidebar items updating
-                if (MainPageViewModel.MultitaskingControl != null)
+                if (mainPage.ViewModel.MultitaskingControl != null)
                 {
-                    MainPageViewModel.MultitaskingControl.CurrentInstanceChanged -= mainPage.MultitaskingControl_CurrentInstanceChanged;
+                    mainPage.ViewModel.MultitaskingControl.CurrentInstanceChanged -= mainPage.MultitaskingControl_CurrentInstanceChanged;
                 }
-                MainPageViewModel.MultitaskingControl = VerticalTabs;
-                MainPageViewModel.MultitaskingControl.CurrentInstanceChanged += mainPage.MultitaskingControl_CurrentInstanceChanged;
+                mainPage.ViewModel.MultitaskingControl = VerticalTabs;
+                mainPage.ViewModel.MultitaskingControl.CurrentInstanceChanged += mainPage.MultitaskingControl_CurrentInstanceChanged;
             }
         }
 
@@ -1219,64 +1246,53 @@ namespace Files.UserControls
             RefreshRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private void SearchRegion_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        public void SwitchSearchBoxVisibility()
         {
-            SearchQuerySubmitted?.Invoke(sender, args);
+            if (IsSearchBoxVisible)
+            {
+                SearchRegion.Query = string.Empty;
+                IsSearchBoxVisible = false;
+            }
+            else
+            {
+                IsSearchBoxVisible = true;
+
+                // Given that binding and layouting might take a few cycles, when calling UpdateLayout
+                // we can guarantee that the focus call will be able to find an open ASB
+                SearchRegion.UpdateLayout();
+
+                SearchRegion.Focus(FocusState.Programmatic);
+            }
         }
 
-        private void SearchRegion_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            SearchTextChanged?.Invoke(sender, args);
-        }
-
-        private void SearchRegion_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        {
-            SearchSuggestionChosen?.Invoke(sender, args);
-            IsSearchRegionVisible = false;
-        }
-
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
-        {
-            IsSearchRegionVisible = true;
-
-            // Given that binding and layouting might take a few cycles, when calling UpdateLayout
-            // we can guarantee that the focus call will be able to find an open ASB
-            SearchRegion.UpdateLayout();
-
-            SearchRegion.Focus(FocusState.Programmatic);
-        }
+        private void SearchButton_Click(object sender, RoutedEventArgs e) => SwitchSearchBoxVisibility();
 
         private void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
         {
             var focusedElement = FocusManager.GetFocusedElement();
-            if (focusedElement is FlyoutBase || focusedElement is AppBarButton)
+            if (focusedElement == SearchButton || focusedElement is FlyoutBase || focusedElement is AppBarButton)
             {
                 return;
             }
 
-            SearchRegion.Text = "";
-            IsSearchRegionVisible = false;
+            CloseSearchBox();
         }
 
-        public void ClearSearchBoxQueryText(bool collapseSearchRegion = false)
+        private void CloseSearchBox()
         {
-            SearchRegion.Text = "";
-            if (IsSearchRegionVisible && collapseSearchRegion)
-            {
-                IsSearchRegionVisible = false;
-            }
+            SearchRegion.Query = string.Empty;
+            IsSearchBoxVisible = false;
         }
 
         private void NavMoreButtonFlyout_Opening(object sender, object e)
         {
-            var newItemMenu = (MenuFlyoutSubItem)(sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "NewEmptySpace");
-            if (newItemMenu == null || cachedNewContextMenuEntries == null)
+            if (cachedNewContextMenuEntries == null)
             {
                 return;
             }
-            if (!newItemMenu.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
+            if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
             {
-                var separatorIndex = newItemMenu.Items.IndexOf(newItemMenu.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
+                var separatorIndex = NewEmptySpace.Items.IndexOf(NewEmptySpace.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
                 foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
                 {
                     MenuFlyoutItem menuLayoutItem;
@@ -1308,7 +1324,7 @@ namespace Files.UserControls
                     }
                     menuLayoutItem.Command = NewFileInvokedCommand;
                     menuLayoutItem.CommandParameter = newEntry;
-                    newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
+                    NewEmptySpace.Items.Insert(separatorIndex + 1, menuLayoutItem);
                 }
             }
         }
@@ -1316,6 +1332,15 @@ namespace Files.UserControls
         private void PreviewPane_Click(object sender, RoutedEventArgs e)
         {
             PreviewPaneEnabled = !PreviewPaneEnabled;
+        }
+
+        private void SearchRegion_SuggestionChosen(ISearchBox sender, SearchBoxSuggestionChosenEventArgs args)
+        {
+            CloseSearchBox();
+        }
+        private void SearchRegion_Escaped(object sender, ISearchBox e)
+        {
+            CloseSearchBox();
         }
     }
 }

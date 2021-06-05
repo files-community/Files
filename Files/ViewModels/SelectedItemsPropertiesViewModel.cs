@@ -38,14 +38,6 @@ namespace Files.ViewModels
             set => SetProperty(ref loadCombinedItemsGlyph, value);
         }
 
-        private SvgImageSource customIcon;
-
-        public SvgImageSource CustomIcon
-        {
-            get => customIcon;
-            set => SetProperty(ref customIcon, value);
-        }
-
         private Uri customIconSource;
 
         public Uri CustomIconSource
@@ -75,14 +67,6 @@ namespace Files.ViewModels
         {
             get => iconData;
             set => SetProperty(ref iconData, value);
-        }
-
-        private ImageSource fileIconSource;
-
-        public ImageSource FileIconSource
-        {
-            get => fileIconSource;
-            set => SetProperty(ref fileIconSource, value);
         }
 
         private string itemName;

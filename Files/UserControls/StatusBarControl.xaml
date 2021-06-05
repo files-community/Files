@@ -27,17 +27,19 @@
     </UserControl.Resources>
 
     <Grid
-        Height="38"
+        Height="40"
         HorizontalAlignment="Stretch"
-        Background="{ThemeResource SolidBackgroundFillColorBaseBrush}">
+        Background="{ThemeResource StatusBarBackgroundBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <StackPanel
+            x:Name="SelectionDirectoryInformationPanel"
             Margin="8,0"
             VerticalAlignment="Center"
+            x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
             Orientation="Horizontal"
             Spacing="12">
             <TextBlock Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
@@ -63,7 +65,7 @@
 
         <StackPanel
             Grid.Column="1"
-            Padding="0,2,8,2"
+            Padding="0,0,8,0"
             HorizontalAlignment="Right"
             Orientation="Horizontal"
             Spacing="4">
@@ -72,7 +74,7 @@
                 x:Name="FullTrustStatus"
                 Width="36"
                 Height="32"
-                x:Load="{x:Bind InteractionViewModel.IsFullTrustElevated, Mode=OneWay}"
+                x:Load="{x:Bind MainViewModel.IsFullTrustElevated, Mode=OneWay}"
                 AccessKey="M"
                 Background="Transparent"
                 Click="FullTrustStatus_Click"
@@ -105,6 +107,13 @@
                                     <RotateTransform />
                                 </FontIcon.RenderTransform>
                             </FontIcon>
+                            <muxc:ProgressRing
+                                x:Name="MedianOperationProgressRing"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                x:Load="{x:Bind StatusCenterViewModel.AnyOperationsOngoing, Mode=OneWay}"
+                                IsIndeterminate="False"
+                                Value="{x:Bind StatusCenterViewModel.MedianOperationProgressValue, Mode=OneWay}" />
                         </Grid>
                     </Button.Content>
                     <Button.Flyout>
@@ -122,35 +131,5 @@
                 </Button>
             </Grid>
         </StackPanel>
-
-        <Interactivity:Interaction.Behaviors>
-            <Core:DataTriggerBehavior Binding="{x:Bind StatusCenterViewModel.AnyOperationsOngoing, Mode=OneWay}" Value="False">
-                <Core:GoToStateAction StateName="NoOperations" />
-            </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind StatusCenterViewModel.AnyOperationsOngoing, Mode=OneWay}" Value="True">
-                <Core:GoToStateAction StateName="InProgress" />
-            </Core:DataTriggerBehavior>
-        </Interactivity:Interaction.Behaviors>
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="Default">
-                <VisualState x:Name="NoOperations" />
-                <VisualState x:Name="InProgress">
-                    <Storyboard>
-                        <ColorAnimation
-                            Storyboard.TargetName="StatusCenterFontIcon"
-                            Storyboard.TargetProperty="(FontIcon.Foreground).(SolidColorBrush.Color)"
-                            To="{ThemeResource SystemAccentColor}"
-                            Duration="0" />
-                        <DoubleAnimation
-                            RepeatBehavior="Forever"
-                            Storyboard.TargetName="StatusCenterFontIcon"
-                            Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
-                            To="360"
-                            Duration="0:0:1" />
-                    </Storyboard>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>

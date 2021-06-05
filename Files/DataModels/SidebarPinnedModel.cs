@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.Controllers;
 using Files.DataModels.NavigationControlItems;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
@@ -30,7 +31,7 @@ namespace Files.DataModels
         public SettingsViewModel AppSettings => App.AppSettings;
 
         [JsonIgnore]
-        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+        public MainViewModel MainViewModel => App.MainViewModel;
 
         [JsonProperty("items")]
         public List<string> FavoriteItems { get; set; } = new List<string>();
@@ -46,8 +47,9 @@ namespace Files.DataModels
             {
                 Text = "SidebarHome".GetLocalized(),
                 Section = SectionType.Home,
-                Font = InteractionViewModel.FontName,
+                Font = MainViewModel.FontName,
                 IsDefaultLocation = true,
+                Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png")),
                 Path = "Home",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
@@ -56,7 +58,7 @@ namespace Files.DataModels
                 Text = "SidebarFavorites".GetLocalized(),
                 Section = SectionType.Favorites,
                 SelectsOnInvoked = false,
-                Font = InteractionViewModel.FontName,
+                Font = MainViewModel.FontName,
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
         }
@@ -263,14 +265,26 @@ namespace Files.DataModels
                 int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
                 var locationItem = new LocationItem
                 {
-                    Font = InteractionViewModel.FontName,
+                    Font = MainViewModel.FontName,
                     Path = path,
                     Section = SectionType.Favorites,
-                    Icon = new Windows.UI.Xaml.Media.Imaging.SvgImageSource(GlyphHelper.GetIconUri(path)),
-                    IconSource = GlyphHelper.GetIconUri(path),
                     IsDefaultLocation = false,
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };
+
+                if (res)
+                {
+                    var thumbnail = await res.Result.GetThumbnailAsync(
+                        Windows.Storage.FileProperties.ThumbnailMode.ListView,
+                        24,
+                        Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+
+                    if (thumbnail != null)
+                    {
+                        locationItem.IconData = await thumbnail.ToByteArrayAsync();
+                        locationItem.Icon = await locationItem.IconData.ToBitmapAsync();
+                    }
+                }
 
                 if (!favoriteSection.ChildItems.Contains(locationItem))
                 {

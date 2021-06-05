@@ -102,7 +102,7 @@ namespace Files.Helpers
                 catch (Exception e)
                 {
                     // This is to try and figure out the root cause of AppCenter error #985932119u
-                    NLog.LogManager.GetCurrentClassLogger().Warn(e, e.Message);
+                    App.Logger.Warn(e, e.Message);
                 }
             }
         }
@@ -135,7 +135,11 @@ namespace Files.Helpers
             {
                 if (isShortcutItem)
                 {
-                    var (status, response) = await associatedInstance.ServiceConnection?.SendMessageForResponseAsync(new ValueSet()
+                    if (associatedInstance.ServiceConnection == null)
+                    {
+                        return false;
+                    }
+                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "ParseLink" },

@@ -1,9 +1,10 @@
+using Files.Common;
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem.Cloud;
+using Files.Helpers;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,7 +17,7 @@ namespace Files.Filesystem
 {
     public class CloudDrivesManager : ObservableObject
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
         public IReadOnlyList<DriveItem> Drives
@@ -48,6 +49,16 @@ namespace Files.Filesystem
                     Path = provider.SyncFolder,
                     Type = DriveType.CloudDrive,
                 };
+
+                var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24);
+                if (iconData != null)
+                {
+                    await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
+                    {
+                        cloudProviderItem.Icon = await iconData.ToBitmapAsync();
+                    });
+                }
+
                 lock (drivesList)
                 {
                     if (!drivesList.Any(x => x.Path == cloudProviderItem.Path))
@@ -91,23 +102,27 @@ namespace Files.Filesystem
                     SidebarControl.SideBarItems.BeginBulkOperation();
 
                     var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalized()) as LocationItem;
-                    if (section == null)
+                    if (section == null && Drives.Any())
                     {
                         section = new LocationItem()
                         {
                             Text = "SidebarCloudDrives".GetLocalized(),
                             Section = SectionType.CloudDrives,
                             SelectsOnInvoked = false,
+                            Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png")),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         SidebarControl.SideBarItems.Add(section);
                     }
 
-                    foreach (DriveItem drive in Drives.ToList())
+                    if (section != null)
                     {
-                        if (!section.ChildItems.Contains(drive))
+                        foreach (DriveItem drive in Drives.ToList())
                         {
-                            section.ChildItems.Add(drive);
+                            if (!section.ChildItems.Contains(drive))
+                            {
+                                section.ChildItems.Add(drive);
+                            }
                         }
                     }
 

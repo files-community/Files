@@ -8,7 +8,6 @@ namespace Files.Helpers
     public class AcrylicTheme : INotifyPropertyChanged
     {
         private Color fallbackColor;
-        private double tintOpacity;
 
         public Color FallbackColor
         {
@@ -17,16 +16,6 @@ namespace Files.Helpers
             {
                 fallbackColor = value;
                 NotifyPropertyChanged(nameof(FallbackColor));
-            }
-        }
-
-        public double TintOpacity
-        {
-            get { return tintOpacity; }
-            set
-            {
-                tintOpacity = value;
-                NotifyPropertyChanged(nameof(TintOpacity));
             }
         }
 
@@ -40,7 +29,6 @@ namespace Files.Helpers
         public AcrylicTheme()
         {
             FallbackColor = (Color)App.Current.Resources["SolidBackgroundFillColorBase"];
-            TintOpacity = 0.15;
         }
 
         public void SetDefaultTheme()
@@ -58,13 +46,11 @@ namespace Files.Helpers
         public void SetLightTheme()
         {
             FallbackColor = (Color)App.Current.Resources["SolidBackgroundFillColorBase"];
-            TintOpacity = 0.0;
         }
 
         public void SetDarkTheme()
         {
             FallbackColor = (Color)App.Current.Resources["SolidBackgroundFillColorBase"];
-            TintOpacity = 0.15;
         }
     }
 }

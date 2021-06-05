@@ -60,7 +60,7 @@ namespace Files.ViewModels.Pages
 
         private async void BundlesViewModel_LoadIconOverlayEvent(object sender, BundlesLoadIconOverlayEventArgs e)
         {
-            e.outData = await associatedInstance.FilesystemViewModel.LoadIconOverlayAsync(e.path, e.thumbnailSize);
+            e.outData = await FileThumbnailHelper.LoadIconOverlayAsync(e.path, e.thumbnailSize);
         }
 
         private void BundlesViewModel_OpenPathInNewPaneEvent(object sender, string e)

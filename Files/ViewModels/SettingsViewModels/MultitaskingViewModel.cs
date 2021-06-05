@@ -7,7 +7,7 @@ namespace Files.ViewModels.SettingsViewModels
         private bool isMultitaskingExperienceAdaptive = App.AppSettings.IsMultitaskingExperienceAdaptive;
         private bool isHorizontalTabStripOn = App.AppSettings.IsHorizontalTabStripOn;
         private bool isVerticalTabFlyoutOn = App.AppSettings.IsVerticalTabFlyoutOn;
-        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+        public MainViewModel MainViewModel => App.MainViewModel;
 
         public bool IsMultitaskingExperienceAdaptive
         {
@@ -22,7 +22,7 @@ namespace Files.ViewModels.SettingsViewModels
                     App.AppSettings.IsMultitaskingExperienceAdaptive = value;
 
                     // Setup the correct multitasking control
-                    InteractionViewModel.SetMultitaskingControl();
+                    MainViewModel.SetMultitaskingControl();
                 }
             }
         }
@@ -40,7 +40,7 @@ namespace Files.ViewModels.SettingsViewModels
                     App.AppSettings.IsHorizontalTabStripOn = value;
 
                     // Setup the correct multitasking control
-                    InteractionViewModel.SetMultitaskingControl();
+                    MainViewModel.SetMultitaskingControl();
                 }
             }
         }
@@ -58,7 +58,7 @@ namespace Files.ViewModels.SettingsViewModels
                     App.AppSettings.IsVerticalTabFlyoutOn = value;
 
                     // Setup the correct multitasking control
-                    InteractionViewModel.SetMultitaskingControl();
+                    MainViewModel.SetMultitaskingControl();
                 }
             }
         }

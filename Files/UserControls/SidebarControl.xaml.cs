@@ -2,12 +2,14 @@
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows.Input;
@@ -18,6 +20,8 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Shapes;
 
 namespace Files.UserControls
 {
@@ -52,20 +56,6 @@ namespace Files.UserControls
         /// </summary>
         public SidebarPinnedModel SidebarPinnedModel => App.SidebarPinnedController.Model;
 
-        public static readonly DependencyProperty IsCompactProperty = DependencyProperty.Register(nameof(IsCompact), typeof(bool), typeof(SidebarControl), new PropertyMetadata(false));
-
-        public bool IsCompact
-        {
-            get => (bool)GetValue(IsCompactProperty);
-            set
-            {
-                if (this.IsLoaded)
-                {
-                    SetValue(IsCompactProperty, value);
-                }
-            }
-        }
-
         public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(nameof(EmptyRecycleBinCommand), typeof(ICommand), typeof(SidebarControl), new PropertyMetadata(null));
 
         public ICommand EmptyRecycleBinCommand
@@ -76,14 +66,15 @@ namespace Files.UserControls
 
         private bool IsInPointerPressed = false;
 
-        private DispatcherQueueTimer dragOverTimer;
+        private DispatcherQueueTimer dragOverSectionTimer, dragOverItemTimer;
 
         public SidebarControl()
         {
             this.InitializeComponent();
             this.Loaded += SidebarNavView_Loaded;
 
-            dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            dragOverSectionTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            dragOverItemTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         public static readonly DependencyProperty SelectedSidebarItemProperty = DependencyProperty.Register(nameof(SelectedSidebarItem), typeof(INavigationControlItem), typeof(SidebarControl), new PropertyMetadata(null));
@@ -98,6 +89,14 @@ namespace Files.UserControls
                     SetValue(SelectedSidebarItemProperty, value);
                 }
             }
+        }
+        
+        public static readonly DependencyProperty TabContentProperty = DependencyProperty.Register(nameof(TabContent), typeof(UIElement), typeof(SidebarControl), new PropertyMetadata(null));
+
+        public UIElement TabContent
+        {
+            get => (UIElement)GetValue(TabContentProperty);
+            set => SetValue(TabContentProperty, value);
         }
 
         private bool canOpenInNewPane;
@@ -352,29 +351,45 @@ namespace Files.UserControls
             args.Data.Properties.Add("sourceLocationItem", navItem);
         }
 
-        private object dragOverItem = null;
+        private object dragOverSection, dragOverItem = null;
 
         private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
         {
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragEnter", false);
 
-            if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is INavigationControlItem)
+            if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is INavigationControlItem iNavItem)
             {
-                dragOverItem = sender;
-                dragOverTimer.Stop();
-                dragOverTimer.Debounce(() =>
+                if (string.IsNullOrEmpty(iNavItem.Path))
                 {
-                    if (dragOverItem != null)
+                    dragOverSection = sender;
+                    dragOverSectionTimer.Stop();
+                    dragOverSectionTimer.Debounce(() =>
                     {
-                        dragOverTimer.Stop();
-                        if ((dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locItem)
+                        if (dragOverSection != null)
                         {
-                            locItem.IsExpanded = true;
+                            dragOverSectionTimer.Stop();
+                            if ((dragOverSection as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem section)
+                            {
+                                section.IsExpanded = true;
+                            }
+                            dragOverSection = null;
                         }
-                        SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItemBase));
-                        dragOverItem = null;
-                    }
-                }, TimeSpan.FromMilliseconds(1000), false);
+                    }, TimeSpan.FromMilliseconds(1000), false);
+                }
+                else
+                {
+                    dragOverItem = sender;
+                    dragOverItemTimer.Stop();
+                    dragOverItemTimer.Debounce(() =>
+                    {
+                        if (dragOverItem != null)
+                        {
+                            dragOverItemTimer.Stop();
+                            SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItemBase));
+                            dragOverItem = null;
+                        }
+                    }, TimeSpan.FromMilliseconds(1000), false);
+                }
             }
         }
 
@@ -388,6 +403,11 @@ namespace Files.UserControls
                 {
                     // Reset dragged over item
                     dragOverItem = null;
+                }
+                if (sender == dragOverSection)
+                {
+                    // Reset dragged over item
+                    dragOverSection = null;
                 }
             }
         }
@@ -417,7 +437,7 @@ namespace Files.UserControls
                 }
                 catch (Exception ex)
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                    App.Logger.Warn(ex, ex.Message);
                     e.AcceptedOperation = DataPackageOperation.None;
                     deferral.Complete();
                     return;
@@ -480,6 +500,7 @@ namespace Files.UserControls
         private void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
         {
             dragOverItem = null; // Reset dragged over item
+            dragOverSection = null; // Reset dragged over section
 
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem))
             {
@@ -532,7 +553,7 @@ namespace Files.UserControls
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                App.Logger.Warn(ex, ex.Message);
                 e.AcceptedOperation = DataPackageOperation.None;
                 deferral.Complete();
                 return;
@@ -565,6 +586,7 @@ namespace Files.UserControls
         private void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
         {
             dragOverItem = null; // Reset dragged over item
+            dragOverSection = null; // Reset dragged over section
 
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem))
             {
@@ -589,14 +611,6 @@ namespace Files.UserControls
             SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(item));
         }
 
-        private void SettingsButton_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigate(typeof(Views.Settings));
-
-            return;
-        }
-
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
             await DriveHelpers.EjectDeviceAsync(RightClickedItem.Path);
@@ -606,6 +620,8 @@ namespace Files.UserControls
         {
             var settings = (Microsoft.UI.Xaml.Controls.NavigationViewItem)this.SettingsItem;
             settings.SelectsOnInvoked = false;
+
+            (this.FindDescendant("TabContentBorder") as Border).Child = TabContent;
         }
 
         private void Border_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -643,7 +659,8 @@ namespace Files.UserControls
 
         private void IncrementSize(double val)
         {
-            AppSettings.SidebarWidth = new GridLength(AppSettings.SidebarWidth.Value + val);
+            var newSize = AppSettings.SidebarWidth.Value + val;
+            AppSettings.SidebarWidth = new GridLength(newSize >= 0 ? newSize : 0); // passing a negative value will cause an exception
         }
 
         private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -658,6 +675,11 @@ namespace Files.UserControls
         {
             var item = (sender as MenuFlyoutItem).DataContext;
             SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(item));
+        }
+
+        private void DragArea_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window.Current.SetTitleBar(sender as Grid);
         }
     }
 

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 
@@ -180,7 +181,7 @@ namespace Files.ViewModels.Dialogs
             return Items.Cast<IFilesystemOperationItemModel>().ToList();
         }
 
-        public static FilesystemOperationDialog GetDialog(FilesystemItemsOperationDataModel itemsData)
+        public static async Task<FilesystemOperationDialog> GetDialog(FilesystemItemsOperationDataModel itemsData)
         {
             string titleText = null;
             string subtitleText = null;
@@ -269,7 +270,7 @@ namespace Files.ViewModels.Dialogs
                 PermanentlyDeleteEnabled = itemsData.PermanentlyDeleteEnabled,
                 MustResolveConflicts = itemsData.MustResolveConflicts
             };
-            viewModel.Items = new ObservableCollection<FilesystemOperationItemViewModel>(itemsData.ToItems(
+            viewModel.Items = new ObservableCollection<FilesystemOperationItemViewModel>(await itemsData.ToItems(
                 viewModel.UpdatePrimaryButtonEnabled, viewModel.OptionGenerateNewName, viewModel.OptionReplaceExisting, viewModel.OptionSkip));
 
             FilesystemOperationDialog dialog = new FilesystemOperationDialog(viewModel);

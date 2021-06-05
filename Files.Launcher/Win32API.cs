@@ -32,7 +32,7 @@ namespace FilesFullTrust
                 catch (Exception ex)
                 {
                     tcs.SetResult(default);
-                    NLog.LogManager.GetCurrentClassLogger().Info(ex, ex.Message);
+                    Program.Logger.Info(ex, ex.Message);
                     //tcs.SetException(e);
                 }
             });
@@ -136,7 +136,7 @@ namespace FilesFullTrust
                     return (iconStr, null, false);
                 }
 
-                bool isCustom = !shfi.szDisplayName.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.Windows));
+                bool isCustom = true;
                 User32.DestroyIcon(shfi.hIcon);
                 Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var tmp);
                 using var imageList = ComCtl32.SafeHIMAGELIST.FromIImageList(tmp);
@@ -287,6 +287,49 @@ namespace FilesFullTrust
             public int cbSize;
             public long i64Size;
             public long i64NumItems;
+        }
+
+        public static IEnumerable<HWND> GetDesktopWindows()
+        {
+            HWND prevHwnd = HWND.NULL;
+            var windowsList = new List<HWND>();
+            while (true)
+            {
+                prevHwnd = User32.FindWindowEx(HWND.NULL, prevHwnd, null, null);
+                if (prevHwnd == null || prevHwnd == HWND.NULL)
+                {
+                    break;
+                }
+                windowsList.Add(prevHwnd);
+            }
+            return windowsList;
+        }
+
+        public static void BringToForeground(IEnumerable<HWND> currentWindows)
+        {
+            CancellationTokenSource cts = new CancellationTokenSource();
+            cts.CancelAfter(5 * 1000);
+
+            Task.Run(async () =>
+            {
+                while (!cts.IsCancellationRequested)
+                {
+                    await Task.Delay(500);
+
+                    var newWindows = GetDesktopWindows().Except(currentWindows).Where(x => User32.IsWindowVisible(x) && !User32.IsIconic(x));
+                    if (newWindows.Any())
+                    {
+                        foreach (var newWindow in newWindows)
+                        {
+                            User32.SetWindowPos(newWindow, User32.SpecialWindowHandles.HWND_TOPMOST,
+                                    0, 0, 0, 0, User32.SetWindowPosFlags.SWP_NOSIZE | User32.SetWindowPosFlags.SWP_NOMOVE);
+                            User32.SetWindowPos(newWindow, User32.SpecialWindowHandles.HWND_NOTOPMOST,
+                                0, 0, 0, 0, User32.SetWindowPosFlags.SWP_SHOWWINDOW | User32.SetWindowPosFlags.SWP_NOSIZE | User32.SetWindowPosFlags.SWP_NOMOVE);
+                        }
+                        break;
+                    }
+                }
+            });
         }
 
         // Get information from recycle bin.

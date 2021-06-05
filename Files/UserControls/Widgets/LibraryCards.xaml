@@ -8,7 +8,7 @@
     xmlns:local="using:Files.UserControls.Widgets"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
     <StackPanel Spacing="12">
         <Grid>
@@ -76,20 +76,14 @@
                     ItemsStretch="Fill"
                     MaximumRowsOrColumns="6"
                     MinColumnSpacing="8"
-                    MinItemHeight="90"
+                    MinItemHeight="88"
                     MinItemWidth="100"
                     MinRowSpacing="8"
                     Orientation="Horizontal" />
             </muxc:ItemsRepeater.Layout>
             <muxc:ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="local:LibraryCardItem">
-                    <Grid
-                        extensions:VisualExtensions.CenterPoint="80,45,0"
-                        PointerEntered="GridScaleUp"
-                        PointerExited="GridScaleNormal">
-                        <animations:Implicit.Animations>
-                            <animations:ScaleAnimation Duration="0:0:0.5" />
-                        </animations:Implicit.Animations>
+                    <Grid>
                         <Button
                             Padding="0"
                             HorizontalAlignment="Stretch"
@@ -99,16 +93,16 @@
                             AutomationProperties.Name="{x:Bind AutomationProperties}"
                             Command="{x:Bind SelectCommand}"
                             CommandParameter="{x:Bind}"
-                            Tag="{x:Bind Path}"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
                             PointerPressed="Button_PointerPressed"
-                            CornerRadius="8">
+                            Tag="{x:Bind Path}">
                             <Button.ContextFlyout>
                                 <MenuFlyout Opening="MenuFlyout_Opening">
                                     <MenuFlyout.Items>
                                         <MenuFlyoutItem
                                             x:Name="OpenInNewPane"
                                             x:Uid="SideBarOpenInNewPane"
-                                            x:Load="{x:Bind HasPath, Mode=OneWay}"
+                                            x:Load="{x:Bind HasPath}"
                                             Click="OpenInNewPane_Click"
                                             DataContext="{x:Bind}"
                                             Text="Open in new pane"
@@ -120,7 +114,7 @@
                                         <MenuFlyoutItem
                                             x:Name="OpenInNewTab"
                                             x:Uid="SideBarOpenInNewTab"
-                                            x:Load="{x:Bind HasPath, Mode=OneWay}"
+                                            x:Load="{x:Bind HasPath}"
                                             Click="OpenInNewTab_Click"
                                             DataContext="{x:Bind}"
                                             Text="Open in new tab">
@@ -131,7 +125,7 @@
                                         <MenuFlyoutItem
                                             x:Name="OpenInNewWindow"
                                             x:Uid="SideBarOpenInNewWindow"
-                                            x:Load="{x:Bind HasPath, Mode=OneWay}"
+                                            x:Load="{x:Bind HasPath}"
                                             Click="OpenInNewWindow_Click"
                                             DataContext="{x:Bind}"
                                             Text="Open in new window">
@@ -142,7 +136,7 @@
                                         <MenuFlyoutItem
                                             x:Name="Properties"
                                             x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
-                                            x:Load="{x:Bind IsLibrary, Mode=OneWay}"
+                                            x:Load="{x:Bind IsLibrary}"
                                             Click="OpenLibraryProperties_Click"
                                             DataContext="{x:Bind}"
                                             Text="Properties">
@@ -150,11 +144,11 @@
                                                 <FontIcon Glyph="&#xE946;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
-                                        <MenuFlyoutSeparator x:Name="DeleteLibrarySeparator" x:Load="{x:Bind IsUserCreatedLibrary, Mode=OneWay}" />
+                                        <MenuFlyoutSeparator x:Name="DeleteLibrarySeparator" x:Load="{x:Bind IsUserCreatedLibrary}" />
                                         <MenuFlyoutItem
                                             x:Name="DeleteLibrary"
                                             x:Uid="BaseLayoutContextFlyoutDeleteLibrary"
-                                            x:Load="{x:Bind IsUserCreatedLibrary, Mode=OneWay}"
+                                            x:Load="{x:Bind IsUserCreatedLibrary}"
                                             Click="DeleteLibrary_Click"
                                             DataContext="{x:Bind}"
                                             Foreground="OrangeRed"
@@ -168,7 +162,7 @@
                             </Button.ContextFlyout>
 
                             <Grid
-                                Margin="8,14"
+                                Margin="8,12"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 RowSpacing="2">
@@ -179,16 +173,15 @@
                                 <Image
                                     Grid.Row="0"
                                     Height="40"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
                                     Source="{x:Bind Icon}" />
                                 <TextBlock
                                     x:Name="ItemLocationName"
                                     Grid.Row="1"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
                                     FontSize="14"
-                                    FontWeight="Medium"
                                     HorizontalTextAlignment="Center"
                                     Text="{x:Bind Text}"
                                     TextTrimming="WordEllipsis"
