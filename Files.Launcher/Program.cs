@@ -554,6 +554,14 @@ namespace FilesFullTrust
                     await HandleShellLibraryMessage(message);
                     break;
 
+                case "GetSelectedIconsFromDLL":
+                    var selectedIconInfos = Win32API.ExtractSelectedIconsFromDLL((string)message["iconFile"], JsonConvert.DeserializeObject<List<int>>((string)message["iconIndexes"]), Convert.ToInt32(message["requestedIconSize"]));
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "IconInfos", JsonConvert.SerializeObject(selectedIconInfos) },
+                    }, message.Get("RequestID", (string)null));
+                    break;
+
                 default:
                     if (message.ContainsKey("Application"))
                     {
