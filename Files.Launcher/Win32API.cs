@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Files.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -189,6 +190,27 @@ namespace FilesFullTrust
             {
                 // If user cancels UAC
             }
+        }
+
+        public static IList<IconFileInfo> ExtractSelectedIconsFromDLL(string file, IList<int> indexes, int iconSize = 48)
+        {
+            var iconsList = new List<IconFileInfo>();
+
+            foreach (int index in indexes)
+            {
+                User32.SafeHICON icon;
+                User32.SafeHICON hIcon2;    // This is merely to pass into the function and is unneeded otherwise
+                if (Shell32.SHDefExtractIcon(file, -1 * index, 0, out icon, out hIcon2, Convert.ToUInt32(iconSize)) == HRESULT.S_OK)
+                {
+                    using var image = icon.ToBitmap();
+                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                    var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                    iconsList.Add(new IconFileInfo(icoStr, index));
+                    User32.DestroyIcon(icon);
+                    User32.DestroyIcon(hIcon2);
+                }
+            }
+            return iconsList;
         }
 
         public static void UnlockBitlockerDrive(string drive, string password)

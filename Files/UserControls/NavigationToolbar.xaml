@@ -1000,7 +1000,7 @@
                     <Flyout Placement="Bottom">
                         <StackPanel Spacing="12">
                             <TextBlock
-                                x:Uid="NavToolbarLayoutMode"
+                                x:Uid="NavToolbarLayout"
                                 FontWeight="Medium"
                                 Text="Layout" />
 

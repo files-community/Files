@@ -1645,7 +1645,7 @@
     <value>Argumente</value>
   </data>
   <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
-    <value>Bibliotheken in der Seitenleise anzeigen</value>
+    <value>Bibliotheken in der Seitenleiste anzeigen</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Bibliotheken</value>
