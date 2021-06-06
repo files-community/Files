@@ -14,11 +14,18 @@ namespace FilesFullTrust
 
         public DragDropForm(string dropPath, string dropText, System.Threading.CancellationToken token)
         {
+            var appTheme = GetAppTheme();
+
             this.FormBorderStyle = FormBorderStyle.None;
             this.ShowInTaskbar = false;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Text = "Files";
+            this.BackColor = appTheme switch
+            {
+                Windows.UI.Xaml.ElementTheme.Light => System.Drawing.Color.White,
+                _ => System.Drawing.Color.Black
+            };
             this.Opacity = 0.5;
             this.TopMost = true;
             this.DragOver += DragDropForm_DragOver;
@@ -30,6 +37,11 @@ namespace FilesFullTrust
             label.AutoSize = false;
             label.Font = new System.Drawing.Font("Segoe UI", 24);
             label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            label.ForeColor = appTheme switch
+            {
+                Windows.UI.Xaml.ElementTheme.Light => System.Drawing.Color.Black,
+                _ => System.Drawing.Color.White
+            };
             label.Dock = DockStyle.Fill;
             label.Text = dropText;
             this.Controls.Add(label);
@@ -51,6 +63,27 @@ namespace FilesFullTrust
                 }
             });
             this.HandleCreated += DragDropForm_HandleCreated;
+        }
+
+        private Windows.UI.Xaml.ElementTheme GetAppTheme()
+        {
+            var appTheme = Windows.UI.Xaml.ElementTheme.Default;
+            var savedTheme = Windows.Storage.ApplicationData.Current.LocalSettings.Values["theme"]?.ToString();
+            if (!string.IsNullOrEmpty(savedTheme))
+            {
+                Enum.TryParse(savedTheme, out appTheme);
+            }
+            if (appTheme == Windows.UI.Xaml.ElementTheme.Default)
+            {
+                var settings = new Windows.UI.ViewManagement.UISettings();
+                appTheme = settings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Background).ToString() switch
+                {
+                    "#FFFFFFFF" => Windows.UI.Xaml.ElementTheme.Light,
+                    "#FF000000" => Windows.UI.Xaml.ElementTheme.Dark,
+                    _ => Windows.UI.Xaml.ElementTheme.Default // Unknown theme
+                };
+            }
+            return appTheme;
         }
 
         public delegate void InvokeDelegate();
@@ -93,7 +126,7 @@ namespace FilesFullTrust
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine(ex);
+                        Program.Logger.Warn(ex, "Failed to drop items");
                     }
                 }
             }
