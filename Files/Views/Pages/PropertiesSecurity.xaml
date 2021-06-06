@@ -95,15 +95,25 @@
                     Style="{StaticResource PropertyName}"
                     Text="Group or user names" />
 
-                <CommandBar
+                <StackPanel
                     Grid.Column="1"
-                    IsDynamicOverflowEnabled="False"
-                    OverflowButtonVisibility="Collapsed">
-                    <CommandBar.PrimaryCommands>
-                        <AppBarButton Command="{x:Bind ViewModel.AddRulesForUserCommand}" Icon="Add" />
-                        <AppBarButton Command="{x:Bind ViewModel.RemoveRulesForUserCommand}" Icon="Remove" />
-                    </CommandBar.PrimaryCommands>
-                </CommandBar>
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <Button
+                        Padding="8,4,8,4"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Command="{x:Bind ViewModel.AddRulesForUserCommand}">
+                        <FontIcon FontSize="16" Glyph="&#xE109;" />
+                    </Button>
+                    <Button
+                        Padding="8,4,8,4"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Command="{x:Bind ViewModel.RemoveRulesForUserCommand}">
+                        <FontIcon FontSize="16" Glyph="&#xE108;" />
+                    </Button>
+                </StackPanel>
             </Grid>
 
             <ListView
