@@ -28,8 +28,21 @@ namespace Files.ViewModels.Properties
 
             GetBaseProperties();
 
+            ViewModel.EditOwnerCommand = new RelayCommand(() => EditOwner(), () => ViewModel.FilePermissions != null);
             ViewModel.AddRulesForUserCommand = new RelayCommand(() => AddRulesForUser(), () => ViewModel.FilePermissions != null && ViewModel.FilePermissions.CanReadFilePermissions);
             ViewModel.RemoveRulesForUserCommand = new RelayCommand(() => RemoveRulesForUser(), () => ViewModel.FilePermissions != null && ViewModel.FilePermissions.CanReadFilePermissions && ViewModel.SelectedRuleForUser != null);
+        }
+
+        private async void EditOwner()
+        {
+            var pickedObject = await OpenObjectPicker();
+            if (pickedObject != null)
+            {
+                if (await SetFileOwner(pickedObject))
+                {
+                    GetFilePermissions(); // Refresh file permissions
+                }
+            }
         }
 
         private async void AddRulesForUser()
@@ -90,7 +103,7 @@ namespace Files.ViewModels.Properties
 
         public async Task<bool> SetFilePermissions()
         {
-            if (ViewModel.FilePermissions == null)
+            if (ViewModel.FilePermissions == null || !ViewModel.FilePermissions.CanReadFilePermissions)
             {
                 return true;
             }
@@ -101,6 +114,25 @@ namespace Files.ViewModels.Properties
                     { "Arguments", "FileOperation" },
                     { "fileop", "SetFilePermissions" },
                     { "permissions", JsonConvert.SerializeObject(ViewModel.FilePermissions.ToFilePermissions()) }
+                };
+                var (status, response) = await AppInstance.ServiceConnection.SendMessageForResponseAsync(value);
+                return (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
+                    && response.Get("Success", false));
+            }
+            return false;
+        }
+
+        public async Task<bool> SetFileOwner(string ownerSid)
+        {
+            if (AppInstance.ServiceConnection != null)
+            {
+                var value = new ValueSet()
+                {
+                    { "Arguments", "FileOperation" },
+                    { "fileop", "SetFileOwner" },
+                    { "filepath", Item.ItemPath },
+                    { "isfolder", Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcutItem },
+                    { "ownersid", ownerSid }
                 };
                 var (status, response) = await AppInstance.ServiceConnection.SendMessageForResponseAsync(value);
                 return (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success

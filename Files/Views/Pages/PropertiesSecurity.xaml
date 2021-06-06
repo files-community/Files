@@ -29,7 +29,62 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
+                <ColumnDefinition Width="32" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                x:Uid="SecurityOwnerLabel"
+                Grid.Column="0"
+                Margin="0,0,12,0"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Style="{StaticResource PropertyName}"
+                Text="Owner" />
+
+            <FontIcon
+                x:Name="FontIcon"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                Glyph="{x:Bind ViewModel.FilePermissions.Owner.Glyph, Mode=OneWay}" />
+
+            <TextBlock
+                x:Name="OwnerText"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Mode=OneWay}">
+                <Run Text="{x:Bind ViewModel.FilePermissions.Owner.DisplayName, Mode=OneWay}" />
+                <Span FontWeight="Light">&#160;(</Span>
+                <Run FontWeight="Light" Text="{x:Bind ViewModel.FilePermissions.Owner.FullNameOrSid, Mode=OneWay}" />
+                <Span FontWeight="Light">)</Span>
+            </TextBlock>
+
+            <TextBlock
+                x:Name="UnknownOwnerText"
+                x:Uid="SecurityUnknownOwnerText"
+                Grid.Column="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                Text="Unknown owner" />
+
+            <CommandBar
+                Grid.Column="3"
+                IsDynamicOverflowEnabled="False"
+                OverflowButtonVisibility="Collapsed">
+                <CommandBar.PrimaryCommands>
+                    <AppBarButton Command="{x:Bind ViewModel.EditOwnerCommand}" Icon="Edit" />
+                </CommandBar.PrimaryCommands>
+            </CommandBar>
+        </Grid>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBlock
                 x:Uid="SecurityUsersGroupLabel"
@@ -323,7 +378,10 @@
             Text="You do not have permissions to view the security properties of this object. Click &quot;Advanced permissions&quot; to proceed."
             TextWrapping="WrapWholeWords" />
 
-        <Button Margin="0,12,0,0" HorizontalAlignment="Left">
+        <Button
+            Margin="0,12,0,0"
+            HorizontalAlignment="Left"
+            Visibility="Collapsed">
             <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                 <FontIcon
                     Margin="0,0,12,0"

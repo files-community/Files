@@ -1049,6 +1049,17 @@ namespace FilesFullTrust
                     }, message.Get("RequestID", (string)null));
                     break;
 
+                case "SetFileOwner":
+                    var filePathForPerm2 = (string)message["filepath"];
+                    var isFolder2 = (bool)message["isfolder"];
+                    var ownerSid = (string)message["ownersid"];
+                    var fp = FilePermissions.FromFilePath(filePathForPerm2, isFolder2);
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "Success", fp.SetOwner(ownerSid) }
+                    }, message.Get("RequestID", (string)null));
+                    break;
+
                 case "OpenObjectPicker":
                     var hwnd = (long)message["HWND"];
                     var pickedObject = await FilePermissions.OpenObjectPicker(hwnd);

@@ -169,7 +169,7 @@ namespace FilesFullTrust
 
         }
 
-        private static void RunPowershellCommand(string command, bool runAsAdmin)
+        public static bool RunPowershellCommand(string command, bool runAsAdmin)
         {
             try
             {
@@ -184,11 +184,16 @@ namespace FilesFullTrust
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 process.StartInfo.Arguments = command;
                 process.Start();
-                process.WaitForExit(30 * 1000);
+                if (process.WaitForExit(30 * 1000))
+                {
+                    return process.ExitCode == 0;
+                }
+                return false;
             }
             catch (Win32Exception)
             {
                 // If user cancels UAC
+                return false;
             }
         }
 

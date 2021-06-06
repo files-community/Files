@@ -684,6 +684,8 @@ namespace Files.ViewModels
             set => SetProperty(ref isHidden, value);
         }
 
+        public RelayCommand EditOwnerCommand { get; set; }
+
         public RelayCommand AddRulesForUserCommand { get; set; }
 
         public RelayCommand RemoveRulesForUserCommand { get; set; }
@@ -697,6 +699,7 @@ namespace Files.ViewModels
             {
                 if (SetProperty(ref filePermissions, value))
                 {
+                    EditOwnerCommand.NotifyCanExecuteChanged();
                     AddRulesForUserCommand.NotifyCanExecuteChanged();
                     RemoveRulesForUserCommand.NotifyCanExecuteChanged();
                 }

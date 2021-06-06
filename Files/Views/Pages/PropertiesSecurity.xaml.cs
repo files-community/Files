@@ -1,8 +1,5 @@
 ﻿using Files.Filesystem;
-using Files.Filesystem.Permissions;
 using Files.ViewModels.Properties;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 

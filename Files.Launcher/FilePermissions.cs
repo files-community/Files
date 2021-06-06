@@ -104,14 +104,14 @@ namespace FilesFullTrust
                 catch (UnauthorizedAccessException)
                 {
                     // User does not have rights to set the owner
-                    return false;
                 }
                 catch (Exception)
                 {
-                    return false;
                 }
             }
-            return false;
+
+            // Set through powershell (admin)
+            return Win32API.RunPowershellCommand($"-command \"try {{ $path = '{FilePath}'; $ID = new-object System.Security.Principal.SecurityIdentifier('{ownerSid}'); $acl = get-acl $path; $acl.SetOwner($ID); set-acl -path $path -aclObject $acl }} catch {{ exit 1; }}\"", true);
         }
 
         private static bool GetAccessControl(string filePath, bool isFolder, out FileSystemSecurity fss)
