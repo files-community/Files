@@ -56,7 +56,7 @@ namespace Files.Views
 
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
-            RightMarginGrid.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
+            RightPaddingColumn.Width = new GridLength(sender.SystemOverlayRightInset);
         }
 
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
@@ -186,7 +186,7 @@ namespace Files.Views
             if (invokedItemContainer.DataContext is MainPageViewModel)
             {
                 SettingsDialog settingsDialog = new SettingsDialog();
-                await settingsDialog.ShowAsync();
+                _ = await settingsDialog.ShowAsync();
 
                 return;
             }

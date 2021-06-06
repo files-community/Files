@@ -1,4 +1,5 @@
-﻿using Files.SettingsPages;
+﻿using Files.Helpers;
+using Files.SettingsPages;
 using Files.ViewModels;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -9,6 +10,9 @@ namespace Files.Dialogs
     public sealed partial class SettingsDialog : ContentDialog
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+
+        // for some reason the requested theme wasn't being set on the content dialog, so this is used to manually bind to the requested app theme
+        FrameworkElement RootAppElement => Window.Current.Content as FrameworkElement;
 
         public SettingsDialog()
         {

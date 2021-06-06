@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
 using Files.Extensions;
 using Files.Helpers;
@@ -64,6 +65,7 @@ namespace Files.Filesystem
                                     {
                                         lib.Font = MainViewModel.FontName;
                                         librarySection.ChildItems.AddSorted(lib);
+                                        this.LoadLibraryIcon(lib);
                                     }
                                 }
                             }
@@ -83,6 +85,7 @@ namespace Files.Filesystem
                                 {
                                     lib.Font = MainViewModel.FontName;
                                     librarySection.ChildItems.AddSorted(lib);
+                                    this.LoadLibraryIcon(lib);
                                 }
                             }
                             break;
@@ -96,6 +99,15 @@ namespace Files.Filesystem
         }
 
         private static bool IsLibraryOnSidebar(LibraryLocationItem item) => item != null && !item.IsEmpty && item.IsDefaultLocation;
+
+        private async void LoadLibraryIcon(LibraryLocationItem lib)
+        {
+            lib.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(lib.Path, 24u);
+            if (lib.IconData != null)
+            {
+                lib.Icon = await lib.IconData.ToBitmapAsync();
+            }
+        }
 
         public void Dispose()
         {
@@ -196,6 +208,7 @@ namespace Files.Filesystem
                             Text = "SidebarLibraries".GetLocalized(),
                             Section = SectionType.Library,
                             SelectsOnInvoked = false,
+                            Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.Libraries).Image),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         SidebarControl.SideBarItems.Insert(1, librarySection);

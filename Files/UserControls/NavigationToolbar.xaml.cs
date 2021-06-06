@@ -882,12 +882,9 @@ namespace Files.UserControls
 
         private void PreviewPane_Click(object sender, RoutedEventArgs e) => PreviewPaneEnabled = !PreviewPaneEnabled;
 
-        private void SearchRegion_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        {
-            ViewModel.IsSearchBoxVisible = false;
-        }
+        private void SearchRegion_SuggestionChosen(ISearchBox sender, SearchBoxSuggestionChosenEventArgs args) => ViewModel.IsSearchBoxVisible = false;
 
-        private void SearchRegion_Escaped(object sender, AutoSuggestBox e) => ViewModel.IsSearchBoxVisible = false;
+        private void SearchRegion_Escaped(object sender, ISearchBox searchBox) => ViewModel.IsSearchBoxVisible = false;
 
         private void PathboxItemFlyout_Opened(object sender, object e) => ViewModel.PathboxItemFlyout_Opened(sender, e);
 

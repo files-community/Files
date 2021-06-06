@@ -8,6 +8,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Closing="ContentDialog_Closing"
     CornerRadius="{StaticResource OverlayCornerRadius}"
+    RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
     <ContentDialog.Resources>
