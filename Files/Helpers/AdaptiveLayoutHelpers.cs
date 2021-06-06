@@ -119,9 +119,9 @@ namespace Files.Helpers
                 // Decide layout mode
                 
                 // Mostly files + folders, lesser media and image files | Mostly folders
-                if ((foldersPercentage + miscFilesPercentage) > 80.0f || foldersPercentage > 80.0f)
+                if ((foldersPercentage + miscFilesPercentage) > 80.0f)
                 {
-                    if (allItemsCount > 12)
+                    if (allItemsCount > 6)
                     {
                         layoutDetails();
                     }
@@ -130,13 +130,15 @@ namespace Files.Helpers
                         layoutTiles();
                     }
                 }
-                else if (imagesPercentage > 85.0f || (imagesPercentage > 60.0f && (mediaPercentage + miscFilesPercentage + foldersPercentage) > 25.0f && (miscFilesPercentage + foldersPercentage) < 15.0f)) // Mostly images, probably an images folder
+                // Mostly images, probably an images folder
+                else if (imagesPercentage > 85.0f || (imagesPercentage > 60.0f && (mediaPercentage + miscFilesPercentage + foldersPercentage) > 25.0f && (miscFilesPercentage + foldersPercentage) < 15.0f))
                 {
                     layoutGridView();
                 }
-                else if (mediaPercentage > 85.0f || (mediaPercentage > 60.0f && (imagesPercentage + miscFilesPercentage + foldersPercentage) > 25.0f && (miscFilesPercentage + foldersPercentage) < 15.0f)) // Mostly media i.e. sound files, videos
+                // Mostly media i.e. sound files, videos
+                else if (mediaPercentage > 85.0f || (mediaPercentage > 60.0f && (imagesPercentage + miscFilesPercentage + foldersPercentage) > 25.0f && (miscFilesPercentage + foldersPercentage) < 15.0f))
                 {
-                    if (allItemsCount > 12)
+                    if (allItemsCount > 16)
                     {
                         layoutDetails();
                     }
