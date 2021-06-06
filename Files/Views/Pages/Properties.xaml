@@ -14,12 +14,18 @@
     Unloaded="Properties_Unloaded"
     mc:Ignorable="d">
     <Page.Resources>
-        <muxc:AcrylicBrush
-            x:Key="SystemControlAcrylicWindowBrush"
-            BackgroundSource="HostBackdrop"
-            FallbackColor="{StaticResource SolidBackgroundFillColorBase}"
-            TintColor="{StaticResource SolidBackgroundFillColorBase}"
-            TintOpacity="0.90" />
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <muxc:AcrylicBrush
+                        x:Key="SystemControlAcrylicWindowBrush"
+                        BackgroundSource="HostBackdrop"
+                        FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
+                        TintColor="{ThemeResource SolidBackgroundAcrylic}"
+                        TintOpacity="0.90" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -61,6 +67,15 @@
                     Tag="General">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7C3;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
+                    x:Name="TabSecurity"
+                    x:Uid="PropertiesDialogTabSecurity"
+                    Content="Security"
+                    Tag="Security">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE730;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem

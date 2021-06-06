@@ -203,6 +203,10 @@
     <Compile Include="Extensions\FileIconInfoExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
+    <Compile Include="Filesystem\Permissions\FilePermissionsManager.cs" />
+    <Compile Include="Filesystem\Permissions\FileSystemAccessRule.cs" />
+    <Compile Include="Filesystem\Permissions\RulesForUser.cs" />
+    <Compile Include="Filesystem\Permissions\UserGroup.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupedCollection.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupingHelper.cs" />
     <Compile Include="Helpers\UniversalLogWriter.cs" />
@@ -329,6 +333,7 @@
       <DependentUpon>WidgetsListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
+    <Compile Include="ViewModels\Properties\FileSystemProperties.cs" />
     <Compile Include="ViewModels\SidebarViewModel.cs" />
     <Compile Include="ViewModels\BaseJsonSettingsViewModel.cs" />
     <Compile Include="ViewModels\ColumnsViewModel.cs" />
@@ -513,6 +518,9 @@
     </Compile>
     <Compile Include="Views\Pages\PropertiesLibrary.xaml.cs">
       <DependentUpon>PropertiesLibrary.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\PropertiesSecurity.xaml.cs">
+      <DependentUpon>PropertiesSecurity.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PaneHolderPage.xaml.cs">
       <DependentUpon>PaneHolderPage.xaml</DependentUpon>
@@ -983,6 +991,10 @@
     <Page Include="Views\Pages\PropertiesLibrary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Pages\PropertiesSecurity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PaneHolderPage.xaml">
       <SubType>Designer</SubType>

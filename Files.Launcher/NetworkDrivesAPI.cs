@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Vanara.Extensions;
 using Vanara.InteropServices;
@@ -107,25 +108,19 @@ namespace FilesFullTrust
             }
         }
 
-        private class Win32Window : IWin32Window
+        public static async Task<bool> OpenMapNetworkDriveDialog(long hwnd)
         {
-            public IntPtr Handle { get; set; }
-            public static Win32Window FromLong(long hwnd)
+            return await Win32API.StartSTATask(() =>
             {
-                return new Win32Window() { Handle = new IntPtr(hwnd) };
-            }
-        }
-
-        public static bool OpenMapNetworkDriveDialog(long hwnd)
-        {
-            using var ncd = new NetworkConnectionDialog { UseMostRecentPath = true };
-            ncd.HideRestoreConnectionCheckBox = false;
-            return ncd.ShowDialog(Win32Window.FromLong(hwnd)) == DialogResult.OK;
+                using var ncd = new NetworkConnectionDialog { UseMostRecentPath = true };
+                ncd.HideRestoreConnectionCheckBox = false;
+                return ncd.ShowDialog(Win32API.Win32Window.FromLong(hwnd)) == DialogResult.OK;
+            });
         }
 
         public static bool DisconnectNetworkDrive(string drive)
         {
-            return !WNetCancelConnection2(drive.TrimEnd('\\'), CONNECT.CONNECT_UPDATE_PROFILE, true).Failed;
+            return WNetCancelConnection2(drive.TrimEnd('\\'), CONNECT.CONNECT_UPDATE_PROFILE, true).Succeeded;
         }
     }
 }
