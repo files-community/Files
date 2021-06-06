@@ -2276,7 +2276,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarColumnView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Column View (Ctrl+Shift+6)</source>
-          <target state="<target state="translated">">Vista em Coluna (Ctrl + Shift + 6)</target>
+          <target state="translated">">Vista em Coluna (Ctrl + Shift + 6)</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutColumn.Text" translate="yes" xml:space="preserve">
           <source>Column View</source>
