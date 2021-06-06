@@ -1,17 +1,9 @@
-﻿using Files.Common;
-using Files.Extensions;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
-using Windows.Storage.Streams;
-using Windows.System;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem.Permissions
 {

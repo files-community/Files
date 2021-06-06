@@ -3067,6 +3067,14 @@
           <source>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</source>
           <target state="translated">Non hai i permessi necessari per vedere le proprietà di questo oggetto. Clicca "Impostazioni avanzate" per continuare.</target>
         </trans-unit>
+        <trans-unit id="SecurityUnknownOwnerText.Text" translate="yes" xml:space="preserve">
+          <source>Unknown owner</source>
+          <target state="translated">Sconosciuto</target>
+        </trans-unit>
+        <trans-unit id="SecurityOwnerLabel.Text" translate="yes" xml:space="preserve">
+          <source>Owner</source>
+          <target state="translated">Proprietario</target>
+        </trans-unit>
       </group>
     </body>
   </file>
