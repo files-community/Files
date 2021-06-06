@@ -51,8 +51,7 @@ steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '6.0.x'
-    includePreviewVersions: true
+    useGlobalJson: true
 
 - task: NuGetToolInstaller@1
 
