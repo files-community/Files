@@ -1,8 +1,11 @@
 using Files.Common;
+using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
 using Files.Enums;
+using Files.Helpers;
 using Files.UserControls;
 using Files.UserControls.Widgets;
+using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -137,6 +140,7 @@ namespace Files.Filesystem
                             Text = "SidebarDrives".GetLocalized(),
                             Section = SectionType.Drives,
                             SelectsOnInvoked = false,
+                            Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.ThisPC).Image),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         SidebarControl.SideBarItems.Add(section);
