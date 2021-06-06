@@ -48,8 +48,6 @@ namespace Files.ViewModels.Widgets.Bundles
 
         public event EventHandler<string> OpenPathInNewPaneEvent;
 
-        public event EventHandler<BundlesLoadIconOverlayEventArgs> LoadIconOverlayEvent;
-
         #region Public Properties
 
         /// <summary>
@@ -219,7 +217,6 @@ namespace Files.ViewModels.Widgets.Bundles
                 NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle,
                 OpenPath = OpenPathHandle,
                 OpenPathInNewPane = OpenPathInNewPaneHandle,
-                LoadIconOverlay = LoadIconOverlayHandle
             });
             NoBundlesAddItemLoad = false;
             itemAddedInternally = false;
@@ -275,14 +272,6 @@ namespace Files.ViewModels.Widgets.Bundles
         private void OpenPathInNewPaneHandle(string path)
         {
             OpenPathInNewPaneEvent?.Invoke(this, path);
-        }
-
-        private (byte[] IconData, byte[] OverlayData, bool IsCustom) LoadIconOverlayHandle(string path, uint thumbnailSize)
-        {
-            BundlesLoadIconOverlayEventArgs eventArgs = new BundlesLoadIconOverlayEventArgs(path, thumbnailSize);
-            LoadIconOverlayEvent?.Invoke(this, eventArgs);
-
-            return eventArgs.outData;
         }
 
         /// <summary>
@@ -397,9 +386,8 @@ namespace Files.ViewModels.Widgets.Bundles
                                     NotifyItemRemoved = NotifyBundleItemRemovedHandle,
                                     OpenPath = OpenPathHandle,
                                     OpenPathInNewPane = OpenPathInNewPaneHandle,
-                                    LoadIconOverlay = LoadIconOverlayHandle
                                 });
-                                bundleItems.Last().UpdateIcon();
+                                await bundleItems.Last().UpdateIcon();
                             }
                         }
                     }
@@ -413,8 +401,8 @@ namespace Files.ViewModels.Widgets.Bundles
                         NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle,
                         OpenPath = OpenPathHandle,
                         OpenPathInNewPane = OpenPathInNewPaneHandle,
-                        LoadIconOverlay = LoadIconOverlayHandle
                     }.SetBundleItems(bundleItems));
+
                     itemAddedInternally = false;
                 }
 

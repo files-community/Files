@@ -195,7 +195,6 @@
     <Compile Include="Enums\FilesystemOperationType.cs" />
     <Compile Include="Enums\FolderLayout.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
-    <Compile Include="EventArguments\Bundles\BundlesLoadIconOverlayEventArgs.cs" />
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
