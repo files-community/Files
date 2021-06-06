@@ -27,18 +27,18 @@
 
     <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Auto">
         <StackPanel Style="{StaticResource PropertiesTab}">
-            <Grid>
+            <Grid ColumnSpacing="12">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="32" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <TextBlock
                     x:Uid="SecurityOwnerLabel"
                     Grid.Column="0"
-                    Margin="0,0,12,0"
+                    Margin="0,0,0,0"
                     VerticalAlignment="Center"
                     FontWeight="Bold"
                     Style="{StaticResource PropertyName}"
@@ -72,14 +72,15 @@
                     x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                     Text="Unknown owner" />
 
-                <CommandBar
+                <Button
                     Grid.Column="3"
-                    IsDynamicOverflowEnabled="False"
-                    OverflowButtonVisibility="Collapsed">
-                    <CommandBar.PrimaryCommands>
-                        <AppBarButton Command="{x:Bind ViewModel.EditOwnerCommand}" Icon="Edit" />
-                    </CommandBar.PrimaryCommands>
-                </CommandBar>
+                    Padding="8,4,8,4"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Command="{x:Bind ViewModel.EditOwnerCommand}">
+                    <FontIcon FontSize="16" Glyph="&#xE104;" />
+                </Button>
             </Grid>
 
             <Grid>
