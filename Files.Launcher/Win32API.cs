@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
