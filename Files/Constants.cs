@@ -2,6 +2,46 @@
 {
     public static class Constants
     {
+        public static class AdaptiveLayout
+        {
+            public static class FoldersAndGenericFiles
+            {
+                public const float ItemsThreshold = 80.0f;
+
+                public const int DetailsAfterItemsAmount = 6; 
+            }
+
+            public static class Images
+            {
+                public const float FirstOrCond_ImagesThreshold = 85.0f;
+
+                public const float SecondOrCondFirstAndCond_ImagesThreshold = 60.0f;
+
+                public const float SecondOrCondSecondAndCond_MediaAndMiscAndFoldersSumThreshold = 25.0f;
+
+                public const float SecondOrCondThirdAndCond_MiscAndFolderSumThreshold = 15.0f;
+            }
+
+            public static class Media
+            {
+                public const float FirstOrCond_MediaThreshold = 85.0f;
+
+                public const float SecondOrCondFirstAndCond_MediaThreshold = 60.0f;
+
+                public const float SecondOrCondSecondAndCond_ImagesAndMiscAndFoldersSumThreshold = 25.0f;
+
+                public const float SecondOrCondThirdAndCond_MiscAndFoldersSumThreshold = 15.0f;
+
+                public const float DetailsAfterItemsAmount = 16;
+            }
+
+            public static class Tiles
+            {
+                public const int AllTilesFromMediaAmountThreshold = 6;
+                public const int AllTilesFromFoldersAndMiscAmountThreshold = 16;
+            }
+        }
+
         public static class UI
         {
             public const float DimItemOpacity = 0.4f;

@@ -119,9 +119,9 @@ namespace Files.Helpers
                 // Decide layout mode
                 
                 // Mostly files + folders, lesser media and image files | Mostly folders
-                if ((foldersPercentage + miscFilesPercentage) > 80.0f)
+                if ((foldersPercentage + miscFilesPercentage) > Constants.AdaptiveLayout.FoldersAndGenericFiles.ItemsThreshold)
                 {
-                    if (allItemsCount > 6)
+                    if (allItemsCount > Constants.AdaptiveLayout.FoldersAndGenericFiles.DetailsAfterItemsAmount)
                     {
                         layoutDetails();
                     }
@@ -131,14 +131,20 @@ namespace Files.Helpers
                     }
                 }
                 // Mostly images, probably an images folder
-                else if (imagesPercentage > 85.0f || (imagesPercentage > 60.0f && (mediaPercentage + miscFilesPercentage + foldersPercentage) > 25.0f && (miscFilesPercentage + foldersPercentage) < 15.0f))
+                else if (imagesPercentage > Constants.AdaptiveLayout.Images.FirstOrCond_ImagesThreshold 
+                    || (imagesPercentage > Constants.AdaptiveLayout.Images.SecondOrCondFirstAndCond_ImagesThreshold
+                        && (mediaPercentage + miscFilesPercentage + foldersPercentage) > Constants.AdaptiveLayout.Images.SecondOrCondSecondAndCond_MediaAndMiscAndFoldersSumThreshold
+                        && (miscFilesPercentage + foldersPercentage) < Constants.AdaptiveLayout.Images.SecondOrCondThirdAndCond_MiscAndFolderSumThreshold))
                 {
                     layoutGridView();
                 }
                 // Mostly media i.e. sound files, videos
-                else if (mediaPercentage > 85.0f || (mediaPercentage > 60.0f && (imagesPercentage + miscFilesPercentage + foldersPercentage) > 25.0f && (miscFilesPercentage + foldersPercentage) < 15.0f))
+                else if (mediaPercentage > Constants.AdaptiveLayout.Media.FirstOrCond_MediaThreshold
+                    || (mediaPercentage > Constants.AdaptiveLayout.Media.SecondOrCondFirstAndCond_MediaThreshold
+                    && (imagesPercentage + miscFilesPercentage + foldersPercentage) > Constants.AdaptiveLayout.Media.SecondOrCondSecondAndCond_ImagesAndMiscAndFoldersSumThreshold
+                    && (miscFilesPercentage + foldersPercentage) < Constants.AdaptiveLayout.Media.SecondOrCondThirdAndCond_MiscAndFoldersSumThreshold))
                 {
-                    if (allItemsCount > 16)
+                    if (allItemsCount > Constants.AdaptiveLayout.Media.DetailsAfterItemsAmount)
                     {
                         layoutDetails();
                     }
