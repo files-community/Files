@@ -8,6 +8,7 @@
     xmlns:helpers="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -34,15 +35,12 @@
                     FontWeight="Medium"
                     Text="Appearance" />
 
-                <ComboBox
+                <muxc:RadioButtons
                     x:Name="ThemeChooser"
                     x:Uid="SettingsAppearanceTheme"
-                    Width="Auto"
-                    MinWidth="200"
-                    MaxWidth="250"
                     Header="App theme"
-                    ItemsSource="{Binding Themes}"
-                    SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}" />
+                    SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}"
+                    ItemsSource="{Binding Themes}" />
 
                 <ComboBox
                     x:Name="ColorSchemeChooser"
