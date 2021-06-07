@@ -1714,7 +1714,7 @@
     <value>Vista em Coluna</value>
   </data>
   <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>"&gt;Vista em Coluna (Ctrl + Shift + 6)</value>
+    <value>Vista em Coluna (Ctrl + Shift + 6)</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
     <value>Vista em Coluna</value>
