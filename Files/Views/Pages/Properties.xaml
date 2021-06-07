@@ -7,26 +7,12 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Media"
     d:DesignHeight="700"
     d:DesignWidth="400"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+    Background="{ThemeResource SolidBackgroundFillColorBase}"
     KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
     Loading="Page_Loading"
     Unloaded="Properties_Unloaded"
     mc:Ignorable="d">
-    <Page.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Default">
-                    <muxc:AcrylicBrush
-                        x:Key="SystemControlAcrylicWindowBrush"
-                        BackgroundSource="HostBackdrop"
-                        FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
-                        TintColor="{ThemeResource SolidBackgroundAcrylic}"
-                        TintOpacity="0.90" />
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
-        </ResourceDictionary>
-    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
