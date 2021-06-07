@@ -7,7 +7,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Media"
     d:DesignHeight="700"
     d:DesignWidth="400"
-    Background="{ThemeResource SolidBackgroundFillColorBase}"
+    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
     Loading="Page_Loading"
