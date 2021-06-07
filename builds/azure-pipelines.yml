@@ -57,7 +57,7 @@ steps:
 - task: MSBuild@1
   inputs:
     platform: 'x64'
-    solution: 'Common/Common.csproj'
+    solution: '**/Common.csproj'
     configuration: '$(buildConfiguration)'
     msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)"'
     maximumCpuCount: true
@@ -65,7 +65,7 @@ steps:
 - task: MSBuild@1
   inputs:
     platform: 'x64'
-    solution: 'Files.Launcher/Files.Launcher.csproj'
+    solution: '**/Files.Launcher.csproj'
     configuration: '$(buildConfiguration)'
     msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)"'
     maximumCpuCount: true
@@ -73,7 +73,7 @@ steps:
 - task: MSBuild@1
   inputs:
     platform: 'x64'
-    solution: 'Files/Files.csproj'
+    solution: '**/Files.csproj'
     configuration: '$(buildConfiguration)'
     msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)"'
     maximumCpuCount: true
@@ -86,7 +86,7 @@ steps:
 - task: MSBuild@1
   inputs:
     platform: 'x64'
-    solution: 'Files.Package/Files.Package.wapproj '
+    solution: '**/Files.Package.wapproj '
     configuration: '$(buildConfiguration)'
     msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)"'
     maximumCpuCount: true
