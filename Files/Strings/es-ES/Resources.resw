@@ -747,26 +747,8 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Cancelar</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptable (Recomendado)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Selecciona el mejor control multitarea según el tamaño de la ventana de la aplicación. Cuando la ventana es pequeña, notará que la barra de pestañas horizontal se contrae en un menú lateral en la barra de herramientas de navegación.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Horizontal</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Oculta siempre el menú multitarea vertical de la barra de herramientas de navegación y muestra la barra de pestañas horizontal tradicional en la ventana de la aplicación. Esto es adecuado para usuarios que necesitan realizar un seguimiento de cada instancia de la aplicación abierta en todo momento.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitarea</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Vertical</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Contrae la lista horizontal de instancias de la aplicación en un menú vertical desplegable en la barra de herramientas de navegación, diseñado para usuarios que desean una interfaz de aplicación limpia con una experiencia multitarea.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitarea</value>

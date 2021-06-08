@@ -804,26 +804,8 @@
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>Öppna flikar</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptiv (Rekommenderas)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Väljer den bästa multitasking-kontrollen baserat på hur appfönstrets storlek. När fönstret är litet kommer det horisontella flikfältet kollapsas till ett popup-fönster i navigeringsfältet.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Horisontell</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Döljer alltid det vertikala popup-fönstret för multitasking från navigeringsfältet och visar det traditionella horisontella flikfältet i appfönstret. Detta är lämpligt för användare som alltid behöver hålla reda på alla öppna appinstanser.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitasking</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Vertikal</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Komprimerar den horisontella listan över appinstanser till ett vertikalt popup-fönster i navigeringsfältet. Utformat för användare som vill ha ett rent appgränssnitt med tillgång till en multitasking-upplevelse på begäran.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitasking</value>

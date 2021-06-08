@@ -747,26 +747,8 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Annulla</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adattivo (Consigliato)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Seleziona la modalità di multitasking in base alla grandezza della finestra. Quando la finestra viene ristretta, le schede vengono ridotte a icona nella barra di navigazione.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Orizzontale</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Mostra sempre la tradizionale barra orizzontale con le schede. Questa impostazione è adatta se vuoi avere sott'occhio tutte le schede aperte in ogni momento.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitasking</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Verticale</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Riduce la lista delle schede aperte in un menù a comparsa nella barra di navigazione, pensato per chi preferisce un interfaccia pulita e un'esperienza di multitasking on-demand.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitasking</value>

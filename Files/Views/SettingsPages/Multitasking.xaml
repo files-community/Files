@@ -30,55 +30,10 @@
                     FontSize="16"
                     Text="Tab customization" />
 
-                <StackPanel Orientation="Vertical" Spacing="8">
-                    <RadioButton
-                        x:Name="AdaptiveMultToggle"
-                        x:Uid="SettingsMultitaskingAdaptive"
-                        Checked="HorizontalMultToggle_Checked"
-                        Content="Adaptive (Recommended)"
-                        GroupName="MultitaskingSettingRadioGroup"
-                        IsChecked="{x:Bind ViewModel.IsMultitaskingExperienceAdaptive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock
-                        x:Uid="SettingsMultitaskingAdaptiveDescription"
-                        MaxWidth="450"
-                        Margin="0,0,0,8"
-                        HorizontalAlignment="Left"
-                        Foreground="{ThemeResource SystemColorGrayTextColor}"
-                        Text="Selects the best multitasking control based on how the app window is resized. When the window is small, you'll notice the horizontal tab strip is collapsed into a flyout on the navigation toolbar."
-                        TextWrapping="WrapWholeWords" />
-
-                    <RadioButton
-                        x:Name="HorizontalMultToggle"
-                        x:Uid="SettingsMultitaskingHorizontal"
-                        Checked="HorizontalMultToggle_Checked"
-                        Content="Horizontal"
-                        GroupName="MultitaskingSettingRadioGroup"
-                        IsChecked="{x:Bind ViewModel.IsHorizontalTabStripOn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock
-                        x:Uid="SettingsMultitaskingHorizontalDescription"
-                        MaxWidth="450"
-                        Margin="0,0,0,8"
-                        HorizontalAlignment="Left"
-                        Foreground="{ThemeResource SystemColorGrayTextColor}"
-                        Text="Always hides the vertical multitasking flyout from the navigation toolbar, and shows the traditional horizontal tabstrip on the app window. This is suited for users who need to keep track of every open app instance at all times."
-                        TextWrapping="WrapWholeWords" />
-
-                    <RadioButton
-                        x:Name="VerticalMultToggle"
-                        x:Uid="SettingsMultitaskingVertical"
-                        Checked="HorizontalMultToggle_Checked"
-                        Content="Vertical"
-                        GroupName="MultitaskingSettingRadioGroup"
-                        IsChecked="{x:Bind ViewModel.IsVerticalTabFlyoutOn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock
-                        x:Uid="SettingsMultitaskingVerticalDescription"
-                        MaxWidth="450"
-                        Margin="0,0,0,8"
-                        HorizontalAlignment="Left"
-                        Foreground="{ThemeResource SystemColorGrayTextColor}"
-                        Text="Collapses the horizontal list of app instances into a vertical flyout on the navigation toolbar, designed for users who want a clean app interface with on-demand access to a multitasking experience."
-                        TextWrapping="WrapWholeWords" />
-                </StackPanel>
+                <ToggleSwitch
+                    x:Uid="SettingsVerticalTabFlyoutSwitch"
+                    Header="Display vertical tab flyout on the title bar"
+                    IsOn="{x:Bind ViewModel.IsVerticalTabFlyoutEnabled, Mode=TwoWay}" />
 
                 <TextBlock
                     x:Uid="SettingsDualPane"

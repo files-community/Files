@@ -801,26 +801,8 @@
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>Åbn fane</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptiv (anbefales)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Vælger den bedste multitasking-kontrol baseret på, hvordan appvinduet ændres. Når vinduet er lille, vil du bemærke, at den vandrette fanestribe er foldet sammen i en flyout på navigationsværktøjslinjen.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Vandret</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Skjuler altid den lodrette multitasking-flyout fra navigationsværktøjslinjen og viser den traditionelle vandrette tabstrip i appvinduet. Dette er velegnet til brugere, der altid har brug for at holde styr på alle åbne appinstanser.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitasking</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Lodret</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Skjuler den vandrette liste over appforekomster i en lodret flyout på navigationsværktøjslinjen, der er designet til brugere, der ønsker en ren app-interface med on-demand adgang til en multitasking-oplevelse.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitasking</value>

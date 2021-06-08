@@ -4,61 +4,18 @@ namespace Files.ViewModels.SettingsViewModels
 {
     public class MultitaskingViewModel : ObservableObject
     {
-        private bool isMultitaskingExperienceAdaptive = App.AppSettings.IsMultitaskingExperienceAdaptive;
-        private bool isHorizontalTabStripOn = App.AppSettings.IsHorizontalTabStripOn;
-        private bool isVerticalTabFlyoutOn = App.AppSettings.IsVerticalTabFlyoutOn;
-        public MainViewModel MainViewModel => App.MainViewModel;
-
-        public bool IsMultitaskingExperienceAdaptive
+        private bool isVerticalTabFlyoutEnabled = App.AppSettings.IsVerticalTabFlyoutEnabled;
+        public bool IsVerticalTabFlyoutEnabled
         {
             get
             {
-                return isMultitaskingExperienceAdaptive;
+                return isVerticalTabFlyoutEnabled;
             }
             set
             {
-                if (SetProperty(ref isMultitaskingExperienceAdaptive, value))
+                if (SetProperty(ref isVerticalTabFlyoutEnabled, value))
                 {
-                    App.AppSettings.IsMultitaskingExperienceAdaptive = value;
-
-                    // Setup the correct multitasking control
-                    MainViewModel.SetMultitaskingControl();
-                }
-            }
-        }
-
-        public bool IsHorizontalTabStripOn
-        {
-            get
-            {
-                return isHorizontalTabStripOn;
-            }
-            set
-            {
-                if (SetProperty(ref isHorizontalTabStripOn, value))
-                {
-                    App.AppSettings.IsHorizontalTabStripOn = value;
-
-                    // Setup the correct multitasking control
-                    MainViewModel.SetMultitaskingControl();
-                }
-            }
-        }
-
-        public bool IsVerticalTabFlyoutOn
-        {
-            get
-            {
-                return isVerticalTabFlyoutOn;
-            }
-            set
-            {
-                if (SetProperty(ref isVerticalTabFlyoutOn, value))
-                {
-                    App.AppSettings.IsVerticalTabFlyoutOn = value;
-
-                    // Setup the correct multitasking control
-                    MainViewModel.SetMultitaskingControl();
+                    App.AppSettings.IsVerticalTabFlyoutEnabled = value;
                 }
             }
         }

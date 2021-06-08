@@ -747,26 +747,8 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Cancelar</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptável (Recomendado)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Seleciona o melhor controlo multitarefa com base em como a janela da aplicação é redimensionada. Quando a janela é pequena, notará que a faixa de tabulação horizontal é recolhida em um menu flutuante na barra de ferramentas de navegação.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Horizontal</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Ocultar sempre o menu flutuante multitarefa vertical da barra de ferramentas de navegação e mostrar a faixa de separadores horizontal tradicional na janela do aplicativo. Isso é adequado para utilizadores que precisam manter o controlo de todas as instâncias de aplicações abertas o tempo todo.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitarefa</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Vertical</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Recolhe a lista horizontal de instâncias de aplicações num menu flutuante vertical na barra de ferramentas de navegação, projetada para utilizadores que pretendem uma interface de aplicação limpa com acesso sob demanda a uma experiência multitarefa.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitarefa</value>

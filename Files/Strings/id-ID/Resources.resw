@@ -822,27 +822,8 @@
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>Buka tab</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptif (Disarankan)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Pilih kontrol tugas ganda terbaik berdasarkan bagaimana jendela aplikasi diubah ukurannya. Ketika jendela berukuran kecil, Anda akan melihat tab berpindah ke bilah toolbar.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Horisontal</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Selalu sembunyikan tugas ganda secara vertikal di bilah toolbar dan tampilkan selalu tab secara horisontal. Pilihan ini cocok untuk pengguna yang ingin tetap melacak tab yang terbuka setiap saat.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Tugas ganda</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Vertikal</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Sembunyikan tab dalam bentuk horisontal dan pindahkan dalam bentuk vertikal di bilah toolbar, dirancang untuk pengguna yang menginginkan antarmuka aplikasi yang bersih dengan akses tugas ganda sesuai permintaan.
-</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multi tugas</value>
