@@ -1188,7 +1188,7 @@
           <source>Move overflow items into a sub menu</source>
           <target state="translated">Pārvietot pārpildītos vienumus apakšizvēlnē</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
           <target state="translated">Piespraust Atkritni sānu joslā</target>
         </trans-unit>
@@ -2197,7 +2197,7 @@
           <source>Open in new Pane</source>
           <target state="translated">Atvērt jaunā panelī</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesShowLibrarySection.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsShowLibrarySection.Header" translate="yes" xml:space="preserve">
           <source>Show library section on the sidebar</source>
           <target state="translated">Rādīt bibliotēku sadaļu sānu joslā</target>
         </trans-unit>
@@ -3086,6 +3086,14 @@
         <trans-unit id="SecurityUnknownOwnerText.Text" translate="yes" xml:space="preserve">
           <source>Unknown owner</source>
           <target state="new">Unknown owner</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="new">Sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsSidebarTitle.Text" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="new">Sidebar</target>
         </trans-unit>
       </group>
     </body>

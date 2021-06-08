@@ -78,10 +78,19 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
+                    x:Uid="SettingsNavSidebar"
+                    AccessKey="S"
+                    Content="Sidebar"
+                    Tag="3">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE700;" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem
                     x:Uid="SettingsNavMultitasking"
                     AccessKey="M"
                     Content="Multitasking"
-                    Tag="3">
+                    Tag="4">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xEE40;" />
                     </muxc:NavigationViewItem.Icon>
@@ -90,7 +99,7 @@
                     x:Uid="SettingsNavFilesAndFolders"
                     AccessKey="F"
                     Content="Files and Folders"
-                    Tag="4">
+                    Tag="5">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8B7;" />
                     </muxc:NavigationViewItem.Icon>
@@ -99,7 +108,7 @@
                     x:Uid="SettingsNavExperimental"
                     AccessKey="E"
                     Content="Experimental"
-                    Tag="5">
+                    Tag="6">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF1AD;" />
                     </muxc:NavigationViewItem.Icon>
@@ -111,7 +120,7 @@
                     x:Uid="SettingsNavAbout"
                     AccessKey="B"
                     Content="About"
-                    Tag="6">
+                    Tag="7">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE946;" />
                     </muxc:NavigationViewItem.Icon>

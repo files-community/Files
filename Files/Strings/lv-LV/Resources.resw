@@ -897,7 +897,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Pārvietot pārpildītos vienumus apakšizvēlnē</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Piespraust Atkritni sānu joslā</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1650,7 +1650,7 @@
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>Atvērt jaunā panelī</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>Rādīt bibliotēku sadaļu sānu joslā</value>
   </data>
   <data name="DefaultScheme" xml:space="preserve">

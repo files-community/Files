@@ -849,7 +849,7 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Erişim Engellendi</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Yan çubukta Geri Dönüşüm Kutusu görüntülensin</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1644,7 +1644,7 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argümanlar</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>Yan çubukta Hızlı Erişim görüntülensin</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">

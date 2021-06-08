@@ -1203,7 +1203,7 @@
           <source>Move overflow items into a sub menu</source>
           <target state="translated">Pindahkan item luapan ke dalam sub menu</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
           <target state="translated">Sematkan keranjang sampah ke bilah sisi</target>
         </trans-unit>
@@ -2244,7 +2244,7 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
           <source>Open in new Pane</source>
           <target state="translated">Buka di Panel baru</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesShowLibrarySection.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsShowLibrarySection.Header" translate="yes" xml:space="preserve">
           <source>Show library section on the sidebar</source>
           <target state="translated">Tampilkan pustaka di bilah sisi</target>
         </trans-unit>
@@ -3075,6 +3075,14 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
         <trans-unit id="SecurityUnknownOwnerText.Text" translate="yes" xml:space="preserve">
           <source>Unknown owner</source>
           <target state="new">Unknown owner</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="new">Sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsSidebarTitle.Text" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="new">Sidebar</target>
         </trans-unit>
       </group>
     </body>

@@ -17,20 +17,14 @@ namespace Files.ViewModels.SettingsViewModels
         private int selectedLanguageIndex = App.AppSettings.DefaultLanguages.IndexOf(App.AppSettings.DefaultLanguage);
         private bool showRestartControl;
         private Terminal selectedTerminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
-        private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
         private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
-        private bool showLibrarySection = App.AppSettings.ShowLibrarySection;
         private bool openFoldersNewTab = App.AppSettings.OpenFoldersNewTab;
         private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
-
-        public static LibraryManager LibraryManager { get; private set; }
 
         public PreferencesViewModel()
         {
             DefaultLanguages = App.AppSettings.DefaultLanguages;
             Terminals = App.AppSettings.TerminalController.Model.Terminals;
-
-            LibraryManager ??= new LibraryManager();
 
             DateFormats = new List<string>
             {
@@ -102,21 +96,6 @@ namespace Files.ViewModels.SettingsViewModels
 
         public RelayCommand EditTerminalApplicationsCommand => new RelayCommand(() => LaunchTerminalsConfigFile());
 
-        public bool PinRecycleBinToSideBar
-        {
-            get
-            {
-                return pinRecycleBinToSideBar;
-            }
-            set
-            {
-                if (SetProperty(ref pinRecycleBinToSideBar, value))
-                {
-                    App.AppSettings.PinRecycleBinToSideBar = value;
-                }
-            }
-        }
-
         public bool ShowConfirmDeleteDialog
         {
             get
@@ -129,35 +108,6 @@ namespace Files.ViewModels.SettingsViewModels
                 {
                     App.AppSettings.ShowConfirmDeleteDialog = value;
                 }
-            }
-        }
-
-        public bool ShowLibrarySection
-        {
-            get
-            {
-                return showLibrarySection;
-            }
-            set
-            {
-                if (SetProperty(ref showLibrarySection, value))
-                {
-                    App.AppSettings.ShowLibrarySection = value;
-                    
-                    LibraryVisibility(App.AppSettings.ShowLibrarySection);
-                }
-            }
-        }
-
-        public async void LibraryVisibility(bool visible)
-        {
-            if (visible)
-            {
-                await LibraryManager.EnumerateLibrariesAsync();
-            }
-            else
-            {
-                LibraryManager.RemoveLibrariesSideBarSection();
             }
         }
 

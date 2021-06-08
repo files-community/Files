@@ -117,21 +117,10 @@
                 </StackPanel>
 
                 <ToggleSwitch
-                    x:Uid="SettingsPreferencesRecycleBinSwitch"
-                    Header="Pin Recycle Bin to the sidebar"
-                    IsOn="{Binding PinRecycleBinToSideBar, Mode=TwoWay}" />
-
-                <ToggleSwitch
                     x:Name="ShowConfirmDeleteDialogSwitch"
                     x:Uid="SettingsPreferencesShowConfirmDeleteDialogSwitch"
                     Header="Show a confirmation dialog when deleting files or folders"
                     IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}" />
-
-                <ToggleSwitch
-                    x:Name="ShowLibrarySection"
-                    x:Uid="SettingsPreferencesShowLibrarySection"
-                    Header="Show library section on the sidebar"
-                    IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Name="OpenFoldersNewTab"

@@ -910,7 +910,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Pindahkan item luapan ke dalam sub menu</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Sematkan keranjang sampah ke bilah sisi</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1691,7 +1691,7 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>Buka di Panel baru</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>Tampilkan pustaka di bilah sisi</value>
   </data>
   <data name="DefaultScheme" xml:space="preserve">

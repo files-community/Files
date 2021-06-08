@@ -888,7 +888,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Flyt overløbselementer til en undermenu</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Fastgør papirkurven til sidebjælke</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1644,7 +1644,7 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumenter</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>Vis bibliotekssektion i sidebjælken</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">

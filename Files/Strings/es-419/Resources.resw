@@ -921,7 +921,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Mover opciones adicionales a un sub menú</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Mostrar la papelera de reciclaje en la barra lateral</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1692,7 +1692,7 @@
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>Abrir en nuevo Panel</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>Mostrar Bibliotecas en la barra lateral</value>
   </data>
   <data name="DefaultScheme" xml:space="preserve">

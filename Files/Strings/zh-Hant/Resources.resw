@@ -870,7 +870,7 @@
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>終端機應用程式</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>將資源回收桶釘選至側邊欄</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1614,7 +1614,7 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>參數</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>在側邊欄顯示媒體櫃專區</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">

@@ -894,7 +894,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>초과된 항목을 하위 메뉴로 이동</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>사이드바에 휴지통 고정</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1644,7 +1644,7 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>전달인자</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>사이드바에 라이브러리 표시</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
