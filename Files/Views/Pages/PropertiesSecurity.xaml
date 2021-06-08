@@ -26,8 +26,7 @@
     </Page.Resources>
 
     <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Auto">
-        <StackPanel Style="{StaticResource PropertiesTab}"
-                    Margin="0,7,0,0">
+        <StackPanel Margin="0,7,0,0" Style="{StaticResource PropertiesTab}">
             <Grid ColumnSpacing="12">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -391,7 +390,10 @@
                 Text="You do not have permissions to view the security properties of this object. Click &quot;Advanced permissions&quot; to proceed."
                 TextWrapping="WrapWholeWords" />
 
-            <Button Margin="0,12,0,0" HorizontalAlignment="Left">
+            <Button
+                Margin="0,12,0,0"
+                HorizontalAlignment="Left"
+                Command="{x:Bind OpenAdvancedPropertiesCommand}">
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                     <FontIcon
                         Margin="0,0,12,0"

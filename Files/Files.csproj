@@ -521,6 +521,9 @@
     <Compile Include="Views\Pages\PropertiesSecurity.xaml.cs">
       <DependentUpon>PropertiesSecurity.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Pages\PropertiesSecurityAdvanced.xaml.cs">
+      <DependentUpon>PropertiesSecurityAdvanced.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PaneHolderPage.xaml.cs">
       <DependentUpon>PaneHolderPage.xaml</DependentUpon>
     </Compile>
@@ -992,6 +995,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Pages\PropertiesSecurity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\PropertiesSecurityAdvanced.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
