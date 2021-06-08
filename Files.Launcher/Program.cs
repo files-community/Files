@@ -554,6 +554,14 @@ namespace FilesFullTrust
                     await HandleShellLibraryMessage(message);
                     break;
 
+                case "GetSelectedIconsFromDLL":
+                    var selectedIconInfos = Win32API.ExtractSelectedIconsFromDLL((string)message["iconFile"], JsonConvert.DeserializeObject<List<int>>((string)message["iconIndexes"]), Convert.ToInt32(message["requestedIconSize"]));
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "IconInfos", JsonConvert.SerializeObject(selectedIconInfos) },
+                    }, message.Get("RequestID", (string)null));
+                    break;
+
                 default:
                     if (message.ContainsKey("Application"))
                     {
@@ -752,12 +760,12 @@ namespace FilesFullTrust
 
                 case "OpenMapNetworkDriveDialog":
                     var hwnd = (long)message["HWND"];
-                    NetworkDrivesAPI.OpenMapNetworkDriveDialog(hwnd);
+                    _ = NetworkDrivesAPI.OpenMapNetworkDriveDialog(hwnd);
                     break;
 
                 case "DisconnectNetworkDrive":
                     var drivePath = (string)message["drive"];
-                    NetworkDrivesAPI.DisconnectNetworkDrive(drivePath);
+                    _ = NetworkDrivesAPI.DisconnectNetworkDrive(drivePath);
                     break;
             }
         }
@@ -1020,6 +1028,45 @@ namespace FilesFullTrust
                             return true;
                         });
                     }
+                    break;
+
+                case "GetFilePermissions":
+                    var filePathForPerm = (string)message["filepath"];
+                    var isFolder = (bool)message["isfolder"];
+                    var filePermissions = FilePermissions.FromFilePath(filePathForPerm, isFolder);
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "FilePermissions", JsonConvert.SerializeObject(filePermissions) }
+                    }, message.Get("RequestID", (string)null));
+                    break;
+
+                case "SetFilePermissions":
+                    var filePermissionsString = (string)message["permissions"];
+                    var filePermissionsToSet = JsonConvert.DeserializeObject<FilePermissions>(filePermissionsString);
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "Success", filePermissionsToSet.SetPermissions() }
+                    }, message.Get("RequestID", (string)null));
+                    break;
+
+                case "SetFileOwner":
+                    var filePathForPerm2 = (string)message["filepath"];
+                    var isFolder2 = (bool)message["isfolder"];
+                    var ownerSid = (string)message["ownersid"];
+                    var fp = FilePermissions.FromFilePath(filePathForPerm2, isFolder2);
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "Success", fp.SetOwner(ownerSid) }
+                    }, message.Get("RequestID", (string)null));
+                    break;
+
+                case "OpenObjectPicker":
+                    var hwnd = (long)message["HWND"];
+                    var pickedObject = await FilePermissions.OpenObjectPicker(hwnd);
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "PickedObject", pickedObject }
+                    }, message.Get("RequestID", (string)null));
                     break;
             }
         }

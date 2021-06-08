@@ -335,7 +335,7 @@
                         <Setter Property="IsHoldingEnabled" Value="True" />
                         <Setter Property="Padding" Value="5,0,0,0" />
                         <Setter Property="HorizontalContentAlignment" Value="Left" />
-                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
                         <Setter Property="MinWidth" Value="8" />
                         <Setter Property="MinHeight" Value="20" />
                         <Setter Property="AllowDrop" Value="True" />
@@ -499,29 +499,34 @@
                             Tag="{Binding Path}">
 
                             <StackPanel Orientation="Horizontal" Spacing="5">
-                                <TextBlock
-                                    Margin="0,0,0,2"
-                                    FontSize="12"
-                                    Tapped="PathBoxItem_Tapped"
-                                    Text="{Binding Title}">
-                                    <Interactivity:Interaction.Behaviors>
-                                        <Core:EventTriggerBehavior EventName="PointerEntered">
-                                            <Core:ChangePropertyAction PropertyName="Opacity">
-                                                <Core:ChangePropertyAction.Value>
-                                                    0.7
-                                                </Core:ChangePropertyAction.Value>
-                                            </Core:ChangePropertyAction>
-                                        </Core:EventTriggerBehavior>
+                                <Border
+                                    VerticalAlignment="Stretch"
+                                    Background="Transparent"
+                                    Tapped="PathBoxItem_Tapped">
+                                    <TextBlock
+                                        Margin="0,0,0,2"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Text="{Binding Title}">
+                                        <Interactivity:Interaction.Behaviors>
+                                            <Core:EventTriggerBehavior EventName="PointerEntered">
+                                                <Core:ChangePropertyAction PropertyName="Opacity">
+                                                    <Core:ChangePropertyAction.Value>
+                                                        0.7
+                                                    </Core:ChangePropertyAction.Value>
+                                                </Core:ChangePropertyAction>
+                                            </Core:EventTriggerBehavior>
 
-                                        <Core:EventTriggerBehavior EventName="PointerExited">
-                                            <Core:ChangePropertyAction PropertyName="Opacity">
-                                                <Core:ChangePropertyAction.Value>
-                                                    1.0
-                                                </Core:ChangePropertyAction.Value>
-                                            </Core:ChangePropertyAction>
-                                        </Core:EventTriggerBehavior>
-                                    </Interactivity:Interaction.Behaviors>
-                                </TextBlock>
+                                            <Core:EventTriggerBehavior EventName="PointerExited">
+                                                <Core:ChangePropertyAction PropertyName="Opacity">
+                                                    <Core:ChangePropertyAction.Value>
+                                                        1.0
+                                                    </Core:ChangePropertyAction.Value>
+                                                </Core:ChangePropertyAction>
+                                            </Core:EventTriggerBehavior>
+                                        </Interactivity:Interaction.Behaviors>
+                                    </TextBlock>
+                                </Border>
 
                                 <FontIcon
                                     x:Name="PathSeaparatorIcon"
@@ -595,7 +600,10 @@
                                 </Core:EventTriggerBehavior>
                             </Interactivity:Interaction.Behaviors>
 
-                            <StackPanel Orientation="Horizontal" Spacing="5">
+                            <StackPanel
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal"
+                                Spacing="5">
                                 <TextBlock
                                     Margin="0,0,0,2"
                                     FontSize="12"
@@ -822,8 +830,7 @@
                 Escaped="SearchRegion_Escaped"
                 LostFocus="SearchRegion_LostFocus"
                 SuggestionChosen="SearchRegion_SuggestionChosen"
-                Visibility="{x:Bind IsSearchBoxVisible, Mode=OneWay}">
-            </uc:SearchBox>
+                Visibility="{x:Bind IsSearchBoxVisible, Mode=OneWay}" />
 
             <Button
                 x:Name="SearchButton"
@@ -1230,10 +1237,10 @@
                 <AppBarButton
                     x:Name="CopyPathButton"
                     x:Uid="NavigationToolbarCopyPath"
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     Command="{x:Bind CopyPathInvokedCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind CanCopyPathInPage, Mode=OneWay}"
-                    Label="Copy location"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                    Label="Copy location">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE167;" />
                     </AppBarButton.Icon>
@@ -1242,10 +1249,10 @@
                 <AppBarButton
                     x:Name="OpenInTerminalButton"
                     x:Uid="NavigationToolbarOpenInTerminal"
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     Command="{x:Bind OpenInTerminalInvokedCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind CanOpenTerminalInPage, Mode=OneWay}"
-                    Label="Open in Terminal..."
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                    Label="Open in Terminal...">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE756;" />
                     </AppBarButton.Icon>
@@ -1254,10 +1261,10 @@
                 <AppBarButton
                     x:Name="PasteButton"
                     x:Uid="NavigationToolbarPaste"
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     Command="{x:Bind PasteInvokedCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(CanPasteInPage, local1:App.MainViewModel.IsPasteEnabled), Mode=OneWay}"
-                    Label="Paste"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                    Label="Paste">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE77F;" />
                     </AppBarButton.Icon>
@@ -1272,9 +1279,9 @@
                 <AppBarButton
                     x:Name="NewEmptySpaceAppBarButton"
                     x:Uid="BaseLayoutContextFlyoutNew"
+                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                     IsEnabled="{x:Bind IsCreateButtonEnabledInPage, Mode=OneWay}"
-                    Label="New"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                    Label="New">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE710;" />
                     </AppBarButton.Icon>

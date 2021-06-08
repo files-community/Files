@@ -16,24 +16,18 @@ using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Properties
 {
-    internal class FolderProperties : BaseProperties
+    internal class FolderProperties : FileSystemProperties
     {
-        public ListedItem Item { get; }
-
         public FolderProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ListedItem item, IShellPage instance)
+            : base(viewModel, tokenSource, coreDispatcher, item, instance)
         {
-            ViewModel = viewModel;
-            TokenSource = tokenSource;
-            Dispatcher = coreDispatcher;
-            Item = item;
-            AppInstance = instance;
-
-            GetBaseProperties();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
         public override void GetBaseProperties()
         {
+            base.GetBaseProperties();
+
             if (Item != null)
             {
                 ViewModel.ItemName = Item.ItemName;
@@ -50,6 +44,7 @@ namespace Files.ViewModels.Properties
                 ViewModel.CustomIconSource = Item.CustomIconSource;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
                 ViewModel.ContainsFilesOrFolders = Item.ContainsFilesOrFolders;
+                ViewModel.IsFolder = !Item.IsShortcutItem;
 
                 if (Item.IsShortcutItem)
                 {
@@ -74,6 +69,8 @@ namespace Files.ViewModels.Properties
 
         public async override void GetSpecialProperties()
         {
+            base.GetSpecialProperties();
+
             ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 

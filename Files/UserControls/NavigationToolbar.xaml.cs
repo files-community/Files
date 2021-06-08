@@ -1178,7 +1178,7 @@ namespace Files.UserControls
 
         private void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var itemTappedPath = ((sender as TextBlock).DataContext as PathBoxItem).Path;
+            var itemTappedPath = ((sender as Border).DataContext as PathBoxItem).Path;
             ToolbarPathItemInvoked?.Invoke(this, new PathNavigationEventArgs()
             {
                 ItemPath = itemTappedPath
