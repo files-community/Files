@@ -308,7 +308,7 @@ namespace Files.DataModels
 
             if (IconResources is null)
             {
-                IconResources = (await SidebarViewModel.LoadSidebarIconResources()).ToList();
+                IconResources = (await SidebarViewModel.LoadSidebarIconResources())?.ToList();
             }
 
             homeSection = new LocationItem()
