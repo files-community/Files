@@ -686,7 +686,7 @@
           <source>B</source>
           <target state="translated">B</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">Tarih biçimleri hakkında ayrıntılı bilgi alın</target>
         </trans-unit>
@@ -1146,7 +1146,7 @@
           <source>Acrylic sidebar</source>
           <target state="translated">Akrilik yan çubuk</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">Tarih biçimi</target>
         </trans-unit>
@@ -1663,7 +1663,7 @@
           <source>Status Center</source>
           <target state="translated">Durum Merkezi</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">Tarih biçimleri hakkında ayrıntılı bilgi alın</target>
         </trans-unit>

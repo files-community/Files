@@ -708,7 +708,7 @@
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>הצג סיומות לסוגי קבצים ידועים</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>תבנית תאריך.</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">

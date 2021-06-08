@@ -634,7 +634,7 @@
           <source>Acrylic sidebar</source>
           <target state="translated">壓克力樣式的側邊欄</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">日期格式</target>
         </trans-unit>
@@ -731,7 +731,7 @@
           <source>Run as administrator</source>
           <target state="translated" state-qualifier="tm-suggestion">以系統管理員身分執行</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">了解更多的日期格式</target>
         </trans-unit>
@@ -1662,7 +1662,7 @@
           <source>Status Center</source>
           <target state="translated">狀態儀表板</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">深入了解日期格式</target>
         </trans-unit>

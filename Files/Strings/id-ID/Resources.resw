@@ -135,7 +135,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Bilah samping akrilik</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Format tanggal</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -576,7 +576,7 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Jalankan sebagai administrator</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Pelajari tentang format tanggal</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -1300,7 +1300,7 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Pusat Status</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Pelajari tentang format tanggal</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">

@@ -701,7 +701,7 @@
           <target state="needs-review-translation">Przenoszenie plików do Kosza</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">Dowiedz się więcej o formatach dat</target>
         </trans-unit>
@@ -1151,7 +1151,7 @@
           <source>Acrylic sidebar</source>
           <target state="translated">Akrylowe tło paska bocznego</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">Format daty</target>
         </trans-unit>
@@ -1669,7 +1669,7 @@
           <source>Status Center</source>
           <target state="translated">Centrum stanu</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">Dowiedz się więcej o formatach dat</target>
         </trans-unit>

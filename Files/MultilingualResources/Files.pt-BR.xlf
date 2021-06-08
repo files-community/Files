@@ -705,7 +705,7 @@
           <source>Run as administrator</source>
           <target state="translated">Executar como administrador</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">Saiba mais sobre os formatos de data</target>
         </trans-unit>
@@ -1152,7 +1152,7 @@
           <source>Acrylic sidebar</source>
           <target state="translated">Barra lateral em acrílico</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">Formato de data</target>
         </trans-unit>
@@ -1670,7 +1670,7 @@
           <source>Status Center</source>
           <target state="translated">Centro de Status</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">Saiba mais sobre o formato da data</target>
         </trans-unit>

@@ -713,7 +713,7 @@
           <source>Run as administrator</source>
           <target state="translated">ପ୍ରଶାସକ ଭାବରେ ଚଲାନ୍ତୁ</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">ତାରିଖ ଫର୍ମାଟ୍ ବିଷୟରେ ଅଧିକ ଜାଣନ୍ତୁ</target>
         </trans-unit>
@@ -1156,7 +1156,7 @@
           <source>Acrylic sidebar</source>
           <target state="new">Acrylic sidebar</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ତାରିଖ ଫର୍ମାଟ୍</target>
         </trans-unit>
@@ -1673,7 +1673,7 @@
           <source>Status Center</source>
           <target state="new">Status Center</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="new">Learn more about date formats</target>
         </trans-unit>

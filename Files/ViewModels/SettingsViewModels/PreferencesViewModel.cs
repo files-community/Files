@@ -1,7 +1,9 @@
 ﻿using Files.DataModels;
+using Files.Enums;
 using Files.Filesystem;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,6 +21,7 @@ namespace Files.ViewModels.SettingsViewModels
         private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
         private bool showLibrarySection = App.AppSettings.ShowLibrarySection;
         private bool openFoldersNewTab = App.AppSettings.OpenFoldersNewTab;
+        private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
 
         public static LibraryManager LibraryManager { get; private set; }
 
@@ -28,6 +31,29 @@ namespace Files.ViewModels.SettingsViewModels
             Terminals = App.AppSettings.TerminalController.Model.Terminals;
 
             LibraryManager ??= new LibraryManager();
+
+            DateFormats = new List<string>
+            {
+                "ApplicationTimeStye".GetLocalized(),
+                "SystemTimeStye".GetLocalized()
+            };
+        }
+
+        public List<string> DateFormats { get; set; }
+
+        public int SelectedDateFormatIndex
+        {
+            get
+            {
+                return selectedDateFormatIndex;
+            }
+            set
+            {
+                if (SetProperty(ref selectedDateFormatIndex, value))
+                {
+                    App.AppSettings.DisplayedTimeStyle = (TimeStyle)value;
+                }
+            }
         }
 
         public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; set; }

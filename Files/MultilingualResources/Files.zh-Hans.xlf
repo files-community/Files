@@ -699,7 +699,7 @@
           <target state="needs-review-translation">将文件移动到回收站</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">了解日期格式相关信息</target>
         </trans-unit>
@@ -1145,7 +1145,7 @@
           <source>Acrylic sidebar</source>
           <target state="translated">侧边栏亚克力效果</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">日期格式</target>
         </trans-unit>
@@ -1662,7 +1662,7 @@
           <source>Status Center</source>
           <target state="translated">状态中心</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">了解有关日期格式的更多信息</target>
         </trans-unit>

@@ -706,7 +706,7 @@
           <target state="needs-review-translation">கோப்புகளை மறுசுழற்சிக் கூடைக்கு நகர்த்துதல்</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">தேதி வடிவமைப்புகளைப் பற்றி மேலும் அறிக</target>
         </trans-unit>
@@ -1156,7 +1156,7 @@
           <source>Acrylic sidebar</source>
           <target state="translated">Acrylic பக்கப்பட்டி</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">தேதி வடிவம்</target>
         </trans-unit>
@@ -1674,7 +1674,7 @@
           <source>Status Center</source>
           <target state="new">Status Center</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="new">Learn more about date formats</target>
         </trans-unit>

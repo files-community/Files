@@ -170,7 +170,7 @@
           <source>Acrylic sidebar</source>
           <target state="translated">Bilah samping akrilik</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated" state-qualifier="tm-suggestion">Format tanggal</target>
         </trans-unit>
@@ -758,7 +758,7 @@
           <source>Run as administrator</source>
           <target state="translated" state-qualifier="tm-suggestion">Jalankan sebagai administrator</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">Pelajari tentang format tanggal</target>
         </trans-unit>
@@ -1723,7 +1723,7 @@
           <source>Status Center</source>
           <target state="translated">Pusat Status</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">Pelajari tentang format tanggal</target>
         </trans-unit>

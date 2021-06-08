@@ -170,7 +170,7 @@
           <source>Acrylic sidebar</source>
           <target state="translated">Akrila sānu josla</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">Datuma formāts</target>
         </trans-unit>
@@ -752,7 +752,7 @@
           <source>Run as administrator</source>
           <target state="translated">Palaist kā administratoram</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">Uzzināt vairāk par datumu formātiem</target>
         </trans-unit>
@@ -1688,7 +1688,7 @@
           <source>Status Center</source>
           <target state="translated">Statusa centrs</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">Uzzināt vairāk par datumu formātiem</target>
         </trans-unit>

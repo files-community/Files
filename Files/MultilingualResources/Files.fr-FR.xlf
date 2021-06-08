@@ -699,7 +699,7 @@
           <target state="needs-review-translation">Déplacement vers la Corbeille</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">En savoir plus sur les formats de date</target>
         </trans-unit>
@@ -1143,7 +1143,7 @@
           <source>Acrylic sidebar</source>
           <target state="translated">Barre latérale Acrylic</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">Format de date</target>
         </trans-unit>
@@ -1656,7 +1656,7 @@
           <source>Status Center</source>
           <target state="translated">Centre de status</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">En savoir plus sur les formats de date</target>
         </trans-unit>
