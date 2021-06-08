@@ -2960,7 +2960,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarSortOptionsButton.Label" translate="yes" xml:space="preserve">
           <source>Sort</source>
-          <target state="transalted">Rendezés</target>
+          <target state="translated">Rendezés</target>
         </trans-unit>
         <trans-unit id="NavToolbarLayout.Text" translate="yes" xml:space="preserve">
           <source>Layout</source>
@@ -2980,7 +2980,7 @@
         </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
-          <target state="translate">{0} elem törlése innen {1} sikertelen</target>
+          <target state="translated">{0} elem törlése innen {1} sikertelen</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewTab.Label" translate="yes" xml:space="preserve">
           <source>New tab</source>
