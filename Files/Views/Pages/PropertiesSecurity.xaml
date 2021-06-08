@@ -26,7 +26,8 @@
     </Page.Resources>
 
     <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Auto">
-        <StackPanel Style="{StaticResource PropertiesTab}">
+        <StackPanel Style="{StaticResource PropertiesTab}"
+                    Margin="0,7,0,0">
             <Grid ColumnSpacing="12">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

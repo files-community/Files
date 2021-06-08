@@ -406,26 +406,6 @@ namespace Files.ViewModels
             set => SetProperty(ref itemAccessedTimestampVisibility, value);
         }
 
-        public string itemFileOwner;
-
-        public string ItemFileOwner
-        {
-            get => itemFileOwner;
-            set
-            {
-                ItemFileOwnerVisibility = Visibility.Visible;
-                SetProperty(ref itemFileOwner, value);
-            }
-        }
-
-        private Visibility itemFileOwnerVisibility = Visibility.Collapsed;
-
-        public Visibility ItemFileOwnerVisibility
-        {
-            get => itemFileOwnerVisibility;
-            set => SetProperty(ref itemFileOwnerVisibility, value);
-        }
-
         private Visibility lastSeparatorVisibility = Visibility.Visible;
 
         public Visibility LastSeparatorVisibility

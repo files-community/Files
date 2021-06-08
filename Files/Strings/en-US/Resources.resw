@@ -216,9 +216,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Accessed:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Owner:</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Clear all items</value>
   </data>
@@ -2414,5 +2411,8 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Unknown owner</value>
+  </data>
+  <data name="PropertyFileOwner" xml:space="preserve">
+    <value>Owner</value>
   </data>
 </root>

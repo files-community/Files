@@ -150,7 +150,6 @@ namespace Files.ViewModels.Properties
                         ViewModel.ItemCreatedTimestampVisibiity = Visibility.Collapsed;
                         ViewModel.ItemAccessedTimestampVisibility = Visibility.Collapsed;
                         ViewModel.ItemModifiedTimestampVisibility = Visibility.Collapsed;
-                        ViewModel.ItemFileOwnerVisibility = Visibility.Collapsed;
                         ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
                     }
                 }

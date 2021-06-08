@@ -32,10 +32,8 @@ namespace Files.ViewModels.Properties
         public async void GetOtherProperties(StorageItemContentProperties properties)
         {
             string dateAccessedProperty = "System.DateAccessed";
-            string fileOwnerProperty = "System.FileOwner";
             List<string> propertiesName = new List<string>();
             propertiesName.Add(dateAccessedProperty);
-            propertiesName.Add(fileOwnerProperty);
             IDictionary<string, object> extraProperties = await properties.RetrievePropertiesAsync(propertiesName);
 
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -43,9 +41,6 @@ namespace Files.ViewModels.Properties
 
             // Cannot get date and owner in MTP devices
             ViewModel.ItemAccessedTimestamp = ((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now)).GetFriendlyDateFromFormat(returnformat);
-
-            // Cannot get date and owner in MTP devices
-            ViewModel.ItemFileOwner = extraProperties[fileOwnerProperty]?.ToString();
         }
 
         public async Task<long> CalculateFolderSizeAsync(string path, CancellationToken token)
