@@ -31,7 +31,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
@@ -83,7 +83,7 @@
                 </Button>
             </Grid>
 
-            <Grid>
+            <Grid Margin="0,12,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
@@ -390,10 +390,7 @@
                 Text="You do not have permissions to view the security properties of this object. Click &quot;Advanced permissions&quot; to proceed."
                 TextWrapping="WrapWholeWords" />
 
-            <Button
-                Margin="0,12,0,0"
-                HorizontalAlignment="Left"
-                Visibility="Collapsed">
+            <Button Margin="0,12,0,0" HorizontalAlignment="Left">
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                     <FontIcon
                         Margin="0,0,12,0"
