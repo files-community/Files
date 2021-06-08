@@ -657,6 +657,12 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
+                    Text = "Extract",
+                    Command = commandsViewModel.DecompressArchiveCommand,
+                    ShowItem = selectedItems.Count == 1 && selectedItems.First().FileExtension == ".zip"
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
                     Text = "BaseLayoutItemContextFlyoutPinToSidebar/Text".GetLocalized(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.SidebarPinItemCommand,

@@ -4,6 +4,7 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels;
+using Files.ViewModels.Dialogs;
 using Files.Views;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -571,6 +572,20 @@ namespace Files.Interacts
         public void CreateFolderWithSelection(RoutedEventArgs e)
         {
             UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
+        }
+
+        public async void DecompressArchive()
+        {
+            StorageFile archive = await StorageItemHelpers.ToStorageItem<StorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
+            StorageFolder parent = await StorageItemHelpers.ToStorageItem<StorageFolder>(Path.GetDirectoryName(associatedInstance.SlimContentPage.SelectedItem.ItemPath));
+
+            if (archive != null && parent != null)
+            {
+                DecompressArchiveDialog decompressArchiveDialog = new DecompressArchiveDialog();
+                decompressArchiveDialog.ViewModel = new DecompressArchiveDialogViewModel(archive, parent);
+
+                await decompressArchiveDialog.ShowAsync();
+            }
         }
 
         #endregion Command Implementation
