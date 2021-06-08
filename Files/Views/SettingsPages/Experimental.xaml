@@ -35,10 +35,6 @@
                     FontStyle="Italic"
                     Text="WARNING: EXPERIMENTAL FEATURES AHEAD!" />
 
-                <ToggleSwitch
-                    x:Uid="SettingsShowFileOwnerInProperties"
-                    Header="Show item owner in properties"
-                    IsOn="{Binding ShowFileOwner, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

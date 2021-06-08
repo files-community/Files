@@ -312,9 +312,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>On Startup</value>
   </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Show item owner in properties</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferences</value>
   </data>

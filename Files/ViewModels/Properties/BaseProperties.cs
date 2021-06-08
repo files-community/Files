@@ -44,11 +44,8 @@ namespace Files.ViewModels.Properties
             // Cannot get date and owner in MTP devices
             ViewModel.ItemAccessedTimestamp = ((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now)).GetFriendlyDateFromFormat(returnformat);
 
-            if (App.AppSettings.ShowFileOwner)
-            {
-                // Cannot get date and owner in MTP devices
-                ViewModel.ItemFileOwner = extraProperties[fileOwnerProperty]?.ToString();
-            }
+            // Cannot get date and owner in MTP devices
+            ViewModel.ItemFileOwner = extraProperties[fileOwnerProperty]?.ToString();
         }
 
         public async Task<long> CalculateFolderSizeAsync(string path, CancellationToken token)

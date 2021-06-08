@@ -42,8 +42,8 @@ namespace Files.Dialogs
                 2 => SettingsContentFrame.Navigate(typeof(Preferences)),
                 3 => SettingsContentFrame.Navigate(typeof(Multitasking)),
                 4 => SettingsContentFrame.Navigate(typeof(FilesAndFolders)),
-                5 => SettingsContentFrame.Navigate(typeof(Experimental)),
-                6 => SettingsContentFrame.Navigate(typeof(About)),
+                //5 => SettingsContentFrame.Navigate(typeof(Experimental)),
+                5 => SettingsContentFrame.Navigate(typeof(About)),
                 _ => SettingsContentFrame.Navigate(typeof(Appearance))
             };
         }

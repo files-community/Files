@@ -72,7 +72,6 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(ShowFileExtensions)} {ShowFileExtensions}");
             Analytics.TrackEvent($"{nameof(ShowConfirmDeleteDialog)} {ShowConfirmDeleteDialog}");
             Analytics.TrackEvent($"{nameof(IsAcrylicDisabled)} {IsAcrylicDisabled}");
-            Analytics.TrackEvent($"{nameof(ShowFileOwner)} {ShowFileOwner}");
             Analytics.TrackEvent($"{nameof(IsHorizontalTabStripOn)} {IsHorizontalTabStripOn}");
             Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutOn)} {IsVerticalTabFlyoutOn}");
             Analytics.TrackEvent($"{nameof(IsMultitaskingExperienceAdaptive)} {IsMultitaskingExperienceAdaptive}");
@@ -566,16 +565,6 @@ namespace Files.ViewModels
         #endregion Appearance
 
         #region Experimental
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to show the item owner in the properties window.
-        /// </summary>
-        public bool ShowFileOwner
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
 
         #endregion Experimental
 
