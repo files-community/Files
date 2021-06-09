@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -665,10 +666,10 @@ namespace Files.ViewModels
         }
 
         public RelayCommand EditOwnerCommand { get; set; }
-
         public RelayCommand AddRulesForUserCommand { get; set; }
-
         public RelayCommand RemoveRulesForUserCommand { get; set; }
+        public RelayCommand AddAccessRuleCommand { get; set; }
+        public RelayCommand RemoveAccessRuleCommand { get; set; }
 
         public FilePermissionsManager filePermissions;
 
@@ -682,6 +683,8 @@ namespace Files.ViewModels
                     EditOwnerCommand.NotifyCanExecuteChanged();
                     AddRulesForUserCommand.NotifyCanExecuteChanged();
                     RemoveRulesForUserCommand.NotifyCanExecuteChanged();
+                    AddAccessRuleCommand.NotifyCanExecuteChanged();
+                    RemoveAccessRuleCommand.NotifyCanExecuteChanged();
                 }
             }
         }
@@ -695,6 +698,19 @@ namespace Files.ViewModels
                 if (SetProperty(ref selectedRuleForUser, value))
                 {
                     RemoveRulesForUserCommand.NotifyCanExecuteChanged();
+                }
+            }
+        }
+
+        private List<FileSystemAccessRuleForUI> selectedAccessRules;
+        public List<FileSystemAccessRuleForUI> SelectedAccessRules
+        {
+            get => selectedAccessRules;
+            set
+            {
+                if (SetProperty(ref selectedAccessRules, value))
+                {
+                    RemoveAccessRuleCommand.NotifyCanExecuteChanged();
                 }
             }
         }

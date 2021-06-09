@@ -72,25 +72,30 @@ namespace Files.Views
                         {
                             Item = fileSysProps.Item,
                             AppInstanceArgument = AppInstance
+
                         }, new SuppressNavigationTransitionInfo());
                         Window.Current.Content = frame;
                         Window.Current.Activate();
 
                         propsView = ApplicationView.GetForCurrentView();
                         newWindow.TitleBar.ExtendViewIntoTitleBar = true;
-                        propsView.Title = "PropertiesTitle".GetLocalized();
+                        propsView.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), fileSysProps.Item.ItemName);
                         propsView.PersistedStateId = "PropertiesSecurity";
                         propsView.SetPreferredMinSize(new Size(400, 550));
-                        propsView.Consolidated += delegate
+                        propsView.Consolidated += async delegate
                         {
                             Window.Current.Close();
                             propsView = null;
+                            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => fileSysProps.GetFilePermissions()); // Reload permissions
                         };
                     });
 
                     bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(propsView.Id);
-                    // Set window size again here as sometimes it's not resized in the page Loaded event
-                    propsView.TryResizeView(new Size(400, 550));
+                    if (viewShown && propsView != null && propsView.PersistedStateId == "PropertiesSecurity")
+                    {
+                        // Set window size again here as sometimes it's not resized in the page Loaded event
+                        propsView.TryResizeView(new Size(850, 550));
+                    }
                 }
                 await ApplicationViewSwitcher.SwitchAsync(propsView.Id);
             }

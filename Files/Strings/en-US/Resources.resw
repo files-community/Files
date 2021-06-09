@@ -2415,4 +2415,43 @@
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Owner</value>
   </data>
+  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
+    <value>Advanced permissions for {0}</value>
+  </data>
+  <data name="SecuritySpecialLabel.Text" xml:space="preserve">
+    <value>Special</value>
+  </data>
+  <data name="SecurityAdvancedAccessLabel.Text" xml:space="preserve">
+    <value>Access</value>
+  </data>
+  <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
+    <value>Applies to</value>
+  </data>
+  <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
+    <value>Entity</value>
+  </data>
+  <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
+    <value>files</value>
+  </data>
+  <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
+    <value>this folder</value>
+  </data>
+  <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
+    <value>subfolders</value>
+  </data>
+  <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
+    <value>Inherited</value>
+  </data>
+  <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
+    <value>Permissions</value>
+  </data>
+  <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
 </root>

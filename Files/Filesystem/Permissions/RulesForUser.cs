@@ -10,9 +10,9 @@ namespace Files.Filesystem.Permissions
     {
         private bool isFolder;
 
-        private ObservableCollection<FileSystemAccessRule> accessRules;
+        private ObservableCollection<FileSystemAccessRuleForUI> accessRules;
 
-        public RulesForUser(ObservableCollection<FileSystemAccessRule> accessRules, bool isFolder)
+        public RulesForUser(ObservableCollection<FileSystemAccessRuleForUI> accessRules, bool isFolder)
         {
             this.accessRules = accessRules;
             this.isFolder = isFolder;
@@ -26,7 +26,7 @@ namespace Files.Filesystem.Permissions
             }
             if (AllowRights != 0 && !InheritedAllowRights.HasFlag(AllowRights)) // Do not set if permission is already granted by inheritance
             {
-                accessRules.Add(new FileSystemAccessRule()
+                accessRules.Add(new FileSystemAccessRuleForUI(isFolder)
                 {
                     AccessControlType = AccessControlType.Allow,
                     FileSystemRights = AllowRights,
@@ -37,7 +37,7 @@ namespace Files.Filesystem.Permissions
             }
             if (DenyRights != 0 && !InheritedDenyRights.HasFlag(DenyRights)) // Do not set if permission is already denied by inheritance
             {
-                accessRules.Add(new FileSystemAccessRule()
+                accessRules.Add(new FileSystemAccessRuleForUI(isFolder)
                 {
                     AccessControlType = AccessControlType.Deny,
                     FileSystemRights = DenyRights,
@@ -194,12 +194,12 @@ namespace Files.Filesystem.Permissions
             set => ToggleDenyPermission(FileSystemRights.FullControl, value);
         }
 
-        public static List<RulesForUser> ForAllUsers(ObservableCollection<FileSystemAccessRule> accessRules, bool isFolder)
+        public static List<RulesForUser> ForAllUsers(ObservableCollection<FileSystemAccessRuleForUI> accessRules, bool isFolder)
         {
             return accessRules.Select(x => x.IdentityReference).Distinct().Select(x => RulesForUser.ForUser(accessRules, isFolder, x)).ToList();
         }
 
-        public static RulesForUser ForUser(ObservableCollection<FileSystemAccessRule> accessRules, bool isFolder, string identity)
+        public static RulesForUser ForUser(ObservableCollection<FileSystemAccessRuleForUI> accessRules, bool isFolder, string identity)
         {
             var perm = new RulesForUser(accessRules, isFolder) { UserGroup = UserGroup.FromSid(identity) };
             foreach (var Rule in accessRules.Where(x => x.IdentityReference == identity))

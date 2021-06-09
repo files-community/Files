@@ -31,6 +31,18 @@ namespace Files.ViewModels.Properties
             ViewModel.EditOwnerCommand = new RelayCommand(() => EditOwner(), () => ViewModel.FilePermissions != null);
             ViewModel.AddRulesForUserCommand = new RelayCommand(() => AddRulesForUser(), () => ViewModel.FilePermissions != null && ViewModel.FilePermissions.CanReadFilePermissions);
             ViewModel.RemoveRulesForUserCommand = new RelayCommand(() => RemoveRulesForUser(), () => ViewModel.FilePermissions != null && ViewModel.FilePermissions.CanReadFilePermissions && ViewModel.SelectedRuleForUser != null);
+            ViewModel.AddAccessRuleCommand = new RelayCommand(() => AddAccessRule(), () => ViewModel.FilePermissions != null && ViewModel.FilePermissions.CanReadFilePermissions);
+            ViewModel.RemoveAccessRuleCommand = new RelayCommand(() => RemoveAccessRule(), () => ViewModel.FilePermissions != null && ViewModel.FilePermissions.CanReadFilePermissions);
+        }
+
+        private void AddAccessRule()
+        {
+
+        }
+
+        private void RemoveAccessRule()
+        {
+
         }
 
         private async void EditOwner()

@@ -1,10 +1,19 @@
 ﻿using Files.Filesystem;
+using Files.Filesystem.Permissions;
 using Files.Helpers;
+using Files.ViewModels;
+using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
+using Newtonsoft.Json;
 using System;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
+using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
@@ -22,14 +31,30 @@ namespace Files.Views
     /// <summary>
     /// Pagina vuota che può essere usata autonomamente oppure per l'esplorazione all'interno di un frame.
     /// </summary>
-    public sealed partial class PropertiesSecurityAdvanced : Page
+    public sealed partial class PropertiesSecurityAdvanced : Page, INotifyPropertyChanged
     {
         private static ApplicationViewTitleBar TitleBar;
 
         private object navParameterItem;
         private IShellPage AppInstance;
 
-        private ListedItem listedItem;
+        public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), fileSystemProperties.Item.ItemName);
+
+        private SelectedItemsPropertiesViewModel viewModel;
+        public SelectedItemsPropertiesViewModel ViewModel
+        {
+            get => viewModel;
+            set
+            {
+                if (value != viewModel)
+                {
+                    viewModel = value;
+                    NotifyPropertyChanged(nameof(ViewModel));
+                }
+            }
+        }
+
+        private FileSystemProperties fileSystemProperties;
 
         public PropertiesSecurityAdvanced()
         {
@@ -48,7 +73,15 @@ namespace Files.Views
             var args = e.Parameter as PropertiesPageNavigationArguments;
             AppInstance = args.AppInstanceArgument;
             navParameterItem = args.Item;
-            listedItem = args.Item as ListedItem;
+            var listedItem = args.Item as ListedItem;
+
+            ViewModel = new SelectedItemsPropertiesViewModel();
+            fileSystemProperties = new FileSystemProperties(ViewModel, null, Dispatcher, listedItem, AppInstance);
+            if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+            {
+                ViewModel.IsFolder = !listedItem.IsShortcutItem;
+            }
+
             base.OnNavigatedTo(e);
         }
 
@@ -58,7 +91,7 @@ namespace Files.Views
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 // Set window size in the loaded event to prevent flickering
-                ApplicationView.GetForCurrentView().TryResizeView(new Windows.Foundation.Size(400, 550));
+                ApplicationView.GetForCurrentView().TryResizeView(new Windows.Foundation.Size(850, 550));
                 ApplicationView.GetForCurrentView().Consolidated += Properties_Consolidated;
                 TitleBar = ApplicationView.GetForCurrentView().TitleBar;
                 TitleBar.ButtonBackgroundColor = Colors.Transparent;
@@ -68,6 +101,8 @@ namespace Files.Views
             else
             {
             }
+
+            fileSystemProperties.GetFilePermissions();
         }
 
         private void Properties_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
@@ -164,6 +199,18 @@ namespace Files.Views
         {
             public object Item { get; set; }
             public IShellPage AppInstanceArgument { get; set; }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ViewModel.SelectedAccessRules = (sender as ListView).SelectedItems.Cast<FileSystemAccessRuleForUI>().ToList();
         }
     }
 }

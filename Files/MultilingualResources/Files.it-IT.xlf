@@ -3071,6 +3071,58 @@
           <source>Owner</source>
           <target state="translated">Proprietario</target>
         </trans-unit>
+        <trans-unit id="SecurityAdvancedPermissionsTitle" translate="yes" xml:space="preserve">
+          <source>Advanced permissions for {0}</source>
+          <target state="translated">Autorizzazioni avanzate per {0}</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedInheritedNoLabel" translate="yes" xml:space="preserve">
+          <source>No</source>
+          <target state="translated">No</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedInheritedYesLabel" translate="yes" xml:space="preserve">
+          <source>Yes</source>
+          <target state="translated">Sì</target>
+        </trans-unit>
+        <trans-unit id="SecuritySpecialLabel.Text" translate="yes" xml:space="preserve">
+          <source>Special</source>
+          <target state="translated">Speciali</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedPermissionsLabel.Text" translate="yes" xml:space="preserve">
+          <source>Permissions</source>
+          <target state="translated">Autorizzazioni</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedAccessLabel.Text" translate="yes" xml:space="preserve">
+          <source>Access</source>
+          <target state="translated">Accesso</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedEntityLabel.Text" translate="yes" xml:space="preserve">
+          <source>Entity</source>
+          <target state="translated">Enitità</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedInheritedLabel.Text" translate="yes" xml:space="preserve">
+          <source>Inherited</source>
+          <target state="translated">Ereditata</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedTypeLabel.Text" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <target state="translated">Tipo</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedAppliesToLabel.Text" translate="yes" xml:space="preserve">
+          <source>Applies to</source>
+          <target state="translated">Si applica a</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedFlagsFilesLabel" translate="yes" xml:space="preserve">
+          <source>files</source>
+          <target state="translated">i file</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedFlagsFolderLabel" translate="yes" xml:space="preserve">
+          <source>this folder</source>
+          <target state="translated">questa cartella</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedFlagsSubfoldersLabel" translate="yes" xml:space="preserve">
+          <source>subfolders</source>
+          <target state="translated">le sottocartelle</target>
+        </trans-unit>
       </group>
     </body>
   </file>

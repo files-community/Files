@@ -81,8 +81,11 @@ namespace Files.Helpers
                 });
 
                 bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newView.Id);
-                // Set window size again here as sometimes it's not resized in the page Loaded event
-                newView.TryResizeView(new Size(400, 550));
+                if (viewShown && newView != null && newView.PersistedStateId == "Properties")
+                {
+                    // Set window size again here as sometimes it's not resized in the page Loaded event
+                    newView.TryResizeView(new Size(400, 550));
+                }
             }
             else
             {
