@@ -42,6 +42,10 @@ namespace Files.ViewModels.Dialogs
                 return;
             }
 
+            StorageFolder childDestinationFolder = await _destinationFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(_archive.Path), CreationCollisionOption.OpenIfExists);
+            await ZipHelpers.ExtractArchive(_archive, childDestinationFolder, (progress) => Debug.WriteLine($"COMPLETED: {progress}%"));
+
+            return;
             using (ZipInputStream zipStream = new ZipInputStream(await _archive.OpenStreamForReadAsync()))
             {
                 ZipEntry entry;
