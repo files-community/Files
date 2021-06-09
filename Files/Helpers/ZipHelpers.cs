@@ -8,58 +8,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace Files.Helpers
 {
     public static class ZipHelpers
     {
-        public static async Task ExtractArchive(StorageFile archive, StorageFolder destinationFolder, Action<float> progressDelegate, string password = null)
+        public static async Task ExtractArchive(StorageFile archive, StorageFolder destinationFolder, Action<float> progressDelegate)
         {
-            using (ZipFile zipFile = new ZipFile(await archive.OpenStreamForReadAsync()))
+            using (ZipInputStream zipStream = new ZipInputStream(await archive.OpenStreamForReadAsync()))
             {
-                StorageFolder currentFolder = destinationFolder;
-                if (!string.IsNullOrEmpty(password))
+                IStorageFolder currentFolder = destinationFolder;
+                ZipEntry theEntry;
+                while ((theEntry = zipStream.GetNextEntry()) != null)
                 {
-                    zipFile.Password = password;
-                }
+                    string directoryName = Path.GetDirectoryName(theEntry.Name);
+                    string fileName = Path.GetFileName(theEntry.Name);
 
-                foreach (ZipEntry entry in zipFile)
-                {
-                    if (!entry.IsFile)
+                    // Create directory
+                    if (!string.IsNullOrEmpty(directoryName))
                     {
-                        continue;
+                        currentFolder = await currentFolder.CreateFolderAsync(Path.GetFileName(directoryName), CreationCollisionOption.OpenIfExists);
                     }
-
-                    string fileName = Path.GetFileName(entry.Name);
-                    string dirName = Path.GetDirectoryName(entry.Name);
 
                     byte[] buffer = new byte[4096];
-                   
-                    if (!string.IsNullOrEmpty(dirName))
+                    if (!string.IsNullOrEmpty(fileName))
                     {
-                        currentFolder = await currentFolder.CreateFolderAsync(Path.GetFileName(dirName));
-                    }
-
-                    using (Stream zipStream = zipFile.GetInputStream(entry))
-                    {
-                        using (Stream fileStream = await (await currentFolder.CreateFileAsync(fileName)).OpenStreamForWriteAsync())
+                        StorageFile createdFile = await currentFolder.CreateFileAsync(fileName);
+                        using (IRandomAccessStream fileStream = await createdFile.OpenAsync(FileAccessMode.ReadWrite))
                         {
-                            StreamUtils.Copy(
-                                zipStream,
-                                fileStream,
-                                buffer,
-                                new ProgressHandler((s, e) =>
-                                {
-                                    progressDelegate?.Invoke(e.PercentComplete);
-                                }),
-                                TimeSpan.FromSeconds(1),
-                                null,
-                                "ExtractProgressEvent");
+                            StreamUtils.Copy(zipStream, fileStream.AsStream(), buffer);
                         }
                     }
                 }
-
-                zipFile.IsStreamOwner = true;
             }
         }
     }
