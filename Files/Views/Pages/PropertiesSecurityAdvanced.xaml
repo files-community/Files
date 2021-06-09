@@ -21,34 +21,36 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock x:Uid="PropertiesTitleSecondary"
-                   Margin="14,0,0,0"
-                   VerticalAlignment="Center"
-                   Text="Properties" />
+        <TextBlock
+            x:Uid="PropertiesTitleSecondary"
+            Margin="14,0,0,0"
+            VerticalAlignment="Center"
+            Text="Properties" />
 
-        <Grid Grid.Row="2"
-              Padding="8">
+        <Grid Grid.Row="2" Padding="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button x:Name="OKButton"
-                    x:Uid="PropertiesDialogOKButton"
-                    Grid.Column="1"
-                    MinWidth="100"
-                    Margin="0,0,10,0"
-                    HorizontalAlignment="Right"
-                    Click="OKButton_Click"
-                    Content="OK"
-                    Style="{StaticResource AccentButtonStyle}" />
-            <Button x:Name="CancelButton"
-                    x:Uid="PropertiesDialogCancelButton"
-                    Grid.Column="2"
-                    MinWidth="100"
-                    HorizontalAlignment="Right"
-                    Click="CancelButton_Click"
-                    Content="Cancel" />
+            <Button
+                x:Name="OKButton"
+                x:Uid="PropertiesDialogOKButton"
+                Grid.Column="1"
+                MinWidth="100"
+                Margin="0,0,10,0"
+                HorizontalAlignment="Right"
+                Click="OKButton_Click"
+                Content="OK"
+                Style="{StaticResource AccentButtonStyle}" />
+            <Button
+                x:Name="CancelButton"
+                x:Uid="PropertiesDialogCancelButton"
+                Grid.Column="2"
+                MinWidth="100"
+                HorizontalAlignment="Right"
+                Click="CancelButton_Click"
+                Content="Cancel" />
         </Grid>
     </Grid>
 </Page>

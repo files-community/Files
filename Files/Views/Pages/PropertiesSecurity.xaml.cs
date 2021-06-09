@@ -4,13 +4,13 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
-using Windows.UI.WindowManagement;
-using Windows.UI.WindowManagement.Preview;
+using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media.Animation;
 using static Files.Views.PropertiesSecurityAdvanced;
 
@@ -20,7 +20,7 @@ namespace Files.Views
     {
         public RelayCommand OpenAdvancedPropertiesCommand { get; set; }
 
-        private AppWindow appWindow;
+        private ApplicationView propsView;
 
         public PropertiesSecurity()
         {
@@ -61,32 +61,38 @@ namespace Files.Views
             
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (appWindow == null)
+                if (propsView == null)
                 {
-                    appWindow = await AppWindow.TryCreateAsync();
-                    Frame frame = new Frame();
-                    appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-                    frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
+                    var newWindow = CoreApplication.CreateNewView();
+
+                    await newWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        Item = fileSysProps.Item,
-                        AppInstanceArgument = AppInstance,
-                        AppWindowArgument = appWindow
-                    }, new SuppressNavigationTransitionInfo());
+                        Frame frame = new Frame();
+                        frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
+                        {
+                            Item = fileSysProps.Item,
+                            AppInstanceArgument = AppInstance
+                        }, new SuppressNavigationTransitionInfo());
+                        Window.Current.Content = frame;
+                        Window.Current.Activate();
 
-                    WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 550));
+                        propsView = ApplicationView.GetForCurrentView();
+                        newWindow.TitleBar.ExtendViewIntoTitleBar = true;
+                        propsView.Title = "PropertiesTitle".GetLocalized();
+                        propsView.PersistedStateId = "PropertiesSecurity";
+                        propsView.SetPreferredMinSize(new Size(400, 550));
+                        propsView.Consolidated += delegate
+                        {
+                            Window.Current.Close();
+                            propsView = null;
+                        };
+                    });
 
-                    appWindow.RequestSize(new Size(400, 550));
-                    appWindow.Title = "PropertiesTitle".GetLocalized();
-
-                    ElementCompositionPreview.SetAppWindowContent(appWindow, frame);
-
-                    appWindow.Closed += delegate
-                    {
-                        frame.Content = null;
-                        appWindow = null;
-                    };
+                    bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(propsView.Id);
+                    // Set window size again here as sometimes it's not resized in the page Loaded event
+                    propsView.TryResizeView(new Size(400, 550));
                 }
-                await appWindow.TryShowAsync();
+                await ApplicationViewSwitcher.SwitchAsync(propsView.Id);
             }
             else
             {

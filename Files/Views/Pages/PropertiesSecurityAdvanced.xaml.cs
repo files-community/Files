@@ -8,7 +8,7 @@ using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
-using Windows.UI.WindowManagement;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -24,11 +24,10 @@ namespace Files.Views
     /// </summary>
     public sealed partial class PropertiesSecurityAdvanced : Page
     {
-        private static AppWindowTitleBar TitleBar;
+        private static ApplicationViewTitleBar TitleBar;
 
         private object navParameterItem;
         private IShellPage AppInstance;
-        private AppWindow appWindow;
 
         private ListedItem listedItem;
 
@@ -50,7 +49,6 @@ namespace Files.Views
             AppInstance = args.AppInstanceArgument;
             navParameterItem = args.Item;
             listedItem = args.Item as ListedItem;
-            appWindow = args.AppWindowArgument;
             base.OnNavigatedTo(e);
         }
 
@@ -60,7 +58,9 @@ namespace Files.Views
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 // Set window size in the loaded event to prevent flickering
-                TitleBar = appWindow.TitleBar;
+                ApplicationView.GetForCurrentView().TryResizeView(new Windows.Foundation.Size(400, 550));
+                ApplicationView.GetForCurrentView().Consolidated += Properties_Consolidated;
+                TitleBar = ApplicationView.GetForCurrentView().TitleBar;
                 TitleBar.ButtonBackgroundColor = Colors.Transparent;
                 TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => App.AppSettings.UpdateThemeElements.Execute(null));
@@ -70,9 +70,15 @@ namespace Files.Views
             }
         }
 
-        private void Properties_Unloaded(object sender, RoutedEventArgs e)
+        private void Properties_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
         {
             App.AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+            ApplicationView.GetForCurrentView().Consolidated -= Properties_Consolidated;
+        }
+
+        private void Properties_Unloaded(object sender, RoutedEventArgs e)
+        {
+            // Why is this not called? Are we cleaning up properly?
         }
 
         private async void AppSettings_ThemeModeChanged(object sender, EventArgs e)
@@ -108,7 +114,7 @@ namespace Files.Views
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                await appWindow.CloseAsync();
+                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
             }
             else
             {
@@ -119,7 +125,7 @@ namespace Files.Views
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                await appWindow.CloseAsync();
+                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
             }
             else
             {
@@ -132,7 +138,7 @@ namespace Files.Views
             {
                 if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
                 {
-                    await appWindow.CloseAsync();
+                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
                 }
                 else
                 {
@@ -158,7 +164,6 @@ namespace Files.Views
         {
             public object Item { get; set; }
             public IShellPage AppInstanceArgument { get; set; }
-            public AppWindow AppWindowArgument { get; set; }
         }
     }
 }
