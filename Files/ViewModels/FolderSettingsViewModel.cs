@@ -639,7 +639,7 @@ namespace Files.ViewModels
                     GridViewSize = (int)compositeValue[nameof(GridViewSize)],
                     DirectorySortOption = (SortOption)(int)compositeValue[nameof(DirectorySortOption)],
                     DirectorySortDirection = (SortDirection)(int)compositeValue[nameof(DirectorySortDirection)],
-                    IsAdaptiveLayoutOverridden = (bool?)compositeValue[nameof(IsAdaptiveLayoutOverridden)] != null,
+                    IsAdaptiveLayoutOverridden = compositeValue[nameof(IsAdaptiveLayoutOverridden)] is bool val ? val : false,
                 };
 
                 if (compositeValue.TryGetValue(nameof(DirectoryGroupOption), out var gpOption))
