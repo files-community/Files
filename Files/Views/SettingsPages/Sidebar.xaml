@@ -9,7 +9,7 @@
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
     <Page.DataContext>
-        <settingsviewmodels:PreferencesViewModel />
+        <settingsviewmodels:SidebarViewModel />
     </Page.DataContext>
 
     <Grid>
