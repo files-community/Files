@@ -53,10 +53,10 @@
                         MinWidth="200"
                         MaxWidth="250"
                         Header="Color scheme"
-                        ItemsSource="{Binding ColorSchemes}"
-                        SelectedItem="{Binding SelectedTheme, Mode=TwoWay}">
+                        ItemsSource="{Binding CustomSkins}"
+                        SelectedItem="{Binding SelectedSkin, Mode=TwoWay}">
                         <ComboBox.ItemTemplate>
-                            <DataTemplate x:DataType="helpers:AppTheme">
+                            <DataTemplate x:DataType="helpers:AppSkin">
                                 <Grid>
                                     <TextBlock Text="{x:Bind Name}" />
                                 </Grid>
