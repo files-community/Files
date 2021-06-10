@@ -1804,7 +1804,7 @@
     <value>Default</value>
   </data>
   <data name="SettingsAppearanceCustomSkins.Header" xml:space="preserve">
-    <value>Color skin</value>
+    <value>Custom skin</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Item count</value>

@@ -3056,8 +3056,8 @@
           <target state="new">Default</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceCustomSkins.Header" translate="yes" xml:space="preserve">
-          <source>Color skin</source>
-          <target state="new">Color skin</target>
+          <source>Custom skin</source>
+          <target state="new">Custom skin</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceOpenSkinsFolderButton.Content" translate="yes" xml:space="preserve">
           <source>Open skins folder</source>
