@@ -19,27 +19,47 @@ namespace Files.Helpers
             using (ZipInputStream zipStream = new ZipInputStream(await archive.OpenStreamForReadAsync()))
             {
                 IStorageFolder currentFolder = destinationFolder;
-                ZipEntry theEntry;
-                while ((theEntry = zipStream.GetNextEntry()) != null)
+                List<ZipEntry> directoryEntries = new List<ZipEntry>();
+                List<ZipEntry> fileEntries = new List<ZipEntry>();
+
+                ZipEntry entry;
+                while ((entry = zipStream.GetNextEntry()) != null)
                 {
-                    string directoryName = Path.GetDirectoryName(theEntry.Name);
-                    string fileName = Path.GetFileName(theEntry.Name);
-
-                    // Create directory
-                    if (!string.IsNullOrEmpty(directoryName))
+                    if (entry.IsFile)
                     {
-                        currentFolder = await currentFolder.CreateFolderAsync(Path.GetFileName(directoryName), CreationCollisionOption.OpenIfExists);
+                        fileEntries.Add(entry);
+                    }
+                    else
+                    {
+                        directoryEntries.Add(entry);
                     }
 
-                    byte[] buffer = new byte[4096];
-                    if (!string.IsNullOrEmpty(fileName))
-                    {
-                        StorageFile createdFile = await currentFolder.CreateFileAsync(fileName);
-                        using (IRandomAccessStream fileStream = await createdFile.OpenAsync(FileAccessMode.ReadWrite))
-                        {
-                            StreamUtils.Copy(zipStream, fileStream.AsStream(), buffer);
-                        }
-                    }
+
+                    //string directoryName = Path.GetDirectoryName(entry.Name);
+                    //string fileName = Path.GetFileName(entry.Name);
+
+                    //// Create directory
+                    //if (!string.IsNullOrEmpty(directoryName))
+                    //{
+                    //    currentFolder = await currentFolder.CreateFolderAsync(Path.GetFileName(directoryName), CreationCollisionOption.OpenIfExists);
+                    //}
+
+                    //byte[] buffer = new byte[4096];
+                    //if (!string.IsNullOrEmpty(fileName))
+                    //{
+                    //    StorageFile createdFile = await currentFolder.CreateFileAsync(fileName);
+                    //    using (IRandomAccessStream destinationStream = await createdFile.OpenAsync(FileAccessMode.ReadWrite))
+                    //    {
+                    //        long totalBytes = 0L;
+                    //        int currentBlockSize = 0;
+
+                    //        while ((currentBlockSize = await zipStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                    //        {
+                    //            totalBytes += currentBlockSize;
+                    //            await destinationStream.AsStreamForWrite().WriteAsync(buffer, 0, currentBlockSize);
+                    //        }
+                    //    }
+                    //}
                 }
             }
         }
