@@ -33,6 +33,17 @@ namespace Files.Helpers
                 OptionalPackageSkinFolder = package.InstalledLocation;
             }
 
+            // ToDo this is for backwards compatability, remove after a couple updates
+            var themeFolder = await StorageFolder.GetFolderFromPathAsync(ApplicationData.Current.LocalFolder.Path + "\\Themes");
+            try
+            {
+                await themeFolder.RenameAsync("Skins", NameCollisionOption.FailIfExists);
+            }
+            catch (Exception)
+            {
+
+            }
+
             SkinFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Skins", CreationCollisionOption.OpenIfExists);
 
             // This is used to migrate to the new skin setting
@@ -126,7 +137,7 @@ namespace Files.Helpers
                 RemoveSkin(OldSkin);
             }
 
-            if(NewSkin.Path != null)
+            if (NewSkin.Path != null)
             {
                 await TryLoadSkinAsync(NewSkin);
             }
