@@ -1,4 +1,7 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Files.Dialogs;
+using Files.ViewModels;
+using Microsoft.Toolkit.Uwp.UI;
+using Windows.UI.Xaml.Controls;
 
 namespace Files.SettingsPages
 {
@@ -9,6 +12,15 @@ namespace Files.SettingsPages
             InitializeComponent();
         }
 
-        private bool ShowColorSchemeSelector => App.ExternalResourcesHelper.Themes.Count > 1;
+        private void SkinsLearnMoreButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            SkinsTeachingTip.IsOpen = true;
+        }
+
+        private void OpenSkinsFolderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            this.FindAscendant<SettingsDialog>()?.Hide();
+            SettingsViewModel.OpenSkinsFolder();
+        }
     }
 }

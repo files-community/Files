@@ -50,17 +50,10 @@ namespace Files.ViewModels.Pages
 
             bundlesViewModel.OpenPathEvent -= BundlesViewModel_OpenPathEvent;
             bundlesViewModel.OpenPathInNewPaneEvent -= BundlesViewModel_OpenPathInNewPaneEvent;
-            bundlesViewModel.LoadIconOverlayEvent -= BundlesViewModel_LoadIconOverlayEvent;
             bundlesViewModel.OpenPathEvent += BundlesViewModel_OpenPathEvent;
             bundlesViewModel.OpenPathInNewPaneEvent += BundlesViewModel_OpenPathInNewPaneEvent;
-            bundlesViewModel.LoadIconOverlayEvent += BundlesViewModel_LoadIconOverlayEvent;
 
             await bundlesViewModel.Initialize();
-        }
-
-        private async void BundlesViewModel_LoadIconOverlayEvent(object sender, BundlesLoadIconOverlayEventArgs e)
-        {
-            e.outData = await FileThumbnailHelper.LoadIconOverlayAsync(e.path, e.thumbnailSize);
         }
 
         private void BundlesViewModel_OpenPathInNewPaneEvent(object sender, string e)
@@ -81,7 +74,6 @@ namespace Files.ViewModels.Pages
             {
                 bundlesViewModel.OpenPathEvent -= BundlesViewModel_OpenPathEvent;
                 bundlesViewModel.OpenPathInNewPaneEvent -= BundlesViewModel_OpenPathInNewPaneEvent;
-                bundlesViewModel.LoadIconOverlayEvent -= BundlesViewModel_LoadIconOverlayEvent;
             }
 
             widgetsViewModel?.Dispose();

@@ -1,5 +1,6 @@
 using ByteSizeLib;
 using Files.Extensions;
+using Files.Filesystem.Permissions;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -514,11 +515,8 @@ namespace Files.ViewModels
             set => SetProperty(ref isItemSelected, value);
         }
 
-        private IBaseLayout contentPage;
-
-        public SelectedItemsPropertiesViewModel(IBaseLayout contentPage)
+        public SelectedItemsPropertiesViewModel()
         {
-            this.contentPage = contentPage;
         }
 
         private bool isSelectedItemImage = false;
@@ -537,25 +535,24 @@ namespace Files.ViewModels
             set => SetProperty(ref isSelectedItemShortcut, value);
         }
 
-        public void CheckFileExtension()
+        public void CheckFileExtension(string itemExtension)
         {
             // Set properties to false
             IsSelectedItemImage = false;
             IsSelectedItemShortcut = false;
 
             //check if the selected item is an image file
-            string ItemExtension = contentPage?.SelectedItem?.FileExtension;
-            if (!string.IsNullOrEmpty(ItemExtension) && SelectedItemsCount == 1)
+            if (!string.IsNullOrEmpty(itemExtension) && SelectedItemsCount == 1)
             {
-                if (ItemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)
-                || ItemExtension.Equals(".jpg", StringComparison.OrdinalIgnoreCase)
-                || ItemExtension.Equals(".bmp", StringComparison.OrdinalIgnoreCase)
-                || ItemExtension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
+                if (itemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)
+                || itemExtension.Equals(".jpg", StringComparison.OrdinalIgnoreCase)
+                || itemExtension.Equals(".bmp", StringComparison.OrdinalIgnoreCase)
+                || itemExtension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
                 {
                     // Since item is an image, set the IsSelectedItemImage property to true
                     IsSelectedItemImage = true;
                 }
-                else if (ItemExtension.Equals(".lnk", StringComparison.OrdinalIgnoreCase))
+                else if (itemExtension.Equals(".lnk", StringComparison.OrdinalIgnoreCase))
                 {
                     // The selected item is a shortcut, so set the IsSelectedItemShortcut property to true
                     IsSelectedItemShortcut = true;
@@ -685,6 +682,49 @@ namespace Files.ViewModels
         {
             get => isHidden;
             set => SetProperty(ref isHidden, value);
+        }
+
+        public RelayCommand EditOwnerCommand { get; set; }
+
+        public RelayCommand AddRulesForUserCommand { get; set; }
+
+        public RelayCommand RemoveRulesForUserCommand { get; set; }
+
+        public FilePermissionsManager filePermissions;
+
+        public FilePermissionsManager FilePermissions
+        {
+            get => filePermissions;
+            set
+            {
+                if (SetProperty(ref filePermissions, value))
+                {
+                    EditOwnerCommand.NotifyCanExecuteChanged();
+                    AddRulesForUserCommand.NotifyCanExecuteChanged();
+                    RemoveRulesForUserCommand.NotifyCanExecuteChanged();
+                }
+            }
+        }
+
+        private RulesForUser selectedRuleForUser;
+        public RulesForUser SelectedRuleForUser
+        {
+            get => selectedRuleForUser;
+            set
+            {
+                if (SetProperty(ref selectedRuleForUser, value))
+                {
+                    RemoveRulesForUserCommand.NotifyCanExecuteChanged();
+                }
+            }
+        }
+
+        public bool isFolder;
+
+        public bool IsFolder
+        {
+            get => isFolder;
+            set => SetProperty(ref isFolder, value);
         }
     }
 }

@@ -4,7 +4,6 @@ using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -25,27 +24,21 @@ using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Properties
 {
-    public class FileProperties : BaseProperties
+    public class FileProperties : FileSystemProperties
     {
         private IProgress<float> hashProgress;
 
-        public ListedItem Item { get; }
-
         public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, IProgress<float> hashProgress, ListedItem item, IShellPage instance)
+            : base(viewModel, tokenSource, coreDispatcher, item, instance)
         {
-            ViewModel = viewModel;
-            TokenSource = tokenSource;
             this.hashProgress = hashProgress;
-            Dispatcher = coreDispatcher;
-            Item = item;
-            AppInstance = instance;
-
-            GetBaseProperties();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
         public override void GetBaseProperties()
         {
+            base.GetBaseProperties();
+
             if (Item != null)
             {
                 ViewModel.ItemName = Item.ItemName;
@@ -101,6 +94,8 @@ namespace Files.ViewModels.Properties
 
         public override async void GetSpecialProperties()
         {
+            base.GetSpecialProperties();
+
             ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.ReadOnly);
             ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(

@@ -1,7 +1,9 @@
 ﻿using Files.DataModels;
+using Files.Enums;
 using Files.Filesystem;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,19 +17,37 @@ namespace Files.ViewModels.SettingsViewModels
         private int selectedLanguageIndex = App.AppSettings.DefaultLanguages.IndexOf(App.AppSettings.DefaultLanguage);
         private bool showRestartControl;
         private Terminal selectedTerminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
-        private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
         private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
-        private bool showLibrarySection = App.AppSettings.ShowLibrarySection;
         private bool openFoldersNewTab = App.AppSettings.OpenFoldersNewTab;
-
-        public static LibraryManager LibraryManager { get; private set; }
+        private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
 
         public PreferencesViewModel()
         {
             DefaultLanguages = App.AppSettings.DefaultLanguages;
             Terminals = App.AppSettings.TerminalController.Model.Terminals;
 
-            LibraryManager ??= new LibraryManager();
+            DateFormats = new List<string>
+            {
+                "ApplicationTimeStye".GetLocalized(),
+                "SystemTimeStye".GetLocalized()
+            };
+        }
+
+        public List<string> DateFormats { get; set; }
+
+        public int SelectedDateFormatIndex
+        {
+            get
+            {
+                return selectedDateFormatIndex;
+            }
+            set
+            {
+                if (SetProperty(ref selectedDateFormatIndex, value))
+                {
+                    App.AppSettings.DisplayedTimeStyle = (TimeStyle)value;
+                }
+            }
         }
 
         public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; set; }
@@ -76,21 +96,6 @@ namespace Files.ViewModels.SettingsViewModels
 
         public RelayCommand EditTerminalApplicationsCommand => new RelayCommand(() => LaunchTerminalsConfigFile());
 
-        public bool PinRecycleBinToSideBar
-        {
-            get
-            {
-                return pinRecycleBinToSideBar;
-            }
-            set
-            {
-                if (SetProperty(ref pinRecycleBinToSideBar, value))
-                {
-                    App.AppSettings.PinRecycleBinToSideBar = value;
-                }
-            }
-        }
-
         public bool ShowConfirmDeleteDialog
         {
             get
@@ -103,35 +108,6 @@ namespace Files.ViewModels.SettingsViewModels
                 {
                     App.AppSettings.ShowConfirmDeleteDialog = value;
                 }
-            }
-        }
-
-        public bool ShowLibrarySection
-        {
-            get
-            {
-                return showLibrarySection;
-            }
-            set
-            {
-                if (SetProperty(ref showLibrarySection, value))
-                {
-                    App.AppSettings.ShowLibrarySection = value;
-                    
-                    LibraryVisibility(App.AppSettings.ShowLibrarySection);
-                }
-            }
-        }
-
-        public async void LibraryVisibility(bool visible)
-        {
-            if (visible)
-            {
-                await LibraryManager.EnumerateLibrariesAsync();
-            }
-            else
-            {
-                LibraryManager.RemoveLibrariesSideBarSection();
             }
         }
 

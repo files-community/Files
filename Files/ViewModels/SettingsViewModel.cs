@@ -22,6 +22,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
@@ -73,9 +74,7 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(ShowConfirmDeleteDialog)} {ShowConfirmDeleteDialog}");
             Analytics.TrackEvent($"{nameof(IsAcrylicDisabled)} {IsAcrylicDisabled}");
             Analytics.TrackEvent($"{nameof(ShowFileOwner)} {ShowFileOwner}");
-            Analytics.TrackEvent($"{nameof(IsHorizontalTabStripOn)} {IsHorizontalTabStripOn}");
-            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutOn)} {IsVerticalTabFlyoutOn}");
-            Analytics.TrackEvent($"{nameof(IsMultitaskingExperienceAdaptive)} {IsMultitaskingExperienceAdaptive}");
+            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutEnabled)} {IsVerticalTabFlyoutEnabled}");
             Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)} {IsDualPaneEnabled}");
             Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)} {AlwaysOpenDualPaneInNewTab}");
             Analytics.TrackEvent($"{nameof(AreHiddenItemsVisible)} {AreHiddenItemsVisible}");
@@ -91,16 +90,7 @@ namespace Files.ViewModels
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
 
-        public static async void OpenThemesFolder()
-        {
-            Frame rootFrame = Window.Current.Content as Frame;
-            // Go back to main page
-            if (rootFrame.CanGoBack)
-            {
-                rootFrame.GoBack();
-            }
-            await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
-        }
+        public static async void OpenSkinsFolder() => await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.SkinFolder.Path);
 
         public static async void ReportIssueOnGitHub()
         {
@@ -369,29 +359,11 @@ namespace Files.ViewModels
         #region Multitasking
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not to automatically switch between the horizontal and vertical tab layout.
+        /// Gets or sets a value indicating whether or not to enable the vertical tab flyout.
         /// </summary>
-        public bool IsMultitaskingExperienceAdaptive
+        public bool IsVerticalTabFlyoutEnabled
         {
             get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to enable the vertical tab layout.
-        /// </summary>
-        public bool IsVerticalTabFlyoutOn
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to enable the horizontal tab layout.
-        /// </summary>
-        public bool IsHorizontalTabStripOn
-        {
-            get => Get(false);
             set => Set(value);
         }
 
@@ -455,6 +427,35 @@ namespace Files.ViewModels
 
         #endregion Widgets
 
+        #region Sidebar
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to show the library section on the sidebar.
+        /// </summary>
+        public bool ShowLibrarySection
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        //TODO: This shouldn't pin recycle bin to the sidebar, it should only hold the value whether it should or shouldn't be pinned
+        /// <summary>
+        /// Gets or sets a value indicating whether or not recycle bin should be pinned to the sidebar.
+        /// </summary>
+        public bool PinRecycleBinToSideBar
+        {
+            get => Get(true);
+            set
+            {
+                if (Set(value))
+                {
+                    _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(value);
+                }
+            }
+        }
+
+        #endregion
+
         #region Preferences
 
         /// <summary>
@@ -463,15 +464,6 @@ namespace Files.ViewModels
         public bool ShowConfirmDeleteDialog
         {
             get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to show the library section on the sidebar.
-        /// </summary>
-        public bool ShowLibrarySection
-        {
-            get => Get(false);
             set => Set(value);
         }
 
@@ -511,23 +503,7 @@ namespace Files.ViewModels
             {
                 ApplicationLanguages.PrimaryLanguageOverride = value.ID;
             }
-        }
-
-        //TODO: This shouldn't pin recycle bin to the sidebar, it should only hold the value whether it should or shouldn't be pinned
-        /// <summary>
-        /// Gets or sets a value indicating whether or not recycle bin should be pinned to the sidebar.
-        /// </summary>
-        public bool PinRecycleBinToSideBar
-        {
-            get => Get(true);
-            set
-            {
-                if (Set(value))
-                {
-                    _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(value);
-                }
-            }
-        }
+        }        
 
         #endregion Preferences
 
@@ -552,13 +528,13 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the user's current selected theme
+        /// Gets or sets the user's current selected skin
         /// </summary>
-        public AppTheme SelectedTheme
+        public AppSkin SelectedSkin
         {
-            get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppTheme>(Get(System.Text.Json.JsonSerializer.Serialize(new AppTheme()
+            get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppSkin>(Get(System.Text.Json.JsonSerializer.Serialize(new AppSkin()
             {
-                Name = "DefaultScheme".GetLocalized()
+                Name = "DefaultSkin".GetLocalized()
             })));
             set => Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
         }

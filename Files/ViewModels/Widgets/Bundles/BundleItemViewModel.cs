@@ -8,6 +8,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
@@ -31,8 +32,6 @@ namespace Files.ViewModels.Widgets.Bundles
         public Action<string, FilesystemItemType, bool, bool, IEnumerable<string>> OpenPath { get; set; }
 
         public Action<string> OpenPathInNewPane { get; set; }
-
-        public Func<string, uint, (byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconOverlay { get; set; }
 
         public Action<BundleItemViewModel> NotifyItemRemoved { get; set; }
 
@@ -140,7 +139,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
         #region Public Helpers
 
-        public async void UpdateIcon()
+        public async Task UpdateIcon()
         {
             if (TargetType == FilesystemItemType.Directory) // OpenDirectory
             {
@@ -152,12 +151,8 @@ namespace Files.ViewModels.Widgets.Bundles
                 {
                     if (Path.EndsWith(".lnk"))
                     {
-                        var (IconData, OverlayData, IsCustom) = LoadIconOverlay(Path, 24u);
-
-                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                        {
-                            Icon = await IconData.ToBitmapAsync();
-                        });
+                        byte[] iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, 24u);
+                        Icon = iconData != null ? await iconData.ToBitmapAsync() : null;
 
                         return;
                     }
@@ -219,7 +214,6 @@ namespace Files.ViewModels.Widgets.Bundles
 
             OpenPath = null;
             OpenPathInNewPane = null;
-            LoadIconOverlay = null;
         }
 
         #endregion IDisposable
