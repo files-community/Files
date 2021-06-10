@@ -35,14 +35,31 @@ namespace Files.ViewModels.Properties
             ViewModel.RemoveAccessRuleCommand = new RelayCommand(() => RemoveAccessRule(), () => ViewModel.FilePermissions != null && ViewModel.FilePermissions.CanReadFilePermissions);
         }
 
-        private void AddAccessRule()
+        private async void AddAccessRule()
         {
-
+            var pickedObject = await OpenObjectPicker();
+            if (pickedObject != null)
+            {
+                ViewModel.FilePermissions.AccessRules.Add(new FileSystemAccessRuleForUI(ViewModel.IsFolder)
+                {
+                    AccessControlType = AccessControlType.Allow,
+                    FileSystemRights = FileSystemRights.ReadAndExecute,
+                    IdentityReference = pickedObject,
+                    InheritanceFlags = ViewModel.IsFolder ? InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit : InheritanceFlags.None,
+                    PropagationFlags = PropagationFlags.None
+                });
+            }
         }
 
         private void RemoveAccessRule()
         {
-
+            if (ViewModel.SelectedAccessRules != null)
+            {
+                foreach (var rule in ViewModel.SelectedAccessRules)
+                {
+                    ViewModel.FilePermissions.AccessRules.Remove(rule);
+                }
+            }
         }
 
         private async void EditOwner()
@@ -86,11 +103,11 @@ namespace Files.ViewModels.Properties
         }
 
         public override void GetBaseProperties()
-        {            
+        {
         }
 
         public override void GetSpecialProperties()
-        {            
+        {
         }
 
         public async void GetFilePermissions()

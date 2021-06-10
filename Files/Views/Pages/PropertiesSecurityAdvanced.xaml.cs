@@ -149,7 +149,10 @@ namespace Files.Views
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                if (await fileSystemProperties.SetFilePermissions())
+                {
+                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                }
             }
             else
             {

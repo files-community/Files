@@ -91,7 +91,7 @@ namespace Files.Views
                     });
 
                     bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(propsView.Id);
-                    if (viewShown && propsView != null && propsView.PersistedStateId == "PropertiesSecurity")
+                    if (viewShown && propsView != null)
                     {
                         // Set window size again here as sometimes it's not resized in the page Loaded event
                         propsView.TryResizeView(new Size(850, 550));
