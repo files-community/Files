@@ -15,10 +15,8 @@ namespace Files.ViewModels.SettingsViewModels
         private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
         private bool isAcrylicDisabled = App.AppSettings.IsAcrylicDisabled;
         private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
-        private AppTheme selectedTheme = App.AppSettings.SelectedTheme;
+        private AppSkin selectedSkin = App.AppSettings.SelectedSkin;
         private bool showRestartControl = false;
-        public RelayCommand OpenThemesFolderCommand => new RelayCommand(() => SettingsViewModel.OpenThemesFolder());
-
         public AppearanceViewModel()
         {
             Themes = new List<string>()
@@ -30,7 +28,7 @@ namespace Files.ViewModels.SettingsViewModels
         }
 
         public List<string> Themes { get; set; }
-        public List<AppTheme> ColorSchemes => App.ExternalResourcesHelper.Themes;
+        public List<AppSkin> CustomSkins => App.ExternalResourcesHelper.Skins;
 
         public int SelectedThemeIndex
         {
@@ -74,20 +72,20 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public AppTheme SelectedTheme
+        public AppSkin SelectedSkin
         {
             get
             {
-                return selectedTheme;
+                return selectedSkin;
             }
             set
             {
-                if (SetProperty(ref selectedTheme, value))
+                if (SetProperty(ref selectedSkin, value))
                 {
                     // Remove the old resource file and load the new file
-                    App.ExternalResourcesHelper.UpdateTheme(App.AppSettings.SelectedTheme, selectedTheme);
+                    App.ExternalResourcesHelper.UpdateSkin(App.AppSettings.SelectedSkin, selectedSkin);
 
-                    App.AppSettings.SelectedTheme = selectedTheme;
+                    App.AppSettings.SelectedSkin = selectedSkin;
 
                     // Force the application to use the correct resource file
                     UpdateTheme();

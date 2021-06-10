@@ -1236,12 +1236,6 @@
   <data name="SidebarLibraries" xml:space="preserve">
     <value>‏‏ספריות</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>ברירת מחדל</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>ערכת צבעים:</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>ספירת פריטים</value>
   </data>

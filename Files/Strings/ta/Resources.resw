@@ -1187,12 +1187,6 @@
   <data name="SidebarLibraries" xml:space="preserve">
     <value>நூலகங்கள்</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>இயல்புநிலை</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>வண்ணத் திட்டம்:</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>உருப்படி எண்ணிக்கை</value>
   </data>

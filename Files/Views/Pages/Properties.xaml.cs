@@ -241,7 +241,7 @@ namespace Files.Views
             // I was unable to get this to work any other way
             try
             {
-                var xaml = XamlReader.Load(App.ExternalResourcesHelper.CurrentThemeResources) as ResourceDictionary;
+                var xaml = XamlReader.Load(App.ExternalResourcesHelper.CurrentSkinResources) as ResourceDictionary;
                 App.Current.Resources.MergedDictionaries.Add(xaml);
             }
             catch (Exception)

@@ -1089,12 +1089,6 @@
   <data name="SidebarLibraries" xml:space="preserve">
     <value>ଲାଇବ୍ରେରୀଗୁଡିକ</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>ଡିଫଲ୍ଟ</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>ରଙ୍ଗ ସ୍କିମ୍:</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>ଆଇଟମ୍ ଗଣନା:</value>
   </data>

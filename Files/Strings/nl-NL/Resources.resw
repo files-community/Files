@@ -1449,12 +1449,6 @@
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>Openen in nieuw paneel</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>Standaard</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Kleurschema</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Aantal items</value>
   </data>

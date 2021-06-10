@@ -1623,12 +1623,6 @@
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>Abrir en nuevo Panel</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>Predeterminado</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Esquema de colores</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Elementos</value>
   </data>
@@ -1859,9 +1853,6 @@
   </data>
   <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
     <value>Mostrar bibliotecas</value>
-  </data>
-  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Abrir ubicación de temas</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
     <value>Hay {0} nombres de archivos en conflicto y {1} elemento(s) saliente(s).</value>

@@ -1590,12 +1590,6 @@
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Библиотеки</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>По умолчанию</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Цветовая схема</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Число элементов</value>
   </data>

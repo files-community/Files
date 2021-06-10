@@ -1800,11 +1800,11 @@
   <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>Show library section on the sidebar</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
+  <data name="DefaultSkin" xml:space="preserve">
     <value>Default</value>
   </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Color scheme</value>
+  <data name="SettingsAppearanceCustomSkins.Header" xml:space="preserve">
+    <value>Custom skin</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Item count</value>
@@ -2046,8 +2046,8 @@
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
     <value>Manage Widgets</value>
   </data>
-  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Open themes folder</value>
+  <data name="SettingsAppearanceOpenSkinsFolderButton.Content" xml:space="preserve">
+    <value>Open skins folder</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
     <value>Generate new name</value>
@@ -2408,5 +2408,17 @@
   </data>
   <data name="SettingsVerticalTabFlyoutSwitch.Header" xml:space="preserve">
     <value>Display vertical tab flyout on the title bar</value>
+  </data>
+  <data name="SettingsSkinsLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Learn more about custom skins</value>
+  </data>
+  <data name="SettingsSkinsLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Learn more about custom skins</value>
+  </data>
+  <data name="SettingsSkinsTeachingTipHeader.Text" xml:space="preserve">
+    <value>Custom skins provide a great way for you to personalize Files.</value>
+  </data>
+  <data name="SettingsSkinsTeachingTipHyperlinkText.Text" xml:space="preserve">
+    <value>View documentation.</value>
   </data>
 </root>

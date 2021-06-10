@@ -1626,12 +1626,6 @@
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>Otwórz w nowym Panelu</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>Domyślny</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Schemat koloru</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Liczba elementów</value>
   </data>

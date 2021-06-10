@@ -136,7 +136,7 @@
 
         public static class OptionalPackages
         {
-            public const string ThemesOptionalPackagesName = "49306atecsolution.ThemesforFiles";
+            public const string SkinsOptionalPackagesName = "49306atecsolution.ThemesforFiles";
         }
     }
 }
