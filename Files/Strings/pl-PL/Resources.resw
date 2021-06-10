@@ -528,7 +528,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Przenoszenie plików do Kosza</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Dowiedz się więcej o formatach dat</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -747,26 +747,8 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Anuluj</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptacyjne (Zalecane)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Wybiera najlepszą kontrolę wielozadaniowości na podstawie sposobu zmiany rozmiaru okna aplikacji. Gdy okno jest małe, zauważysz, że poziomy pasek z kartami jest zwinięty do wysuwanego menu na pasku narzędzi nawigacji.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>W poziomie</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Zawsze ukrywa menu rozwijane wielozadaniowości w pionie na pasku narzędzi nawigacji i wyświetla tradycyjny poziomy pasek kart w oknie aplikacji. Jest to odpowiednie dla użytkowników, którzy muszą przez cały czas śledzić każdą otwartą instancję aplikacji.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Wielozadaniowość</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Pionowo</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Zwija poziomą listę instancji aplikacji do pionowego menu rozwijanego na pasku narzędzi nawigacji, zaprojektowanego dla użytkowników, którzy chcą mieć przejrzysty interfejs aplikacji z dostępem na żądanie do wielozadaniowości.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Wielozadaniowość</value>
@@ -849,7 +831,7 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Odmowa dostępu</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Przypnij Kosz do paska bocznego</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -861,7 +843,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Akrylowe tło paska bocznego</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Format daty</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -1242,7 +1224,7 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Centrum stanu</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Dowiedz się więcej o formatach dat</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">
@@ -1635,7 +1617,7 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumenty</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>Pokaż sekcję biblioteki na pasku bocznym</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">

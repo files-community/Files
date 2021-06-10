@@ -528,7 +528,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Bestanden verplaatsen naar de Prullenbak</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Meer informatie over datumnotaties</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -732,20 +732,8 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Annuleren</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptive (Recommended)</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Horizontaal</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitasking</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Verticaal</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Collapses the horizontal list of app instances into a vertical flyout on the navigation toolbar, designed for users who want a clean app interface with on-demand access to a multitasking experience.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitasking</value>
@@ -804,7 +792,7 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Toegang geweigerd</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Prullenbak vastmaken aan de zijbalk</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
@@ -813,7 +801,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Acrylic-effect voor de zijbalk</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Datumnotatie</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -1131,7 +1119,7 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Status Centrum</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Meer informatie over datumnotaties</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">

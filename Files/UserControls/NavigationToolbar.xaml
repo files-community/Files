@@ -1153,7 +1153,7 @@
             <AppBarButton
                 x:Name="VerticalTabStripInvokeButton"
                 x:Uid="VerticalTabStrip"
-                x:Load="{x:Bind converters:MultiBooleanConverter.OrAndConvert(AppSettings.IsVerticalTabFlyoutOn, local1:App.MainViewModel.IsVerticalTabFlyoutVisible, IsPageSecondaryPane), Mode=OneWay}"
+                x:Load="{x:Bind AppSettings.IsVerticalTabFlyoutEnabled, Mode=OneWay}"
                 AccessKey="T"
                 AllowDrop="True"
                 AutomationProperties.Name="Vertical tab strip"

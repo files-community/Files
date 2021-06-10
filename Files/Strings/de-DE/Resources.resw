@@ -528,7 +528,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Dateien werden in den Papierkorb verschoben</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Erfahren Sie mehr über Datumsformate</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -747,26 +747,8 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Abbrechen</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptiv (Empfohlen)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Wählt das am besten geeignete Multitasking-Steuerelement basierend auf der Fenstergröße aus. Wenn das Fenster klein ist, werden Sie feststellen, dass der horizontale Tab-Streifen in ein Flyout auf der Navigationssymbolleiste reduziert wird.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Horizontal</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Blendet das vertikale Multitasking-Flyout immer aus der Navigationssymbolleiste aus und zeigt den traditionellen horizontalen Tabstreifen im App-Fenster an. Dies ist für Benutzer geeignet, die jederzeit jede geöffnete App-Instanz verfolgen wollen.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitasking</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Vertikal</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Reduziert die horizontale Liste der App-Instanzen in ein vertikales Flyout-Menü in der Navigationssymbolleiste, das für Benutzer entwickelt wurde, die eine saubere App-Schnittstelle mit Bedarfszugriff auf eine Multitasking-Funktion wünschen.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitasking</value>
@@ -849,7 +831,7 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Zugriff verweigert</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Papierkorb an die Seitenleiste anheften</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -861,7 +843,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Acrylic-Effekt für die Seitenleiste</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Datumsformat</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -1248,7 +1230,7 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Status Center</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Mehr über Datumsformate erfahren</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">
@@ -1644,7 +1626,7 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumente</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>Bibliotheken in der Seitenleiste anzeigen</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">

@@ -666,7 +666,7 @@
           <source>B</source>
           <target state="translated">B</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">날짜 형식 자세히 알아보기</target>
         </trans-unit>
@@ -904,7 +904,7 @@
           <source>Acrylic sidebar</source>
           <target state="translated">사이드바 아크릴 효과</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">날짜 형식</target>
         </trans-unit>
@@ -1073,33 +1073,9 @@
           <source>Open tabs</source>
           <target state="translated">열린 탭</target>
         </trans-unit>
-        <trans-unit id="SettingsMultitaskingAdaptive.Content" translate="yes" xml:space="preserve">
-          <source>Adaptive (Recommended)</source>
-          <target state="translated">적응형 (권장)</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingAdaptiveDescription.Text" translate="yes" xml:space="preserve">
-          <source>Selects the best multitasking control based on how the app window is resized. When the window is small, you'll notice the horizontal tab strip is collapsed into a flyout on the navigation toolbar.</source>
-          <target state="translated">창 크기에 맞춰 멀티태스킹 방식을 변경합니다. 창이 작아지면 수평 탭 표시 줄이 탐색 도구 모음의 메뉴로 축소됩니다.</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingHorizontal.Content" translate="yes" xml:space="preserve">
-          <source>Horizontal</source>
-          <target state="translated">수평</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingHorizontalDescription.Text" translate="yes" xml:space="preserve">
-          <source>Always hides the vertical multitasking flyout from the navigation toolbar, and shows the traditional horizontal tabstrip on the app window. This is suited for users who need to keep track of every open app instance at all times.</source>
-          <target state="translated">탐색 도구 모음에 수직 멀티태스킹 메뉴를 표시하지 않고, 수평 탭 표시 줄을 항상 창에 표시합니다. 열려있는 모든 앱 인스턴스를 추적해야 하는 사용자에게 적합합니다.</target>
-        </trans-unit>
         <trans-unit id="SettingsMultitaskingTitle.Text" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
           <target state="translated">멀티태스킹</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingVertical.Content" translate="yes" xml:space="preserve">
-          <source>Vertical</source>
-          <target state="translated">수직</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingVerticalDescription.Text" translate="yes" xml:space="preserve">
-          <source>Collapses the horizontal list of app instances into a vertical flyout on the navigation toolbar, designed for users who want a clean app interface with on-demand access to a multitasking experience.</source>
-          <target state="translated">앱 인스턴스 목록을 탐색 도구 모음의 메뉴에서 확인합니다. 깔끔한 인터페이스를 원하는 사용자에게 적합합니다.</target>
         </trans-unit>
         <trans-unit id="SettingsNavMultitasking.Content" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
@@ -1189,7 +1165,7 @@
           <source>Move overflow items into a sub menu</source>
           <target state="translated">초과된 항목을 하위 메뉴로 이동</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
           <target state="translated">사이드바에 휴지통 고정</target>
         </trans-unit>
@@ -1686,7 +1662,7 @@
           <source>Status Center</source>
           <target state="translated">작업 현황</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">날짜 형식 자세히 알아보기</target>
         </trans-unit>
@@ -2196,7 +2172,7 @@
           <source>Arguments</source>
           <target state="translated">전달인자</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesShowLibrarySection.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsShowLibrarySection.Header" translate="yes" xml:space="preserve">
           <source>Show library section on the sidebar</source>
           <target state="translated">사이드바에 라이브러리 표시</target>
         </trans-unit>
@@ -3091,6 +3067,18 @@
         <trans-unit id="SecurityUnknownOwnerText.Text" translate="yes" xml:space="preserve">
           <source>Unknown owner</source>
           <target state="new">Unknown owner</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="new">Sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsSidebarTitle.Text" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="new">Sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsVerticalTabFlyoutSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Display vertical tab flyout on the title bar</source>
+          <target state="new">Display vertical tab flyout on the title bar</target>
         </trans-unit>
       </group>
     </body>

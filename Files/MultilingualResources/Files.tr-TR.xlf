@@ -686,7 +686,7 @@
           <source>B</source>
           <target state="translated">B</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">Tarih biçimleri hakkında ayrıntılı bilgi alın</target>
         </trans-unit>
@@ -993,33 +993,9 @@
           <source>Cancel</source>
           <target state="translated">İptal</target>
         </trans-unit>
-        <trans-unit id="SettingsMultitaskingAdaptive.Content" translate="yes" xml:space="preserve">
-          <source>Adaptive (Recommended)</source>
-          <target state="translated">Uyarlanabilir (Önerilen)</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingAdaptiveDescription.Text" translate="yes" xml:space="preserve">
-          <source>Selects the best multitasking control based on how the app window is resized. When the window is small, you'll notice the horizontal tab strip is collapsed into a flyout on the navigation toolbar.</source>
-          <target state="translated">Uygulama penceresinin boyutlandırılmasına göre en iyi çoklu görev denetimini seçer. Pencere küçük olduğunda, yatay sekme şeridinin gezinme araç çubuğunda bir açılır pencereye daraltıldığını fark edeceksiniz.</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingHorizontal.Content" translate="yes" xml:space="preserve">
-          <source>Horizontal</source>
-          <target state="translated">Yatay</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingHorizontalDescription.Text" translate="yes" xml:space="preserve">
-          <source>Always hides the vertical multitasking flyout from the navigation toolbar, and shows the traditional horizontal tabstrip on the app window. This is suited for users who need to keep track of every open app instance at all times.</source>
-          <target state="translated">Dikey çoklu görev açılır penceresini gezinme araç çubuğunda her zaman gizler ve uygulama penceresinde geleneksel yatay sekme şeridini görüntüler. Bu kullanım, uygulamanın açık her kopyasını her zaman izlemesi gereken kullanıcılara uygundur.</target>
-        </trans-unit>
         <trans-unit id="SettingsMultitaskingTitle.Text" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
           <target state="translated">Çoklu görev</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingVertical.Content" translate="yes" xml:space="preserve">
-          <source>Vertical</source>
-          <target state="translated">Dikey</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingVerticalDescription.Text" translate="yes" xml:space="preserve">
-          <source>Collapses the horizontal list of app instances into a vertical flyout on the navigation toolbar, designed for users who want a clean app interface with on-demand access to a multitasking experience.</source>
-          <target state="translated">İsteğe göre erişilebilecek çoklu görev deneyimi ile temiz bir uygulama arayüzü isteyen kullanıcılar için, uygulama kopyalarının yatay listesini gezinme araç çubuğundaki dikey bir açılır pencereye daraltır.</target>
         </trans-unit>
         <trans-unit id="SettingsNavMultitasking.Content" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
@@ -1130,7 +1106,7 @@
           <source>Access Denied</source>
           <target state="translated">Erişim Engellendi</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
           <target state="translated">Yan çubukta Geri Dönüşüm Kutusu görüntülensin</target>
         </trans-unit>
@@ -1146,7 +1122,7 @@
           <source>Acrylic sidebar</source>
           <target state="translated">Akrilik yan çubuk</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">Tarih biçimi</target>
         </trans-unit>
@@ -1663,7 +1639,7 @@
           <source>Status Center</source>
           <target state="translated">Durum Merkezi</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">Tarih biçimleri hakkında ayrıntılı bilgi alın</target>
         </trans-unit>
@@ -2197,7 +2173,7 @@
           <source>Arguments</source>
           <target state="translated">Argümanlar</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesShowLibrarySection.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsShowLibrarySection.Header" translate="yes" xml:space="preserve">
           <source>Show library section on the sidebar</source>
           <target state="translated">Yan çubukta Hızlı Erişim görüntülensin</target>
         </trans-unit>
@@ -3089,6 +3065,18 @@
         <trans-unit id="SecurityUnknownOwnerText.Text" translate="yes" xml:space="preserve">
           <source>Unknown owner</source>
           <target state="new">Unknown owner</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="new">Sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsSidebarTitle.Text" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="new">Sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsVerticalTabFlyoutSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Display vertical tab flyout on the title bar</source>
+          <target state="new">Display vertical tab flyout on the title bar</target>
         </trans-unit>
       </group>
     </body>

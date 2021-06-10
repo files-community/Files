@@ -519,7 +519,7 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ulteriori informazioni sui formati data</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -747,26 +747,8 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Annulla</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adattivo (Consigliato)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Seleziona la modalità di multitasking in base alla grandezza della finestra. Quando la finestra viene ristretta, le schede vengono ridotte a icona nella barra di navigazione.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Orizzontale</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Mostra sempre la tradizionale barra orizzontale con le schede. Questa impostazione è adatta se vuoi avere sott'occhio tutte le schede aperte in ogni momento.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitasking</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Verticale</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Riduce la lista delle schede aperte in un menù a comparsa nella barra di navigazione, pensato per chi preferisce un interfaccia pulita e un'esperienza di multitasking on-demand.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitasking</value>
@@ -849,7 +831,7 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Accesso Negato</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Pinna il Cestino alla barra laterale</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -861,7 +843,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Barra laterale acrilica</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Formato data</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -1248,7 +1230,7 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Stato delle operazioni</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Più informazioni sul formato data</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">
@@ -1644,7 +1626,7 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argomenti:</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>Mostra le librerie nella barra laterale</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">

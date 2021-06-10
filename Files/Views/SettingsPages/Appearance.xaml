@@ -7,8 +7,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -22,7 +22,7 @@
             <StackPanel
                 Margin="12,12,8,8"
                 Orientation="Vertical"
-                Spacing="14">
+                Spacing="24">
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />
@@ -39,8 +39,8 @@
                     x:Name="ThemeChooser"
                     x:Uid="SettingsAppearanceTheme"
                     Header="App theme"
-                    SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}"
-                    ItemsSource="{Binding Themes}" />
+                    ItemsSource="{Binding Themes}"
+                    SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}" />
 
                 <ComboBox
                     x:Name="ColorSchemeChooser"
@@ -68,31 +68,6 @@
                     Command="{Binding OpenThemesFolderCommand}"
                     Content="Open themes folder" />
 
-                <StackPanel
-                    Width="Auto"
-                    Orientation="Horizontal"
-                    Spacing="8">
-                    <ComboBox
-                        x:Name="DateFormatChooser"
-                        x:Uid="SettingsAppearanceDateFormat"
-                        Width="Auto"
-                        MinWidth="200"
-                        MaxWidth="250"
-                        Header="Date format"
-                        ItemsSource="{Binding DateFormats}"
-                        SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
-
-                    <HyperlinkButton
-                        x:Uid="SettingsAppearanceDateFormatsTip"
-                        VerticalAlignment="Bottom"
-                        AutomationProperties.Name="Learn more about date formats"
-                        NavigateUri="https://files-community.github.io/docs/#/articles/date-formats"
-                        Style="{ThemeResource TextBlockButtonStyle}"
-                        ToolTipService.ToolTip="Learn more about date formats">
-                        <FontIcon FontSize="14" Glyph="&#xE946;" />
-                    </HyperlinkButton>
-                </StackPanel>
-
                 <ToggleSwitch
                     x:Name="AcrylicSidebarSwitch"
                     x:Uid="SettingsAppearanceAcrylicSidebar"
@@ -101,7 +76,6 @@
 
                 <TextBlock
                     x:Uid="SettingsContextMenu"
-                    Padding="0,10,0,0"
                     FontSize="16"
                     Text="Customize the right click context menu" />
 

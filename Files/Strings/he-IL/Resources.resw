@@ -624,14 +624,8 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>ביטול</value>
   </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>אופקי</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>ריבוי משימות</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>אנכי</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>ריבוי משימות</value>
@@ -708,7 +702,7 @@
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>הצג סיומות לסוגי קבצים ידועים</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>תבנית תאריך.</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">

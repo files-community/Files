@@ -519,7 +519,7 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>Б</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Узнайте больше о форматах даты</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -747,26 +747,8 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Отмена</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Адаптивная (рекомендуется)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Выбирает лучший элемент управления многозадачностью в зависимости от того, как изменяется размер окна приложения. Когда окно маленькое, вы заметите, что горизонтальная полоса вкладок сворачивается во всплывающее меню на панели инструментов навигации.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Горизонтальная</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Всегда скрывает вертикальное всплывающее меню многозадачности на панели инструментов навигации и показывает традиционную горизонтальную полосу вкладок в окне приложения. Это подходит для пользователей, которым необходимо постоянно отслеживать каждый открытый экземпляр приложения.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Многозадачность</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Вертикальная</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Сворачивает горизонтальный список экземпляров приложения в вертикальное раскрывающееся меню на панели инструментов навигации, предназначенное для пользователей, которым нужен чистый интерфейс приложения с доступом по запросу для многозадачности.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Многозадачность</value>
@@ -849,7 +831,7 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Отказано в доступе</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Закрепить Корзину в боковой панели</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -861,7 +843,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Боковая панель с эффектом акрила</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Формат даты</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -1209,7 +1191,7 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Центр операций</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Узнайте больше о форматах даты</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">

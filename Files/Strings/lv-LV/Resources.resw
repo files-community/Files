@@ -135,7 +135,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Akrila sānu josla</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Datuma formāts</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -570,7 +570,7 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Palaist kā administratoram</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Uzzināt vairāk par datumu formātiem</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -810,26 +810,8 @@
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>Atvērt cilnes</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptīvs (Ieteicams)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Atlasa labāko daudzuzdevumu veikšanas režīmu, balstoties uz lietotnes loga izmēriem. Kad logs ir mazs, horizontālā ciļņu josla tiek saspiesta izlidojošajā logā navigācijas rīkjoslā.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Horizontāls</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Vienmēr paslēpj vertikālo daudzuzdevumu veikšanas logu no navigācijas rīkjoslas, un parāda tradicionālo horizontālo ciļņu rīkjoslu lietotnes logā. Šis ir piemērots lietotājiem, kuriem nepārtraukti nepieciešams sekot līdzi visām lietotnes instancēm.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Vairākuzdevumu režīms</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Vertikāls</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Sakļauj horizontālo lietotnes instanču sarakstu vertikālā izlidojošajā logā navigācijas rīkjoslā. Izstrādāts lietotājiem, kuri vēlas tīru saskarni ar vieglu piekļuvi citām instancēm.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Vairākuzdevumu režīms</value>
@@ -897,7 +879,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Pārvietot pārpildītos vienumus apakšizvēlnē</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Piespraust Atkritni sānu joslā</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1272,7 +1254,7 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Statusa centrs</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Uzzināt vairāk par datumu formātiem</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">
@@ -1650,7 +1632,7 @@
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>Atvērt jaunā panelī</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>Rādīt bibliotēku sadaļu sānu joslā</value>
   </data>
   <data name="DefaultScheme" xml:space="preserve">

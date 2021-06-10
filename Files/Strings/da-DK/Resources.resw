@@ -129,7 +129,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Akryl sidebjælke</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Datoformat</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -561,7 +561,7 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Kør som administrator</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Lær mere om datoformater</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -801,26 +801,8 @@
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>Åbn fane</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptiv (anbefales)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Vælger den bedste multitasking-kontrol baseret på, hvordan appvinduet ændres. Når vinduet er lille, vil du bemærke, at den vandrette fanestribe er foldet sammen i en flyout på navigationsværktøjslinjen.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Vandret</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Skjuler altid den lodrette multitasking-flyout fra navigationsværktøjslinjen og viser den traditionelle vandrette tabstrip i appvinduet. Dette er velegnet til brugere, der altid har brug for at holde styr på alle åbne appinstanser.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitasking</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Lodret</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Skjuler den vandrette liste over appforekomster i en lodret flyout på navigationsværktøjslinjen, der er designet til brugere, der ønsker en ren app-interface med on-demand adgang til en multitasking-oplevelse.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitasking</value>
@@ -888,7 +870,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Flyt overløbselementer til en undermenu</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Fastgør papirkurven til sidebjælke</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1260,7 +1242,7 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Status Center</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Lær mere om datoformater</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">
@@ -1644,7 +1626,7 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumenter</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>Vis bibliotekssektion i sidebjælken</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">

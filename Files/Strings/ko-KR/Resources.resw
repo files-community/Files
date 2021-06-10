@@ -504,7 +504,7 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>날짜 형식 자세히 알아보기</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -681,7 +681,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>사이드바 아크릴 효과</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>날짜 형식</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -807,26 +807,8 @@
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>열린 탭</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>적응형 (권장)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>창 크기에 맞춰 멀티태스킹 방식을 변경합니다. 창이 작아지면 수평 탭 표시 줄이 탐색 도구 모음의 메뉴로 축소됩니다.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>수평</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>탐색 도구 모음에 수직 멀티태스킹 메뉴를 표시하지 않고, 수평 탭 표시 줄을 항상 창에 표시합니다. 열려있는 모든 앱 인스턴스를 추적해야 하는 사용자에게 적합합니다.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>멀티태스킹</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>수직</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>앱 인스턴스 목록을 탐색 도구 모음의 메뉴에서 확인합니다. 깔끔한 인터페이스를 원하는 사용자에게 적합합니다.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>멀티태스킹</value>
@@ -894,7 +876,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>초과된 항목을 하위 메뉴로 이동</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>사이드바에 휴지통 고정</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1266,7 +1248,7 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>작업 현황</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>날짜 형식 자세히 알아보기</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">
@@ -1644,7 +1626,7 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>전달인자</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>사이드바에 라이브러리 표시</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">

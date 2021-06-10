@@ -21,7 +21,7 @@
             <StackPanel
                 Margin="12,12,8,8"
                 Orientation="Vertical"
-                Spacing="14">
+                Spacing="20">
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />
@@ -42,7 +42,6 @@
                 <RadioButton
                     x:Uid="SettingsOnStartupOpenANewTab"
                     Grid.Column="0"
-                    Padding="8,4,0,0"
                     VerticalAlignment="Center"
                     Content="Open a new tab"
                     GroupName="StartupPageSettingRadioGroup"
@@ -51,7 +50,6 @@
                 <RadioButton
                     x:Uid="SettingsOnStartupContinueWhereYouLeftOff"
                     Grid.Column="0"
-                    Padding="8,4,0,0"
                     VerticalAlignment="Center"
                     Content="Continue where you left off"
                     GroupName="StartupPageSettingRadioGroup"
@@ -61,7 +59,6 @@
                     x:Name="OpenSpecificPage"
                     x:Uid="SettingsOnStartupOpenASpecificPage"
                     Grid.Column="0"
-                    Padding="8,4,0,0"
                     VerticalAlignment="Center"
                     Content="Open a specific page or pages"
                     GroupName="StartupPageSettingRadioGroup"
@@ -69,7 +66,6 @@
 
                 <Grid
                     Width="Auto"
-                    Padding="0,0,10,0"
                     HorizontalAlignment="Left"
                     Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
                     <Grid.ColumnDefinitions>
@@ -143,7 +139,6 @@
 
                 <RadioButton
                     x:Uid="SettingsOnStartupLaunchNewTab"
-                    Padding="8,3,0,0"
                     VerticalAlignment="Center"
                     Content="Open folder in a new tab"
                     GroupName="StartupPageLaunchRadioGroup"
@@ -151,7 +146,6 @@
 
                 <RadioButton
                     x:Uid="SettingsOnStartupLaunchNewInstance"
-                    Padding="8,3,0,0"
                     VerticalAlignment="Center"
                     Content="Always open a new instance"
                     GroupName="StartupPageLaunchRadioGroup"

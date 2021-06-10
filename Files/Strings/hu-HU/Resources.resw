@@ -129,7 +129,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Akril oldalsáv</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Dátumformátum</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -349,7 +349,7 @@
     <value>Frissítés (F5)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Keresés</value>
+    <value>Keresés (Ctrl + F)</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Tulajdonságok</value>
@@ -502,7 +502,7 @@
     <value>Fájlok beillesztése</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Fájlok áthelyezése a lomtárba</value>
+    <value>Fájlok áthelyezése a Lomtárba</value>
   </data>
   <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
     <value>Mappa kitűzése az oldalsávra</value>
@@ -543,7 +543,7 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Futtatás rendszergazdaként</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tudjon meg többet a dátumformátumokról</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -619,7 +619,7 @@
     <value>Új lapon</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Elem előzménylistáról megnyitása</value>
+    <value>Mappa Filesból való megnyitásakor</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Rendszer</value>
@@ -783,26 +783,8 @@
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>Megnyitott lapok</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Automatikus (ajánlott)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>A legjobb lehetőség kiválasztása az ablak méretétől függően. Amikor az ablak kicsi, a vízszintes lap sáv egy menüelemmé alakul át.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Vízszintes</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Menüelem elrejtése, az eredeti vízszintes lap sáv használata. Olyan felhasználóknak, akik szeretik állandóan figyelemmel követni az összes megnyitott lapot.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitaszking</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Függőleges</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>A vízszintes lap sáv egy menüelemmé alakul át, azoknak a felhasználóknak tervezve, akik egy letisztult felhasználói felületet szeretnének, de a multitaszking lehetőségével.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitaszking</value>
@@ -861,7 +843,7 @@
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Terminál alkalmazások</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Lomtár kitűzése az oldalsávra</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1248,7 +1230,7 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Állapotközpont</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Tudjon meg többet a dátumformátumokról</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">
@@ -1363,19 +1345,19 @@
     <value>Mappák</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Részletek</value>
+    <value>Részletek (Ctrl + Shift + 1)</value>
   </data>
   <data name="NavToolbarGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Nagy ikonok</value>
+    <value>Nagy ikonok (Ctrl + Shift + 5)</value>
   </data>
   <data name="NavToolbarGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Közepes ikonok</value>
+    <value>Közepes ikonok (Ctrl + Shift + 4)</value>
   </data>
   <data name="NavToolbarGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Kis ikonok</value>
+    <value>Kis ikonok (Ctrl + Shift + 3)</value>
   </data>
   <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Lista</value>
+    <value>Lista (Ctrl + Shift + 2)</value>
   </data>
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Megjelenítési lehetőségek</value>
@@ -1417,7 +1399,7 @@
     <value>Elérési út</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Előnézet panel (Ctrl + P)</value>
+    <value>Előnézet (Ctrl + P)</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Név</value>
@@ -1644,7 +1626,7 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumentumok</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>Könyvtárak megjelenítése az oldalsávon</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
@@ -1714,7 +1696,7 @@
     <value>Oszlop</value>
   </data>
   <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Oszlop</value>
+    <value>Oszlop (Ctrl + Shift + 6)</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
     <value>Oszlop nézet</value>
@@ -1837,10 +1819,10 @@
     <value>{0} elem törölve lesz</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Átnevezés</value>
+    <value>Folytatás</value>
   </data>
   <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Felülírás/összefésülés</value>
+    <value>Mégse</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
     <value>Ütköző fájlnevek</value>
@@ -2081,5 +2063,230 @@
   </data>
   <data name="RenameFileDialogTitle" xml:space="preserve">
     <value>Átnevezés</value>
+  </data>
+  <data name="StatusDeletionCancelled" xml:space="preserve">
+    <value>Törlés megszakítva</value>
+  </data>
+  <data name="StatusMoveCanceled" xml:space="preserve">
+    <value>Áthelyezés megszakítva</value>
+  </data>
+  <data name="StatusCopyCanceled" xml:space="preserve">
+    <value>Másolás megszakítva</value>
+  </data>
+  <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
+    <value>{0} elem áthelyezése {1} (innen), {2} (ide) megszakítva</value>
+  </data>
+  <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
+    <value>{0} elem áthelyezése {1} (innen), {2} (ide) megszakítva {3} elem áthelyezése után</value>
+  </data>
+  <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
+    <value>{0} elem áthelyezése {1} (innen), {2} (ide) megszakítva {3} elem áthelyezése után</value>
+  </data>
+  <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
+    <value>{0} elem áthelyezése {1} (innen), {2} (ide)</value>
+  </data>
+  <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
+    <value>{0} elem áthelyezése {1} (innen), {2} (ide)</value>
+  </data>
+  <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
+    <value>{0} elem sikeresen áthelyezve {1} (innen), {2} (ide)</value>
+  </data>
+  <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
+    <value>{0} elem sikeresen áthelyezve {1} (innen), {2} (ide)</value>
+  </data>
+  <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
+    <value>{0} elem áthelyezése {1} (innen), {2} (ide) sikertelen</value>
+  </data>
+  <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
+    <value>{0} elem áthelyezése {1} (innen), {2} (ide) sikertelen</value>
+  </data>
+  <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
+    <value>{0} másolása ide {1} megszakítva</value>
+  </data>
+  <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
+    <value>{0} elem másolása ide {1} megszakítva {2} elem másolása után</value>
+  </data>
+  <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
+    <value>{0} elem másolása ide {1} megszakítva {2} elem másolása után</value>
+  </data>
+  <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
+    <value>{0} elem másolása ide {1}</value>
+  </data>
+  <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
+    <value>{0} elem másolása ide {1}</value>
+  </data>
+  <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
+    <value>{0} elem sikeresen átmásolva ide {1}</value>
+  </data>
+  <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
+    <value>{0} elem sikeresen átmásolva ide {1}</value>
+  </data>
+  <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
+    <value>{0} elem törlése innen {1} megszakítva</value>
+  </data>
+  <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
+    <value>{0} elem törlése innen {1} megszakítva {3} elem törlése után</value>
+  </data>
+  <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
+    <value>{0} elem törlése innen {1} megszakítva {3} elem törlése után</value>
+  </data>
+  <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
+    <value>{0} elem törlése innen {1}</value>
+  </data>
+  <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
+    <value>{0} elem törlése innen {1}</value>
+  </data>
+  <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
+    <value>{0} elem sikeresen törölve innen {1}</value>
+  </data>
+  <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
+    <value>{0} elem sikeresen törölve innen {1}</value>
+  </data>
+  <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
+    <value>{0} elem törlése innen {1} sikertelen</value>
+  </data>
+  <data name="TheRecycleBin" xml:space="preserve">
+    <value>a Lomtár</value>
+  </data>
+  <data name="MoveInProgress" xml:space="preserve">
+    <value>Elemek áthelyezése</value>
+  </data>
+  <data name="CopyInProgress.Title" xml:space="preserve">
+    <value>Elemek másolása</value>
+  </data>
+  <data name="StatusRecycleFailed" xml:space="preserve">
+    <value>Újrahasznosítás sikertelen</value>
+  </data>
+  <data name="StatusRecycleCancelled" xml:space="preserve">
+    <value>Újrahasznosítás megszakítva</value>
+  </data>
+  <data name="StatusCancellingOp" xml:space="preserve">
+    <value>megszakítás</value>
+  </data>
+  <data name="StatusCenterDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Elutasítás</value>
+  </data>
+  <data name="StatusCenterDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Elutasítás</value>
+  </data>
+  <data name="StatusCenterCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Mégse</value>
+  </data>
+  <data name="StatusCenterCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Mégse</value>
+  </data>
+  <data name="NavToolbarWidgets.Label" xml:space="preserve">
+    <value>Widgetek</value>
+  </data>
+  <data name="VerticalTabStrip.Label" xml:space="preserve">
+    <value>Lapok</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
+    <value>Kiválasztás</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Elrendezés</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Elrendezés</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
+    <value>Elrendezés</value>
+  </data>
+  <data name="PreviewPaneToggle.Label" xml:space="preserve">
+    <value>Előnézet</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Rendezés</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Rendezés</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
+    <value>Rendezés</value>
+  </data>
+  <data name="NavToolbarLayout.Text" xml:space="preserve">
+    <value>Elrendezés</value>
+  </data>
+  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Bezárás</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
+    <value>Állapot szinkronizálása</value>
+  </data>
+  <data name="NavToolbarArrangementOption_SyncStatus.Content" xml:space="preserve">
+    <value>Állapot szinkronizálása</value>
+  </data>
+  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
+    <value>{0} elem törlése innen {1} sikertelen</value>
+  </data>
+  <data name="NavigationToolbarNewTab.Label" xml:space="preserve">
+    <value>Új lap</value>
+  </data>
+  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+    <value>Új ablak</value>
+  </data>
+  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+    <value>Elérési út másolása</value>
+  </data>
+  <data name="NavigationToolbarPaste.Label" xml:space="preserve">
+    <value>Beillesztés</value>
+  </data>
+  <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
+    <value>Megnyitás terminálban...</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
+    <value>Új</value>
+  </data>
+  <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
+    <value>Új panel</value>
+  </data>
+  <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
+    <value>Biztonság</value>
+  </data>
+  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+    <value>Speciális engedélyek</value>
+  </data>
+  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+    <value>Engedélyzés</value>
+  </data>
+  <data name="SecurityDenyLabel.Text" xml:space="preserve">
+    <value>Megtagadás</value>
+  </data>
+  <data name="SecurityFullControlLabel.Text" xml:space="preserve">
+    <value>Teljes hozzáférés</value>
+  </data>
+  <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
+    <value>Könyvtár elemeinek kilistázása</value>
+  </data>
+  <data name="SecurityModifyLabel.Text" xml:space="preserve">
+    <value>Módosítás</value>
+  </data>
+  <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
+    <value>Engedélyek</value>
+  </data>
+  <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
+    <value>Olvasás és végrehajtás</value>
+  </data>
+  <data name="SecurityReadLabel.Text" xml:space="preserve">
+    <value>Olvasás</value>
+  </data>
+  <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
+    <value>Csoport vagy felhasználó neve</value>
+  </data>
+  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+    <value>Irás</value>
+  </data>
+  <data name="SecurityUnknownAccount" xml:space="preserve">
+    <value>Ismeretlen fiók</value>
+  </data>
+  <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
+    <value>Nincs engedélye az elem biztonsági tulajdonságainak megtekintésére. Kattintson a "Speciális engedélyek" gombra a folytatáshoz.</value>
+  </data>
+  <data name="SecurityOwnerLabel.Text" xml:space="preserve">
+    <value>Tulajdonos</value>
+  </data>
+  <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
+    <value>Ismeretlen tulajdonos</value>
   </data>
 </root>

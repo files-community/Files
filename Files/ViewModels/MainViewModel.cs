@@ -19,7 +19,6 @@ namespace Files.ViewModels
             Clipboard.ContentChanged += Clipboard_ContentChanged;
 
             DetectFontName();
-            SetMultitaskingControl();
         }
 
         public void Clipboard_ContentChanged(object sender, object e)
@@ -44,35 +43,9 @@ namespace Files.ViewModels
             }
         }
 
-
         private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
             IsWindowCompactSize = IsWindowResizedToCompactWidth();
-
-            // Setup the correct multitasking control
-            SetMultitaskingControl();
-        }
-
-        public void SetMultitaskingControl()
-        {
-            if (AppSettings.IsMultitaskingExperienceAdaptive)
-            {
-                if (IsWindowCompactSize)
-                {
-                    IsVerticalTabFlyoutVisible = true;
-                    IsHorizontalTabStripVisible = false;
-                }
-                else if (!IsWindowCompactSize)
-                {
-                    IsVerticalTabFlyoutVisible = false;
-                    IsHorizontalTabStripVisible = true;
-                }
-            }
-            else
-            {
-                IsVerticalTabFlyoutVisible = false;
-                IsHorizontalTabStripVisible = false;
-            }
         }
 
         private int tabStripSelectedIndex = 0;
@@ -113,22 +86,6 @@ namespace Files.ViewModels
         {
             get => isPasteEnabled;
             set => SetProperty(ref isPasteEnabled, value);
-        }
-
-        private bool isHorizontalTabStripVisible = false;
-
-        public bool IsHorizontalTabStripVisible
-        {
-            get => isHorizontalTabStripVisible;
-            set => SetProperty(ref isHorizontalTabStripVisible, value);
-        }
-
-        private bool isVerticalTabFlyoutVisible = false;
-
-        public bool IsVerticalTabFlyoutVisible
-        {
-            get => isVerticalTabFlyoutVisible;
-            set => SetProperty(ref isVerticalTabFlyoutVisible, value);
         }
 
         private bool isWindowCompactSize = IsWindowResizedToCompactWidth();

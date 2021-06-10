@@ -129,7 +129,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Acrylic الشريط الجانبي</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>تنسيق التاريخ</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -558,7 +558,7 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>تشغيل كمسؤول</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>تعلم المزيد عن صيغة التاريخ</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -798,26 +798,8 @@
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>فتح علامات التبويب</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>التكيف (موصى به)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>يحدد أفضل عنصر تحكم متعدد المهام بناءً على كيفية تغيير حجم نافذة التطبيق. عندما تكون النافذة صغيرة ، ستلاحظ طي شريط علامات التبويب الأفقي في قائمة منبثقة على شريط أدوات التنقل</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>أفقي</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>يخفي دائمًا قائمة المهام المتعددة الرأسية المنبثقة من شريط أدوات التنقل ، ويعرض شريط التبويب الأفقي التقليدي في نافذة التطبيق. يناسب هذا المستخدمين الذين يحتاجون إلى تتبع كل مثيل تطبيق مفتوح في جميع الأوقات</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>معالجة متعددة</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>عمودي</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>لطي القائمة الأفقية لمثيلات التطبيق في قائمة منبثقة عمودية على شريط أدوات التنقل ، مصممة للمستخدمين الذين يريدون واجهة تطبيق نظيفة مع وصول عند الطلب إلى تجربة تعدد المهام</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>تعدد المهام</value>
@@ -885,7 +867,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>نقل العناصر الفائضة إلى قائمة فرعية</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>قم بتثبيت سلة المحذوفات في الشريط الجانبي</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1248,7 +1230,7 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>مركز الحالات</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>تعرف على المزيد حول تنسيقات التاريخ</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">

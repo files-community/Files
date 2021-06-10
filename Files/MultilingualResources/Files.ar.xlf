@@ -164,7 +164,7 @@
           <source>Acrylic sidebar</source>
           <target state="translated">Acrylic الشريط الجانبي</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated" state-qualifier="tm-suggestion">تنسيق التاريخ</target>
         </trans-unit>
@@ -746,7 +746,7 @@
           <source>Run as administrator</source>
           <target state="translated" state-qualifier="tm-suggestion">تشغيل كمسؤول</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">تعلم المزيد عن صيغة التاريخ</target>
         </trans-unit>
@@ -1070,33 +1070,9 @@
           <source>Open tabs</source>
           <target state="translated">فتح علامات التبويب</target>
         </trans-unit>
-        <trans-unit id="SettingsMultitaskingAdaptive.Content" translate="yes" xml:space="preserve">
-          <source>Adaptive (Recommended)</source>
-          <target state="translated">التكيف (موصى به)</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingAdaptiveDescription.Text" translate="yes" xml:space="preserve">
-          <source>Selects the best multitasking control based on how the app window is resized. When the window is small, you'll notice the horizontal tab strip is collapsed into a flyout on the navigation toolbar.</source>
-          <target state="translated">يحدد أفضل عنصر تحكم متعدد المهام بناءً على كيفية تغيير حجم نافذة التطبيق. عندما تكون النافذة صغيرة ، ستلاحظ طي شريط علامات التبويب الأفقي في قائمة منبثقة على شريط أدوات التنقل</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingHorizontal.Content" translate="yes" xml:space="preserve">
-          <source>Horizontal</source>
-          <target state="translated" state-qualifier="tm-suggestion">أفقي</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingHorizontalDescription.Text" translate="yes" xml:space="preserve">
-          <source>Always hides the vertical multitasking flyout from the navigation toolbar, and shows the traditional horizontal tabstrip on the app window. This is suited for users who need to keep track of every open app instance at all times.</source>
-          <target state="translated">يخفي دائمًا قائمة المهام المتعددة الرأسية المنبثقة من شريط أدوات التنقل ، ويعرض شريط التبويب الأفقي التقليدي في نافذة التطبيق. يناسب هذا المستخدمين الذين يحتاجون إلى تتبع كل مثيل تطبيق مفتوح في جميع الأوقات</target>
-        </trans-unit>
         <trans-unit id="SettingsMultitaskingTitle.Text" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
           <target state="translated" state-qualifier="tm-suggestion">معالجة متعددة</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingVertical.Content" translate="yes" xml:space="preserve">
-          <source>Vertical</source>
-          <target state="translated" state-qualifier="tm-suggestion">عمودي</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingVerticalDescription.Text" translate="yes" xml:space="preserve">
-          <source>Collapses the horizontal list of app instances into a vertical flyout on the navigation toolbar, designed for users who want a clean app interface with on-demand access to a multitasking experience.</source>
-          <target state="translated">لطي القائمة الأفقية لمثيلات التطبيق في قائمة منبثقة عمودية على شريط أدوات التنقل ، مصممة للمستخدمين الذين يريدون واجهة تطبيق نظيفة مع وصول عند الطلب إلى تجربة تعدد المهام</target>
         </trans-unit>
         <trans-unit id="SettingsNavMultitasking.Content" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
@@ -1187,7 +1163,7 @@
           <source>Move overflow items into a sub menu</source>
           <target state="translated">نقل العناصر الفائضة إلى قائمة فرعية</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
           <target state="translated">قم بتثبيت سلة المحذوفات في الشريط الجانبي</target>
         </trans-unit>
@@ -1684,7 +1660,7 @@
           <source>Status Center</source>
           <target state="translated">مركز الحالات</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">تعرف على المزيد حول تنسيقات التاريخ</target>
         </trans-unit>
@@ -2204,7 +2180,7 @@
           <source>Arguments</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">‏‏الوسيطات</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesShowLibrarySection.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsShowLibrarySection.Header" translate="yes" xml:space="preserve">
           <source>Show library section on the sidebar</source>
           <target state="new">Show library section on the sidebar</target>
         </trans-unit>
@@ -3095,6 +3071,18 @@
         <trans-unit id="SecurityUnknownOwnerText.Text" translate="yes" xml:space="preserve">
           <source>Unknown owner</source>
           <target state="new">Unknown owner</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="new">Sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsSidebarTitle.Text" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="new">Sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsVerticalTabFlyoutSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Display vertical tab flyout on the title bar</source>
+          <target state="new">Display vertical tab flyout on the title bar</target>
         </trans-unit>
       </group>
     </body>

@@ -170,7 +170,7 @@
           <source>Acrylic sidebar</source>
           <target state="translated">Bilah samping akrilik</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated" state-qualifier="tm-suggestion">Format tanggal</target>
         </trans-unit>
@@ -758,7 +758,7 @@
           <source>Run as administrator</source>
           <target state="translated" state-qualifier="tm-suggestion">Jalankan sebagai administrator</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">Pelajari tentang format tanggal</target>
         </trans-unit>
@@ -1086,34 +1086,9 @@
           <source>Open tabs</source>
           <target state="translated">Buka tab</target>
         </trans-unit>
-        <trans-unit id="SettingsMultitaskingAdaptive.Content" translate="yes" xml:space="preserve">
-          <source>Adaptive (Recommended)</source>
-          <target state="translated">Adaptif (Disarankan)</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingAdaptiveDescription.Text" translate="yes" xml:space="preserve">
-          <source>Selects the best multitasking control based on how the app window is resized. When the window is small, you'll notice the horizontal tab strip is collapsed into a flyout on the navigation toolbar.</source>
-          <target state="translated">Pilih kontrol tugas ganda terbaik berdasarkan bagaimana jendela aplikasi diubah ukurannya. Ketika jendela berukuran kecil, Anda akan melihat tab berpindah ke bilah toolbar.</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingHorizontal.Content" translate="yes" xml:space="preserve">
-          <source>Horizontal</source>
-          <target state="translated">Horisontal</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingHorizontalDescription.Text" translate="yes" xml:space="preserve">
-          <source>Always hides the vertical multitasking flyout from the navigation toolbar, and shows the traditional horizontal tabstrip on the app window. This is suited for users who need to keep track of every open app instance at all times.</source>
-          <target state="translated">Selalu sembunyikan tugas ganda secara vertikal di bilah toolbar dan tampilkan selalu tab secara horisontal. Pilihan ini cocok untuk pengguna yang ingin tetap melacak tab yang terbuka setiap saat.</target>
-        </trans-unit>
         <trans-unit id="SettingsMultitaskingTitle.Text" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
           <target state="translated">Tugas ganda</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingVertical.Content" translate="yes" xml:space="preserve">
-          <source>Vertical</source>
-          <target state="translated" state-qualifier="tm-suggestion">Vertikal</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingVerticalDescription.Text" translate="yes" xml:space="preserve">
-          <source>Collapses the horizontal list of app instances into a vertical flyout on the navigation toolbar, designed for users who want a clean app interface with on-demand access to a multitasking experience.</source>
-          <target state="translated">Sembunyikan tab dalam bentuk horisontal dan pindahkan dalam bentuk vertikal di bilah toolbar, dirancang untuk pengguna yang menginginkan antarmuka aplikasi yang bersih dengan akses tugas ganda sesuai permintaan.
-</target>
         </trans-unit>
         <trans-unit id="SettingsNavMultitasking.Content" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
@@ -1203,7 +1178,7 @@
           <source>Move overflow items into a sub menu</source>
           <target state="translated">Pindahkan item luapan ke dalam sub menu</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
           <target state="translated">Sematkan keranjang sampah ke bilah sisi</target>
         </trans-unit>
@@ -1723,7 +1698,7 @@
           <source>Status Center</source>
           <target state="translated">Pusat Status</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="translated">Pelajari tentang format tanggal</target>
         </trans-unit>
@@ -2244,7 +2219,7 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
           <source>Open in new Pane</source>
           <target state="translated">Buka di Panel baru</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesShowLibrarySection.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsShowLibrarySection.Header" translate="yes" xml:space="preserve">
           <source>Show library section on the sidebar</source>
           <target state="translated">Tampilkan pustaka di bilah sisi</target>
         </trans-unit>
@@ -3075,6 +3050,18 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
         <trans-unit id="SecurityUnknownOwnerText.Text" translate="yes" xml:space="preserve">
           <source>Unknown owner</source>
           <target state="new">Unknown owner</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="new">Sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsSidebarTitle.Text" translate="yes" xml:space="preserve">
+          <source>Sidebar</source>
+          <target state="new">Sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsVerticalTabFlyoutSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Display vertical tab flyout on the title bar</source>
+          <target state="new">Display vertical tab flyout on the title bar</target>
         </trans-unit>
       </group>
     </body>
