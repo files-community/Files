@@ -106,7 +106,7 @@
             <StackPanel Spacing="12">
                 <TextBlock TextWrapping="Wrap">
                     <Run x:Uid="SettingsSkinsTeachingTipHeader" Text="Custom skins provide a great way for you to personalize Files." />
-                    <Hyperlink NavigateUri="https://files-community.github.io/docs/#/articles/custom-themes">
+                    <Hyperlink NavigateUri="https://files-community.github.io/docs/#/articles/custom-skins">
                         <Run x:Uid="SettingsSkinsTeachingTipHyperlinkText" Text="View documentation." />
                     </Hyperlink>
                 </TextBlock>
