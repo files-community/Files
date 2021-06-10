@@ -3097,7 +3097,7 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedEntityLabel.Text" translate="yes" xml:space="preserve">
           <source>Entity</source>
-          <target state="translated">Enitità</target>
+          <target state="translated">Entità</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedInheritedLabel.Text" translate="yes" xml:space="preserve">
           <source>Inherited</source>

@@ -204,6 +204,7 @@
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Filesystem\Permissions\FilePermissionsManager.cs" />
     <Compile Include="Filesystem\Permissions\FileSystemAccessRule.cs" />
+    <Compile Include="Filesystem\Permissions\FileSystemAccessRuleForUI.cs" />
     <Compile Include="Filesystem\Permissions\RulesForUser.cs" />
     <Compile Include="Filesystem\Permissions\UserGroup.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupedCollection.cs" />

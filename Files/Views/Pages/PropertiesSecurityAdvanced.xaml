@@ -25,6 +25,14 @@
                 <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+            <converters:BoolToObjectConverter
+                x:Key="BoolToMinWidthConverter"
+                FalseValue="0"
+                TrueValue="200" />
+            <converters:BoolToObjectConverter
+                x:Key="BoolToWidthConverter"
+                FalseValue="0"
+                TrueValue="*" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -166,7 +174,7 @@
                                 <ColumnDefinition Width="*" MinWidth="200" />
                                 <ColumnDefinition Width="*" MinWidth="160" />
                                 <ColumnDefinition Width="70" />
-                                <ColumnDefinition Width="*" MinWidth="200" />
+                                <ColumnDefinition Width="{x:Bind ViewModel.IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind ViewModel.IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
                             </Grid.ColumnDefinitions>
 
                             <TextBlock
@@ -191,10 +199,12 @@
                                 FontWeight="SemiBold"
                                 Text="Inherited" />
                             <TextBlock
+                                x:Name="AppliesToLabel"
                                 x:Uid="SecurityAdvancedAppliesToLabel"
                                 Grid.Column="5"
                                 FontWeight="SemiBold"
-                                Text="Applies to" />
+                                Text="Applies to"
+                                Visibility="{x:Bind ViewModel.IsFolder, Mode=OneWay}" />
                         </Grid>
                     </ListView.Header>
                     <ListView.ItemTemplate>
@@ -206,7 +216,7 @@
                                     <ColumnDefinition Width="*" MinWidth="200" />
                                     <ColumnDefinition Width="*" MinWidth="160" />
                                     <ColumnDefinition Width="70" />
-                                    <ColumnDefinition Width="*" MinWidth="200" />
+                                    <ColumnDefinition Width="{x:Bind IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
                                 </Grid.ColumnDefinitions>
 
                                 <FontIcon
@@ -238,7 +248,8 @@
                                 <TextBlock
                                     Grid.Column="5"
                                     Text="{x:Bind InheritanceFlagsForUI, Mode=OneWay}"
-                                    TextTrimming="CharacterEllipsis" />
+                                    TextTrimming="CharacterEllipsis"
+                                    Visibility="{x:Bind IsFolder, Mode=OneWay}" />
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
