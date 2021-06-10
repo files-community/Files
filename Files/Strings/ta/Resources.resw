@@ -525,7 +525,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>கோப்புகளை மறுசுழற்சிக் கூடைக்கு நகர்த்துதல்</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>தேதி வடிவமைப்புகளைப் பற்றி மேலும் அறிக</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -730,17 +730,8 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>இரத்து</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>தானியங்கு (பரிந்துரைக்கப்பட்டவை)</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>கிடைமட்ட</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>பல்பணியாக்கம்</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>செங்குத்து</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>பல்பணியாக்கம்</value>
@@ -818,7 +809,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Acrylic பக்கப்பட்டி</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>தேதி வடிவம்</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">

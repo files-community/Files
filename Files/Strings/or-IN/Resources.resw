@@ -531,7 +531,7 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>ପ୍ରଶାସକ ଭାବରେ ଚଲାନ୍ତୁ</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>ତାରିଖ ଫର୍ମାଟ୍ ବିଷୟରେ ଅଧିକ ଜାଣନ୍ତୁ</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -693,14 +693,8 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>ବାତିଲ୍</value>
   </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>ଅକ୍ଷାଂଶ</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>ମଲ୍ଟିଟାସ୍କିଂ</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>ଭୂ-ଲମ୍ବ</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>ମଲ୍ଟିଟାସ୍କିଂ</value>
@@ -729,7 +723,7 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>ପ୍ରବେଶ ପ୍ରତ୍ୟାଖ୍ୟାତ</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>ତାରିଖ ଫର୍ମାଟ୍</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">

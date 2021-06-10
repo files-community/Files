@@ -1,10 +1,14 @@
 ﻿using Files.Enums;
+using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Windows.Input;
+using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels.Dialogs
 {
@@ -12,17 +16,48 @@ namespace Files.ViewModels.Dialogs
     {
         private readonly Action updatePrimaryButtonEnabled;
 
-        public string OperationIconGlyph { get; set; }
+        private readonly ElementTheme RootTheme = ThemeHelper.RootTheme;
 
         public string SourcePath { get; set; }
 
         public string DestinationPath { get; set; }
+
+        public Brush SrcDestFoldersTextBrush
+        {
+            get
+            {
+                if (!ActionTaken && ConflictResolveOption != FileNameConflictResolveOptionType.NotAConflict)
+                {
+                    if (RootTheme == ElementTheme.Dark || (RootTheme == ElementTheme.Default && Application.Current.RequestedTheme == ApplicationTheme.Dark))
+                    {
+                        // For dark theme
+                        return new SolidColorBrush(Color.FromArgb(255, 237, 237, 40)); // Yellow
+                    }
+                    else
+                    {
+                        // For light theme
+                        return new SolidColorBrush(Color.FromArgb(255, 218, 165, 32)); // Goldenrod
+                    }
+                }
+                else
+                {
+                    return new SolidColorBrush(Color.FromArgb(255, 128, 128, 128)); // Gray
+                }
+            }
+        }
 
         private bool isConflict;
         public bool IsConflict
         {
             get => isConflict;
             set => SetProperty(ref isConflict, value);
+        }
+
+        private ImageSource _ItemIcon;
+        public ImageSource ItemIcon
+        {
+            get => _ItemIcon;
+            set => SetProperty(ref _ItemIcon, value);
         }
 
         public string SourceDirectoryDisplayName
@@ -76,14 +111,6 @@ namespace Files.ViewModels.Dialogs
             get => string.IsNullOrEmpty(DestinationPath) ? Visibility.Collapsed : Visibility.Visible;
         }
 
-        private Visibility exclamationMarkVisibility = Visibility.Collapsed;
-
-        public Visibility ExclamationMarkVisibility
-        {
-            get => exclamationMarkVisibility;
-            set => SetProperty(ref exclamationMarkVisibility, value);
-        }
-
         public FileNameConflictResolveOptionType ConflictResolveOption { get; set; }
 
         private bool actionTaken = false;
@@ -135,6 +162,7 @@ namespace Files.ViewModels.Dialogs
         {
             this.updatePrimaryButtonEnabled = updatePrimaryButtonEnabled;
 
+            // Create commands
             GenerateNewNameCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.GenerateNewName));
             ReplaceExistingCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.ReplaceExisting));
             SkipCommand = new RelayCommand(() => TakeAction(FileNameConflictResolveOptionType.Skip));
@@ -152,7 +180,6 @@ namespace Files.ViewModels.Dialogs
             {
                 ConflictResolveOption = action;
                 ActionTaken = actionTaken;
-                ExclamationMarkVisibility = actionTaken ? Visibility.Collapsed : Visibility.Visible;
                 OnPropertyChanged(nameof(ShowSubFolders));
                 OnPropertyChanged(nameof(ShowResolveOption));
                 OnPropertyChanged(nameof(ShowUndoButton));

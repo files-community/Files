@@ -1,4 +1,5 @@
-﻿using Files.DataModels.NavigationControlItems;
+﻿using Files.Common;
+using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
@@ -19,6 +20,20 @@ namespace Files.ViewModels
 {
     public class SidebarViewModel : ObservableObject, IDisposable
     {
+        public static async System.Threading.Tasks.Task<IList<IconFileInfo>> LoadSidebarIconResources()
+        {
+            const string imageres = @"C:\Windows\System32\imageres.dll";
+            return await UIHelpers.LoadSelectedIconsAsync(imageres, new List<int>() {
+                    Constants.ImageRes.QuickAccess,
+                    Constants.ImageRes.RecycleBin,
+                    Constants.ImageRes.NetworkDrives,
+                    Constants.ImageRes.Libraries,
+                    Constants.ImageRes.ThisPC,
+                    Constants.ImageRes.CloudDrives,
+                    Constants.ImageRes.Folder
+                }, 32, false);
+        }
+
         public ICommand EmptyRecycleBinCommand { get; private set; }
 
         private IPaneHolder paneHolder;

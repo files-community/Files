@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Files.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Vanara.PInvoke;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -167,7 +169,7 @@ namespace FilesFullTrust
 
         }
 
-        private static void RunPowershellCommand(string command, bool runAsAdmin)
+        public static bool RunPowershellCommand(string command, bool runAsAdmin)
         {
             try
             {
@@ -182,12 +184,38 @@ namespace FilesFullTrust
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 process.StartInfo.Arguments = command;
                 process.Start();
-                process.WaitForExit(30 * 1000);
+                if (process.WaitForExit(30 * 1000))
+                {
+                    return process.ExitCode == 0;
+                }
+                return false;
             }
             catch (Win32Exception)
             {
                 // If user cancels UAC
+                return false;
             }
+        }
+
+        public static IList<IconFileInfo> ExtractSelectedIconsFromDLL(string file, IList<int> indexes, int iconSize = 48)
+        {
+            var iconsList = new List<IconFileInfo>();
+
+            foreach (int index in indexes)
+            {
+                User32.SafeHICON icon;
+                User32.SafeHICON hIcon2;    // This is merely to pass into the function and is unneeded otherwise
+                if (Shell32.SHDefExtractIcon(file, -1 * index, 0, out icon, out hIcon2, Convert.ToUInt32(iconSize)) == HRESULT.S_OK)
+                {
+                    using var image = icon.ToBitmap();
+                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                    var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                    iconsList.Add(new IconFileInfo(icoStr, index));
+                    User32.DestroyIcon(icon);
+                    User32.DestroyIcon(hIcon2);
+                }
+            }
+            return iconsList;
         }
 
         public static void UnlockBitlockerDrive(string drive, string password)
@@ -330,6 +358,15 @@ namespace FilesFullTrust
                     }
                 }
             });
+        }
+
+        public class Win32Window : IWin32Window
+        {
+            public IntPtr Handle { get; set; }
+            public static Win32Window FromLong(long hwnd)
+            {
+                return new Win32Window() { Handle = new IntPtr(hwnd) };
+            }
         }
 
         // Get information from recycle bin.

@@ -129,7 +129,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Genomskinligt sidofält</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Datumformat</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -564,7 +564,7 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Kör som administratör</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Läs mer om datumformat</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -804,26 +804,8 @@
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>Öppna flikar</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptiv (Rekommenderas)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Väljer den bästa multitasking-kontrollen baserat på hur appfönstrets storlek. När fönstret är litet kommer det horisontella flikfältet kollapsas till ett popup-fönster i navigeringsfältet.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Horisontell</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Döljer alltid det vertikala popup-fönstret för multitasking från navigeringsfältet och visar det traditionella horisontella flikfältet i appfönstret. Detta är lämpligt för användare som alltid behöver hålla reda på alla öppna appinstanser.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitasking</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Vertikal</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Komprimerar den horisontella listan över appinstanser till ett vertikalt popup-fönster i navigeringsfältet. Utformat för användare som vill ha ett rent appgränssnitt med tillgång till en multitasking-upplevelse på begäran.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitasking</value>
@@ -891,7 +873,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Flytta överflödesobjekt till en undermeny</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Fäst Papperskorgen på sidofältet</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1266,7 +1248,7 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Statuscenter</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Läs mer om datumformat</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">

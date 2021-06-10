@@ -135,7 +135,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Bilah samping akrilik</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Format tanggal</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -576,7 +576,7 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Jalankan sebagai administrator</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Pelajari tentang format tanggal</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -822,27 +822,8 @@
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>Buka tab</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptif (Disarankan)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Pilih kontrol tugas ganda terbaik berdasarkan bagaimana jendela aplikasi diubah ukurannya. Ketika jendela berukuran kecil, Anda akan melihat tab berpindah ke bilah toolbar.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Horisontal</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Selalu sembunyikan tugas ganda secara vertikal di bilah toolbar dan tampilkan selalu tab secara horisontal. Pilihan ini cocok untuk pengguna yang ingin tetap melacak tab yang terbuka setiap saat.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Tugas ganda</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Vertikal</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Sembunyikan tab dalam bentuk horisontal dan pindahkan dalam bentuk vertikal di bilah toolbar, dirancang untuk pengguna yang menginginkan antarmuka aplikasi yang bersih dengan akses tugas ganda sesuai permintaan.
-</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multi tugas</value>
@@ -910,7 +891,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Pindahkan item luapan ke dalam sub menu</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Sematkan keranjang sampah ke bilah sisi</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1300,7 +1281,7 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Pusat Status</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Pelajari tentang format tanggal</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">
@@ -1691,7 +1672,7 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>Buka di Panel baru</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>Tampilkan pustaka di bilah sisi</value>
   </data>
   <data name="DefaultScheme" xml:space="preserve">

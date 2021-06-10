@@ -13,7 +13,6 @@ namespace Files.ViewModels.SettingsViewModels
     public class AppearanceViewModel : ObservableObject
     {
         private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
-        private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
         private bool isAcrylicDisabled = App.AppSettings.IsAcrylicDisabled;
         private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
         private AppTheme selectedTheme = App.AppSettings.SelectedTheme;
@@ -28,12 +27,6 @@ namespace Files.ViewModels.SettingsViewModels
                 "LightTheme".GetLocalized(),
                 "DarkTheme".GetLocalized()
             };
-
-            DateFormats = new List<string>
-            {
-                "ApplicationTimeStye".GetLocalized(),
-                "SystemTimeStye".GetLocalized()
-            };
         }
 
         public List<string> Themes { get; set; }
@@ -47,23 +40,6 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref selectedThemeIndex, value))
                 {
                     ThemeHelper.RootTheme = (ElementTheme)value;
-                }
-            }
-        }
-
-        public List<string> DateFormats { get; set; }
-
-        public int SelectedDateFormatIndex
-        {
-            get
-            {
-                return selectedDateFormatIndex;
-            }
-            set
-            {
-                if (SetProperty(ref selectedDateFormatIndex, value))
-                {
-                    App.AppSettings.DisplayedTimeStyle = (TimeStyle)value;
                 }
             }
         }

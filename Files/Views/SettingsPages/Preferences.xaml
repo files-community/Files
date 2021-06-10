@@ -18,7 +18,7 @@
                 Margin="12,12,8,8"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Spacing="14">
+                Spacing="20">
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />
@@ -91,22 +91,36 @@
                     </StackPanel>
                 </StackPanel>
 
-                <ToggleSwitch
-                    x:Uid="SettingsPreferencesRecycleBinSwitch"
-                    Header="Pin Recycle Bin to the sidebar"
-                    IsOn="{Binding PinRecycleBinToSideBar, Mode=TwoWay}" />
+                <StackPanel
+                    Width="Auto"
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <ComboBox
+                        x:Name="DateFormatChooser"
+                        x:Uid="SettingsDateFormat"
+                        Width="Auto"
+                        MinWidth="200"
+                        MaxWidth="250"
+                        Header="Date format"
+                        ItemsSource="{Binding DateFormats}"
+                        SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
+
+                    <HyperlinkButton
+                        x:Uid="SettingsDateFormatsTip"
+                        VerticalAlignment="Bottom"
+                        AutomationProperties.Name="Learn more about date formats"
+                        NavigateUri="https://files-community.github.io/docs/#/articles/date-formats"
+                        Style="{ThemeResource TextBlockButtonStyle}"
+                        ToolTipService.ToolTip="Learn more about date formats">
+                        <FontIcon FontSize="14" Glyph="&#xE946;" />
+                    </HyperlinkButton>
+                </StackPanel>
 
                 <ToggleSwitch
                     x:Name="ShowConfirmDeleteDialogSwitch"
                     x:Uid="SettingsPreferencesShowConfirmDeleteDialogSwitch"
                     Header="Show a confirmation dialog when deleting files or folders"
                     IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}" />
-
-                <ToggleSwitch
-                    x:Name="ShowLibrarySection"
-                    x:Uid="SettingsPreferencesShowLibrarySection"
-                    Header="Show library section on the sidebar"
-                    IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Name="OpenFoldersNewTab"

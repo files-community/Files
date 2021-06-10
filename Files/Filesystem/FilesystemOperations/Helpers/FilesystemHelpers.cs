@@ -115,7 +115,7 @@ namespace Files.Filesystem
                     incomingItems.Add(new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, null));
                 }
 
-                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     FilesystemOperationType.Delete,
                     false,
                     !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
@@ -321,7 +321,7 @@ namespace Files.Filesystem
                     new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.Path ?? source.Item.Path, null)
                 };
 
-                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     FilesystemOperationType.Delete,
                     false,
                     !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
@@ -401,7 +401,7 @@ namespace Files.Filesystem
                     new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.Path, null)
                 };
 
-                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     FilesystemOperationType.Delete,
                     false,
                     !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
@@ -1046,7 +1046,7 @@ namespace Files.Filesystem
 
             if (mustResolveConflicts || forceDialog)
             {
-                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     operationType,
                     mustResolveConflicts,
                     false,
