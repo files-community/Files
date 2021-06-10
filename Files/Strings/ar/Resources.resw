@@ -1554,12 +1554,6 @@
   <data name="SidebarLibraries" xml:space="preserve">
     <value>المكتبات</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>افتراضي</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>نظام الألوان</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>عدد العناصر</value>
   </data>

@@ -22,6 +22,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
@@ -89,7 +90,7 @@ namespace Files.ViewModels
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
 
-        public static async void OpenThemesFolder()
+        public static async void OpenSkinsFolder()
         {
             Frame rootFrame = Window.Current.Content as Frame;
             // Go back to main page

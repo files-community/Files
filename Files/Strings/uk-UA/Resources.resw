@@ -1584,12 +1584,6 @@
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Бібліотеки</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>За замовчуванням</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Колірна схема:</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Кількість елементів</value>
   </data>

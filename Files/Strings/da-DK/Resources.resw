@@ -1635,12 +1635,6 @@
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>Åbn i ny Rude</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>Standard</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Farveskema</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Antal elementer</value>
   </data>

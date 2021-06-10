@@ -1635,12 +1635,6 @@
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>In neuem Panel öffnen</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>Standard</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Farbschema</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Anzahl an Objekten</value>
   </data>
@@ -1871,9 +1865,6 @@
   </data>
   <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
     <value>Bibiliothekswidget anzeigen</value>
-  </data>
-  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Themenordner öffnen</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
     <value>Es gibt {0} Konflikte und {1} verbleibende Einträge.</value>

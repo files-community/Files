@@ -1626,12 +1626,6 @@
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>新しいペインで開く</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>既定</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>配色</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>ファイル数</value>
   </data>
@@ -1862,9 +1856,6 @@
   </data>
   <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
     <value>ライブラリ ウィジェットを表示</value>
-  </data>
-  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>テーマ フォルダを開く</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
     <value>{0}個の競合するファイル名と、{1}個のそうでないファイルがあります</value>
