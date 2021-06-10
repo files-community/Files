@@ -822,9 +822,8 @@
                 VerticalAlignment="Center"
                 Canvas.ZIndex="100"
                 CornerRadius="{StaticResource ControlCornerRadius}"
-                Escaped="SearchRegion_Escaped"
                 LostFocus="SearchRegion_LostFocus"
-                SuggestionChosen="SearchRegion_SuggestionChosen"
+                SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.IsSearchBoxVisible, Mode=OneWay}">
                 <uc:SearchBox.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Escape" Invoked="SearchBox_Escaped" />

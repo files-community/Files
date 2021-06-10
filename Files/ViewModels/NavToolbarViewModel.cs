@@ -19,6 +19,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using static Files.UserControls.INavigationToolbar;
 
@@ -139,6 +140,8 @@ namespace Files.ViewModels
         public NavToolbarViewModel()
         {
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            SearchBox.SuggestionChosen += SearchRegion_SuggestionChosen;
+            SearchBox.Escaped += SearchRegion_Escaped;
         }
 
         private DispatcherQueueTimer dragOverTimer;
@@ -149,6 +152,7 @@ namespace Files.ViewModels
             get => searchBox;
             set => SetProperty(ref searchBox, value);
         }
+        public SearchBoxViewModel SearchBoxViewModel => SearchBox as SearchBoxViewModel;
 
         public bool IsSingleItemOverride { get; set; } = false;
 
@@ -442,5 +446,19 @@ namespace Files.ViewModels
             SearchBox.Query = string.Empty;
             IsSearchBoxVisible = false;
         }
+
+        public void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var focusedElement = FocusManager.GetFocusedElement();
+            if ((focusedElement is Button bttn && bttn.Name == "SearchButton") || focusedElement is FlyoutBase || focusedElement is AppBarButton)
+            {
+                return;
+            }
+
+            CloseSearchBox();
+        }
+
+        private void SearchRegion_SuggestionChosen(ISearchBox sender, SearchBoxSuggestionChosenEventArgs args) => IsSearchBoxVisible = false;
+        private void SearchRegion_Escaped(object sender, ISearchBox searchBox) => IsSearchBoxVisible = false;
     }
 }

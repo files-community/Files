@@ -43,7 +43,7 @@ namespace Files.UserControls
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register(nameof(ViewModel), typeof(NavToolbarViewModel), typeof(NavigationToolbar), new PropertyMetadata(null));
 
-        public ISearchBox SearchBox => SearchRegion;
+        public ISearchBox SearchBox => ViewModel.SearchBox;
 
 
         #region Selection Options
@@ -332,25 +332,6 @@ namespace Files.UserControls
                 SetValue(CanCreateFileInPageProperty, value);
             }
         }
-
-        //public static readonly DependencyProperty CanCopyPathInPageProperty = DependencyProperty.Register(
-        //  "CanCopyPathInPage",
-        //  typeof(bool),
-        //  typeof(NavigationToolbar),
-        //  new PropertyMetadata(null)
-        //);
-
-        //public bool CanCopyPathInPage
-        //{
-        //    get
-        //    {
-        //        return (bool)GetValue(CanCopyPathInPageProperty);
-        //    }
-        //    set
-        //    {
-        //        SetValue(CanCopyPathInPageProperty, value);
-        //    }
-        //}
 
         public static readonly DependencyProperty CanPasteInPageProperty = DependencyProperty.Register(
           "CanPasteInPage",
@@ -819,21 +800,11 @@ namespace Files.UserControls
                 mainPage.ViewModel.MultitaskingControl.CurrentInstanceChanged += mainPage.MultitaskingControl_CurrentInstanceChanged;
             }
         }
-
         private void SearchButton_Click(object sender, RoutedEventArgs e) => ViewModel.SwitchSearchBoxVisibility();
 
         private void SearchBox_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args) => ViewModel.CloseSearchBox();
 
-        private void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
-        {
-            var focusedElement = FocusManager.GetFocusedElement();
-            if (focusedElement == SearchButton || focusedElement is FlyoutBase || focusedElement is AppBarButton)
-            {
-                return;
-            }
-
-            ViewModel.CloseSearchBox();
-        }
+        private void SearchRegion_LostFocus(object sender, RoutedEventArgs e) => ViewModel.SearchRegion_LostFocus(sender, e);
 
         private void NavMoreButtonFlyout_Opening(object sender, object e)
         {
@@ -881,10 +852,6 @@ namespace Files.UserControls
         }
 
         private void PreviewPane_Click(object sender, RoutedEventArgs e) => PreviewPaneEnabled = !PreviewPaneEnabled;
-
-        private void SearchRegion_SuggestionChosen(ISearchBox sender, SearchBoxSuggestionChosenEventArgs args) => ViewModel.IsSearchBoxVisible = false;
-
-        private void SearchRegion_Escaped(object sender, ISearchBox searchBox) => ViewModel.IsSearchBoxVisible = false;
 
         private void PathboxItemFlyout_Opened(object sender, object e) => ViewModel.PathboxItemFlyout_Opened(sender, e);
 

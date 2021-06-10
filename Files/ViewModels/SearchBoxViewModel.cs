@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace Files.ViewModels
 {
@@ -27,7 +29,7 @@ namespace Files.ViewModels
 
         private readonly SuggestionComparer suggestionComparer = new SuggestionComparer();
 
-        private ObservableCollection<ListedItem> Suggestions { get; } = new ObservableCollection<ListedItem>();
+        public ObservableCollection<ListedItem> Suggestions { get; } = new ObservableCollection<ListedItem>();
 
 
         public void ClearSuggestions()
@@ -58,6 +60,29 @@ namespace Files.ViewModels
                     Suggestions.Add(newSuggestion);
                 }
             }
+        }
+
+        public void SearchRegion_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs e)
+        {
+            TextChanged?.Invoke(this, new SearchBoxTextChangedEventArgs(e.Reason));
+        }
+
+        public void SearchRegion_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs e)
+        {
+            QuerySubmitted?.Invoke(this, new SearchBoxQuerySubmittedEventArgs(e.ChosenSuggestion as ListedItem));
+        }
+
+        public void SearchRegion_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs e)
+        {
+            if (e.SelectedItem is ListedItem listedItem)
+            {
+                SuggestionChosen?.Invoke(this, new SearchBoxSuggestionChosenEventArgs(listedItem));
+            }
+        }
+
+        public void SearchRegion_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
+        {
+            Escaped?.Invoke(this, this);
         }
 
         public class SuggestionComparer : IEqualityComparer<ListedItem>, IComparer<ListedItem>

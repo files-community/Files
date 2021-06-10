@@ -177,9 +177,9 @@ namespace Files.Views
             FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
             storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
 
-            NavToolbar.SearchBox.TextChanged += ModernShellPage_TextChanged;
-            NavToolbar.SearchBox.SuggestionChosen += ModernShellPage_SuggestionChosen;
-            NavToolbar.SearchBox.QuerySubmitted += ModernShellPage_QuerySubmitted;
+            NavToolbarViewModel.SearchBox.TextChanged += ModernShellPage_TextChanged;
+            NavToolbarViewModel.SearchBox.SuggestionChosen += ModernShellPage_SuggestionChosen;
+            NavToolbarViewModel.SearchBox.QuerySubmitted += ModernShellPage_QuerySubmitted;
 
             DisplayFilesystemConsentDialog();
 
