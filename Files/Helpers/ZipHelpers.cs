@@ -22,7 +22,6 @@ namespace Files.Helpers
             {
                 zipFile.IsStreamOwner = true;
 
-                IStorageFolder currentFolder = destinationFolder;
                 List<ZipEntry> directoryEntries = new List<ZipEntry>();
                 List<ZipEntry> fileEntries = new List<ZipEntry>();
 
@@ -82,8 +81,7 @@ namespace Files.Helpers
                 {
                     string filePath = Path.Combine(destinationFolder.Path, entry.Name.Replace('/', '\\'));
 
-                    currentFolder = await StorageItemHelpers.ToStorageItem<StorageFolder>(Path.GetDirectoryName(filePath));
-                    StorageFile receivedFile = await currentFolder.GetFileAsync(Path.GetFileName(filePath));
+                    StorageFile receivedFile = await StorageItemHelpers.ToStorageItem<StorageFile>(filePath);
 
                     using (Stream destinationStream = (await receivedFile.OpenAsync(FileAccessMode.ReadWrite)).AsStreamForWrite())
                     {
