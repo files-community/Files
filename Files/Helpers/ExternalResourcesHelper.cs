@@ -33,10 +33,11 @@ namespace Files.Helpers
                 OptionalPackageSkinFolder = package.InstalledLocation;
             }
 
-            // ToDo this is for backwards compatability, remove after a couple updates
-            var themeFolder = await StorageFolder.GetFolderFromPathAsync(ApplicationData.Current.LocalFolder.Path + "\\Themes");
             try
             {
+                // ToDo this is for backwards compatability, remove after a couple updates
+                var themeFolder = await StorageFolder.GetFolderFromPathAsync(ApplicationData.Current.LocalFolder.Path + "\\Themes");
+
                 await themeFolder.RenameAsync("Skins", NameCollisionOption.FailIfExists);
             }
             catch (Exception)
