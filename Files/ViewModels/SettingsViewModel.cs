@@ -90,16 +90,7 @@ namespace Files.ViewModels
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
 
-        public static async void OpenSkinsFolder()
-        {
-            Frame rootFrame = Window.Current.Content as Frame;
-            // Go back to main page
-            if (rootFrame.CanGoBack)
-            {
-                rootFrame.GoBack();
-            }
-            await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.SkinFolder.Path);
-        }
+        public static async void OpenSkinsFolder() => await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.SkinFolder.Path);
 
         public static async void ReportIssueOnGitHub()
         {

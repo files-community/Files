@@ -114,7 +114,7 @@
                 <Button
                     x:Name="OpenSkinsFolderButton"
                     x:Uid="SettingsAppearanceOpenSkinsFolderButton"
-                    Command="{Binding OpenSkinsFolderCommand}"
+                    Click="OpenSkinsFolderButton_Click"
                     Content="Open skins folder" />
             </StackPanel>
         </muxc:TeachingTip>

@@ -17,8 +17,6 @@ namespace Files.ViewModels.SettingsViewModels
         private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
         private AppSkin selectedSkin = App.AppSettings.SelectedSkin;
         private bool showRestartControl = false;
-        public RelayCommand OpenSkinsFolderCommand => new RelayCommand(() => SettingsViewModel.OpenSkinsFolder());
-
         public AppearanceViewModel()
         {
             Themes = new List<string>()
