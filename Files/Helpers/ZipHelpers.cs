@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
@@ -16,14 +18,15 @@ namespace Files.Helpers
     {
         public static async Task ExtractArchive(StorageFile archive, StorageFolder destinationFolder, Action<float> progressDelegate)
         {
-            using (ZipInputStream zipStream = new ZipInputStream(await archive.OpenStreamForReadAsync()))
+            using (ZipFile zipFile = new ZipFile(await archive.OpenStreamForReadAsync()))
             {
+                zipFile.IsStreamOwner = true;
+
                 IStorageFolder currentFolder = destinationFolder;
                 List<ZipEntry> directoryEntries = new List<ZipEntry>();
                 List<ZipEntry> fileEntries = new List<ZipEntry>();
 
-                ZipEntry entry;
-                while ((entry = zipStream.GetNextEntry()) != null)
+                foreach (ZipEntry entry in zipFile)
                 {
                     if (entry.IsFile)
                     {
@@ -33,33 +36,71 @@ namespace Files.Helpers
                     {
                         directoryEntries.Add(entry);
                     }
+                }
 
+                // Create the directory tree using fast FTP
 
-                    //string directoryName = Path.GetDirectoryName(entry.Name);
-                    //string fileName = Path.GetFileName(entry.Name);
+                var connection = await AppServiceConnectionHelper.Instance;
 
-                    //// Create directory
-                    //if (!string.IsNullOrEmpty(directoryName))
-                    //{
-                    //    currentFolder = await currentFolder.CreateFolderAsync(Path.GetFileName(directoryName), CreationCollisionOption.OpenIfExists);
-                    //}
+                string foldersString = string.Empty;
+                string filesString = string.Empty;
+                List<string> directories = directoryEntries.Select((item) => Path.Combine(destinationFolder.Path, item.Name)).ToList();
+                List<string> files = fileEntries.Select((item) => Path.Combine(destinationFolder.Path, item.Name)).ToList();
 
-                    //byte[] buffer = new byte[4096];
-                    //if (!string.IsNullOrEmpty(fileName))
-                    //{
-                    //    StorageFile createdFile = await currentFolder.CreateFileAsync(fileName);
-                    //    using (IRandomAccessStream destinationStream = await createdFile.OpenAsync(FileAccessMode.ReadWrite))
-                    //    {
-                    //        long totalBytes = 0L;
-                    //        int currentBlockSize = 0;
+                foreach (var item in directories)
+                {
+                    foldersString += $"{item}|";
+                }
+                foreach (var item in files)
+                {
+                    filesString += $"{item}|";
+                }
 
-                    //        while ((currentBlockSize = await zipStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
-                    //        {
-                    //            totalBytes += currentBlockSize;
-                    //            await destinationStream.AsStreamForWrite().WriteAsync(buffer, 0, currentBlockSize);
-                    //        }
-                    //    }
-                    //}
+                foldersString = foldersString.Remove(foldersString.Length - 1);
+                filesString = filesString.Remove(filesString.Length - 1);
+
+                await connection.SendMessageAsync(new ValueSet()
+                {
+                    { "Arguments", "FileOperation" },
+                    { "fileop", "CreateDirectoryTree" },
+                    { "paths", foldersString }
+                });
+                await connection.SendMessageAsync(new ValueSet()
+                {
+                    { "Arguments", "FileOperation" },
+                    { "fileop", "CreateFilesTree" },
+                    { "paths", filesString }
+                });
+
+                // Create files and fill them
+
+                byte[] buffer = new byte[4096];
+                long entriesAmount = fileEntries.Count;
+                long entriesFinished = 0L;
+
+                foreach (var entry in fileEntries)
+                {
+                    string filePath = Path.Combine(destinationFolder.Path, entry.Name.Replace('/', '\\'));
+
+                    currentFolder = await StorageItemHelpers.ToStorageItem<StorageFolder>(Path.GetDirectoryName(filePath));
+                    StorageFile receivedFile = await currentFolder.GetFileAsync(Path.GetFileName(filePath));
+
+                    using (Stream destinationStream = (await receivedFile.OpenAsync(FileAccessMode.ReadWrite)).AsStreamForWrite())
+                    {
+                        int currentBlockSize = 0;
+
+                        using (Stream entryStream = zipFile.GetInputStream(entry))
+                        {
+                            while ((currentBlockSize = await entryStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                            {
+                                await destinationStream.WriteAsync(buffer, 0, buffer.Length);
+                            }
+                        }
+                    }
+
+                    entriesFinished++;
+                    float percentage = (float)((float)entriesFinished / (float)entriesAmount) * 100.0f;
+                    progressDelegate?.Invoke(percentage);
                 }
             }
         }
