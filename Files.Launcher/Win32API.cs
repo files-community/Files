@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Files.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Vanara.PInvoke;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -32,7 +34,7 @@ namespace FilesFullTrust
                 catch (Exception ex)
                 {
                     tcs.SetResult(default);
-                    NLog.LogManager.GetCurrentClassLogger().Info(ex, ex.Message);
+                    Program.Logger.Info(ex, ex.Message);
                     //tcs.SetException(e);
                 }
             });
@@ -136,7 +138,7 @@ namespace FilesFullTrust
                     return (iconStr, null, false);
                 }
 
-                bool isCustom = !shfi.szDisplayName.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.Windows));
+                bool isCustom = true;
                 User32.DestroyIcon(shfi.hIcon);
                 Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var tmp);
                 using var imageList = ComCtl32.SafeHIMAGELIST.FromIImageList(tmp);
@@ -167,7 +169,7 @@ namespace FilesFullTrust
 
         }
 
-        private static void RunPowershellCommand(string command, bool runAsAdmin)
+        public static bool RunPowershellCommand(string command, bool runAsAdmin)
         {
             try
             {
@@ -182,12 +184,38 @@ namespace FilesFullTrust
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 process.StartInfo.Arguments = command;
                 process.Start();
-                process.WaitForExit(30 * 1000);
+                if (process.WaitForExit(30 * 1000))
+                {
+                    return process.ExitCode == 0;
+                }
+                return false;
             }
             catch (Win32Exception)
             {
                 // If user cancels UAC
+                return false;
             }
+        }
+
+        public static IList<IconFileInfo> ExtractSelectedIconsFromDLL(string file, IList<int> indexes, int iconSize = 48)
+        {
+            var iconsList = new List<IconFileInfo>();
+
+            foreach (int index in indexes)
+            {
+                User32.SafeHICON icon;
+                User32.SafeHICON hIcon2;    // This is merely to pass into the function and is unneeded otherwise
+                if (Shell32.SHDefExtractIcon(file, -1 * index, 0, out icon, out hIcon2, Convert.ToUInt32(iconSize)) == HRESULT.S_OK)
+                {
+                    using var image = icon.ToBitmap();
+                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                    var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                    iconsList.Add(new IconFileInfo(icoStr, index));
+                    User32.DestroyIcon(icon);
+                    User32.DestroyIcon(hIcon2);
+                }
+            }
+            return iconsList;
         }
 
         public static void UnlockBitlockerDrive(string drive, string password)
@@ -287,6 +315,58 @@ namespace FilesFullTrust
             public int cbSize;
             public long i64Size;
             public long i64NumItems;
+        }
+
+        public static IEnumerable<HWND> GetDesktopWindows()
+        {
+            HWND prevHwnd = HWND.NULL;
+            var windowsList = new List<HWND>();
+            while (true)
+            {
+                prevHwnd = User32.FindWindowEx(HWND.NULL, prevHwnd, null, null);
+                if (prevHwnd == null || prevHwnd == HWND.NULL)
+                {
+                    break;
+                }
+                windowsList.Add(prevHwnd);
+            }
+            return windowsList;
+        }
+
+        public static void BringToForeground(IEnumerable<HWND> currentWindows)
+        {
+            CancellationTokenSource cts = new CancellationTokenSource();
+            cts.CancelAfter(5 * 1000);
+
+            Task.Run(async () =>
+            {
+                while (!cts.IsCancellationRequested)
+                {
+                    await Task.Delay(500);
+
+                    var newWindows = GetDesktopWindows().Except(currentWindows).Where(x => User32.IsWindowVisible(x) && !User32.IsIconic(x));
+                    if (newWindows.Any())
+                    {
+                        foreach (var newWindow in newWindows)
+                        {
+                            User32.SetWindowPos(newWindow, User32.SpecialWindowHandles.HWND_TOPMOST,
+                                    0, 0, 0, 0, User32.SetWindowPosFlags.SWP_NOSIZE | User32.SetWindowPosFlags.SWP_NOMOVE);
+                            User32.SetWindowPos(newWindow, User32.SpecialWindowHandles.HWND_NOTOPMOST,
+                                0, 0, 0, 0, User32.SetWindowPosFlags.SWP_SHOWWINDOW | User32.SetWindowPosFlags.SWP_NOSIZE | User32.SetWindowPosFlags.SWP_NOMOVE);
+                        }
+                        break;
+                    }
+                }
+            });
+        }
+
+        public class Win32Window : IWin32Window
+        {
+            public IntPtr Handle { get; set; }
+            public static Win32Window FromLong(long hwnd)
+            {
+                return new Win32Window() { Handle = new IntPtr(hwnd) };
+            }
         }
 
         // Get information from recycle bin.

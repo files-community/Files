@@ -42,5 +42,9 @@ A good rule of thumb is to start your proposal with no more than 7 high-level re
 | This proposal will allow developers to accomplish Y | Could |
 | This proposal will allow end users to accomplish Z | Won't |
 
+**System Information**
+ - OS Version: [e.g. Windows 10 20H2 19042.804] (Press WIN + PAUSE/BREAK, use the copy button at the bottom)
+ - App version: [e.g. v1.0] (In the app, go to Settings -> About, the version is shown at the top)
+
 **Additional comment**
 Add any other comment or screenshots about the feature request here. What device type/UI layout and app version?

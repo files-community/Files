@@ -13,7 +13,13 @@ namespace Files.DataModels.NavigationControlItems
 {
     public class LocationItem : ObservableObject, INavigationControlItem
     {
-        public BitmapImage Icon { get; set; }
+        public BitmapImage icon;
+        public BitmapImage Icon
+        {
+            get => icon;
+            set => SetProperty(ref icon, value);
+        }
+
         public Uri IconSource { get; set; }
         public byte[] IconData { get; set; }
 
@@ -52,15 +58,5 @@ namespace Files.DataModels.NavigationControlItems
         public SectionType Section { get; set; }
 
         public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
-
-        public async Task SetBitmapImage(IRandomAccessStream imageStream)
-        {
-            if (imageStream != null)
-            {
-                var image = new BitmapImage();
-                await image.SetSourceAsync(imageStream);
-                Icon = image;
-            }
-        }
     }
 }

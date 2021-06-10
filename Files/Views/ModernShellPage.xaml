@@ -159,9 +159,44 @@
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Control" />
         <KeyboardAccelerator
+            Key="F"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control" />
+        <KeyboardAccelerator
             Key="F1"
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+        <KeyboardAccelerator
+            Key="Number1"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
+        <KeyboardAccelerator
+            Key="Number2"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
+        <KeyboardAccelerator
+            Key="Number3"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
+        <KeyboardAccelerator
+            Key="Number4"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
+        <KeyboardAccelerator
+            Key="Number5"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
+        <KeyboardAccelerator
+            Key="Number6"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
     </Page.KeyboardAccelerators>
     <Grid
         x:Name="RootGrid"
@@ -193,7 +228,7 @@
             Grid.Row="2"
             HorizontalAlignment="Stretch"
             x:FieldModifier="public"
-            Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+            Background="{ThemeResource FileBrowserBackgroundBrush}"
             Navigated="ItemDisplayFrame_Navigated" />
 
         <Custom:DropShadowPanel
@@ -256,7 +291,7 @@
                 IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 ItemDraggedOverPathItem="ModernShellPage_NavigationRequested"
                 LayoutModeInformation="{x:Bind FolderSettings.LayoutModeInformation, Mode=OneWay}"
-                MultiselectEnabled="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=TwoWay}"
+                MultiselectEnabled="{x:Bind MainViewModel.MultiselectEnabled, Mode=TwoWay}"
                 NewFileInvokedCommand="{x:Bind CreateNewFileCommand, Mode=OneWay}"
                 NewFolderInvokedCommand="{x:Bind CreateNewFolderCommand, Mode=OneWay}"
                 NewPaneInvokedCommand="{x:Bind OpenNewPaneCommand, Mode=OneWay}"
@@ -268,9 +303,6 @@
                 PreviewPaneEnabled="{x:Bind PreviewPaneEnabled, Mode=TwoWay}"
                 RefreshRequested="ModernShellPage_RefreshRequested"
                 RefreshWidgetsRequested="ModernShellPage_RefreshWidgetsRequested"
-                SearchQuerySubmitted="ModernShellPage_SearchQuerySubmitted"
-                SearchSuggestionChosen="ModernShellPage_SearchSuggestionChosen"
-                SearchTextChanged="ModernShellPage_SearchTextChanged"
                 SelectAllInvokedCommand="{x:Bind SelectAllContentPageItemsCommand, Mode=OneWay}"
                 ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}"
                 ToggleLayoutModeColumnView="{x:Bind FolderSettings.ToggleLayoutModeColumnView}"
@@ -283,6 +315,7 @@
                 <controls:NavigationToolbar.ArrangementOptionsFlyoutContent>
                     <controls:ArrangementOptions
                         x:Name="ArrangementOptionsFlyoutContent"
+                        IsPageTypeCloudDrive="{x:Bind InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
                         IsPageTypeRecycleBin="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
                         SelectedGroupMode="{x:Bind InstanceViewModel.FolderSettings.DirectoryGroupOption, Mode=TwoWay}"
                         SelectedSortDirection="{x:Bind InstanceViewModel.FolderSettings.DirectorySortDirection, Mode=TwoWay}"

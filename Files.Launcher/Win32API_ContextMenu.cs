@@ -154,11 +154,13 @@ namespace FilesFullTrust
 
                 try
                 {
+                    var currentWindows = Win32API.GetDesktopWindows();
                     var pici = new Shell32.CMINVOKECOMMANDINFOEX();
                     pici.lpVerb = new SafeResourceId(verb, CharSet.Ansi);
                     pici.nShow = ShowWindowCommand.SW_SHOWNORMAL;
                     pici.cbSize = (uint)Marshal.SizeOf(pici);
                     cMenu.InvokeCommand(pici);
+                    Win32API.BringToForeground(currentWindows);
                 }
                 catch (Exception ex) when (
                     ex is COMException
@@ -177,11 +179,13 @@ namespace FilesFullTrust
 
                 try
                 {
+                    var currentWindows = Win32API.GetDesktopWindows();
                     var pici = new Shell32.CMINVOKECOMMANDINFOEX();
                     pici.lpVerb = Macros.MAKEINTRESOURCE(itemID);
                     pici.nShow = ShowWindowCommand.SW_SHOWNORMAL;
                     pici.cbSize = (uint)Marshal.SizeOf(pici);
                     cMenu.InvokeCommand(pici);
+                    Win32API.BringToForeground(currentWindows);
                 }
                 catch (Exception ex) when (
                     ex is COMException

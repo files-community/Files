@@ -2,6 +2,7 @@
 using Files.Common;
 using Files.Extensions;
 using Files.Filesystem;
+using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -19,6 +20,7 @@ namespace Files.DataModels.NavigationControlItems
     {
         public BitmapImage Icon { get; set; }
         public Uri IconSource { get; set; }
+        public byte[] IconData { get; set; }
 
         private string path;
 
@@ -76,10 +78,7 @@ namespace Files.DataModels.NavigationControlItems
             set
             {
                 type = value;
-                if (Icon == null)
-                {
-                    SetGlyph(type);
-                }
+                SetGlyph(type);
             }
         }
 
@@ -157,9 +156,8 @@ namespace Files.DataModels.NavigationControlItems
         {
             if (imageStream != null)
             {
-                var image = new BitmapImage();
-                await image.SetSourceAsync(imageStream);
-                Icon = image;
+                IconData = await imageStream.ToByteArrayAsync();
+                Icon = await IconData.ToBitmapAsync();
             }
         }
 
@@ -209,54 +207,57 @@ namespace Files.DataModels.NavigationControlItems
 
         private async void SetGlyph(DriveType type)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            switch (type)
             {
-                switch (type)
+                case DriveType.Fixed:
+                    IconSource = new Uri("ms-appx:///Assets/FluentIcons/Drive.svg");
+                    break;
+
+                case DriveType.Removable:
+                    IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg");
+                    break;
+
+                case DriveType.Network:
+                    IconSource = new Uri("ms-appx:///Assets/FluentIcons/Drive_Network.svg");
+                    break;
+
+                case DriveType.Ram:
+                    IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg");
+                    break;
+
+                case DriveType.CDRom:
+                    IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg");
+                    break;
+
+                case DriveType.Unknown:
+                    break;
+
+                case DriveType.NoRootDirectory:
+                    IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg"); // TODO
+                    break;
+
+                case DriveType.VirtualDrive:
+                    IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg"); // TODO
+                    break;
+
+                case DriveType.CloudDrive:
+                    IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg"); // TODO
+                    break;
+
+                case DriveType.FloppyDisk:
+                    IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg");
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+            if (Icon == null)
+            {
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    case DriveType.Fixed:
-                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Drive.svg");
-                        break;
-
-                    case DriveType.Removable:
-                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg");
-                        break;
-
-                    case DriveType.Network:
-                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Drive_Network.svg");
-                        break;
-
-                    case DriveType.Ram:
-                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg");
-                        break;
-
-                    case DriveType.CDRom:
-                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg");
-                        break;
-
-                    case DriveType.Unknown:
-                        break;
-
-                    case DriveType.NoRootDirectory:
-                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg"); // TODO
-                        break;
-
-                    case DriveType.VirtualDrive:
-                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg"); // TODO
-                        break;
-
-                    case DriveType.CloudDrive:
-                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg"); // TODO
-                        break;
-
-                    case DriveType.FloppyDisk:
-                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Folder.svg");
-                        break;
-
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(type), type, null);
-                }
-                Icon = new BitmapImage(IconSource);
-            });
+                    Icon = new BitmapImage(IconSource);
+                });
+            }
         }
 
         public int CompareTo(INavigationControlItem other)

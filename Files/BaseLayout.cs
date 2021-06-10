@@ -50,7 +50,7 @@ namespace Files
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
-        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+        public MainViewModel MainViewModel => App.MainViewModel;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
         public Microsoft.UI.Xaml.Controls.CommandBarFlyout ItemContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
@@ -62,6 +62,20 @@ namespace Files
 
         public bool IsRenamingItem { get; set; } = false;
 
+        private bool isMiddleClickToScrollEnabled = true;
+        public bool IsMiddleClickToScrollEnabled
+        {
+            get => isMiddleClickToScrollEnabled;
+            set
+            {
+                if (isMiddleClickToScrollEnabled != value)
+                {
+                    isMiddleClickToScrollEnabled = value;
+                    NotifyPropertyChanged(nameof(IsMiddleClickToScrollEnabled));
+                }
+            }
+        }
+
         private CollectionViewSource collectionViewSource = new CollectionViewSource()
         {
             IsSourceGrouped = true,
@@ -70,8 +84,9 @@ namespace Files
         public CollectionViewSource CollectionViewSource
         {
             get => collectionViewSource;
-            set  {
-                if(collectionViewSource != value)
+            set
+            {
+                if (collectionViewSource != value)
                 {
                     collectionViewSource = value;
                     NotifyPropertyChanged(nameof(CollectionViewSource));
@@ -218,13 +233,14 @@ namespace Files
         {
             ItemManipulationModel = new ItemManipulationModel();
 
+            HookBaseEvents();
             HookEvents();
 
             jumpTimer = new DispatcherTimer();
             jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
             jumpTimer.Tick += JumpTimer_Tick;
 
-            SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel(this);
+            SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
             DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
 
             // QuickLook Integration
@@ -233,7 +249,7 @@ namespace Files
 
             if (isQuickLookIntegrationEnabled != null && isQuickLookIntegrationEnabled.Equals(true))
             {
-                App.InteractionViewModel.IsQuickLookEnabled = true;
+                App.MainViewModel.IsQuickLookEnabled = true;
             }
 
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
@@ -242,6 +258,16 @@ namespace Files
         protected abstract void HookEvents();
 
         protected abstract void UnhookEvents();
+
+        private void HookBaseEvents()
+        {
+            ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
+        }
+
+        private void UnhookBaseEvents()
+        {
+            ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
+        }
 
         public ItemManipulationModel ItemManipulationModel { get; private set; }
 
@@ -253,7 +279,16 @@ namespace Files
 
         protected abstract void InitializeCommandsViewModel();
 
-        protected abstract IEnumerable GetAllItems();
+        protected IEnumerable<ListedItem> GetAllItems()
+        {
+            if (CollectionViewSource.IsSourceGrouped)
+            {
+                // add all items from each group to the new list
+                return (CollectionViewSource.Source as BulkConcurrentObservableCollection<GroupedCollection<ListedItem>>)?.SelectMany(g => g);
+            }
+
+            return CollectionViewSource.Source as IEnumerable<ListedItem>;
+        }
 
         public virtual void ResetItemOpacity()
         {
@@ -417,6 +452,7 @@ namespace Files
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
+
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
@@ -435,7 +471,17 @@ namespace Files
         {
             try
             {
-                LoadMenuItemsAsync();
+                if (!IsItemSelected) // Workaround for item sometimes not getting selected
+                {
+                    if (((sender as Microsoft.UI.Xaml.Controls.CommandBarFlyout)?.Target as ListViewItem)?.Content is ListedItem li)
+                    {
+                        ItemManipulationModel.SetSelectedItem(li);
+                    }
+                }
+                if (IsItemSelected)
+                {
+                    LoadMenuItemsAsync();
+                }
             }
             catch (Exception error)
             {
@@ -460,7 +506,7 @@ namespace Files
 
         private void LoadMenuItemsAsync()
         {
-            SelectedItemsPropertiesViewModel.CheckFileExtension();
+            SelectedItemsPropertiesViewModel.CheckFileExtension(SelectedItem?.FileExtension);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var items = ContextFlyoutItemHelper.GetItemContextCommands(connection: Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
             ItemContextMenuFlyout.PrimaryCommands.Clear();
@@ -620,7 +666,7 @@ namespace Files
                 }
                 catch (Exception ex)
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                    App.Logger.Warn(ex, ex.Message);
                     e.AcceptedOperation = DataPackageOperation.None;
                     deferral.Complete();
                     return;
@@ -632,7 +678,8 @@ namespace Files
                 if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
-                } else if(item.IsExecutable)
+                }
+                else if (item.IsExecutable)
                 {
                     e.DragUIOverride.Caption = $"{"OpenItemsWithCaptionText".GetLocalized()} {item.ItemName}";
                     e.AcceptedOperation = DataPackageOperation.Link;
@@ -767,6 +814,21 @@ namespace Files
             if (!(element is null))
             {
                 VisualStateManager.GoToState(element, "Pressed", true);
+            }
+        }
+
+        private void ItemManipulationModel_RefreshItemsOpacityInvoked(object sender, EventArgs e)
+        {
+            foreach (ListedItem listedItem in GetAllItems())
+            {
+                if (listedItem.IsHiddenItem)
+                {
+                    listedItem.Opacity = Constants.UI.DimItemOpacity;
+                }
+                else
+                {
+                    listedItem.Opacity = 1;
+                }
             }
         }
     }

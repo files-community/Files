@@ -17,10 +17,11 @@ namespace Files.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            if((int)value != -1)
+            if ((int)value != -1)
             {
                 return (GroupOption)(byte)(int)value;
-            } else
+            }
+            else
             {
                 return GroupOption.None;
             }

@@ -33,7 +33,7 @@ namespace Files.ViewModels.Properties
             var np = e.Parameter as Views.Properties.PropertyNavParam;
 
             AppInstance = np.AppInstanceArgument;
-            ViewModel = new SelectedItemsPropertiesViewModel(AppInstance.SlimContentPage);
+            ViewModel = new SelectedItemsPropertiesViewModel();
 
             if (np.navParameter is LibraryItem library)
             {

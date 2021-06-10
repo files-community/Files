@@ -54,6 +54,11 @@
                 Content="Type"
                 GroupName="GroupOptionsGroup" />
             <RadioButton
+                x:Uid="NavToolbarArrangementOption_SyncStatus"
+                Content="Sync status"
+                GroupName="GroupOptionsGroup"
+                IsEnabled="{x:Bind IsPageTypeCloudDrive, Mode=OneWay}" />
+            <RadioButton
                 x:Uid="NavToolbarArrangementOption_OriginalFolder"
                 Content="Original folder"
                 GroupName="GroupOptionsGroup"
@@ -105,8 +110,13 @@
                     Content="Type"
                     GroupName="SortOptionsGroup" />
                 <RadioButton
-                    x:Uid="NavToolbarArrangementOption_OriginalPath"
-                    Content="Original Path"
+                    x:Uid="NavToolbarArrangementOption_SyncStatus"
+                    Content="Sync status"
+                    GroupName="SortOptionsGroup"
+                    IsEnabled="{x:Bind IsPageTypeCloudDrive, Mode=OneWay}" />
+                <RadioButton
+                    x:Uid="NavToolbarArrangementOption_OriginalFolder"
+                    Content="Original folder"
                     GroupName="SortOptionsGroup"
                     IsEnabled="{x:Bind IsPageTypeRecycleBin, Mode=OneWay}" />
                 <RadioButton

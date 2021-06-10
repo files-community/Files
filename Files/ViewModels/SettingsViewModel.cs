@@ -73,9 +73,7 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(ShowConfirmDeleteDialog)} {ShowConfirmDeleteDialog}");
             Analytics.TrackEvent($"{nameof(IsAcrylicDisabled)} {IsAcrylicDisabled}");
             Analytics.TrackEvent($"{nameof(ShowFileOwner)} {ShowFileOwner}");
-            Analytics.TrackEvent($"{nameof(IsHorizontalTabStripOn)} {IsHorizontalTabStripOn}");
-            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutOn)} {IsVerticalTabFlyoutOn}");
-            Analytics.TrackEvent($"{nameof(IsMultitaskingExperienceAdaptive)} {IsMultitaskingExperienceAdaptive}");
+            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutEnabled)} {IsVerticalTabFlyoutEnabled}");
             Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)} {IsDualPaneEnabled}");
             Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)} {AlwaysOpenDualPaneInNewTab}");
             Analytics.TrackEvent($"{nameof(AreHiddenItemsVisible)} {AreHiddenItemsVisible}");
@@ -91,7 +89,7 @@ namespace Files.ViewModels
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
 
-        public static void OpenThemesFolder()
+        public static async void OpenThemesFolder()
         {
             Frame rootFrame = Window.Current.Content as Frame;
             // Go back to main page
@@ -99,7 +97,7 @@ namespace Files.ViewModels
             {
                 rootFrame.GoBack();
             }
-            NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
+            await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
         }
 
         public static async void ReportIssueOnGitHub()
@@ -172,7 +170,7 @@ namespace Files.ViewModels
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                App.Logger.Warn(ex, ex.Message);
             }
         }
 
@@ -369,29 +367,11 @@ namespace Files.ViewModels
         #region Multitasking
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not to automatically switch between the horizontal and vertical tab layout.
+        /// Gets or sets a value indicating whether or not to enable the vertical tab flyout.
         /// </summary>
-        public bool IsMultitaskingExperienceAdaptive
+        public bool IsVerticalTabFlyoutEnabled
         {
             get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to enable the vertical tab layout.
-        /// </summary>
-        public bool IsVerticalTabFlyoutOn
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to enable the horizontal tab layout.
-        /// </summary>
-        public bool IsHorizontalTabStripOn
-        {
-            get => Get(false);
             set => Set(value);
         }
 
@@ -455,6 +435,35 @@ namespace Files.ViewModels
 
         #endregion Widgets
 
+        #region Sidebar
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to show the library section on the sidebar.
+        /// </summary>
+        public bool ShowLibrarySection
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        //TODO: This shouldn't pin recycle bin to the sidebar, it should only hold the value whether it should or shouldn't be pinned
+        /// <summary>
+        /// Gets or sets a value indicating whether or not recycle bin should be pinned to the sidebar.
+        /// </summary>
+        public bool PinRecycleBinToSideBar
+        {
+            get => Get(true);
+            set
+            {
+                if (Set(value))
+                {
+                    _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(value);
+                }
+            }
+        }
+
+        #endregion
+
         #region Preferences
 
         /// <summary>
@@ -463,15 +472,6 @@ namespace Files.ViewModels
         public bool ShowConfirmDeleteDialog
         {
             get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to show the library section on the sidebar.
-        /// </summary>
-        public bool ShowLibrarySection
-        {
-            get => Get(false);
             set => Set(value);
         }
 
@@ -511,23 +511,7 @@ namespace Files.ViewModels
             {
                 ApplicationLanguages.PrimaryLanguageOverride = value.ID;
             }
-        }
-
-        //TODO: This shouldn't pin recycle bin to the sidebar, it should only hold the value whether it should or shouldn't be pinned
-        /// <summary>
-        /// Gets or sets a value indicating whether or not recycle bin should be pinned to the sidebar.
-        /// </summary>
-        public bool PinRecycleBinToSideBar
-        {
-            get => Get(true);
-            set
-            {
-                if (Set(value))
-                {
-                    _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(value);
-                }
-            }
-        }
+        }        
 
         #endregion Preferences
 
@@ -576,41 +560,6 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to cache files and folders.
-        /// </summary>
-        public bool UseFileListCache
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to use preemptive caching.
-        /// </summary>
-        public bool UsePreemptiveCache
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating the limit of parallel preemptive cache loading limit.
-        /// </summary>
-        public int PreemptiveCacheParallelLimit
-        {
-            get => Get(2);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value whether or not to enable the new list view based details view.
-        /// </summary>
-        public bool UseNewDetailsView
-        {
-            get => Get(false);
-            set => Set(value);
-        }
 
         #endregion Experimental
 
@@ -734,8 +683,8 @@ namespace Files.ViewModels
             get => (SortOption)Get((byte)SortOption.Name);
             set => Set((byte)value);
         }
-        
-        
+
+
         public GroupOption DefaultDirectoryGroupOption
         {
             get => (GroupOption)Get((byte)GroupOption.None);

@@ -13,10 +13,11 @@ namespace Files.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            if((int)value != -1)
+            if ((int)value != -1)
             {
                 return (SortDirection)(int)value;
-            } else
+            }
+            else
             {
                 return SortDirection.Ascending;
             }

@@ -12,6 +12,7 @@
     xmlns:local3="using:Files.Filesystem.Cloud"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
     x:Name="PageRoot"
     mc:Ignorable="d">
     <local:BaseLayout.Resources>
@@ -1274,6 +1275,7 @@
                         <SemanticZoom.ZoomedInView>
                             <ListView
                                 x:Name="FileList"
+                                tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
                                 x:FieldModifier="public"
                                 AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                                 CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
@@ -1293,7 +1295,17 @@
                                 RightTapped="FileList_RightTapped"
                                 ScrollViewer.IsScrollInertiaEnabled="True"
                                 SelectionChanged="FileList_SelectionChanged"
-                                SelectionMode="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}">
+                                SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}">
+
+                                <ListView.ItemContainerTransitions>
+                                    <TransitionCollection>
+                                        <AddDeleteThemeTransition />
+                                        <!--<ContentThemeTransition />-->
+                                        <ReorderThemeTransition />
+                                        <EntranceThemeTransition IsStaggeringEnabled="False" />
+                                    </TransitionCollection>
+                                </ListView.ItemContainerTransitions>
+
                                 <ListView.ItemTemplate>
 
                                     <DataTemplate x:DataType="local2:ListedItem">
@@ -1337,20 +1349,14 @@
                                                     Source="{x:Bind FileImage, Mode=OneWay}"
                                                     Stretch="Uniform"
                                                     Visibility="{x:Bind LoadFileIcon, Mode=OneWay}" />
-                                                <Image
-                                                    x:Name="FolderGlyph"
+                                                <FontIcon
+                                                    x:Name="FolderGlyphIcon"
+                                                    Width="24"
+                                                    Height="24"
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch"
-                                                    x:Phase="1"
-                                                    Stretch="Uniform"
-                                                    Visibility="{x:Bind LoadFolderGlyph, Mode=OneWay}">
-                                                    <Image.Source>
-                                                        <SvgImageSource
-                                                            RasterizePixelHeight="256"
-                                                            RasterizePixelWidth="256"
-                                                            UriSource="{x:Bind FolderIconSourceLarge}" />
-                                                    </Image.Source>
-                                                </Image>
+                                                    x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
+                                                    Glyph="&#xF12B;" />
                                                 <Viewbox
                                                     x:Name="TypeUnknownGlyph"
                                                     MaxWidth="24"
@@ -1386,7 +1392,7 @@
                                                     HorizontalAlignment="Left"
                                                     VerticalAlignment="Bottom"
                                                     x:Phase="1"
-                                                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                                    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
                                                     BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
                                                     BorderThickness="1"
                                                     Visibility="{x:Bind IsShortcutItem}">

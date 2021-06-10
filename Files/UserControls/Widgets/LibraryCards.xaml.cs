@@ -11,16 +11,13 @@ using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -82,8 +79,6 @@ namespace Files.UserControls.Widgets
         public event EventHandler LibraryCardShowMultiPaneControlsInvoked;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public Func<string, uint, Task<byte[]>> LoadIconOverlay;
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -167,43 +162,18 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private async Task<byte[]> GetIcon(string path)
-        {
-            return await LoadIconOverlay(path, 48u);
-        }
-
         private async Task GetItemsAddedIcon()
         {
             foreach (var item in ItemsAdded)
             {
-                var iconData = await GetIcon(item.Path);
-                item.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.Path, 48u);
+                if (iconData != null)
                 {
-                    return await iconData.ToBitmapAsync();
-                });
-                if(item.Library != null)
-                {
-                    item.Library.IconData = iconData;
+                    item.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => iconData.ToBitmapAsync());
                 }
                 item.SelectCommand = LibraryCardClicked;
                 item.AutomationProperties = item.Text;
             }
-        }
-
-        private void GridScaleNormal(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            var element = sender as UIElement;
-            var visual = ElementCompositionPreview.GetElementVisual(element);
-            visual.Scale = new Vector3(1);
-        }
-
-        private void GridScaleUp(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            // Source for the scaling: https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Implicit%20Animations/ImplicitAnimationsPage.xaml.cs
-            // Search for "Scale Element".
-            var element = sender as UIElement;
-            var visual = ElementCompositionPreview.GetElementVisual(element);
-            visual.Scale = new Vector3(1.02f, 1.02f, 1);
         }
 
         private void Libraries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => ReloadLibraryItems();
@@ -330,7 +300,7 @@ namespace Files.UserControls.Widgets
             await NavigationHelpers.OpenPathInNewTab(item.Path);
         }
 
-        private async void Button_PointerPressed (object sender, PointerRoutedEventArgs e)
+        private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
             {
@@ -364,14 +334,10 @@ namespace Files.UserControls.Widgets
             }
             foreach (var lib in App.LibraryManager.Libraries)
             {
-                var iconData = await GetIcon(lib.Path);
-                lib.IconData = iconData;
+                var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(lib.Path, 48u);
                 ItemsAdded.Add(new LibraryCardItem
                 {
-                    Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                    {
-                        return await iconData.ToBitmapAsync();
-                    }),
+                    Icon = iconData != null ? await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => iconData.ToBitmapAsync()) : null,
                     Text = lib.Text,
                     Path = lib.Path,
                     SelectCommand = LibraryCardClicked,

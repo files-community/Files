@@ -45,6 +45,10 @@ namespace Files.ViewModels.SettingsViewModels
                     await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/graphs/contributors"));
                     break;
 
+                case "PrivacyPolicy":
+                    await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/blob/main/Privacy.md"));
+                    break;
+
                 case "SupportUs":
                     await Launcher.LaunchUriAsync(new Uri(@"https://paypal.me/yaichenbaum"));
                     break;

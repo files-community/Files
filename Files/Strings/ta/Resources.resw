@@ -18,12 +18,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>புதியச் சாளரத்தில் திற</value>
   </data>
-  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>புதியத் தாவல்</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>புதிய சாளரம்</value>
-  </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>கோப்புறை</value>
   </data>
@@ -32,12 +26,6 @@
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>உரை ஆவணம்</value>
-  </data>
-  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>பாதையை நகலெடு</value>
-  </data>
-  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
-    <value>ஒட்டு</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>இயக்ககங்கள்</value>
@@ -53,9 +41,6 @@
   </data>
   <data name="sizeColumn.Header" xml:space="preserve">
     <value>அளவு</value>
-  </data>
-  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>முனையத்தில் திற...</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>உருவாக்கியது:</value>
@@ -126,9 +111,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>பின்னூட்டத்தைச் சமர்ப்பி</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>உருவாக்குனர்ளுக்கு கூடுதல் தகவலுடன் ஒரு சிக்கல் அறிக்கையை அனுப்பவும்</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>மூன்றாம் தரப்பு உரிமங்கள்</value>
   </data>
@@ -143,9 +125,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>சோதனை</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>அமைப்புகள்</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>பற்றி</value>
@@ -242,9 +221,6 @@
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5 hash:</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>புதிய</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>கோப்புறை</value>
@@ -353,9 +329,6 @@
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>தேடு</value>
-  </data>
-  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>மேலும் விருப்பங்கள்</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>பண்புகள்</value>
@@ -552,7 +525,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>கோப்புகளை மறுசுழற்சிக் கூடைக்கு நகர்த்துதல்</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>தேதி வடிவமைப்புகளைப் பற்றி மேலும் அறிக</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -721,14 +694,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>பங்களிப்பாளர்கள்</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>யார் Files இற்கு உதவி செய்தது என்று பார்</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>வெளியீட்டுக் குறிப்புகள்</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Find out what's new in Files</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>செல்லாத உருப்படி</value>
@@ -763,17 +730,8 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>இரத்து</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>தானியங்கு (பரிந்துரைக்கப்பட்டவை)</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>கிடைமட்ட</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>பல்பணியாக்கம்</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>செங்குத்து</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>பல்பணியாக்கம்</value>
@@ -838,9 +796,6 @@
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>எங்களை ஆதரவளி</value>
   </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>எங்களை PayPal இல் ஆதரவளி</value>
-  </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>இந்த உருப்படியை எங்களால் உருவாக்க இயலவில்லை</value>
   </data>
@@ -854,7 +809,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Acrylic பக்கப்பட்டி</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>தேதி வடிவம்</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -862,9 +817,6 @@
   </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>பண்புகளில் உரிமையாளரை காண்பி</value>
-  </data>
-  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>மேலும் விருப்பங்கள்</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>செயல் மையம்</value>
@@ -1076,18 +1028,6 @@
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>குறிப்பிடப்படாதது</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>உரிமம்</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>உரிமம்</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>வலைத்தளம்</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>வலைத்தளம்</value>
-  </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>தேடல் முடிவுகள்</value>
   </data>
@@ -1276,11 +1216,5 @@
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>தேர்வு விருப்பங்கள்</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>காட்சி விருப்பங்கள்</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>காட்சி விருப்பங்கள்</value>
   </data>
 </root>

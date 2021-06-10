@@ -12,5 +12,6 @@
     <Frame
         x:Name="ContentFrame"
         CacheSize="0"
+	IsNavigationStackEnabled="False"
         Navigated="ContentFrame_Navigated" />
 </UserControl>

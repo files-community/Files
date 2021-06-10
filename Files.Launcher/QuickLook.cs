@@ -1,4 +1,4 @@
-﻿using NLog;
+﻿using Files.Common;
 using System;
 using System.IO;
 using System.IO.Pipes;
@@ -8,7 +8,7 @@ namespace FilesFullTrust
 {
     internal static class QuickLook
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = Program.Logger;
 
         public static void ToggleQuickLook(string path)
         {

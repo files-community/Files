@@ -15,6 +15,7 @@
     PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
     PrimaryButtonText="Cancel"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
+    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <Grid RowSpacing="25">

@@ -36,22 +36,6 @@ namespace Files.Filesystem
         private bool loadFolderGlyph;
         private bool loadFileIcon;
 
-        public Uri FolderIconSource
-        {
-            get
-            {
-                return ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2.svg") : new Uri("ms-appx:///Assets/FolderIcon.svg");
-            }
-        }
-
-        public Uri FolderIconSourceLarge
-        {
-            get
-            {
-                return ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2Large.svg") : new Uri("ms-appx:///Assets/FolderIconLarge.svg");
-            }
-        }
-
         public bool LoadFolderGlyph
         {
             get => loadFolderGlyph;
@@ -136,11 +120,11 @@ namespace Files.Filesystem
             set
             {
                 // For some reason this being null will cause a crash with bindings
-                if(value is null)
+                if (value is null)
                 {
                     value = new CloudDriveSyncStatusUI();
                 }
-                if(SetProperty(ref syncStatusUI, value))
+                if (SetProperty(ref syncStatusUI, value))
                 {
                     OnPropertyChanged(nameof(SyncStatusString));
                 }

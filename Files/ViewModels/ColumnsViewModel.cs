@@ -16,7 +16,7 @@ namespace Files.ViewModels
     {
         private ColumnViewModel iconColumn = new ColumnViewModel()
         {
-            UserLength = new GridLength(30, GridUnitType.Pixel),
+            UserLength = new GridLength(44, GridUnitType.Pixel),
         };
 
         public ColumnViewModel IconColumn
@@ -34,11 +34,7 @@ namespace Files.ViewModels
         }
 
 
-        private ColumnViewModel statusColumn = new ColumnViewModel()
-        {
-            UserLength = new GridLength(40, GridUnitType.Pixel),
-            NormalMaxLength = 100,
-        };
+        private ColumnViewModel statusColumn = new ColumnViewModel();
 
         public ColumnViewModel StatusColumn
         {
@@ -81,6 +77,26 @@ namespace Files.ViewModels
             set => SetProperty(ref dateDeletedColumn, value);
         }
 
+
+        private ColumnViewModel dateCreatedColumn = new ColumnViewModel()
+        {
+            UserCollapsed = true
+        };
+
+        public ColumnViewModel DateCreatedColumn
+        {
+            get => dateCreatedColumn;
+            set => SetProperty(ref dateCreatedColumn, value);
+        }
+
+
+        private ColumnViewModel sizeColumn = new ColumnViewModel();
+        public ColumnViewModel SizeColumn
+        {
+            get => sizeColumn;
+            set => SetProperty(ref sizeColumn, value);
+        }
+
         private double totalWidth = 600;
         public double TotalWidth
         {
@@ -103,7 +119,7 @@ namespace Files.ViewModels
         {
             get => IsHidden || UserCollapsed ? 0 : NormalMaxLength;
         }
-        
+
         private double normalMaxLength = 800;
         [JsonIgnore]
         public double NormalMaxLength
@@ -118,8 +134,9 @@ namespace Files.ViewModels
         public double NormalMinLength
         {
             get => normalMinLength;
-            set { 
-                if(SetProperty(ref normalMinLength, value))
+            set
+            {
+                if (SetProperty(ref normalMinLength, value))
                 {
                     OnPropertyChanged(nameof(MinLength));
                 }
@@ -136,7 +153,7 @@ namespace Files.ViewModels
             get => userCollapsed;
             set
             {
-                if(SetProperty(ref userCollapsed, value)) 
+                if (SetProperty(ref userCollapsed, value))
                 {
                     UpdateVisibility();
                 }
@@ -146,9 +163,9 @@ namespace Files.ViewModels
         public GridLength Length
         {
             get => IsHidden || UserCollapsed ? new GridLength(0) : UserLength;
-            
+
         }
-        
+
         [JsonIgnore]
         private GridLength userLength = new GridLength(200, GridUnitType.Pixel);
         public GridLength UserLength
@@ -156,7 +173,7 @@ namespace Files.ViewModels
             get => userLength;
             set
             {
-                if(SetProperty(ref userLength, value))
+                if (SetProperty(ref userLength, value))
                 {
                     OnPropertyChanged(nameof(Length));
                 }
