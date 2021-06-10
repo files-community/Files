@@ -16,7 +16,7 @@ namespace Files.Helpers
 {
     public static class ZipHelpers
     {
-        public static async Task ExtractArchive(StorageFile archive, StorageFolder destinationFolder, Action<float> progressDelegate)
+        public static async Task ExtractArchive(StorageFile archive, StorageFolder destinationFolder, IProgress<float> progressDelegate)
         {
             using (ZipFile zipFile = new ZipFile(await archive.OpenStreamForReadAsync()))
             {
@@ -98,7 +98,7 @@ namespace Files.Helpers
 
                     entriesFinished++;
                     float percentage = (float)((float)entriesFinished / (float)entriesAmount) * 100.0f;
-                    progressDelegate?.Invoke(percentage);
+                    progressDelegate?.Report(percentage);
                 }
             }
         }

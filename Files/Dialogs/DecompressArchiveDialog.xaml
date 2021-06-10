@@ -11,5 +11,10 @@
     SecondaryButtonText="Cancel"
     mc:Ignorable="d">
 
-    <Grid />
+    <Grid>
+        <StackPanel>
+            <TextBlock FontSize="18" Text="The archive will be extracted to:" />
+            <TextBlock Text="{x:Bind ViewModel.DestinationFolderLocation}" />
+        </StackPanel>
+    </Grid>
 </ContentDialog>
