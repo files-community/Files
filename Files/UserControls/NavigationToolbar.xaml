@@ -110,7 +110,7 @@
                         </Setter>
                     </Style>
 
-                    <Style x:Key="TextBoxStyleFor                                                        Bar" TargetType="TextBox">
+                    <Style x:Key="TextBoxStyleForBar" TargetType="TextBox">
                         <Setter Property="Foreground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
                         <Setter Property="Background" Value="{ThemeResource SolidBackgroundFillColorBaseBrush}" />
                         <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}" />
