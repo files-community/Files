@@ -68,6 +68,7 @@ namespace Files.Filesystem.Permissions
                     OnPropertyChanged(nameof(GrantsModify));
                     OnPropertyChanged(nameof(GrantsRead));
                     OnPropertyChanged(nameof(GrantsReadAndExecute));
+                    OnPropertyChanged(nameof(GrantsSpecial));
                     OnPropertyChanged(nameof(FileSystemRightsForUI));
                 }
             }
@@ -87,12 +88,61 @@ namespace Files.Filesystem.Permissions
 
         public string InheritanceFlagsForUI => string.Join(", ", GetInheritanceStrings());
 
-        public bool GrantsWrite => FileSystemRights.HasFlag(FileSystemRights.Write);
-        public bool GrantsRead => FileSystemRights.HasFlag(FileSystemRights.Read);
-        public bool GrantsListDirectory => FileSystemRights.HasFlag(FileSystemRights.ListDirectory);
-        public bool GrantsReadAndExecute => FileSystemRights.HasFlag(FileSystemRights.ReadAndExecute);
-        public bool GrantsModify => FileSystemRights.HasFlag(FileSystemRights.Modify);
-        public bool GrantsFullControl => FileSystemRights.HasFlag(FileSystemRights.FullControl);
+        private void TogglePermission(FileSystemRights permission, bool value)
+        {
+            if (value && !FileSystemRights.HasFlag(permission))
+            {
+                FileSystemRights |= permission;
+            }
+            else if (!value && FileSystemRights.HasFlag(permission))
+            {
+                FileSystemRights &= ~permission;
+            }
+        }
+
+        public bool GrantsWrite
+        {
+            get => FileSystemRights.HasFlag(FileSystemRights.Write);
+            set => TogglePermission(FileSystemRights.Write, value);
+        }
+        public bool GrantsRead
+        {
+            get => FileSystemRights.HasFlag(FileSystemRights.Read);
+            set => TogglePermission(FileSystemRights.Read, value);
+        }
+        public bool GrantsListDirectory
+        {
+            get => FileSystemRights.HasFlag(FileSystemRights.ListDirectory);
+            set => TogglePermission(FileSystemRights.ListDirectory, value);
+        }
+        public bool GrantsReadAndExecute
+        {
+            get => FileSystemRights.HasFlag(FileSystemRights.ReadAndExecute);
+            set => TogglePermission(FileSystemRights.ReadAndExecute, value);
+        }
+        public bool GrantsModify
+        {
+            get => FileSystemRights.HasFlag(FileSystemRights.Modify);
+            set => TogglePermission(FileSystemRights.Modify, value);
+        }
+
+        public bool GrantsFullControl
+        {
+            get => FileSystemRights.HasFlag(FileSystemRights.FullControl);
+            set => TogglePermission(FileSystemRights.FullControl, value);
+        }
+        public bool GrantsSpecial
+        {
+            get
+            {
+                return (FileSystemRights & ~FileSystemRights.Synchronize &
+                    (GrantsFullControl ? ~FileSystemRights.FullControl : FileSystemRights.FullControl) &
+                    (GrantsModify ? ~FileSystemRights.Modify : FileSystemRights.FullControl) &
+                    (GrantsReadAndExecute ? ~FileSystemRights.ReadAndExecute : FileSystemRights.FullControl) &
+                    (GrantsRead ? ~FileSystemRights.Read : FileSystemRights.FullControl) &
+                    (GrantsWrite ? ~FileSystemRights.Write : FileSystemRights.FullControl)) != 0;
+            }
+        }
 
         public bool IsFolder { get; }
 
@@ -145,14 +195,7 @@ namespace Files.Filesystem.Permissions
             {
                 ret.Add("SecurityWriteLabel/Text".GetLocalized());
             }
-
-            var otherRights = FileSystemRights & ~FileSystemRights.Synchronize &
-                (GrantsFullControl ? ~FileSystemRights.FullControl : FileSystemRights.FullControl) &
-                (GrantsModify ? ~FileSystemRights.Modify : FileSystemRights.FullControl) &
-                (GrantsReadAndExecute ? ~FileSystemRights.ReadAndExecute : FileSystemRights.FullControl) &
-                (GrantsRead ? ~FileSystemRights.Read : FileSystemRights.FullControl) &
-                (GrantsWrite ? ~FileSystemRights.Write : FileSystemRights.FullControl);
-            if (otherRights != 0)
+            if (GrantsSpecial)
             {
                 ret.Add("SecuritySpecialLabel/Text".GetLocalized());
             }

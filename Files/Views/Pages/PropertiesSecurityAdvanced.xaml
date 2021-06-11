@@ -10,8 +10,9 @@
     xmlns:local="using:Files.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:perm="using:Files.Filesystem.Permissions"
-    d:DesignHeight="550"
-    d:DesignWidth="700"
+    d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    d:Height="550"
+    d:Width="850"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
@@ -48,221 +49,288 @@
             VerticalAlignment="Center"
             Text="{x:Bind DialogTitle}" />
 
-        <Grid Grid.Row="1">
-            <StackPanel Margin="0,7,0,0" Style="{StaticResource PropertiesTab}">
-                <Grid ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+        <Grid
+            Grid.Row="1"
+            Margin="0,7,0,0"
+            Padding="14,0,14,14">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition
+                    Height="*"
+                    MinHeight="120"
+                    MaxHeight="220" />
+            </Grid.RowDefinitions>
 
-                    <TextBlock
-                        x:Uid="SecurityOwnerLabel"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontWeight="Bold"
-                        Style="{StaticResource PropertyName}"
-                        Text="Owner" />
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-                    <FontIcon
-                        x:Name="FontIcon"
-                        Grid.Column="1"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        Glyph="{x:Bind ViewModel.FilePermissions.Owner.Glyph, Mode=OneWay}" />
+                <TextBlock
+                    x:Uid="SecurityOwnerLabel"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    FontWeight="Bold"
+                    Style="{StaticResource PropertyName}"
+                    Text="Owner" />
 
-                    <TextBlock
-                        x:Name="OwnerText"
-                        Grid.Column="2"
-                        VerticalAlignment="Center"
-                        x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Mode=OneWay}">
-                        <Run Text="{x:Bind ViewModel.FilePermissions.Owner.DisplayName, Mode=OneWay}" />
-                        <Span FontWeight="Light">&#160;(</Span>
-                        <Run FontWeight="Light" Text="{x:Bind ViewModel.FilePermissions.Owner.FullNameOrSid, Mode=OneWay}" />
-                        <Span FontWeight="Light">)</Span>
-                    </TextBlock>
+                <FontIcon
+                    x:Name="FontIcon"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    Glyph="{x:Bind ViewModel.FilePermissions.Owner.Glyph, Mode=OneWay}" />
 
-                    <TextBlock
-                        x:Name="UnknownOwnerText"
-                        x:Uid="SecurityUnknownOwnerText"
-                        Grid.Column="2"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                        Text="Unknown owner" />
+                <TextBlock
+                    x:Name="OwnerText"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Mode=OneWay}">
+                    <Run Text="{x:Bind ViewModel.FilePermissions.Owner.DisplayName, Mode=OneWay}" />
+                    <Span FontWeight="Light">&#160;(</Span>
+                    <Run FontWeight="Light" Text="{x:Bind ViewModel.FilePermissions.Owner.FullNameOrSid, Mode=OneWay}" />
+                    <Span FontWeight="Light">)</Span>
+                </TextBlock>
 
+                <TextBlock
+                    x:Name="UnknownOwnerText"
+                    x:Uid="SecurityUnknownOwnerText"
+                    Grid.Column="2"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                    Text="Unknown owner" />
+
+                <Button
+                    Grid.Column="3"
+                    Padding="8,4,8,4"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Command="{x:Bind ViewModel.EditOwnerCommand}">
+                    <FontIcon FontSize="16" Glyph="&#xE104;" />
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="0,12,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    x:Uid="SecurityAdvancedPermissionsLabel"
+                    VerticalAlignment="Center"
+                    FontWeight="Bold"
+                    Style="{StaticResource PropertyName}"
+                    Text="Permissions" />
+
+                <StackPanel
+                    Grid.Column="1"
+                    Orientation="Horizontal"
+                    Spacing="4">
                     <Button
-                        Grid.Column="3"
                         Padding="8,4,8,4"
-                        VerticalAlignment="Center"
                         Background="Transparent"
                         BorderBrush="Transparent"
-                        Command="{x:Bind ViewModel.EditOwnerCommand}">
-                        <FontIcon FontSize="16" Glyph="&#xE104;" />
+                        Command="{x:Bind ViewModel.AddAccessRuleCommand}">
+                        <FontIcon FontSize="16" Glyph="&#xE109;" />
                     </Button>
-                </Grid>
+                    <Button
+                        Padding="8,4,8,4"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Command="{x:Bind ViewModel.RemoveAccessRuleCommand}">
+                        <FontIcon FontSize="16" Glyph="&#xE108;" />
+                    </Button>
+                </StackPanel>
+            </Grid>
 
-                <Grid Margin="0,12,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+            <ListView
+                x:Name="ListView"
+                Grid.Row="2"
+                x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
+                Background="{ThemeResource SolidBackgroundAcrylic}"
+                BorderBrush="Gray"
+                BorderThickness="1"
+                CornerRadius="4"
+                ItemsSource="{x:Bind ViewModel.FilePermissions.AccessRules, Mode=OneWay}"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.HorizontalScrollMode="Auto"
+                SelectionChanged="ListView_SelectionChanged"
+                SelectionMode="Extended">
+                <i:Interaction.Behaviors>
+                    <behaviors:StickyHeaderBehavior />
+                </i:Interaction.Behaviors>
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                        <Setter Property="MinHeight" Value="40" />
+                        <Setter Property="Height" Value="40" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.Header>
+                    <Grid
+                        Margin="12,0,12,0"
+                        Padding="0,8,0,8"
+                        Background="{ThemeResource SolidBackgroundAcrylic}"
+                        BorderBrush="{ThemeResource SystemChromeHighColor}"
+                        BorderThickness="0,0,0,1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="32" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="*" MinWidth="200" />
+                            <ColumnDefinition Width="*" MinWidth="160" />
+                            <ColumnDefinition Width="70" />
+                            <ColumnDefinition Width="{x:Bind ViewModel.IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind ViewModel.IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock
-                        x:Uid="SecurityAdvancedPermissionsLabel"
-                        VerticalAlignment="Center"
-                        FontWeight="Bold"
-                        Style="{StaticResource PropertyName}"
-                        Text="Permissions" />
-
-                    <StackPanel
-                        Grid.Column="1"
-                        Orientation="Horizontal"
-                        Spacing="4">
-                        <Button
-                            Padding="8,4,8,4"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            Command="{x:Bind ViewModel.AddAccessRuleCommand}">
-                            <FontIcon FontSize="16" Glyph="&#xE109;" />
-                        </Button>
-                        <Button
-                            Padding="8,4,8,4"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            Command="{x:Bind ViewModel.RemoveAccessRuleCommand}">
-                            <FontIcon FontSize="16" Glyph="&#xE108;" />
-                        </Button>
-                    </StackPanel>
-                </Grid>
-
-                <ListView
-                    x:Name="ListView"
-                    Height="204"
-                    x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
-                    Background="{ThemeResource SolidBackgroundAcrylic}"
-                    BorderBrush="Gray"
-                    BorderThickness="1"
-                    CornerRadius="4"
-                    ItemsSource="{x:Bind ViewModel.FilePermissions.AccessRules, Mode=OneWay}"
-                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                    ScrollViewer.HorizontalScrollMode="Auto"
-                    SelectionChanged="ListView_SelectionChanged"
-                    SelectionMode="Extended">
-                    <i:Interaction.Behaviors>
-                        <behaviors:StickyHeaderBehavior />
-                    </i:Interaction.Behaviors>
-                    <ListView.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-                            <Setter Property="MinHeight" Value="40" />
-                            <Setter Property="Height" Value="40" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.Header>
-                        <Grid
-                            Margin="12,0,12,0"
-                            Padding="0,8,0,8"
-                            Background="{ThemeResource SolidBackgroundAcrylic}"
-                            BorderBrush="{ThemeResource SystemChromeHighColor}"
-                            BorderThickness="0,0,0,1">
+                        <TextBlock
+                            x:Uid="SecurityAdvancedTypeLabel"
+                            Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            FontWeight="SemiBold"
+                            Text="Type" />
+                        <TextBlock
+                            x:Uid="SecurityAdvancedEntityLabel"
+                            Grid.Column="2"
+                            FontWeight="SemiBold"
+                            Text="Entity" />
+                        <TextBlock
+                            x:Uid="SecurityAdvancedAccessLabel"
+                            Grid.Column="3"
+                            FontWeight="SemiBold"
+                            Text="Access" />
+                        <TextBlock
+                            x:Uid="SecurityAdvancedInheritedLabel"
+                            Grid.Column="4"
+                            FontWeight="SemiBold"
+                            Text="Inherited" />
+                        <TextBlock
+                            x:Name="AppliesToLabel"
+                            x:Uid="SecurityAdvancedAppliesToLabel"
+                            Grid.Column="5"
+                            FontWeight="SemiBold"
+                            Text="Applies to"
+                            Visibility="{x:Bind ViewModel.IsFolder, Mode=OneWay}" />
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="perm:FileSystemAccessRuleForUI">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="32" />
                                 <ColumnDefinition Width="50" />
                                 <ColumnDefinition Width="*" MinWidth="200" />
                                 <ColumnDefinition Width="*" MinWidth="160" />
                                 <ColumnDefinition Width="70" />
-                                <ColumnDefinition Width="{x:Bind ViewModel.IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind ViewModel.IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
+                                <ColumnDefinition Width="{x:Bind IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock
-                                x:Uid="SecurityAdvancedTypeLabel"
+                            <FontIcon
+                                x:Name="FontIcon"
+                                HorizontalAlignment="Left"
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                Glyph="{x:Bind UserGroup.Glyph}" />
+
+                            <FontIcon
                                 Grid.Column="1"
                                 HorizontalAlignment="Center"
-                                FontWeight="SemiBold"
-                                Text="Type" />
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                Glyph="{x:Bind Glyph}" />
+
+                            <TextBlock Grid.Column="2" TextTrimming="CharacterEllipsis">
+                                <Run Text="{x:Bind UserGroup.DisplayName}" />
+                                <Span FontWeight="Light">&#160;(</Span>
+                                <Run FontWeight="Light" Text="{x:Bind UserGroup.FullNameOrSid}" />
+                                <Span FontWeight="Light">)</Span>
+                            </TextBlock>
+
                             <TextBlock
-                                x:Uid="SecurityAdvancedEntityLabel"
-                                Grid.Column="2"
-                                FontWeight="SemiBold"
-                                Text="Entity" />
-                            <TextBlock
-                                x:Uid="SecurityAdvancedAccessLabel"
                                 Grid.Column="3"
-                                FontWeight="SemiBold"
-                                Text="Access" />
+                                Text="{x:Bind FileSystemRightsForUI, Mode=OneWay}"
+                                TextTrimming="CharacterEllipsis" />
+
+                            <TextBlock Grid.Column="4" Text="{x:Bind IsInheritedForUI}" />
+
                             <TextBlock
-                                x:Uid="SecurityAdvancedInheritedLabel"
-                                Grid.Column="4"
-                                FontWeight="SemiBold"
-                                Text="Inherited" />
-                            <TextBlock
-                                x:Name="AppliesToLabel"
-                                x:Uid="SecurityAdvancedAppliesToLabel"
                                 Grid.Column="5"
-                                FontWeight="SemiBold"
-                                Text="Applies to"
-                                Visibility="{x:Bind ViewModel.IsFolder, Mode=OneWay}" />
+                                Text="{x:Bind InheritanceFlagsForUI, Mode=OneWay}"
+                                TextTrimming="CharacterEllipsis"
+                                Visibility="{x:Bind IsFolder, Mode=OneWay}" />
                         </Grid>
-                    </ListView.Header>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="perm:FileSystemAccessRuleForUI">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="32" />
-                                    <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="*" MinWidth="200" />
-                                    <ColumnDefinition Width="*" MinWidth="160" />
-                                    <ColumnDefinition Width="70" />
-                                    <ColumnDefinition Width="{x:Bind IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
-                                </Grid.ColumnDefinitions>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
-                                <FontIcon
-                                    x:Name="FontIcon"
-                                    HorizontalAlignment="Left"
-                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                    Glyph="{x:Bind UserGroup.Glyph}" />
+            <TextBlock
+                x:Name="CannotReadPropsText"
+                x:Uid="SecurityAdvancedCannotReadProperties"
+                Grid.Row="2"
+                HorizontalAlignment="Left"
+                x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                Text="You do not have permissions to view the security properties of this object. You can try to take ownership of this object."
+                TextWrapping="WrapWholeWords" />
 
-                                <FontIcon
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Center"
-                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                    Glyph="{x:Bind Glyph}" />
+            <GridView
+                x:Name="CheckBoxGrid"
+                Grid.Row="3"
+                Margin="0,12,0,0"
+                x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
+                SelectionMode="None">
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid ItemWidth="200" Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+                <GridView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    </Style>
+                </GridView.ItemContainerStyle>
+                <GridView.Items>
+                    <CheckBox
+                        Content="Full control"
+                        IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsFullControl, Mode=TwoWay}"
+                        IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
-                                <TextBlock Grid.Column="2" TextTrimming="CharacterEllipsis">
-                                    <Run Text="{x:Bind UserGroup.DisplayName}" />
-                                    <Span FontWeight="Light">&#160;(</Span>
-                                    <Run FontWeight="Light" Text="{x:Bind UserGroup.FullNameOrSid}" />
-                                    <Span FontWeight="Light">)</Span>
-                                </TextBlock>
+                    <CheckBox
+                        Content="Modify"
+                        IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsModify, Mode=TwoWay}"
+                        IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
-                                <TextBlock
-                                    Grid.Column="3"
-                                    Text="{x:Bind FileSystemRightsForUI, Mode=OneWay}"
-                                    TextTrimming="CharacterEllipsis" />
+                    <CheckBox
+                        Content="Read and execute"
+                        IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsReadAndExecute, Mode=TwoWay}"
+                        IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
-                                <TextBlock Grid.Column="4" Text="{x:Bind IsInheritedForUI}" />
+                    <CheckBox
+                        Content="List directory contents"
+                        IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsListDirectory, Mode=TwoWay}"
+                        IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.IsFolder, Mode=OneWay}" />
 
-                                <TextBlock
-                                    Grid.Column="5"
-                                    Text="{x:Bind InheritanceFlagsForUI, Mode=OneWay}"
-                                    TextTrimming="CharacterEllipsis"
-                                    Visibility="{x:Bind IsFolder, Mode=OneWay}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                    <CheckBox
+                        Content="Read"
+                        IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsRead, Mode=TwoWay}"
+                        IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
-                <TextBlock
-                    x:Name="CannotReadPropsText"
-                    x:Uid="SecurityAdvancedCannotReadProperties"
-                    HorizontalAlignment="Left"
-                    x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                    Text="You do not have permissions to view the security properties of this object. You can try to take ownership of this object."
-                    TextWrapping="WrapWholeWords" />
-            </StackPanel>
+                    <CheckBox
+                        Content="Write"
+                        IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsWrite, Mode=TwoWay}"
+                        IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+
+                    <CheckBox
+                        Content="Special"
+                        IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsSpecial, Mode=OneWay}"
+                        IsEnabled="False" />
+                </GridView.Items>
+            </GridView>
         </Grid>
 
         <Grid Grid.Row="2" Padding="8">
