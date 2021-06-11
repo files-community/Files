@@ -7,8 +7,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -22,7 +22,7 @@
             <StackPanel
                 Margin="12,12,8,8"
                 Orientation="Vertical"
-                Spacing="14">
+                Spacing="24">
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />
@@ -39,58 +39,44 @@
                     x:Name="ThemeChooser"
                     x:Uid="SettingsAppearanceTheme"
                     Header="App theme"
-                    SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}"
-                    ItemsSource="{Binding Themes}" />
-
-                <ComboBox
-                    x:Name="ColorSchemeChooser"
-                    x:Uid="SettingsAppearanceColorScheme"
-                    Width="Auto"
-                    MinWidth="200"
-                    MaxWidth="250"
-                    x:Load="{x:Bind ShowColorSchemeSelector}"
-                    Header="Color scheme"
-                    ItemsSource="{Binding ColorSchemes}"
-                    SelectedItem="{Binding SelectedTheme, Mode=TwoWay}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="helpers:AppTheme">
-                            <Grid>
-                                <TextBlock Text="{x:Bind Name}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-
-                <HyperlinkButton
-                    x:Name="OpenThemesFolderButton"
-                    x:Uid="SettingsAppearanceOpenThemesFolderButton"
-                    x:Load="{x:Bind ShowColorSchemeSelector}"
-                    Command="{Binding OpenThemesFolderCommand}"
-                    Content="Open themes folder" />
+                    ItemsSource="{Binding Themes}"
+                    SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}" />
 
                 <StackPanel
                     Width="Auto"
                     Orientation="Horizontal"
                     Spacing="8">
                     <ComboBox
-                        x:Name="DateFormatChooser"
-                        x:Uid="SettingsAppearanceDateFormat"
+                        x:Name="CustomSkinsChooser"
+                        x:Uid="SettingsAppearanceCustomSkins"
                         Width="Auto"
                         MinWidth="200"
                         MaxWidth="250"
-                        Header="Date format"
-                        ItemsSource="{Binding DateFormats}"
-                        SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
+                        Header="Color scheme"
+                        ItemsSource="{Binding CustomSkins}"
+                        SelectedItem="{Binding SelectedSkin, Mode=TwoWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="helpers:AppSkin">
+                                <Grid>
+                                    <TextBlock Text="{x:Bind Name}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
 
-                    <HyperlinkButton
-                        x:Uid="SettingsAppearanceDateFormatsTip"
+                    <Button
+                        x:Name="SkinsLearnMoreButton"
+                        x:Uid="SettingsSkinsLearnMoreButton"
+                        Height="32"
+                        Padding="8,4,8,4"
                         VerticalAlignment="Bottom"
-                        AutomationProperties.Name="Learn more about date formats"
-                        NavigateUri="https://files-community.github.io/docs/#/articles/date-formats"
-                        Style="{ThemeResource TextBlockButtonStyle}"
-                        ToolTipService.ToolTip="Learn more about date formats">
+                        AutomationProperties.Name="Learn more about custom skins"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Click="SkinsLearnMoreButton_Click"
+                        ToolTipService.ToolTip="Learn more about custom skins">
                         <FontIcon FontSize="14" Glyph="&#xE946;" />
-                    </HyperlinkButton>
+                    </Button>
                 </StackPanel>
 
                 <ToggleSwitch
@@ -101,7 +87,6 @@
 
                 <TextBlock
                     x:Uid="SettingsContextMenu"
-                    Padding="0,10,0,0"
                     FontSize="16"
                     Text="Customize the right click context menu" />
 
@@ -112,5 +97,26 @@
                     IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
+
+        <muxc:TeachingTip
+            x:Name="SkinsTeachingTip"
+            IsLightDismissEnabled="True"
+            PreferredPlacement="BottomLeft"
+            Target="{x:Bind SkinsLearnMoreButton}">
+            <StackPanel Spacing="12">
+                <TextBlock TextWrapping="Wrap">
+                    <Run x:Uid="SettingsSkinsTeachingTipHeader" Text="Custom skins provide a great way for you to personalize Files." />
+                    <Hyperlink NavigateUri="https://files-community.github.io/docs/#/articles/custom-skins">
+                        <Run x:Uid="SettingsSkinsTeachingTipHyperlinkText" Text="View documentation." />
+                    </Hyperlink>
+                </TextBlock>
+
+                <Button
+                    x:Name="OpenSkinsFolderButton"
+                    x:Uid="SettingsAppearanceOpenSkinsFolderButton"
+                    Click="OpenSkinsFolderButton_Click"
+                    Content="Open skins folder" />
+            </StackPanel>
+        </muxc:TeachingTip>
     </Grid>
 </Page>

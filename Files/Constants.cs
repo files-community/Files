@@ -40,6 +40,12 @@
             public const int Folder = 3;
         }
 
+        public static class Shell32
+        {
+            // See shell32.dll for more icon indexes to add
+            public const int QuickAccess = 51380;
+        }
+
         public static class UI
         {
             public const float DimItemOpacity = 0.4f;
@@ -136,7 +142,7 @@
 
         public static class OptionalPackages
         {
-            public const string ThemesOptionalPackagesName = "49306atecsolution.ThemesforFiles";
+            public const string SkinsOptionalPackagesName = "49306atecsolution.ThemesforFiles";
         }
     }
 }
