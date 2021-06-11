@@ -46,49 +46,55 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
 
-                <StackPanel Spacing="10">
-                    <StackPanel
+                <StackPanel
+                    Width="Auto"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <ComboBox
+                        x:Name="TerminalApplicationsComboBox"
+                        x:Uid="SettingsPreferencesTerminalApplications"
                         Width="Auto"
-                        HorizontalAlignment="Left"
-                        Orientation="Horizontal"
-                        Spacing="14">
-                        <ComboBox
-                            x:Name="TerminalApplicationsComboBox"
-                            x:Uid="SettingsPreferencesTerminalApplications"
-                            Width="Auto"
-                            MinWidth="200"
-                            MaxWidth="250"
-                            Header="Terminal applications"
-                            ItemsSource="{Binding Terminals}"
-                            SelectedItem="{Binding SelectedTerminal, Mode=TwoWay}">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate x:DataType="datamodels:Terminal">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{x:Bind Name}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                        MinWidth="200"
+                        MaxWidth="250"
+                        Header="Terminal applications"
+                        ItemsSource="{Binding Terminals}"
+                        SelectedItem="{Binding SelectedTerminal, Mode=TwoWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="datamodels:Terminal">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{x:Bind Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
 
-                        <HyperlinkButton
-                            x:Uid="SettingsPreferencesEditTerminalApplications"
-                            VerticalAlignment="Bottom"
-                            AutomationProperties.Name="Edit terminal applications"
-                            Command="{Binding EditTerminalApplicationsCommand}"
-                            Style="{ThemeResource TextBlockButtonStyle}">
-                            <FontIcon FontSize="14" Glyph="&#xE104;" />
-                        </HyperlinkButton>
+                    <HyperlinkButton
+                        x:Uid="SettingsPreferencesEditTerminalApplications"
+                        Height="32"
+                        Padding="8,4,8,4"
+                        VerticalAlignment="Bottom"
+                        AutomationProperties.Name="Edit terminal applications"
+                        Command="{Binding EditTerminalApplicationsCommand}">
+                        <FontIcon
+                            FontSize="14"
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                            Glyph="&#xE104;" />
+                    </HyperlinkButton>
 
-                        <HyperlinkButton
-                            x:Uid="SettingsPreferencesTerminalApplicationsSampleProfiles"
-                            VerticalAlignment="Bottom"
-                            AutomationProperties.Name="View sample profiles"
-                            NavigateUri="https://files-community.github.io/docs/#/articles/terminal-profiles"
-                            Style="{ThemeResource TextBlockButtonStyle}"
-                            ToolTipService.ToolTip="View sample profiles">
-                            <FontIcon FontSize="14" Glyph="&#xE946;" />
-                        </HyperlinkButton>
-                    </StackPanel>
+                    <HyperlinkButton
+                        x:Uid="SettingsPreferencesTerminalApplicationsSampleProfiles"
+                        Height="32"
+                        Padding="8,4,8,4"
+                        VerticalAlignment="Bottom"
+                        AutomationProperties.Name="View sample profiles"
+                        NavigateUri="https://files-community.github.io/docs/#/articles/terminal-profiles"
+                        ToolTipService.ToolTip="View sample profiles">
+                        <FontIcon
+                            FontSize="14"
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                            Glyph="&#xE946;" />
+                    </HyperlinkButton>
                 </StackPanel>
 
                 <StackPanel
@@ -107,12 +113,16 @@
 
                     <HyperlinkButton
                         x:Uid="SettingsDateFormatsTip"
+                        Height="32"
+                        Padding="8,4,8,4"
                         VerticalAlignment="Bottom"
                         AutomationProperties.Name="Learn more about date formats"
                         NavigateUri="https://files-community.github.io/docs/#/articles/date-formats"
-                        Style="{ThemeResource TextBlockButtonStyle}"
                         ToolTipService.ToolTip="Learn more about date formats">
-                        <FontIcon FontSize="14" Glyph="&#xE946;" />
+                        <FontIcon
+                            FontSize="14"
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                            Glyph="&#xE946;" />
                     </HyperlinkButton>
                 </StackPanel>
 
