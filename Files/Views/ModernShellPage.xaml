@@ -258,24 +258,5 @@
             ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted"
             ResizeBehavior="BasedOnAlignment"
             Style="{StaticResource DefaultGridSplitterStyle}" />
-
-        <Custom:DropShadowPanel
-            Grid.Row="1"
-            Grid.ColumnSpan="3"
-            HorizontalAlignment="Stretch"
-            HorizontalContentAlignment="Stretch"
-            BlurRadius="8"
-            Canvas.ZIndex="100"
-            OffsetY="2"
-            ShadowOpacity="0.04">
-
-            <controls:NavigationToolbar
-                x:Name="NavToolbar"
-                HorizontalAlignment="Stretch"
-                x:FieldModifier="public"
-                IsMultiPaneActive="{x:Bind IsMultiPaneActive, Mode=OneWay}"
-                ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}"
-                ViewModel="{x:Bind NavToolbarViewModel, Mode=OneWay}" />
-        </Custom:DropShadowPanel>
     </Grid>
 </Page>

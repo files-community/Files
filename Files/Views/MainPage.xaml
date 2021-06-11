@@ -209,10 +209,26 @@
         SelectedSidebarItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="40" />
             </Grid.RowDefinitions>
-            <ContentPresenter HorizontalAlignment="Stretch" Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
+            <Custom:DropShadowPanel
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                BlurRadius="8"
+                OffsetY="2"
+                ShadowOpacity="0.04">
+                <controls:NavigationToolbar
+                    x:Name="NavToolbar"
+                    HorizontalAlignment="Stretch"
+                    IsMultiPaneActive="{x:Bind SidebarAdaptiveViewModel.IsMultiPaneEnabled, Mode=OneWay}" />
+            </Custom:DropShadowPanel>
+
+            <ContentPresenter
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
 
             <controls:StatusBarControl
                 x:Name="StatusBarControl"
@@ -221,6 +237,7 @@
                 ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePane.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 ShowStatusCenter="True"
                 StatusCenterViewModel="{x:Bind StatusCenterViewModel}" />
+
         </Grid>
 
         <controls:SidebarControl.TabContent>

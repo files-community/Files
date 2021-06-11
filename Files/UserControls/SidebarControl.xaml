@@ -99,12 +99,12 @@
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
-						<muxc:ImageIcon>
-							<muxc:ImageIcon.Source>
-								<BitmapImage UriSource="{x:Bind Logo}"/>
-							</muxc:ImageIcon.Source>
-						</muxc:ImageIcon>
-					</muxc:NavigationViewItem.Icon>
+                        <muxc:ImageIcon>
+                            <muxc:ImageIcon.Source>
+                                <BitmapImage UriSource="{x:Bind Logo}" />
+                            </muxc:ImageIcon.Source>
+                        </muxc:ImageIcon>
+                    </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
@@ -196,7 +196,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="SplitView">
-                            <Grid CornerRadius="0" Background="{TemplateBinding Background}">
+                            <Grid Background="{TemplateBinding Background}" CornerRadius="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition x:Name="ColumnDefinition1" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.OpenPaneGridLength, FallbackValue=0}" />
                                     <ColumnDefinition x:Name="ColumnDefinition2" Width="*" />
@@ -209,10 +209,10 @@
                                     Grid.ColumnSpan="2"
                                     Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.OpenPaneLength}"
                                     HorizontalAlignment="Left"
-									CornerRadius="0"
                                     Background="{TemplateBinding PaneBackground}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="0"
                                     Visibility="Collapsed">
 
                                     <contract7Present:Grid.BackgroundTransition>
@@ -269,7 +269,7 @@
                                 <Grid
                                     x:Name="DragArea"
                                     Grid.ColumnSpan="2"
-                                    Height="40"
+                                    Height="50"
                                     Margin="38,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Top"
@@ -283,11 +283,15 @@
                                     Grid.Column="{Binding ElementName=ContentRoot, Path=(Grid.Column), Mode=OneWay}"
                                     Grid.ColumnSpan="{Binding ElementName=ContentRoot, Path=(Grid.ColumnSpan), Mode=OneWay}"
                                     VerticalAlignment="Top"
+                                    Background="{ThemeResource HorizontalTabControlBackgroundBrush}"
                                     Canvas.ZIndex="2"
                                     RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}" />
 
                                 <!--  Content Area  -->
-                                <Grid x:Name="ContentRoot" Grid.ColumnSpan="2">
+                                <Grid
+                                    x:Name="ContentRoot"
+                                    Grid.ColumnSpan="2"
+                                    Margin="0,50,0,0">
                                     <Grid.RenderTransform>
                                         <CompositeTransform x:Name="ContentTransform" />
                                     </Grid.RenderTransform>

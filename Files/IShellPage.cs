@@ -55,6 +55,8 @@ namespace Files
         public TabItemArguments TabItemArguments { get; set; }
 
         public void OpenPathInNewPane(string path);
+        public bool IsLeftPaneActive { get; }
+        public bool IsRightPaneActive { get; }
     }
 
     public interface IMultiPaneInfo
