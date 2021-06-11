@@ -50,6 +50,10 @@ namespace Files.Views
 
         public override void Dispose()
         {
+            if (propsView != null)
+            {
+                propsView.Consolidated -= PropsView_Consolidated;
+            }
         }
 
         private async void OpenAdvancedProperties()
@@ -82,12 +86,7 @@ namespace Files.Views
                         propsView.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), fileSysProps.Item.ItemName);
                         propsView.PersistedStateId = "PropertiesSecurity";
                         propsView.SetPreferredMinSize(new Size(400, 550));
-                        propsView.Consolidated += async delegate
-                        {
-                            Window.Current.Close();
-                            propsView = null;
-                            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => fileSysProps.GetFilePermissions()); // Reload permissions
-                        };
+                        propsView.Consolidated += PropsView_Consolidated;
                     });
 
                     bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(propsView.Id);
@@ -102,6 +101,18 @@ namespace Files.Views
             else
             {
                 // Unsupported
+            }
+        }
+
+        private async void PropsView_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
+        {
+            Window.Current.Close();
+            propsView.Consolidated -= PropsView_Consolidated;
+            propsView = null;
+
+            if (BaseProperties is FileSystemProperties fileSysProps)
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => fileSysProps.GetFilePermissions()); // Reload permissions
             }
         }
     }

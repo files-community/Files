@@ -85,6 +85,7 @@ namespace Files.Views
         {
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
             ApplicationView.GetForCurrentView().Consolidated -= Properties_Consolidated;
+            (contentFrame.Content as PropertiesTab).Dispose();
             if (tokenSource != null && !tokenSource.IsCancellationRequested)
             {
                 tokenSource.Cancel();
@@ -96,6 +97,7 @@ namespace Files.Views
         {
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
             sender.Closed -= PropertiesDialog_Closed;
+            (contentFrame.Content as PropertiesTab).Dispose();
             if (tokenSource != null && !tokenSource.IsCancellationRequested)
             {
                 tokenSource.Cancel();
@@ -152,7 +154,6 @@ namespace Files.Views
                 }
             }
 
-            (contentFrame.Content as PropertiesTab).Dispose();
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 await ApplicationView.GetForCurrentView().TryConsolidateAsync();
