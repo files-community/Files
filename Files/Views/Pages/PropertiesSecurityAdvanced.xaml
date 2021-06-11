@@ -57,10 +57,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition
-                    Height="*"
-                    MinHeight="120"
-                    MaxHeight="220" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Grid ColumnSpacing="12">
@@ -164,7 +161,7 @@
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 ScrollViewer.HorizontalScrollMode="Auto"
                 SelectionChanged="ListView_SelectionChanged"
-                SelectionMode="Extended">
+                SelectionMode="Single">
                 <i:Interaction.Behaviors>
                     <behaviors:StickyHeaderBehavior />
                 </i:Interaction.Behaviors>
@@ -282,12 +279,10 @@
                 Grid.Row="3"
                 Margin="0,12,0,0"
                 x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
-                ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                ScrollViewer.HorizontalScrollMode="Auto"
                 SelectionMode="None">
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <ItemsWrapGrid ItemWidth="184" Orientation="Vertical" />
+                        <ItemsWrapGrid ItemWidth="184" Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </GridView.ItemsPanel>
                 <GridView.ItemContainerStyle>
