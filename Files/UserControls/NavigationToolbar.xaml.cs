@@ -282,11 +282,6 @@ namespace Files.UserControls
         {
             if (!(mainPage.ViewModel.MultitaskingControl is VerticalTabViewControl))
             {
-                // Set multitasking control if changed and subscribe it to event for sidebar items updating
-                if (mainPage.ViewModel.MultitaskingControl != null)
-                {
-                    mainPage.ViewModel.MultitaskingControl.CurrentInstanceChanged -= mainPage.MultitaskingControl_CurrentInstanceChanged;
-                }
                 mainPage.ViewModel.MultitaskingControl = VerticalTabs;
                 mainPage.ViewModel.MultitaskingControl.CurrentInstanceChanged += mainPage.MultitaskingControl_CurrentInstanceChanged;
             }

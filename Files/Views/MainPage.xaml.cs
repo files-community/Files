@@ -70,11 +70,6 @@ namespace Files.Views
         {
             if (!(ViewModel.MultitaskingControl is HorizontalMultitaskingControl))
             {
-                // Set multitasking control if changed and subscribe it to event for sidebar items updating
-                if (ViewModel.MultitaskingControl != null)
-                {
-                    ViewModel.MultitaskingControl.CurrentInstanceChanged -= MultitaskingControl_CurrentInstanceChanged;
-                }
                 ViewModel.MultitaskingControl = horizontalMultitaskingControl;
                 ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
