@@ -80,7 +80,7 @@ namespace Files.Views
             if (SidebarAdaptiveViewModel.PaneHolder != null)
             {
                 SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs((e.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
-                UpdateSidebarProperties();
+                UpdateStatusBarProperties();
             }
         }
 
@@ -93,7 +93,7 @@ namespace Files.Views
             SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
             SidebarAdaptiveViewModel.PaneHolder.ActivePaneChanged += PaneHolder_ActivePaneChanged;
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((e.CurrentInstance.TabItemArguments?.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
-            UpdateSidebarProperties();
+            UpdateStatusBarProperties();
             UpdateNavToolbarProperties();
             e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
             e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
@@ -102,11 +102,11 @@ namespace Files.Views
         private void PaneHolder_ActivePaneChanged(object sender, EventArgs e)
         {
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments.NavigationArg.ToString());
-            UpdateSidebarProperties();
+            UpdateStatusBarProperties();
             UpdateNavToolbarProperties();
         }
 
-        private void UpdateSidebarProperties()
+        private void UpdateStatusBarProperties()
         {
             if (StatusBarControl != null)
             {

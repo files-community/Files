@@ -112,7 +112,6 @@ namespace Files.UserControls
                 if (value != isMultiPaneActive)
                 {
                     isMultiPaneActive = value;
-                    NotifyPropertyChanged(nameof(IsMultiPaneActive));
                 }
             }
         }
@@ -124,11 +123,6 @@ namespace Files.UserControls
             DependencyObjectHelpers.FindChild<TextBox>(VisiblePath)?.SelectAll();
         }
 
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public UserControl MultitaskingControl => VerticalTabs;
 
