@@ -3127,6 +3127,10 @@
           <source>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</source>
           <target state="translated">Non hai i permessi necessari per vedere le proprietà di questo oggetto. Puoi provare a diventare proprietario di questo oggetto.</target>
         </trans-unit>
+        <trans-unit id="SecurityAdvancedSpecialLabel.Text" translate="yes" xml:space="preserve">
+          <source>Special</source>
+          <target state="translated">Speciali</target>
+        </trans-unit>
       </group>
     </body>
   </file>

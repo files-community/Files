@@ -282,10 +282,12 @@
                 Grid.Row="3"
                 Margin="0,12,0,0"
                 x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.HorizontalScrollMode="Auto"
                 SelectionMode="None">
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <ItemsWrapGrid ItemWidth="200" Orientation="Vertical" />
+                        <ItemsWrapGrid ItemWidth="184" Orientation="Vertical" />
                     </ItemsPanelTemplate>
                 </GridView.ItemsPanel>
                 <GridView.ItemContainerStyle>
@@ -294,41 +296,65 @@
                     </Style>
                 </GridView.ItemContainerStyle>
                 <GridView.Items>
-                    <CheckBox
-                        Content="Full control"
-                        IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsFullControl, Mode=TwoWay}"
-                        IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+                    <CheckBox IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsFullControl, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}">
+                        <TextBlock
+                            x:Uid="SecurityFullControlLabel"
+                            Text="Full Control"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </CheckBox>
+
+                    <CheckBox IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsModify, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}">
+                        <TextBlock
+                            x:Uid="SecurityModifyLabel"
+                            Text="Modify"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </CheckBox>
+
+                    <CheckBox IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsReadAndExecute, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}">
+                        <TextBlock
+                            x:Uid="SecurityReadAndExecuteLabel"
+                            Text="Read and execute"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </CheckBox>
 
                     <CheckBox
-                        Content="Modify"
-                        IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsModify, Mode=TwoWay}"
-                        IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
-
-                    <CheckBox
-                        Content="Read and execute"
-                        IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsReadAndExecute, Mode=TwoWay}"
-                        IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
-
-                    <CheckBox
-                        Content="List directory contents"
+                        x:Name="ListDicrectoryCheckBox"
+                        x:Load="{x:Bind ViewModel.IsFolder, Mode=OneWay}"
                         IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsListDirectory, Mode=TwoWay}"
-                        IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                        Visibility="{x:Bind ViewModel.IsFolder, Mode=OneWay}" />
+                        IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}">
+                        <TextBlock
+                            x:Uid="SecurityListDirectoryLabel"
+                            Text="List directory contents"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </CheckBox>
 
-                    <CheckBox
-                        Content="Read"
-                        IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsRead, Mode=TwoWay}"
-                        IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+                    <CheckBox IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsRead, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}">
+                        <TextBlock
+                            x:Uid="SecurityReadLabel"
+                            Text="Read"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </CheckBox>
 
-                    <CheckBox
-                        Content="Write"
-                        IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsWrite, Mode=TwoWay}"
-                        IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+                    <CheckBox IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsWrite, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.SelectedAccessRules[0].IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}">
+                        <TextBlock
+                            x:Uid="SecurityWriteLabel"
+                            Text="Write"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </CheckBox>
 
-                    <CheckBox
-                        Content="Special"
-                        IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsSpecial, Mode=OneWay}"
-                        IsEnabled="False" />
+                    <CheckBox IsChecked="{x:Bind ViewModel.SelectedAccessRules[0].GrantsSpecial, Mode=OneWay}" IsEnabled="False">
+                        <TextBlock
+                            x:Uid="SecurityAdvancedSpecialLabel"
+                            Text="Special"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </CheckBox>
                 </GridView.Items>
             </GridView>
         </Grid>
