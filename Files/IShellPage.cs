@@ -17,6 +17,8 @@ namespace Files
 
         NamedPipeAsAppServiceConnection ServiceConnection { get; }
 
+        NavToolbarViewModel NavToolbarViewModel { get; }
+
         IBaseLayout SlimContentPage { get; }
 
         Type CurrentPageType { get; }

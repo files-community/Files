@@ -675,12 +675,9 @@
                     ToolTipService.ToolTip="Back (Alt+Left Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE72B;" />
                     <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="XButton1" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
-                        <KeyboardAccelerator Key="Back" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
-                        <KeyboardAccelerator
-                            Key="Left"
-                            IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}"
-                            Modifiers="Menu" />
+                        <KeyboardAccelerator Key="XButton1" />
+                        <KeyboardAccelerator Key="Back" />
+                        <KeyboardAccelerator Key="Left" Modifiers="Menu" />
                     </Button.KeyboardAccelerators>
                 </Button>
 
@@ -699,11 +696,8 @@
                     ToolTipService.ToolTip="Forward (Alt+Right Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE72A;" />
                     <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="XButton2" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
-                        <KeyboardAccelerator
-                            Key="Right"
-                            IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}"
-                            Modifiers="Menu" />
+                        <KeyboardAccelerator Key="XButton2" />
+                        <KeyboardAccelerator Key="Right" Modifiers="Menu" />
                     </Button.KeyboardAccelerators>
                 </Button>
 
@@ -722,10 +716,7 @@
                     ToolTipService.ToolTip="Up (Alt+Up Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE74A;" />
                     <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator
-                            Key="Up"
-                            IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}"
-                            Modifiers="Menu" />
+                        <KeyboardAccelerator Key="Up" Modifiers="Menu" />
                     </Button.KeyboardAccelerators>
                 </Button>
 
@@ -744,7 +735,7 @@
                     ToolTipService.ToolTip="Refresh (F5)">
                     <FontIcon FontSize="14" Glyph="&#xE72C;" />
                     <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="F5" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                        <KeyboardAccelerator Key="F5" />
                     </Button.KeyboardAccelerators>
                 </Button>
             </StackPanel>
@@ -848,7 +839,7 @@
                 AutomationProperties.Name="Search"
                 Background="Transparent"
                 Click="SearchButton_Click"
-                IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Search (Ctrl+F)">
                 <FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
@@ -874,7 +865,7 @@
             <AppBarButton
                 x:Name="WidgetsManager"
                 x:Uid="NavToolbarWidgets"
-                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                 AccessKey="W"
                 AutomationProperties.Name="Manage widgets"
                 Label="Widgets"
@@ -917,7 +908,7 @@
             <AppBarButton
                 x:Name="SelectionOptions"
                 x:Uid="NavToolbarSelectionOptions"
-                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 AccessKey="S"
                 AutomationProperties.Name="Selection options"
                 Label="Select"
@@ -933,7 +924,7 @@
                         <ToggleMenuFlyoutItem
                             x:Name="MultiselectMFI"
                             x:Uid="NavToolbarMultiselect"
-                            IsChecked="{x:Bind MultiselectEnabled, Mode=TwoWay}"
+                            IsChecked="{x:Bind MainViewModel.MultiselectEnabled, Mode=TwoWay}"
                             Text="Multiselect">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE762;" />
@@ -942,7 +933,7 @@
                         <MenuFlyoutItem
                             x:Name="SelectAllMFI"
                             x:Uid="NavToolbarSelectAll"
-                            Command="{x:Bind SelectAllInvokedCommand}"
+                            Command="{x:Bind ViewModel.SelectAllContentPageItemsCommand, Mode=OneWay}"
                             Text="Select All">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE8B3;" />
@@ -957,7 +948,7 @@
                         <MenuFlyoutItem
                             x:Name="InvertSelectionMFI"
                             x:Uid="NavToolbarInvertSelection"
-                            Command="{x:Bind InvertSelectionInvokedCommand}"
+                            Command="{x:Bind ViewModel.InvertContentPageSelctionCommand, Mode=OneWay}"
                             Text="Invert Selection">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE746;" />
@@ -966,7 +957,7 @@
                         <MenuFlyoutItem
                             x:Name="ClearSelectionMFI"
                             x:Uid="NavToolbarClearSelection"
-                            Command="{x:Bind ClearSelectionInvokedCommand}"
+                            Command="{x:Bind ViewModel.ClearContentPageSelectionCommand, Mode=OneWay}"
                             Text="Clear Selection">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE8E6;" />
@@ -978,7 +969,7 @@
             <AppBarButton
                 x:Name="ArrangementOptions"
                 x:Uid="NavToolbarSortOptionsButton"
-                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 AccessKey="A"
                 AutomationProperties.Name="Sort"
                 Label="Sort"
@@ -991,14 +982,20 @@
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
                     <Flyout>
-                        <ContentPresenter Content="{x:Bind ArrangementOptionsFlyoutContent, Mode=OneWay}" />
+                        <uc:ArrangementOptions
+                            x:Name="ArrangementOptionsFlyoutContent"
+                            IsPageTypeCloudDrive="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
+                            IsPageTypeRecycleBin="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
+                            SelectedGroupMode="{x:Bind ViewModel.InstanceViewModel.FolderSettings.DirectoryGroupOption, Mode=TwoWay}"
+                            SelectedSortDirection="{x:Bind ViewModel.InstanceViewModel.FolderSettings.DirectorySortDirection, Mode=TwoWay}"
+                            SelectedSortMode="{x:Bind ViewModel.InstanceViewModel.FolderSettings.DirectorySortOption, Mode=TwoWay}" />
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton
                 x:Name="LayoutOptionsButton"
                 x:Uid="NavToolbarLayoutOptionsButton"
-                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 AccessKey="L"
                 AutomationProperties.Name="Layout"
                 Label="Layout"
@@ -1026,10 +1023,10 @@
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Command="{x:Bind ToggleLayoutModeDetailsView}"
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Details View (Ctrl+Shift+1)">
                                     <FontIcon FontSize="16" Glyph="&#xE179;" />
@@ -1042,10 +1039,10 @@
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Command="{x:Bind ToggleLayoutModeTiles}"
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Tiles View (Ctrl+Shift+2)">
                                     <FontIcon FontSize="16" Glyph="&#xE15C;" />
@@ -1060,10 +1057,10 @@
                                     VerticalAlignment="Center"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Command="{x:Bind ToggleLayoutModeGridViewSmall}"
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Grid View (Small) (Ctrl+Shift+3)">
                                     <FontIcon FontSize="16" Glyph="&#xE80A;" />
@@ -1076,10 +1073,10 @@
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Command="{x:Bind ToggleLayoutModeGridViewMedium}"
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Grid View (Medium) (Ctrl+Shift+4)">
                                     <FontIcon FontSize="16" Glyph="&#xF0E2;" />
@@ -1092,10 +1089,10 @@
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Command="{x:Bind ToggleLayoutModeGridViewLarge}"
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Grid View (Large) (Ctrl+Shift+5)">
                                     <FontIcon FontSize="16" Glyph="&#xE739;" />
@@ -1108,10 +1105,10 @@
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Command="{x:Bind ToggleLayoutModeColumnView}"
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Column View (Ctrl+Shift+6)">
                                     <FontIcon
@@ -1144,11 +1141,11 @@
                 x:Uid="PreviewPaneToggle"
                 AccessKey="P"
                 AutomationProperties.Name="Toggle preview pane"
-                Click="PreviewPane_Click"
-                IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                Command="{x:Bind ViewModel.PreviewPaneInvokedCommand, Mode=OneWay}"
+                IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 Label="Preview"
                 ToolTipService.ToolTip="Toggle the preview pane (Ctrl+P)"
-                Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                Visibility="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}">
                 <AppBarButton.Icon>
                     <FontIcon
                         FontSize="10"
@@ -1197,7 +1194,7 @@
                     x:Name="NavToolbarNewPane"
                     x:Uid="NavigationToolbarNewPane"
                     x:Load="{x:Bind ShowMultiPaneControls, Mode=OneWay}"
-                    Command="{x:Bind NewPaneInvokedCommand, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.OpenNewPaneCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind IsMultiPaneActive, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                     Label="New pane">
                     <AppBarButton.Icon>
@@ -1213,7 +1210,7 @@
                 <AppBarButton
                     x:Name="NavToolbarNewTab"
                     x:Uid="NavigationToolbarNewTab"
-                    Command="{x:Bind NewTabInvokedCommand, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.AddNewTabToMultitaskingControlCommand, Mode=OneWay}"
                     Label="New tab">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
@@ -1228,7 +1225,7 @@
                 <AppBarButton
                     x:Name="NavToolbarNewWindow"
                     x:Uid="NavigationToolbarNewWindow"
-                    Command="{x:Bind NewWindowInvokedCommand, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.OpenNewWindowCommand, Mode=OneWay}"
                     Label="New window">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE737;" />
@@ -1243,33 +1240,32 @@
                 <AppBarButton
                     x:Name="CopyPathButton"
                     x:Uid="NavigationToolbarCopyPath"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                    Command="{x:Bind CopyPathInvokedCommand, Mode=OneWay}"
+                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.CopyPathOfWorkingDirectoryCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.CanCopyPathInPage, Mode=OneWay}"
                     Label="Copy location">
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE167;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarSeparator x:Name="SeparatorBar" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                <AppBarSeparator x:Name="SeparatorBar" x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="OpenInTerminalButton"
                     x:Uid="NavigationToolbarOpenInTerminal"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                    Command="{x:Bind OpenInTerminalInvokedCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind CanOpenTerminalInPage, Mode=OneWay}"
+                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.OpenDirectoryInDefaultTerminalCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                     Label="Open in Terminal...">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE756;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarSeparator x:Name="SeparatorBar1" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                <AppBarSeparator x:Name="SeparatorBar1" x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="PasteButton"
                     x:Uid="NavigationToolbarPaste"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                    Command="{x:Bind PasteInvokedCommand, Mode=OneWay}"
+                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.PasteItemsFromClipboardCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(CanPasteInPage, local1:App.MainViewModel.IsPasteEnabled), Mode=OneWay}"
                     Label="Paste">
                     <AppBarButton.Icon>
@@ -1282,12 +1278,12 @@
                             Modifiers="Control" />
                     </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
-                <AppBarSeparator x:Name="SeparatorBar2" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                <AppBarSeparator x:Name="SeparatorBar2" x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="NewEmptySpaceAppBarButton"
                     x:Uid="BaseLayoutContextFlyoutNew"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                    IsEnabled="{x:Bind IsCreateButtonEnabledInPage, Mode=OneWay}"
+                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
                     Label="New">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE710;" />
@@ -1306,7 +1302,7 @@
                             <MenuFlyoutItem
                                 x:Name="ToolbarNewFolderItem"
                                 x:Uid="ModernNavigationToolbaNewFolder"
-                                Command="{x:Bind NewFolderInvokedCommand, Mode=OneWay}"
+                                Command="{x:Bind ViewModel.CreateNewFolderCommand, Mode=OneWay}"
                                 Text="Folder">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE8B7;" />
@@ -1316,9 +1312,9 @@
                             <MenuFlyoutItem
                                 x:Name="NewFile"
                                 x:Uid="BaseLayoutContextFlyoutNewFile"
-                                Command="{x:Bind NewFileInvokedCommand, Mode=OneWay}"
+                                Command="{x:Bind ViewModel.CreateNewFileCommand, Mode=OneWay}"
                                 CommandParameter="{x:Null}"
-                                IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
+                                IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                                 Text="File">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE7C3;" />

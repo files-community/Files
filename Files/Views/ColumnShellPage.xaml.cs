@@ -1,4 +1,5 @@
 using Files.Common;
+using Files.DataModels;
 using Files.Dialogs;
 using Files.EventArguments;
 using Files.Filesystem;
@@ -121,28 +122,6 @@ namespace Files.Views
             }
         }
 
-        public ICommand SelectAllContentPageItemsCommand => new RelayCommand(() => SlimContentPage?.ItemManipulationModel.SelectAllItems());
-
-        public ICommand InvertContentPageSelctionCommand => new RelayCommand(() => SlimContentPage?.ItemManipulationModel.InvertSelection());
-
-        public ICommand ClearContentPageSelectionCommand => new RelayCommand(() => SlimContentPage?.ItemManipulationModel.ClearSelection());
-
-        public ICommand PasteItemsFromClipboardCommand => new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
-
-        public ICommand CopyPathOfWorkingDirectoryCommand => new RelayCommand(CopyWorkingLocation);
-
-        public ICommand OpenNewWindowCommand => new RelayCommand(NavigationHelpers.LaunchNewWindow);
-
-        public ICommand OpenNewPaneCommand => new RelayCommand(() => PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized()));
-
-        public ICommand OpenDirectoryInDefaultTerminalCommand => new RelayCommand(() => NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory, this));
-
-        public ICommand AddNewTabToMultitaskingControlCommand => new RelayCommand(async () => await MainPageViewModel.AddNewTabAsync());
-
-        public ICommand CreateNewFileCommand => new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, null, this));
-
-        public ICommand CreateNewFolderCommand => new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, this));
-
         public static readonly DependencyProperty IsPageMainPaneProperty =
             DependencyProperty.Register("IsPageMainPane", typeof(bool), typeof(ColumnShellPage), new PropertyMetadata(true));
 
@@ -159,7 +138,7 @@ namespace Files.Views
 
         public Type CurrentPageType => ItemDisplayFrame.SourcePageType;
 
-        public NavToolbarViewModel NavToolbarViewModel = new NavToolbarViewModel();
+        public NavToolbarViewModel NavToolbarViewModel { get; } = new NavToolbarViewModel();
 
         public ColumnShellPage()
         {
@@ -203,6 +182,8 @@ namespace Files.Views
             NavToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
             //NavToolbarViewModel.RefreshWidgetsRequested += refreshwid;
 
+            InitToolbarCommands();
+
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
 
@@ -213,6 +194,23 @@ namespace Files.Views
 
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
         }
+
+        void InitToolbarCommands()
+        {
+            NavToolbarViewModel.SelectAllContentPageItemsCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.SelectAllItems());
+            NavToolbarViewModel.InvertContentPageSelctionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.InvertSelection());
+            NavToolbarViewModel.ClearContentPageSelectionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.ClearSelection());
+            NavToolbarViewModel.PasteItemsFromClipboardCommand = new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
+            NavToolbarViewModel.CopyPathOfWorkingDirectoryCommand = new RelayCommand(CopyWorkingLocation);
+            NavToolbarViewModel.OpenNewWindowCommand = new RelayCommand(NavigationHelpers.LaunchNewWindow);
+            NavToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized()));
+            NavToolbarViewModel.OpenDirectoryInDefaultTerminalCommand = new RelayCommand(() => NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory, this));
+            NavToolbarViewModel.AddNewTabToMultitaskingControlCommand = new RelayCommand(async () => await MainPageViewModel.AddNewTabAsync());
+            NavToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, x, this));
+            NavToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, this));
+            NavToolbarViewModel.PreviewPaneInvokedCommand = new RelayCommand(() => PreviewPaneEnabled = !PreviewPaneEnabled);
+        }
+
 
         private void ColumnViewBase_ItemInvoked(object sender, EventArgs e)
         {

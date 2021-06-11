@@ -97,6 +97,13 @@ namespace Files.ViewModels
         }
 
 
+        private bool previewPaneEnabled;
+        public bool PreviewPaneEnabled
+        {
+            get => previewPaneEnabled;
+            set => SetProperty(ref previewPaneEnabled, value);
+        }
+
         private bool canRefresh;
         public bool CanRefresh
         {
@@ -136,6 +143,13 @@ namespace Files.ViewModels
 
         public ObservableCollection<ListedItem> NavigationBarSuggestions = new ObservableCollection<ListedItem>();
 
+
+        private CurrentInstanceViewModel instanceViewModel;
+        public CurrentInstanceViewModel InstanceViewModel
+        {
+            get => instanceViewModel;
+            set => SetProperty(ref instanceViewModel, value);
+        }
 
         public NavToolbarViewModel()
         {
@@ -460,5 +474,29 @@ namespace Files.ViewModels
 
         private void SearchRegion_SuggestionChosen(ISearchBox sender, SearchBoxSuggestionChosenEventArgs args) => IsSearchBoxVisible = false;
         private void SearchRegion_Escaped(object sender, ISearchBox searchBox) => IsSearchBoxVisible = false;
+
+        public ICommand SelectAllContentPageItemsCommand { get; set; }
+
+        public ICommand InvertContentPageSelctionCommand { get; set; }
+
+        public ICommand ClearContentPageSelectionCommand { get; set; }
+
+        public ICommand PasteItemsFromClipboardCommand { get; set; }
+
+        public ICommand CopyPathOfWorkingDirectoryCommand { get; set; }
+
+        public ICommand OpenNewWindowCommand { get; set; }
+
+        public ICommand OpenNewPaneCommand { get; set; }
+
+        public ICommand OpenDirectoryInDefaultTerminalCommand { get; set; }
+
+        public ICommand AddNewTabToMultitaskingControlCommand { get; set; }
+
+        public ICommand CreateNewFileCommand { get; set; }
+
+        public ICommand CreateNewFolderCommand { get; set; }
+
+        public ICommand PreviewPaneInvokedCommand { get; set; }
     }
 }
