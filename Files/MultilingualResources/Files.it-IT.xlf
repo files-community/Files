@@ -3123,6 +3123,10 @@
           <source>subfolders</source>
           <target state="translated">le sottocartelle</target>
         </trans-unit>
+        <trans-unit id="SecurityAdvancedCannotReadProperties.Text" translate="yes" xml:space="preserve">
+          <source>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</source>
+          <target state="translated">Non hai i permessi necessari per vedere le proprietà di questo oggetto. Puoi provare a diventare proprietario di questo oggetto.</target>
+        </trans-unit>
       </group>
     </body>
   </file>

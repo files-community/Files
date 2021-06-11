@@ -254,6 +254,14 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+
+                <TextBlock
+                    x:Name="CannotReadPropsText"
+                    x:Uid="SecurityAdvancedCannotReadProperties"
+                    HorizontalAlignment="Left"
+                    x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                    Text="You do not have permissions to view the security properties of this object. You can try to take ownership of this object."
+                    TextWrapping="WrapWholeWords" />
             </StackPanel>
         </Grid>
 
