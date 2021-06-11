@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.Helpers.XamlHelpers;
 using Files.UserControls;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -22,10 +23,11 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using static Files.UserControls.INavigationToolbar;
+using SearchBox = Files.UserControls.SearchBox;
 
 namespace Files.ViewModels
 {
-    public class NavToolbarViewModel : ObservableObject, INavigationToolbar
+    public class NavToolbarViewModel : ObservableObject, INavigationToolbar, IDisposable
     {
         public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
@@ -294,8 +296,10 @@ namespace Files.ViewModels
                 if (value)
                 {
                     EditModeEnabled?.Invoke(this, new EventArgs());
-                    //VisiblePath.Focus(FocusState.Programmatic);
-                    //DependencyObjectHelpers.FindChild<TextBox>(VisiblePath)?.SelectAll();
+
+                    var visiblePath = NavToolbar.FindDescendant("VisiblePath") as Control;
+                    visiblePath?.Focus(FocusState.Programmatic);
+                    visiblePath?.FindDescendant<TextBox>()?.SelectAll();
                 }
                 else
                 {
@@ -389,11 +393,13 @@ namespace Files.ViewModels
 
                 // Given that binding and layouting might take a few cycles, when calling UpdateLayout
                 // we can guarantee that the focus call will be able to find an open ASB
-                //SearchRegion.UpdateLayout();
-
-                //SearchRegion.Focus(FocusState.Programmatic); // TODO: Repimplement
+                var searchbox = NavToolbar.FindDescendant("SearchRegion") as SearchBox;
+                searchbox?.UpdateLayout();
+                searchbox?.Focus(FocusState.Programmatic);
             }
         }
+
+        NavigationToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<NavigationToolbar>();
 
         #region YourHome Widgets
 
@@ -474,6 +480,12 @@ namespace Files.ViewModels
 
         private void SearchRegion_SuggestionChosen(ISearchBox sender, SearchBoxSuggestionChosenEventArgs args) => IsSearchBoxVisible = false;
         private void SearchRegion_Escaped(object sender, ISearchBox searchBox) => IsSearchBoxVisible = false;
+
+        public void Dispose()
+        {
+            SearchBox.SuggestionChosen -= SearchRegion_SuggestionChosen;
+            SearchBox.Escaped -= SearchRegion_Escaped;
+        }
 
         public ICommand SelectAllContentPageItemsCommand { get; set; }
 

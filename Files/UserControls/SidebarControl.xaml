@@ -283,7 +283,6 @@
                                     Grid.Column="{Binding ElementName=ContentRoot, Path=(Grid.Column), Mode=OneWay}"
                                     Grid.ColumnSpan="{Binding ElementName=ContentRoot, Path=(Grid.ColumnSpan), Mode=OneWay}"
                                     VerticalAlignment="Top"
-                                    Background="{ThemeResource HorizontalTabControlBackgroundBrush}"
                                     Canvas.ZIndex="2"
                                     RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}" />
 

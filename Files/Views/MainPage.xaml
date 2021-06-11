@@ -202,6 +202,7 @@
         Grid.ColumnSpan="2"
         HorizontalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"
+        Background="{ThemeResource HorizontalTabControlBackgroundBrush}"
         CanOpenInNewPane="{x:Bind SidebarAdaptiveViewModel.IsMultiPaneEnabled, Mode=OneWay}"
         DisplayModeChanged="{x:Bind SidebarAdaptiveViewModel.SidebarControl_DisplayModeChanged}"
         EmptyRecycleBinCommand="{x:Bind SidebarAdaptiveViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
