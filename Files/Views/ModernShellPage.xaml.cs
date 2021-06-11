@@ -1205,17 +1205,6 @@ namespace Files.Views
             Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested;
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
-            //NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
-            //NavigationToolbar.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
-            //NavigationToolbar.BackRequested -= ModernShellPage_BackNavRequested;
-            //NavigationToolbar.ForwardRequested -= ModernShellPage_ForwardNavRequested;
-            //NavigationToolbar.UpRequested -= ModernShellPage_UpNavRequested;
-            //NavigationToolbar.RefreshRequested -= ModernShellPage_RefreshRequested;
-            //NavigationToolbar.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
-            //NavigationToolbar.ItemDraggedOverPathItem -= ModernShellPage_NavigationRequested;
-            //NavigationToolbar.SearchBox.QueryChanged -= ModernShellPage_QueryChanged;
-            //NavigationToolbar.SearchBox.QuerySubmitted -= ModernShellPage_QuerySubmitted;
-            //NavigationToolbar.SearchBox.SuggestionChosen -= ModernShellPage_SuggestionChosen;
 
             NavToolbarViewModel.ToolbarPathItemInvoked -= ModernShellPage_NavigationRequested;
             NavToolbarViewModel.ToolbarFlyoutOpened -= ModernShellPage_ToolbarFlyoutOpened;
