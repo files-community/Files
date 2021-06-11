@@ -598,7 +598,7 @@
                                 <Grid
                                     x:Name="ItemStatusGrid"
                                     Grid.Column="4"
-                                    Width="{Binding ColumnsViewModel.StatusColumn.Length, ElementName=PageRoot, Mode=OneWay}"
+                                    Width="{Binding ColumnsViewModel.StatusColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
