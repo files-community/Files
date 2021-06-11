@@ -313,7 +313,7 @@ namespace Files.ViewModels
             set => SetProperty(ref manualEntryBoxLoaded, value);
         }
 
-        private bool clickablePathLoaded;
+        private bool clickablePathLoaded = true;
         public bool ClickablePathLoaded
         {
             get => clickablePathLoaded;
@@ -369,7 +369,7 @@ namespace Files.ViewModels
 
         public void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var itemTappedPath = ((sender as TextBlock).DataContext as PathBoxItem).Path;
+            var itemTappedPath = ((sender as Border).DataContext as PathBoxItem).Path;
             ToolbarPathItemInvoked?.Invoke(this, new PathNavigationEventArgs()
             {
                 ItemPath = itemTappedPath
