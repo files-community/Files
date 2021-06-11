@@ -1242,7 +1242,7 @@
                     x:Uid="NavigationToolbarCopyPath"
                     x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                     Command="{x:Bind ViewModel.CopyPathOfWorkingDirectoryCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind ViewModel.CanCopyPathInPage, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
                     Label="Copy location">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE167;" />
@@ -1266,7 +1266,7 @@
                     x:Uid="NavigationToolbarPaste"
                     x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                     Command="{x:Bind ViewModel.PasteItemsFromClipboardCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(CanPasteInPage, local1:App.MainViewModel.IsPasteEnabled), Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.InstanceViewModel.CanPasteInPage, local1:App.MainViewModel.IsPasteEnabled), Mode=OneWay}"
                     Label="Paste">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE77F;" />

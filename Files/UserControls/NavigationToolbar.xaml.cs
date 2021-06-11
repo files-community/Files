@@ -85,21 +85,19 @@ namespace Files.UserControls
 
         private bool showMultiPaneControls;
 
+
+
         public bool ShowMultiPaneControls
         {
-            get
-            {
-                return showMultiPaneControls;
-            }
-            set
-            {
-                if (value != showMultiPaneControls)
-                {
-                    showMultiPaneControls = value;
-                    NotifyPropertyChanged(nameof(ShowMultiPaneControls));
-                }
-            }
+            get => (bool)GetValue(ShowMultiPaneControlsProperty);
+            set => SetValue(ShowMultiPaneControlsProperty, value);
         }
+
+        // Using a DependencyProperty as the backing store for ShowMultiPaneControls.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShowMultiPaneControlsProperty =
+            DependencyProperty.Register(nameof(ShowMultiPaneControls), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+
+
 
         private bool isMultiPaneActive;
 
