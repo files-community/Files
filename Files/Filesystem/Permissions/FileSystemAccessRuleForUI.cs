@@ -24,7 +24,19 @@ namespace Files.Filesystem.Permissions
             IsFolder = isFolder;
         }
 
-        public AccessControlType AccessControlType { get; set; }
+        private AccessControlType accessControlType;
+        public AccessControlType AccessControlType
+        {
+            get => accessControlType;
+            set
+            {
+                if (SetProperty(ref accessControlType, value))
+                {
+                    OnPropertyChanged(nameof(Glyph));
+                }
+            }
+        }
+
         public string IdentityReference { get; set; }
         public bool IsInherited { get; set; }
 
@@ -87,6 +99,21 @@ namespace Files.Filesystem.Permissions
         public string FileSystemRightsForUI => string.Join(", ", GetPermissionStrings());
 
         public string InheritanceFlagsForUI => string.Join(", ", GetInheritanceStrings());
+
+        private bool isSelected;
+        public bool IsSelected
+        {
+            get => isSelected;
+            set
+            {
+                if (SetProperty(ref isSelected, value))
+                {
+                    OnPropertyChanged(nameof(IsEditEnabled));
+                }
+            }
+        }
+
+        public bool IsEditEnabled => IsSelected && !IsInherited;
 
         private void TogglePermission(FileSystemRights permission, bool value)
         {

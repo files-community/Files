@@ -9,6 +9,7 @@
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:perm="using:Files.Filesystem.Permissions"
     d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:Height="550"
@@ -180,7 +181,7 @@
                         BorderThickness="0,0,0,1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="32" />
-                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="70" />
                             <ColumnDefinition Width="*" MinWidth="200" />
                             <ColumnDefinition Width="*" MinWidth="160" />
                             <ColumnDefinition Width="70" />
@@ -222,7 +223,7 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="32" />
-                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="70" />
                                 <ColumnDefinition Width="*" MinWidth="200" />
                                 <ColumnDefinition Width="*" MinWidth="160" />
                                 <ColumnDefinition Width="70" />
@@ -232,16 +233,48 @@
                             <FontIcon
                                 x:Name="FontIcon"
                                 HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                                 Glyph="{x:Bind UserGroup.Glyph}" />
 
                             <FontIcon
+                                x:Name="TypeIcon"
                                 Grid.Column="1"
                                 HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                x:Load="{x:Bind IsEditEnabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                Glyph="{x:Bind Glyph}" />
+                                Glyph="{x:Bind Glyph, Mode=OneWay}" />
 
-                            <TextBlock Grid.Column="2" TextTrimming="CharacterEllipsis">
+                            <muxc:DropDownButton
+                                x:Name="TypeDropdown"
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                x:Load="{x:Bind IsEditEnabled, Mode=OneWay}">
+                                <muxc:DropDownButton.Content>
+                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{x:Bind Glyph, Mode=OneWay}" />
+                                </muxc:DropDownButton.Content>
+                                <muxc:DropDownButton.Flyout>
+                                    <MenuFlyout Placement="Bottom">
+                                        <MenuFlyoutItem Click="AllowMenuFlyoutItem_Click" Text="Allow">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xF13E;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem Click="DenyMenuFlyoutItem_Click" Text="Deny">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xF140;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </muxc:DropDownButton.Flyout>
+                            </muxc:DropDownButton>
+
+                            <TextBlock
+                                Grid.Column="2"
+                                VerticalAlignment="Center"
+                                TextTrimming="CharacterEllipsis">
                                 <Run Text="{x:Bind UserGroup.DisplayName}" />
                                 <Span FontWeight="Light">&#160;(</Span>
                                 <Run FontWeight="Light" Text="{x:Bind UserGroup.FullNameOrSid}" />
@@ -250,13 +283,18 @@
 
                             <TextBlock
                                 Grid.Column="3"
+                                VerticalAlignment="Center"
                                 Text="{x:Bind FileSystemRightsForUI, Mode=OneWay}"
                                 TextTrimming="CharacterEllipsis" />
 
-                            <TextBlock Grid.Column="4" Text="{x:Bind IsInheritedForUI}" />
+                            <TextBlock
+                                Grid.Column="4"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind IsInheritedForUI}" />
 
                             <TextBlock
                                 Grid.Column="5"
+                                VerticalAlignment="Center"
                                 Text="{x:Bind InheritanceFlagsForUI, Mode=OneWay}"
                                 TextTrimming="CharacterEllipsis"
                                 Visibility="{x:Bind IsFolder, Mode=OneWay}" />

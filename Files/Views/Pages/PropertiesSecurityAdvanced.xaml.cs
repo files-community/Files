@@ -214,6 +214,39 @@ namespace Files.Views
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ViewModel.SelectedAccessRules = (sender as ListView).SelectedItems.Cast<FileSystemAccessRuleForUI>().ToList();
+
+            if (e.AddedItems != null)
+            {
+                foreach (var item in e.AddedItems)
+                {
+                    (item as FileSystemAccessRuleForUI).IsSelected = true;
+                }
+            }
+            if (e.RemovedItems != null)
+            {
+                foreach (var item in e.RemovedItems)
+                {
+                    (item as FileSystemAccessRuleForUI).IsSelected = false;
+                }
+            }
+        }
+
+        private void AllowMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = ViewModel.SelectedAccessRules?.FirstOrDefault();
+            if (selectedItem != null)
+            {
+                selectedItem.AccessControlType = AccessControlType.Allow;
+            }
+        }
+
+        private void DenyMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = ViewModel.SelectedAccessRules?.FirstOrDefault();
+            if (selectedItem != null)
+            {
+                selectedItem.AccessControlType = AccessControlType.Deny;
+            }
         }
     }
 }
