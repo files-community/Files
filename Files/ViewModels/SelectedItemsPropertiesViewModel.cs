@@ -708,7 +708,7 @@ namespace Files.ViewModels
             get => selectedAccessRules;
             set
             {
-                if (SetProperty(ref selectedAccessRules, value))
+                if (SetProperty(ref selectedAccessRules, value != null && value.Count == 0 ? null : value))
                 {
                     RemoveAccessRuleCommand.NotifyCanExecuteChanged();
                 }

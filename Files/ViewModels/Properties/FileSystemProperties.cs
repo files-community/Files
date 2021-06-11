@@ -32,7 +32,7 @@ namespace Files.ViewModels.Properties
             ViewModel.AddRulesForUserCommand = new RelayCommand(() => AddRulesForUser(), () => ViewModel.FilePermissions != null && ViewModel.FilePermissions.CanReadFilePermissions);
             ViewModel.RemoveRulesForUserCommand = new RelayCommand(() => RemoveRulesForUser(), () => ViewModel.FilePermissions != null && ViewModel.FilePermissions.CanReadFilePermissions && ViewModel.SelectedRuleForUser != null);
             ViewModel.AddAccessRuleCommand = new RelayCommand(() => AddAccessRule(), () => ViewModel.FilePermissions != null && ViewModel.FilePermissions.CanReadFilePermissions);
-            ViewModel.RemoveAccessRuleCommand = new RelayCommand(() => RemoveAccessRule(), () => ViewModel.FilePermissions != null && ViewModel.FilePermissions.CanReadFilePermissions);
+            ViewModel.RemoveAccessRuleCommand = new RelayCommand(() => RemoveAccessRule(), () => ViewModel.FilePermissions != null && ViewModel.FilePermissions.CanReadFilePermissions && ViewModel.SelectedAccessRules != null);
         }
 
         private async void AddAccessRule()
