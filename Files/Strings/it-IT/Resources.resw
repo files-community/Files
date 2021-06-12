@@ -2400,14 +2400,14 @@
   <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
     <value>Esecuzione file</value>
   </data>
-  <data name="SecurityReadAttributesLabel" xml:space="preserve">
+  <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
     <value>Lettura attributi</value>
   </data>
   <data name="SecurityReadDataLabel.Text" xml:space="preserve">
     <value>Lettura dati</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
-    <value>Read extended attributes</value>
+    <value>Lettura attributi estesi</value>
   </data>
   <data name="SecurityReadPermissionsLabel.Text" xml:space="preserve">
     <value>Leggi autorizzazioni</value>
@@ -2426,5 +2426,8 @@
   </data>
   <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
     <value>Scrittura attributi estesi</value>
+  </data>
+  <data name="SecurityNoneLabel.Text" xml:space="preserve">
+    <value>Nessuna</value>
   </data>
 </root>
