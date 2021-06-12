@@ -3163,6 +3163,74 @@
           <source>This folder and subfolders</source>
           <target state="translated">Questa cartella e le sottocartelle</target>
         </trans-unit>
+        <trans-unit id="SecurityAppendDataLabel.Text" translate="yes" xml:space="preserve">
+          <source>Append data</source>
+          <target state="translated">Aggiunta dati</target>
+        </trans-unit>
+        <trans-unit id="SecurityChangePermissionsLabel.Text" translate="yes" xml:space="preserve">
+          <source>Change permission</source>
+          <target state="translated">Cambia autorizzazioni</target>
+        </trans-unit>
+        <trans-unit id="SecurityCreateDirectoriesLabel.Text" translate="yes" xml:space="preserve">
+          <source>Create folders</source>
+          <target state="translated">Creazione cartelle</target>
+        </trans-unit>
+        <trans-unit id="SecurityCreateFilesLabel.Text" translate="yes" xml:space="preserve">
+          <source>Create files</source>
+          <target state="translated">Creazione file</target>
+        </trans-unit>
+        <trans-unit id="SecurityDeleteLabel.Text" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="translated">Elimina</target>
+        </trans-unit>
+        <trans-unit id="SecurityDeleteSubdirectoriesAndFilesLabel.Text" translate="yes" xml:space="preserve">
+          <source>Delete subdirectories and files</source>
+          <target state="translated">Elimina sottocartelle e file</target>
+        </trans-unit>
+        <trans-unit id="SecurityExecuteFileLabel.Text" translate="yes" xml:space="preserve">
+          <source>Execute files</source>
+          <target state="translated">Esecuzione file</target>
+        </trans-unit>
+        <trans-unit id="SecurityReadAttributesLabel.Text" translate="yes" xml:space="preserve">
+          <source>Read attributes</source>
+          <target state="translated">Lettura attributi</target>
+        </trans-unit>
+        <trans-unit id="SecurityReadDataLabel.Text" translate="yes" xml:space="preserve">
+          <source>Read data</source>
+          <target state="translated">Lettura dati</target>
+        </trans-unit>
+        <trans-unit id="SecurityReadExtendedAttributesLabel.Text" translate="yes" xml:space="preserve">
+          <source>Read extended attributes</source>
+          <target state="translated">Lettura attributi estesi</target>
+        </trans-unit>
+        <trans-unit id="SecurityReadPermissionsLabel.Text" translate="yes" xml:space="preserve">
+          <source>Read permissions</source>
+          <target state="translated">Leggi autorizzazioni</target>
+        </trans-unit>
+        <trans-unit id="SecurityTakeOwnershipLabel.Text" translate="yes" xml:space="preserve">
+          <source>Take ownership</source>
+          <target state="translated">Diventa proprietario</target>
+        </trans-unit>
+        <trans-unit id="SecurityTraverseLabel.Text" translate="yes" xml:space="preserve">
+          <source>Visit folder</source>
+          <target state="translated">Visita la cartella</target>
+        </trans-unit>
+        <trans-unit id="SecurityWriteAttributesLabel.Text" translate="yes" xml:space="preserve">
+          <source>Write attributes</source>
+          <target state="translated">Scrittura attributi</target>
+        </trans-unit>
+        <trans-unit id="SecurityWriteDataLabel.Text" translate="yes" xml:space="preserve">
+          <source>Write data</source>
+          <target state="translated">Scrittura dati</target>
+        </trans-unit>
+        <trans-unit id="SecurityWriteExtendedAttributesLabel.Text" translate="yes" xml:space="preserve">
+          <source>Write extended attributes</source>
+          <target state="translated">Scrittura attributi estesi</target>
+        </trans-unit>
+        <trans-unit id="SecurityNoneLabel.Text" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="translated">Nessuna</target>
+        </trans-unit>
       </group>
     </body>
   </file>
