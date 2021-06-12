@@ -1060,6 +1060,18 @@ namespace FilesFullTrust
                     }, message.Get("RequestID", (string)null));
                     break;
 
+                case "SetAccessRuleProtection":
+                    var filePathForPerm3 = (string)message["filepath"];
+                    var isFolder3 = (bool)message["isfolder"];
+                    var isProtected = (bool)message["isprotected"];
+                    var preserveInheritance = (bool)message["preserveinheritance"];
+                    var fp2 = FilePermissions.FromFilePath(filePathForPerm3, isFolder3);
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "Success", fp2.SetAccessRuleProtection(isProtected, preserveInheritance) }
+                    }, message.Get("RequestID", (string)null));
+                    break;
+
                 case "OpenObjectPicker":
                     var hwnd = (long)message["HWND"];
                     var pickedObject = await FilePermissions.OpenObjectPicker(hwnd);

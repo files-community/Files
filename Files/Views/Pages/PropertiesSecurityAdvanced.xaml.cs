@@ -72,7 +72,6 @@ namespace Files.Views
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 // Set window size in the loaded event to prevent flickering
-                ApplicationView.GetForCurrentView().TryResizeView(new Windows.Foundation.Size(850, 550));
                 ApplicationView.GetForCurrentView().Consolidated += Properties_Consolidated;
                 TitleBar = ApplicationView.GetForCurrentView().TitleBar;
                 TitleBar.ButtonBackgroundColor = Colors.Transparent;

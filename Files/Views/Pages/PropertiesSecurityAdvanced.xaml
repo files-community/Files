@@ -58,6 +58,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Grid ColumnSpacing="12">
@@ -427,6 +428,56 @@
                 x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                 Text="You do not have permissions to view the security properties of this object. You can try to take ownership of this object."
                 TextWrapping="WrapWholeWords" />
+
+            <Grid
+                Grid.Row="3"
+                Margin="0,12,0,0"
+                ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <muxc:SplitButton
+                    x:Name="SplitButton"
+                    MaxWidth="200"
+                    Command="{x:Bind ViewModel.DisableInheritanceCommand}">
+                    <TextBlock Text="{x:Bind ViewModel.DisableInheritanceOption, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
+                    <muxc:SplitButton.Flyout>
+                        <MenuFlyout Placement="Top">
+                            <MenuFlyoutItem
+                                x:Uid="SecurityAdvancedInheritedEnable"
+                                Command="{x:Bind ViewModel.SetDisableInheritanceOptionCommand}"
+                                CommandParameter="False,False"
+                                IsEnabled="{x:Bind ViewModel.FilePermissions.AreAccessRulesProtected, Mode=OneWay}"
+                                Text="Enable inheritance" />
+                            <MenuFlyoutItem
+                                x:Uid="SecurityAdvancedInheritedConvert"
+                                Command="{x:Bind ViewModel.SetDisableInheritanceOptionCommand}"
+                                CommandParameter="True,True"
+                                IsEnabled="{x:Bind ViewModel.FilePermissions.AreAccessRulesProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                                Text="Convert inherited permissions into explicit permissions" />
+                            <MenuFlyoutItem
+                                x:Uid="SecurityAdvancedInheritedRemove"
+                                Command="{x:Bind ViewModel.SetDisableInheritanceOptionCommand}"
+                                CommandParameter="True,False"
+                                IsEnabled="{x:Bind ViewModel.FilePermissions.AreAccessRulesProtected, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                                Text="Remove all inherited permissions" />
+                        </MenuFlyout>
+                    </muxc:SplitButton.Flyout>
+                </muxc:SplitButton>
+                <Button
+                    x:Name="ReplaceChildPermissionsButton"
+                    x:Uid="SecurityAdvancedReplaceChildPermissions"
+                    Grid.Column="1"
+                    Command="{x:Bind ViewModel.ReplaceChildPermissionsCommand}"
+                    ToolTipService.ToolTip="Replace all child object permissions entries with inheritable permission entries from this object"
+                    Visibility="{x:Bind ViewModel.IsFolder, Mode=OneWay}">
+                    <TextBlock
+                        x:Uid="SecurityAdvancedReplaceChildPermissions"
+                        Text="Reset child permissions"
+                        TextTrimming="CharacterEllipsis" />
+                </Button>
+            </Grid>
         </Grid>
 
         <Grid Grid.Row="2" Padding="8">

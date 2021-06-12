@@ -3231,6 +3231,26 @@
           <source>None</source>
           <target state="translated">Nessuna</target>
         </trans-unit>
+        <trans-unit id="SecurityAdvancedInheritedConvert.Text" translate="yes" xml:space="preserve">
+          <source>Convert inherited permissions into explicit permissions</source>
+          <target state="translated">Converti autorizzazioni ereditate in autorizzazioni esplicite</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedInheritedEnable.Text" translate="yes" xml:space="preserve">
+          <source>Enable inheritance</source>
+          <target state="translated">Abilita ereditarietà</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedInheritedRemove.Text" translate="yes" xml:space="preserve">
+          <source>Remove all inherited permissions</source>
+          <target state="translated">Rimuovi tutte le autorizzazioni ereditate</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedReplaceChildPermissions.Text" translate="yes" xml:space="preserve">
+          <source>Reset child permissions</source>
+          <target state="translated">Resetta oggetti figlio</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedReplaceChildPermissions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Replace all child object permissions entries with inheritable permission entries from this object</source>
+          <target state="translated">Sostituisci tutte le voci delle autorizzazioni degli oggetti figlio con le voci delle autorizzazioni ereditabili da questo oggetto</target>
+        </trans-unit>
       </group>
     </body>
   </file>

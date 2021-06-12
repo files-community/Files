@@ -84,14 +84,13 @@ namespace Files.Views
                 {
                     var newWindow = CoreApplication.CreateNewView();
 
-                    await newWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    await newWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
                         Frame frame = new Frame();
                         frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
                         {
                             Item = SecurityProperties.Item,
                             AppInstanceArgument = AppInstance
-
                         }, new SuppressNavigationTransitionInfo());
                         Window.Current.Content = frame;
                         Window.Current.Activate();
@@ -100,16 +99,16 @@ namespace Files.Views
                         newWindow.TitleBar.ExtendViewIntoTitleBar = true;
                         propsView.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), SecurityProperties.Item.ItemName);
                         propsView.PersistedStateId = "PropertiesSecurity";
-                        propsView.SetPreferredMinSize(new Size(400, 550));
+                        propsView.SetPreferredMinSize(new Size(400, 500));
                         propsView.Consolidated += PropsView_Consolidated;
-                    });
 
-                    bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(propsView.Id);
-                    if (viewShown && propsView != null)
-                    {
-                        // Set window size again here as sometimes it's not resized in the page Loaded event
-                        propsView.TryResizeView(new Size(850, 550));
-                    }
+                        bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(propsView.Id);
+                        if (viewShown && propsView != null)
+                        {
+                            // Set window size again here as sometimes it's not resized in the page Loaded event
+                            propsView.TryResizeView(new Size(850, 550));
+                        }
+                    });
                 }
                 await ApplicationViewSwitcher.SwitchAsync(propsView.Id);
             }

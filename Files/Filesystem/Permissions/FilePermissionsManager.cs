@@ -18,7 +18,7 @@ namespace Files.Filesystem.Permissions
             CanReadFilePermissions = permissions.CanReadFilePermissions;
             Owner = UserGroup.FromSid(permissions.OwnerSID);
             CurrentUser = UserGroup.FromSid(permissions.CurrentUserSID);
-
+            AreAccessRulesProtected = permissions.AreAccessRulesProtected;
             AccessRules = new ObservableCollection<FileSystemAccessRuleForUI>(permissions.AccessRules.Select(x => new FileSystemAccessRuleForUI(x, IsFolder)));
             RulesForUsers = new ObservableCollection<RulesForUser>(RulesForUser.ForAllUsers(AccessRules, IsFolder));
         }
@@ -31,6 +31,8 @@ namespace Files.Filesystem.Permissions
 
         // Consolidated view 1       
         public ObservableCollection<RulesForUser> RulesForUsers { get; private set; }
+
+        public bool AreAccessRulesProtected { get; set; }
 
         public FileSystemRights GetEffectiveRights(UserGroup user)
         {

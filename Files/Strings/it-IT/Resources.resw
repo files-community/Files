@@ -2430,4 +2430,19 @@
   <data name="SecurityNoneLabel.Text" xml:space="preserve">
     <value>Nessuna</value>
   </data>
+  <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
+    <value>Converti autorizzazioni ereditate in autorizzazioni esplicite</value>
+  </data>
+  <data name="SecurityAdvancedInheritedEnable.Text" xml:space="preserve">
+    <value>Abilita ereditarietà</value>
+  </data>
+  <data name="SecurityAdvancedInheritedRemove.Text" xml:space="preserve">
+    <value>Rimuovi tutte le autorizzazioni ereditate</value>
+  </data>
+  <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
+    <value>Resetta oggetti figlio</value>
+  </data>
+  <data name="SecurityAdvancedReplaceChildPermissions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Sostituisci tutte le voci delle autorizzazioni degli oggetti figlio con le voci delle autorizzazioni ereditabili da questo oggetto</value>
+  </data>
 </root>

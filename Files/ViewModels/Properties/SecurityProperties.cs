@@ -4,6 +4,7 @@ using Files.Filesystem.Permissions;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -27,11 +28,17 @@ namespace Files.ViewModels.Properties
             AppInstance = instance;
             IsFolder = item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !item.IsShortcutItem;
 
-            EditOwnerCommand = new RelayCommand(() => EditOwner(), () => FilePermissions != null);
-            AddRulesForUserCommand = new RelayCommand(() => AddRulesForUser(), () => FilePermissions != null && FilePermissions.CanReadFilePermissions);
-            RemoveRulesForUserCommand = new RelayCommand(() => RemoveRulesForUser(), () => FilePermissions != null && FilePermissions.CanReadFilePermissions && SelectedRuleForUser != null);
-            AddAccessRuleCommand = new RelayCommand(() => AddAccessRule(), () => FilePermissions != null && FilePermissions.CanReadFilePermissions);
-            RemoveAccessRuleCommand = new RelayCommand(() => RemoveAccessRule(), () => FilePermissions != null && FilePermissions.CanReadFilePermissions && SelectedAccessRules != null);
+            EditOwnerCommand = new RelayCommand(EditOwner, () => FilePermissions != null);
+            AddRulesForUserCommand = new RelayCommand(AddRulesForUser, () => FilePermissions != null && FilePermissions.CanReadFilePermissions);
+            RemoveRulesForUserCommand = new RelayCommand(RemoveRulesForUser, () => FilePermissions != null && FilePermissions.CanReadFilePermissions && SelectedRuleForUser != null);
+            AddAccessRuleCommand = new RelayCommand(AddAccessRule, () => FilePermissions != null && FilePermissions.CanReadFilePermissions);
+            RemoveAccessRuleCommand = new RelayCommand(RemoveAccessRule, () => FilePermissions != null && FilePermissions.CanReadFilePermissions && SelectedAccessRules != null);
+            DisableInheritanceCommand = new RelayCommand(DisableInheritance, () =>
+            {
+                return FilePermissions != null && FilePermissions.CanReadFilePermissions && (FilePermissions.AreAccessRulesProtected != isProtected);
+            });
+            SetDisableInheritanceOptionCommand = new RelayCommand<string>(SetDisableInheritanceOption);
+            ReplaceChildPermissionsCommand = new RelayCommand(ReplaceChildPermissions, () => FilePermissions != null && FilePermissions.CanReadFilePermissions);
         }
 
         public RelayCommand EditOwnerCommand { get; set; }
@@ -39,9 +46,11 @@ namespace Files.ViewModels.Properties
         public RelayCommand RemoveRulesForUserCommand { get; set; }
         public RelayCommand AddAccessRuleCommand { get; set; }
         public RelayCommand RemoveAccessRuleCommand { get; set; }
+        public RelayCommand DisableInheritanceCommand { get; set; }
+        public RelayCommand<string> SetDisableInheritanceOptionCommand { get; set; }
+        public RelayCommand ReplaceChildPermissionsCommand { get; set; }
 
-        public FilePermissionsManager filePermissions;
-
+        private FilePermissionsManager filePermissions;
         public FilePermissionsManager FilePermissions
         {
             get => filePermissions;
@@ -54,6 +63,7 @@ namespace Files.ViewModels.Properties
                     RemoveRulesForUserCommand.NotifyCanExecuteChanged();
                     AddAccessRuleCommand.NotifyCanExecuteChanged();
                     RemoveAccessRuleCommand.NotifyCanExecuteChanged();
+                    DisableInheritanceCommand.NotifyCanExecuteChanged();
                 }
             }
         }
@@ -87,12 +97,64 @@ namespace Files.ViewModels.Properties
 
         public FileSystemAccessRuleForUI SelectedAccessRule => SelectedAccessRules?.FirstOrDefault();
 
-        public bool isFolder;
-
+        private bool isFolder;
         public bool IsFolder
         {
             get => isFolder;
             set => SetProperty(ref isFolder, value);
+        }
+
+        private bool isProtected;
+        private bool preserveInheritance;
+
+        public string DisableInheritanceOption
+        {
+            get
+            {
+                if (!isProtected)
+                {
+                    return "SecurityAdvancedInheritedEnable/Text".GetLocalized();
+                }
+                else if (preserveInheritance)
+                {
+                    return "SecurityAdvancedInheritedConvert/Text".GetLocalized();
+                }
+                else
+                {
+                    return "SecurityAdvancedInheritedRemove/Text".GetLocalized();
+                }
+            }
+        }
+
+        private async void DisableInheritance()
+        {
+            if (await SetAccessRuleProtection(isProtected, preserveInheritance))
+            {
+                GetFilePermissions(); // Refresh file permissions
+            }
+        }
+
+        private void SetDisableInheritanceOption(string options)
+        {
+            isProtected = Boolean.Parse(options.Split(',')[0]);
+            preserveInheritance = Boolean.Parse(options.Split(',')[1]);
+            OnPropertyChanged(nameof(DisableInheritanceOption));
+            DisableInheritanceCommand.NotifyCanExecuteChanged();
+        }
+
+        private async void ReplaceChildPermissions()
+        {
+            if (AppInstance.ServiceConnection != null)
+            {
+                var value = new ValueSet()
+                {
+                    { "Arguments", "FileOperation" },
+                    { "fileop", "ReplaceChildPermissions" },
+                    { "filepath", Item.ItemPath },
+                    { "isfolder", Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcutItem }
+                };
+                await AppInstance.ServiceConnection.SendMessageAsync(value);
+            }
         }
 
         private async void AddAccessRule()
@@ -239,6 +301,26 @@ namespace Files.ViewModels.Properties
                 }
             }
             return null;
+        }
+
+        public async Task<bool> SetAccessRuleProtection(bool isProtected, bool preserveInheritance)
+        {
+            if (AppInstance.ServiceConnection != null)
+            {
+                var value = new ValueSet()
+                {
+                    { "Arguments", "FileOperation" },
+                    { "fileop", "SetAccessRuleProtection" },
+                    { "filepath", Item.ItemPath },
+                    { "isfolder", Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcutItem },
+                    { "isprotected", isProtected },
+                    { "preserveinheritance", preserveInheritance }
+                };
+                var (status, response) = await AppInstance.ServiceConnection.SendMessageForResponseAsync(value);
+                return (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
+                    && response.Get("Success", false));
+            }
+            return false;
         }
     }
 }
