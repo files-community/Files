@@ -2547,7 +2547,7 @@
   <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
     <value>Reset child permissions</value>
   </data>
-  <data name="SecurityAdvancedReplaceChildPermissions.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>Replace all child object permissions entries with inheritable permission entries from this object</value>
   </data>
 </root>

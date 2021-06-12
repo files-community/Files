@@ -64,6 +64,7 @@ namespace Files.ViewModels.Properties
                     AddAccessRuleCommand.NotifyCanExecuteChanged();
                     RemoveAccessRuleCommand.NotifyCanExecuteChanged();
                     DisableInheritanceCommand.NotifyCanExecuteChanged();
+                    ReplaceChildPermissionsCommand.NotifyCanExecuteChanged();
                 }
             }
         }

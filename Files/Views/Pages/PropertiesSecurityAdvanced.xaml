@@ -467,11 +467,12 @@
                 </muxc:SplitButton>
                 <Button
                     x:Name="ReplaceChildPermissionsButton"
-                    x:Uid="SecurityAdvancedReplaceChildPermissions"
+                    x:Uid="SecurityAdvancedReplaceChildPermissions2"
                     Grid.Column="1"
+                    x:Load="{x:Bind ViewModel.IsFolder, Mode=OneWay}"
                     Command="{x:Bind ViewModel.ReplaceChildPermissionsCommand}"
                     ToolTipService.ToolTip="Replace all child object permissions entries with inheritable permission entries from this object"
-                    Visibility="{x:Bind ViewModel.IsFolder, Mode=OneWay}">
+                    Visibility="Collapsed">
                     <TextBlock
                         x:Uid="SecurityAdvancedReplaceChildPermissions"
                         Text="Reset child permissions"

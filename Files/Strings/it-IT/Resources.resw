@@ -2442,7 +2442,7 @@
   <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
     <value>Resetta oggetti figlio</value>
   </data>
-  <data name="SecurityAdvancedReplaceChildPermissions.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>Sostituisci tutte le voci delle autorizzazioni degli oggetti figlio con le voci delle autorizzazioni ereditabili da questo oggetto</value>
   </data>
 </root>

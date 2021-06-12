@@ -3247,7 +3247,7 @@
           <source>Reset child permissions</source>
           <target state="translated">Resetta oggetti figlio</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedReplaceChildPermissions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Replace all child object permissions entries with inheritable permission entries from this object</source>
           <target state="translated">Sostituisci tutte le voci delle autorizzazioni degli oggetti figlio con le voci delle autorizzazioni ereditabili da questo oggetto</target>
         </trans-unit>
