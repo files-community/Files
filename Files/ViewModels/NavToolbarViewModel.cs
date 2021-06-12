@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.UserControls;
 using Files.Views;
@@ -16,10 +17,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Files.Common;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using static Files.UserControls.INavigationToolbar;
@@ -510,5 +514,247 @@ namespace Files.ViewModels
         public ICommand CreateNewFolderCommand { get; set; }
 
         public ICommand PreviewPaneInvokedCommand { get; set; }
+
+        public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
+        {
+            var nextPathItemTitle = PathComponents[PathComponents.IndexOf(pathItem) + 1].Title;
+            IList<StorageFolderWithPath> childFolders = null;
+
+            StorageFolderWithPath folder = await shellPage.FilesystemViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
+            if (folder != null)
+            {
+                childFolders = (await FilesystemTasks.Wrap(() => folder.GetFoldersWithPathAsync(string.Empty))).Result;
+            }
+            flyout.Items?.Clear();
+
+            if (childFolders == null || childFolders.Count == 0)
+            {
+                var flyoutItem = new MenuFlyoutItem
+                {
+                    Icon = new FontIcon { Glyph = "\uE7BA" },
+                    Text = "SubDirectoryAccessDenied".GetLocalized(),
+                    //Foreground = (SolidColorBrush)Application.Current.Resources["SystemControlErrorTextForegroundBrush"],
+                    FontSize = 12
+                };
+                flyout.Items.Add(flyoutItem);
+                return;
+            }
+
+            var boldFontWeight = new FontWeight { Weight = 800 };
+            var normalFontWeight = new FontWeight { Weight = 400 };
+
+            var workingPath = PathComponents
+                    [PathComponents.Count - 1].
+                    Path?.TrimEnd(Path.DirectorySeparatorChar);
+
+            foreach (var childFolder in childFolders)
+            {
+                var isPathItemFocused = childFolder.Item.Name == nextPathItemTitle;
+
+                var flyoutItem = new MenuFlyoutItem
+                {
+                    Icon = new FontIcon
+                    {
+                        Glyph = "\uED25",
+                        FontWeight = isPathItemFocused ? boldFontWeight : normalFontWeight
+                    },
+                    Text = childFolder.Item.Name,
+                    FontSize = 12,
+                    FontWeight = isPathItemFocused ? boldFontWeight : normalFontWeight
+                };
+
+                if (workingPath != childFolder.Path)
+                {
+                    flyoutItem.Click += (sender, args) =>
+                    {
+                        // Navigate to the directory
+                        shellPage.NavigateToPath(childFolder.Path);
+                    };
+                }
+
+                flyout.Items.Add(flyoutItem);
+            }
+        }
+
+        public async void CheckPathInput(string currentInput, string currentSelectedPath, IShellPage shellPage)
+        {
+            currentInput = currentInput.Replace("\\\\", "\\");
+
+            if (currentInput.StartsWith("\\") && !currentInput.StartsWith("\\\\"))
+            {
+                currentInput = currentInput.Insert(0, "\\");
+            }
+
+            if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
+            {
+                return;
+            }
+
+            if (currentInput != shellPage.FilesystemViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(WidgetsPage))
+            {
+                if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase)
+                    || currentInput.Equals("NewTab".GetLocalized(), StringComparison.OrdinalIgnoreCase))
+                {
+                    shellPage.NavigateHome();
+                }
+                else
+                {
+                    currentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(currentInput);
+                    if (currentSelectedPath == currentInput)
+                    {
+                        return;
+                    }
+
+                    var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentInput));
+
+                    var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
+                    if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
+                    {
+                        var pathToNavigate = resFolder.Result?.Path ?? currentInput;
+                        shellPage.NavigateToPath(pathToNavigate);
+                    }
+                    else // Not a folder or inaccessible
+                    {
+                        var resFile = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(currentInput, item));
+                        if (resFile)
+                        {
+                            var pathToInvoke = resFile.Result.Path;
+                            await Win32Helpers.InvokeWin32ComponentAsync(pathToInvoke, shellPage);
+                        }
+                        else // Not a file or not accessible
+                        {
+                            var workingDir = string.IsNullOrEmpty(shellPage.FilesystemViewModel.WorkingDirectory)
+                                    || shellPage.CurrentPageType == typeof(WidgetsPage)
+                                ? App.AppSettings.HomePath
+                                : shellPage.FilesystemViewModel.WorkingDirectory;
+
+                            // Launch terminal application if possible
+                            foreach (var terminal in App.AppSettings.TerminalController.Model.Terminals)
+                            {
+                                if (terminal.Path.Equals(currentInput, StringComparison.OrdinalIgnoreCase)
+                                    || terminal.Path.Equals(currentInput + ".exe", StringComparison.OrdinalIgnoreCase) || terminal.Name.Equals(currentInput, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    if (shellPage.ServiceConnection != null)
+                                    {
+                                        var value = new ValueSet
+                                        {
+                                            { "WorkingDirectory", workingDir },
+                                            { "Application", terminal.Path },
+                                            { "Arguments", string.Format(terminal.Arguments, workingDir) }
+                                        };
+                                        await shellPage.ServiceConnection.SendMessageAsync(value);
+                                    }
+                                    return;
+                                }
+                            }
+
+                            try
+                            {
+                                if (!await Launcher.LaunchUriAsync(new Uri(currentInput)))
+                                {
+                                    await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
+                                        string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, resFolder.ErrorCode.ToString()));
+                                }
+                            }
+                            catch (Exception ex) when (ex is UriFormatException || ex is ArgumentException)
+                            {
+                                await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
+                                    string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, resFolder.ErrorCode.ToString()));
+                            }
+                        }
+                    }
+                }
+
+                PathControlDisplayText = shellPage.FilesystemViewModel.WorkingDirectory;
+            }
+        }
+
+        public async void SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
+        {
+            if (!string.IsNullOrWhiteSpace(sender.Text))
+            {
+                try
+                {
+                    IList<ListedItem> suggestions = null;
+                    var expandedPath = StorageFileExtensions.GetPathWithoutEnvironmentVariable(sender.Text);
+                    var folderPath = Path.GetDirectoryName(expandedPath) ?? expandedPath;
+                    var folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+                    var currPath = await folder.Result.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
+                    if (currPath.Count() >= maxSuggestions)
+                    {
+                        suggestions = currPath.Select(x => new ListedItem(null)
+                        {
+                            ItemPath = x.Path,
+                            ItemName = x.Folder.DisplayName
+                        }).ToList();
+                    }
+                    else if (currPath.Any())
+                    {
+                        var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(maxSuggestions - currPath.Count()));
+                        suggestions = currPath.Select(x => new ListedItem(null)
+                        {
+                            ItemPath = x.Path,
+                            ItemName = x.Folder.DisplayName
+                        }).Concat(
+                            subPath.Select(x => new ListedItem(null)
+                            {
+                                ItemPath = x.Path,
+                                ItemName = Path.Combine(currPath.First().Folder.DisplayName, x.Folder.DisplayName)
+                            })).ToList();
+                    }
+                    else
+                    {
+                        suggestions = new List<ListedItem>() { new ListedItem(null) {
+                        ItemPath = shellpage.FilesystemViewModel.WorkingDirectory,
+                        ItemName = "NavigationToolbarVisiblePathNoResults".GetLocalized() } };
+                    }
+
+                    // NavigationBarSuggestions becoming empty causes flickering of the suggestion box
+                    // Here we check whether at least an element is in common between old and new list
+                    if (!NavigationBarSuggestions.IntersectBy(suggestions, x => x.ItemName).Any())
+                    {
+                        // No elements in common, update the list in-place
+                        for (int si = 0; si < suggestions.Count; si++)
+                        {
+                            if (si < NavigationBarSuggestions.Count)
+                            {
+                                NavigationBarSuggestions[si].ItemName = suggestions[si].ItemName;
+                                NavigationBarSuggestions[si].ItemPath = suggestions[si].ItemPath;
+                            }
+                            else
+                            {
+                                NavigationBarSuggestions.Add(suggestions[si]);
+                            }
+                        }
+                        while (NavigationBarSuggestions.Count > suggestions.Count)
+                        {
+                            NavigationBarSuggestions.RemoveAt(NavigationBarSuggestions.Count - 1);
+                        }
+                    }
+                    else
+                    {
+                        // At least an element in common, show animation
+                        foreach (var s in NavigationBarSuggestions.ExceptBy(suggestions, x => x.ItemName).ToList())
+                        {
+                            NavigationBarSuggestions.Remove(s);
+                        }
+                        foreach (var s in suggestions.ExceptBy(NavigationBarSuggestions, x => x.ItemName).ToList())
+                        {
+                            NavigationBarSuggestions.Insert(suggestions.IndexOf(s), s);
+                        }
+                    }
+                }
+                catch
+                {
+                    NavigationBarSuggestions.Clear();
+                    NavigationBarSuggestions.Add(new ListedItem(null)
+                    {
+                        ItemPath = shellpage.FilesystemViewModel.WorkingDirectory,
+                        ItemName = "NavigationToolbarVisiblePathNoResults".GetLocalized()
+                    });
+                }
+            }
+        }
+
     }
 }

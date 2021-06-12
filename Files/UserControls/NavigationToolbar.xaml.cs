@@ -83,9 +83,6 @@ namespace Files.UserControls
             cachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
         }
 
-        private bool showMultiPaneControls;
-
-
 
         public bool ShowMultiPaneControls
         {

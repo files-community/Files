@@ -754,7 +754,7 @@
                 DisplayMemberPath="ItemName"
                 FocusDisengaged="VisiblePath_LostFocus"
                 FontWeight="SemiBold"
-                ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions}"
+                ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions, Mode=OneWay}"
                 Loaded="VisiblePath_Loaded"
                 LostFocus="VisiblePath_LostFocus"
                 PlaceholderText="Enter a path"
