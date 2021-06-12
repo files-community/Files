@@ -259,14 +259,6 @@ namespace Files.UserControls
             }
         }
 
-        private void PathItemSeparator_Loaded(object sender, RoutedEventArgs e)
-        {
-            var pathSeparatorIcon = sender as FontIcon;
-            pathSeparatorIcon.Tapped += (s, e) => pathSeparatorIcon.ContextFlyout.ShowAt(pathSeparatorIcon);
-            pathSeparatorIcon.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE70D"; };
-            pathSeparatorIcon.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE76C"; };
-        }
-
         private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
         {
             if (!(mainPage.ViewModel.MultitaskingControl is VerticalTabViewControl))
@@ -326,16 +318,6 @@ namespace Files.UserControls
             }
         }
 
-        private void PathboxItemFlyout_Opened(object sender, object e) => ViewModel.PathboxItemFlyout_Opened(sender, e);
-
-        private void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args) => ViewModel.PathItemSeparator_DataContextChanged(sender, args);
-
-        private void PathBoxItem_DragLeave(object sender, DragEventArgs e) => ViewModel.PathBoxItem_DragLeave(sender, e);
-
-        private void PathBoxItem_DragOver(object sender, DragEventArgs e) => ViewModel.PathBoxItem_DragOver(sender, e);
-
-        private void PathBoxItem_Drop(object sender, DragEventArgs e) => ViewModel.PathBoxItem_Drop(sender, e);
-        private void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e) => ViewModel.PathBoxItem_Tapped(sender, e);
         private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args) => ViewModel.VisiblePath_QuerySubmitted(sender, args);
     }
 }
