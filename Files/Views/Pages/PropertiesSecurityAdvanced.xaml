@@ -257,12 +257,20 @@
                                 </muxc:DropDownButton.Content>
                                 <muxc:DropDownButton.Flyout>
                                     <MenuFlyout Placement="Bottom">
-                                        <MenuFlyoutItem Click="AllowMenuFlyoutItem_Click" Text="Allow">
+                                        <MenuFlyoutItem
+                                            x:Uid="SecurityAllowLabel"
+                                            Command="{x:Bind ChangeAccessControlTypeCommand}"
+                                            CommandParameter="Allow"
+                                            Text="Allow">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xF13E;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
-                                        <MenuFlyoutItem Click="DenyMenuFlyoutItem_Click" Text="Deny">
+                                        <MenuFlyoutItem
+                                            x:Uid="SecurityDenyLabel"
+                                            Command="{x:Bind ChangeAccessControlTypeCommand}"
+                                            CommandParameter="Deny"
+                                            Text="Deny">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xF140;" />
                                             </MenuFlyoutItem.Icon>
@@ -293,11 +301,64 @@
                                 Text="{x:Bind IsInheritedForUI}" />
 
                             <TextBlock
+                                x:Name="InheritTextBox"
                                 Grid.Column="5"
                                 VerticalAlignment="Center"
+                                x:Load="{x:Bind IsEditEnabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                                 Text="{x:Bind InheritanceFlagsForUI, Mode=OneWay}"
                                 TextTrimming="CharacterEllipsis"
                                 Visibility="{x:Bind IsFolder, Mode=OneWay}" />
+
+                            <muxc:DropDownButton
+                                x:Name="InheritDropdown"
+                                Grid.Column="5"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                x:Load="{x:Bind IsEditEnabled, Mode=OneWay}"
+                                Visibility="{x:Bind IsFolder, Mode=OneWay}">
+                                <muxc:DropDownButton.Content>
+                                    <TextBlock Text="{x:Bind InheritanceFlagsForUI, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
+                                </muxc:DropDownButton.Content>
+                                <muxc:DropDownButton.Flyout>
+                                    <MenuFlyout Placement="Bottom">
+                                        <MenuFlyoutItem
+                                            x:Uid="SecurityAdvancedOnlyThisFolder"
+                                            Command="{x:Bind ChangeInheritanceFlagsCommand}"
+                                            CommandParameter="None,None"
+                                            Text="Only this folder" />
+                                        <MenuFlyoutItem
+                                            x:Uid="SecurityAdvancedFolderSubfoldersFiles"
+                                            Command="{x:Bind ChangeInheritanceFlagsCommand}"
+                                            CommandParameter="3,None"
+                                            Text="This folder, subfolders and files" />
+                                        <MenuFlyoutItem
+                                            x:Uid="SecurityAdvancedFolderSubfolders"
+                                            Command="{x:Bind ChangeInheritanceFlagsCommand}"
+                                            CommandParameter="1,None"
+                                            Text="This folder and subfolders" />
+                                        <MenuFlyoutItem
+                                            x:Uid="SecurityAdvancedFolderFiles"
+                                            Command="{x:Bind ChangeInheritanceFlagsCommand}"
+                                            CommandParameter="2,None"
+                                            Text="This folder and files" />
+                                        <MenuFlyoutItem
+                                            x:Uid="SecurityAdvancedOnlySubfoldersFiles"
+                                            Command="{x:Bind ChangeInheritanceFlagsCommand}"
+                                            CommandParameter="3,InheritOnly"
+                                            Text="Only subfolders and files" />
+                                        <MenuFlyoutItem
+                                            x:Uid="SecurityAdvancedOnlySubfolders"
+                                            Command="{x:Bind ChangeInheritanceFlagsCommand}"
+                                            CommandParameter="1,InheritOnly"
+                                            Text="Only subfolders" />
+                                        <MenuFlyoutItem
+                                            x:Uid="SecurityAdvancedOnlyFiles"
+                                            Command="{x:Bind ChangeInheritanceFlagsCommand}"
+                                            CommandParameter="2,InheritOnly"
+                                            Text="Only files" />
+                                    </MenuFlyout>
+                                </muxc:DropDownButton.Flyout>
+                            </muxc:DropDownButton>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

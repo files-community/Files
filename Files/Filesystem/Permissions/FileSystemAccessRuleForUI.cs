@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,20 @@ namespace Files.Filesystem.Permissions
         public FileSystemAccessRuleForUI(bool isFolder)
         {
             IsFolder = isFolder;
+
+            ChangeAccessControlTypeCommand = new RelayCommand<string>(x =>
+            {
+                AccessControlType = Enum.Parse<AccessControlType>(x);
+            });
+
+            ChangeInheritanceFlagsCommand = new RelayCommand<string>(x =>
+            {
+                InheritanceFlags = Enum.Parse<InheritanceFlags>(x.Split(',')[0]);
+                PropagationFlags = Enum.Parse<PropagationFlags>(x.Split(',')[1]);
+            });
         }
 
-        public FileSystemAccessRuleForUI(FileSystemAccessRule accessRule, bool isFolder)
+        public FileSystemAccessRuleForUI(FileSystemAccessRule accessRule, bool isFolder): this(isFolder)
         {
             AccessControlType = accessRule.AccessControlType;
             FileSystemRights = accessRule.FileSystemRights;
@@ -21,8 +33,10 @@ namespace Files.Filesystem.Permissions
             IsInherited = accessRule.IsInherited;
             InheritanceFlags = accessRule.InheritanceFlags;
             PropagationFlags = accessRule.PropagationFlags;
-            IsFolder = isFolder;
         }
+
+        public RelayCommand<string> ChangeAccessControlTypeCommand { get; set; }
+        public RelayCommand<string> ChangeInheritanceFlagsCommand { get; set; }
 
         private AccessControlType accessControlType;
         public AccessControlType AccessControlType

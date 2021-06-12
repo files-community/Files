@@ -204,21 +204,5 @@ namespace Files.Views
                 }
             }
         }
-
-        private void AllowMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (ViewModel.SelectedAccessRule != null)
-            {
-                ViewModel.SelectedAccessRule.AccessControlType = AccessControlType.Allow;
-            }
-        }
-
-        private void DenyMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (ViewModel.SelectedAccessRule != null)
-            {
-                ViewModel.SelectedAccessRule.AccessControlType = AccessControlType.Deny;
-            }
-        }
     }
 }
