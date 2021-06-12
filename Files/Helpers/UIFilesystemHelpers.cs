@@ -202,7 +202,7 @@ namespace Files.Helpers
 
             if (renamed == ReturnResult.Success)
             {
-                associatedInstance.NavigationToolbar.CanGoForward = false;
+                associatedInstance.NavToolbarViewModel.CanGoForward = false;
                 return true;
             }
             return false;

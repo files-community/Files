@@ -17,15 +17,13 @@ namespace Files
 
         NamedPipeAsAppServiceConnection ServiceConnection { get; }
 
-        NavToolbarViewModel NavToolbarViewModel { get; }
-
         IBaseLayout SlimContentPage { get; }
 
         Type CurrentPageType { get; }
 
         IFilesystemHelpers FilesystemHelpers { get; }
 
-        INavigationToolbar NavigationToolbar { get; }
+        NavToolbarViewModel NavToolbarViewModel { get; }
 
         bool CanNavigateBackward { get; }
 
