@@ -8,6 +8,7 @@ using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -663,64 +664,6 @@ namespace Files.ViewModels
         {
             get => isHidden;
             set => SetProperty(ref isHidden, value);
-        }
-
-        public RelayCommand EditOwnerCommand { get; set; }
-        public RelayCommand AddRulesForUserCommand { get; set; }
-        public RelayCommand RemoveRulesForUserCommand { get; set; }
-        public RelayCommand AddAccessRuleCommand { get; set; }
-        public RelayCommand RemoveAccessRuleCommand { get; set; }
-
-        public FilePermissionsManager filePermissions;
-
-        public FilePermissionsManager FilePermissions
-        {
-            get => filePermissions;
-            set
-            {
-                if (SetProperty(ref filePermissions, value))
-                {
-                    EditOwnerCommand.NotifyCanExecuteChanged();
-                    AddRulesForUserCommand.NotifyCanExecuteChanged();
-                    RemoveRulesForUserCommand.NotifyCanExecuteChanged();
-                    AddAccessRuleCommand.NotifyCanExecuteChanged();
-                    RemoveAccessRuleCommand.NotifyCanExecuteChanged();
-                }
-            }
-        }
-
-        private RulesForUser selectedRuleForUser;
-        public RulesForUser SelectedRuleForUser
-        {
-            get => selectedRuleForUser;
-            set
-            {
-                if (SetProperty(ref selectedRuleForUser, value))
-                {
-                    RemoveRulesForUserCommand.NotifyCanExecuteChanged();
-                }
-            }
-        }
-
-        private List<FileSystemAccessRuleForUI> selectedAccessRules;
-        public List<FileSystemAccessRuleForUI> SelectedAccessRules
-        {
-            get => selectedAccessRules;
-            set
-            {
-                if (SetProperty(ref selectedAccessRules, value != null && value.Count == 0 ? null : value))
-                {
-                    RemoveAccessRuleCommand.NotifyCanExecuteChanged();
-                }
-            }
-        }
-
-        public bool isFolder;
-
-        public bool IsFolder
-        {
-            get => isFolder;
-            set => SetProperty(ref isFolder, value);
         }
     }
 }

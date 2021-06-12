@@ -31,30 +31,16 @@ namespace Files.Views
     /// <summary>
     /// Pagina vuota che può essere usata autonomamente oppure per l'esplorazione all'interno di un frame.
     /// </summary>
-    public sealed partial class PropertiesSecurityAdvanced : Page, INotifyPropertyChanged
+    public sealed partial class PropertiesSecurityAdvanced : Page
     {
         private static ApplicationViewTitleBar TitleBar;
 
         private object navParameterItem;
         private IShellPage AppInstance;
 
-        public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), fileSystemProperties.Item.ItemName);
+        public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), ViewModel.Item.ItemName);
 
-        private SelectedItemsPropertiesViewModel viewModel;
-        public SelectedItemsPropertiesViewModel ViewModel
-        {
-            get => viewModel;
-            set
-            {
-                if (value != viewModel)
-                {
-                    viewModel = value;
-                    NotifyPropertyChanged(nameof(ViewModel));
-                }
-            }
-        }
-
-        private FileSystemProperties fileSystemProperties;
+        public SecurityProperties ViewModel { get; set; }
 
         public PropertiesSecurityAdvanced()
         {
@@ -75,12 +61,7 @@ namespace Files.Views
             navParameterItem = args.Item;
             var listedItem = args.Item as ListedItem;
 
-            ViewModel = new SelectedItemsPropertiesViewModel();
-            fileSystemProperties = new FileSystemProperties(ViewModel, null, Dispatcher, listedItem, AppInstance);
-            if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-            {
-                ViewModel.IsFolder = !listedItem.IsShortcutItem;
-            }
+            ViewModel = new SecurityProperties(listedItem, AppInstance);
 
             base.OnNavigatedTo(e);
         }
@@ -102,7 +83,7 @@ namespace Files.Views
             {
             }
 
-            fileSystemProperties.GetFilePermissions();
+            ViewModel.GetFilePermissions();
         }
 
         private void Properties_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
@@ -149,7 +130,7 @@ namespace Files.Views
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                if (await fileSystemProperties.SetFilePermissions())
+                if (await ViewModel.SetFilePermissions())
                 {
                     await ApplicationView.GetForCurrentView().TryConsolidateAsync();
                 }
@@ -204,13 +185,6 @@ namespace Files.Views
             public IShellPage AppInstanceArgument { get; set; }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ViewModel.SelectedAccessRules = (sender as ListView).SelectedItems.Cast<FileSystemAccessRuleForUI>().ToList();
@@ -233,19 +207,17 @@ namespace Files.Views
 
         private void AllowMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = ViewModel.SelectedAccessRules?.FirstOrDefault();
-            if (selectedItem != null)
+            if (ViewModel.SelectedAccessRule != null)
             {
-                selectedItem.AccessControlType = AccessControlType.Allow;
+                ViewModel.SelectedAccessRule.AccessControlType = AccessControlType.Allow;
             }
         }
 
         private void DenyMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = ViewModel.SelectedAccessRules?.FirstOrDefault();
-            if (selectedItem != null)
+            if (ViewModel.SelectedAccessRule != null)
             {
-                selectedItem.AccessControlType = AccessControlType.Deny;
+                ViewModel.SelectedAccessRule.AccessControlType = AccessControlType.Deny;
             }
         }
     }

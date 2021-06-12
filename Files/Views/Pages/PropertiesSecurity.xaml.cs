@@ -12,6 +12,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Navigation;
 using static Files.Views.PropertiesSecurityAdvanced;
 
 namespace Files.Views
@@ -19,6 +20,8 @@ namespace Files.Views
     public sealed partial class PropertiesSecurity : PropertiesTab
     {
         public RelayCommand OpenAdvancedPropertiesCommand { get; set; }
+
+        public SecurityProperties SecurityProperties { get; set; }
 
         private ApplicationView propsView;
 
@@ -29,11 +32,23 @@ namespace Files.Views
             OpenAdvancedPropertiesCommand = new RelayCommand(() => OpenAdvancedProperties());
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            var np = e.Parameter as Views.Properties.PropertyNavParam;
+
+            if (np.navParameter is ListedItem item)
+            {
+                SecurityProperties = new SecurityProperties(item, np.AppInstanceArgument);
+            }
+
+            base.OnNavigatedTo(e);
+        }
+
         public async override Task<bool> SaveChangesAsync(ListedItem item)
         {
-            if (BaseProperties is FileSystemProperties fileSysProps)
+            if (SecurityProperties != null)
             {
-                return await fileSysProps.SetFilePermissions();
+                return await SecurityProperties.SetFilePermissions();
             }
             return true;
         }
@@ -42,9 +57,9 @@ namespace Files.Views
         {
             base.Properties_Loaded(sender, e);
 
-            if (BaseProperties is FileSystemProperties fileSysProps)
+            if (SecurityProperties != null)
             {
-                fileSysProps.GetFilePermissions();
+                SecurityProperties.GetFilePermissions();
             }
         }
 
@@ -58,7 +73,7 @@ namespace Files.Views
 
         private async void OpenAdvancedProperties()
         {
-            if (!(BaseProperties is FileSystemProperties fileSysProps))
+            if (SecurityProperties == null)
             {
                 return;
             }
@@ -74,7 +89,7 @@ namespace Files.Views
                         Frame frame = new Frame();
                         frame.Navigate(typeof(PropertiesSecurityAdvanced), new PropertiesPageNavigationArguments()
                         {
-                            Item = fileSysProps.Item,
+                            Item = SecurityProperties.Item,
                             AppInstanceArgument = AppInstance
 
                         }, new SuppressNavigationTransitionInfo());
@@ -83,7 +98,7 @@ namespace Files.Views
 
                         propsView = ApplicationView.GetForCurrentView();
                         newWindow.TitleBar.ExtendViewIntoTitleBar = true;
-                        propsView.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), fileSysProps.Item.ItemName);
+                        propsView.Title = string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), SecurityProperties.Item.ItemName);
                         propsView.PersistedStateId = "PropertiesSecurity";
                         propsView.SetPreferredMinSize(new Size(400, 550));
                         propsView.Consolidated += PropsView_Consolidated;
@@ -110,9 +125,9 @@ namespace Files.Views
             propsView.Consolidated -= PropsView_Consolidated;
             propsView = null;
 
-            if (BaseProperties is FileSystemProperties fileSysProps)
+            if (SecurityProperties != null)
             {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => fileSysProps.GetFilePermissions()); // Reload permissions
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => SecurityProperties.GetFilePermissions()); // Reload permissions
             }
         }
     }

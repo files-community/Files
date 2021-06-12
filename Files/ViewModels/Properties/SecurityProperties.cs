@@ -2,9 +2,11 @@
 using Files.Filesystem;
 using Files.Filesystem.Permissions;
 using Files.Helpers;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,25 +16,83 @@ using Windows.UI.Core;
 
 namespace Files.ViewModels.Properties
 {
-    public class FileSystemProperties : BaseProperties
+    public class SecurityProperties : ObservableObject
     {
         public ListedItem Item { get; }
+        public IShellPage AppInstance { get; set; } = null;
 
-        public FileSystemProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ListedItem item, IShellPage instance)
+        public SecurityProperties(ListedItem item, IShellPage instance)
         {
-            ViewModel = viewModel;
-            TokenSource = tokenSource;
-            Dispatcher = coreDispatcher;
             Item = item;
             AppInstance = instance;
+            IsFolder = item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !item.IsShortcutItem;
 
-            GetBaseProperties();
+            EditOwnerCommand = new RelayCommand(() => EditOwner(), () => FilePermissions != null);
+            AddRulesForUserCommand = new RelayCommand(() => AddRulesForUser(), () => FilePermissions != null && FilePermissions.CanReadFilePermissions);
+            RemoveRulesForUserCommand = new RelayCommand(() => RemoveRulesForUser(), () => FilePermissions != null && FilePermissions.CanReadFilePermissions && SelectedRuleForUser != null);
+            AddAccessRuleCommand = new RelayCommand(() => AddAccessRule(), () => FilePermissions != null && FilePermissions.CanReadFilePermissions);
+            RemoveAccessRuleCommand = new RelayCommand(() => RemoveAccessRule(), () => FilePermissions != null && FilePermissions.CanReadFilePermissions && SelectedAccessRules != null);
+        }
 
-            ViewModel.EditOwnerCommand = new RelayCommand(() => EditOwner(), () => ViewModel.FilePermissions != null);
-            ViewModel.AddRulesForUserCommand = new RelayCommand(() => AddRulesForUser(), () => ViewModel.FilePermissions != null && ViewModel.FilePermissions.CanReadFilePermissions);
-            ViewModel.RemoveRulesForUserCommand = new RelayCommand(() => RemoveRulesForUser(), () => ViewModel.FilePermissions != null && ViewModel.FilePermissions.CanReadFilePermissions && ViewModel.SelectedRuleForUser != null);
-            ViewModel.AddAccessRuleCommand = new RelayCommand(() => AddAccessRule(), () => ViewModel.FilePermissions != null && ViewModel.FilePermissions.CanReadFilePermissions);
-            ViewModel.RemoveAccessRuleCommand = new RelayCommand(() => RemoveAccessRule(), () => ViewModel.FilePermissions != null && ViewModel.FilePermissions.CanReadFilePermissions && ViewModel.SelectedAccessRules != null);
+        public RelayCommand EditOwnerCommand { get; set; }
+        public RelayCommand AddRulesForUserCommand { get; set; }
+        public RelayCommand RemoveRulesForUserCommand { get; set; }
+        public RelayCommand AddAccessRuleCommand { get; set; }
+        public RelayCommand RemoveAccessRuleCommand { get; set; }
+
+        public FilePermissionsManager filePermissions;
+
+        public FilePermissionsManager FilePermissions
+        {
+            get => filePermissions;
+            set
+            {
+                if (SetProperty(ref filePermissions, value))
+                {
+                    EditOwnerCommand.NotifyCanExecuteChanged();
+                    AddRulesForUserCommand.NotifyCanExecuteChanged();
+                    RemoveRulesForUserCommand.NotifyCanExecuteChanged();
+                    AddAccessRuleCommand.NotifyCanExecuteChanged();
+                    RemoveAccessRuleCommand.NotifyCanExecuteChanged();
+                }
+            }
+        }
+
+        private RulesForUser selectedRuleForUser;
+        public RulesForUser SelectedRuleForUser
+        {
+            get => selectedRuleForUser;
+            set
+            {
+                if (SetProperty(ref selectedRuleForUser, value))
+                {
+                    RemoveRulesForUserCommand.NotifyCanExecuteChanged();
+                }
+            }
+        }
+
+        private List<FileSystemAccessRuleForUI> selectedAccessRules;
+        public List<FileSystemAccessRuleForUI> SelectedAccessRules
+        {
+            get => selectedAccessRules;
+            set
+            {
+                if (SetProperty(ref selectedAccessRules, value))
+                {
+                    RemoveAccessRuleCommand.NotifyCanExecuteChanged();
+                    OnPropertyChanged(nameof(SelectedAccessRule));
+                }
+            }
+        }
+
+        public FileSystemAccessRuleForUI SelectedAccessRule => SelectedAccessRules?.FirstOrDefault();
+
+        public bool isFolder;
+
+        public bool IsFolder
+        {
+            get => isFolder;
+            set => SetProperty(ref isFolder, value);
         }
 
         private async void AddAccessRule()
@@ -40,12 +100,12 @@ namespace Files.ViewModels.Properties
             var pickedObject = await OpenObjectPicker();
             if (pickedObject != null)
             {
-                ViewModel.FilePermissions.AccessRules.Add(new FileSystemAccessRuleForUI(ViewModel.IsFolder)
+                FilePermissions.AccessRules.Add(new FileSystemAccessRuleForUI(IsFolder)
                 {
                     AccessControlType = AccessControlType.Allow,
                     FileSystemRights = FileSystemRights.ReadAndExecute,
                     IdentityReference = pickedObject,
-                    InheritanceFlags = ViewModel.IsFolder ? InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit : InheritanceFlags.None,
+                    InheritanceFlags = IsFolder ? InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit : InheritanceFlags.None,
                     PropagationFlags = PropagationFlags.None
                 });
             }
@@ -53,11 +113,11 @@ namespace Files.ViewModels.Properties
 
         private void RemoveAccessRule()
         {
-            if (ViewModel.SelectedAccessRules != null)
+            if (SelectedAccessRules != null)
             {
-                foreach (var rule in ViewModel.SelectedAccessRules)
+                foreach (var rule in SelectedAccessRules)
                 {
-                    ViewModel.FilePermissions.AccessRules.Remove(rule);
+                    FilePermissions.AccessRules.Remove(rule);
                 }
             }
         }
@@ -79,35 +139,27 @@ namespace Files.ViewModels.Properties
             var pickedObject = await OpenObjectPicker();
             if (pickedObject != null)
             {
-                if (!ViewModel.FilePermissions.RulesForUsers.Any(x => x.UserGroup.Sid == pickedObject))
+                if (!FilePermissions.RulesForUsers.Any(x => x.UserGroup.Sid == pickedObject))
                 {
                     // No existing rules, add user to list
-                    ViewModel.FilePermissions.RulesForUsers.Add(RulesForUser.ForUser(ViewModel.FilePermissions.AccessRules, ViewModel.IsFolder, pickedObject));
+                    FilePermissions.RulesForUsers.Add(RulesForUser.ForUser(FilePermissions.AccessRules, IsFolder, pickedObject));
                 }
             }
         }
 
         private void RemoveRulesForUser()
         {
-            if (ViewModel.SelectedRuleForUser != null)
+            if (SelectedRuleForUser != null)
             {
-                ViewModel.SelectedRuleForUser.AllowRights = 0;
-                ViewModel.SelectedRuleForUser.DenyRights = 0;
+                SelectedRuleForUser.AllowRights = 0;
+                SelectedRuleForUser.DenyRights = 0;
 
-                if (!ViewModel.FilePermissions.AccessRules.Any(x => x.IdentityReference == ViewModel.SelectedRuleForUser.UserGroup.Sid))
+                if (!FilePermissions.AccessRules.Any(x => x.IdentityReference == SelectedRuleForUser.UserGroup.Sid))
                 {
                     // No remaining rules, remove user from list
-                    ViewModel.FilePermissions.RulesForUsers.Remove(ViewModel.SelectedRuleForUser);
+                    FilePermissions.RulesForUsers.Remove(SelectedRuleForUser);
                 }
             }
-        }
-
-        public override void GetBaseProperties()
-        {
-        }
-
-        public override void GetSpecialProperties()
-        {
         }
 
         public async void GetFilePermissions()
@@ -125,14 +177,14 @@ namespace Files.ViewModels.Properties
                 if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
                 {
                     var filePermissions = JsonConvert.DeserializeObject<FilePermissions>((string)response["FilePermissions"]);
-                    ViewModel.FilePermissions = new FilePermissionsManager(filePermissions);
+                    FilePermissions = new FilePermissionsManager(filePermissions);
                 }
             }
         }
 
         public async Task<bool> SetFilePermissions()
         {
-            if (ViewModel.FilePermissions == null || !ViewModel.FilePermissions.CanReadFilePermissions)
+            if (FilePermissions == null || !FilePermissions.CanReadFilePermissions)
             {
                 return true;
             }
@@ -142,7 +194,7 @@ namespace Files.ViewModels.Properties
                 {
                     { "Arguments", "FileOperation" },
                     { "fileop", "SetFilePermissions" },
-                    { "permissions", JsonConvert.SerializeObject(ViewModel.FilePermissions.ToFilePermissions()) }
+                    { "permissions", JsonConvert.SerializeObject(FilePermissions.ToFilePermissions()) }
                 };
                 var (status, response) = await AppInstance.ServiceConnection.SendMessageForResponseAsync(value);
                 return (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
