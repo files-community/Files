@@ -61,7 +61,7 @@
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Uid="LibraryCardsOptionsFlyoutRestoreLibrariesMenuItem"
-                            Command="{x:Bind ShowCreateNewLibraryDialogCommand, Mode=OneWay}"
+                            Command="{x:Bind ShowRestoreLibrariesDialogCommand, Mode=OneWay}"
                             Text="Restore default libraries">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE10E;" />
