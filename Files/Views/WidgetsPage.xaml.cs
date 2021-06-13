@@ -216,10 +216,10 @@ namespace Files.Views
             AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
             AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
-            AppInstance.NavigationToolbar.CanRefresh = false;
-            AppInstance.NavigationToolbar.CanGoBack = AppInstance.CanNavigateBackward;
-            AppInstance.NavigationToolbar.CanGoForward = AppInstance.CanNavigateForward;
-            AppInstance.NavigationToolbar.CanNavigateToParent = false;
+            AppInstance.NavToolbarViewModel.CanRefresh = false;
+            AppInstance.NavToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
+            AppInstance.NavToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
+            AppInstance.NavToolbarViewModel.CanNavigateToParent = false;
 
             AppInstance.LoadPreviewPaneChanged();
 
@@ -227,7 +227,7 @@ namespace Files.Views
             await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
 
             // Clear the path UI and replace with Favorites
-            AppInstance.NavigationToolbar.PathComponents.Clear();
+            AppInstance.NavToolbarViewModel.PathComponents.Clear();
             string componentLabel = parameters.NavPathParam;
             string tag = parameters.NavPathParam;
             PathBoxItem item = new PathBoxItem()
@@ -235,7 +235,7 @@ namespace Files.Views
                 Title = componentLabel,
                 Path = tag,
             };
-            AppInstance.NavigationToolbar.PathComponents.Add(item);
+            AppInstance.NavToolbarViewModel.PathComponents.Add(item);
         }
 
         #region IDisposable
