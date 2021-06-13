@@ -1,11 +1,7 @@
-﻿using Files.Enums;
-using Files.Helpers;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
-using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
@@ -15,71 +11,33 @@ namespace Files.ViewModels.Dialogs
 {
     public class DecompressArchiveDialogViewModel : ObservableObject
     {
-        private readonly StorageFile _archive;
+        private readonly IStorageFile _archive;
 
-        private StorageFolder _destinationFolder;
+        public StorageFolder DestinationFolder { get; private set; }
 
         private string _DestinationFolderPath;
         public string DestinationFolderPath
         {
             get => _DestinationFolderPath;
-            set => SetProperty(ref _DestinationFolderPath, value);
+            private set => SetProperty(ref _DestinationFolderPath, value);
         }
 
-        public ICommand StartExtractingCommand { get; private set; }
+        private bool _OpenDestinationFolderOnCompletion;
+        public bool OpenDestinationFolderOnCompletion
+        {
+            get => _OpenDestinationFolderOnCompletion;
+            set => SetProperty(ref _OpenDestinationFolderOnCompletion, value);
+        }
 
         public ICommand SelectDestinationCommand { get; private set; }
 
-        public DecompressArchiveDialogViewModel(StorageFile archive)
+        public DecompressArchiveDialogViewModel(IStorageFile archive)
         {
             this._archive = archive;
             this.DestinationFolderPath = DefaultDestinationFolderPath();
 
             // Create commands
-            StartExtractingCommand = new AsyncRelayCommand(StartExtracting);
             SelectDestinationCommand = new AsyncRelayCommand(SelectDestination);
-        }
-
-        private async Task StartExtracting()
-        {
-            // Check if archive still exists
-            if (!StorageItemHelpers.Exists(_archive.Path))
-            {
-                return;
-            }
-
-            CancellationTokenSource extractCancellation = new CancellationTokenSource();
-            PostedStatusBanner banner = App.StatusCenterViewModel.PostOperationBanner(
-                string.Empty,
-                "Extracting archive",
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Extract,
-                extractCancellation);
-
-            if (_destinationFolder == null)
-            {
-                StorageFolder parentFolder = await StorageItemHelpers.ToStorageItem<StorageFolder>(Path.GetDirectoryName(_archive.Path));
-                _destinationFolder = await parentFolder.CreateFolderAsync(Path.GetFileName(DestinationFolderPath));
-            }
-
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-
-            await ZipHelpers.ExtractArchive(_archive, _destinationFolder, banner.Progress, extractCancellation.Token);
-
-            sw.Stop();
-            banner.Remove();
-
-            if (sw.Elapsed.TotalSeconds >= 6)
-            {
-                App.StatusCenterViewModel.PostBanner(
-                    "Extracting complete!",
-                    "The archive extraction completed successfully.",
-                    0,
-                    ReturnResult.Success,
-                    FileOperationType.Extract);
-            }
         }
 
         private async Task SelectDestination()
@@ -87,11 +45,11 @@ namespace Files.ViewModels.Dialogs
             FolderPicker folderPicker = new FolderPicker();
             folderPicker.FileTypeFilter.Add("*");
 
-            _destinationFolder = await folderPicker.PickSingleFolderAsync();
+            DestinationFolder = await folderPicker.PickSingleFolderAsync();
 
-            if (_destinationFolder != null)
+            if (DestinationFolder != null)
             {
-                DestinationFolderPath = _destinationFolder.Path;
+                DestinationFolderPath = DestinationFolder.Path;
             }
             else
             {
