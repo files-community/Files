@@ -145,11 +145,11 @@ namespace FilesFullTrust
                 this.Items = new List<Win32ContextMenuItem>();
             }
 
-            public void InvokeVerb(string verb)
+            public bool InvokeVerb(string verb)
             {
                 if (string.IsNullOrEmpty(verb))
                 {
-                    return;
+                    return false;
                 }
 
                 try
@@ -161,6 +161,7 @@ namespace FilesFullTrust
                     pici.cbSize = (uint)Marshal.SizeOf(pici);
                     cMenu.InvokeCommand(pici);
                     Win32API.BringToForeground(currentWindows);
+                    return true;
                 }
                 catch (Exception ex) when (
                     ex is COMException
@@ -168,6 +169,7 @@ namespace FilesFullTrust
                 {
                     Debug.WriteLine(ex);
                 }
+                return false;
             }
 
             public void InvokeItem(int itemID)
