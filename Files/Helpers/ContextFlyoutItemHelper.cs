@@ -658,8 +658,10 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "Extract",
+                    Glyph = "\xF11A",
                     Command = commandsViewModel.DecompressArchiveCommand,
-                    ShowItem = selectedItems.Count == 1 && selectedItems.First().FileExtension == ".zip"
+                    ShowItem = selectedItems.Count == 1 && selectedItems.First().FileExtension == ".zip",
+                    GlyphFontFamilyName = "CustomGlyph"
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
