@@ -12,7 +12,7 @@ variables:
 
 steps:
 - task: PowerShell@2
-    inputs:
+  inputs:
       targetType: 'inline'
       script: |
         [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\Files.Package\Package.appxmanifest
