@@ -672,24 +672,6 @@ namespace Files.ViewModels
             FilesAndFolders.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
         }
 
-        private bool isLoadingIndicatorActive = false;
-
-        public bool IsLoadingIndicatorActive
-        {
-            get
-            {
-                return isLoadingIndicatorActive;
-            }
-            set
-            {
-                if (isLoadingIndicatorActive != value)
-                {
-                    isLoadingIndicatorActive = value;
-                    NotifyPropertyChanged(nameof(IsLoadingIndicatorActive));
-                }
-            }
-        }
-
         private bool isLoadingItems = false;
 
         public bool IsLoadingItems
@@ -701,14 +683,22 @@ namespace Files.ViewModels
             set
             {
                 isLoadingItems = value;
-                IsLoadingIndicatorActive = value;
             }
         }
+
+        List<ListedItem> itemLoadQueue = new List<ListedItem>();
 
         // This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
         // for file inside the recycle bin (but not on the recycle bin folder itself)
         public async Task LoadExtendedItemProperties(ListedItem item, uint thumbnailSize = 20)
         {
+            // Don't load extended item properties while enumeration is in progress to improve enumeration speed
+            if (IsLoadingItems)
+            {
+                itemLoadQueue.Add(item);
+                return;
+            }
+
             await Task.Run(async () =>
             {
                 if (item == null)
@@ -724,6 +714,7 @@ namespace Files.ViewModels
                 {
                     return;
                 }
+
                 var wasSyncStatusLoaded = false;
                 ImageSource groupImage = null;
                 bool loadGroupHeaderInfo = false;
@@ -983,6 +974,13 @@ namespace Files.ViewModels
             finally
             {
                 enumFolderSemaphore.Release();
+
+                // Load items in the queue after enumeration has completed to improve enumeration speed
+                foreach(var item in itemLoadQueue)
+                {
+                    _ = LoadExtendedItemProperties(item);
+                }
+                itemLoadQueue.Clear();
             }
         }
 

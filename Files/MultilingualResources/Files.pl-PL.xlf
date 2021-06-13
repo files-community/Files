@@ -2194,14 +2194,6 @@
           <source>Open in new Pane</source>
           <target state="translated">Otwórz w nowym Panelu</target>
         </trans-unit>
-        <trans-unit id="DefaultScheme" translate="yes" xml:space="preserve">
-          <source>Default</source>
-          <target state="translated">Domyślny</target>
-        </trans-unit>
-        <trans-unit id="SettingsAppearanceColorScheme.Header" translate="yes" xml:space="preserve">
-          <source>Color scheme</source>
-          <target state="translated">Schemat koloru</target>
-        </trans-unit>
         <trans-unit id="PropertyItemCount" translate="yes" xml:space="preserve">
           <source>Item count</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Liczba elementów</target>
@@ -2510,10 +2502,6 @@
         <trans-unit id="NavToolbarShowLibraryWidget.Header" translate="yes" xml:space="preserve">
           <source>Show Library widget</source>
           <target state="new">Show Library widget</target>
-        </trans-unit>
-        <trans-unit id="SettingsAppearanceOpenThemesFolderButton.Content" translate="yes" xml:space="preserve">
-          <source>Open themes folder</source>
-          <target state="new">Open themes folder</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" translate="yes" xml:space="preserve">
           <source>There are {0} conflicting file names, and {1} outgoing item(s).</source>
@@ -3086,6 +3074,34 @@
         <trans-unit id="SettingsVerticalTabFlyoutSwitch.Header" translate="yes" xml:space="preserve">
           <source>Display vertical tab flyout on the title bar</source>
           <target state="new">Display vertical tab flyout on the title bar</target>
+        </trans-unit>
+        <trans-unit id="DefaultSkin" translate="yes" xml:space="preserve">
+          <source>Default</source>
+          <target state="new">Default</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceCustomSkins.Header" translate="yes" xml:space="preserve">
+          <source>Custom skin</source>
+          <target state="new">Custom skin</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceOpenSkinsFolderButton.Content" translate="yes" xml:space="preserve">
+          <source>Open skins folder</source>
+          <target state="new">Open skins folder</target>
+        </trans-unit>
+        <trans-unit id="SettingsSkinsLearnMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Learn more about custom skins</source>
+          <target state="new">Learn more about custom skins</target>
+        </trans-unit>
+        <trans-unit id="SettingsSkinsLearnMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Learn more about custom skins</source>
+          <target state="new">Learn more about custom skins</target>
+        </trans-unit>
+        <trans-unit id="SettingsSkinsTeachingTipHeader.Text" translate="yes" xml:space="preserve">
+          <source>Custom skins provide a great way for you to personalize Files.</source>
+          <target state="new">Custom skins provide a great way for you to personalize Files.</target>
+        </trans-unit>
+        <trans-unit id="SettingsSkinsTeachingTipHyperlinkText.Text" translate="yes" xml:space="preserve">
+          <source>View documentation.</source>
+          <target state="new">View documentation.</target>
         </trans-unit>
       </group>
     </body>

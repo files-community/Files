@@ -1149,12 +1149,6 @@
   <data name="SidebarLibraries" xml:space="preserve">
     <value>लायब्रेरीज़</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>डिफ़ॉल्ट</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>रंग योजना:</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>आइटम संख्या</value>
   </data>

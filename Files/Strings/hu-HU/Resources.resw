@@ -1635,12 +1635,6 @@
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>Megnyitás jobb oldali panelen</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>Alapértelmezett</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Színösszeállítás</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Elemek száma</value>
   </data>
@@ -1865,9 +1859,6 @@
   </data>
   <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
     <value>Könyvtárak megjelenítése</value>
-  </data>
-  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Téma mappa megnyitása</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
     <value>{0} ütköző fájlnév, és {1} kimenő elem.</value>

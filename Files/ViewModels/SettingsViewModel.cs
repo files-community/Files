@@ -22,6 +22,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
@@ -89,16 +90,7 @@ namespace Files.ViewModels
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
 
-        public static async void OpenThemesFolder()
-        {
-            Frame rootFrame = Window.Current.Content as Frame;
-            // Go back to main page
-            if (rootFrame.CanGoBack)
-            {
-                rootFrame.GoBack();
-            }
-            await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
-        }
+        public static async void OpenSkinsFolder() => await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.SkinFolder.Path);
 
         public static async void ReportIssueOnGitHub()
         {
@@ -536,13 +528,13 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the user's current selected theme
+        /// Gets or sets the user's current selected skin
         /// </summary>
-        public AppTheme SelectedTheme
+        public AppSkin SelectedSkin
         {
-            get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppTheme>(Get(System.Text.Json.JsonSerializer.Serialize(new AppTheme()
+            get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppSkin>(Get(System.Text.Json.JsonSerializer.Serialize(new AppSkin()
             {
-                Name = "DefaultScheme".GetLocalized()
+                Name = "DefaultSkin".GetLocalized()
             })));
             set => Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
         }

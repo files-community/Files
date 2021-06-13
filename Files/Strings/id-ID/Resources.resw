@@ -1675,12 +1675,6 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
   <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>Tampilkan pustaka di bilah sisi</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>Bawaan</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Color scheme</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Jumlah item</value>
   </data>
@@ -1920,9 +1914,6 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
   </data>
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
     <value>Kelola Widget</value>
-  </data>
-  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Buka folder tema</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
     <value>Buat nama baru</value>

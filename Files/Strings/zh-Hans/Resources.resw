@@ -1635,12 +1635,6 @@
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>在新面板打开</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>默认</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>配色方案</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>项目数</value>
   </data>

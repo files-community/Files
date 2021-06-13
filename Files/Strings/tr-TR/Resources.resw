@@ -1635,12 +1635,6 @@
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>Yeni panoda aç</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>Varsayılan</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Renk teması</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Öğe sayısı</value>
   </data>

@@ -28,6 +28,7 @@ namespace Files.ViewModels
     public class MainPageViewModel : ObservableObject
     {
         public IMultitaskingControl MultitaskingControl { get; set; }
+        public List<IMultitaskingControl> MultitaskingControls { get; } = new List<IMultitaskingControl>();
 
         public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
 

@@ -1605,12 +1605,6 @@
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>Ouvrir dans un nouveau panneau</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>Défaut</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Modèle de couleurs</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Nombre d'éléments</value>
   </data>
@@ -1835,9 +1829,6 @@
   </data>
   <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
     <value>Montrer les bibliothèques</value>
-  </data>
-  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Ouvrir l'emplacement des thèmes</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
     <value>Générer un nouveau nom</value>

@@ -1635,12 +1635,6 @@
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>Apri in un nuovo pannello</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>Predefinito</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Tema</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Numero elementi</value>
   </data>
@@ -1871,9 +1865,6 @@
   </data>
   <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
     <value>Mostra widget Libreria</value>
-  </data>
-  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Apri cartella temi</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
     <value>Ci sono {0} conflitti, and {1} elemento/i senza conflitti.</value>

@@ -1635,12 +1635,6 @@
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>새 패널에서 열기</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>기본값</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>색상 테마</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>항목 수</value>
   </data>

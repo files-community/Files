@@ -1494,12 +1494,6 @@
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Knihovny</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>Výchozí</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Barevné schéma</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Počet položek</value>
   </data>
