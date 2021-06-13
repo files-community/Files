@@ -5,12 +5,14 @@ using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
 using Files.UserControls.Selection;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -32,6 +34,7 @@ namespace Files.Views.LayoutModes
         /// The minimum item width for items. Used in the StretchedGridViewItems behavior.
         /// </summary>
         public int GridViewItemMinWidth => FolderSettings.LayoutMode == FolderLayoutModes.TilesView ? Constants.Browser.GridViewBrowser.TilesView : FolderSettings.GridViewSize;
+        public ICommand LoadExtendedPropsCommand;
 
         public GridViewBrowser()
             : base()
@@ -41,6 +44,7 @@ namespace Files.Views.LayoutModes
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+            LoadExtendedPropsCommand = new RelayCommand<LoadExtendedPropertiesCommandModel>((x) => InitializeItemCore(x.ItemContainer, x.Item, x.ItemThumbnailSize));
         }
 
         protected override void HookEvents()
@@ -150,7 +154,7 @@ namespace Files.Views.LayoutModes
         {
             base.OnNavigatedTo(eventArgs);
 
-            currentIconSize = FolderSettings.GetIconSize();
+            CurrentIconSize = FolderSettings.GetIconSize();
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             SetItemTemplate(); // Set ItemTemplate
@@ -192,9 +196,9 @@ namespace Files.Views.LayoutModes
             {
                 SetItemTemplate(); // Set ItemTemplate
                 var requestedIconSize = FolderSettings.GetIconSize();
-                if (requestedIconSize != currentIconSize)
+                if (requestedIconSize != CurrentIconSize)
                 {
-                    currentIconSize = requestedIconSize;
+                    CurrentIconSize = requestedIconSize;
                     ReloadItemIcons();
                 }
             }
@@ -466,7 +470,7 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private uint currentIconSize;
+        public uint CurrentIconSize { get; private set; }
 
         private void FolderSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
         {
@@ -474,9 +478,9 @@ namespace Files.Views.LayoutModes
             var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size
 
             // Prevents reloading icons when the icon size hasn't changed
-            if (requestedIconSize != currentIconSize)
+            if (requestedIconSize != CurrentIconSize)
             {
-                currentIconSize = requestedIconSize; // Update icon size before refreshing
+                CurrentIconSize = requestedIconSize; // Update icon size before refreshing
                 ReloadItemIcons();
             }
         }
@@ -490,7 +494,7 @@ namespace Files.Views.LayoutModes
                 if (FileList.ContainerFromItem(listedItem) != null)
                 {
                     listedItem.ItemPropertiesInitialized = true;
-                    await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
+                    await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, CurrentIconSize);
                 }
             }
         }
@@ -514,31 +518,13 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
+        private void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
             // This resizes the items after the item template has been changed and reloaded
-            if(itemTemplateChanging)
+            if (itemTemplateChanging)
             {
                 itemTemplateChanging = false;
                 Behaviors.StretchedGridViewItems.ResizeItems(FileList);
-            }
-
-            if (args.ItemContainer == null)
-            {
-                GridViewItem gvi = new GridViewItem();
-                args.ItemContainer = gvi;
-            }
-            args.ItemContainer.DataContext = args.Item;
-
-            InitializeDrag(args.ItemContainer);
-            if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
-            {
-                args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
-                args.ItemContainer.CanDrag = args.ItemContainer.IsSelected; // Update CanDrag
-
-                item.ItemPropertiesInitialized = true;
-
-                await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
             }
         }
 
@@ -573,6 +559,53 @@ namespace Files.Views.LayoutModes
                 item = VisualTreeHelper.GetParent(item);
             var itemContainer = item as GridViewItem;
             itemContainer.ContextFlyout = ItemContextMenuFlyout;
+        }
+
+
+        public async void InitializeItemCore(GridViewItem gvi, ListedItem item, uint currentIconSize)
+        {
+            InitializeDrag(gvi, item);
+            if (!item.ItemPropertiesInitialized)
+            {
+                gvi.PointerPressed += FileListGridItem_PointerPressed;
+                gvi.CanDrag = gvi.IsSelected; // Update CanDrag
+
+                item.ItemPropertiesInitialized = true;
+
+                await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
+            }
+        }
+    }
+
+    public class LoadExtendedPropertiesCommandModel
+    {
+        public GridViewItem ItemContainer { get; set; }
+        public ListedItem Item { get; set; }
+        public uint ItemThumbnailSize { get; set; }
+    }
+
+    public class GridViewStyleSelector : StyleSelector
+    {
+        public Style ContainerStyle { get; set; }
+        public ICommand LoadExtendedPropertiesCommand { get; set; }
+        public uint ThumbnailSize { get; set; }
+
+        protected override Style SelectStyleCore(object item, DependencyObject container)
+        {
+            if (!((ListedItem)item).ItemPropertiesInitialized)
+            {
+                if (container is GridViewItem gvi)
+                {
+                    LoadExtendedPropertiesCommand.Execute(new LoadExtendedPropertiesCommandModel()
+                    {
+                        ItemContainer = gvi,
+                        Item = item as ListedItem,
+                        ItemThumbnailSize = ThumbnailSize
+                    });
+                }
+            }
+            
+            return ContainerStyle;
         }
     }
 }

@@ -717,9 +717,13 @@ namespace Files
             deferral.Complete();
         }
 
-        protected void InitializeDrag(UIElement element)
+        protected void InitializeDrag(UIElement element, ListedItem item = null)
         {
-            ListedItem item = GetItemFromElement(element);
+            if (item == null)
+            {
+                item = GetItemFromElement(element);
+            }
+
             if (item != null)
             {
                 element.AllowDrop = false;
