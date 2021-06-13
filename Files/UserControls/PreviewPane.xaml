@@ -71,13 +71,13 @@
             Background="Transparent">
             <controls:GridSplitter.Element>
                 <Grid>
-                    <FontIcon
-                        x:Name="GripperGlyph"
-                        Margin="-1.5,0,0,-1"
-                        HorizontalAlignment="Center"
-                        Foreground="{StaticResource SystemChromeHighColor}"
-                        Glyph="&#xE76F;"
-                        IsHitTestVisible="False" />
+                    <Rectangle
+                        x:Name="ResizePill"
+                        Width="28"
+                        Height="4"
+                        Fill="{StaticResource SystemChromeHighColor}"
+                        RadiusX="2"
+                        RadiusY="2" />
                 </Grid>
             </controls:GridSplitter.Element>
         </controls:GridSplitter>
@@ -182,7 +182,8 @@
                         <Setter Target="HorizontalGridSplitter.Width" Value="2" />
 
                         <Setter Target="PropertiesRow.Height" Value="0" />
-                        <Setter Target="GripperGlyph.Glyph" Value="&#xE784;" />
+                        <Setter Target="ResizePill.Height" Value="28" />
+                        <Setter Target="ResizePill.Width" Value="4" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
