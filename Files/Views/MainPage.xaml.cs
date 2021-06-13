@@ -278,5 +278,10 @@ namespace Files.Views
 
             e.Handled = true;
         }
+
+        private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            SidebarAdaptiveViewModel.UpdateTabControlMargin(); // Set the correct tab margin on startup
+        }
     }
 }
