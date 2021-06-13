@@ -857,12 +857,14 @@ namespace FilesFullTrust
 
                         foreach (var item in paths)
                         {
-                            Kernel32.CreateFile(
+                            Kernel32.SafeHFILE hFile = Kernel32.CreateFile(
                                 lpFileName: item,
                                 dwDesiredAccess: Kernel32.FileAccess.FILE_GENERIC_READ,
                                 dwShareMode: FileShare.ReadWrite,
                                 dwCreationDisposition: FileMode.OpenOrCreate,
                                 dwFlagsAndAttributes: FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL);
+
+                            Kernel32.CloseHandle(hFile.DangerousGetHandle());
                         }
 
                         break;

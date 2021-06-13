@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,9 +82,10 @@ namespace Files.Helpers
                 {
                     string filePath = Path.Combine(destinationFolder.Path, entry.Name.Replace('/', '\\'));
 
-                    StorageFile receivedFile = await StorageItemHelpers.ToStorageItem<StorageFile>(filePath);
+                    HandleContext handleContext = new HandleContext();
+                    handleContext.OpenFileHandle(filePath);
 
-                    using (Stream destinationStream = (await receivedFile.OpenAsync(FileAccessMode.ReadWrite)).AsStreamForWrite())
+                    using (FileStream destinationStream = new FileStream(handleContext.hFile, FileAccess.ReadWrite))
                     {
                         int currentBlockSize = 0;
 
@@ -95,6 +97,8 @@ namespace Files.Helpers
                             }
                         }
                     }
+                    // We don't close handleContext because FileStream.Dispose() already does that
+
 
                     entriesFinished++;
                     float percentage = (float)((float)entriesFinished / (float)entriesAmount) * 100.0f;

@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
+using System.Threading;
 
 namespace Files.Helpers
 {
@@ -143,6 +144,18 @@ namespace Files.Helpers
             IntPtr lpOverlapped
         );
 
+        [DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
+            CallingConvention = CallingConvention.StdCall,
+            SetLastError = true)]
+        public static extern bool WriteFileEx(
+            IntPtr hFile,
+            byte[] lpBuffer,
+            uint nNumberOfBytesToWrite,
+            [In] ref NativeOverlapped lpOverlapped,
+            LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
+
+        public delegate void LPOVERLAPPED_COMPLETION_ROUTINE(uint dwErrorCode, uint dwNumberOfBytesTransfered, ref NativeOverlapped lpOverlapped);
+
         public enum GET_FILEEX_INFO_LEVELS
         {
             GetFileExInfoStandard,
@@ -235,6 +248,79 @@ namespace Files.Helpers
             }
             CloseHandle(hStream);
             return true;
+        }
+
+        public static bool WriteBufferToFileWithProgress(string filePath, byte[] buffer, LPOVERLAPPED_COMPLETION_ROUTINE callback, HandleContext handleContext = null)
+        {
+            IntPtr hFile;
+            bool fromHandleContext;
+
+            if (handleContext == null)
+            {
+                fromHandleContext = false;
+
+                hFile = CreateFileFromApp(filePath,
+                    GENERIC_WRITE, 0, IntPtr.Zero, CREATE_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
+            }
+            else
+            {
+                hFile = handleContext.hFile;
+                fromHandleContext = true;
+            }
+
+            if (hFile.ToInt64() == -1)
+            {
+                return false;
+            }
+
+            NativeOverlapped nativeOverlapped = new NativeOverlapped();
+            bool result = WriteFileEx(hFile, buffer, (uint)buffer.LongLength, ref nativeOverlapped, callback);
+
+            if (!result)
+            {
+                int lasterror = Marshal.GetLastWin32Error();
+
+            }
+
+            if (!fromHandleContext)
+            {
+                CloseHandle(hFile);
+            }
+
+            return result;
+        }
+    }
+
+    public class HandleContext : IDisposable
+    {
+        public IntPtr hFile { get; private set; }
+
+        public bool OpenFileHandle(string filePath)
+        {
+            this.hFile = NativeFileOperationsHelper.CreateFileFromApp(filePath,
+                NativeFileOperationsHelper.GENERIC_WRITE, 0, IntPtr.Zero, NativeFileOperationsHelper.CREATE_ALWAYS, (uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics, IntPtr.Zero);
+
+            if (hFile.ToInt64() == -1)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public void CloseHandle()
+        {
+            if (hFile.ToInt64() == -1)
+            {
+                return;
+            }
+
+            NativeFileOperationsHelper.CloseHandle(hFile);
+        }
+
+        public void Dispose()
+        {
+            CloseHandle();
         }
     }
 }
