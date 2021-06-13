@@ -11,6 +11,7 @@ using Files.ViewModels;
 using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -1133,15 +1134,18 @@ namespace Files.Views
             {
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting:
                     NavigationToolbar.CanRefresh = false;
+                    SetLoadingIndicatorForTabs(true);
                     break;
 
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
                     NavigationToolbar.CanGoBack = ItemDisplayFrame.CanGoBack;
                     NavigationToolbar.CanGoForward = ItemDisplayFrame.CanGoForward;
+                    SetLoadingIndicatorForTabs(true);
                     break;
 
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
                     NavigationToolbar.CanRefresh = true;
+                    SetLoadingIndicatorForTabs(false);
                     // Select previous directory
                     if (!string.IsNullOrWhiteSpace(e.PreviousDirectory))
                     {
@@ -1183,6 +1187,18 @@ namespace Files.Views
                     break;
             }
         }
+
+        private void SetLoadingIndicatorForTabs(bool isLoading)
+        {
+            var multitaskingControls = ((Window.Current.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
+            var tabItemControl = this.FindAscendant<TabItemControl>();
+
+            foreach (var x in multitaskingControls)
+            {
+                x.SetLoadingIndicatorStatus(x.Items.First(x => x.Control == tabItemControl), isLoading);
+            }
+        }
+
 
         public DataPackageOperation TabItemDragOver(object sender, DragEventArgs e)
         {
