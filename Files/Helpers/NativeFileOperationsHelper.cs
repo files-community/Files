@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32.SafeHandles;
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -67,6 +68,12 @@ namespace Files.Helpers
             IntPtr hTemplateFile
         );
 
+        public static SafeFileHandle CreateFileForWrite(string filePath)
+        {
+            return new SafeFileHandle(CreateFileFromApp(filePath,
+                GENERIC_WRITE, 0, IntPtr.Zero, CREATE_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
+        }
+
         [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
         CallingConvention = CallingConvention.StdCall,
         SetLastError = true)]
@@ -76,6 +83,14 @@ namespace Files.Helpers
             uint dwShareMode,
             uint dwCreationDisposition,
             IntPtr pCreateExParams
+        );
+
+        [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
+        CallingConvention = CallingConvention.StdCall,
+        SetLastError = true)]
+        public static extern bool CreateDirectoryFromApp(
+            string lpPathName,
+            IntPtr SecurityAttributes
         );
 
         [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
@@ -250,86 +265,24 @@ namespace Files.Helpers
             return true;
         }
 
-        public static bool WriteBufferToFileWithProgress(string filePath, byte[] buffer, LPOVERLAPPED_COMPLETION_ROUTINE callback, HandleContext handleContext = null)
+        public static bool WriteBufferToFileWithProgress(string filePath, byte[] buffer, LPOVERLAPPED_COMPLETION_ROUTINE callback)
         {
-            IntPtr hFile;
-            bool fromHandleContext;
+            using var hFile = CreateFileForWrite(filePath);
 
-            if (handleContext == null)
-            {
-                fromHandleContext = false;
-
-                hFile = CreateFileFromApp(filePath,
-                    GENERIC_WRITE, 0, IntPtr.Zero, CREATE_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
-            }
-            else
-            {
-                hFile = handleContext.hFile;
-                fromHandleContext = true;
-            }
-
-            if (hFile.ToInt64() == -1)
+            if (hFile.IsInvalid)
             {
                 return false;
             }
 
             NativeOverlapped nativeOverlapped = new NativeOverlapped();
-            bool result = WriteFileEx(hFile, buffer, (uint)buffer.LongLength, ref nativeOverlapped, callback);
+            bool result = WriteFileEx(hFile.DangerousGetHandle(), buffer, (uint)buffer.LongLength, ref nativeOverlapped, callback);
 
             if (!result)
             {
-                int lasterror = Marshal.GetLastWin32Error();
-
-            }
-
-            if (!fromHandleContext)
-            {
-                CloseHandle(hFile);
+                System.Diagnostics.Debug.WriteLine(Marshal.GetLastWin32Error());
             }
 
             return result;
-        }
-    }
-
-    public class HandleContext : IDisposable
-    {
-        public IntPtr hFile { get; private set; }
-
-        public HandleContext()
-        {
-        }
-
-        public HandleContext(string filePath)
-        {
-            OpenFileHandle(filePath);
-        }
-
-        public bool OpenFileHandle(string filePath)
-        {
-            this.hFile = NativeFileOperationsHelper.CreateFileFromApp(filePath,
-                NativeFileOperationsHelper.GENERIC_WRITE, 0, IntPtr.Zero, NativeFileOperationsHelper.CREATE_ALWAYS, (uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics, IntPtr.Zero);
-
-            if (hFile.ToInt64() == -1)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public void CloseHandle()
-        {
-            if (hFile.ToInt64() == -1)
-            {
-                return;
-            }
-
-            NativeFileOperationsHelper.CloseHandle(hFile);
-        }
-
-        public void Dispose()
-        {
-            CloseHandle();
         }
     }
 }

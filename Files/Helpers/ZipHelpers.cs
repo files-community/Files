@@ -33,47 +33,18 @@ namespace Files.Helpers
                     }
                 }
 
-
                 if (cancellationToken.IsCancellationRequested) // Check if cancelled
                 {
                     return;
                 }
 
-                // Create the directory tree using fast FTP
-
-                var connection = await AppServiceConnectionHelper.Instance;
-
-                string foldersString = string.Empty;
-                string filesString = string.Empty;
-                List<string> directories = directoryEntries.Select((item) => Path.Combine(destinationFolder.Path, item.Name)).ToList();
-                List<string> files = fileEntries.Select((item) => Path.Combine(destinationFolder.Path, item.Name)).ToList();
-
-                foreach (var item in directories)
+                var directories = new List<string>();
+                directories.AddRange(directoryEntries.Select((item) => Path.Combine(destinationFolder.Path, item.Name)));
+                directories.AddRange(fileEntries.Select((item) => Path.Combine(destinationFolder.Path, Path.GetDirectoryName(item.Name))));
+                foreach (var dir in directories.Distinct().OrderBy(x => x.Length))
                 {
-                    foldersString += $"{item}|";
+                    NativeFileOperationsHelper.CreateDirectoryFromApp(dir, IntPtr.Zero);
                 }
-                foreach (var item in files)
-                {
-                    filesString += $"{item}|";
-                }
-
-                foldersString = foldersString.Remove(foldersString.Length - 1);
-                filesString = filesString.Remove(filesString.Length - 1);
-
-                // Create folders
-                await connection.SendMessageAsync(new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "CreateDirectoryTree" },
-                    { "paths", foldersString }
-                });
-                // Create files
-                await connection.SendMessageAsync(new ValueSet()
-                {
-                    { "Arguments", "FileOperation" },
-                    { "fileop", "CreateFilesTree" },
-                    { "paths", filesString }
-                });
 
                 if (cancellationToken.IsCancellationRequested) // Check if cancelled
                 {
@@ -95,9 +66,9 @@ namespace Files.Helpers
 
                     string filePath = Path.Combine(destinationFolder.Path, entry.Name.Replace('/', '\\'));
 
-                    HandleContext handleContext = new HandleContext(filePath);
+                    var hFile = NativeFileOperationsHelper.CreateFileForWrite(filePath);
 
-                    using (FileStream destinationStream = new FileStream(handleContext.hFile, FileAccess.ReadWrite))
+                    using (FileStream destinationStream = new FileStream(hFile, FileAccess.ReadWrite))
                     {
                         int currentBlockSize = 0;
 

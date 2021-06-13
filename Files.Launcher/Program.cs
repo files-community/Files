@@ -839,37 +839,6 @@ namespace FilesFullTrust
         {
             switch (message.Get("fileop", ""))
             {
-                case "CreateDirectoryTree":
-                    {
-                        List<string> paths = ((string)message["paths"]).Split('|').ToList();
-
-                        foreach (var item in paths)
-                        {
-                            Kernel32.CreateDirectory(item);
-                        }
-
-                        break;
-                    }
-
-                case "CreateFilesTree":
-                    {
-                        List<string> paths = ((string)message["paths"]).Split('|').ToList();
-
-                        foreach (var item in paths)
-                        {
-                            Kernel32.SafeHFILE hFile = Kernel32.CreateFile(
-                                lpFileName: item,
-                                dwDesiredAccess: Kernel32.FileAccess.FILE_GENERIC_READ,
-                                dwShareMode: FileShare.ReadWrite,
-                                dwCreationDisposition: FileMode.OpenOrCreate,
-                                dwFlagsAndAttributes: FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL);
-
-                            Kernel32.CloseHandle(hFile.DangerousGetHandle());
-                        }
-
-                        break;
-                    }
-
                 case "Clipboard":
                     await Win32API.StartSTATask(() =>
                     {
