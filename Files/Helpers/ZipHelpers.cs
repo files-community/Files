@@ -45,7 +45,15 @@ namespace Files.Helpers
                 directories.AddRange(fileEntries.Select((item) => Path.GetDirectoryName(wnt.TransformFile(item.Name))));
                 foreach (var dir in directories.Distinct().OrderBy(x => x.Length))
                 {
-                    NativeFileOperationsHelper.CreateDirectoryFromApp(dir, IntPtr.Zero);
+                    if (!NativeFileOperationsHelper.CreateDirectoryFromApp(dir, IntPtr.Zero))
+                    {
+                        var dirName = destinationFolder.Path;
+                        foreach (var component in dir.Substring(destinationFolder.Path.Length).Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
+                        {
+                            dirName = Path.Combine(dirName, component);
+                            NativeFileOperationsHelper.CreateDirectoryFromApp(dirName, IntPtr.Zero);
+                        }
+                    }
                 }
 
                 if (cancellationToken.IsCancellationRequested) // Check if cancelled
@@ -69,6 +77,10 @@ namespace Files.Helpers
                     string filePath = wnt.TransformFile(entry.Name);
 
                     var hFile = NativeFileOperationsHelper.CreateFileForWrite(filePath);
+                    if (hFile.IsInvalid)
+                    {
+                        return; // TODO: handle error
+                    }
 
                     using (FileStream destinationStream = new FileStream(hFile, FileAccess.ReadWrite))
                     {
