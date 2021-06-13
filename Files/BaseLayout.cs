@@ -4,6 +4,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.ContextFlyouts;
 using Files.Interacts;
+using Files.UserControls;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Uwp;
@@ -75,6 +76,8 @@ namespace Files
                 }
             }
         }
+
+        protected NavigationToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<NavigationToolbar>();
 
         private CollectionViewSource collectionViewSource = new CollectionViewSource()
         {
@@ -362,7 +365,7 @@ namespace Files
 
             if (!navigationArguments.IsSearchResultPage)
             {
-                ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
+                ParentShellPageInstance.NavToolbarViewModel.CanRefresh = true;
                 string previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
                 await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.NavPathParam);
 
@@ -371,32 +374,32 @@ namespace Files
                 string pathRoot = GetPathRoot(workingDir);
                 if (string.IsNullOrEmpty(pathRoot) || workingDir.StartsWith(AppSettings.RecycleBinPath)) // Can't go up from recycle bin
                 {
-                    ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
+                    ParentShellPageInstance.NavToolbarViewModel.CanNavigateToParent = false;
                 }
                 else
                 {
-                    ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = true;
+                    ParentShellPageInstance.NavToolbarViewModel.CanNavigateToParent = true;
                 }
 
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
-                ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = navigationArguments.NavPathParam;
+                ParentShellPageInstance.NavToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
                 if (!navigationArguments.IsLayoutSwitch)
                 {
                     ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir);
                 }
                 else
                 {
-                    ParentShellPageInstance.NavigationToolbar.CanGoForward = false;
+                    ParentShellPageInstance.NavToolbarViewModel.CanGoForward = false;
                 }
             }
             else
             {
-                ParentShellPageInstance.NavigationToolbar.CanRefresh = false;
-                ParentShellPageInstance.NavigationToolbar.CanGoForward = false;
-                ParentShellPageInstance.NavigationToolbar.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
-                ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
+                ParentShellPageInstance.NavToolbarViewModel.CanRefresh = false;
+                ParentShellPageInstance.NavToolbarViewModel.CanGoForward = false;
+                ParentShellPageInstance.NavToolbarViewModel.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
+                ParentShellPageInstance.NavToolbarViewModel.CanNavigateToParent = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;

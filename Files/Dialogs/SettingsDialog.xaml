@@ -9,7 +9,6 @@
     Closing="ContentDialog_Closing"
     CornerRadius="{StaticResource OverlayCornerRadius}"
     RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
-    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
     <ContentDialog.Resources>
         <ResourceDictionary>
@@ -54,7 +53,8 @@
                     x:Uid="SettingsNavAppearance"
                     AccessKey="A"
                     Content="Appearance"
-                    IsSelected="True">
+                    IsSelected="True"
+                    Tag="0">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon HorizontalAlignment="Left" Glyph="&#xE790;" />
                     </muxc:NavigationViewItem.Icon>
@@ -62,7 +62,8 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavOnStartup"
                     AccessKey="O"
-                    Content="On Startup">
+                    Content="On Startup"
+                    Tag="1">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7E8;" />
                     </muxc:NavigationViewItem.Icon>
@@ -70,15 +71,26 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavPreferences"
                     AccessKey="P"
-                    Content="Preferences">
+                    Content="Preferences"
+                    Tag="2">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF116;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
+                    x:Uid="SettingsNavSidebar"
+                    AccessKey="S"
+                    Content="Sidebar"
+                    Tag="3">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE700;" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem
                     x:Uid="SettingsNavMultitasking"
                     AccessKey="M"
-                    Content="Multitasking">
+                    Content="Multitasking"
+                    Tag="4">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xEE40;" />
                     </muxc:NavigationViewItem.Icon>
@@ -86,7 +98,8 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavFilesAndFolders"
                     AccessKey="F"
-                    Content="Files and Folders">
+                    Content="Files and Folders"
+                    Tag="5">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8B7;" />
                     </muxc:NavigationViewItem.Icon>
@@ -94,20 +107,25 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavExperimental"
                     AccessKey="E"
-                    Content="Experimental">
+                    Content="Experimental"
+                    Tag="6">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF1AD;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
+            </muxc:NavigationView.MenuItems>
+
+            <muxc:NavigationView.FooterMenuItems>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavAbout"
                     AccessKey="B"
-                    Content="About">
+                    Content="About"
+                    Tag="7">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE946;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-            </muxc:NavigationView.MenuItems>
+            </muxc:NavigationView.FooterMenuItems>
 
             <ScrollViewer
                 Margin="20,4,4,4"

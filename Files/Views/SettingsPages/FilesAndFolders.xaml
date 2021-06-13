@@ -15,7 +15,7 @@
             <StackPanel
                 Margin="12,12,8,8"
                 Orientation="Vertical"
-                Spacing="14">
+                Spacing="20">
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />

@@ -308,7 +308,7 @@ namespace Files.DataModels
 
             if (IconResources is null)
             {
-                IconResources = await SidebarViewModel.LoadSidebarIconResources();
+                IconResources = (await SidebarViewModel.LoadSidebarIconResources())?.ToList();
             }
 
             homeSection = new LocationItem()
@@ -326,7 +326,7 @@ namespace Files.DataModels
                 Text = "SidebarFavorites".GetLocalized(),
                 Section = SectionType.Favorites,
                 SelectsOnInvoked = false,
-                Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.QuickAccess).Image),
+                Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.Shell32.QuickAccess).Image),
                 Font = MainViewModel.FontName,
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };

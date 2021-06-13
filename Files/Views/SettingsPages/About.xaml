@@ -19,7 +19,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Orientation="Vertical"
-                Spacing="14">
+                Spacing="20">
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />
@@ -172,7 +172,6 @@
 
                 <TextBlock
                     x:Uid="SettingsAboutThirdPartyLicenses"
-                    Margin="0,16,0,0"
                     FontSize="16"
                     Text="Third party licenses">
                     <TextBlock.Transitions>

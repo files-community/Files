@@ -15,6 +15,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uc="using:Files.UserControls"
     xmlns:xh="using:Files.Helpers.XamlHelpers"
+    x:Name="NavToolbar"
     d:DesignHeight="72"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -109,7 +110,7 @@
                         </Setter>
                     </Style>
 
-                    <Style x:Key="TextBoxStyleForPathBar" TargetType="TextBox">
+                    <Style x:Key="TextBoxStyleForBar" TargetType="TextBox">
                         <Setter Property="Foreground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
                         <Setter Property="Background" Value="{ThemeResource SolidBackgroundFillColorBaseBrush}" />
                         <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}" />
@@ -326,73 +327,6 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
-                    <Style x:Key="ListViewItemContainerStyle_NoRevealBorder" TargetType="ListViewItem">
-                        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-                        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-                        <Setter Property="Background" Value="{ThemeResource ListViewItemBackground}" />
-                        <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}" />
-                        <Setter Property="TabNavigation" Value="Local" />
-                        <Setter Property="IsHoldingEnabled" Value="True" />
-                        <Setter Property="Padding" Value="5,0,0,0" />
-                        <Setter Property="HorizontalContentAlignment" Value="Left" />
-                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                        <Setter Property="MinWidth" Value="8" />
-                        <Setter Property="MinHeight" Value="20" />
-                        <Setter Property="AllowDrop" Value="True" />
-                        <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
-                        <Setter Property="FocusVisualMargin" Value="0" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListViewItem">
-                                    <ListViewItemPresenter
-                                        x:Name="Root"
-                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                        CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}"
-                                        CheckBrush="{ThemeResource ListViewItemCheckBrush}"
-                                        CheckMode="{ThemeResource ListViewItemCheckMode}"
-                                        ContentMargin="{TemplateBinding Padding}"
-                                        ContentTransitions="{TemplateBinding ContentTransitions}"
-                                        Control.IsTemplateFocusTarget="True"
-                                        DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
-                                        DragBackground="{ThemeResource ListViewItemDragBackground}"
-                                        DragForeground="{ThemeResource ListViewItemDragForeground}"
-                                        DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
-                                        FocusBorderBrush="{ThemeResource ListViewItemFocusBorderBrush}"
-                                        FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
-                                        FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
-                                        PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
-                                        PointerOverBackground="{ThemeResource ListViewItemBackgroundPointerOver}"
-                                        PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
-                                        PressedBackground="{ThemeResource ListViewItemBackgroundPressed}"
-                                        ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
-                                        RevealBackground="{ThemeResource ListViewItemRevealBackground}"
-                                        RevealBorderBrush="{ThemeResource ListViewItemRevealBorderBrush}"
-                                        RevealBorderThickness="{ThemeResource ListViewItemRevealBorderThemeThickness}"
-                                        SelectedBackground="{ThemeResource ListViewItemBackgroundSelected}"
-                                        SelectedForeground="{ThemeResource ListViewItemForegroundSelected}"
-                                        SelectedPointerOverBackground="{ThemeResource ListViewItemBackgroundSelectedPointerOver}"
-                                        SelectedPressedBackground="{ThemeResource ListViewItemBackgroundSelectedPressed}"
-                                        SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}">
-                                        <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroup x:Name="CommonStates">
-                                                <VisualState x:Name="Normal" />
-                                                <VisualState x:Name="Selected" />
-                                            </VisualStateGroup>
-                                            <VisualStateGroup x:Name="DisabledStates">
-                                                <VisualState x:Name="Enabled" />
-                                                <VisualState x:Name="Disabled">
-                                                    <VisualState.Setters>
-                                                        <Setter Target="Root.RevealBorderThickness" Value="0" />
-                                                    </VisualState.Setters>
-                                                </VisualState>
-                                            </VisualStateGroup>
-                                        </VisualStateManager.VisualStateGroups>
-                                    </ListViewItemPresenter>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
                     <SolidColorBrush x:Key="SystemControlSplitterPointerOver" Color="{ThemeResource SystemBaseLowColor}" />
                     <SolidColorBrush x:Key="SystemControlSplitterPressed" Color="{ThemeResource SystemBaseHighColor}" />
                     <Style x:Key="GridSplitterStyle_Invisible" TargetType="Custom:GridSplitter">
@@ -423,196 +357,7 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
-                    <Style x:Key="ListViewStyleNoAnimation" TargetType="ListView">
-                        <Setter Property="IsTabStop" Value="False" />
-                        <Setter Property="TabNavigation" Value="Once" />
-                        <Setter Property="IsSwipeEnabled" Value="True" />
-                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
-                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-                        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
-                        <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False" />
-                        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
-                        <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True" />
-                        <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
-                        <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
-                        <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
-                        <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
-                        <Setter Property="ItemContainerTransitions">
-                            <Setter.Value>
-                                <TransitionCollection />
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="ItemsPanel">
-                            <Setter.Value>
-                                <ItemsPanelTemplate>
-                                    <ItemsStackPanel Orientation="Vertical" />
-                                </ItemsPanelTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListView">
-                                    <Border
-                                        Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        CornerRadius="{TemplateBinding CornerRadius}">
-                                        <ScrollViewer
-                                            x:Name="ScrollViewer"
-                                            AutomationProperties.AccessibilityView="Raw"
-                                            BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
-                                            HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                            HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-                                            IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
-                                            IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
-                                            IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
-                                            IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
-                                            IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
-                                            TabNavigation="{TemplateBinding TabNavigation}"
-                                            VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                                            VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-                                            ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                                            <ItemsPresenter
-                                                Padding="{TemplateBinding Padding}"
-                                                Footer="{TemplateBinding Footer}"
-                                                FooterTemplate="{TemplateBinding FooterTemplate}"
-                                                FooterTransitions="{TemplateBinding FooterTransitions}"
-                                                Header="{TemplateBinding Header}"
-                                                HeaderTemplate="{TemplateBinding HeaderTemplate}"
-                                                HeaderTransitions="{TemplateBinding HeaderTransitions}" />
-                                        </ScrollViewer>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
 
-                    <DataTemplate x:Name="ParentItems">
-                        <Grid
-                            x:Name="ListViewItemContentGrid"
-                            AllowDrop="True"
-                            AutomationProperties.Name="{Binding Title}"
-                            Background="Transparent"
-                            DragLeave="PathBoxItem_DragLeave"
-                            DragOver="PathBoxItem_DragOver"
-                            Drop="PathBoxItem_Drop"
-                            Tag="{Binding Path}">
-
-                            <StackPanel Orientation="Horizontal" Spacing="5">
-                                <Border
-                                    VerticalAlignment="Stretch"
-                                    Background="Transparent"
-                                    Tapped="PathBoxItem_Tapped">
-                                    <TextBlock
-                                        Margin="0,0,0,2"
-                                        VerticalAlignment="Center"
-                                        FontSize="12"
-                                        Text="{Binding Title}">
-                                        <Interactivity:Interaction.Behaviors>
-                                            <Core:EventTriggerBehavior EventName="PointerEntered">
-                                                <Core:ChangePropertyAction PropertyName="Opacity">
-                                                    <Core:ChangePropertyAction.Value>
-                                                        0.7
-                                                    </Core:ChangePropertyAction.Value>
-                                                </Core:ChangePropertyAction>
-                                            </Core:EventTriggerBehavior>
-
-                                            <Core:EventTriggerBehavior EventName="PointerExited">
-                                                <Core:ChangePropertyAction PropertyName="Opacity">
-                                                    <Core:ChangePropertyAction.Value>
-                                                        1.0
-                                                    </Core:ChangePropertyAction.Value>
-                                                </Core:ChangePropertyAction>
-                                            </Core:EventTriggerBehavior>
-                                        </Interactivity:Interaction.Behaviors>
-                                    </TextBlock>
-                                </Border>
-
-                                <FontIcon
-                                    x:Name="PathSeaparatorIcon"
-                                    Width="32"
-                                    Margin="-11,0,-11,0"
-                                    DataContextChanged="PathItemSeparator_DataContextChanged"
-                                    FontSize="10"
-                                    Glyph="&#xE76C;"
-                                    Loaded="PathItemSeparator_Loaded">
-                                    <Interactivity:Interaction.Behaviors>
-                                        <Core:EventTriggerBehavior EventName="PointerEntered">
-                                            <Core:ChangePropertyAction PropertyName="Opacity">
-                                                <Core:ChangePropertyAction.Value>
-                                                    0.7
-                                                </Core:ChangePropertyAction.Value>
-                                            </Core:ChangePropertyAction>
-                                        </Core:EventTriggerBehavior>
-
-                                        <Core:EventTriggerBehavior EventName="PointerExited">
-                                            <Core:ChangePropertyAction PropertyName="Opacity">
-                                                <Core:ChangePropertyAction.Value>
-                                                    1.0
-                                                </Core:ChangePropertyAction.Value>
-                                            </Core:ChangePropertyAction>
-                                        </Core:EventTriggerBehavior>
-                                    </Interactivity:Interaction.Behaviors>
-
-                                    <FontIcon.ContextFlyout>
-                                        <MenuFlyout
-                                            Opened="PathboxItemFlyout_Opened"
-                                            Placement="BottomEdgeAlignedLeft"
-                                            ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                            ScrollViewer.VerticalScrollMode="Auto">
-                                            <MenuFlyout.MenuFlyoutPresenterStyle>
-                                                <Style TargetType="MenuFlyoutPresenter">
-                                                    <Setter Property="MaxHeight" Value="400" />
-                                                </Style>
-                                            </MenuFlyout.MenuFlyoutPresenterStyle>
-                                        </MenuFlyout>
-                                    </FontIcon.ContextFlyout>
-                                </FontIcon>
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-
-                    <DataTemplate x:Name="CurrentItem">
-                        <Grid
-                            x:Name="ListViewItemContentGrid"
-                            AllowDrop="True"
-                            AutomationProperties.Name="{Binding Title}"
-                            Background="Transparent"
-                            DragLeave="PathBoxItem_DragLeave"
-                            DragOver="PathBoxItem_DragOver"
-                            Drop="PathBoxItem_Drop"
-                            Tag="{Binding Path}">
-                            <Interactivity:Interaction.Behaviors>
-                                <Core:EventTriggerBehavior EventName="PointerEntered">
-                                    <Core:ChangePropertyAction PropertyName="Opacity">
-                                        <Core:ChangePropertyAction.Value>
-                                            0.7
-                                        </Core:ChangePropertyAction.Value>
-                                    </Core:ChangePropertyAction>
-                                </Core:EventTriggerBehavior>
-
-                                <Core:EventTriggerBehavior EventName="PointerExited">
-                                    <Core:ChangePropertyAction PropertyName="Opacity">
-                                        <Core:ChangePropertyAction.Value>
-                                            1.0
-                                        </Core:ChangePropertyAction.Value>
-                                    </Core:ChangePropertyAction>
-                                </Core:EventTriggerBehavior>
-                            </Interactivity:Interaction.Behaviors>
-
-                            <StackPanel
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal"
-                                Spacing="5">
-                                <TextBlock
-                                    Margin="0,0,0,2"
-                                    FontSize="12"
-                                    FontWeight="Medium"
-                                    Text="{Binding Title}" />
-                                <FontIcon FontSize="10" Glyph="&#xE76C;" />
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Light">
                             <RevealBorderBrush
@@ -668,18 +413,15 @@
                     AccessKey="B"
                     AutomationProperties.Name="Navigate backwards"
                     Background="Transparent"
-                    Click="Back_Click"
-                    IsEnabled="{x:Bind CanGoBack}"
+                    Command="{x:Bind ViewModel.BackClickCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanGoBack, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Back (Alt+Left Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE72B;" />
                     <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="XButton1" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
-                        <KeyboardAccelerator Key="Back" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
-                        <KeyboardAccelerator
-                            Key="Left"
-                            IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}"
-                            Modifiers="Menu" />
+                        <KeyboardAccelerator Key="XButton1" />
+                        <KeyboardAccelerator Key="Back" />
+                        <KeyboardAccelerator Key="Left" Modifiers="Menu" />
                     </Button.KeyboardAccelerators>
                 </Button>
 
@@ -692,17 +434,14 @@
                     AccessKey="F"
                     AutomationProperties.Name="Navigate forward"
                     Background="Transparent"
-                    Click="Forward_Click"
-                    IsEnabled="{x:Bind CanGoForward}"
+                    Command="{x:Bind ViewModel.ForwardClickCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanGoForward, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Forward (Alt+Right Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE72A;" />
                     <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="XButton2" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
-                        <KeyboardAccelerator
-                            Key="Right"
-                            IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}"
-                            Modifiers="Menu" />
+                        <KeyboardAccelerator Key="XButton2" />
+                        <KeyboardAccelerator Key="Right" Modifiers="Menu" />
                     </Button.KeyboardAccelerators>
                 </Button>
 
@@ -715,15 +454,13 @@
                     AccessKey="U"
                     AutomationProperties.Name="Go up one directory"
                     Background="Transparent"
-                    Click="Up_Click"
+                    Command="{x:Bind ViewModel.UpClickCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanNavigateToParent, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Up (Alt+Up Arrow)">
                     <FontIcon FontSize="14" Glyph="&#xE74A;" />
                     <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator
-                            Key="Up"
-                            IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}"
-                            Modifiers="Menu" />
+                        <KeyboardAccelerator Key="Up" Modifiers="Menu" />
                     </Button.KeyboardAccelerators>
                 </Button>
 
@@ -736,12 +473,13 @@
                     AccessKey="R"
                     AutomationProperties.Name="Refresh the directory"
                     Background="Transparent"
-                    Click="Refresh_Click"
+                    Command="{x:Bind ViewModel.RefreshClickCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanRefresh, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Refresh (F5)">
                     <FontIcon FontSize="14" Glyph="&#xE72C;" />
                     <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="F5" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                        <KeyboardAccelerator Key="F5" />
                     </Button.KeyboardAccelerators>
                 </Button>
             </StackPanel>
@@ -752,7 +490,7 @@
                 Grid.Column="1"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
-                x:Load="{x:Bind ManualEntryBoxLoaded, Mode=OneWay}"
+                x:Load="{x:Bind ViewModel.ManualEntryBoxLoaded, Mode=OneWay}"
                 Background="Transparent"
                 BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
                 BorderThickness="0"
@@ -760,7 +498,7 @@
                 DisplayMemberPath="ItemName"
                 FocusDisengaged="VisiblePath_LostFocus"
                 FontWeight="SemiBold"
-                ItemsSource="{x:Bind NavigationBarSuggestions}"
+                ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions, Mode=OneWay}"
                 Loaded="VisiblePath_Loaded"
                 LostFocus="VisiblePath_LostFocus"
                 PlaceholderText="Enter a path"
@@ -768,10 +506,10 @@
                 QuerySubmitted="VisiblePath_QuerySubmitted"
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                Text="{x:Bind PathText, Mode=OneWay}"
-                TextChanged="VisiblePath_TextChanged"
+                Text="{x:Bind ViewModel.PathText, Mode=OneWay}"
+                TextChanged="{x:Bind ViewModel.VisiblePath_TextChanged, Mode=OneWay}"
                 TextMemberPath="ItemPath"
-                Visibility="{x:Bind IsSearchBoxVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />
+                Visibility="{x:Bind ViewModel.IsSearchBoxVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />
 
             <Grid
                 x:Name="ClickablePath"
@@ -780,44 +518,18 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 extensions:FrameworkElementExtensions.Cursor="Hand"
-                x:Load="{x:Bind ClickablePathLoaded, Mode=OneWay}"
+                x:Load="{x:Bind ViewModel.ClickablePathLoaded, Mode=OneWay}"
                 Background="{ThemeResource SolidBackgroundFillColorQuarternaryBrush}"
                 BorderBrush="{ThemeResource ControlElevationBorderBrush}"
                 BorderThickness="1"
                 CornerRadius="{StaticResource ControlCornerRadius}"
                 PointerPressed="ManualPathEntryItem_Click"
-                Visibility="{x:Bind IsSearchBoxVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
-
-                <ListView
-                    x:Name="PathViewInteract"
-                    Padding="0,0,12,0"
+                Visibility="{x:Bind ViewModel.IsSearchBoxVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
+                <uc:PathBreadcrumb
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
-                    Background="Transparent"
-                    CanReorderItems="False"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
-                    IsItemClickEnabled="True"
-                    ItemContainerStyle="{StaticResource ListViewItemContainerStyle_NoRevealBorder}"
-                    ItemsSource="{x:Bind PathComponents, Mode=OneWay}"
-                    ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                    ScrollViewer.HorizontalScrollMode="Enabled"
-                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                    ScrollViewer.VerticalScrollMode="Disabled"
-                    SelectionMode="None"
-                    Style="{StaticResource ListViewStyleNoAnimation}">
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsStackPanel
-                                Background="Transparent"
-                                ItemsUpdatingScrollMode="KeepLastItemInView"
-                                Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    <ListView.ItemTemplateSelector>
-                        <helpers:ItemsDataTemplateSelector CurrentItem="{StaticResource CurrentItem}" ParentItems="{StaticResource ParentItems}" />
-                    </ListView.ItemTemplateSelector>
-                </ListView>
+                    ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
             </Grid>
 
             <uc:SearchBox
@@ -827,10 +539,13 @@
                 VerticalAlignment="Center"
                 Canvas.ZIndex="100"
                 CornerRadius="{StaticResource ControlCornerRadius}"
-                Escaped="SearchRegion_Escaped"
                 LostFocus="SearchRegion_LostFocus"
-                SuggestionChosen="SearchRegion_SuggestionChosen"
-                Visibility="{x:Bind IsSearchBoxVisible, Mode=OneWay}" />
+                SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.IsSearchBoxVisible, Mode=OneWay}">
+                <uc:SearchBox.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Escape" Invoked="SearchBox_Escaped" />
+                </uc:SearchBox.KeyboardAccelerators>
+            </uc:SearchBox>
 
             <Button
                 x:Name="SearchButton"
@@ -842,10 +557,10 @@
                 AutomationProperties.Name="Search"
                 Background="Transparent"
                 Click="SearchButton_Click"
-                IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Search (Ctrl+F)">
-                <FontIcon FontSize="14" Glyph="{x:Bind SearchButtonGlyph, Mode=OneWay}" />
+                <FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator
                         Key="F"
@@ -868,7 +583,7 @@
             <AppBarButton
                 x:Name="WidgetsManager"
                 x:Uid="NavToolbarWidgets"
-                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                 AccessKey="W"
                 AutomationProperties.Name="Manage widgets"
                 Label="Widgets"
@@ -890,19 +605,19 @@
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowLibraryWidget"
                                     Header="Show Library widget"
-                                    IsOn="{x:Bind ShowLibraryCardsWidget, Mode=TwoWay}" />
+                                    IsOn="{x:Bind ViewModel.ShowLibraryCardsWidget, Mode=TwoWay}" />
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowDrivesWidget"
                                     Header="Show Drives widget"
-                                    IsOn="{x:Bind ShowDrivesWidget, Mode=TwoWay}" />
+                                    IsOn="{x:Bind ViewModel.ShowDrivesWidget, Mode=TwoWay}" />
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowBundlesWidget"
                                     Header="Show Bundles widget"
-                                    IsOn="{x:Bind ShowBundlesWidget, Mode=TwoWay}" />
+                                    IsOn="{x:Bind ViewModel.ShowBundlesWidget, Mode=TwoWay}" />
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowRecentFilesWidget"
                                     Header="Show Recent Files widget"
-                                    IsOn="{x:Bind ShowRecentFilesWidget, Mode=TwoWay}" />
+                                    IsOn="{x:Bind ViewModel.ShowRecentFilesWidget, Mode=TwoWay}" />
                             </StackPanel>
                         </StackPanel>
                     </Flyout>
@@ -911,7 +626,7 @@
             <AppBarButton
                 x:Name="SelectionOptions"
                 x:Uid="NavToolbarSelectionOptions"
-                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 AccessKey="S"
                 AutomationProperties.Name="Selection options"
                 Label="Select"
@@ -927,7 +642,7 @@
                         <ToggleMenuFlyoutItem
                             x:Name="MultiselectMFI"
                             x:Uid="NavToolbarMultiselect"
-                            IsChecked="{x:Bind MultiselectEnabled, Mode=TwoWay}"
+                            IsChecked="{x:Bind MainViewModel.MultiselectEnabled, Mode=TwoWay}"
                             Text="Multiselect">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE762;" />
@@ -936,7 +651,7 @@
                         <MenuFlyoutItem
                             x:Name="SelectAllMFI"
                             x:Uid="NavToolbarSelectAll"
-                            Command="{x:Bind SelectAllInvokedCommand}"
+                            Command="{x:Bind ViewModel.SelectAllContentPageItemsCommand, Mode=OneWay}"
                             Text="Select All">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE8B3;" />
@@ -951,7 +666,7 @@
                         <MenuFlyoutItem
                             x:Name="InvertSelectionMFI"
                             x:Uid="NavToolbarInvertSelection"
-                            Command="{x:Bind InvertSelectionInvokedCommand}"
+                            Command="{x:Bind ViewModel.InvertContentPageSelctionCommand, Mode=OneWay}"
                             Text="Invert Selection">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE746;" />
@@ -960,7 +675,7 @@
                         <MenuFlyoutItem
                             x:Name="ClearSelectionMFI"
                             x:Uid="NavToolbarClearSelection"
-                            Command="{x:Bind ClearSelectionInvokedCommand}"
+                            Command="{x:Bind ViewModel.ClearContentPageSelectionCommand, Mode=OneWay}"
                             Text="Clear Selection">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE8E6;" />
@@ -972,7 +687,7 @@
             <AppBarButton
                 x:Name="ArrangementOptions"
                 x:Uid="NavToolbarSortOptionsButton"
-                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 AccessKey="A"
                 AutomationProperties.Name="Sort"
                 Label="Sort"
@@ -985,14 +700,20 @@
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
                     <Flyout>
-                        <ContentPresenter Content="{x:Bind ArrangementOptionsFlyoutContent, Mode=OneWay}" />
+                        <uc:ArrangementOptions
+                            x:Name="ArrangementOptionsFlyoutContent"
+                            IsPageTypeCloudDrive="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
+                            IsPageTypeRecycleBin="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
+                            SelectedGroupMode="{x:Bind ViewModel.InstanceViewModel.FolderSettings.DirectoryGroupOption, Mode=TwoWay}"
+                            SelectedSortDirection="{x:Bind ViewModel.InstanceViewModel.FolderSettings.DirectorySortDirection, Mode=TwoWay}"
+                            SelectedSortMode="{x:Bind ViewModel.InstanceViewModel.FolderSettings.DirectorySortOption, Mode=TwoWay}" />
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton
                 x:Name="LayoutOptionsButton"
                 x:Uid="NavToolbarLayoutOptionsButton"
-                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 AccessKey="L"
                 AutomationProperties.Name="Layout"
                 Label="Layout"
@@ -1020,10 +741,10 @@
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Command="{x:Bind ToggleLayoutModeDetailsView}"
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Details View (Ctrl+Shift+1)">
                                     <FontIcon FontSize="16" Glyph="&#xE179;" />
@@ -1036,10 +757,10 @@
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Command="{x:Bind ToggleLayoutModeTiles}"
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Tiles View (Ctrl+Shift+2)">
                                     <FontIcon FontSize="16" Glyph="&#xE15C;" />
@@ -1054,10 +775,10 @@
                                     VerticalAlignment="Center"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Command="{x:Bind ToggleLayoutModeGridViewSmall}"
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Grid View (Small) (Ctrl+Shift+3)">
                                     <FontIcon FontSize="16" Glyph="&#xE80A;" />
@@ -1070,10 +791,10 @@
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Command="{x:Bind ToggleLayoutModeGridViewMedium}"
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Grid View (Medium) (Ctrl+Shift+4)">
                                     <FontIcon FontSize="16" Glyph="&#xF0E2;" />
@@ -1086,10 +807,10 @@
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Command="{x:Bind ToggleLayoutModeGridViewLarge}"
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Grid View (Large) (Ctrl+Shift+5)">
                                     <FontIcon FontSize="16" Glyph="&#xE739;" />
@@ -1102,10 +823,10 @@
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
-                                    Command="{x:Bind ToggleLayoutModeColumnView}"
+                                    Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    IsChecked="{x:Bind LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
+                                    IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Column View (Ctrl+Shift+6)">
                                     <FontIcon
@@ -1138,11 +859,11 @@
                 x:Uid="PreviewPaneToggle"
                 AccessKey="P"
                 AutomationProperties.Name="Toggle preview pane"
-                Click="PreviewPane_Click"
-                IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                Command="{x:Bind ViewModel.PreviewPaneInvokedCommand, Mode=OneWay}"
+                IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 Label="Preview"
                 ToolTipService.ToolTip="Toggle the preview pane (Ctrl+P)"
-                Visibility="{x:Bind IsPageTypeNotHome, Mode=OneWay}">
+                Visibility="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}">
                 <AppBarButton.Icon>
                     <FontIcon
                         FontSize="10"
@@ -1153,7 +874,7 @@
             <AppBarButton
                 x:Name="VerticalTabStripInvokeButton"
                 x:Uid="VerticalTabStrip"
-                x:Load="{x:Bind converters:MultiBooleanConverter.OrAndConvert(AppSettings.IsVerticalTabFlyoutOn, local1:App.MainViewModel.IsVerticalTabFlyoutVisible, IsPageSecondaryPane), Mode=OneWay}"
+                x:Load="{x:Bind AppSettings.IsVerticalTabFlyoutEnabled, Mode=OneWay}"
                 AccessKey="T"
                 AllowDrop="True"
                 AutomationProperties.Name="Vertical tab strip"
@@ -1191,7 +912,7 @@
                     x:Name="NavToolbarNewPane"
                     x:Uid="NavigationToolbarNewPane"
                     x:Load="{x:Bind ShowMultiPaneControls, Mode=OneWay}"
-                    Command="{x:Bind NewPaneInvokedCommand, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.OpenNewPaneCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind IsMultiPaneActive, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                     Label="New pane">
                     <AppBarButton.Icon>
@@ -1207,7 +928,7 @@
                 <AppBarButton
                     x:Name="NavToolbarNewTab"
                     x:Uid="NavigationToolbarNewTab"
-                    Command="{x:Bind NewTabInvokedCommand, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.AddNewTabToMultitaskingControlCommand, Mode=OneWay}"
                     Label="New tab">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
@@ -1222,7 +943,7 @@
                 <AppBarButton
                     x:Name="NavToolbarNewWindow"
                     x:Uid="NavigationToolbarNewWindow"
-                    Command="{x:Bind NewWindowInvokedCommand, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.OpenNewWindowCommand, Mode=OneWay}"
                     Label="New window">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE737;" />
@@ -1237,33 +958,33 @@
                 <AppBarButton
                     x:Name="CopyPathButton"
                     x:Uid="NavigationToolbarCopyPath"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                    Command="{x:Bind CopyPathInvokedCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind CanCopyPathInPage, Mode=OneWay}"
+                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.CopyPathOfWorkingDirectoryCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
                     Label="Copy location">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE167;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarSeparator x:Name="SeparatorBar" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                <AppBarSeparator x:Name="SeparatorBar" x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="OpenInTerminalButton"
                     x:Uid="NavigationToolbarOpenInTerminal"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                    Command="{x:Bind OpenInTerminalInvokedCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind CanOpenTerminalInPage, Mode=OneWay}"
+                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.OpenDirectoryInDefaultTerminalCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                     Label="Open in Terminal...">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE756;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarSeparator x:Name="SeparatorBar1" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                <AppBarSeparator x:Name="SeparatorBar1" x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="PasteButton"
                     x:Uid="NavigationToolbarPaste"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                    Command="{x:Bind PasteInvokedCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(CanPasteInPage, local1:App.MainViewModel.IsPasteEnabled), Mode=OneWay}"
+                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.PasteItemsFromClipboardCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.InstanceViewModel.CanPasteInPage, local1:App.MainViewModel.IsPasteEnabled), Mode=OneWay}"
                     Label="Paste">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE77F;" />
@@ -1275,12 +996,12 @@
                             Modifiers="Control" />
                     </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
-                <AppBarSeparator x:Name="SeparatorBar2" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                <AppBarSeparator x:Name="SeparatorBar2" x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                 <AppBarButton
                     x:Name="NewEmptySpaceAppBarButton"
                     x:Uid="BaseLayoutContextFlyoutNew"
-                    x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                    IsEnabled="{x:Bind IsCreateButtonEnabledInPage, Mode=OneWay}"
+                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
                     Label="New">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE710;" />
@@ -1299,7 +1020,7 @@
                             <MenuFlyoutItem
                                 x:Name="ToolbarNewFolderItem"
                                 x:Uid="ModernNavigationToolbaNewFolder"
-                                Command="{x:Bind NewFolderInvokedCommand, Mode=OneWay}"
+                                Command="{x:Bind ViewModel.CreateNewFolderCommand, Mode=OneWay}"
                                 Text="Folder">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE8B7;" />
@@ -1309,9 +1030,9 @@
                             <MenuFlyoutItem
                                 x:Name="NewFile"
                                 x:Uid="BaseLayoutContextFlyoutNewFile"
-                                Command="{x:Bind NewFileInvokedCommand, Mode=OneWay}"
+                                Command="{x:Bind ViewModel.CreateNewFileCommand, Mode=OneWay}"
                                 CommandParameter="{x:Null}"
-                                IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
+                                IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                                 Text="File">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE7C3;" />
