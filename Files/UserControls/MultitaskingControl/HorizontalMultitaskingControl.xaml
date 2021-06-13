@@ -519,6 +519,7 @@
                                                     </VisualState.Setters>
                                                 </VisualState>
                                             </VisualStateGroup>
+                                            <!--  Visual states for the loading indicator  -->
                                             <VisualStateGroup x:Name="LoadingStates">
                                                 <VisualState x:Name="NotLoading" />
                                                 <VisualState x:Name="Loading">
