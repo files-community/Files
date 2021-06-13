@@ -38,9 +38,11 @@ namespace Files.Helpers
                     return;
                 }
 
+                var wnt = new WindowsNameTransform(destinationFolder.Path);
+
                 var directories = new List<string>();
-                directories.AddRange(directoryEntries.Select((item) => Path.Combine(destinationFolder.Path, item.Name)));
-                directories.AddRange(fileEntries.Select((item) => Path.Combine(destinationFolder.Path, Path.GetDirectoryName(item.Name))));
+                directories.AddRange(directoryEntries.Select((item) => wnt.TransformDirectory(item.Name)));
+                directories.AddRange(fileEntries.Select((item) => Path.GetDirectoryName(wnt.TransformFile(item.Name))));
                 foreach (var dir in directories.Distinct().OrderBy(x => x.Length))
                 {
                     NativeFileOperationsHelper.CreateDirectoryFromApp(dir, IntPtr.Zero);
@@ -64,7 +66,7 @@ namespace Files.Helpers
                         return;
                     }
 
-                    string filePath = Path.Combine(destinationFolder.Path, entry.Name.Replace('/', '\\'));
+                    string filePath = wnt.TransformFile(entry.Name);
 
                     var hFile = NativeFileOperationsHelper.CreateFileForWrite(filePath);
 
