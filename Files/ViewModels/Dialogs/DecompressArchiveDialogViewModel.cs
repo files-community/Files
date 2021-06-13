@@ -19,11 +19,6 @@ namespace Files.ViewModels.Dialogs
 
         private StorageFolder _destinationFolder;
 
-        public string ArchiveName
-        {
-            get => Path.GetFileName(_archive.Path);
-        }
-
         private string _DestinationFolderPath;
         public string DestinationFolderPath
         {

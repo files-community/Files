@@ -5,45 +5,36 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Extraction options"
+    Title="Select a destination and extract files"
+    CornerRadius="{StaticResource OverlayCornerRadius}"
+    DefaultButton="Primary"
     PrimaryButtonCommand="{x:Bind ViewModel.StartExtractingCommand}"
     PrimaryButtonText="Extract"
+    RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
     SecondaryButtonText="Cancel"
+    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
-    <Grid>
-        <StackPanel Spacing="16">
-            <StackPanel Orientation="Horizontal" Spacing="4">
-                <TextBlock Text="Extracting" />
-                <TextBlock Text="{x:Bind ViewModel.ArchiveName}" />
-            </StackPanel>
+    <Grid
+        MinWidth="400"
+        Margin="0,16,0,0"
+        ColumnSpacing="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-            <Grid ColumnSpacing="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+        <TextBox
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            IsReadOnly="True"
+            Text="{x:Bind ViewModel.DestinationFolderPath, Mode=OneWay}" />
 
-                <TextBlock Grid.ColumnSpan="2" Text="Destination:" />
-
-                <TextBox
-                    Grid.Row="1"
-                    HorizontalAlignment="Stretch"
-                    IsReadOnly="True"
-                    Text="{x:Bind ViewModel.DestinationFolderPath, Mode=OneWay}" />
-
-                <Button
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Width="40"
-                    Background="Transparent"
-                    Command="{x:Bind ViewModel.SelectDestinationCommand}"
-                    Content="..." />
-            </Grid>
-        </StackPanel>
+        <Button
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Background="Transparent"
+            Command="{x:Bind ViewModel.SelectDestinationCommand}"
+            Content="Browse" />
     </Grid>
 </ContentDialog>
