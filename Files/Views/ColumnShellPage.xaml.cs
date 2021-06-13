@@ -1338,7 +1338,6 @@ namespace Files.Views
             };
 
             InstanceViewModel.CurrentSearchQuery = query;
-            FilesystemViewModel.IsLoadingIndicatorActive = true;
             InstanceViewModel.SearchedUnindexedItems = !searchUnindexedItems;
             ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
             {
@@ -1347,7 +1346,6 @@ namespace Files.Views
                 SearchPathParam = FilesystemViewModel.WorkingDirectory,
                 SearchResults = await search.SearchAsync(),
             });
-            FilesystemViewModel.IsLoadingIndicatorActive = false;
         }
 
         public bool LoadPreviewPane => AppSettings.PreviewPaneEnabled && InstanceViewModel.IsPageTypeNotHome;

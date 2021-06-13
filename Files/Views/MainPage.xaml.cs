@@ -76,6 +76,7 @@ namespace Files.Views
                     ViewModel.MultitaskingControl.CurrentInstanceChanged -= MultitaskingControl_CurrentInstanceChanged;
                 }
                 ViewModel.MultitaskingControl = horizontalMultitaskingControl;
+                ViewModel.MultitaskingControls.Add(horizontalMultitaskingControl);
                 ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
         }

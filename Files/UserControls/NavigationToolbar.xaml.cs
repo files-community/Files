@@ -1222,6 +1222,7 @@ namespace Files.UserControls
                     mainPage.ViewModel.MultitaskingControl.CurrentInstanceChanged -= mainPage.MultitaskingControl_CurrentInstanceChanged;
                 }
                 mainPage.ViewModel.MultitaskingControl = VerticalTabs;
+                mainPage.ViewModel.MultitaskingControls.Add(VerticalTabs);
                 mainPage.ViewModel.MultitaskingControl.CurrentInstanceChanged += mainPage.MultitaskingControl_CurrentInstanceChanged;
             }
         }

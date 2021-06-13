@@ -672,24 +672,6 @@ namespace Files.ViewModels
             FilesAndFolders.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
         }
 
-        private bool isLoadingIndicatorActive = false;
-
-        public bool IsLoadingIndicatorActive
-        {
-            get
-            {
-                return isLoadingIndicatorActive;
-            }
-            set
-            {
-                if (isLoadingIndicatorActive != value)
-                {
-                    isLoadingIndicatorActive = value;
-                    NotifyPropertyChanged(nameof(IsLoadingIndicatorActive));
-                }
-            }
-        }
-
         private bool isLoadingItems = false;
 
         public bool IsLoadingItems
@@ -701,7 +683,6 @@ namespace Files.ViewModels
             set
             {
                 isLoadingItems = value;
-                IsLoadingIndicatorActive = value;
             }
         }
 
