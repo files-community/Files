@@ -23,7 +23,7 @@ namespace Files
 
         IFilesystemHelpers FilesystemHelpers { get; }
 
-        INavigationToolbar NavigationToolbar { get; }
+        NavToolbarViewModel NavToolbarViewModel { get; }
 
         bool CanNavigateBackward { get; }
 
@@ -34,6 +34,16 @@ namespace Files
         void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null);
 
         void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null);
+        /// <summary>
+        /// Gets the layout mode for the specified path then navigates to it
+        /// </summary>
+        /// <param name="navigationPath"></param>
+        /// <param name="navArgs"></param>
+        public void NavigateToPath(string navigationPath, NavigationArguments navArgs = null);
+        /// <summary>
+        /// Navigates to the home page
+        /// </summary>
+        public void NavigateHome();
 
         void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs);
 
@@ -53,6 +63,8 @@ namespace Files
         public TabItemArguments TabItemArguments { get; set; }
 
         public void OpenPathInNewPane(string path);
+        public bool IsLeftPaneActive { get; }
+        public bool IsRightPaneActive { get; }
     }
 
     public interface IMultiPaneInfo

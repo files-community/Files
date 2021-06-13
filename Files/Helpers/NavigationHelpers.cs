@@ -177,7 +177,7 @@ namespace Files.Helpers
             {
                 if (isHiddenItem)
                 {
-                    associatedInstance.NavigationToolbar.PathControlDisplayText = path;
+                    associatedInstance.NavToolbarViewModel.PathControlDisplayText = path;
                     associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                     {
                         NavPathParam = path,
@@ -190,7 +190,7 @@ namespace Files.Helpers
                     opened = (FilesystemResult)await library.CheckDefaultSaveFolderAccess();
                     if (opened)
                     {
-                        associatedInstance.NavigationToolbar.PathControlDisplayText = library.Text;
+                        associatedInstance.NavToolbarViewModel.PathControlDisplayText = library.Text;
                         associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                         {
                             NavPathParam = path,
@@ -211,7 +211,7 @@ namespace Files.Helpers
                     }
                     else
                     {
-                        associatedInstance.NavigationToolbar.PathControlDisplayText = shortcutTargetPath;
+                        associatedInstance.NavToolbarViewModel.PathControlDisplayText = shortcutTargetPath;
                         associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(shortcutTargetPath), new NavigationArguments()
                         {
                             NavPathParam = shortcutTargetPath,
@@ -224,7 +224,7 @@ namespace Files.Helpers
                 }
                 else if (isHiddenItem)
                 {
-                    associatedInstance.NavigationToolbar.PathControlDisplayText = path;
+                    associatedInstance.NavToolbarViewModel.PathControlDisplayText = path;
                     associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                     {
                         NavPathParam = path,
@@ -251,7 +251,7 @@ namespace Files.Helpers
                     }
                     if (opened)
                     {
-                        associatedInstance.NavigationToolbar.PathControlDisplayText = path;
+                        associatedInstance.NavToolbarViewModel.PathControlDisplayText = path;
                         associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                         {
                             NavPathParam = path,
@@ -393,7 +393,7 @@ namespace Files.Helpers
             if (opened.ErrorCode == FileSystemStatusCode.NotFound && !openSilent)
             {
                 await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
-                associatedInstance.NavigationToolbar.CanRefresh = false;
+                associatedInstance.NavToolbarViewModel.CanRefresh = false;
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var ContentOwnedViewModelInstance = associatedInstance.FilesystemViewModel;

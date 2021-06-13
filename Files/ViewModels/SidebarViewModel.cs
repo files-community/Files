@@ -83,7 +83,7 @@ namespace Files.ViewModels
             }
         }
 
-        public bool IsSidebarCompactSize => SidebarDisplayMode != Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Compact && SidebarDisplayMode != Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Minimal;
+        public bool IsSidebarCompactSize => SidebarDisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Compact || SidebarDisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Minimal;
 
         public void NotifyInstanceRelatedPropertiesChanged(string arg)
         {
