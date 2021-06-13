@@ -2418,4 +2418,28 @@
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
     <value>Restore default libraries</value>
   </data>
+  <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
+    <value>Are you sure you want to restore the default libraries? This also deletes libraries created by you. It cannot be undone unless you have manual backup of your library files. Folders and files added to libraries won't be affected, they remain on your storage.</value>
+  </data>
+  <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
+    <value>Restore Libraries</value>
+  </data>
+  <data name="StatusLibraryRestoration" xml:space="preserve">
+    <value>Restoring libraries</value>
+  </data>
+  <data name="StatusLibraryRestorationInProgress" xml:space="preserve">
+    <value>Restoring default libraries in progress...</value>
+  </data>
+  <data name="StatusLibraryRestorationComplete" xml:space="preserve">
+    <value>Libraries restored</value>
+  </data>
+  <data name="StatusLibraryRestorationFailed" xml:space="preserve">
+    <value>Failed to restore libraries</value>
+  </data>
+  <data name="StatusRestoreLibrariesDetails" xml:space="preserve">
+    <value>{0} library files successfully restored</value>
+  </data>
 </root>

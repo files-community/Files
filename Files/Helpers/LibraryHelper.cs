@@ -26,7 +26,6 @@ namespace Files.Helpers
         // https://docs.microsoft.com/en-us/windows/win32/shell/library-ovw
 
         // TODO: move everything to LibraryManager from here?
-        // TODO: do Rename and Delete like in case of normal files
 
         public static bool IsDefaultLibrary(string libraryFilePath)
         {
@@ -149,7 +148,58 @@ namespace Files.Helpers
 
         public static async void ShowRestoreDefaultLibrariesDialog()
         {
-            // TODO
+            var dialog = new DynamicDialog(new DynamicDialogViewModel
+            {
+                TitleText = "DialogRestoreLibrariesTitleText".GetLocalized(),
+                SubtitleText = "DialogRestoreLibrariesSubtitleText".GetLocalized(),
+                PrimaryButtonText = "DialogRestoreLibrariesButtonText".GetLocalized(),
+                CloseButtonText = "DialogCancelButtonText".GetLocalized(),
+                PrimaryButtonAction = async (vm, e) => {
+                    var progressBanner = App.StatusCenterViewModel.PostBanner(
+                        "StatusLibraryRestoration".GetLocalized(),
+                        "StatusLibraryRestorationInProgress".GetLocalized(),
+                        0,
+                        ReturnResult.InProgress,
+                        FileOperationType.Restore);
+
+                    long restored = 0;
+                    string error = null;
+                    var connection = await AppServiceConnectionHelper.Instance;
+                    if (connection != null)
+                    {
+                        var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
+                        {
+                            { "Arguments", "ShellLibrary" },
+                            { "action", "Restore" }
+                        });
+                        if (status == AppServiceResponseStatus.Success && response.ContainsKey("Restore"))
+                        {
+                            restored = (long)response["Restore"];
+                            error = response.Get("Error", (string)null);
+                        }
+                    }
+
+                    progressBanner.Remove();
+                    App.StatusCenterViewModel.PostBanner(
+                        error == null ? "StatusLibraryRestorationComplete".GetLocalized() : "StatusLibraryRestorationFailed".GetLocalized(),
+                        error ?? string.Format("StatusRestoreLibrariesDetails".GetLocalized(), restored),
+                        0,
+                        error == null ? ReturnResult.Success : ReturnResult.Failed,
+                        FileOperationType.Restore);
+
+                    await App.LibraryManager.EnumerateLibrariesAsync();
+                },
+                CloseButtonAction = (vm, e) => vm.HideDialog(),
+                KeyDownAction = (vm, e) =>
+                {
+                    if (e.Key == VirtualKey.Escape)
+                    {
+                        vm.HideDialog();
+                    }
+                },
+                DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
+            });
+            await dialog.ShowAsync();
         }
 
         public static async void ShowCreateNewLibraryDialog()
