@@ -3,6 +3,7 @@ using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -66,7 +67,23 @@ namespace Files.ViewModels.Dialogs
                 _destinationFolder = await parentFolder.CreateFolderAsync(Path.GetFileName(DestinationFolderPath));
             }
 
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             await ZipHelpers.ExtractArchive(_archive, _destinationFolder, banner.Progress);
+
+            sw.Stop();
+            banner.Remove();
+
+            if (sw.Elapsed.TotalSeconds >= 6)
+            {
+                App.StatusCenterViewModel.PostBanner(
+                    "Extracting complete!",
+                    "The archive extracting completed successfully.",
+                    0,
+                    ReturnResult.Success,
+                    FileOperationType.Extract);
+            }
         }
 
         private async Task SelectDestination()
