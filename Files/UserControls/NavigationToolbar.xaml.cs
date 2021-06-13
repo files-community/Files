@@ -264,6 +264,7 @@ namespace Files.UserControls
             if (!(mainPage.ViewModel.MultitaskingControl is VerticalTabViewControl))
             {
                 mainPage.ViewModel.MultitaskingControl = VerticalTabs;
+                mainPage.ViewModel.MultitaskingControls.Add(VerticalTabs);
                 mainPage.ViewModel.MultitaskingControl.CurrentInstanceChanged += mainPage.MultitaskingControl_CurrentInstanceChanged;
             }
         }

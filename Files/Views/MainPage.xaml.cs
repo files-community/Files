@@ -71,6 +71,7 @@ namespace Files.Views
             if (!(ViewModel.MultitaskingControl is HorizontalMultitaskingControl))
             {
                 ViewModel.MultitaskingControl = horizontalMultitaskingControl;
+                ViewModel.MultitaskingControls.Add(horizontalMultitaskingControl);
                 ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
         }
