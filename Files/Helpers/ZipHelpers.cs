@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -11,7 +12,7 @@ namespace Files.Helpers
 {
     public static class ZipHelpers
     {
-        public static async Task ExtractArchive(StorageFile archive, StorageFolder destinationFolder, IProgress<float> progressDelegate)
+        public static async Task ExtractArchive(StorageFile archive, StorageFolder destinationFolder, IProgress<float> progressDelegate, CancellationToken cancellationToken)
         {
             using (ZipFile zipFile = new ZipFile(await archive.OpenStreamForReadAsync()))
             {
@@ -30,6 +31,12 @@ namespace Files.Helpers
                     {
                         directoryEntries.Add(entry);
                     }
+                }
+
+
+                if (cancellationToken.IsCancellationRequested) // Check if cancelled
+                {
+                    return;
                 }
 
                 // Create the directory tree using fast FTP
@@ -68,6 +75,11 @@ namespace Files.Helpers
                     { "paths", filesString }
                 });
 
+                if (cancellationToken.IsCancellationRequested) // Check if cancelled
+                {
+                    return;
+                }
+
                 // Fill files
 
                 byte[] buffer = new byte[4096];
@@ -76,6 +88,11 @@ namespace Files.Helpers
 
                 foreach (var entry in fileEntries)
                 {
+                    if (cancellationToken.IsCancellationRequested) // Check if cancelled
+                    {
+                        return;
+                    }
+
                     string filePath = Path.Combine(destinationFolder.Path, entry.Name.Replace('/', '\\'));
 
                     HandleContext handleContext = new HandleContext(filePath);
@@ -89,6 +106,11 @@ namespace Files.Helpers
                             while ((currentBlockSize = await entryStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
                             {
                                 await destinationStream.WriteAsync(buffer, 0, buffer.Length);
+
+                                if (cancellationToken.IsCancellationRequested) // Check if cancelled
+                                {
+                                    return;
+                                }
                             }
                         }
                     }

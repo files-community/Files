@@ -15,7 +15,7 @@ namespace Files.ViewModels.Dialogs
 {
     public class DecompressArchiveDialogViewModel : ObservableObject
     {
-        private StorageFile _archive;
+        private readonly StorageFile _archive;
 
         private StorageFolder _destinationFolder;
 
@@ -53,13 +53,14 @@ namespace Files.ViewModels.Dialogs
                 return;
             }
 
+            CancellationTokenSource extractCancellation = new CancellationTokenSource();
             PostedStatusBanner banner = App.StatusCenterViewModel.PostOperationBanner(
                 string.Empty,
                 "Extracting archive",
                 0,
                 ReturnResult.InProgress,
                 FileOperationType.Extract,
-                new CancellationTokenSource());
+                extractCancellation);
 
             if (_destinationFolder == null)
             {
@@ -70,7 +71,7 @@ namespace Files.ViewModels.Dialogs
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
-            await ZipHelpers.ExtractArchive(_archive, _destinationFolder, banner.Progress);
+            await ZipHelpers.ExtractArchive(_archive, _destinationFolder, banner.Progress, extractCancellation.Token);
 
             sw.Stop();
             banner.Remove();
@@ -79,7 +80,7 @@ namespace Files.ViewModels.Dialogs
             {
                 App.StatusCenterViewModel.PostBanner(
                     "Extracting complete!",
-                    "The archive extracting completed successfully.",
+                    "The archive extraction completed successfully.",
                     0,
                     ReturnResult.Success,
                     FileOperationType.Extract);
