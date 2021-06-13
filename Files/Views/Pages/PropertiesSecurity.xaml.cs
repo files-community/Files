@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.Filesystem;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -36,9 +37,13 @@ namespace Files.Views
         {
             var np = e.Parameter as Views.Properties.PropertyNavParam;
 
-            if (np.navParameter is ListedItem item)
+            if (np.navParameter is ListedItem listedItem)
             {
-                SecurityProperties = new SecurityProperties(item, np.AppInstanceArgument);
+                SecurityProperties = new SecurityProperties(listedItem, np.AppInstanceArgument);
+            }
+            else if (np.navParameter is DriveItem driveitem)
+            {
+                SecurityProperties = new SecurityProperties(driveitem, np.AppInstanceArgument);
             }
 
             base.OnNavigatedTo(e);

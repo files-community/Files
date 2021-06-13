@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Filesystem.Permissions;
 using Files.Helpers;
@@ -26,8 +27,28 @@ namespace Files.ViewModels.Properties
         {
             Item = item;
             AppInstance = instance;
-            IsFolder = item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !item.IsShortcutItem;
+            IsFolder = Item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !Item.IsShortcutItem;
 
+            InitCommands();
+        }
+
+        public SecurityProperties(DriveItem item, IShellPage instance)
+        {
+            Item = new ListedItem()
+            {
+                ItemName = item.Text,
+                ItemPath = item.Path,
+                PrimaryItemAttribute = Windows.Storage.StorageItemTypes.Folder
+            };
+
+            AppInstance = instance;
+            IsFolder = true;
+
+            InitCommands();
+        }
+
+        private void InitCommands()
+        {
             EditOwnerCommand = new RelayCommand(EditOwner, () => FilePermissions != null);
             AddRulesForUserCommand = new RelayCommand(AddRulesForUser, () => FilePermissions != null && FilePermissions.CanReadFilePermissions);
             RemoveRulesForUserCommand = new RelayCommand(RemoveRulesForUser, () => FilePermissions != null && FilePermissions.CanReadFilePermissions && SelectedRuleForUser != null);

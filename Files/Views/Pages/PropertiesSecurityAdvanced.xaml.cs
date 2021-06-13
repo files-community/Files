@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.Filesystem;
 using Files.Filesystem.Permissions;
 using Files.Helpers;
 using Files.ViewModels;
@@ -59,9 +60,15 @@ namespace Files.Views
             var args = e.Parameter as PropertiesPageNavigationArguments;
             AppInstance = args.AppInstanceArgument;
             navParameterItem = args.Item;
-            var listedItem = args.Item as ListedItem;
 
-            ViewModel = new SecurityProperties(listedItem, AppInstance);
+            if (args.Item is ListedItem listedItem)
+            {
+                ViewModel = new SecurityProperties(listedItem, AppInstance);
+            }
+            else if (args.Item is DriveItem driveitem)
+            {
+                ViewModel = new SecurityProperties(driveitem, AppInstance);
+            }
 
             base.OnNavigatedTo(e);
         }
