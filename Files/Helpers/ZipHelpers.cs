@@ -1,17 +1,11 @@
-﻿using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
+﻿using ICSharpCode.SharpZipLib.Zip;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.Storage.Streams;
 
 namespace Files.Helpers
 {
@@ -59,12 +53,14 @@ namespace Files.Helpers
                 foldersString = foldersString.Remove(foldersString.Length - 1);
                 filesString = filesString.Remove(filesString.Length - 1);
 
+                // Create folders
                 await connection.SendMessageAsync(new ValueSet()
                 {
                     { "Arguments", "FileOperation" },
                     { "fileop", "CreateDirectoryTree" },
                     { "paths", foldersString }
                 });
+                // Create files
                 await connection.SendMessageAsync(new ValueSet()
                 {
                     { "Arguments", "FileOperation" },
@@ -72,18 +68,17 @@ namespace Files.Helpers
                     { "paths", filesString }
                 });
 
-                // Create files and fill them
+                // Fill files
 
                 byte[] buffer = new byte[4096];
-                long entriesAmount = fileEntries.Count;
-                long entriesFinished = 0L;
+                int entriesAmount = fileEntries.Count;
+                int entriesFinished = 0;
 
                 foreach (var entry in fileEntries)
                 {
                     string filePath = Path.Combine(destinationFolder.Path, entry.Name.Replace('/', '\\'));
 
-                    HandleContext handleContext = new HandleContext();
-                    handleContext.OpenFileHandle(filePath);
+                    HandleContext handleContext = new HandleContext(filePath);
 
                     using (FileStream destinationStream = new FileStream(handleContext.hFile, FileAccess.ReadWrite))
                     {
@@ -98,7 +93,6 @@ namespace Files.Helpers
                         }
                     }
                     // We don't close handleContext because FileStream.Dispose() already does that
-
 
                     entriesFinished++;
                     float percentage = (float)((float)entriesFinished / (float)entriesAmount) * 100.0f;

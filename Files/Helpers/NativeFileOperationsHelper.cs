@@ -295,6 +295,15 @@ namespace Files.Helpers
     {
         public IntPtr hFile { get; private set; }
 
+        public HandleContext()
+        {
+        }
+
+        public HandleContext(string filePath)
+        {
+            OpenFileHandle(filePath);
+        }
+
         public bool OpenFileHandle(string filePath)
         {
             this.hFile = NativeFileOperationsHelper.CreateFileFromApp(filePath,

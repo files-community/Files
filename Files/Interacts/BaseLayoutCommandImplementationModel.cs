@@ -577,12 +577,11 @@ namespace Files.Interacts
         public async void DecompressArchive()
         {
             StorageFile archive = await StorageItemHelpers.ToStorageItem<StorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
-            StorageFolder parent = await StorageItemHelpers.ToStorageItem<StorageFolder>(Path.GetDirectoryName(associatedInstance.SlimContentPage.SelectedItem.ItemPath));
 
-            if (archive != null && parent != null)
+            if (archive != null)
             {
                 DecompressArchiveDialog decompressArchiveDialog = new DecompressArchiveDialog();
-                decompressArchiveDialog.ViewModel = new DecompressArchiveDialogViewModel(archive, parent);
+                decompressArchiveDialog.ViewModel = new DecompressArchiveDialogViewModel(archive);
 
                 await decompressArchiveDialog.ShowAsync();
             }

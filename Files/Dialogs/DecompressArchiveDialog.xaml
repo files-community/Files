@@ -12,9 +12,38 @@
     mc:Ignorable="d">
 
     <Grid>
-        <StackPanel>
-            <TextBlock FontSize="18" Text="The archive will be extracted to:" />
-            <TextBlock Text="{x:Bind ViewModel.DestinationFolderLocation}" />
+        <StackPanel Spacing="16">
+            <StackPanel Orientation="Horizontal" Spacing="4">
+                <TextBlock Text="Extracting" />
+                <TextBlock Text="{x:Bind ViewModel.ArchiveName}" />
+            </StackPanel>
+
+            <Grid ColumnSpacing="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.ColumnSpan="2" Text="Destination:" />
+
+                <TextBox
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    IsReadOnly="True"
+                    Text="{x:Bind ViewModel.DestinationFolderPath, Mode=OneWay}" />
+
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Width="40"
+                    Background="Transparent"
+                    Command="{x:Bind ViewModel.SelectDestinationCommand}"
+                    Content="..." />
+            </Grid>
         </StackPanel>
     </Grid>
 </ContentDialog>

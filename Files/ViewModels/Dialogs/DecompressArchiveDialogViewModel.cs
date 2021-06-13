@@ -1,19 +1,14 @@
 ﻿using Files.Enums;
 using Files.Helpers;
-using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 
 namespace Files.ViewModels.Dialogs
 {
@@ -23,23 +18,33 @@ namespace Files.ViewModels.Dialogs
 
         private StorageFolder _destinationFolder;
 
-        public string DestinationFolderLocation
+        public string ArchiveName
         {
-            get => _destinationFolder?.Path;
+            get => Path.GetFileName(_archive.Path);
+        }
+
+        private string _DestinationFolderPath;
+        public string DestinationFolderPath
+        {
+            get => _DestinationFolderPath;
+            set => SetProperty(ref _DestinationFolderPath, value);
         }
 
         public ICommand StartExtractingCommand { get; private set; }
 
-        public DecompressArchiveDialogViewModel(StorageFile archive, StorageFolder destinationFolder)
+        public ICommand SelectDestinationCommand { get; private set; }
+
+        public DecompressArchiveDialogViewModel(StorageFile archive)
         {
             this._archive = archive;
-            this._destinationFolder = destinationFolder;
+            this.DestinationFolderPath = DefaultDestinationFolderPath();
 
             // Create commands
-            StartExtractingCommand = new RelayCommand(StartExtracting);
+            StartExtractingCommand = new AsyncRelayCommand(StartExtracting);
+            SelectDestinationCommand = new AsyncRelayCommand(SelectDestination);
         }
 
-        private async void StartExtracting()
+        private async Task StartExtracting()
         {
             // Check if archive still exists
             if (!StorageItemHelpers.Exists(_archive.Path))
@@ -55,8 +60,35 @@ namespace Files.ViewModels.Dialogs
                 FileOperationType.Extract,
                 new CancellationTokenSource());
 
-            StorageFolder childDestinationFolder = await _destinationFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(_archive.Path), CreationCollisionOption.OpenIfExists);
-            await ZipHelpers.ExtractArchive(_archive, childDestinationFolder, banner.Progress);
+            if (_destinationFolder == null)
+            {
+                StorageFolder parentFolder = await StorageItemHelpers.ToStorageItem<StorageFolder>(Path.GetDirectoryName(_archive.Path));
+                _destinationFolder = await parentFolder.CreateFolderAsync(Path.GetFileName(DestinationFolderPath));
+            }
+
+            await ZipHelpers.ExtractArchive(_archive, _destinationFolder, banner.Progress);
+        }
+
+        private async Task SelectDestination()
+        {
+            FolderPicker folderPicker = new FolderPicker();
+            folderPicker.FileTypeFilter.Add("*");
+
+            _destinationFolder = await folderPicker.PickSingleFolderAsync();
+
+            if (_destinationFolder != null)
+            {
+                DestinationFolderPath = _destinationFolder.Path;
+            }
+            else
+            {
+                DestinationFolderPath = DefaultDestinationFolderPath();
+            }
+        }
+
+        private string DefaultDestinationFolderPath()
+        {
+            return Path.Combine(Path.GetDirectoryName(_archive.Path), Path.GetFileNameWithoutExtension(_archive.Path));
         }
     }
 }
