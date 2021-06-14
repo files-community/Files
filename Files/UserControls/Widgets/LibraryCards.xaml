@@ -52,11 +52,19 @@
                 <Button.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem
-                            x:Uid="LibraryCardsOptionsFlyoutCreateBundleMenuItem"
-                            Command="{x:Bind OpenCreateNewLibraryDialogCommand, Mode=OneWay}"
-                            Text="Create Library">
+                            x:Uid="LibraryCardsOptionsFlyoutCreateLibraryMenuItem"
+                            Command="{x:Bind ShowCreateNewLibraryDialogCommand, Mode=OneWay}"
+                            Text="Create new library">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE710;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Uid="LibraryCardsOptionsFlyoutRestoreLibrariesMenuItem"
+                            Command="{x:Bind ShowRestoreLibrariesDialogCommand, Mode=OneWay}"
+                            Text="Restore default libraries">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE10E;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <!--<MenuFlyoutSeparator />
@@ -175,7 +183,7 @@
                                     Height="40"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Source="{x:Bind Icon}" />
+                                    Source="{x:Bind Icon, Mode=OneWay}" />
                                 <TextBlock
                                     x:Name="ItemLocationName"
                                     Grid.Row="1"

@@ -1905,8 +1905,8 @@
   <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>More options...</value>
   </data>
-  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>Create Library</value>
+  <data name="LibraryCardsOptionsFlyoutCreateLibraryMenuItem.Text" xml:space="preserve">
+    <value>Create new library</value>
   </data>
   <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Desired name</value>
@@ -2423,5 +2423,38 @@
   </data>
   <data name="SettingsSkinsTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>View documentation.</value>
+  </data>
+  <data name="LibraryCardsOptionsFlyoutRestoreLibrariesMenuItem.Text" xml:space="preserve">
+    <value>Restore default libraries</value>
+  </data>
+  <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
+    <value>Create new library</value>
+  </data>
+  <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
+    <value>Restore default libraries</value>
+  </data>
+  <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
+    <value>Are you sure you want to restore the default libraries? All your files will remain on your storage.</value>
+  </data>
+  <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
+    <value>Restore Libraries</value>
+  </data>
+  <data name="StatusLibraryRestoration" xml:space="preserve">
+    <value>Restoring libraries</value>
+  </data>
+  <data name="StatusLibraryRestorationInProgress" xml:space="preserve">
+    <value>Restoring default libraries in progress...</value>
+  </data>
+  <data name="StatusLibraryRestorationComplete" xml:space="preserve">
+    <value>Libraries restored</value>
+  </data>
+  <data name="StatusLibraryRestorationFailed" xml:space="preserve">
+    <value>Failed to restore libraries</value>
+  </data>
+  <data name="StatusRestoreLibrariesDetails" xml:space="preserve">
+    <value>{0} library files successfully restored</value>
   </data>
 </root>
