@@ -168,13 +168,9 @@ namespace Files.UserControls.Widgets
         {
             foreach (var item in ItemsAdded)
             {
-                var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.Path, 48u);
-                if (iconData != null)
-                {
-                    item.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => iconData.ToBitmapAsync());
-                }
                 item.SelectCommand = LibraryCardClicked;
                 item.AutomationProperties = item.Text;
+                await this.LoadLibraryIcon(item);
             }
         }
 
@@ -261,7 +257,7 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private async void ReloadLibraryItems()
+        private void ReloadLibraryItems()
         {
             ItemsAdded.BeginBulkOperation();
             var toRemove = ItemsAdded.Where(i => i.IsLibrary).ToList();
@@ -271,18 +267,27 @@ namespace Files.UserControls.Widgets
             }
             foreach (var lib in App.LibraryManager.Libraries)
             {
-                var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(lib.Path, 48u);
-                ItemsAdded.Add(new LibraryCardItem
+                var newItem = new LibraryCardItem
                 {
-                    Icon = iconData != null ? await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => iconData.ToBitmapAsync()) : null,
                     Text = lib.Text,
                     Path = lib.Path,
                     SelectCommand = LibraryCardClicked,
                     AutomationProperties = lib.Text,
                     Library = lib,
-                });
+                };
+                ItemsAdded.Add(newItem);
+                _ = LoadLibraryIcon(newItem);
             }
             ItemsAdded.EndBulkOperation();
+        }
+
+        private async Task LoadLibraryIcon(LibraryCardItem item)
+        {
+            var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.Path, 48u);
+            if (iconData != null)
+            {
+                item.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => iconData.ToBitmapAsync());
+            }
         }
     }
 }
