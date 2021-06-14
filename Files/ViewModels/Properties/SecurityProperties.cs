@@ -10,11 +10,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.Foundation.Collections;
-using Windows.UI.Core;
 
 namespace Files.ViewModels.Properties
 {
