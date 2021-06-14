@@ -993,8 +993,11 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Go up one directory</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Vertical tab strip</value>
+  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Vertical tab flyout</value>
+  </data>
+  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vertical tab flyout</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Edit terminal applications</value>
@@ -1326,9 +1329,6 @@
   <data name="PropertyAddress" xml:space="preserve">
     <value>Address</value>
   </data>
-  <data name="VerticalTabStrip.Label" xml:space="preserve">
-    <value>Tabs</value>
-  </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Selection options</value>
   </data>
@@ -1384,6 +1384,9 @@
     <value>New tab</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>New tab (Ctrl+T)</value>
+  </data>
+  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
     <value>New tab (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">

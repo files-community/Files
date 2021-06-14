@@ -804,9 +804,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>上のレベルに戻る</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>垂直タブストリップ</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>ターミナルアプリを編集</value>
   </data>

@@ -849,9 +849,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Gå en mappe op</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Lodret fane strimmel</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Redigér terminalapplikationer</value>
   </data>

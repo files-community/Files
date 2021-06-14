@@ -804,9 +804,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Subir um diretório</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Faixa de tabulação vertical</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Editar aplicações de terminal</value>
   </data>
@@ -2174,9 +2171,6 @@
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgets</value>
-  </data>
-  <data name="VerticalTabStrip.Label" xml:space="preserve">
-    <value>Separadores</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Selecionar</value>

@@ -8,6 +8,7 @@ using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
@@ -61,6 +62,29 @@ namespace Files.Views
             ToggleFullScreenAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ToggleFullScreenAccelerator);
         }
 
+        public UserControl MultitaskingControl => VerticalTabs;
+
+        private void VerticalTabStrip_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            e.Handled = true;
+            (sender as Button).Flyout.ShowAt(sender as Button);
+        }
+
+        private void VerticalTabStripInvokeButton_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+            (sender as Button).Flyout.ShowAt(sender as Button);
+        }
+
+        private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (!(ViewModel.MultitaskingControl is VerticalTabViewControl))
+            {
+                ViewModel.MultitaskingControl = VerticalTabs;
+                ViewModel.MultitaskingControls.Add(VerticalTabs);
+                ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
+            }
+        }
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
             RightPaddingColumn.Width = new GridLength(sender.SystemOverlayRightInset);

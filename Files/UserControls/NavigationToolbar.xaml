@@ -871,42 +871,6 @@
                         Glyph="&#xE146;" />
                 </AppBarButton.Icon>
             </AppBarButton>
-            <AppBarButton
-                x:Name="VerticalTabStripInvokeButton"
-                x:Uid="VerticalTabStrip"
-                x:Load="{x:Bind AppSettings.IsVerticalTabFlyoutEnabled, Mode=OneWay}"
-                AccessKey="T"
-                AllowDrop="True"
-                AutomationProperties.Name="Vertical tab strip"
-                DragEnter="VerticalTabStripInvokeButton_DragEnter"
-                IsTapEnabled="True"
-                Label="Tabs"
-                Loaded="VerticalTabStripInvokeButton_Loaded"
-                PointerEntered="Button_PointerEntered"
-                PointerExited="VerticalTabStripInvokeButton_PointerExited"
-                Tapped="Button_Tapped"
-                ToolTipService.ToolTip="Open tabs">
-                <AppBarButton.Icon>
-                    <FontIcon
-                        FontSize="10"
-                        Foreground="{ThemeResource SystemAccentColor}"
-                        Glyph="&#xF5ED;" />
-                </AppBarButton.Icon>
-                <Button.Flyout>
-                    <Flyout
-                        x:Name="VerticalTabViewFlyout"
-                        Closed="Flyout_Closed"
-                        Opened="Flyout_Opened">
-                        <local:VerticalTabViewControl
-                            x:Name="VerticalTabs"
-                            Width="275"
-                            MaxHeight="300"
-                            x:FieldModifier="public"
-                            PointerExited="VerticalTabs_PointerExited" />
-                    </Flyout>
-                </Button.Flyout>
-            </AppBarButton>
-
             <CommandBar.SecondaryCommands>
                 <AppBarButton
                     x:Name="NavToolbarNewPane"

@@ -1137,10 +1137,6 @@
           <source>Go up one directory</source>
           <target state="translated">한 단계 상위 폴더로 이동</target>
         </trans-unit>
-        <trans-unit id="VerticalTabStrip.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Vertical tab strip</source>
-          <target state="translated">수직 탭 표시 줄</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
           <target state="translated">터미널 편집</target>
@@ -2908,10 +2904,6 @@
           <source>Widgets</source>
           <target state="new">Widgets</target>
         </trans-unit>
-        <trans-unit id="VerticalTabStrip.Label" translate="yes" xml:space="preserve">
-          <source>Tabs</source>
-          <target state="new">Tabs</target>
-        </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.Label" translate="yes" xml:space="preserve">
           <source>Select</source>
           <target state="new">Select</target>
@@ -3095,6 +3087,18 @@
         <trans-unit id="SettingsSkinsTeachingTipHyperlinkText.Text" translate="yes" xml:space="preserve">
           <source>View documentation.</source>
           <target state="new">View documentation.</target>
+        </trans-unit>
+        <trans-unit id="VerticalTabFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Vertical tab flyout</source>
+          <target state="new">Vertical tab flyout</target>
+        </trans-unit>
+        <trans-unit id="VerticalTabFlyout.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Vertical tab flyout</source>
+          <target state="new">Vertical tab flyout</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>New tab (Ctrl+T)</source>
+          <target state="new">New tab (Ctrl+T)</target>
         </trans-unit>
       </group>
     </body>
