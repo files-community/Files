@@ -264,47 +264,64 @@
                     x:FieldModifier="public"
                     Canvas.ZIndex="40"
                     Loaded="HorizontalMultitaskingControl_Loaded" />
-                <Button
-                    x:Name="VerticalTabStripInvokeButton"
-                    x:Uid="VerticalTabStrip"
+                <StackPanel
                     Grid.Column="1"
-                    Height="28"
-                    Padding="8,4,8,4"
-                    HorizontalAlignment="Right"
-                    x:Load="{x:Bind AppSettings.IsVerticalTabFlyoutEnabled, Mode=OneWay}"
-                    AccessKey="T"
-                    AllowDrop="True"
-                    AutomationProperties.Name="Vertical tab strip"
-                    Background="Transparent"
-                    BorderBrush="Transparent"
-                    BorderThickness="0"
-                    DragEnter="VerticalTabStripInvokeButton_DragEnter"
-                    IsTapEnabled="True"
-                    Loaded="VerticalTabStripInvokeButton_Loaded"
-                    PointerEntered="Button_PointerEntered"
-                    PointerExited="VerticalTabStripInvokeButton_PointerExited"
-                    Tapped="VerticalTabStrip_Tapped"
-                    ToolTipService.ToolTip="Open tabs">
-                    <Button.Content>
-                        <FontIcon
-                            FontSize="12"
-                            Foreground="{ThemeResource TextControlPlaceholderForegroundFocused}"
-                            Glyph="&#xF5ED;" />
-                    </Button.Content>
-                    <Button.Flyout>
-                        <Flyout
-                            x:Name="VerticalTabViewFlyout"
-                            Closed="VerticalTabViewFlyout_Closed"
-                            Opened="VerticalTabViewFlyout_Opened">
-                            <usercontrols:VerticalTabViewControl
-                                x:Name="VerticalTabs"
-                                Width="275"
-                                MaxHeight="300"
-                                x:FieldModifier="public"
-                                PointerExited="VerticalTabs_PointerExited" />
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <Button
+                        x:Uid="HorizontalMultitaskingControlAddButton"
+                        Width="32"
+                        Height="32"
+                        Padding="8"
+                        AutomationProperties.Name="New tab (Ctrl+T)"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0"
+                        Click="{x:Bind ViewModel.AddNewTab, Mode=OneWay}"
+                        ToolTipService.ToolTip="New tab (Ctrl+T)">
+                        <Button.Content>
+                            <FontIcon FontSize="12" Glyph="&#xE710;" />
+                        </Button.Content>
+                    </Button>
+                    <Button
+                        x:Name="VerticalTabStripInvokeButton"
+                        x:Uid="VerticalTabStrip"
+                        Width="32"
+                        Height="32"
+                        Padding="8"
+                        HorizontalAlignment="Right"
+                        x:Load="{x:Bind AppSettings.IsVerticalTabFlyoutEnabled, Mode=OneWay}"
+                        AccessKey="T"
+                        AllowDrop="True"
+                        AutomationProperties.Name="Vertical tab strip"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0"
+                        DragEnter="VerticalTabStripInvokeButton_DragEnter"
+                        IsTapEnabled="True"
+                        Loaded="VerticalTabStripInvokeButton_Loaded"
+                        PointerEntered="Button_PointerEntered"
+                        PointerExited="VerticalTabStripInvokeButton_PointerExited"
+                        Tapped="VerticalTabStrip_Tapped"
+                        ToolTipService.ToolTip="Open tabs">
+                        <Button.Content>
+                            <FontIcon FontSize="12" Glyph="&#xF5ED;" />
+                        </Button.Content>
+                        <Button.Flyout>
+                            <Flyout
+                                x:Name="VerticalTabViewFlyout"
+                                Closed="VerticalTabViewFlyout_Closed"
+                                Opened="VerticalTabViewFlyout_Opened">
+                                <usercontrols:VerticalTabViewControl
+                                    x:Name="VerticalTabs"
+                                    Width="275"
+                                    MaxHeight="300"
+                                    x:FieldModifier="public"
+                                    PointerExited="VerticalTabs_PointerExited" />
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
             </Grid>
         </controls:SidebarControl.TabContent>
     </controls:SidebarControl>
