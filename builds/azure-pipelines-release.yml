@@ -16,7 +16,7 @@ jobs:
   timeoutInMinutes: 120
 
   steps:
-    - task: PowerShell@2
+  - task: PowerShell@2
     inputs:
       targetType: 'inline'
       script: |
