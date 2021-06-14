@@ -183,7 +183,7 @@
                                     Height="40"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Source="{x:Bind Icon}" />
+                                    Source="{x:Bind Icon, Mode=OneWay}" />
                                 <TextBlock
                                     x:Name="ItemLocationName"
                                     Grid.Row="1"

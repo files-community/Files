@@ -5,6 +5,7 @@ using Files.Helpers;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
 using Files.ViewModels.Widgets;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -33,11 +34,18 @@ namespace Files.UserControls.Widgets
         public string Path { get; set; }
     }
 
-    public class LibraryCardItem
+    public class LibraryCardItem : ObservableObject
     {
         public string AutomationProperties { get; set; }
         public bool HasPath => !string.IsNullOrEmpty(Path);
-        public BitmapImage Icon { get; set; }
+
+        private BitmapImage icon;       
+        public BitmapImage Icon
+        {
+            get => icon;
+            set => SetProperty(ref icon, value);
+        }
+
         public byte[] IconData { get; set; }
         public bool IsLibrary => Library != null;
         public bool IsUserCreatedLibrary => Library != null && !LibraryHelper.IsDefaultLibrary(Library.Path);
