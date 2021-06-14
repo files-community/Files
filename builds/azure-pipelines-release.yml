@@ -16,6 +16,14 @@ jobs:
   timeoutInMinutes: 120
 
   steps:
+      targetType: 'inline'
+      script: |
+        [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\Files.Package\Package.appxmanifest
+        $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
+        $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
+        $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
+      failOnStderr: true
+
   - task: DownloadSecureFile@1
     name: mapsDevKey
     displayName: 'Download Bing Maps Dev Key'
