@@ -121,7 +121,7 @@
                     <local:ModernShellPage
                         x:Name="PaneLeft"
                         ContentChanged="Pane_ContentChanged"
-                        CurrentInstanceBorderThickness="0,0,2,0"
+                        CurrentInstanceBorderThickness="0,0,0,2"
                         IsMultiPaneActive="{x:Bind IsRightPaneVisible, Mode=OneWay}"
                         IsMultiPaneEnabled="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
                         IsPageMainPane="True"
@@ -140,7 +140,7 @@
                     <local:ModernShellPage
                         x:Name="PaneRight"
                         ContentChanged="Pane_ContentChanged"
-                        CurrentInstanceBorderThickness="2,0,0,0"
+                        CurrentInstanceBorderThickness="0,0,0,2"
                         IsMultiPaneActive="{x:Bind IsRightPaneVisible, Mode=OneWay}"
                         IsMultiPaneEnabled="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
                         IsPageMainPane="False"

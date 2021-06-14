@@ -104,7 +104,9 @@ namespace Files.Views
         {
             if (SidebarAdaptiveViewModel.PaneHolder != null)
             {
-                SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs((e.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
+                var paneArgs = e.NavigationArg as PaneNavigationArguments;
+                SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ? 
+                    paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
                 UpdateStatusBarProperties();
             }
         }
