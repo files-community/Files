@@ -1,5 +1,6 @@
 ﻿using Files.Helpers;
 using Files.ViewModels;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,11 @@ namespace Files.UserControls.MultitaskingControl
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public virtual DependencyObject ContainerFromItem(ITabItem item)
+        {
+            return null;
+        }
+
         public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
 
         public BaseMultitaskingControl()
@@ -50,7 +56,7 @@ namespace Files.UserControls.MultitaskingControl
 
         protected void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (App.InteractionViewModel.TabStripSelectedIndex >= 0 && App.InteractionViewModel.TabStripSelectedIndex < Items.Count)
+            if (App.MainViewModel.TabStripSelectedIndex >= 0 && App.MainViewModel.TabStripSelectedIndex < Items.Count)
             {
                 CurrentSelectedAppInstance = GetCurrentSelectedTabInstance();
 
@@ -87,7 +93,7 @@ namespace Files.UserControls.MultitaskingControl
 
         public ITabItemContent GetCurrentSelectedTabInstance()
         {
-            return MainPageViewModel.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Control?.TabItemContent;
+            return MainPageViewModel.AppInstances[App.MainViewModel.TabStripSelectedIndex].Control?.TabItemContent;
         }
 
         public List<ITabItemContent> GetAllTabInstances()
@@ -134,6 +140,24 @@ namespace Files.UserControls.MultitaskingControl
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void SetLoadingIndicatorStatus(ITabItem item, bool loading)
+        {
+            var tabItem = ContainerFromItem(item) as Control;
+            if(tabItem is null)
+            {
+                return;
+            }
+
+            if (loading)
+            {
+                VisualStateManager.GoToState(tabItem, "Loading", false);
+            }
+            else
+            {
+                VisualStateManager.GoToState(tabItem, "NotLoading", false);
+            }
         }
     }
 }

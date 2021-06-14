@@ -10,6 +10,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:Files.ViewModels"
     x:Name="RootPage"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
@@ -168,29 +169,35 @@
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
         <KeyboardAccelerator
-            Key="Number1" Modifiers="Control,Shift"
+            Key="Number1"
             Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
         <KeyboardAccelerator
-            Key="Number2" Modifiers="Control,Shift"
+            Key="Number2"
             Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
         <KeyboardAccelerator
-            Key="Number3" Modifiers="Control,Shift"
+            Key="Number3"
             Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
         <KeyboardAccelerator
-            Key="Number4" Modifiers="Control,Shift"
+            Key="Number4"
             Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
         <KeyboardAccelerator
-            Key="Number5" Modifiers="Control,Shift"
+            Key="Number5"
             Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
         <KeyboardAccelerator
-            Key="Number6" Modifiers="Control,Shift"
+            Key="Number6"
             Invoked="KeyboardAccelerator_Invoked"
-            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}" />
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control,Shift" />
     </Page.KeyboardAccelerators>
     <Grid
         x:Name="RootGrid"
@@ -251,73 +258,5 @@
             ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted"
             ResizeBehavior="BasedOnAlignment"
             Style="{StaticResource DefaultGridSplitterStyle}" />
-
-        <Custom:DropShadowPanel
-            Grid.Row="1"
-            Grid.ColumnSpan="3"
-            HorizontalAlignment="Stretch"
-            HorizontalContentAlignment="Stretch"
-            BlurRadius="8"
-            Canvas.ZIndex="100"
-            OffsetY="2"
-            ShadowOpacity="0.04">
-
-            <controls:NavigationToolbar
-                x:Name="NavToolbar"
-                HorizontalAlignment="Stretch"
-                x:FieldModifier="public"
-                AreKeyboardAcceleratorsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-                BackRequested="ModernShellPage_BackNavRequested"
-                CanCopyPathInPage="{x:Bind InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
-                CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
-                CanGoBack="False"
-                CanGoForward="False"
-                CanOpenTerminalInPage="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
-                CanPasteInPage="{x:Bind InstanceViewModel.CanPasteInPage, Mode=OneWay}"
-                ClearSelectionInvokedCommand="{x:Bind ClearContentPageSelectionCommand, Mode=OneWay}"
-                CopyPathInvokedCommand="{x:Bind CopyPathOfWorkingDirectoryCommand}"
-                EditModeEnabled="NavigationToolbar_EditModeEnabled"
-                ForwardRequested="ModernShellPage_ForwardNavRequested"
-                InvertSelectionInvokedCommand="{x:Bind InvertContentPageSelctionCommand, Mode=OneWay}"
-                IsCreateButtonEnabledInPage="{x:Bind InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
-                IsMultiPaneActive="{x:Bind IsMultiPaneActive, Mode=OneWay}"
-                IsPageMainPane="{x:Bind IsPageMainPane, Mode=OneWay}"
-                IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                ItemDraggedOverPathItem="ModernShellPage_NavigationRequested"
-                LayoutModeInformation="{x:Bind FolderSettings.LayoutModeInformation, Mode=OneWay}"
-                MultiselectEnabled="{x:Bind InteractionViewModel.MultiselectEnabled, Mode=TwoWay}"
-                NewFileInvokedCommand="{x:Bind CreateNewFileCommand, Mode=OneWay}"
-                NewFolderInvokedCommand="{x:Bind CreateNewFolderCommand, Mode=OneWay}"
-                NewPaneInvokedCommand="{x:Bind OpenNewPaneCommand, Mode=OneWay}"
-                NewTabInvokedCommand="{x:Bind AddNewTabToMultitaskingControlCommand, Mode=OneWay}"
-                NewWindowInvokedCommand="{x:Bind OpenNewWindowCommand, Mode=OneWay}"
-                OpenInTerminalInvokedCommand="{x:Bind OpenDirectoryInDefaultTerminalCommand, Mode=OneWay}"
-                PasteInvokedCommand="{x:Bind PasteItemsFromClipboardCommand, Mode=OneWay}"
-                PathBoxQuerySubmitted="NavigationToolbar_QuerySubmitted"
-                PreviewPaneEnabled="{x:Bind PreviewPaneEnabled, Mode=TwoWay}"
-                RefreshRequested="ModernShellPage_RefreshRequested"
-                RefreshWidgetsRequested="ModernShellPage_RefreshWidgetsRequested"
-                SearchQuerySubmitted="ModernShellPage_SearchQuerySubmitted"
-                SearchSuggestionChosen="ModernShellPage_SearchSuggestionChosen"
-                SearchTextChanged="ModernShellPage_SearchTextChanged"
-                SelectAllInvokedCommand="{x:Bind SelectAllContentPageItemsCommand, Mode=OneWay}"
-                ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}"
-                ToggleLayoutModeColumnView="{x:Bind FolderSettings.ToggleLayoutModeColumnView}"
-                ToggleLayoutModeDetailsView="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
-                ToggleLayoutModeGridViewLarge="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
-                ToggleLayoutModeGridViewMedium="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
-                ToggleLayoutModeGridViewSmall="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
-                ToggleLayoutModeTiles="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
-                UpRequested="ModernShellPage_UpNavRequested">
-                <controls:NavigationToolbar.ArrangementOptionsFlyoutContent>
-                    <controls:ArrangementOptions
-                        x:Name="ArrangementOptionsFlyoutContent"
-                        IsPageTypeRecycleBin="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
-                        SelectedGroupMode="{x:Bind InstanceViewModel.FolderSettings.DirectoryGroupOption, Mode=TwoWay}"
-                        SelectedSortDirection="{x:Bind InstanceViewModel.FolderSettings.DirectorySortDirection, Mode=TwoWay}"
-                        SelectedSortMode="{x:Bind InstanceViewModel.FolderSettings.DirectorySortOption, Mode=TwoWay}" />
-                </controls:NavigationToolbar.ArrangementOptionsFlyoutContent>
-            </controls:NavigationToolbar>
-        </Custom:DropShadowPanel>
     </Grid>
 </Page>

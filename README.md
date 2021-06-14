@@ -12,7 +12,6 @@ Files [code of conduct](https://github.com/files-community/Files/blob/main/CODE_
 
 ## Where to get Files
 - [Microsoft Store](https://www.microsoft.com/store/apps/9NGHP3DX8HDX)
-- [GitHub](https://github.com/files-community/Files/releases)
 - [Alternative download](https://files-community.github.io/package.github.io/Files.Package/Files.Package.appinstaller)
 
 ## What is Files?

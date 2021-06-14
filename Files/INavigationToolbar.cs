@@ -9,7 +9,7 @@ namespace Files.UserControls
 {
     public interface INavigationToolbar
     {
-        public bool IsSearchRegionVisible { get; set; }
+        public bool IsSearchBoxVisible { get; set; }
         public bool IsEditModeEnabled { get; set; }
         public bool CanRefresh { get; set; }
         public bool CanCopyPathInPage { get; set; }
@@ -30,12 +30,6 @@ namespace Files.UserControls
 
         public event ItemDraggedOverPathItemEventHandler ItemDraggedOverPathItem;
 
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmitted;
-
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs> SearchTextChanged;
-
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs> SearchSuggestionChosen;
-
         public event EventHandler BackRequested;
 
         public event EventHandler ForwardRequested;
@@ -46,9 +40,9 @@ namespace Files.UserControls
 
         public event EventHandler RefreshWidgetsRequested;
 
-        public void OpenSearchBox();
+        public void SwitchSearchBoxVisibility();
 
-        public void ClearSearchBoxQueryText(bool collapseSearchReigon = false);
+        public ISearchBox SearchBox { get; }
     }
 
     public class ToolbarQuerySubmittedEventArgs

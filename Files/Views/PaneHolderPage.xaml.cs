@@ -191,10 +191,7 @@ namespace Files.Views
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
-            if ((Window.Current.Content as Frame).CurrentSourcePageType != typeof(Settings))
-            {
-                windowIsCompact = Window.Current.Bounds.Width <= 750;
-            }
+            windowIsCompact = Window.Current.Bounds.Width <= 750;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)

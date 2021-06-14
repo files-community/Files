@@ -51,9 +51,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>피드백 제출</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>개발자에게 자세한 정보가 담긴 오류 보고서를 전송합니다</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>외부 라이센스</value>
   </data>
@@ -123,9 +120,6 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>동영상</value>
   </data>
-  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>새 탭</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>정렬 기준</value>
   </data>
@@ -155,9 +149,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
     <value>터미널에서 열기...</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>새로 만들기</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>폴더</value>
@@ -197,18 +188,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>속성</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>새 창</value>
-  </data>
-  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>경로 복사</value>
-  </data>
-  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
-    <value>붙여넣기</value>
-  </data>
-  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>터미널에서 열기..</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>경로 입력</value>
@@ -306,9 +285,6 @@
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>검색</value>
   </data>
-  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>추가 옵션</value>
-  </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>드라이브</value>
   </data>
@@ -332,9 +308,6 @@
   </data>
   <data name="ErrorDialogCancel" xml:space="preserve">
     <value>취소</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>설정</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>선택 반전</value>
@@ -531,7 +504,7 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>날짜 형식 자세히 알아보기</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -693,14 +666,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>기여자</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Files에 기여해주신 분들</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>릴리즈 노트</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Files의 새로운 기능 알아보기</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>선택한 항목에 접근할 수 없습니다.{0}오류 메시지:{0}{1}</value>
@@ -714,7 +681,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>사이드바 아크릴 효과</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>날짜 형식</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -752,9 +719,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
     <value>타일</value>
-  </data>
-  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
-    <value>레이아웃</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>읽기 전용</value>
@@ -828,9 +792,6 @@
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>후원</value>
   </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>PayPal 후원하기</value>
-  </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>항목을 만들 수 없습니다</value>
   </data>
@@ -846,26 +807,8 @@
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>열린 탭</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>적응형 (권장)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>창 크기에 맞춰 멀티태스킹 방식을 변경합니다. 창이 작아지면 수평 탭 표시 줄이 탐색 도구 모음의 메뉴로 축소됩니다.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>수평</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>탐색 도구 모음에 수직 멀티태스킹 메뉴를 표시하지 않고, 수평 탭 표시 줄을 항상 창에 표시합니다. 열려있는 모든 앱 인스턴스를 추적해야 하는 사용자에게 적합합니다.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>멀티태스킹</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>수직</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>앱 인스턴스 목록을 탐색 도구 모음의 메뉴에서 확인합니다. 깔끔한 인터페이스를 원하는 사용자에게 적합합니다.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>멀티태스킹</value>
@@ -933,7 +876,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>초과된 항목을 하위 메뉴로 이동</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>사이드바에 휴지통 고정</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1242,9 +1185,6 @@
   <data name="PropertyAddress" xml:space="preserve">
     <value>주소</value>
   </data>
-  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>추가 옵션</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>작업 현황</value>
   </data>
@@ -1308,19 +1248,7 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>작업 현황</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>라이센스</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>라이센스</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>웹사이트</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>웹사이트</value>
-  </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>날짜 형식 자세히 알아보기</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">
@@ -1412,9 +1340,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>보조 패널에서 열기</value>
-  </data>
-  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
-    <value>새 패널</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>보조 패널에서 열기</value>
@@ -1587,9 +1512,6 @@
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>문서</value>
   </data>
-  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>Files 사용 팁 &amp; 요령 알아보기</value>
-  </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Files 문서 웹사이트 방문하기</value>
   </data>
@@ -1704,7 +1626,7 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>전달인자</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
+  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>사이드바에 라이브러리 표시</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
@@ -1712,12 +1634,6 @@
   </data>
   <data name="BundlesOpenInNewPane" xml:space="preserve">
     <value>새 패널에서 열기</value>
-  </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>기본값</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>색상 테마</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>항목 수</value>
@@ -1775,11 +1691,5 @@
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>선택 옵션</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>보기 옵션</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>보기 옵션</value>
   </data>
 </root>

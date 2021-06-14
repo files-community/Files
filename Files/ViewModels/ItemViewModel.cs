@@ -52,8 +52,8 @@ namespace Files.ViewModels
         // only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
 
-        public SettingsViewModel AppSettings => App.AppSettings;
-        public FolderSettingsViewModel folderSettings = null;
+        private SettingsViewModel AppSettings => App.AppSettings;
+        private FolderSettingsViewModel folderSettings = null;
         private bool shouldDisplayFileExtensions = false;
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
@@ -171,6 +171,7 @@ namespace Files.ViewModels
             NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
             NotifyPropertyChanged(nameof(IsSortedByDateDeleted));
             NotifyPropertyChanged(nameof(IsSortedByDateCreated));
+            NotifyPropertyChanged(nameof(IsSortedBySyncStatus));
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
         }
@@ -270,6 +271,19 @@ namespace Files.ViewModels
                 {
                     folderSettings.DirectorySortOption = SortOption.Size;
                     NotifyPropertyChanged(nameof(IsSortedBySize));
+                }
+            }
+        }
+
+        public bool IsSortedBySyncStatus
+        {
+            get => folderSettings.DirectorySortOption == SortOption.SyncStatus;
+            set
+            {
+                if (value)
+                {
+                    folderSettings.DirectorySortOption = SortOption.SyncStatus;
+                    NotifyPropertyChanged(nameof(IsSortedBySyncStatus));
                 }
             }
         }
@@ -522,7 +536,7 @@ namespace Files.ViewModels
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                App.Logger.Warn(ex, ex.Message);
             }
         }
 
@@ -623,7 +637,7 @@ namespace Files.ViewModels
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                App.Logger.Warn(ex, ex.Message);
             }
             finally
             {
@@ -658,24 +672,6 @@ namespace Files.ViewModels
             FilesAndFolders.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
         }
 
-        private bool isLoadingIndicatorActive = false;
-
-        public bool IsLoadingIndicatorActive
-        {
-            get
-            {
-                return isLoadingIndicatorActive;
-            }
-            set
-            {
-                if (isLoadingIndicatorActive != value)
-                {
-                    isLoadingIndicatorActive = value;
-                    NotifyPropertyChanged(nameof(IsLoadingIndicatorActive));
-                }
-            }
-        }
-
         private bool isLoadingItems = false;
 
         public bool IsLoadingItems
@@ -687,14 +683,22 @@ namespace Files.ViewModels
             set
             {
                 isLoadingItems = value;
-                IsLoadingIndicatorActive = value;
             }
         }
+
+        List<ListedItem> itemLoadQueue = new List<ListedItem>();
 
         // This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
         // for file inside the recycle bin (but not on the recycle bin folder itself)
         public async Task LoadExtendedItemProperties(ListedItem item, uint thumbnailSize = 20)
         {
+            // Don't load extended item properties while enumeration is in progress to improve enumeration speed
+            if (IsLoadingItems)
+            {
+                itemLoadQueue.Add(item);
+                return;
+            }
+
             await Task.Run(async () =>
             {
                 if (item == null)
@@ -710,6 +714,7 @@ namespace Files.ViewModels
                 {
                     return;
                 }
+
                 var wasSyncStatusLoaded = false;
                 ImageSource groupImage = null;
                 bool loadGroupHeaderInfo = false;
@@ -727,7 +732,7 @@ namespace Files.ViewModels
 
                     if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File)
                     {
-                        var fileIconInfo = await LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
+                        var fileIconInfo = await FileThumbnailHelper.LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
 
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
@@ -750,7 +755,6 @@ namespace Files.ViewModels
                                 if (fileIconInfo.IconData == null) // Loading icon from fulltrust process failed
                                 {
                                     using var Thumbnail = await matchingStorageFile.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale);
-                                    using var headerThumbnail = loadGroupHeaderInfo && isFileTypeGroupMode ? await matchingStorageFile.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale) : null;
                                     if (Thumbnail != null)
                                     {
                                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
@@ -764,7 +768,7 @@ namespace Files.ViewModels
                                 }
 
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
-                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                                 {
                                     item.FolderRelativeId = matchingStorageFile.FolderRelativeId;
                                     item.ItemType = matchingStorageFile.DisplayType;
@@ -776,7 +780,7 @@ namespace Files.ViewModels
                     }
                     else
                     {
-                        var fileIconInfo = await LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
+                        var fileIconInfo = await FileThumbnailHelper.LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
 
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
@@ -840,7 +844,6 @@ namespace Files.ViewModels
                         }, Windows.System.DispatcherQueuePriority.Low);
                     }
 
-
                     if (loadGroupHeaderInfo)
                     {
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
@@ -848,7 +851,6 @@ namespace Files.ViewModels
                             gp.Model.ImageSource = groupImage;
                             gp.InitializeExtendedGroupHeaderInfoAsync();
                         });
-
                     }
 
                     loadExtendedPropsSemaphore.Release();
@@ -861,7 +863,7 @@ namespace Files.ViewModels
             ImageSource groupImage = null;
             if (item.PrimaryItemAttribute != StorageItemTypes.Folder)
             {
-                (byte[] iconData, byte[] overlayData, bool isCustom) headerIconInfo = await LoadIconOverlayAsync(item.ItemPath, 76);
+                (byte[] iconData, byte[] overlayData, bool isCustom) headerIconInfo = await FileThumbnailHelper.LoadIconOverlayAsync(item.ItemPath, 76);
 
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                 {
@@ -904,51 +906,6 @@ namespace Files.ViewModels
             }
 
             return groupImage;
-        }
-        public async Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconOverlayAsync(string filePath, uint thumbnailSize)
-        {
-            if (Connection != null)
-            {
-                var value = new ValueSet();
-                value.Add("Arguments", "GetIconOverlay");
-                value.Add("filePath", filePath);
-                value.Add("thumbnailSize", (int)thumbnailSize);
-                var (status, response) = await Connection.SendMessageForResponseAsync(value);
-                if (status == AppServiceResponseStatus.Success)
-                {
-                    var hasCustomIcon = response.Get("HasCustomIcon", false);
-                    var icon = response.Get("Icon", (string)null);
-                    var overlay = response.Get("Overlay", (string)null);
-
-                    // BitmapImage can only be created on UI thread, so return raw data and create
-                    // BitmapImage later to prevent exceptions once SynchorizationContext lost
-                    return (icon == null ? null : Convert.FromBase64String(icon),
-                        overlay == null ? null : Convert.FromBase64String(overlay),
-                        hasCustomIcon);
-                }
-            }
-            return (null, null, false);
-        }
-
-        public async Task<byte[]> LoadIconWithoutOverlayAsync(string filePath, uint thumbnailSize)
-        {
-            if (Connection != null)
-            {
-                var value = new ValueSet();
-                value.Add("Arguments", "GetIconWithoutOverlay");
-                value.Add("filePath", filePath);
-                value.Add("thumbnailSize", (int)thumbnailSize);
-                var (status, response) = await Connection.SendMessageForResponseAsync(value);
-                if (status == AppServiceResponseStatus.Success)
-                {
-                    var icon = response.Get("Icon", (string)null);
-
-                    // BitmapImage can only be created on UI thread, so return raw data and create
-                    // BitmapImage later to prevent exceptions once SynchorizationContext lost
-                    return (icon == null ? null : Convert.FromBase64String(icon));
-                }
-            }
-            return null;
         }
 
         public void RefreshItems(string previousDir)
@@ -1017,6 +974,13 @@ namespace Files.ViewModels
             finally
             {
                 enumFolderSemaphore.Release();
+
+                // Load items in the queue after enumeration has completed to improve enumeration speed
+                foreach(var item in itemLoadQueue)
+                {
+                    _ = LoadExtendedItemProperties(item);
+                }
+                itemLoadQueue.Clear();
             }
         }
 
@@ -1605,7 +1569,7 @@ namespace Files.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                            App.Logger.Warn(ex, ex.Message);
                         }
 
                         if (sampler.CheckNow())
@@ -1747,7 +1711,7 @@ namespace Files.ViewModels
 
             var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
             var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-            if ((isSystem && !AppSettings.AreSystemItemsHidden) || (isHidden && !AppSettings.AreHiddenItemsVisible))
+            if (isHidden && (!AppSettings.AreHiddenItemsVisible || (isSystem && AppSettings.AreSystemItemsHidden)))
             {
                 // Do not add to file list if hidden/system attribute is set and system/hidden file are not to be shown
                 return;

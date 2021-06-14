@@ -1,6 +1,7 @@
 ﻿using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -8,46 +9,43 @@ using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
-    public class InteractionViewModel : ObservableObject
+    public class MainViewModel : ObservableObject
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        public InteractionViewModel()
+        public MainViewModel()
         {
             Window.Current.SizeChanged += Current_SizeChanged;
+            Clipboard.ContentChanged += Clipboard_ContentChanged;
 
             DetectFontName();
-            SetMultitaskingControl();
+        }
+
+        public void Clipboard_ContentChanged(object sender, object e)
+        {
+            try
+            {
+                // Clipboard.GetContent() will throw UnauthorizedAccessException
+                // if the app window is not in the foreground and active
+                DataPackageView packageView = Clipboard.GetContent();
+                if (packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap))
+                {
+                    IsPasteEnabled = true;
+                }
+                else
+                {
+                   IsPasteEnabled = false;
+                }
+            }
+            catch
+            {
+                IsPasteEnabled = false;
+            }
         }
 
         private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
             IsWindowCompactSize = IsWindowResizedToCompactWidth();
-
-            // Setup the correct multitasking control
-            SetMultitaskingControl();
-        }
-
-        public void SetMultitaskingControl()
-        {
-            if (AppSettings.IsMultitaskingExperienceAdaptive)
-            {
-                if (IsWindowCompactSize)
-                {
-                    IsVerticalTabFlyoutVisible = true;
-                    IsHorizontalTabStripVisible = false;
-                }
-                else if (!IsWindowCompactSize)
-                {
-                    IsVerticalTabFlyoutVisible = false;
-                    IsHorizontalTabStripVisible = true;
-                }
-            }
-            else
-            {
-                IsVerticalTabFlyoutVisible = false;
-                IsHorizontalTabStripVisible = false;
-            }
         }
 
         private int tabStripSelectedIndex = 0;
@@ -88,22 +86,6 @@ namespace Files.ViewModels
         {
             get => isPasteEnabled;
             set => SetProperty(ref isPasteEnabled, value);
-        }
-
-        private bool isHorizontalTabStripVisible = false;
-
-        public bool IsHorizontalTabStripVisible
-        {
-            get => isHorizontalTabStripVisible;
-            set => SetProperty(ref isHorizontalTabStripVisible, value);
-        }
-
-        private bool isVerticalTabFlyoutVisible = false;
-
-        public bool IsVerticalTabFlyoutVisible
-        {
-            get => isVerticalTabFlyoutVisible;
-            set => SetProperty(ref isVerticalTabFlyoutVisible, value);
         }
 
         private bool isWindowCompactSize = IsWindowResizedToCompactWidth();

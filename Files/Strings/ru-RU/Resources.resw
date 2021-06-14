@@ -51,9 +51,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Отправить отзыв</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Отправить отчет о проблеме, чтобы предоставить разработчикам больше информации о ней</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Сторонние лицензии</value>
   </data>
@@ -123,21 +120,6 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>Видео</value>
   </data>
-  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>Новая вкладка</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>Новое окно</value>
-  </data>
-  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>Скопировать путь</value>
-  </data>
-  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
-    <value>Вставить</value>
-  </data>
-  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>Открыть в терминале...</value>
-  </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Введите путь</value>
   </data>
@@ -173,9 +155,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
     <value>Открыть в терминале...</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>Создать</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Папку</value>
@@ -309,9 +288,6 @@
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Поиск</value>
   </data>
-  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Еще</value>
-  </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>Диски</value>
   </data>
@@ -335,9 +311,6 @@
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5 Хэш:</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>Параметры</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Инвертировать выделение</value>
@@ -546,7 +519,7 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>Б</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Узнайте больше о форматах даты</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -708,14 +681,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Авторы</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Узнайте, кто участвовал в разработке Files</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Заметки о выпуске</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Узнайте, что нового в Files</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>Указанный элемент недействителен или недоступен.{0}Сообщение об ошибке:{0}{1}</value>
@@ -780,26 +747,8 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Отмена</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Адаптивная (рекомендуется)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Выбирает лучший элемент управления многозадачностью в зависимости от того, как изменяется размер окна приложения. Когда окно маленькое, вы заметите, что горизонтальная полоса вкладок сворачивается во всплывающее меню на панели инструментов навигации.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Горизонтальная</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Всегда скрывает вертикальное всплывающее меню многозадачности на панели инструментов навигации и показывает традиционную горизонтальную полосу вкладок в окне приложения. Это подходит для пользователей, которым необходимо постоянно отслеживать каждый открытый экземпляр приложения.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Многозадачность</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Вертикальная</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Сворачивает горизонтальный список экземпляров приложения в вертикальное раскрывающееся меню на панели инструментов навигации, предназначенное для пользователей, которым нужен чистый интерфейс приложения с доступом по запросу для многозадачности.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Многозадачность</value>
@@ -876,16 +825,13 @@
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Поддержать нас</value>
   </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>Поддержите нас через PayPal</value>
-  </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Элемент не может быть создан</value>
   </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Отказано в доступе</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Закрепить Корзину в боковой панели</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -897,7 +843,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Боковая панель с эффектом акрила</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Формат даты</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -905,9 +851,6 @@
   </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>Показать Владельца в свойствах</value>
-  </data>
-  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Еще</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Текущие операции</value>
@@ -1248,19 +1191,7 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Центр операций</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>Лицензия</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>Лицензия</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>Веб-сайт</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>Веб-сайт</value>
-  </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Узнайте больше о форматах даты</value>
   </data>
   <data name="DragDropWindowText" xml:space="preserve">
@@ -1359,9 +1290,6 @@
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Открыть на дополнительной панели</value>
   </data>
-  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
-    <value>Новая панель</value>
-  </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>Открыть на дополнительной панели</value>
   </data>
@@ -1391,9 +1319,6 @@
   </data>
   <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Плитка</value>
-  </data>
-  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
-    <value>Вид значков</value>
   </data>
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>Параметры отображения</value>
@@ -1551,9 +1476,6 @@
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>Документация</value>
   </data>
-  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>Найдите советы &amp; хитрости и узнайте больше о Files</value>
-  </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Посетите веб-сайт документации по файлам</value>
   </data>
@@ -1668,12 +1590,6 @@
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Библиотеки</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>По умолчанию</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Цветовая схема</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Число элементов</value>
   </data>
@@ -1700,11 +1616,5 @@
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Выделение</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Параметры отображения</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Параметры отображения</value>
   </data>
 </root>

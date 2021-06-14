@@ -392,9 +392,9 @@ namespace Files.Views.LayoutModes
             }
             else if (e.Key == VirtualKey.Space)
             {
-                if (!IsRenamingItem && !ParentShellPageInstance.NavigationToolbar.IsEditModeEnabled)
+                if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
-                    if (InteractionViewModel.IsQuickLookEnabled)
+                    if (MainViewModel.IsQuickLookEnabled)
                     {
                         QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
@@ -404,17 +404,17 @@ namespace Files.Views.LayoutModes
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
             {
                 // Unfocus the GridView so keyboard shortcut can be handled
-                (ParentShellPageInstance.NavigationToolbar as Control)?.Focus(FocusState.Pointer);
+                NavToolbar?.Focus(FocusState.Pointer);
             }
             else if (ctrlPressed && shiftPressed && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.W))
             {
                 // Unfocus the ListView so keyboard shortcut can be handled (ctrl + shift + W/"->"/"<-")
-                (ParentShellPageInstance.NavigationToolbar as Control)?.Focus(FocusState.Pointer);
+                NavToolbar?.Focus(FocusState.Pointer);
             }
             else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
             {
                 // Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
-                (ParentShellPageInstance.NavigationToolbar as Control)?.Focus(FocusState.Pointer);
+                NavToolbar?.Focus(FocusState.Pointer);
             }
         }
 
@@ -501,7 +501,7 @@ namespace Files.Views.LayoutModes
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
             // Skip code if the control or shift key is pressed or if the user is using multiselect
-            if (ctrlPressed || shiftPressed || InteractionViewModel.MultiselectEnabled)
+            if (ctrlPressed || shiftPressed || MainViewModel.MultiselectEnabled)
             {
                 return;
             }
@@ -547,7 +547,7 @@ namespace Files.Views.LayoutModes
             // Skip opening selected items if the double tap doesn't capture an item
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
-                if (!InteractionViewModel.MultiselectEnabled)
+                if (!MainViewModel.MultiselectEnabled)
                 {
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }

@@ -18,12 +18,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>नई विंडो में खोलें</value>
   </data>
-  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>नया टैब</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>नई विंडो</value>
-  </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>फ़ोल्डर</value>
   </data>
@@ -32,12 +26,6 @@
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>लिखित दस्तावेज़</value>
-  </data>
-  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>मार्ग प्रतिलिपि</value>
-  </data>
-  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
-    <value>चिपकाएँ</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>ड्राइव्ज़</value>
@@ -53,9 +41,6 @@
   </data>
   <data name="sizeColumn.Header" xml:space="preserve">
     <value>आकार</value>
-  </data>
-  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>टर्मिनल में खोलें ...</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>बनाया गया:</value>
@@ -135,9 +120,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>प्रतिक्रिया सबमिट करें</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>डेवलपर्स को अधिक जानकारी के साथ एक समस्या रिपोर्ट भेजें</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>तृतीय पक्ष लाइसेंस</value>
   </data>
@@ -152,9 +134,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>प्रयोगात्मक</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>सेटिंग्स</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>बारे में</value>
@@ -251,9 +230,6 @@
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5 हैश:</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>नया</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>फ़ोल्डर</value>
@@ -362,9 +338,6 @@
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>खोजें</value>
-  </data>
-  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>अधिक विकल्प</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>गुण</value>
@@ -558,7 +531,7 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>प्रशासक के रूप में भागो</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>तारीख प्रारूपों के बारे में अधिक जानें</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -729,14 +702,8 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>रद्द करें</value>
   </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>क्षैतिज्य</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>मल्टिटास्किंग</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>अनुलंब</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>मल्टिटास्किंग</value>
@@ -771,11 +738,8 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>प्रवेश निषेध</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>दिनांक स्वरूप</value>
-  </data>
-  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>अधिक विकल्प</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>फ़ाइल</value>
@@ -1005,18 +969,6 @@
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>अनिर्दिष्ट.</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>लायसेंस</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>लायसेंस</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>वेबसाइट</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>वेबसाइट</value>
-  </data>
   <data name="DragDropWindowText" xml:space="preserve">
     <value>यहाँ छोड़ें...</value>
   </data>
@@ -1197,12 +1149,6 @@
   <data name="SidebarLibraries" xml:space="preserve">
     <value>लायब्रेरीज़</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>डिफ़ॉल्ट</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>रंग योजना:</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>आइटम संख्या</value>
   </data>
@@ -1226,11 +1172,5 @@
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>चयन विकल्प</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>प्रदर्शन विकल्प</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>प्रदर्शन विकल्प</value>
   </data>
 </root>

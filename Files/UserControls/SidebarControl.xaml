@@ -60,7 +60,7 @@
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
-                        <muxc:ImageIcon Source="{x:Bind Icon}" />
+                        <muxc:ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
@@ -273,7 +273,7 @@
                                 <Grid
                                     x:Name="DragArea"
                                     Grid.ColumnSpan="2"
-                                    Height="40"
+                                    Height="50"
                                     Margin="38,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Top"
@@ -291,7 +291,10 @@
                                     RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}" />
 
                                 <!--  Content Area  -->
-                                <Grid x:Name="ContentRoot" Grid.ColumnSpan="2">
+                                <Grid
+                                    x:Name="ContentRoot"
+                                    Grid.ColumnSpan="2"
+                                    Margin="0,50,0,0">
                                     <Grid.RenderTransform>
                                         <CompositeTransform x:Name="ContentTransform" />
                                     </Grid.RenderTransform>

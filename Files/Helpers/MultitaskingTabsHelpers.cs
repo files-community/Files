@@ -46,7 +46,7 @@ namespace Files.Helpers
         public static async Task AddNewTab(Type type, object tabViewItemArgs, int atIndex = -1)
         {
             FontIconSource fontIconSource = new FontIconSource();
-            fontIconSource.FontFamily = App.InteractionViewModel.FontName;
+            fontIconSource.FontFamily = App.MainViewModel.FontName;
 
             TabItem tabItem = new TabItem()
             {

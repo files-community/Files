@@ -73,20 +73,13 @@
                 <muxc:UniformGridLayout
                     ItemsStretch="None"
                     MinColumnSpacing="8"
-                    MinItemHeight="90"
+                    MinItemHeight="88"
                     MinRowSpacing="8"
                     Orientation="Horizontal" />
             </muxc:ItemsRepeater.Layout>
             <muxc:ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="navigationcontrolitems:DriveItem">
-                    <Grid
-                        Width="270"
-                        extensions:VisualExtensions.CenterPoint="135,45,0"
-                        PointerEntered="GridScaleUp"
-                        PointerExited="GridScaleNormal">
-                        <animations:Implicit.Animations>
-                            <animations:ScaleAnimation Duration="0:0:0.5" />
-                        </animations:Implicit.Animations>
+                    <Grid Width="280">
                         <Button
                             Padding="0"
                             HorizontalAlignment="Stretch"
@@ -95,7 +88,7 @@
                             VerticalContentAlignment="Stretch"
                             AutomationProperties.Name="{x:Bind Text, Mode=OneWay}"
                             Click="Button_Click"
-                            CornerRadius="{StaticResource OverlayCornerRadius}"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
                             PointerPressed="Button_PointerPressed"
                             Tag="{x:Bind Path}"
                             ToolTipService.ToolTip="{x:Bind Text, Mode=OneWay}">
@@ -171,77 +164,85 @@
                             <Grid
                                 Margin="12"
                                 HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch">
+                                VerticalAlignment="Stretch"
+                                ColumnSpacing="12">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="44" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="28" />
+                                    <RowDefinition Height="16" />
+                                </Grid.RowDefinitions>
                                 <Image
+                                    Grid.RowSpan="3"
                                     Grid.Column="0"
                                     Height="40"
+                                    HorizontalAlignment="Center"
                                     x:Phase="1"
                                     Source="{x:Bind Icon, Mode=OneWay}" />
-                                <StackPanel
+
+                                <TextBlock
+                                    x:Name="ItemLocationName"
+                                    Grid.Row="0"
                                     Grid.Column="1"
-                                    Margin="12,0,0,0"
                                     VerticalAlignment="Center"
-                                    Orientation="Vertical">
-                                    <Grid
-                                        Height="28"
-                                        Margin="0,0,0,8"
-                                        HorizontalAlignment="Stretch">
+                                    FontSize="14"
+                                    FontWeight="Medium"
+                                    Text="{x:Bind Text, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
 
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-
-                                        <TextBlock
-                                            x:Name="ItemLocationName"
-                                            VerticalAlignment="Center"
-                                            FontSize="14"
-                                            FontWeight="Medium"
-                                            Text="{x:Bind Text, Mode=OneWay}"
-                                            TextWrapping="NoWrap" />
-
-                                        <Button
-                                            x:Name="GoToStorageSense"
-                                            x:Uid="DrivesWidgetOpenStorageSenseButton"
-                                            Grid.Column="1"
-                                            Width="28"
-                                            Height="28"
-                                            Padding="0"
-                                            HorizontalAlignment="Right"
-                                            HorizontalContentAlignment="Center"
-                                            VerticalContentAlignment="Center"
-                                            x:Load="{x:Bind ShowStorageSense}"
-                                            AutomationProperties.Name="Open Storage Sense"
-                                            Background="Transparent"
-                                            BorderBrush="Transparent"
-                                            Click="GoToStorageSense_Click"
-                                            ToolTipService.ToolTip="Open Storage Sense">
-                                            <FontIcon
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="18"
-                                                Glyph="&#xE7BA;" />
-                                        </Button>
-                                    </Grid>
+                                <Grid
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
                                     <muxc:ProgressBar
-                                        Margin="0,0,0,8"
+                                        Grid.Column="0"
                                         AutomationProperties.AccessibilityView="Raw"
                                         Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}"
                                         Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}"
                                         Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
-                                    <TextBlock
-                                        x:Phase="1"
-                                        FontSize="12"
-                                        MaxLines="2"
-                                        Text="{x:Bind SpaceText, Mode=OneWay}"
-                                        TextWrapping="Wrap"
-                                        ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}"
-                                        Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}" />
-                                </StackPanel>
+
+                                    <Button
+                                        x:Name="GoToStorageSense"
+                                        x:Uid="DrivesWidgetOpenStorageSenseButton"
+                                        Grid.Column="1"
+                                        Width="28"
+                                        Height="28"
+                                        Margin="4,0,0,0"
+                                        Padding="0"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        x:Load="{x:Bind ShowStorageSense}"
+                                        AutomationProperties.Name="Open Storage Sense"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        Click="GoToStorageSense_Click"
+                                        ToolTipService.ToolTip="Open Storage Sense">
+                                        <FontIcon
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="14"
+                                            Glyph="&#xE946;" />
+                                    </Button>
+                                </Grid>
+
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    x:Phase="1"
+                                    FontSize="12"
+                                    Text="{x:Bind SpaceText, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap"
+                                    ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}"
+                                    Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}" />
                             </Grid>
                         </Button>
                     </Grid>

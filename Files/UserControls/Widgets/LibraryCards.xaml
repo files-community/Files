@@ -76,20 +76,14 @@
                     ItemsStretch="Fill"
                     MaximumRowsOrColumns="6"
                     MinColumnSpacing="8"
-                    MinItemHeight="90"
+                    MinItemHeight="88"
                     MinItemWidth="100"
                     MinRowSpacing="8"
                     Orientation="Horizontal" />
             </muxc:ItemsRepeater.Layout>
             <muxc:ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="local:LibraryCardItem">
-                    <Grid
-                        extensions:VisualExtensions.CenterPoint="80,45,0"
-                        PointerEntered="GridScaleUp"
-                        PointerExited="GridScaleNormal">
-                        <animations:Implicit.Animations>
-                            <animations:ScaleAnimation Duration="0:0:0.5" />
-                        </animations:Implicit.Animations>
+                    <Grid>
                         <Button
                             Padding="0"
                             HorizontalAlignment="Stretch"
@@ -99,7 +93,7 @@
                             AutomationProperties.Name="{x:Bind AutomationProperties}"
                             Command="{x:Bind SelectCommand}"
                             CommandParameter="{x:Bind}"
-                            CornerRadius="{StaticResource OverlayCornerRadius}"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
                             PointerPressed="Button_PointerPressed"
                             Tag="{x:Bind Path}">
                             <Button.ContextFlyout>
@@ -168,7 +162,7 @@
                             </Button.ContextFlyout>
 
                             <Grid
-                                Margin="8,14"
+                                Margin="8,12"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 RowSpacing="2">
@@ -179,16 +173,15 @@
                                 <Image
                                     Grid.Row="0"
                                     Height="40"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
                                     Source="{x:Bind Icon}" />
                                 <TextBlock
                                     x:Name="ItemLocationName"
                                     Grid.Row="1"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
                                     FontSize="14"
-                                    FontWeight="Medium"
                                     HorizontalTextAlignment="Center"
                                     Text="{x:Bind Text}"
                                     TextTrimming="WordEllipsis"

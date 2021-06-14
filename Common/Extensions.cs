@@ -22,6 +22,12 @@ namespace Files.Common
             }
         }
 
+        public static async Task<IEnumerable<T>> WhereAsync<T>(this IEnumerable<T> source, Func<T, Task<bool>> predicate)
+        {
+            var results = await Task.WhenAll(source.Select(async x => (x, await predicate(x))));
+            return results.Where(x => x.Item2).Select(x => x.Item1);
+        }
+
         public static IEnumerable<TSource> IntersectBy<TSource, TKey>(
             this IEnumerable<TSource> source,
             IEnumerable<TSource> other,

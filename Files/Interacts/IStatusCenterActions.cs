@@ -1,6 +1,7 @@
 ﻿using Files.Enums;
 using Files.ViewModels;
 using System;
+using System.Threading;
 
 namespace Files.Interacts
 {
@@ -39,6 +40,18 @@ namespace Files.Interacts
         /// <param name="primaryAction"></param>
         /// <returns>A StatusBanner object which may be used to automatically remove the banner from UI.</returns>
         PostedStatusBanner PostActionBanner(string title, string message, string primaryButtonText, string cancelButtonText, Action primaryAction);
+        
+        /// <summary>
+        /// Posts a banner that represents an operation that can be canceled.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="message"></param>
+        /// <param name="initialProgress"></param>
+        /// <param name="status"></param>
+        /// <param name="operation"></param>
+        /// <param name="cancellationTokenSource"></param>
+        /// <returns></returns>
+        PostedStatusBanner PostOperationBanner(string title, string message, float initialProgress, ReturnResult status, FileOperationType operation, CancellationTokenSource cancellationTokenSource);
 
         /// <summary>
         /// Dismisses <paramref name="banner"/> and removes it from the collection

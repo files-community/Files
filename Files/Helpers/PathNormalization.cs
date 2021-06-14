@@ -1,5 +1,4 @@
-﻿using NLog;
-using System;
+﻿using System;
 using System.IO;
 
 namespace Files.Helpers
@@ -56,10 +55,20 @@ namespace Files.Helpers
                 }
                 catch (UriFormatException ex)
                 {
-                    LogManager.GetCurrentClassLogger().Warn(ex, path);
+                    App.Logger.Warn(ex, path);
                     return path;
                 }
             }
+        }
+
+        public static string GetParentDir(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                return string.Empty;
+            }
+            var index = path.LastIndexOf("\\");
+            return path.Substring(0, index != -1 ? index : path.Length);
         }
     }
 }

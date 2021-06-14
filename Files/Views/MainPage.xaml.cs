@@ -1,11 +1,14 @@
 ﻿using Files.DataModels.NavigationControlItems;
+using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Windows.Input;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
@@ -14,6 +17,7 @@ using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views
@@ -24,6 +28,7 @@ namespace Files.Views
     public sealed partial class MainPage : Page
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+        public MainViewModel MainViewModel => App.MainViewModel;
 
         public MainPageViewModel ViewModel
         {
@@ -34,6 +39,8 @@ namespace Files.Views
         public SidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
 
         public StatusCenterViewModel StatusCenterViewModel => App.StatusCenterViewModel;
+
+        public ICommand ToggleFullScreenAcceleratorCommand { get; private set; }
 
         public MainPage()
         {
@@ -50,23 +57,21 @@ namespace Files.Views
                 FlowDirection = FlowDirection.RightToLeft;
             }
             AllowDrop = true;
+
+            ToggleFullScreenAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ToggleFullScreenAccelerator);
         }
 
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
-            RightMarginGrid.Margin = new Thickness(0, 0, sender.SystemOverlayRightInset, 0);
+            RightPaddingColumn.Width = new GridLength(sender.SystemOverlayRightInset);
         }
 
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
             if (!(ViewModel.MultitaskingControl is HorizontalMultitaskingControl))
             {
-                // Set multitasking control if changed and subscribe it to event for sidebar items updating
-                if (ViewModel.MultitaskingControl != null)
-                {
-                    ViewModel.MultitaskingControl.CurrentInstanceChanged -= MultitaskingControl_CurrentInstanceChanged;
-                }
                 ViewModel.MultitaskingControl = horizontalMultitaskingControl;
+                ViewModel.MultitaskingControls.Add(horizontalMultitaskingControl);
                 ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
         }
@@ -90,6 +95,7 @@ namespace Files.Views
             SidebarAdaptiveViewModel.PaneHolder.ActivePaneChanged += PaneHolder_ActivePaneChanged;
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((e.CurrentInstance.TabItemArguments?.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
             UpdateStatusBarProperties();
+            UpdateNavToolbarProperties();
             e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
             e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
         }
@@ -98,14 +104,24 @@ namespace Files.Views
         {
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments.NavigationArg.ToString());
             UpdateStatusBarProperties();
+            UpdateNavToolbarProperties();
         }
-        
+
         private void UpdateStatusBarProperties()
         {
-            if(StatusBarControl != null)
+            if (StatusBarControl != null)
             {
                 StatusBarControl.DirectoryPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage?.DirectoryPropertiesViewModel;
                 StatusBarControl.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage?.SelectedItemsPropertiesViewModel;
+            }
+        }
+
+        private void UpdateNavToolbarProperties()
+        {
+            if (NavToolbar != null)
+            {
+                NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.NavToolbarViewModel;
+                NavToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.IsMultiPaneEnabled && (SidebarAdaptiveViewModel.PaneHolder?.IsLeftPaneActive ?? false);
             }
         }
 
@@ -176,15 +192,15 @@ namespace Files.Views
             }
         }
 
-        private void SidebarControl_SidebarItemInvoked(object sender, SidebarItemInvokedEventArgs e)
+        private async void SidebarControl_SidebarItemInvoked(object sender, SidebarItemInvokedEventArgs e)
         {
             var invokedItemContainer = e.InvokedItemContainer;
 
             // All items must have DataContext except Settings item
             if (invokedItemContainer.DataContext is MainPageViewModel)
             {
-                Frame rootFrame = Window.Current.Content as Frame;
-                rootFrame.Navigate(typeof(Settings));
+                SettingsDialog settingsDialog = new SettingsDialog();
+                _ = await settingsDialog.ShowAsync();
 
                 return;
             }
@@ -246,6 +262,21 @@ namespace Files.Views
         {
             // Defers the status bar loading until after the page has loaded to improve startup perf
             FindName(nameof(StatusBarControl));
+        }
+
+        private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs e)
+        {
+            ApplicationView view = ApplicationView.GetForCurrentView();
+            if (view.IsFullScreenMode)
+            {
+                view.ExitFullScreenMode();
+            }
+            else
+            {
+                view.TryEnterFullScreenMode();
+            }
+
+            e.Handled = true;
         }
     }
 }

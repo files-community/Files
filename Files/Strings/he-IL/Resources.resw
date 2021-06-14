@@ -18,12 +18,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>פתח בחלון חדש</value>
   </data>
-  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>כרטיסיה חדשה</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>חלון חדש</value>
-  </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>תיקיה</value>
   </data>
@@ -32,12 +26,6 @@
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>מסמך טקסט</value>
-  </data>
-  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>העתק מיקום</value>
-  </data>
-  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
-    <value>הדבק</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>כוננים:</value>
@@ -53,9 +41,6 @@
   </data>
   <data name="sizeColumn.Header" xml:space="preserve">
     <value>גודל</value>
-  </data>
-  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>פתח באפליקציית מסוף</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>נוצר</value>
@@ -132,9 +117,6 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>שלח משוב</value>
   </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>שלח למפתחים דיווח עם מידע מפורט</value>
-  </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>רישיונות צד שלישי</value>
   </data>
@@ -149,9 +131,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>תכונות ניסיוניות</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>הגדרות</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>אודות</value>
@@ -239,9 +218,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>הדבק</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>חדשות</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>תיקיה</value>
@@ -338,9 +314,6 @@
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>חיפוש</value>
-  </data>
-  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>אפשרויות נוספות</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>מאפיינים</value>
@@ -609,14 +582,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>‏‏תורמים</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>ראה מי תרם ל-Files</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>הערות מוצר</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>גלה מה החדש ב-Files</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>גירסה</value>
@@ -657,14 +624,8 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>ביטול</value>
   </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>אופקי</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>ריבוי משימות</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>אנכי</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>ריבוי משימות</value>
@@ -732,9 +693,6 @@
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>תמכו בנו</value>
   </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>תמכו בנו באמצעות PayPal</value>
-  </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>לא הצלחנו לייצר פריט זה</value>
   </data>
@@ -744,7 +702,7 @@
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>הצג סיומות לסוגי קבצים ידועים</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>תבנית תאריך.</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
@@ -963,9 +921,6 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>‏‏מסמך</value>
   </data>
-  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>אפשרויות נוספות</value>
-  </data>
   <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
     <value>פתח פריטים בלחיצה בודדת</value>
   </data>
@@ -1053,18 +1008,6 @@
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>לא צוין</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>רשיון</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>רשיון</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>אתר אינטרנט</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>אתר אינטרנט</value>
-  </data>
   <data name="DragDropWindowText" xml:space="preserve">
     <value>שחרר כאן...</value>
   </data>
@@ -1140,9 +1083,6 @@
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>פתח בחלונית משנית</value>
   </data>
-  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
-    <value>חלונית חדשה</value>
-  </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>פתח בחלונית משנית</value>
   </data>
@@ -1160,9 +1100,6 @@
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>תצוגת פרטים</value>
-  </data>
-  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
-    <value>מצב פריסה</value>
   </data>
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>אפשרויות &amp;תצוגה</value>
@@ -1299,12 +1236,6 @@
   <data name="SidebarLibraries" xml:space="preserve">
     <value>‏‏ספריות</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>ברירת מחדל</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>ערכת צבעים:</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>ספירת פריטים</value>
   </data>
@@ -1328,11 +1259,5 @@
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>אפשרויות בחירה</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>אפשרויות תצוגה</value>
-  </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>אפשרויות תצוגה</value>
   </data>
 </root>

@@ -25,10 +25,10 @@ namespace Files.UserControls.MultitaskingControl
         {
             if (args.CollectionChange == Windows.Foundation.Collections.CollectionChange.ItemRemoved)
             {
-                App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(VerticalTabView.SelectedItem as TabItem);
+                App.MainViewModel.TabStripSelectedIndex = Items.IndexOf(VerticalTabView.SelectedItem as TabItem);
             }
 
-            if (App.InteractionViewModel.TabStripSelectedIndex >= 0 && App.InteractionViewModel.TabStripSelectedIndex < Items.Count)
+            if (App.MainViewModel.TabStripSelectedIndex >= 0 && App.MainViewModel.TabStripSelectedIndex < Items.Count)
             {
                 CurrentSelectedAppInstance = GetCurrentSelectedTabInstance();
 
@@ -171,5 +171,7 @@ namespace Files.UserControls.MultitaskingControl
                 sender.SelectedIndex = selectedTabViewItemIndex;
             }
         }
+
+        public override DependencyObject ContainerFromItem(ITabItem item) => VerticalTabView.ContainerFromItem(item);
     }
 }

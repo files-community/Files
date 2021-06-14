@@ -56,6 +56,7 @@ namespace Files.Views
             TabShorcut.Visibility = listedItem != null && listedItem.IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
             TabLibrary.Visibility = listedItem != null && listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
             TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem && !listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
+            TabSecurity.Visibility = listedItem != null && !listedItem.IsLibraryItem && !listedItem.IsRecycleBinItem ? Visibility.Visible : Visibility.Collapsed;
             base.OnNavigatedTo(e);
         }
 
@@ -214,6 +215,10 @@ namespace Files.Views
                 case "Details":
                     contentFrame.Navigate(typeof(PropertiesDetails), navParam, args.RecommendedNavigationTransitionInfo);
                     break;
+
+                case "Security":
+                    contentFrame.Navigate(typeof(PropertiesSecurity), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
             }
         }
 
@@ -236,7 +241,7 @@ namespace Files.Views
             // I was unable to get this to work any other way
             try
             {
-                var xaml = XamlReader.Load(App.ExternalResourcesHelper.CurrentThemeResources) as ResourceDictionary;
+                var xaml = XamlReader.Load(App.ExternalResourcesHelper.CurrentSkinResources) as ResourceDictionary;
                 App.Current.Resources.MergedDictionaries.Add(xaml);
             }
             catch (Exception)

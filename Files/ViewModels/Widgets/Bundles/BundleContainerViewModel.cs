@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -49,8 +50,6 @@ namespace Files.ViewModels.Widgets.Bundles
         public Action<string, FilesystemItemType, bool, bool, IEnumerable<string>> OpenPath { get; set; }
 
         public Action<string> OpenPathInNewPane { get; set; }
-
-        public Func<string, uint, (byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconOverlay { get; set; }
 
         #endregion Actions
 
@@ -276,13 +275,12 @@ namespace Files.ViewModels.Widgets.Bundles
                         {
                             if (!Contents.Any((i) => i.Path == item.Path)) // Don't add existing items!
                             {
-                                AddBundleItem(new BundleItemViewModel(item.Path, item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File)
+                                await AddBundleItem(new BundleItemViewModel(item.Path, item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File)
                                 {
                                     ParentBundleName = BundleName,
                                     NotifyItemRemoved = NotifyItemRemovedHandle,
                                     OpenPath = OpenPath,
                                     OpenPathInNewPane = OpenPathInNewPane,
-                                    LoadIconOverlay = LoadIconOverlay
                                 });
                                 itemsAdded = true;
                             }
@@ -323,13 +321,12 @@ namespace Files.ViewModels.Widgets.Bundles
                         {
                             if (!Contents.Any((i) => i.Path == itemPath)) // Don't add existing items!
                             {
-                                AddBundleItem(new BundleItemViewModel(itemPath, itemPath.EndsWith(".lnk") ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File))
+                                await AddBundleItem(new BundleItemViewModel(itemPath, itemPath.EndsWith(".lnk") ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File))
                                 {
                                     ParentBundleName = BundleName,
                                     NotifyItemRemoved = NotifyItemRemovedHandle,
                                     OpenPath = OpenPath,
                                     OpenPathInNewPane = OpenPathInNewPane,
-                                    LoadIconOverlay = LoadIconOverlay
                                 });
                                 itemsAdded = true;
                             }
@@ -422,7 +419,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
         #region Public Helpers
 
-        public void AddBundleItem(BundleItemViewModel bundleItem)
+        public async Task AddBundleItem(BundleItemViewModel bundleItem)
         {
             if (bundleItem != null)
             {
@@ -430,7 +427,7 @@ namespace Files.ViewModels.Widgets.Bundles
                 Contents.Add(bundleItem);
                 itemAddedInternally = false;
                 NoBundleContentsTextVisibility = Visibility.Collapsed;
-                bundleItem.UpdateIcon();
+                await bundleItem.UpdateIcon();
             }
         }
 
@@ -490,7 +487,6 @@ namespace Files.ViewModels.Widgets.Bundles
 
             OpenPath = null;
             OpenPathInNewPane = null;
-            LoadIconOverlay = null;
 
             Contents.CollectionChanged -= Contents_CollectionChanged;
             Contents = null;

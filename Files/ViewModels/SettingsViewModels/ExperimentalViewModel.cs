@@ -20,22 +20,5 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
-
-        private bool useNewDetailsView = App.AppSettings.UseNewDetailsView;
-
-        public bool UseNewDetailsView
-        {
-            get
-            {
-                return useNewDetailsView;
-            }
-            set
-            {
-                if (SetProperty(ref useNewDetailsView, value))
-                {
-                    App.AppSettings.UseNewDetailsView = value;
-                }
-            }
-        }
     }
 }

@@ -16,24 +16,18 @@ using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Properties
 {
-    internal class FolderProperties : BaseProperties
+    internal class FolderProperties : FileSystemProperties
     {
-        public ListedItem Item { get; }
-
         public FolderProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ListedItem item, IShellPage instance)
+            : base(viewModel, tokenSource, coreDispatcher, item, instance)
         {
-            ViewModel = viewModel;
-            TokenSource = tokenSource;
-            Dispatcher = coreDispatcher;
-            Item = item;
-            AppInstance = instance;
-
-            GetBaseProperties();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
         public override void GetBaseProperties()
         {
+            base.GetBaseProperties();
+
             if (Item != null)
             {
                 ViewModel.ItemName = Item.ItemName;
@@ -43,11 +37,14 @@ namespace Files.ViewModels.Properties
                     (Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
                 ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
-                //ViewModel.FileIconSource = Item.FileImage;
                 ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
+                ViewModel.IconData = Item.CustomIconData;
                 ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
+                ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
+                ViewModel.CustomIconSource = Item.CustomIconSource;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
                 ViewModel.ContainsFilesOrFolders = Item.ContainsFilesOrFolders;
+                ViewModel.IsFolder = !Item.IsShortcutItem;
 
                 if (Item.IsShortcutItem)
                 {
@@ -72,14 +69,17 @@ namespace Files.ViewModels.Properties
 
         public async override void GetSpecialProperties()
         {
+            base.GetSpecialProperties();
+
             ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
-            var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
-            if (fileIconInfo.IconData != null && fileIconInfo.IsCustom)
+            var fileIconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 80);
+            if (fileIconData != null)
             {
-                ViewModel.FileIconSource = await fileIconInfo.IconData.ToBitmapAsync();
-                ViewModel.IconData = fileIconInfo.IconData;
+                ViewModel.IconData = fileIconData;
+                ViewModel.LoadFolderGlyph = false;
+                ViewModel.LoadFileIcon = true;
             }
 
             if (Item.IsShortcutItem)
@@ -102,7 +102,7 @@ namespace Files.ViewModels.Properties
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                App.Logger.Warn(ex, ex.Message);
                 // Could not access folder, can't show any other property
                 return;
             }
@@ -182,7 +182,7 @@ namespace Files.ViewModels.Properties
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                App.Logger.Warn(ex, ex.Message);
             }
             ViewModel.ItemSizeProgressVisibility = Visibility.Collapsed;
 

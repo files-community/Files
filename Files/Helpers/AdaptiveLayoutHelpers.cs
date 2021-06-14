@@ -12,6 +12,10 @@ namespace Files.Helpers
         {
             if (App.AppSettings.AreLayoutPreferencesPerFolder && App.AppSettings.AdaptiveLayoutEnabled && !folderSettings.LayoutPreference.IsAdaptiveLayoutOverridden)
             {
+                Action layoutDetails = () => folderSettings.ToggleLayoutModeDetailsView.Execute(false);
+                Action layoutTiles = () => folderSettings.ToggleLayoutModeTiles.Execute(false);
+                Action layoutGridView = () => folderSettings.ToggleLayoutModeGridView.Execute(folderSettings.GridViewSize);
+
                 bool desktopIniFound = false;
 
                 string path = filesystemViewModel?.WorkingDirectory;
@@ -40,31 +44,31 @@ namespace Files.Helpers
                                 {
                                     case "Documents":
                                         {
-                                            folderSettings.ToggleLayoutModeTiles.Execute(false);
+                                            layoutDetails();
                                             break;
                                         }
 
                                     case "Pictures":
                                         {
-                                            folderSettings.ToggleLayoutModeGridView.Execute(folderSettings.GridViewSize);
+                                            layoutGridView();
                                             break;
                                         }
 
                                     case "Music":
                                         {
-                                            folderSettings.ToggleLayoutModeDetailsView.Execute(false);
+                                            layoutDetails();
                                             break;
                                         }
 
                                     case "Videos":
                                         {
-                                            folderSettings.ToggleLayoutModeGridView.Execute(folderSettings.GridViewSize);
+                                            layoutGridView();
                                             break;
                                         }
 
                                     default:
                                         {
-                                            folderSettings.ToggleLayoutModeDetailsView.Execute(false);
+                                            layoutDetails();
                                             break;
                                         }
                                 }
@@ -84,46 +88,74 @@ namespace Files.Helpers
                     return false;
                 }
 
-                int imagesAndVideosCount = filesystemViewModel.FilesAndFolders.Where((item) =>
+                int allItemsCount = filesystemViewModel.FilesAndFolders.Count;
 
-                    !string.IsNullOrEmpty(item.FileExtension)
+                int mediaCount;
+                int imagesCount;
+                int foldersCount;
+                int miscFilesCount;
 
-                    // Images
-                    && (ImagePreviewViewModel.Extensions.Any((ext) => item.FileExtension.Equals(ext, StringComparison.OrdinalIgnoreCase))
+                float mediaPercentage;
+                float imagesPercentage;
+                float foldersPercentage;
+                float miscFilesPercentage;
 
-                    // Audio & Video
-                    || MediaPreviewViewModel.Extensions.Any((ext) => item.FileExtension.Equals(ext, StringComparison.OrdinalIgnoreCase))
-                    )).Count();
+                mediaCount = filesystemViewModel.FilesAndFolders.Where((item) =>
+                {
+                    return !string.IsNullOrEmpty(item.FileExtension) && MediaPreviewViewModel.Extensions.Any((ext) => item.FileExtension.Equals(ext, StringComparison.OrdinalIgnoreCase));
+                }).Count();
+                imagesCount = filesystemViewModel.FilesAndFolders.Where((item) =>
+                {
+                    return !string.IsNullOrEmpty(item.FileExtension) && ImagePreviewViewModel.Extensions.Any((ext) => item.FileExtension.Equals(ext, StringComparison.OrdinalIgnoreCase));
+                }).Count();
+                foldersCount = filesystemViewModel.FilesAndFolders.Where((item) => item.PrimaryItemAttribute == StorageItemTypes.Folder).Count();
+                miscFilesCount = allItemsCount - (mediaCount + imagesCount + foldersCount);
 
-                int foldersCount = filesystemViewModel.FilesAndFolders.Where((item) => item.PrimaryItemAttribute == StorageItemTypes.Folder).Count();
+                mediaPercentage = (float)((float)mediaCount / (float)allItemsCount) * 100.0f;
+                imagesPercentage = (float)((float)imagesCount / (float)allItemsCount) * 100.0f;
+                foldersPercentage = (float)((float)foldersCount / (float)allItemsCount) * 100.0f;
+                miscFilesPercentage = (float)((float)miscFilesCount / (float)allItemsCount) * 100.0f;
 
-                int otherFilesCount = filesystemViewModel.FilesAndFolders.Count - (imagesAndVideosCount + foldersCount);
-
-                if (foldersCount > 0)
-                { // There are folders in current directory
-                    if ((filesystemViewModel.FilesAndFolders.Count - imagesAndVideosCount) < (filesystemViewModel.FilesAndFolders.Count - 20) || (filesystemViewModel.FilesAndFolders.Count <= 20 && imagesAndVideosCount >= 5))
-                    { // Most of items are images/videos
-                        folderSettings.ToggleLayoutModeTiles.Execute(false);
+                // Decide layout mode
+                
+                // Mostly files + folders, lesser media and image files | Mostly folders
+                if ((foldersPercentage + miscFilesPercentage) > Constants.AdaptiveLayout.LargeThreshold)
+                {
+                    if (allItemsCount > Constants.AdaptiveLayout.ItemsRequirementForDetails1)
+                    {
+                        layoutDetails();
                     }
                     else
                     {
-                        folderSettings.ToggleLayoutModeDetailsView.Execute(false);
+                        layoutTiles();
+                    }
+                }
+                // Mostly images, probably an images folder
+                else if (imagesPercentage > Constants.AdaptiveLayout.ExtraLargeThreshold
+                    || (imagesPercentage > Constants.AdaptiveLayout.MediumThreshold
+                        && (mediaPercentage + miscFilesPercentage + foldersPercentage) > Constants.AdaptiveLayout.SmallThreshold
+                        && (miscFilesPercentage + foldersPercentage) < Constants.AdaptiveLayout.ExtraSmallThreshold))
+                {
+                    layoutGridView();
+                }
+                // Mostly media i.e. sound files, videos
+                else if (mediaPercentage > Constants.AdaptiveLayout.ExtraLargeThreshold
+                    || (mediaPercentage > Constants.AdaptiveLayout.MediumThreshold
+                    && (imagesPercentage + miscFilesPercentage + foldersPercentage) > Constants.AdaptiveLayout.SmallThreshold
+                    && (miscFilesPercentage + foldersPercentage) < Constants.AdaptiveLayout.ExtraSmallThreshold))
+                {
+                    if (allItemsCount > Constants.AdaptiveLayout.ItemsRequirementForDetails2)
+                    {
+                        layoutDetails();
+                    }
+                    else
+                    {
+                        layoutTiles();
                     }
                 }
                 else
-                { // There are only files
-                    if (imagesAndVideosCount == filesystemViewModel.FilesAndFolders.Count)
-                    { // Only images/videos
-                        folderSettings.ToggleLayoutModeGridView.Execute(folderSettings.GridViewSize);
-                    }
-                    else if (otherFilesCount < 20)
-                    { // Most of files are images/videos
-                        folderSettings.ToggleLayoutModeTiles.Execute(false);
-                    }
-                    else
-                    { // Images/videos and other files
-                        folderSettings.ToggleLayoutModeDetailsView.Execute(false);
-                    }
+                {
+                    layoutDetails();
                 }
 
                 return true;

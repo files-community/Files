@@ -4,6 +4,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.ContextFlyouts;
 using Files.Interacts;
+using Files.UserControls;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Uwp;
@@ -50,7 +51,7 @@ namespace Files
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
-        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+        public MainViewModel MainViewModel => App.MainViewModel;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
         public Microsoft.UI.Xaml.Controls.CommandBarFlyout ItemContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
@@ -61,6 +62,22 @@ namespace Files
         public IShellPage ParentShellPageInstance { get; private set; } = null;
 
         public bool IsRenamingItem { get; set; } = false;
+
+        private bool isMiddleClickToScrollEnabled = true;
+        public bool IsMiddleClickToScrollEnabled
+        {
+            get => isMiddleClickToScrollEnabled;
+            set
+            {
+                if (isMiddleClickToScrollEnabled != value)
+                {
+                    isMiddleClickToScrollEnabled = value;
+                    NotifyPropertyChanged(nameof(IsMiddleClickToScrollEnabled));
+                }
+            }
+        }
+
+        protected NavigationToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<NavigationToolbar>();
 
         private CollectionViewSource collectionViewSource = new CollectionViewSource()
         {
@@ -226,7 +243,7 @@ namespace Files
             jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
             jumpTimer.Tick += JumpTimer_Tick;
 
-            SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel(this);
+            SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
             DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
 
             // QuickLook Integration
@@ -235,7 +252,7 @@ namespace Files
 
             if (isQuickLookIntegrationEnabled != null && isQuickLookIntegrationEnabled.Equals(true))
             {
-                App.InteractionViewModel.IsQuickLookEnabled = true;
+                App.MainViewModel.IsQuickLookEnabled = true;
             }
 
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
@@ -348,7 +365,7 @@ namespace Files
 
             if (!navigationArguments.IsSearchResultPage)
             {
-                ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
+                ParentShellPageInstance.NavToolbarViewModel.CanRefresh = true;
                 string previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
                 await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.NavPathParam);
 
@@ -357,32 +374,32 @@ namespace Files
                 string pathRoot = GetPathRoot(workingDir);
                 if (string.IsNullOrEmpty(pathRoot) || workingDir.StartsWith(AppSettings.RecycleBinPath)) // Can't go up from recycle bin
                 {
-                    ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
+                    ParentShellPageInstance.NavToolbarViewModel.CanNavigateToParent = false;
                 }
                 else
                 {
-                    ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = true;
+                    ParentShellPageInstance.NavToolbarViewModel.CanNavigateToParent = true;
                 }
 
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
-                ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = navigationArguments.NavPathParam;
+                ParentShellPageInstance.NavToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
                 if (!navigationArguments.IsLayoutSwitch)
                 {
                     ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir);
                 }
                 else
                 {
-                    ParentShellPageInstance.NavigationToolbar.CanGoForward = false;
+                    ParentShellPageInstance.NavToolbarViewModel.CanGoForward = false;
                 }
             }
             else
             {
-                ParentShellPageInstance.NavigationToolbar.CanRefresh = false;
-                ParentShellPageInstance.NavigationToolbar.CanGoForward = false;
-                ParentShellPageInstance.NavigationToolbar.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
-                ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
+                ParentShellPageInstance.NavToolbarViewModel.CanRefresh = false;
+                ParentShellPageInstance.NavToolbarViewModel.CanGoForward = false;
+                ParentShellPageInstance.NavToolbarViewModel.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
+                ParentShellPageInstance.NavToolbarViewModel.CanNavigateToParent = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
@@ -457,7 +474,17 @@ namespace Files
         {
             try
             {
-                LoadMenuItemsAsync();
+                if (!IsItemSelected) // Workaround for item sometimes not getting selected
+                {
+                    if (((sender as Microsoft.UI.Xaml.Controls.CommandBarFlyout)?.Target as ListViewItem)?.Content is ListedItem li)
+                    {
+                        ItemManipulationModel.SetSelectedItem(li);
+                    }
+                }
+                if (IsItemSelected)
+                {
+                    LoadMenuItemsAsync();
+                }
             }
             catch (Exception error)
             {
@@ -482,7 +509,7 @@ namespace Files
 
         private void LoadMenuItemsAsync()
         {
-            SelectedItemsPropertiesViewModel.CheckFileExtension();
+            SelectedItemsPropertiesViewModel.CheckFileExtension(SelectedItem?.FileExtension);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var items = ContextFlyoutItemHelper.GetItemContextCommands(connection: Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
             ItemContextMenuFlyout.PrimaryCommands.Clear();
@@ -642,7 +669,7 @@ namespace Files
                 }
                 catch (Exception ex)
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                    App.Logger.Warn(ex, ex.Message);
                     e.AcceptedOperation = DataPackageOperation.None;
                     deferral.Complete();
                     return;

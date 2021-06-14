@@ -12,7 +12,7 @@ namespace Files.UserControls
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+        public MainViewModel MainViewModel => App.MainViewModel;
 
         public StatusCenterViewModel StatusCenterViewModel { get; set; }
 
