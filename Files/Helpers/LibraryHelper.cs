@@ -155,38 +155,16 @@ namespace Files.Helpers
                 PrimaryButtonText = "DialogRestoreLibrariesButtonText".GetLocalized(),
                 CloseButtonText = "DialogCancelButtonText".GetLocalized(),
                 PrimaryButtonAction = async (vm, e) => {
-                    var progressBanner = App.StatusCenterViewModel.PostBanner(
-                        "StatusLibraryRestoration".GetLocalized(),
-                        "StatusLibraryRestorationInProgress".GetLocalized(),
-                        0,
-                        ReturnResult.InProgress,
-                        FileOperationType.Restore);
-
-                    long restored = 0;
-                    string error = null;
                     var connection = await AppServiceConnectionHelper.Instance;
                     if (connection != null)
                     {
-                        var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet
+                        await connection.SendMessageAsync(new ValueSet()
                         {
-                            { "Arguments", "ShellLibrary" },
-                            { "action", "Restore" }
+                            { "Arguments", "InvokeVerb" },
+                            { "FilePath", ShellLibraryItem.LibrariesPath },
+                            { "Verb", "restorelibraries" }
                         });
-                        if (status == AppServiceResponseStatus.Success && response.ContainsKey("Restore"))
-                        {
-                            restored = (long)response["Restore"];
-                            error = response.Get("Error", (string)null);
-                        }
                     }
-
-                    progressBanner.Remove();
-                    App.StatusCenterViewModel.PostBanner(
-                        error == null ? "StatusLibraryRestorationComplete".GetLocalized() : "StatusLibraryRestorationFailed".GetLocalized(),
-                        error ?? string.Format("StatusRestoreLibrariesDetails".GetLocalized(), restored),
-                        0,
-                        error == null ? ReturnResult.Success : ReturnResult.Failed,
-                        FileOperationType.Restore);
-
                     await App.LibraryManager.EnumerateLibrariesAsync();
                 },
                 CloseButtonAction = (vm, e) => vm.HideDialog(),

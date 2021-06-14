@@ -2434,7 +2434,7 @@
     <value>Restore</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
-    <value>Are you sure you want to restore the default libraries? This also deletes libraries created by you. It cannot be undone unless you have manual backup of your library files. Folders and files added to libraries won't be affected, they remain on your storage.</value>
+    <value>Are you sure you want to restore the default libraries? All your files will remain on your storage.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Restore Libraries</value>

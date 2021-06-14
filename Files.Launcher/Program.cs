@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -76,7 +75,7 @@ namespace FilesFullTrust
 
                 librariesWatcher = new FileSystemWatcher
                 {
-                    Path = librariesPath,
+                    Path = ShellLibraryItem.LibrariesPath,
                     Filter = "*" + ShellLibraryItem.EXTENSION,
                     NotifyFilter = NotifyFilters.Attributes | NotifyFilters.LastWrite | NotifyFilters.FileName,
                     IncludeSubdirectories = false,
@@ -163,7 +162,6 @@ namespace FilesFullTrust
         private static IList<FileSystemWatcher> binWatchers;
         private static DeviceWatcher deviceWatcher;
         private static FileSystemWatcher librariesWatcher;
-        private static readonly string librariesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries");
 
         private static async void InitializeAppServiceConnection()
         {
@@ -630,7 +628,7 @@ namespace FilesFullTrust
                         {
                             var libraryItems = new List<ShellLibraryItem>();
                             // https://docs.microsoft.com/en-us/windows/win32/search/-search-win7-development-scenarios#library-descriptions
-                            var libFiles = Directory.EnumerateFiles(librariesPath, "*" + ShellLibraryItem.EXTENSION);
+                            var libFiles = Directory.EnumerateFiles(ShellLibraryItem.LibrariesPath, "*" + ShellLibraryItem.EXTENSION);
                             foreach (var libFile in libFiles)
                             {
                                 using var shellItem = ShellItem.Open(libFile);
@@ -730,86 +728,6 @@ namespace FilesFullTrust
                         return response;
                     });
                     await Win32API.SendMessageAsync(connection, updateResponse, message.Get("RequestID", (string)null));
-                    break;
-
-                case "Restore":
-                    var restoreResponse = await Win32API.StartSTATask(() =>
-                    {
-                        string lastPath = null; // for error reporting
-                        var response = new ValueSet();
-                        try
-                        {
-                            // Extract files to temp
-                            var tempLibFiles = new List<string>();
-                            string tempDesktopIni = null;
-                            string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-                            Directory.CreateDirectory(tempDirectory);
-
-                            using var librariesStream = new MemoryStream(Properties.Resources.DefaultLibraries);
-                            using var librariesArchive = new ZipArchive(librariesStream);
-                            foreach (ZipArchiveEntry entry in librariesArchive.Entries)
-                            {
-                                var entryPath = Path.Combine(tempDirectory, entry.Name);
-                                var entryExt = Path.GetExtension(entry.Name);
-                                using var entryStream = entry.Open();
-                                using var entryFile = File.OpenWrite(entryPath);
-                                entryStream.CopyTo(entryFile);
-                                switch (entryExt)
-                                {
-                                    case ShellLibraryItem.EXTENSION:
-                                        tempLibFiles.Add(entryPath);
-                                        break;
-                                    case ".ini":
-                                        tempDesktopIni = entryPath;
-                                        break;
-                                }
-                            }
-                            // Backup library files
-                            var oldLibFiles = Directory.EnumerateFiles(librariesPath, "*" + ShellLibraryItem.EXTENSION);
-                            foreach (var libFile in oldLibFiles)
-                            {
-                                File.Move(libFile, lastPath = libFile + ".bak");
-                            }
-                            // Backup desktop.ini
-                            var desktopIniPath = Path.Combine(librariesPath, "desktop.ini");
-                            if (File.Exists(desktopIniPath))
-                            {
-                                File.SetAttributes(lastPath = desktopIniPath, System.IO.FileAttributes.Normal);
-                                File.Move(desktopIniPath, lastPath = desktopIniPath + ".bak");
-                            }
-                            // Move temp library files
-                            foreach (var libFile in tempLibFiles)
-                            {
-                                File.Move(libFile, lastPath = Path.Combine(librariesPath, Path.GetFileName(libFile)));
-                            }
-                            // Move temp desktop.ini
-                            if (tempDesktopIni != null)
-                            {
-                                File.Move(tempDesktopIni, lastPath = desktopIniPath);
-                                File.SetAttributes(desktopIniPath, System.IO.FileAttributes.System | System.IO.FileAttributes.Hidden);
-                            }
-                            // Delete backup files
-                            foreach (var libFile in oldLibFiles)
-                            {
-                                File.Delete(lastPath = libFile + ".bak");
-                            }
-                            if (File.Exists(desktopIniPath + ".bak"))
-                            {
-                                File.Delete(lastPath = desktopIniPath + ".bak");
-                            }
-                            Directory.Delete(lastPath = tempDirectory, true);
-
-                            response.Add("Restore", tempLibFiles.Count);
-                        }
-                        catch (Exception e)
-                        {
-                            Logger.Error(e);
-                            response.Add("Restore", 0);
-                            response.Add("Error", $"{Path.GetFileName(lastPath)} - {e.Message}");
-                        }
-                        return response;
-                    });
-                    await Win32API.SendMessageAsync(connection, restoreResponse, message.Get("RequestID", (string)null));
                     break;
             }
         }
