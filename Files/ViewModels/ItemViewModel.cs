@@ -686,7 +686,7 @@ namespace Files.ViewModels
             }
         }
 
-        List<ListedItem> itemLoadQueue = new List<ListedItem>();
+        List<(ListedItem item, uint size)> itemLoadQueue = new List<(ListedItem, uint)>();
 
         // This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
         // for file inside the recycle bin (but not on the recycle bin folder itself)
@@ -695,7 +695,7 @@ namespace Files.ViewModels
             // Don't load extended item properties while enumeration is in progress to improve enumeration speed
             if (IsLoadingItems)
             {
-                itemLoadQueue.Add(item);
+                itemLoadQueue.Add((item, thumbnailSize));
                 return;
             }
 
@@ -978,7 +978,7 @@ namespace Files.ViewModels
                 // Load items in the queue after enumeration has completed to improve enumeration speed
                 foreach (var item in itemLoadQueue)
                 {
-                    _ = LoadExtendedItemProperties(item);
+                    _ = LoadExtendedItemProperties(item.item, item.size);
                 }
                 itemLoadQueue.Clear();
             }
