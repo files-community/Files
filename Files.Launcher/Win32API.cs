@@ -236,6 +236,12 @@ namespace FilesFullTrust
             RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{driveName}', '{newLabel}')\"", true);
         }
 
+        public static void MountVhdDisk(string vhdPath)
+        {
+            // mounting requires elevation
+            RunPowershellCommand($"-command \"Mount-DiskImage -ImagePath '{vhdPath}'\"", true);
+        }
+
         private static Bitmap GetBitmapFromHBitmap(HBITMAP hBitmap)
         {
             try

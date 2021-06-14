@@ -367,9 +367,11 @@ namespace FilesFullTrust
                 case "InvokeVerb":
                     var filePath = (string)message["FilePath"];
                     var split = filePath.Split('|').Where(x => !string.IsNullOrWhiteSpace(x));
+                    var verb = (string)message["Verb"];
                     using (var cMenu = Win32API.ContextMenu.GetContextMenuForFiles(split.ToArray(), Shell32.CMF.CMF_DEFAULTONLY))
                     {
-                        cMenu?.InvokeVerb((string)message["Verb"]);
+                        var result = cMenu?.InvokeVerb(verb);
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
                     }
                     break;
 
@@ -791,6 +793,11 @@ namespace FilesFullTrust
                     {
                         switch (message.Get("CommandString", (string)null))
                         {
+                            case "mount":
+                                var vhdPath = cMenuExec.ItemsPath.First();
+                                Win32API.MountVhdDisk(vhdPath);
+                                break;
+
                             case "format":
                                 var drivePath = cMenuExec.ItemsPath.First();
                                 Win32API.OpenFormatDriveDialog(drivePath);
@@ -1163,6 +1170,13 @@ namespace FilesFullTrust
             var arguments = message.Get("Arguments", "");
             var workingDirectory = message.Get("WorkingDirectory", "");
             var currentWindows = Win32API.GetDesktopWindows();
+
+            if (new[] { ".vhd", ".vhdx" }.Contains(Path.GetExtension(application).ToLower()))
+            {
+                // Use powershell to mount vhds as this requires admin rights
+                Win32API.MountVhdDisk(application);
+                return;
+            }
 
             try
             {
