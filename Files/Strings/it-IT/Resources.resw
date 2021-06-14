@@ -2175,9 +2175,6 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widget</value>
   </data>
-  <data name="VerticalTabStrip.Label" xml:space="preserve">
-    <value>Schede</value>
-  </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Seleziona</value>
   </data>

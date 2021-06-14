@@ -2175,9 +2175,6 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgets</value>
   </data>
-  <data name="VerticalTabStrip.Label" xml:space="preserve">
-    <value>Separadores</value>
-  </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Selecionar</value>
   </data>

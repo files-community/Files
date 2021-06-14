@@ -2175,9 +2175,6 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Logrīki</value>
   </data>
-  <data name="VerticalTabStrip.Label" xml:space="preserve">
-    <value>Cilnes</value>
-  </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Atlasīt</value>
   </data>

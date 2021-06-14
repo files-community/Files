@@ -1203,9 +1203,6 @@
   <data name="PropertyAddress" xml:space="preserve">
     <value>Dirección</value>
   </data>
-  <data name="VerticalTabStrip.Label" xml:space="preserve">
-    <value>Pestañas</value>
-  </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Opciones de selección</value>
   </data>
