@@ -1797,7 +1797,7 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Arguments</value>
   </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
+  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
     <value>Open in new Pane</value>
   </data>
   <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
