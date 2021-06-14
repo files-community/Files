@@ -870,9 +870,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Naik satu tingkat direktori</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>tab vertikal</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Ubah aplikasi terminal</value>
   </data>

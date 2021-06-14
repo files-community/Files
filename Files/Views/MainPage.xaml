@@ -285,7 +285,7 @@
                     </Button>
                     <Button
                         x:Name="VerticalTabStripInvokeButton"
-                        x:Uid="VerticalTabStrip"
+                        x:Uid="VerticalTabFlyout"
                         Width="32"
                         Height="32"
                         Padding="8"
@@ -293,31 +293,25 @@
                         x:Load="{x:Bind AppSettings.IsVerticalTabFlyoutEnabled, Mode=OneWay}"
                         AccessKey="T"
                         AllowDrop="True"
-                        AutomationProperties.Name="Vertical tab strip"
+                        AutomationProperties.Name="Vertical tab flyout"
                         Background="Transparent"
                         BorderBrush="Transparent"
                         BorderThickness="0"
                         DragEnter="VerticalTabStripInvokeButton_DragEnter"
                         IsTapEnabled="True"
                         Loaded="VerticalTabStripInvokeButton_Loaded"
-                        PointerEntered="Button_PointerEntered"
-                        PointerExited="VerticalTabStripInvokeButton_PointerExited"
                         Tapped="VerticalTabStrip_Tapped"
-                        ToolTipService.ToolTip="Open tabs">
+                        ToolTipService.ToolTip="Vertical tab flyout">
                         <Button.Content>
                             <FontIcon FontSize="12" Glyph="&#xF5ED;" />
                         </Button.Content>
                         <Button.Flyout>
-                            <Flyout
-                                x:Name="VerticalTabViewFlyout"
-                                Closed="VerticalTabViewFlyout_Closed"
-                                Opened="VerticalTabViewFlyout_Opened">
+                            <Flyout x:Name="VerticalTabViewFlyout">
                                 <usercontrols:VerticalTabViewControl
                                     x:Name="VerticalTabs"
                                     Width="275"
                                     MaxHeight="300"
-                                    x:FieldModifier="public"
-                                    PointerExited="VerticalTabs_PointerExited" />
+                                    x:FieldModifier="public" />
                             </Flyout>
                         </Button.Flyout>
                     </Button>

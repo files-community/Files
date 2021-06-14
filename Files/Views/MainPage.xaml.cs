@@ -64,99 +64,16 @@ namespace Files.Views
 
         public UserControl MultitaskingControl => VerticalTabs;
 
-        private async void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
-            {
-                e.Handled = true;
-                cancelFlyoutOpen = false;
-                await Task.Delay(1000);
-                if (!cancelFlyoutOpen)
-                {
-                    if (sender != null)
-                    {
-                        (sender as Button).Flyout.ShowAt(sender as Button);
-                    }
-                    cancelFlyoutOpen = false;
-                }
-                else
-                {
-                    cancelFlyoutOpen = false;
-                }
-            }
-        }
-
-        private bool cancelFlyoutOpen = false;
-
-        private void VerticalTabStripInvokeButton_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
-            {
-                e.Handled = true;
-                if (!(sender as Button).Flyout.IsOpen)
-                {
-                    cancelFlyoutOpen = true;
-                }
-            }
-        }
-
         private void VerticalTabStrip_Tapped(object sender, TappedRoutedEventArgs e)
         {
             e.Handled = true;
             (sender as Button).Flyout.ShowAt(sender as Button);
         }
 
-        private void VerticalTabViewFlyout_Opened(object sender, object e)
-        {
-            if (VerticalTabStripInvokeButton != null)
-            {
-                VisualStateManager.GoToState(VerticalTabStripInvokeButton, "PointerOver", false);
-            }
-        }
-
-        private void VerticalTabViewFlyout_Closed(object sender, object e)
-        {
-            if (VerticalTabStripInvokeButton != null)
-            {
-                VisualStateManager.GoToState(VerticalTabStripInvokeButton, "Normal", false);
-            }
-        }
-
         private void VerticalTabStripInvokeButton_DragEnter(object sender, DragEventArgs e)
         {
             e.Handled = true;
             (sender as Button).Flyout.ShowAt(sender as Button);
-        }
-
-        private bool cancelFlyoutAutoClose = false;
-
-        private async void VerticalTabs_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
-            {
-                e.Handled = true;
-                cancelFlyoutAutoClose = false;
-                VerticalTabs.PointerEntered += VerticalTabs_PointerEntered;
-                await Task.Delay(1000);
-                if (VerticalTabs != null)
-                {
-                    VerticalTabs.PointerEntered -= VerticalTabs_PointerEntered;
-                }
-                if (!cancelFlyoutAutoClose)
-                {
-                    VerticalTabViewFlyout?.Hide();
-                }
-                cancelFlyoutAutoClose = false;
-            }
-        }
-
-        private void VerticalTabs_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
-            {
-                e.Handled = true;
-                cancelFlyoutAutoClose = true;
-            }
         }
 
         private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)

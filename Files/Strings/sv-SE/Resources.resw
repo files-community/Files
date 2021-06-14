@@ -852,9 +852,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Upp en nivå</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Vertikalt flikfält</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Redigera terminal-appar</value>
   </data>
