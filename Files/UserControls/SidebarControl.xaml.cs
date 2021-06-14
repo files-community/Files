@@ -648,6 +648,8 @@ namespace Files.UserControls
             {
                 IsPaneOpen = true;
             }
+
+            App.AppSettings.SidebarWidth = new GridLength(OpenPaneLength);
         }
 
         /// <summary>
@@ -681,7 +683,7 @@ namespace Files.UserControls
                 var newSize = originalSize + val;
                 if(newSize <= Constants.UI.MaximumSidebarWidth && newSize >= Constants.UI.MinimumSidebarWidth)
                 {
-                    AppSettings.SidebarWidth = new GridLength(newSize); // passing a negative value will cause an exception
+                    OpenPaneLength = newSize; // passing a negative value will cause an exception
                 }
 
                 if (newSize < Constants.UI.MinimumSidebarWidth) // if the new size is below the minimum, check whether to toggle the pane
@@ -695,7 +697,7 @@ namespace Files.UserControls
             {
                 if (val >= Constants.UI.MinimumSidebarWidth - CompactPaneLength)
                 {
-                    AppSettings.SidebarWidth = new GridLength(Constants.UI.MinimumSidebarWidth + (val + CompactPaneLength - Constants.UI.MinimumSidebarWidth)); // set open sidebar length to minimum value to keep it smooth
+                    OpenPaneLength = Constants.UI.MinimumSidebarWidth + (val + CompactPaneLength - Constants.UI.MinimumSidebarWidth); // set open sidebar length to minimum value to keep it smooth
                     IsPaneOpen = true;
                 }
             }
@@ -714,6 +716,7 @@ namespace Files.UserControls
         {
             Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
             VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
+            App.AppSettings.SidebarWidth = new GridLength(OpenPaneLength);
             dragging = false;
         }
 

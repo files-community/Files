@@ -21,7 +21,7 @@
     IsTitleBarAutoPaddingEnabled="False"
     ItemInvoked="Sidebar_ItemInvoked"
     MenuItemsSource="{x:Bind local:SidebarControl.SideBarItems, Mode=OneWay}"
-    OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneWay}"
+    OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneTime}"
     PaneDisplayMode="Auto"
     SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
     mc:Ignorable="d">
