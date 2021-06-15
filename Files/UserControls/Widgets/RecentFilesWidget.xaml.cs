@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.UserControls.Widgets
 {
-    public sealed partial class RecentFiles : UserControl, IWidgetItemModel
+    public sealed partial class RecentFilesWidget : UserControl, IWidgetItemModel
     {
         public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
@@ -30,11 +30,11 @@ namespace Files.UserControls.Widgets
         private EmptyRecentsText Empty { get; set; } = new EmptyRecentsText();
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        public string WidgetName => nameof(RecentFiles);
+        public string WidgetName => nameof(RecentFilesWidget);
 
         public bool IsWidgetSettingEnabled => App.AppSettings.ShowRecentFilesWidget;
 
-        public RecentFiles()
+        public RecentFilesWidget()
         {
             InitializeComponent();
 

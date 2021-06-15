@@ -329,8 +329,8 @@
     <Compile Include="UserControls\StringEncodedImage.xaml.cs">
       <DependentUpon>StringEncodedImage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Widgets\Bundles.xaml.cs">
-      <DependentUpon>Bundles.xaml</DependentUpon>
+    <Compile Include="UserControls\Widgets\BundlesWidget.xaml.cs">
+      <DependentUpon>BundlesWidget.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Widgets\WidgetsListControl.xaml.cs">
       <DependentUpon>WidgetsListControl.xaml</DependentUpon>
@@ -484,8 +484,8 @@
     <Compile Include="UserControls\Widgets\FolderWidget.xaml.cs">
       <DependentUpon>FolderWidget.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Widgets\RecentFiles.xaml.cs">
-      <DependentUpon>RecentFiles.xaml</DependentUpon>
+    <Compile Include="UserControls\Widgets\RecentFilesWidget.xaml.cs">
+      <DependentUpon>RecentFilesWidget.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CurrentInstanceViewModel.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
@@ -961,7 +961,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Widgets\Bundles.xaml">
+    <Page Include="UserControls\Widgets\BundlesWidget.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -977,7 +977,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControls\Widgets\RecentFiles.xaml">
+    <Page Include="UserControls\Widgets\RecentFilesWidget.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

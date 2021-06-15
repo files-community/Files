@@ -147,9 +147,6 @@
   <data name="Browse" xml:space="preserve">
     <value>Browse</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Recent locations</value>
-  </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>Drives</value>
   </data>
@@ -237,8 +234,8 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Remove this item</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Recent items</value>
+  <data name="RecentFilesHeader.Text" xml:space="preserve">
+    <value>Recent Files</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
@@ -2429,5 +2426,11 @@
   </data>
   <data name="StatusRestoreLibrariesDetails" xml:space="preserve">
     <value>{0} library files successfully restored</value>
+  </data>
+  <data name="CreateBundleBtn.AutomationProperties.Name" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
+  <data name="CreateBundleBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Create Bundle</value>
   </data>
 </root>
