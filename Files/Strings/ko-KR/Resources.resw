@@ -855,9 +855,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>한 단계 상위 폴더로 이동</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>수직 탭 표시 줄</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>터미널 편집</value>
   </data>
@@ -1347,7 +1344,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>듀얼 패널</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>폴더</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">

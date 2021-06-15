@@ -1,5 +1,6 @@
 ﻿using Files.Helpers;
 using Files.ViewModels;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,11 @@ namespace Files.UserControls.MultitaskingControl
         public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public virtual DependencyObject ContainerFromItem(ITabItem item)
+        {
+            return null;
+        }
 
         public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
 
@@ -134,6 +140,24 @@ namespace Files.UserControls.MultitaskingControl
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void SetLoadingIndicatorStatus(ITabItem item, bool loading)
+        {
+            var tabItem = ContainerFromItem(item) as Control;
+            if(tabItem is null)
+            {
+                return;
+            }
+
+            if (loading)
+            {
+                VisualStateManager.GoToState(tabItem, "Loading", false);
+            }
+            else
+            {
+                VisualStateManager.GoToState(tabItem, "NotLoading", false);
+            }
         }
     }
 }

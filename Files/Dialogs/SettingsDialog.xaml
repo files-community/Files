@@ -13,6 +13,7 @@
     <ContentDialog.Resources>
         <ResourceDictionary>
             <x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
+            <Thickness x:Key="ContentDialogPadding">0</Thickness>
             <SolidColorBrush x:Key="ContentDialogTopOverlay" Color="Transparent" />
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
@@ -35,9 +36,16 @@
         x:Name="ContainerGrid"
         Width="Auto"
         Height="600"
-        HorizontalAlignment="Stretch">
+        HorizontalAlignment="Stretch"
+        Background="{ThemeResource SolidBackgroundFillColorTertiary}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="Column0" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
         <muxc:NavigationView
             x:Name="SettingsPane"
+            Grid.Column="0"
+            Margin="12,12,0,12"
             IsBackButtonVisible="Collapsed"
             IsBackEnabled="False"
             IsPaneOpen="True"
@@ -126,22 +134,23 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.FooterMenuItems>
-
-            <ScrollViewer
-                Margin="20,4,4,4"
-                Padding="8,0,8,0"
-                Background="{ThemeResource SubtleFillColorSecondaryBrush}"
-                CornerRadius="{StaticResource OverlayCornerRadius}"
-                HorizontalScrollMode="Disabled"
-                VerticalScrollBarVisibility="Auto"
-                VerticalScrollMode="Enabled">
-                <Frame x:Name="SettingsContentFrame" Width="380" />
-            </ScrollViewer>
         </muxc:NavigationView>
+
+        <ScrollViewer
+            Grid.Column="1"
+            Margin="12,0,0,0"
+            Padding="8,12,8,0"
+            Background="{ThemeResource SolidBackgroundFillColorBase}"
+            HorizontalScrollMode="Disabled"
+            VerticalScrollBarVisibility="Auto"
+            VerticalScrollMode="Enabled">
+            <Frame x:Name="SettingsContentFrame" Width="380" />
+        </ScrollViewer>
 
         <Button
             x:Name="ButtonClose"
             x:Uid="SettingsDialogCloseButton"
+            Grid.Column="1"
             Width="36"
             Height="36"
             Margin="12"

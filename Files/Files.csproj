@@ -481,8 +481,8 @@
     <Compile Include="UserControls\Widgets\DrivesWidget.xaml.cs">
       <DependentUpon>DrivesWidget.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Widgets\LibraryCards.xaml.cs">
-      <DependentUpon>LibraryCards.xaml</DependentUpon>
+    <Compile Include="UserControls\Widgets\FolderWidget.xaml.cs">
+      <DependentUpon>FolderWidget.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Widgets\RecentFiles.xaml.cs">
       <DependentUpon>RecentFiles.xaml</DependentUpon>
@@ -976,7 +976,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControls\Widgets\LibraryCards.xaml">
+    <Page Include="UserControls\Widgets\FolderWidget.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

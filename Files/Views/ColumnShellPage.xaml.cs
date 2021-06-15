@@ -12,6 +12,7 @@ using Files.ViewModels;
 using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -849,14 +850,17 @@ namespace Files.Views
             {
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting:
                     NavToolbarViewModel.CanRefresh = false;
+                    SetLoadingIndicatorForTabs(true);
                     break;
 
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
                     NavToolbarViewModel.CanGoBack = ItemDisplayFrame.CanGoBack;
                     NavToolbarViewModel.CanGoForward = ItemDisplayFrame.CanGoForward;
+                    SetLoadingIndicatorForTabs(true);
                     break;
 
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
+                    SetLoadingIndicatorForTabs(false);
                     NavToolbarViewModel.CanRefresh = true;
                     // Select previous directory
                     if (!string.IsNullOrWhiteSpace(e.PreviousDirectory))
@@ -899,6 +903,18 @@ namespace Files.Views
                     break;
             }
         }
+
+        private void SetLoadingIndicatorForTabs(bool isLoading)
+        {
+            var multitaskingControls = ((Window.Current.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
+            var tabItemControl = this.FindAscendant<TabItemControl>();
+
+            foreach (var x in multitaskingControls)
+            {
+                x.SetLoadingIndicatorStatus(x.Items.First(x => x.Control == tabItemControl), isLoading);
+            }
+        }
+
 
         public DataPackageOperation TabItemDragOver(object sender, DragEventArgs e)
         {
@@ -1071,7 +1087,6 @@ namespace Files.Views
             };
 
             InstanceViewModel.CurrentSearchQuery = query;
-            FilesystemViewModel.IsLoadingIndicatorActive = true;
             InstanceViewModel.SearchedUnindexedItems = !searchUnindexedItems;
             ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
             {
@@ -1080,7 +1095,6 @@ namespace Files.Views
                 SearchPathParam = FilesystemViewModel.WorkingDirectory,
                 SearchResults = await search.SearchAsync(),
             });
-            FilesystemViewModel.IsLoadingIndicatorActive = false;
         }
 
         public bool LoadPreviewPane => AppSettings.PreviewPaneEnabled && InstanceViewModel.IsPageTypeNotHome;

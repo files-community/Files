@@ -4,6 +4,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -64,6 +65,10 @@ namespace Files.UserControls
             set => SetValue(EmptyRecycleBinCommandProperty, value);
         }
 
+        public readonly RelayCommand CreateLibraryCommand = new RelayCommand(LibraryHelper.ShowCreateNewLibraryDialog);
+
+        public readonly RelayCommand RestoreLibrariesCommand = new RelayCommand(LibraryHelper.ShowRestoreDefaultLibrariesDialog);
+
         private bool IsInPointerPressed = false;
 
         private DispatcherQueueTimer dragOverSectionTimer, dragOverItemTimer;
@@ -90,7 +95,7 @@ namespace Files.UserControls
                 }
             }
         }
-        
+
         public static readonly DependencyProperty TabContentProperty = DependencyProperty.Register(nameof(TabContent), typeof(UIElement), typeof(SidebarControl), new PropertyMetadata(null));
 
         public UIElement TabContent
@@ -195,6 +200,36 @@ namespace Files.UserControls
             }
         }
 
+        private bool isLocationItem;
+
+        public bool IsLocationItem
+        {
+            get => isLocationItem;
+            set
+            {
+                if (value != isLocationItem)
+                {
+                    isLocationItem = value;
+                    NotifyPropertyChanged(nameof(IsLocationItem));
+                }
+            }
+        }
+
+        private bool isLibrariesHeader;
+
+        public bool IsLibrariesHeader
+        {
+            get => isLibrariesHeader;
+            set
+            {
+                if (value != isLibrariesHeader)
+                {
+                    isLibrariesHeader = value;
+                    NotifyPropertyChanged(nameof(IsLibrariesHeader));
+                }
+            }
+        }
+
         public INavigationControlItem RightClickedItem;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -206,9 +241,14 @@ namespace Files.UserControls
 
         public void UnpinItem_Click(object sender, RoutedEventArgs e)
         {
-            if (RightClickedItem.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(AppSettings.RecycleBinPath, RightClickedItem.Path, StringComparison.OrdinalIgnoreCase))
             {
                 AppSettings.PinRecycleBinToSideBar = false;
+            }
+            else if ("SidebarLibraries".GetLocalized().Equals(RightClickedItem.Text))
+            {
+                AppSettings.ShowLibrarySection = false;
+                App.LibraryManager.UpdateLibrariesSectionVisibility();
             }
             else if (RightClickedItem.Section == SectionType.Favorites)
             {
@@ -264,24 +304,31 @@ namespace Files.UserControls
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as LocationItem;
 
-            if (!item.Text.Equals("SidebarDrives".GetLocalized()) &&
-                !item.Text.Equals("SidebarNetworkDrives".GetLocalized()) &&
-                !item.Text.Equals("SidebarCloudDrives".GetLocalized()) &&
-                !item.Text.Equals("SidebarLibraries".GetLocalized()) &&
-                !item.Text.Equals("WSL") &&
-                !item.Text.Equals("SidebarFavorites".GetLocalized()))
+            bool drivesHeader = "SidebarDrives".GetLocalized().Equals(item.Text);
+            bool networkDrivesHeader = "SidebarNetworkDrives".GetLocalized().Equals(item.Text);
+            bool cloudDrivesHeader = "SidebarCloudDrives".GetLocalized().Equals(item.Text);
+            bool librariesHeader = "SidebarLibraries".GetLocalized().Equals(item.Text);
+            bool wslHeader = "WSL".GetLocalized().Equals(item.Text);
+            bool favoritesHeader = "SidebarFavorites".GetLocalized().Equals(item.Text);
+            bool header = drivesHeader || networkDrivesHeader || cloudDrivesHeader || librariesHeader || wslHeader || favoritesHeader;
+
+            if (!header || librariesHeader)
             {
-                bool isLibrary = item.Section == SectionType.Library;
-                bool isFavorites = item.Section == SectionType.Favorites;
-                ShowUnpinItem = isLibrary && !item.IsDefaultLocation || isFavorites && !item.IsDefaultLocation;
-                ShowProperties = isLibrary && !item.IsDefaultLocation || isFavorites && !item.IsDefaultLocation;
+                bool library = !header && item.Section == SectionType.Library;
+                bool favorite = !header && item.Section == SectionType.Favorites;
+
+                IsLocationItem = !header;
+                ShowProperties = !header;
+                IsLibrariesHeader = librariesHeader;
+                ShowUnpinItem = librariesHeader || ((library || favorite) && !item.IsDefaultLocation);
                 ShowEjectDevice = false;
 
-                if (string.Equals(item.Path, App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(item.Path, AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
                     RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
                     ShowEmptyRecycleBin = true;
                     ShowUnpinItem = true;
+                    ShowProperties = false;
                 }
                 else
                 {
@@ -300,14 +347,15 @@ namespace Files.UserControls
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as DriveItem;
 
+            IsLocationItem = true;
+            IsLibrariesHeader = false;
             ShowEjectDevice = item.IsRemovable;
             ShowUnpinItem = false;
             ShowEmptyRecycleBin = false;
             ShowProperties = true;
 
-            SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
-
             RightClickedItem = item;
+            SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
 
             e.Handled = true;
         }
@@ -317,14 +365,15 @@ namespace Files.UserControls
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as WslDistroItem;
 
+            IsLocationItem = true;
+            IsLibrariesHeader = false;
             ShowEjectDevice = false;
             ShowUnpinItem = false;
             ShowEmptyRecycleBin = false;
             ShowProperties = true;
 
-            SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
-
             RightClickedItem = item;
+            SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
 
             e.Handled = true;
         }
@@ -637,7 +686,8 @@ namespace Files.UserControls
             {
                 IncrementSize(-step);
                 e.Handled = true;
-            } else if(e.Key == VirtualKey.Right)
+            }
+            else if (e.Key == VirtualKey.Right)
             {
                 IncrementSize(step);
                 e.Handled = true;
@@ -646,7 +696,7 @@ namespace Files.UserControls
 
         private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            if(IsPaneOpen)
+            if (IsPaneOpen)
             {
                 IncrementSize(e.Delta.Translation.X);
             }
