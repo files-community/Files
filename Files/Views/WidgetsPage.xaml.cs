@@ -22,8 +22,8 @@ namespace Files.Views
 
         private FolderWidget folderWidget;
         private DrivesWidget drivesWidget;
-        private Bundles bundles;
-        private RecentFiles recentFiles;
+        private BundlesWidget bundlesWidget;
+        private RecentFilesWidget recentFilesWidget;
 
         public YourHomeViewModel ViewModel
         {
@@ -58,8 +58,8 @@ namespace Files.Views
         {
             folderWidget = WidgetsHelpers.TryGetWidget<FolderWidget>(Widgets.ViewModel, out bool shouldReloadFolderWidget, folderWidget);
             drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
-            bundles = WidgetsHelpers.TryGetWidget<Bundles>(Widgets.ViewModel, out bool shouldReloadBundles, bundles);
-            recentFiles = WidgetsHelpers.TryGetWidget<RecentFiles>(Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFiles);
+            bundlesWidget = WidgetsHelpers.TryGetWidget<BundlesWidget>(Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
+            recentFilesWidget = WidgetsHelpers.TryGetWidget<RecentFilesWidget>(Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
 
             if (shouldReloadFolderWidget && folderWidget != null)
             {
@@ -84,19 +84,19 @@ namespace Files.Views
                 drivesWidget.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
                 drivesWidget.DrivesWidgetNewPaneInvoked += DrivesWidget_DrivesWidgetNewPaneInvoked;
             }
-            if (shouldReloadBundles && bundles != null)
+            if (shouldReloadBundles && bundlesWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(bundles, 2);
-                ViewModel.LoadBundlesCommand.Execute(bundles.ViewModel);
+                Widgets.ViewModel.InsertWidget(bundlesWidget, 2);
+                ViewModel.LoadBundlesCommand.Execute(bundlesWidget.ViewModel);
             }
-            if (shouldReloadRecentFiles && recentFiles != null)
+            if (shouldReloadRecentFiles && recentFilesWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(recentFiles, 3);
+                Widgets.ViewModel.InsertWidget(recentFilesWidget, 3);
 
-                recentFiles.RecentFilesOpenLocationInvoked -= RecentFilesWidget_RecentFilesOpenLocationInvoked;
-                recentFiles.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
-                recentFiles.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
-                recentFiles.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
+                recentFilesWidget.RecentFilesOpenLocationInvoked -= RecentFilesWidget_RecentFilesOpenLocationInvoked;
+                recentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
+                recentFilesWidget.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
+                recentFilesWidget.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
             }
         }
 

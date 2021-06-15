@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls.Widgets
 {
-    public sealed partial class Bundles : UserControl, IWidgetItemModel, IDisposable
+    public sealed partial class BundlesWidget : UserControl, IWidgetItemModel, IDisposable
     {
         public BundlesViewModel ViewModel
         {
@@ -15,11 +15,11 @@ namespace Files.UserControls.Widgets
             private set => DataContext = value;
         }
 
-        public string WidgetName => nameof(Bundles);
+        public string WidgetName => nameof(BundlesWidget);
 
         public bool IsWidgetSettingEnabled => App.AppSettings.ShowBundlesWidget;
 
-        public Bundles()
+        public BundlesWidget()
         {
             this.InitializeComponent();
 

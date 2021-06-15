@@ -11,7 +11,7 @@
     xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
-    <StackPanel Spacing="12">
+    <StackPanel>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />

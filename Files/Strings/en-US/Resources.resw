@@ -2430,4 +2430,10 @@
   <data name="StatusRestoreLibrariesDetails" xml:space="preserve">
     <value>{0} library files successfully restored</value>
   </data>
+  <data name="CreateBundleBtn.AutomationProperties.Name" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
+  <data name="CreateBundleBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
 </root>
