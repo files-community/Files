@@ -200,7 +200,7 @@ namespace Files.ViewModels
         }
 
 
-        private void UpdateTabControlMargin()
+        public void UpdateTabControlMargin()
         {
             TabControlMargin = SidebarDisplayMode switch
             {

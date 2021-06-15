@@ -801,9 +801,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Sali di un livello</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Barra schede verticale</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Modifica le app terminale</value>
   </data>
@@ -2168,9 +2165,6 @@
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widget</value>
-  </data>
-  <data name="VerticalTabStrip.Label" xml:space="preserve">
-    <value>Schede</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Seleziona</value>

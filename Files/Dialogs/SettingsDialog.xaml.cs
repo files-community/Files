@@ -1,5 +1,4 @@
-﻿using Files.Helpers;
-using Files.SettingsPages;
+﻿using Files.SettingsPages;
 using Files.ViewModels;
 using System;
 using Windows.UI.Core;
@@ -27,17 +26,19 @@ namespace Files.Dialogs
             if (Window.Current.Bounds.Width <= 750)
             {
                 SettingsPane.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.LeftCompact;
+                Column0.Width = new GridLength(60);
             }
             else
             {
                 SettingsPane.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Left;
+                Column0.Width = new GridLength(0, GridUnitType.Auto);
             }
         }
 
         private void SettingsPane_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
         {
             var selectedItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)args.SelectedItem;
-            int selectedItemTag =  Convert.ToInt32(selectedItem.Tag);
+            int selectedItemTag = Convert.ToInt32(selectedItem.Tag);
 
             _ = selectedItemTag switch
             {

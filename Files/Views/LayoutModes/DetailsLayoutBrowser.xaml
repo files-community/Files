@@ -167,13 +167,6 @@
                 </i:Interaction.Behaviors>
             </KeyboardAccelerator>
         </Grid.KeyboardAccelerators>
-
-        <muxc:ProgressBar
-            x:Name="progBar"
-            VerticalAlignment="Top"
-            x:Load="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsLoadingIndicatorActive, Mode=OneWay}"
-            Background="Transparent"
-            IsIndeterminate="True" />
         <TextBlock
             x:Name="EmptyText"
             x:Uid="EmptyFolder"

@@ -858,9 +858,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Pāriet vienu mapi augšup</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Vertikālā ciļņu josla</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Mainīt komandu uzvednes lietotnes</value>
   </data>
@@ -2174,9 +2171,6 @@
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Logrīki</value>
-  </data>
-  <data name="VerticalTabStrip.Label" xml:space="preserve">
-    <value>Cilnes</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Atlasīt</value>
