@@ -36,9 +36,9 @@ namespace Files.Helpers
 
         public static bool TryGetIsWidgetSettingEnabled<TWidget>() where TWidget : IWidgetItemModel
         {
-            if (typeof(TWidget) == typeof(LibraryCards))
+            if (typeof(TWidget) == typeof(FolderWidget))
             {
-                return App.AppSettings.ShowLibraryCardsWidget;
+                return App.AppSettings.ShowFolderWidgetWidget;
             }
             if (typeof(TWidget) == typeof(DrivesWidget))
             {

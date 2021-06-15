@@ -1,9 +1,6 @@
-﻿using Files.Dialogs;
-using Files.Enums;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels;
-using Files.ViewModels.Dialogs;
 using Files.ViewModels.Widgets;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -15,6 +12,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -39,7 +37,7 @@ namespace Files.UserControls.Widgets
         public string AutomationProperties { get; set; }
         public bool HasPath => !string.IsNullOrEmpty(Path);
 
-        private BitmapImage icon;       
+        private BitmapImage icon;
         public BitmapImage Icon
         {
             get => icon;
@@ -55,20 +53,18 @@ namespace Files.UserControls.Widgets
         public string Text { get; set; }
     }
 
-    public sealed partial class LibraryCards : UserControl, IWidgetItemModel, INotifyPropertyChanged
+    public sealed partial class FolderWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
         public BulkConcurrentObservableCollection<LibraryCardItem> ItemsAdded = new BulkConcurrentObservableCollection<LibraryCardItem>();
         private bool showMultiPaneControls;
 
-        public LibraryCards()
+        public FolderWidget()
         {
             InitializeComponent();
 
-            Loaded += LibraryCards_Loaded;
-            Unloaded += LibraryCards_Unloaded;
+            Loaded += FolderWidget_Loaded;
+            Unloaded += FolderWidget_Unloaded;
         }
-
-        public delegate void LibraryCardDeleteInvokedEventHandler(object sender, LibraryCardEventArgs e);
 
         public delegate void LibraryCardInvokedEventHandler(object sender, LibraryCardInvokedEventArgs e);
 
@@ -76,21 +72,19 @@ namespace Files.UserControls.Widgets
 
         public delegate void LibraryCardPropertiesInvokedEventHandler(object sender, LibraryCardEventArgs e);
 
-        public event LibraryCardDeleteInvokedEventHandler LibraryCardDeleteInvoked;
-
         public event LibraryCardInvokedEventHandler LibraryCardInvoked;
 
         public event LibraryCardNewPaneInvokedEventHandler LibraryCardNewPaneInvoked;
 
         public event LibraryCardPropertiesInvokedEventHandler LibraryCardPropertiesInvoked;
 
-        public event EventHandler LibraryCardShowMultiPaneControlsInvoked;
+        public event EventHandler FolderWidgethowMultiPaneControlsInvoked;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        public bool IsWidgetSettingEnabled => App.AppSettings.ShowLibraryCardsWidget;
+        public bool IsWidgetSettingEnabled => App.AppSettings.ShowFolderWidgetWidget;
 
         public RelayCommand<LibraryCardItem> LibraryCardClicked => new RelayCommand<LibraryCardItem>(async (item) =>
         {
@@ -122,7 +116,7 @@ namespace Files.UserControls.Widgets
         {
             get
             {
-                LibraryCardShowMultiPaneControlsInvoked?.Invoke(this, EventArgs.Empty);
+                FolderWidgethowMultiPaneControlsInvoked?.Invoke(this, EventArgs.Empty);
 
                 return showMultiPaneControls;
             }
@@ -136,40 +130,10 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        public string WidgetName => nameof(LibraryCards);
+        public string WidgetName => nameof(FolderWidget);
 
         public void Dispose()
         {
-        }
-
-        private async void DeleteLibrary_Click(object sender, RoutedEventArgs e)
-        {
-            var item = (sender as MenuFlyoutItem).DataContext as LibraryCardItem;
-            if (item.IsUserCreatedLibrary)
-            {
-                var dialog = new DynamicDialog(new DynamicDialogViewModel
-                {
-                    TitleText = "LibraryCardsDeleteLibraryDialogTitleText".GetLocalized(),
-                    SubtitleText = "LibraryCardsDeleteLibraryDialogSubtitleText".GetLocalized(),
-                    PrimaryButtonText = "DialogDeleteLibraryButtonText".GetLocalized(),
-                    CloseButtonText = "DialogCancelButtonText".GetLocalized(),
-                    PrimaryButtonAction = (vm, e) => LibraryCardDeleteInvoked?.Invoke(this, new LibraryCardEventArgs { Library = item.Library }),
-                    CloseButtonAction = (vm, e) => vm.HideDialog(),
-                    KeyDownAction = (vm, e) =>
-                    {
-                        if (e.Key == VirtualKey.Enter)
-                        {
-                            vm.PrimaryButtonAction(vm, null);
-                        }
-                        else if (e.Key == VirtualKey.Escape)
-                        {
-                            vm.HideDialog();
-                        }
-                    },
-                    DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
-                });
-                await dialog.ShowAsync();
-            }
         }
 
         private async Task GetItemsAddedIcon()
@@ -182,36 +146,48 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private void Libraries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => ReloadLibraryItems();
-
-        private async void LibraryCards_Loaded(object sender, RoutedEventArgs e)
+        private async void FolderWidget_Loaded(object sender, RoutedEventArgs e)
         {
             ItemsAdded.BeginBulkOperation();
             ItemsAdded.Add(new LibraryCardItem
             {
                 Text = "SidebarDesktop".GetLocalized(),
-                Path = AppSettings.DesktopPath,
+                Path = UserDataPaths.GetDefault().Desktop,
+            });
+            ItemsAdded.Add(new LibraryCardItem
+            {
+                Text = "SidebarDocuments".GetLocalized(),
+                Path = UserDataPaths.GetDefault().Documents,
             });
             ItemsAdded.Add(new LibraryCardItem
             {
                 Text = "SidebarDownloads".GetLocalized(),
-                Path = AppSettings.DownloadsPath,
+                Path = UserDataPaths.GetDefault().Downloads,
+            });
+            ItemsAdded.Add(new LibraryCardItem
+            {
+                Text = "SidebarMusic".GetLocalized(),
+                Path = UserDataPaths.GetDefault().Music,
+            });
+            ItemsAdded.Add(new LibraryCardItem
+            {
+                Text = "SidebarPictures".GetLocalized(),
+                Path = UserDataPaths.GetDefault().Pictures,
+            });
+            ItemsAdded.Add(new LibraryCardItem
+            {
+                Text = "SidebarVideos".GetLocalized(),
+                Path = UserDataPaths.GetDefault().Videos,
             });
             await GetItemsAddedIcon();
             ItemsAdded.EndBulkOperation();
 
-            if (App.LibraryManager.Libraries.Count > 0)
-            {
-                ReloadLibraryItems();
-            }
-            App.LibraryManager.Libraries.CollectionChanged += Libraries_CollectionChanged;
-            Loaded -= LibraryCards_Loaded;
+            Loaded -= FolderWidget_Loaded;
         }
 
-        private void LibraryCards_Unloaded(object sender, RoutedEventArgs e)
+        private void FolderWidget_Unloaded(object sender, RoutedEventArgs e)
         {
-            App.LibraryManager.Libraries.CollectionChanged -= Libraries_CollectionChanged;
-            Unloaded -= LibraryCards_Unloaded;
+            Unloaded -= FolderWidget_Unloaded;
         }
 
         private void MenuFlyout_Opening(object sender, object e)
@@ -263,30 +239,6 @@ namespace Files.UserControls.Widgets
             {
                 LibraryCardPropertiesInvoked?.Invoke(this, new LibraryCardEventArgs { Library = item.Library });
             }
-        }
-
-        private void ReloadLibraryItems()
-        {
-            ItemsAdded.BeginBulkOperation();
-            var toRemove = ItemsAdded.Where(i => i.IsLibrary).ToList();
-            foreach (var item in toRemove)
-            {
-                ItemsAdded.Remove(item);
-            }
-            foreach (var lib in App.LibraryManager.Libraries)
-            {
-                var newItem = new LibraryCardItem
-                {
-                    Text = lib.Text,
-                    Path = lib.Path,
-                    SelectCommand = LibraryCardClicked,
-                    AutomationProperties = lib.Text,
-                    Library = lib,
-                };
-                ItemsAdded.Add(newItem);
-                _ = LoadLibraryIcon(newItem);
-            }
-            ItemsAdded.EndBulkOperation();
         }
 
         private async Task LoadLibraryIcon(LibraryCardItem item)

@@ -1509,7 +1509,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dual pane</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Folders</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
@@ -1899,24 +1899,6 @@
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>No locations</value>
   </data>
-  <data name="LibraryCardsOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>More library options</value>
-  </data>
-  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>More options...</value>
-  </data>
-  <data name="LibraryCardsOptionsFlyoutCreateLibraryMenuItem.Text" xml:space="preserve">
-    <value>Create new library</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Desired name</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>Create Library</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Enter the name of the new library</value>
-  </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
     <value>Input field cannot be empty!</value>
   </data>
@@ -1931,12 +1913,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
     <value>Delete Library</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogTitleText" xml:space="preserve">
-    <value>Delete Library</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Do you really want to delete this library? The files and folders will remain on your filesystem.</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Create</value>
@@ -2028,7 +2004,7 @@
   <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
     <value>Show Drives widget</value>
   </data>
-  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
+  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
     <value>Show Library widget</value>
   </data>
   <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
@@ -2423,9 +2399,6 @@
   </data>
   <data name="SettingsSkinsTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>View documentation.</value>
-  </data>
-  <data name="LibraryCardsOptionsFlyoutRestoreLibrariesMenuItem.Text" xml:space="preserve">
-    <value>Restore default libraries</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
     <value>Create new library</value>
