@@ -184,7 +184,7 @@ namespace Files.Helpers
         {
             var inputText = new TextBox
             {
-                PlaceholderText = "LibraryCardsCreateNewLibraryInputPlaceholderText".GetLocalized()
+                PlaceholderText = "FolderWidgetCreateNewLibraryInputPlaceholderText".GetLocalized()
             };
             var tipText = new TextBlock
             {
@@ -209,8 +209,8 @@ namespace Files.Helpers
                         }
                     }
                 },
-                TitleText = "LibraryCardsCreateNewLibraryDialogTitleText".GetLocalized(),
-                SubtitleText = "LibraryCardsCreateNewLibraryDialogSubtitleText".GetLocalized(),
+                TitleText = "FolderWidgetCreateNewLibraryDialogTitleText".GetLocalized(),
+                SubtitleText = "FolderWidgetCreateNewLibraryDialogSubtitleText".GetLocalized(),
                 PrimaryButtonText = "DialogCreateLibraryButtonText".GetLocalized(),
                 CloseButtonText = "DialogCancelButtonText".GetLocalized(),
                 PrimaryButtonAction = async (vm, e) =>

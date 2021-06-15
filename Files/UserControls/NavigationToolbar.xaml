@@ -603,9 +603,9 @@
                                 Text="Manage Widgets" />
                             <StackPanel Spacing="4">
                                 <ToggleSwitch
-                                    x:Uid="NavToolbarShowLibraryWidget"
-                                    Header="Show Library widget"
-                                    IsOn="{x:Bind ViewModel.ShowLibraryCardsWidget, Mode=TwoWay}" />
+                                    x:Uid="NavToolbarShowFolderWidget"
+                                    Header="Show Folders widget"
+                                    IsOn="{x:Bind ViewModel.ShowFolderWidgetWidget, Mode=TwoWay}" />
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowDrivesWidget"
                                     Header="Show Drives widget"

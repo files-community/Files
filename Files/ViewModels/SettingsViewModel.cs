@@ -392,7 +392,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not the library cards widget should be visible.
         /// </summary>
-        public bool ShowLibraryCardsWidget
+        public bool ShowFolderWidgetWidget
         {
             get => Get(true);
             set => Set(value);
