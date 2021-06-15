@@ -789,7 +789,7 @@ namespace Files
             {
                 // According to the docs this isn't necessary, but it would crash otherwise
                 var destination = e.DestinationItem.Item as GroupedCollection<ListedItem>;
-                e.DestinationItem.Item = destination.FirstOrDefault();
+                e.DestinationItem.Item = destination?.FirstOrDefault();
             }
         }
 

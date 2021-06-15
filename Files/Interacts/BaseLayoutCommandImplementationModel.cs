@@ -473,11 +473,10 @@ namespace Files.Interacts
             if (associatedInstance.IsCurrentInstance)
             {
                 associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
-
-                if (e != null)
-                {
-                    e.Handled = true;
-                }
+            }
+            if (e != null)
+            {
+                e.Handled = true;
             }
         }
 
@@ -486,11 +485,10 @@ namespace Files.Interacts
             if (associatedInstance.IsCurrentInstance)
             {
                 associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
-
-                if (e != null)
-                {
-                    e.Handled = true;
-                }
+            }
+            if (e != null)
+            {
+                e.Handled = true;
             }
         }
 
