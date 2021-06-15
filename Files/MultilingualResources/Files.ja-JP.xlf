@@ -2458,7 +2458,7 @@
           <target state="translated">ウィジェットを管理</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFolderWidget.Header" translate="yes" xml:space="preserve">
-          <source>Show Library widget</source>
+          <source>Show Folders widget</source>
           <target state="translated">ライブラリ ウィジェットを表示</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" translate="yes" xml:space="preserve">

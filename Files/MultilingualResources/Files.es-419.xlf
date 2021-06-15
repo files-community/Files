@@ -2499,7 +2499,7 @@
           <target state="translated">Mostrar unidades</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFolderWidget.Header" translate="yes" xml:space="preserve">
-          <source>Show Library widget</source>
+          <source>Show Folders widget</source>
           <target state="translated">Mostrar bibliotecas</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowRecentFilesWidget.Header" translate="yes" xml:space="preserve">

@@ -2458,8 +2458,8 @@
           <target state="new">Manage Widgets</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFolderWidget.Header" translate="yes" xml:space="preserve">
-          <source>Show Library widget</source>
-          <target state="new">Show Library widget</target>
+          <source>Show Folders widget</source>
+          <target state="new">Show Folders widget</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" translate="yes" xml:space="preserve">
           <source>There are {0} conflicting file names, and {1} outgoing item(s).</source>

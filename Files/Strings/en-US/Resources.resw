@@ -2005,7 +2005,7 @@
     <value>Show Drives widget</value>
   </data>
   <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>Show Library widget</value>
+    <value>Show Folders widget</value>
   </data>
   <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
     <value>Show Recent Files widget</value>

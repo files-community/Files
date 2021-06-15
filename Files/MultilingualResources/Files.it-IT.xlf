@@ -2440,7 +2440,7 @@
           <target state="translated">Gestisci i Widget</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFolderWidget.Header" translate="yes" xml:space="preserve">
-          <source>Show Library widget</source>
+          <source>Show Folders widget</source>
           <target state="translated">Mostra widget Libreria</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" translate="yes" xml:space="preserve">

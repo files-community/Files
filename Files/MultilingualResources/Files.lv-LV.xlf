@@ -2439,7 +2439,7 @@
           <target state="translated">Pārvaldīt logrīkus</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFolderWidget.Header" translate="yes" xml:space="preserve">
-          <source>Show Library widget</source>
+          <source>Show Folders widget</source>
           <target state="translated">Rādīt Bibliotēkas logrīku</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" translate="yes" xml:space="preserve">

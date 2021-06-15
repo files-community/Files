@@ -604,7 +604,7 @@
                             <StackPanel Spacing="4">
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowFolderWidget"
-                                    Header="Show Library widget"
+                                    Header="Show Folders widget"
                                     IsOn="{x:Bind ViewModel.ShowFolderWidgetWidget, Mode=TwoWay}" />
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowDrivesWidget"
