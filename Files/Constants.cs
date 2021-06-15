@@ -49,6 +49,13 @@
         public static class UI
         {
             public const float DimItemOpacity = 0.4f;
+
+            /// <summary>
+            /// The minimum width of the sidebar in expanded state
+            /// </summary>
+            public const double MinimumSidebarWidth = 250;
+
+            public const double MaximumSidebarWidth = 500;
         }
 
         public static class Browser
