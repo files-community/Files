@@ -849,9 +849,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>O položku výše</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Svislý pás karet</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Upravit aplikace Terminálu</value>
   </data>
@@ -1341,7 +1338,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dvoupanelové rozhraní</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Složky</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">

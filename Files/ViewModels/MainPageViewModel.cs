@@ -430,6 +430,11 @@ namespace Files.ViewModels
             App.MainViewModel.TabStripSelectedIndex = AppInstances.Count - 1;
         }
 
+        public async void AddNewTab()
+        {
+            await AddNewTabAsync();
+        }
+
         public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
         {
             await AddNewTabAsync();

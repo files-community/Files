@@ -804,9 +804,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>上のレベルに戻る</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>垂直タブストリップ</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>ターミナルアプリを編集</value>
   </data>
@@ -1332,7 +1329,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>右クリックメニューをカスタマイズ</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>フォルダ</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
@@ -1716,24 +1713,6 @@
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>場所なし</value>
   </data>
-  <data name="LibraryCardsOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>その他のライブラリ オプション</value>
-  </data>
-  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>その他のオプション...</value>
-  </data>
-  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>ライブラリを作成</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>希望する名前</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>ライブラリを作成</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogSubtitleText" xml:space="preserve">
-    <value>新しいライブラリの名前を入力</value>
-  </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
     <value>入力フィールドは空欄にはできません！</value>
   </data>
@@ -1748,12 +1727,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
     <value>ライブラリを削除</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogTitleText" xml:space="preserve">
-    <value>ライブラリを削除</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogSubtitleText" xml:space="preserve">
-    <value>本当にこのライブラリを削除しますか？ ファイルとフォルダはファイルシステムに残存します。</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>作成</value>
@@ -1854,7 +1827,7 @@
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
     <value>ウィジェットを管理</value>
   </data>
-  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
+  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
     <value>ライブラリ ウィジェットを表示</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">

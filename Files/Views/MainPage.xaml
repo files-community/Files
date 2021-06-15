@@ -207,6 +207,7 @@
         DisplayModeChanged="{x:Bind SidebarAdaptiveViewModel.SidebarControl_DisplayModeChanged}"
         EmptyRecycleBinCommand="{x:Bind SidebarAdaptiveViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
         IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
+        Loaded="SidebarControl_Loaded"
         SelectedSidebarItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}">
         <Grid>
             <Grid.RowDefinitions>
@@ -251,7 +252,8 @@
                 Canvas.ZIndex="4"
                 IsHitTestVisible="True">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition x:Name="RightPaddingColumn" Width="0" />
                 </Grid.ColumnDefinitions>
                 <usercontrols:HorizontalMultitaskingControl
@@ -262,6 +264,58 @@
                     x:FieldModifier="public"
                     Canvas.ZIndex="40"
                     Loaded="HorizontalMultitaskingControl_Loaded" />
+                <StackPanel
+                    Grid.Column="1"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <Button
+                        x:Uid="HorizontalMultitaskingControlAddButton"
+                        Width="32"
+                        Height="32"
+                        Padding="8"
+                        AutomationProperties.Name="New tab (Ctrl+T)"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0"
+                        Click="{x:Bind ViewModel.AddNewTab, Mode=OneWay}"
+                        ToolTipService.ToolTip="New tab (Ctrl+T)">
+                        <Button.Content>
+                            <FontIcon FontSize="12" Glyph="&#xE710;" />
+                        </Button.Content>
+                    </Button>
+                    <Button
+                        x:Name="VerticalTabStripInvokeButton"
+                        x:Uid="VerticalTabFlyout"
+                        Width="32"
+                        Height="32"
+                        Padding="8"
+                        HorizontalAlignment="Right"
+                        x:Load="{x:Bind AppSettings.IsVerticalTabFlyoutEnabled, Mode=OneWay}"
+                        AccessKey="T"
+                        AllowDrop="True"
+                        AutomationProperties.Name="Vertical tab flyout"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0"
+                        DragEnter="VerticalTabStripInvokeButton_DragEnter"
+                        IsTapEnabled="True"
+                        Loaded="VerticalTabStripInvokeButton_Loaded"
+                        Tapped="VerticalTabStrip_Tapped"
+                        ToolTipService.ToolTip="Vertical tab flyout">
+                        <Button.Content>
+                            <FontIcon FontSize="12" Glyph="&#xF5ED;" />
+                        </Button.Content>
+                        <Button.Flyout>
+                            <Flyout x:Name="VerticalTabViewFlyout">
+                                <usercontrols:VerticalTabViewControl
+                                    x:Name="VerticalTabs"
+                                    Width="275"
+                                    MaxHeight="300"
+                                    x:FieldModifier="public" />
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
             </Grid>
         </controls:SidebarControl.TabContent>
     </controls:SidebarControl>

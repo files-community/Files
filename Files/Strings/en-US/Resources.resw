@@ -993,8 +993,11 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Go up one directory</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Vertical tab strip</value>
+  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Vertical tab flyout</value>
+  </data>
+  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vertical tab flyout</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Edit terminal applications</value>
@@ -1326,9 +1329,6 @@
   <data name="PropertyAddress" xml:space="preserve">
     <value>Address</value>
   </data>
-  <data name="VerticalTabStrip.Label" xml:space="preserve">
-    <value>Tabs</value>
-  </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Selection options</value>
   </data>
@@ -1384,6 +1384,9 @@
     <value>New tab</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>New tab (Ctrl+T)</value>
+  </data>
+  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
     <value>New tab (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
@@ -1506,7 +1509,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dual pane</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Folders</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
@@ -1896,24 +1899,6 @@
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>No locations</value>
   </data>
-  <data name="LibraryCardsOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>More library options</value>
-  </data>
-  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>More options...</value>
-  </data>
-  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>Create Library</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Desired name</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>Create Library</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Enter the name of the new library</value>
-  </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
     <value>Input field cannot be empty!</value>
   </data>
@@ -1928,12 +1913,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
     <value>Delete Library</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogTitleText" xml:space="preserve">
-    <value>Delete Library</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Do you really want to delete this library? The files and folders will remain on your filesystem.</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Create</value>
@@ -2025,8 +2004,8 @@
   <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
     <value>Show Drives widget</value>
   </data>
-  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
-    <value>Show Library widget</value>
+  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
+    <value>Show Folders widget</value>
   </data>
   <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
     <value>Show Recent Files widget</value>
@@ -2420,5 +2399,35 @@
   </data>
   <data name="SettingsSkinsTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>View documentation.</value>
+  </data>
+  <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
+    <value>Create new library</value>
+  </data>
+  <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
+    <value>Restore default libraries</value>
+  </data>
+  <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
+    <value>Are you sure you want to restore the default libraries? All your files will remain on your storage.</value>
+  </data>
+  <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
+    <value>Restore Libraries</value>
+  </data>
+  <data name="StatusLibraryRestoration" xml:space="preserve">
+    <value>Restoring libraries</value>
+  </data>
+  <data name="StatusLibraryRestorationInProgress" xml:space="preserve">
+    <value>Restoring default libraries in progress...</value>
+  </data>
+  <data name="StatusLibraryRestorationComplete" xml:space="preserve">
+    <value>Libraries restored</value>
+  </data>
+  <data name="StatusLibraryRestorationFailed" xml:space="preserve">
+    <value>Failed to restore libraries</value>
+  </data>
+  <data name="StatusRestoreLibrariesDetails" xml:space="preserve">
+    <value>{0} library files successfully restored</value>
   </data>
 </root>

@@ -804,9 +804,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Einen Ordner nach oben gehen</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Vertikale Tab-Ansicht</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Terminal-Anwendungen bearbeiten</value>
   </data>
@@ -1341,7 +1338,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Kontextmenü anpassen</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Ordner</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
@@ -1725,24 +1722,6 @@
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Keine Orte</value>
   </data>
-  <data name="LibraryCardsOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Mehr Bibliotheksoptionen</value>
-  </data>
-  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Mehr Optionen...</value>
-  </data>
-  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>Bibliothek</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Gewünschter Name</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>Bibliothek erstellen</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Gib den Namen der neuen Bibliothek ein</value>
-  </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
     <value>Eingabefeld darf nicht leer sein!</value>
   </data>
@@ -1757,12 +1736,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
     <value>Bibliothek löschen</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogTitleText" xml:space="preserve">
-    <value>Bibliothek löschen</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Möchtest du diese Bibliothek wirklich löschen? Die Dateien und Ordner bleiben im Dateisystem.</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Erstellen</value>
@@ -1863,7 +1836,7 @@
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
     <value>Widgets verwalten</value>
   </data>
-  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
+  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
     <value>Bibiliothekswidget anzeigen</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">

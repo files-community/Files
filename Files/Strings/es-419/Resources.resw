@@ -882,9 +882,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Subir un directorio</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Barra de pestañas vertical</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Editar las aplicaciones de terminal</value>
   </data>
@@ -1203,9 +1200,6 @@
   <data name="PropertyAddress" xml:space="preserve">
     <value>Dirección</value>
   </data>
-  <data name="VerticalTabStrip.Label" xml:space="preserve">
-    <value>Pestañas</value>
-  </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Opciones de selección</value>
   </data>
@@ -1383,7 +1377,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Panel Doble</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Carpetas</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
@@ -1767,24 +1761,6 @@
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Sin ubicaciones</value>
   </data>
-  <data name="LibraryCardsOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Más opciones de bibliotecas</value>
-  </data>
-  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Más opciones...</value>
-  </data>
-  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>Crear biblioteca</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Nombre deseado</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>Crear biblioteca</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Ingrese el nombre de la nueva biblioteca</value>
-  </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
     <value>¡El campo de entrada no puede estar vacío!</value>
   </data>
@@ -1799,12 +1775,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
     <value>Eliminar biblioteca</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogTitleText" xml:space="preserve">
-    <value>Eliminar biblioteca</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogSubtitleText" xml:space="preserve">
-    <value>¿Está seguro que desea eliminar esta biblioteca? Los archivos y carpetas no se eliminarán.</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Crear</value>
@@ -1896,7 +1866,7 @@
   <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
     <value>Mostrar unidades</value>
   </data>
-  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
+  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
     <value>Mostrar bibliotecas</value>
   </data>
   <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">

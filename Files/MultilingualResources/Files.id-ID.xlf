@@ -1150,10 +1150,6 @@
           <source>Go up one directory</source>
           <target state="translated">Naik satu tingkat direktori</target>
         </trans-unit>
-        <trans-unit id="VerticalTabStrip.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Vertical tab strip</source>
-          <target state="translated">tab vertikal</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
           <target state="translated">Ubah aplikasi terminal</target>
@@ -1594,10 +1590,6 @@
           <source>Address</source>
           <target state="translated" state-qualifier="tm-suggestion">Alamat</target>
         </trans-unit>
-        <trans-unit id="VerticalTabStrip.Label" translate="yes" xml:space="preserve">
-          <source>Tabs</source>
-          <target state="translated" state-qualifier="tm-suggestion">Tab</target>
-        </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated" state-qualifier="tm-suggestion">Opsi pilihan</target>
@@ -1831,7 +1823,7 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
           <source>Dual pane</source>
           <target state="translated">Panel ganda</target>
         </trans-unit>
-        <trans-unit id="LibraryWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="FolderWidgetDescription.Text" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="translated" state-qualifier="tm-suggestion">Folder</target>
         </trans-unit>
@@ -2343,30 +2335,6 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
           <source>No locations</source>
           <target state="translated">Tidak ada lokasi</target>
         </trans-unit>
-        <trans-unit id="LibraryCardsOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>More library options</source>
-          <target state="translated">Opsi pustaka lainnya</target>
-        </trans-unit>
-        <trans-unit id="LibraryCardsOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>More options...</source>
-          <target state="translated">Opsi lainnya...</target>
-        </trans-unit>
-        <trans-unit id="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" translate="yes" xml:space="preserve">
-          <source>Create Library</source>
-          <target state="translated">Buat Pustaka</target>
-        </trans-unit>
-        <trans-unit id="LibraryCardsCreateNewLibraryInputPlaceholderText" translate="yes" xml:space="preserve">
-          <source>Desired name</source>
-          <target state="translated">Nama yang diinginkan</target>
-        </trans-unit>
-        <trans-unit id="LibraryCardsCreateNewLibraryDialogTitleText" translate="yes" xml:space="preserve">
-          <source>Create Library</source>
-          <target state="translated">Buat Pustaka</target>
-        </trans-unit>
-        <trans-unit id="LibraryCardsCreateNewLibraryDialogSubtitleText" translate="yes" xml:space="preserve">
-          <source>Enter the name of the new library</source>
-          <target state="translated">Masukkan nama pustaka baru </target>
-        </trans-unit>
         <trans-unit id="ErrorInputEmpty" translate="yes" xml:space="preserve">
           <source>Input field cannot be empty!</source>
           <target state="translated">Kolom tidak boleh kosong!</target>
@@ -2386,14 +2354,6 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
         <trans-unit id="BaseLayoutContextFlyoutDeleteLibrary.Text" translate="yes" xml:space="preserve">
           <source>Delete Library</source>
           <target state="translated">Hapus Pustaka</target>
-        </trans-unit>
-        <trans-unit id="LibraryCardsDeleteLibraryDialogTitleText" translate="yes" xml:space="preserve">
-          <source>Delete Library</source>
-          <target state="translated">Hapus Pustaka</target>
-        </trans-unit>
-        <trans-unit id="LibraryCardsDeleteLibraryDialogSubtitleText" translate="yes" xml:space="preserve">
-          <source>Do you really want to delete this library? The files and folders will remain on your filesystem.</source>
-          <target state="translated">Yakin ingin menghapus pustaka ini? File dan folder akan tetap ada di sistem file Anda. </target>
         </trans-unit>
         <trans-unit id="DialogCreateLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Create</source>
@@ -2515,8 +2475,8 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
           <source>Show Drives widget</source>
           <target state="translated">Tampilkan widget Drive</target>
         </trans-unit>
-        <trans-unit id="NavToolbarShowLibraryWidget.Header" translate="yes" xml:space="preserve">
-          <source>Show Library widget</source>
+        <trans-unit id="NavToolbarShowFolderWidget.Header" translate="yes" xml:space="preserve">
+          <source>Show Folders widget</source>
           <target state="translated">Tampilkan widget Pustaka</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowRecentFilesWidget.Header" translate="yes" xml:space="preserve">
@@ -3078,6 +3038,58 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
         <trans-unit id="SettingsSkinsTeachingTipHyperlinkText.Text" translate="yes" xml:space="preserve">
           <source>View documentation.</source>
           <target state="new">View documentation.</target>
+        </trans-unit>
+        <trans-unit id="VerticalTabFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Vertical tab flyout</source>
+          <target state="new">Vertical tab flyout</target>
+        </trans-unit>
+        <trans-unit id="VerticalTabFlyout.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Vertical tab flyout</source>
+          <target state="new">Vertical tab flyout</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>New tab (Ctrl+T)</source>
+          <target state="new">New tab (Ctrl+T)</target>
+        </trans-unit>
+        <trans-unit id="SideBarCreateNewLibrary.Text" translate="yes" xml:space="preserve">
+          <source>Create new library</source>
+          <target state="new">Create new library</target>
+        </trans-unit>
+        <trans-unit id="SideBarRestoreLibraries.Text" translate="yes" xml:space="preserve">
+          <source>Restore default libraries</source>
+          <target state="new">Restore default libraries</target>
+        </trans-unit>
+        <trans-unit id="DialogRestoreLibrariesButtonText" translate="yes" xml:space="preserve">
+          <source>Restore</source>
+          <target state="new">Restore</target>
+        </trans-unit>
+        <trans-unit id="DialogRestoreLibrariesSubtitleText" translate="yes" xml:space="preserve">
+          <source>Are you sure you want to restore the default libraries? All your files will remain on your storage.</source>
+          <target state="new">Are you sure you want to restore the default libraries? All your files will remain on your storage.</target>
+        </trans-unit>
+        <trans-unit id="DialogRestoreLibrariesTitleText" translate="yes" xml:space="preserve">
+          <source>Restore Libraries</source>
+          <target state="new">Restore Libraries</target>
+        </trans-unit>
+        <trans-unit id="StatusLibraryRestoration" translate="yes" xml:space="preserve">
+          <source>Restoring libraries</source>
+          <target state="new">Restoring libraries</target>
+        </trans-unit>
+        <trans-unit id="StatusLibraryRestorationInProgress" translate="yes" xml:space="preserve">
+          <source>Restoring default libraries in progress...</source>
+          <target state="new">Restoring default libraries in progress...</target>
+        </trans-unit>
+        <trans-unit id="StatusLibraryRestorationComplete" translate="yes" xml:space="preserve">
+          <source>Libraries restored</source>
+          <target state="new">Libraries restored</target>
+        </trans-unit>
+        <trans-unit id="StatusLibraryRestorationFailed" translate="yes" xml:space="preserve">
+          <source>Failed to restore libraries</source>
+          <target state="new">Failed to restore libraries</target>
+        </trans-unit>
+        <trans-unit id="StatusRestoreLibrariesDetails" translate="yes" xml:space="preserve">
+          <source>{0} library files successfully restored</source>
+          <target state="new">{0} library files successfully restored</target>
         </trans-unit>
       </group>
     </body>
