@@ -102,7 +102,7 @@ namespace Files.ViewModels
         /// </summary>
         public GridLength SidebarWidth
         {
-            get => new GridLength(Math.Min(Math.Max(Get(255d), 255d), 500d), GridUnitType.Pixel);
+            get => new GridLength(Math.Min(Math.Max(Get(255d), Constants.UI.MinimumSidebarWidth), 500d), GridUnitType.Pixel);
             set => Set(value.Value);
         }
 
@@ -392,7 +392,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not the library cards widget should be visible.
         /// </summary>
-        public bool ShowLibraryCardsWidget
+        public bool ShowFolderWidgetWidget
         {
             get => Get(true);
             set => Set(value);

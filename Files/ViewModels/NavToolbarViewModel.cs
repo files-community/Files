@@ -407,14 +407,14 @@ namespace Files.ViewModels
 
         #region YourHome Widgets
 
-        public bool ShowLibraryCardsWidget
+        public bool ShowFolderWidgetWidget
         {
-            get => App.AppSettings.ShowLibraryCardsWidget;
+            get => App.AppSettings.ShowFolderWidgetWidget;
             set
             {
-                if (App.AppSettings.ShowLibraryCardsWidget != value)
+                if (App.AppSettings.ShowFolderWidgetWidget != value)
                 {
-                    App.AppSettings.ShowLibraryCardsWidget = value;
+                    App.AppSettings.ShowFolderWidgetWidget = value;
 
                     RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
                 }

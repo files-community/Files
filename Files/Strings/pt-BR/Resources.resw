@@ -1338,7 +1338,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalize o menu de contexto (Botão Direito)</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Pastas</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
