@@ -171,5 +171,7 @@ namespace Files.UserControls.MultitaskingControl
                 sender.SelectedIndex = selectedTabViewItemIndex;
             }
         }
+
+        public override DependencyObject ContainerFromItem(ITabItem item) => VerticalTabView.ContainerFromItem(item);
     }
 }

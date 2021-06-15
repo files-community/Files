@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="Files.UserControls.Widgets.LibraryCards"
+    x:Class="Files.UserControls.Widgets.FolderWidget"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
@@ -18,7 +18,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock
-                x:Uid="LibraryWidgetDescription"
+                x:Uid="FolderWidgetDescription"
                 HorizontalAlignment="Left"
                 FontFamily="Segoe UI"
                 FontSize="14"
@@ -26,44 +26,6 @@
                 Opacity=".8"
                 Text="Folders"
                 TextTrimming="CharacterEllipsis" />
-
-            <!--  Options button  -->
-            <Button
-                x:Uid="LibraryCardsOptionsButton"
-                Grid.Column="1"
-                Width="36"
-                Height="32"
-                Padding="0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                AutomationProperties.Name="More library options"
-                Background="Transparent"
-                BorderBrush="Transparent"
-                ToolTipService.ToolTip="More options...">
-
-                <FontIcon
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="14"
-                    Glyph="&#xE712;" />
-
-                <Button.Flyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem
-                            x:Uid="LibraryCardsOptionsFlyoutCreateBundleMenuItem"
-                            Command="{x:Bind OpenCreateNewLibraryDialogCommand, Mode=OneWay}"
-                            Text="Create Library">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE710;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <!--<MenuFlyoutSeparator />
-                        <MenuFlyoutItem ...-->
-                    </MenuFlyout>
-                </Button.Flyout>
-            </Button>
         </Grid>
 
         <muxc:ItemsRepeater
@@ -144,19 +106,6 @@
                                                 <FontIcon Glyph="&#xE946;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
-                                        <MenuFlyoutSeparator x:Name="DeleteLibrarySeparator" x:Load="{x:Bind IsUserCreatedLibrary}" />
-                                        <MenuFlyoutItem
-                                            x:Name="DeleteLibrary"
-                                            x:Uid="BaseLayoutContextFlyoutDeleteLibrary"
-                                            x:Load="{x:Bind IsUserCreatedLibrary}"
-                                            Click="DeleteLibrary_Click"
-                                            DataContext="{x:Bind}"
-                                            Foreground="OrangeRed"
-                                            Text="Delete Library">
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xE107;" />
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
                                     </MenuFlyout.Items>
                                 </MenuFlyout>
                             </Button.ContextFlyout>
@@ -175,7 +124,7 @@
                                     Height="40"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Source="{x:Bind Icon}" />
+                                    Source="{x:Bind Icon, Mode=OneWay}" />
                                 <TextBlock
                                     x:Name="ItemLocationName"
                                     Grid.Row="1"

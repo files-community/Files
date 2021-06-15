@@ -1,6 +1,7 @@
 ﻿using Files.Helpers;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Linq;
@@ -196,5 +197,7 @@ namespace Files.UserControls.MultitaskingControl
                 MenuItemCloseTabsToTheRight.IsEnabled = true;
             }
         }
+
+        public override DependencyObject ContainerFromItem(ITabItem item) => HorizontalTabView.ContainerFromItem(item);
     }
 }

@@ -846,9 +846,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>اصعد دليل واحد</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>شريط علامة تبويب عمودي</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>تعديل التطبيقات الطرفية</value>
   </data>
@@ -1329,7 +1326,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>جزء مزدوج</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>المجلدات</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">

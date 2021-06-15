@@ -672,24 +672,6 @@ namespace Files.ViewModels
             FilesAndFolders.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
         }
 
-        private bool isLoadingIndicatorActive = false;
-
-        public bool IsLoadingIndicatorActive
-        {
-            get
-            {
-                return isLoadingIndicatorActive;
-            }
-            set
-            {
-                if (isLoadingIndicatorActive != value)
-                {
-                    isLoadingIndicatorActive = value;
-                    NotifyPropertyChanged(nameof(IsLoadingIndicatorActive));
-                }
-            }
-        }
-
         private bool isLoadingItems = false;
 
         public bool IsLoadingItems
@@ -701,11 +683,10 @@ namespace Files.ViewModels
             set
             {
                 isLoadingItems = value;
-                IsLoadingIndicatorActive = value;
             }
         }
 
-        List<ListedItem> itemLoadQueue = new List<ListedItem>();
+        List<(ListedItem item, uint size)> itemLoadQueue = new List<(ListedItem, uint)>();
 
         // This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
         // for file inside the recycle bin (but not on the recycle bin folder itself)
@@ -714,7 +695,7 @@ namespace Files.ViewModels
             // Don't load extended item properties while enumeration is in progress to improve enumeration speed
             if (IsLoadingItems)
             {
-                itemLoadQueue.Add(item);
+                itemLoadQueue.Add((item, thumbnailSize));
                 return;
             }
 
@@ -915,7 +896,7 @@ namespace Files.ViewModels
                 }
             }
             // This prevents both the shortcut glyph and folder icon being shown
-            else if(!item.IsShortcutItem)
+            else if (!item.IsShortcutItem)
             {
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => groupImage = new SvgImageSource(new Uri("ms-appx:///Assets/FolderIcon2.svg"))
                 {
@@ -995,9 +976,9 @@ namespace Files.ViewModels
                 enumFolderSemaphore.Release();
 
                 // Load items in the queue after enumeration has completed to improve enumeration speed
-                foreach(var item in itemLoadQueue)
+                foreach (var item in itemLoadQueue)
                 {
-                    _ = LoadExtendedItemProperties(item);
+                    _ = LoadExtendedItemProperties(item.item, item.size);
                 }
                 itemLoadQueue.Clear();
             }
@@ -1206,26 +1187,13 @@ namespace Files.ViewModels
                 rootFolder ??= await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(path).AsTask());
                 if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
                 {
-                    var bitlockerDialog = new Files.Dialogs.BitlockerDialog(Path.GetPathRoot(WorkingDirectory));
-                    var bitlockerResult = await bitlockerDialog.ShowAsync();
-                    if (bitlockerResult == ContentDialogResult.Primary)
+                    if (Connection != null)
                     {
-                        var userInput = bitlockerDialog.storedPasswordInput;
-                        if (Connection != null)
-                        {
-                            var value = new ValueSet();
-                            value.Add("Arguments", "Bitlocker");
-                            value.Add("action", "Unlock");
-                            value.Add("drive", Path.GetPathRoot(path));
-                            value.Add("password", userInput);
-                            _ = await Connection.SendMessageForResponseAsync(value);
-
-                            if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
-                            {
-                                // Drive is still locked
-                                await DialogDisplayHelper.ShowDialogAsync("BitlockerInvalidPwDialog/Title".GetLocalized(), "BitlockerInvalidPwDialog/Text".GetLocalized());
-                            }
-                        }
+                        var value = new ValueSet();
+                        value.Add("Arguments", "InvokeVerb");
+                        value.Add("FilePath", Path.GetPathRoot(path));
+                        value.Add("Verb", "unlock-bde");
+                        _ = await Connection.SendMessageForResponseAsync(value);
                     }
                 }
             }

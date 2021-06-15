@@ -12,6 +12,8 @@ using Files.ViewModels;
 using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -333,9 +335,7 @@ namespace Files.Views
                 ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
                 SearchUnindexedItems = searchUnindexedItems
             };
-
             InstanceViewModel.CurrentSearchQuery = query;
-            FilesystemViewModel.IsLoadingIndicatorActive = true;
             InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
             ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
             {
@@ -344,8 +344,6 @@ namespace Files.Views
                 SearchPathParam = FilesystemViewModel.WorkingDirectory,
                 SearchResults = await search.SearchAsync(),
             });
-
-            FilesystemViewModel.IsLoadingIndicatorActive = false;
         }
 
         private void ModernShellPage_RefreshRequested(object sender, EventArgs e)
@@ -989,15 +987,18 @@ namespace Files.Views
             {
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting:
                     NavToolbarViewModel.CanRefresh = false;
+                    SetLoadingIndicatorForTabs(true);
                     break;
 
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
+                    SetLoadingIndicatorForTabs(true);
                     NavToolbarViewModel.CanGoBack = ItemDisplayFrame.CanGoBack;
                     NavToolbarViewModel.CanGoForward = ItemDisplayFrame.CanGoForward;
                     break;
 
                 case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
                     NavToolbarViewModel.CanRefresh = true;
+                    SetLoadingIndicatorForTabs(false);
                     // Select previous directory
                     if (!string.IsNullOrWhiteSpace(e.PreviousDirectory))
                     {
@@ -1037,6 +1038,17 @@ namespace Files.Views
                         }
                     }
                     break;
+            }
+        }
+
+        private void SetLoadingIndicatorForTabs(bool isLoading)
+        {
+            var multitaskingControls = ((Window.Current.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
+            var tabItemControl = this.FindAscendant<TabItemControl>();
+
+            foreach (var x in multitaskingControls)
+            {
+                x.SetLoadingIndicatorStatus(x.Items.First(x => x.Control == tabItemControl), isLoading);
             }
         }
 

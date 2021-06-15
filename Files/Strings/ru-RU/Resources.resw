@@ -804,9 +804,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Перейти на один каталог вверх</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Вертикальная полоса вкладок</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Изменить профили терминалов</value>
   </data>
@@ -1302,7 +1299,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Настройки контекстного меню</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Папки</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
