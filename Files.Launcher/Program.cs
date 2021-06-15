@@ -75,7 +75,7 @@ namespace FilesFullTrust
 
                 librariesWatcher = new FileSystemWatcher
                 {
-                    Path = librariesPath,
+                    Path = ShellLibraryItem.LibrariesPath,
                     Filter = "*" + ShellLibraryItem.EXTENSION,
                     NotifyFilter = NotifyFilters.Attributes | NotifyFilters.LastWrite | NotifyFilters.FileName,
                     IncludeSubdirectories = false,
@@ -162,7 +162,6 @@ namespace FilesFullTrust
         private static IList<FileSystemWatcher> binWatchers;
         private static DeviceWatcher deviceWatcher;
         private static FileSystemWatcher librariesWatcher;
-        private static readonly string librariesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries");
 
         private static async void InitializeAppServiceConnection()
         {
@@ -631,7 +630,7 @@ namespace FilesFullTrust
                         {
                             var libraryItems = new List<ShellLibraryItem>();
                             // https://docs.microsoft.com/en-us/windows/win32/search/-search-win7-development-scenarios#library-descriptions
-                            var libFiles = Directory.EnumerateFiles(librariesPath, "*" + ShellLibraryItem.EXTENSION);
+                            var libFiles = Directory.EnumerateFiles(ShellLibraryItem.LibrariesPath, "*" + ShellLibraryItem.EXTENSION);
                             foreach (var libFile in libFiles)
                             {
                                 using var shellItem = ShellItem.Open(libFile);

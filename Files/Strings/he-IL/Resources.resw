@@ -1095,7 +1095,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>התאם אישית את התפריט תלוי-ההקשר המופעל בלחיצה ימנית</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>תיקיות</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">

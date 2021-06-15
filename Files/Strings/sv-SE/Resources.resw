@@ -1344,7 +1344,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dubbla paneler</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Mappar</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
