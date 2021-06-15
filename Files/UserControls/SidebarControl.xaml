@@ -21,7 +21,7 @@
     IsTitleBarAutoPaddingEnabled="False"
     ItemInvoked="Sidebar_ItemInvoked"
     MenuItemsSource="{x:Bind local:SidebarControl.SideBarItems, Mode=OneWay}"
-    OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneWay}"
+    OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneTime}"
     PaneDisplayMode="Auto"
     SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
     mc:Ignorable="d">
@@ -262,29 +262,33 @@
                                         x:DeferLoadStrategy="Lazy"
                                         Fill="{ThemeResource SystemControlForegroundTransparentBrush}"
                                         Visibility="Collapsed" />
+                                </Grid>
 
-                                    <!--  This allows the user to resize the pane  -->
-                                    <Grid
-                                        x:Name="ResizeElementBorder"
-                                        Width="8"
-                                        HorizontalAlignment="Right"
-                                        AllowFocusOnInteraction="True"
-                                        BorderBrush="Transparent"
-                                        BorderThickness="0,0,1,0"
-                                        ManipulationDelta="Border_ManipulationDelta"
-                                        ManipulationMode="TranslateX"
-                                        PointerCanceled="Border_PointerExited"
-                                        PointerEntered="Border_PointerEntered"
-                                        PointerExited="Border_PointerExited">
-                                        <UserControl
-                                            x:Uid="ResizeElementKeyboardControl"
-                                            AutomationProperties.Name="Sidebar resizer"
-                                            FocusVisualPrimaryThickness="2"
-                                            IsTabStop="True"
-                                            KeyDown="Border_KeyDown"
-                                            UseSystemFocusVisuals="True" />
-                                    </Grid>
-
+                                <!--  This allows the user to resize the pane  -->
+                                <Grid
+                                    x:Name="ResizeElementBorder"
+                                    Grid.Column="{Binding ElementName=PaneRoot, Path=(Grid.Column), Mode=OneWay}"
+                                    Width="8"
+                                    HorizontalAlignment="Right"
+                                    AllowFocusOnInteraction="True"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    ManipulationCompleted="ResizeElementBorder_ManipulationCompleted"
+                                    ManipulationDelta="Border_ManipulationDelta"
+                                    ManipulationMode="TranslateX"
+                                    ManipulationStarted="ResizeElementBorder_ManipulationStarted"
+                                    PointerCanceled="Border_PointerExited"
+                                    PointerEntered="Border_PointerEntered"
+                                    PointerExited="Border_PointerExited"
+                                    RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}"
+                                    Visibility="{Binding ElementName=PaneRoot, Path=Visibility, Mode=OneWay}">
+                                    <UserControl
+                                        x:Name="ResizeElementControl"
+                                        x:Uid="ResizeElementKeyboardControl"
+                                        AutomationProperties.Name="Sidebar resizer"
+                                        IsTabStop="True"
+                                        KeyDown="Border_KeyDown"
+                                        UseSystemFocusVisuals="True" />
                                 </Grid>
 
                                 <!--  This defines the drag area for the title bar  -->
@@ -1004,6 +1008,31 @@
                                             </Storyboard>
                                         </VisualState>
 
+                                    </VisualStateGroup>
+
+                                    <VisualStateGroup x:Name="ResizerStates">
+                                        <VisualState x:Name="ResizerNormal" />
+                                        <VisualState x:Name="ResizerPointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResizeElementBorder" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResizeElementBorder" Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+
+                                        <VisualState x:Name="ResizerPressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResizeElementBorder" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResizeElementBorder" Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
                                     </VisualStateGroup>
 
                                 </VisualStateManager.VisualStateGroups>
