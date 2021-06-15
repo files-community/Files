@@ -2421,4 +2421,13 @@
   <data name="SettingsSkinsTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>View documentation.</value>
   </data>
+  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
+    <value>Select a destination and extract files</value>
+  </data>
+  <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
+    <value>Open destination folder when complete</value>
+  </data>
 </root>
