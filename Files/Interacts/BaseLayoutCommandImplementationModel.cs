@@ -470,21 +470,27 @@ namespace Files.Interacts
 
         public virtual void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e)
         {
-            associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
-
-            if (e != null)
+            if (associatedInstance.IsCurrentInstance)
             {
-                e.Handled = true;
+                associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
+
+                if (e != null)
+                {
+                    e.Handled = true;
+                }
             }
         }
 
         public virtual void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e)
         {
-            associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
-
-            if (e != null)
+            if (associatedInstance.IsCurrentInstance)
             {
-                e.Handled = true;
+                associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
+
+                if (e != null)
+                {
+                    e.Handled = true;
+                }
             }
         }
 
