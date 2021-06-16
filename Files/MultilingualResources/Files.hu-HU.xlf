@@ -3048,47 +3048,47 @@
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>New tab (Ctrl+T)</source>
-          <target state="new">New tab (Ctrl+T)</target>
+          <target state="translated">Új lap (Ctrl + T)</target>
         </trans-unit>
         <trans-unit id="SideBarCreateNewLibrary.Text" translate="yes" xml:space="preserve">
           <source>Create new library</source>
-          <target state="new">Create new library</target>
+          <target state="translated">Új könyvtár</target>
         </trans-unit>
         <trans-unit id="SideBarRestoreLibraries.Text" translate="yes" xml:space="preserve">
           <source>Restore default libraries</source>
-          <target state="new">Restore default libraries</target>
+          <target state="translated">Alapértelmezett könyvtárak visszaállítása</target>
         </trans-unit>
         <trans-unit id="DialogRestoreLibrariesButtonText" translate="yes" xml:space="preserve">
           <source>Restore</source>
-          <target state="new">Restore</target>
+          <target state="translated">Visszaállítás</target>
         </trans-unit>
         <trans-unit id="DialogRestoreLibrariesSubtitleText" translate="yes" xml:space="preserve">
           <source>Are you sure you want to restore the default libraries? All your files will remain on your storage.</source>
-          <target state="new">Are you sure you want to restore the default libraries? All your files will remain on your storage.</target>
+          <target state="translated">Biztosan visszaállítaná az alapértelmezett könytárakat? Minden fájl megmarad a tárhelyen.</target>
         </trans-unit>
         <trans-unit id="DialogRestoreLibrariesTitleText" translate="yes" xml:space="preserve">
           <source>Restore Libraries</source>
-          <target state="new">Restore Libraries</target>
+          <target state="translated">Könyvtárak visszaállítása</target>
         </trans-unit>
         <trans-unit id="StatusLibraryRestoration" translate="yes" xml:space="preserve">
           <source>Restoring libraries</source>
-          <target state="new">Restoring libraries</target>
+          <target state="translated">Könyvtárak visszaállítása</target>
         </trans-unit>
         <trans-unit id="StatusLibraryRestorationInProgress" translate="yes" xml:space="preserve">
           <source>Restoring default libraries in progress...</source>
-          <target state="new">Restoring default libraries in progress...</target>
+          <target state="translated">Az alapértelmezett könyvtárak visszaállítása folyamatban van...</target>
         </trans-unit>
         <trans-unit id="StatusLibraryRestorationComplete" translate="yes" xml:space="preserve">
           <source>Libraries restored</source>
-          <target state="new">Libraries restored</target>
+          <target state="translated">Könyvtárak visszaállítva</target>
         </trans-unit>
         <trans-unit id="StatusLibraryRestorationFailed" translate="yes" xml:space="preserve">
           <source>Failed to restore libraries</source>
-          <target state="new">Failed to restore libraries</target>
+          <target state="translated">Könyvtárak visszaállítása sikertelen</target>
         </trans-unit>
         <trans-unit id="StatusRestoreLibrariesDetails" translate="yes" xml:space="preserve">
           <source>{0} library files successfully restored</source>
-          <target state="new">{0} library files successfully restored</target>
+          <target state="translated">{0} könyvtár fájl sikeresen visszaállítva</target>
         </trans-unit>
       </group>
     </body>
