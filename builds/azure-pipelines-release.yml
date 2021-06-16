@@ -63,7 +63,7 @@ jobs:
     name: caCertificate
     displayName: 'Download CA certificate'
     inputs:
-      secureFile: 'Certificate.pfx'
+      secureFile: '$(BuildPipelineVariables.signingCert.secureFilePath)'
 
   - task: MSBuild@1
     inputs:
