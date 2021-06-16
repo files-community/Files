@@ -25,7 +25,7 @@ jobs:
       targetType: 'inline'
       script: |
         [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\Files.Package\Package.appxmanifest
-        $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
+        $xmlDoc.Package.Identity.Name="Files"
         $xmlDoc.Package.Properties.DisplayName="Files"
         $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
         $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
