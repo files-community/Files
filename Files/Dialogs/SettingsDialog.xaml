@@ -112,7 +112,7 @@
                         <FontIcon Glyph="&#xE8B7;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
+                <!--<muxc:NavigationViewItem
                     x:Uid="SettingsNavExperimental"
                     AccessKey="E"
                     Content="Experimental"
@@ -120,7 +120,7 @@
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF1AD;" />
                     </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
+                </muxc:NavigationViewItem>-->
             </muxc:NavigationView.MenuItems>
 
             <muxc:NavigationView.FooterMenuItems>

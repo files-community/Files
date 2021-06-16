@@ -634,10 +634,6 @@
           <source>Accessed:</source>
           <target state="translated">Ultimo accesso:</target>
         </trans-unit>
-        <trans-unit id="PropertiesOwner.Text" translate="yes" xml:space="preserve">
-          <source>Owner:</source>
-          <target state="translated">Proprietario:</target>
-        </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">Annulla</target>
@@ -1117,10 +1113,6 @@
         <trans-unit id="SettingsAppearanceTheme.Header" translate="yes" xml:space="preserve">
           <source>App theme</source>
           <target state="translated">Tema dell'app</target>
-        </trans-unit>
-        <trans-unit id="SettingsShowFileOwnerInProperties.Header" translate="yes" xml:space="preserve">
-          <source>Show item owner in properties</source>
-          <target state="translated">Mostra Proprietario del file nelle proprietà</target>
         </trans-unit>
         <trans-unit id="StatusCenter.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Status center</source>
@@ -3001,43 +2993,223 @@
         </trans-unit>
         <trans-unit id="SettingsNavSidebar.Content" translate="yes" xml:space="preserve">
           <source>Sidebar</source>
-          <target state="new">Sidebar</target>
+          <target state="translated">Barra laterale</target>
         </trans-unit>
         <trans-unit id="SettingsSidebarTitle.Text" translate="yes" xml:space="preserve">
           <source>Sidebar</source>
-          <target state="new">Sidebar</target>
+          <target state="translated">Barra laterale</target>
         </trans-unit>
         <trans-unit id="SettingsVerticalTabFlyoutSwitch.Header" translate="yes" xml:space="preserve">
           <source>Display vertical tab flyout on the title bar</source>
-          <target state="new">Display vertical tab flyout on the title bar</target>
+          <target state="translated">Mostra menu schede nella barra del titolo</target>
         </trans-unit>
         <trans-unit id="DefaultSkin" translate="yes" xml:space="preserve">
           <source>Default</source>
-          <target state="new">Default</target>
+          <target state="translated">Default</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceCustomSkins.Header" translate="yes" xml:space="preserve">
           <source>Custom skin</source>
-          <target state="new">Custom skin</target>
+          <target state="translated">Temi personalizzati</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceOpenSkinsFolderButton.Content" translate="yes" xml:space="preserve">
           <source>Open skins folder</source>
-          <target state="new">Open skins folder</target>
+          <target state="translated">Apri cartella temi</target>
         </trans-unit>
         <trans-unit id="SettingsSkinsLearnMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about custom skins</source>
-          <target state="new">Learn more about custom skins</target>
+          <target state="translated">Scopri di più sui temi personalizzati</target>
         </trans-unit>
         <trans-unit id="SettingsSkinsLearnMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about custom skins</source>
-          <target state="new">Learn more about custom skins</target>
+          <target state="translated">Scopri di più sui temi personalizzati</target>
         </trans-unit>
         <trans-unit id="SettingsSkinsTeachingTipHeader.Text" translate="yes" xml:space="preserve">
           <source>Custom skins provide a great way for you to personalize Files.</source>
-          <target state="new">Custom skins provide a great way for you to personalize Files.</target>
+          <target state="translated">Puoi personalizzare l'aspetto di Files con i temi.</target>
         </trans-unit>
         <trans-unit id="SettingsSkinsTeachingTipHyperlinkText.Text" translate="yes" xml:space="preserve">
           <source>View documentation.</source>
-          <target state="new">View documentation.</target>
+          <target state="translated">Guarda la documentazione.</target>
+        </trans-unit>
+        <trans-unit id="PropertyFileOwner" translate="yes" xml:space="preserve">
+          <source>Owner</source>
+          <target state="translated">Proprietario</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedPermissionsTitle" translate="yes" xml:space="preserve">
+          <source>Advanced permissions for {0}</source>
+          <target state="translated">Autorizzazioni avanzate per {0}</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedInheritedNoLabel" translate="yes" xml:space="preserve">
+          <source>No</source>
+          <target state="translated">No</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedInheritedYesLabel" translate="yes" xml:space="preserve">
+          <source>Yes</source>
+          <target state="translated">Sì</target>
+        </trans-unit>
+        <trans-unit id="SecuritySpecialLabel.Text" translate="yes" xml:space="preserve">
+          <source>Special</source>
+          <target state="translated">Speciali</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedPermissionsLabel.Text" translate="yes" xml:space="preserve">
+          <source>Permissions</source>
+          <target state="translated">Autorizzazioni</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedAccessLabel.Text" translate="yes" xml:space="preserve">
+          <source>Access</source>
+          <target state="translated">Accesso</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedEntityLabel.Text" translate="yes" xml:space="preserve">
+          <source>Entity</source>
+          <target state="translated">Entità</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedInheritedLabel.Text" translate="yes" xml:space="preserve">
+          <source>Inherited</source>
+          <target state="translated">Ereditata</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedTypeLabel.Text" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <target state="translated">Tipo</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedAppliesToLabel.Text" translate="yes" xml:space="preserve">
+          <source>Applies to</source>
+          <target state="translated">Si applica a</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedFlagsFilesLabel" translate="yes" xml:space="preserve">
+          <source>files</source>
+          <target state="translated">i file</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedFlagsFolderLabel" translate="yes" xml:space="preserve">
+          <source>this folder</source>
+          <target state="translated">questa cartella</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedFlagsSubfoldersLabel" translate="yes" xml:space="preserve">
+          <source>subfolders</source>
+          <target state="translated">le sottocartelle</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedCannotReadProperties.Text" translate="yes" xml:space="preserve">
+          <source>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</source>
+          <target state="translated">Non hai i permessi necessari per vedere le proprietà di questo oggetto. Puoi provare a diventare proprietario di questo oggetto.</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedSpecialLabel.Text" translate="yes" xml:space="preserve">
+          <source>Special</source>
+          <target state="translated">Speciali</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedFolderFiles.Text" translate="yes" xml:space="preserve">
+          <source>This folder and files</source>
+          <target state="translated">Questa cartella e i file</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedFolderSubfoldersFiles.Text" translate="yes" xml:space="preserve">
+          <source>This folder, subfolders and files</source>
+          <target state="translated">Questa cartella, le sottocartelle e i file</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedOnlyFiles.Text" translate="yes" xml:space="preserve">
+          <source>Only files</source>
+          <target state="translated">Solo i file</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedOnlySubfolders.Text" translate="yes" xml:space="preserve">
+          <source>Only subfolders</source>
+          <target state="translated">Solo le sottocartelle</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedOnlySubfoldersFiles.Text" translate="yes" xml:space="preserve">
+          <source>Only subfolders and files</source>
+          <target state="translated">Solo le sottocartelle e i file</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedOnlyThisFolder.Text" translate="yes" xml:space="preserve">
+          <source>Only this folder</source>
+          <target state="translated">Solo questa cartella</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedFolderSubfolders.Text" translate="yes" xml:space="preserve">
+          <source>This folder and subfolders</source>
+          <target state="translated">Questa cartella e le sottocartelle</target>
+        </trans-unit>
+        <trans-unit id="SecurityAppendDataLabel.Text" translate="yes" xml:space="preserve">
+          <source>Append data</source>
+          <target state="translated">Aggiunta dati</target>
+        </trans-unit>
+        <trans-unit id="SecurityChangePermissionsLabel.Text" translate="yes" xml:space="preserve">
+          <source>Change permission</source>
+          <target state="translated">Cambia autorizzazioni</target>
+        </trans-unit>
+        <trans-unit id="SecurityCreateDirectoriesLabel.Text" translate="yes" xml:space="preserve">
+          <source>Create folders</source>
+          <target state="translated">Creazione cartelle</target>
+        </trans-unit>
+        <trans-unit id="SecurityCreateFilesLabel.Text" translate="yes" xml:space="preserve">
+          <source>Create files</source>
+          <target state="translated">Creazione file</target>
+        </trans-unit>
+        <trans-unit id="SecurityDeleteLabel.Text" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="translated">Elimina</target>
+        </trans-unit>
+        <trans-unit id="SecurityDeleteSubdirectoriesAndFilesLabel.Text" translate="yes" xml:space="preserve">
+          <source>Delete subdirectories and files</source>
+          <target state="translated">Elimina sottocartelle e file</target>
+        </trans-unit>
+        <trans-unit id="SecurityExecuteFileLabel.Text" translate="yes" xml:space="preserve">
+          <source>Execute files</source>
+          <target state="translated">Esecuzione file</target>
+        </trans-unit>
+        <trans-unit id="SecurityReadAttributesLabel.Text" translate="yes" xml:space="preserve">
+          <source>Read attributes</source>
+          <target state="translated">Lettura attributi</target>
+        </trans-unit>
+        <trans-unit id="SecurityReadDataLabel.Text" translate="yes" xml:space="preserve">
+          <source>Read data</source>
+          <target state="translated">Lettura dati</target>
+        </trans-unit>
+        <trans-unit id="SecurityReadExtendedAttributesLabel.Text" translate="yes" xml:space="preserve">
+          <source>Read extended attributes</source>
+          <target state="translated">Lettura attributi estesi</target>
+        </trans-unit>
+        <trans-unit id="SecurityReadPermissionsLabel.Text" translate="yes" xml:space="preserve">
+          <source>Read permissions</source>
+          <target state="translated">Leggi autorizzazioni</target>
+        </trans-unit>
+        <trans-unit id="SecurityTakeOwnershipLabel.Text" translate="yes" xml:space="preserve">
+          <source>Take ownership</source>
+          <target state="translated">Diventa proprietario</target>
+        </trans-unit>
+        <trans-unit id="SecurityTraverseLabel.Text" translate="yes" xml:space="preserve">
+          <source>Visit folder</source>
+          <target state="translated">Visita la cartella</target>
+        </trans-unit>
+        <trans-unit id="SecurityWriteAttributesLabel.Text" translate="yes" xml:space="preserve">
+          <source>Write attributes</source>
+          <target state="translated">Scrittura attributi</target>
+        </trans-unit>
+        <trans-unit id="SecurityWriteDataLabel.Text" translate="yes" xml:space="preserve">
+          <source>Write data</source>
+          <target state="translated">Scrittura dati</target>
+        </trans-unit>
+        <trans-unit id="SecurityWriteExtendedAttributesLabel.Text" translate="yes" xml:space="preserve">
+          <source>Write extended attributes</source>
+          <target state="translated">Scrittura attributi estesi</target>
+        </trans-unit>
+        <trans-unit id="SecurityNoneLabel.Text" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="translated">Nessuna</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedInheritedConvert.Text" translate="yes" xml:space="preserve">
+          <source>Convert inherited permissions into explicit permissions</source>
+          <target state="translated">Converti autorizzazioni ereditate in autorizzazioni esplicite</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedInheritedEnable.Text" translate="yes" xml:space="preserve">
+          <source>Enable inheritance</source>
+          <target state="translated">Abilita ereditarietà</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedInheritedRemove.Text" translate="yes" xml:space="preserve">
+          <source>Remove all inherited permissions</source>
+          <target state="translated">Rimuovi tutte le autorizzazioni ereditate</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedReplaceChildPermissions.Text" translate="yes" xml:space="preserve">
+          <source>Reset child permissions</source>
+          <target state="translated">Resetta oggetti figlio</target>
+        </trans-unit>
+        <trans-unit id="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Replace all child object permissions entries with inheritable permission entries from this object</source>
+          <target state="translated">Sostituisci tutte le voci delle autorizzazioni degli oggetti figlio con le voci delle autorizzazioni ereditabili da questo oggetto</target>
         </trans-unit>
         <trans-unit id="VerticalTabFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Vertical tab flyout</source>

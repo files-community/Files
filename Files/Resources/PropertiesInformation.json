@@ -590,5 +590,12 @@
     "Property": "System.DateModified",
     "IsReadOnly": true,
     "ID": null
+  },
+  {
+    "NameResource": "PropertyFileOwner",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.FileOwner",
+    "IsReadOnly": true,
+    "ID": null
   }
 ]

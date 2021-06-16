@@ -23,6 +23,8 @@ namespace FilesFullTrust
 
         public string CurrentUserSID { get; set; }
 
+        public bool AreAccessRulesProtected { get; set; }
+
         private FilePermissions()
         {
             AccessRules = new List<FileSystemAccessRule2>();
@@ -39,6 +41,7 @@ namespace FilesFullTrust
                 var accessRules = acs.GetAccessRules(true, true, typeof(SecurityIdentifier));
                 filePermissions.AccessRules.AddRange(accessRules.Cast<FileSystemAccessRule>().Select(x => FileSystemAccessRule2.FromFileSystemAccessRule(x)));
                 filePermissions.OwnerSID = acs.GetOwner(typeof(SecurityIdentifier)).Value;
+                filePermissions.AreAccessRulesProtected = acs.AreAccessRulesProtected;
             }
             filePermissions.CanReadFilePermissions = acsResult;
             return filePermissions;
@@ -60,6 +63,37 @@ namespace FilesFullTrust
                     {
                         acs.AddAccessRule(rule.ToFileSystemAccessRule());
                     }
+                    if (IsFolder)
+                    {
+                        Directory.SetAccessControl(FilePath, acs as DirectorySecurity);
+                    }
+                    else
+                    {
+                        File.SetAccessControl(FilePath, acs as FileSecurity);
+                    }
+                    return true;
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    // User does not have rights to set access rules
+                    return false;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool SetAccessRuleProtection(bool isProtected, bool preserveInheritance)
+        {
+            var acsResult = GetAccessControl(FilePath, IsFolder, out var acs);
+            if (acsResult)
+            {
+                try
+                {
+                    acs.SetAccessRuleProtection(isProtected, preserveInheritance);
                     if (IsFolder)
                     {
                         Directory.SetAccessControl(FilePath, acs as DirectorySecurity);
