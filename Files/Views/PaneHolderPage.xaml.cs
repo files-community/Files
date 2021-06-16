@@ -16,14 +16,12 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views
 {
-    public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent, INotifyPropertyChanged
+    public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent
     {
         public bool IsLeftPaneActive => ActivePane == PaneLeft;
         public bool IsRightPaneActive => ActivePane == PaneRight;
 
         public event EventHandler<TabItemArguments> ContentChanged;
-
-        public event EventHandler ActivePaneChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -132,7 +130,6 @@ namespace Files.Views
                         ActivePane.IsCurrentInstance = isCurrentInstance;
                     }
                     NotifyPropertyChanged(nameof(ActivePane));
-                    ActivePaneChanged?.Invoke(this, EventArgs.Empty);
                     NotifyPropertyChanged(nameof(IsLeftPaneActive));
                     NotifyPropertyChanged(nameof(IsRightPaneActive));
                     NotifyPropertyChanged(nameof(FilesystemHelpers));

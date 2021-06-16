@@ -115,10 +115,10 @@ namespace Files.Views
         {
             if (SidebarAdaptiveViewModel.PaneHolder != null)
             {
-                SidebarAdaptiveViewModel.PaneHolder.ActivePaneChanged -= PaneHolder_ActivePaneChanged;
+                SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
             }
             SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
-            SidebarAdaptiveViewModel.PaneHolder.ActivePaneChanged += PaneHolder_ActivePaneChanged;
+            SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((e.CurrentInstance.TabItemArguments?.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
             UpdateStatusBarProperties();
             UpdateNavToolbarProperties();
@@ -126,7 +126,7 @@ namespace Files.Views
             e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
         }
 
-        private void PaneHolder_ActivePaneChanged(object sender, EventArgs e)
+        private void PaneHolder_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments.NavigationArg.ToString());
             UpdateStatusBarProperties();

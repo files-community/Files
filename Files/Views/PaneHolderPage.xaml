@@ -122,6 +122,7 @@
                         x:Name="PaneLeft"
                         ContentChanged="Pane_ContentChanged"
                         CurrentInstanceBorderThickness="0,0,0,2"
+                        IsPageMainPane="True"
                         NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
                         PaneHolder="{x:Bind}"
                         PointerPressed="PaneLeft_PointerPressed" />
@@ -139,6 +140,7 @@
                         x:Name="PaneRight"
                         ContentChanged="Pane_ContentChanged"
                         CurrentInstanceBorderThickness="0,0,0,2"
+                        IsPageMainPane="False"
                         NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
                         PaneHolder="{x:Bind}"
                         PointerPressed="PaneRight_PointerPressed" />

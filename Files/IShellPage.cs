@@ -4,6 +4,7 @@ using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
 using System;
+using System.ComponentModel;
 
 namespace Files
 {
@@ -52,10 +53,8 @@ namespace Files
         void LoadPreviewPaneChanged();
     }
 
-    public interface IPaneHolder : IDisposable
+    public interface IPaneHolder : IDisposable, INotifyPropertyChanged
     {
-        public event EventHandler ActivePaneChanged;
-
         public IShellPage ActivePane { get; set; }
         public IFilesystemHelpers FilesystemHelpers { get; }
         public TabItemArguments TabItemArguments { get; set; }
