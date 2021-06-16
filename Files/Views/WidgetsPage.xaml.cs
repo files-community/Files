@@ -111,7 +111,7 @@ namespace Files.Views
         {
             FolderWidget FolderWidget = sender as FolderWidget;
 
-            FolderWidget.ShowMultiPaneControls = AppInstance.IsMultiPaneEnabled && AppInstance.IsPageMainPane;
+            FolderWidget.ShowMultiPaneControls = (AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false) && AppInstance.IsPageMainPane;
         }
 
         private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)

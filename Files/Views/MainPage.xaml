@@ -203,7 +203,7 @@
         HorizontalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"
         Background="{ThemeResource HorizontalTabControlBackgroundBrush}"
-        CanOpenInNewPane="{x:Bind SidebarAdaptiveViewModel.IsMultiPaneEnabled, Mode=OneWay}"
+        CanOpenInNewPane="{x:Bind SidebarAdaptiveViewModel.PaneHolder.IsMultiPaneEnabled, Mode=OneWay}"
         DisplayModeChanged="{x:Bind SidebarAdaptiveViewModel.SidebarControl_DisplayModeChanged}"
         EmptyRecycleBinCommand="{x:Bind SidebarAdaptiveViewModel.EmptyRecycleBinCommand, Mode=OneWay}"
         IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
@@ -221,10 +221,7 @@
                 BlurRadius="8"
                 OffsetY="2"
                 ShadowOpacity="0.04">
-                <controls:NavigationToolbar
-                    x:Name="NavToolbar"
-                    HorizontalAlignment="Stretch"
-                    IsMultiPaneActive="{x:Bind SidebarAdaptiveViewModel.IsMultiPaneEnabled, Mode=OneWay}" />
+                <controls:NavigationToolbar x:Name="NavToolbar" HorizontalAlignment="Stretch" />
             </Custom:DropShadowPanel>
 
             <ContentPresenter

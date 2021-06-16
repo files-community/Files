@@ -875,9 +875,8 @@
                 <AppBarButton
                     x:Name="NavToolbarNewPane"
                     x:Uid="NavigationToolbarNewPane"
-                    x:Load="{x:Bind ShowMultiPaneControls, Mode=OneWay}"
+                    x:Load="{x:Bind converters:MultiBooleanConverter.AndNotConvert(ShowMultiPaneControls, IsMultiPaneActive), Mode=OneWay}"
                     Command="{x:Bind ViewModel.OpenNewPaneCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind IsMultiPaneActive, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                     Label="New pane">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
@@ -887,6 +886,22 @@
                             Key="Add"
                             IsEnabled="False"
                             Modifiers="Menu,Shift" />
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="NavToolbarClosePane"
+                    x:Uid="NavigationToolbarClosePane"
+                    x:Load="{x:Bind IsMultiPaneActive, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.ClosePaneCommand, Mode=OneWay}"
+                    Label="Close pane">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE89F;" />
+                    </AppBarButton.Icon>
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator
+                            Key="W"
+                            IsEnabled="False"
+                            Modifiers="Control,Shift" />
                     </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
                 <AppBarButton

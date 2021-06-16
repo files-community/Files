@@ -117,50 +117,17 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <Grid x:Name="PaneLeftLoader" Grid.Row="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid Padding="12,0,0,0" Visibility="{x:Bind IsRightPaneVisible, Mode=OneWay}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            FontWeight="SemiBold"
-                            Text="{x:Bind LeftPaneHeader, Mode=OneWay}" />
-                        <Button
-                            x:Uid="PaneHolderClosePaneButton"
-                            Grid.Column="1"
-                            Padding="8"
-                            VerticalAlignment="Center"
-                            AutomationProperties.Name="Close pane"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            Opacity="0"
-                            ToolTipService.ToolTip="Close pane">
-                            <FontIcon FontSize="16" Glyph="&#xE89F;" />
-                        </Button>
-                    </Grid>
-
+                <Border x:Name="PaneLeftLoader" Grid.Row="1">
                     <local:ModernShellPage
                         x:Name="PaneLeft"
-                        Grid.Row="1"
                         ContentChanged="Pane_ContentChanged"
                         CurrentInstanceBorderThickness="0,0,0,2"
-                        IsMultiPaneActive="{x:Bind IsRightPaneVisible, Mode=OneWay}"
-                        IsMultiPaneEnabled="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
-                        IsPageMainPane="True"
                         NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
                         PaneHolder="{x:Bind}"
                         PointerPressed="PaneLeft_PointerPressed" />
-                </Grid>
+                </Border>
 
-                <Grid
+                <Border
                     x:Name="PaneRightLoader"
                     Grid.Row="1"
                     Grid.Column="1"
@@ -168,43 +135,10 @@
                     BorderBrush="{ThemeResource PaneBorderBrush}"
                     BorderThickness="2,0,0,0">
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid Padding="12,0,0,0" Visibility="{x:Bind IsRightPaneVisible, Mode=OneWay}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            FontWeight="SemiBold"
-                            Text="{x:Bind RightPaneHeader, Mode=OneWay}" />
-                        <Button
-                            x:Uid="PaneHolderClosePaneButton"
-                            Grid.Column="1"
-                            Padding="8"
-                            VerticalAlignment="Center"
-                            AutomationProperties.Name="Close pane"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            Click="RightPaneCloseButton_Click"
-                            ToolTipService.ToolTip="Close pane">
-                            <FontIcon FontSize="16" Glyph="&#xE89F;" />
-                        </Button>
-                    </Grid>
-
                     <local:ModernShellPage
                         x:Name="PaneRight"
-                        Grid.Row="1"
                         ContentChanged="Pane_ContentChanged"
                         CurrentInstanceBorderThickness="0,0,0,2"
-                        IsMultiPaneActive="{x:Bind IsRightPaneVisible, Mode=OneWay}"
-                        IsMultiPaneEnabled="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
-                        IsPageMainPane="False"
                         NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
                         PaneHolder="{x:Bind}"
                         PointerPressed="PaneRight_PointerPressed" />
@@ -233,7 +167,7 @@
                             To="0"
                             Duration="0:0:0.2" />
                     </animations:Implicit.HideAnimations>
-                </Grid>
+                </Border>
 
                 <Custom:GridSplitter
                     x:Name="PaneResizer"

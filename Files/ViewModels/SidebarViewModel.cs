@@ -78,7 +78,6 @@ namespace Files.ViewModels
                 if (SetProperty(ref sidebarDisplayMode, value))
                 {
                     OnPropertyChanged(nameof(IsSidebarCompactSize));
-                    OnPropertyChanged(nameof(IsMultiPaneEnabled));
                     UpdateTabControlMargin();
                 }
             }
@@ -136,11 +135,6 @@ namespace Files.ViewModels
             }
         }
 
-        public bool IsMultiPaneEnabled
-        {
-            get => App.AppSettings.IsDualPaneEnabled && !IsSidebarCompactSize;
-        }
-
         public bool IsSidebarOpen
         {
             get => App.AppSettings.IsSidebarOpen;
@@ -182,10 +176,6 @@ namespace Files.ViewModels
                     {
                         OnPropertyChanged(nameof(IsSidebarOpen));
                     }
-                    break;
-
-                case nameof(App.AppSettings.IsDualPaneEnabled):
-                    OnPropertyChanged(nameof(IsMultiPaneEnabled));
                     break;
             }
         }

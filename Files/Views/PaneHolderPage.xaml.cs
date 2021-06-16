@@ -4,7 +4,6 @@ using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.ComponentModel;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
@@ -42,45 +41,6 @@ namespace Files.Views
                 {
                     tabItemArguments = value;
                     ContentChanged?.Invoke(this, value);
-                    OnTabItemArgumentsUpdated();
-                }
-            }
-        }
-
-        public async void OnTabItemArgumentsUpdated()
-        {
-            var navArgsLeft = (TabItemArguments.NavigationArg as PaneNavigationArguments)?.LeftPaneNavPathParam;
-            var navArgsRight = (TabItemArguments.NavigationArg as PaneNavigationArguments)?.RightPaneNavPathParam;
-            (LeftPaneHeader, _) = await MainPageViewModel.GetSelectedTabInfoAsync(navArgsLeft);
-            (RightPaneHeader, _) = await MainPageViewModel.GetSelectedTabInfoAsync(navArgsRight);
-        }
-
-        private string leftPaneHeader;
-
-        public string LeftPaneHeader
-        {
-            get => leftPaneHeader;
-            set
-            {
-                if (leftPaneHeader != value)
-                {
-                    leftPaneHeader = value;
-                    NotifyPropertyChanged(nameof(LeftPaneHeader));
-                }
-            }
-        }
-
-        private string rightPaneHeader;
-
-        public string RightPaneHeader
-        {
-            get => rightPaneHeader;
-            set
-            {
-                if (rightPaneHeader != value)
-                {
-                    rightPaneHeader = value;
-                    NotifyPropertyChanged(nameof(RightPaneHeader));
                 }
             }
         }
@@ -114,6 +74,8 @@ namespace Files.Views
         }
 
         private bool wasRightPaneVisible;
+
+        public bool IsMultiPaneActive => IsRightPaneVisible;
 
         public bool IsMultiPaneEnabled
         {
@@ -194,6 +156,7 @@ namespace Files.Views
                     }
                     Pane_ContentChanged(null, null);
                     NotifyPropertyChanged(nameof(IsRightPaneVisible));
+                    NotifyPropertyChanged(nameof(IsMultiPaneActive));
                 }
             }
         }
@@ -382,8 +345,9 @@ namespace Files.Views
             PaneRight?.Dispose();
         }
 
-        private void RightPaneCloseButton_Click(object sender, RoutedEventArgs e)
+        public void CloseActivePane()
         {
+            // Can only close right pane atm
             IsRightPaneVisible = false;
         }
     }

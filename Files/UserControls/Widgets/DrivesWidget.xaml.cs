@@ -122,7 +122,7 @@ namespace Files.UserControls.Widgets
 
         public bool ShowMultiPaneControls
         {
-            get => AppInstance.IsMultiPaneEnabled && AppInstance.IsPageMainPane;
+            get => (AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false) && AppInstance.IsPageMainPane;
         }
 
         private void OpenInNewPane_Click(object sender, RoutedEventArgs e)

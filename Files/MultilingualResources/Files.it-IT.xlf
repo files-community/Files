@@ -3095,11 +3095,7 @@
           <source>Create Bundle</source>
           <target state="translated">Crea Gruppo</target>
         </trans-unit>
-        <trans-unit id="PaneHolderClosePaneButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Close pane</source>
-          <target state="translated">Chiudi pannello</target>
-        </trans-unit>
-        <trans-unit id="PaneHolderClosePaneButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavigationToolbarClosePane.Label" translate="yes" xml:space="preserve">
           <source>Close pane</source>
           <target state="translated">Chiudi pannello</target>
         </trans-unit>
