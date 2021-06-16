@@ -59,12 +59,18 @@ jobs:
     inputs:
       restoreSolution: '$(solution)'
 
+  - task: DownloadSecureFile@1
+    name: caCertificate
+    displayName: 'Download CA certificate'
+    inputs:
+      secureFile: '$(signingCert.secureFilePath)'
+
   - task: MSBuild@1
     inputs:
       solution: '**/*.wapproj'
       platform: 'x86'
       configuration: '$(buildConfiguration)'
-      msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreAndSideload'
+      msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreAndSideload /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="$(mySecureFile.secureFilePath)" /p:PackageCertificatePassword="$(signingCert.password)" /p:PackageCertificateThumbprint="$(signingCert.thumbprint)"'
       maximumCpuCount: true
 
   - task: CopyFiles@2
