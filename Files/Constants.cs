@@ -13,10 +13,6 @@
             public const float SmallThreshold = 25.0f;
 
             public const float ExtraSmallThreshold = 15.0f;
-
-            public const int ItemsRequirementForDetails1 = 6;
-
-            public const int ItemsRequirementForDetails2 = 16;
         }
 
         public static class ImageRes
