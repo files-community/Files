@@ -63,14 +63,14 @@ jobs:
     name: caCertificate
     displayName: 'Download CA certificate'
     inputs:
-      secureFile: '$(signingCert.secureFilePath)'
+      secureFile: 'Certificate.pfx'
 
   - task: MSBuild@1
     inputs:
       solution: '**/*.wapproj'
       platform: 'x86'
       configuration: '$(buildConfiguration)'
-      msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreAndSideload /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)" /p:PackageCertificatePassword="$(signingCert.password)" /p:PackageCertificateThumbprint="$(signingCert.thumbprint)"'
+      msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreAndSideload /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="Certificate.pfx" /p:PackageCertificatePassword="$(signingCert.password)" /p:PackageCertificateThumbprint="$(signingCert.thumbprint)"'
       maximumCpuCount: true
 
   - task: CopyFiles@2
