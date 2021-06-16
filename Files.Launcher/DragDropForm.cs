@@ -121,7 +121,7 @@ namespace FilesFullTrust
                     {
                         // Move files to destination
                         // Works for 7zip, Winrar which unpack the items in the temp folder
-                        var destName = Path.GetFileName(file.TrimEnd(Path.PathSeparator));
+                        var destName = Path.GetFileName(file.TrimEnd(Path.DirectorySeparatorChar));
                         Directory.Move(file, Path.Combine(dropPath, destName));
                     }
                     catch (Exception ex)

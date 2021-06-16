@@ -2433,4 +2433,10 @@
   <data name="CreateBundleBtn.ToolTipService.ToolTip" xml:space="preserve">
     <value>Create Bundle</value>
   </data>
+  <data name="PaneHolderClosePaneButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Close pane</value>
+  </data>
+  <data name="PaneHolderClosePaneButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Close pane</value>
+  </data>
 </root>

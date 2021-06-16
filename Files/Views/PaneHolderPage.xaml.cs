@@ -4,6 +4,7 @@ using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
@@ -80,6 +81,8 @@ namespace Files.Views
             get => AppSettings.IsDualPaneEnabled && !(Window.Current.Bounds.Width <= 750);
         }
 
+        public string LeftPaneHeader => string.IsNullOrEmpty(NavParamsLeft) ? "NewTab".GetLocalized() : Path.GetFileName(NavParamsLeft.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+
         private string navParamsLeft;
 
         public string NavParamsLeft
@@ -91,9 +94,12 @@ namespace Files.Views
                 {
                     navParamsLeft = value;
                     NotifyPropertyChanged(nameof(NavParamsLeft));
+                    NotifyPropertyChanged(nameof(LeftPaneHeader));
                 }
             }
         }
+
+        public string RightPaneHeader => string.IsNullOrEmpty(NavParamsRight) ? "NewTab".GetLocalized() : Path.GetFileName(NavParamsLeft.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
 
         private string navParamsRight;
 
@@ -106,6 +112,7 @@ namespace Files.Views
                 {
                     navParamsRight = value;
                     NotifyPropertyChanged(nameof(NavParamsRight));
+                    NotifyPropertyChanged(nameof(RightPaneHeader));
                 }
             }
         }
@@ -253,13 +260,15 @@ namespace Files.Views
 
         private void Pane_ContentChanged(object sender, TabItemArguments e)
         {
+            NavParamsLeft = PaneLeft.TabItemArguments?.NavigationArg as string;
+            NavParamsRight = PaneRight?.TabItemArguments?.NavigationArg as string;
             TabItemArguments = new TabItemArguments()
             {
                 InitialPageType = typeof(PaneHolderPage),
                 NavigationArg = new PaneNavigationArguments()
                 {
-                    LeftPaneNavPathParam = PaneLeft.TabItemArguments?.NavigationArg as string,
-                    RightPaneNavPathParam = IsRightPaneVisible ? PaneRight?.TabItemArguments?.NavigationArg as string : null
+                    LeftPaneNavPathParam = NavParamsLeft,
+                    RightPaneNavPathParam = IsRightPaneVisible ? NavParamsRight : null
                 }
             };
         }
@@ -340,6 +349,11 @@ namespace Files.Views
             Window.Current.SizeChanged -= Current_SizeChanged;
             PaneLeft?.Dispose();
             PaneRight?.Dispose();
+        }
+
+        private void RightPaneCloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            IsRightPaneVisible = false;
         }
     }
 
