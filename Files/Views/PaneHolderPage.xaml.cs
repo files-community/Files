@@ -42,6 +42,45 @@ namespace Files.Views
                 {
                     tabItemArguments = value;
                     ContentChanged?.Invoke(this, value);
+                    OnTabItemArgumentsUpdated();
+                }
+            }
+        }
+
+        public async void OnTabItemArgumentsUpdated()
+        {
+            var navArgsLeft = (TabItemArguments.NavigationArg as PaneNavigationArguments)?.LeftPaneNavPathParam;
+            var navArgsRight = (TabItemArguments.NavigationArg as PaneNavigationArguments)?.RightPaneNavPathParam;
+            (LeftPaneHeader, _) = await MainPageViewModel.GetSelectedTabInfoAsync(navArgsLeft);
+            (RightPaneHeader, _) = await MainPageViewModel.GetSelectedTabInfoAsync(navArgsRight);
+        }
+
+        private string leftPaneHeader;
+
+        public string LeftPaneHeader
+        {
+            get => leftPaneHeader;
+            set
+            {
+                if (leftPaneHeader != value)
+                {
+                    leftPaneHeader = value;
+                    NotifyPropertyChanged(nameof(LeftPaneHeader));
+                }
+            }
+        }
+
+        private string rightPaneHeader;
+
+        public string RightPaneHeader
+        {
+            get => rightPaneHeader;
+            set
+            {
+                if (rightPaneHeader != value)
+                {
+                    rightPaneHeader = value;
+                    NotifyPropertyChanged(nameof(RightPaneHeader));
                 }
             }
         }
@@ -81,8 +120,6 @@ namespace Files.Views
             get => AppSettings.IsDualPaneEnabled && !(Window.Current.Bounds.Width <= 750);
         }
 
-        public string LeftPaneHeader => string.IsNullOrEmpty(NavParamsLeft) ? "NewTab".GetLocalized() : Path.GetFileName(NavParamsLeft.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
-
         private string navParamsLeft;
 
         public string NavParamsLeft
@@ -94,12 +131,9 @@ namespace Files.Views
                 {
                     navParamsLeft = value;
                     NotifyPropertyChanged(nameof(NavParamsLeft));
-                    NotifyPropertyChanged(nameof(LeftPaneHeader));
                 }
             }
         }
-
-        public string RightPaneHeader => string.IsNullOrEmpty(NavParamsRight) ? "NewTab".GetLocalized() : Path.GetFileName(NavParamsRight.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
 
         private string navParamsRight;
 
@@ -112,7 +146,6 @@ namespace Files.Views
                 {
                     navParamsRight = value;
                     NotifyPropertyChanged(nameof(NavParamsRight));
-                    NotifyPropertyChanged(nameof(RightPaneHeader));
                 }
             }
         }
@@ -260,15 +293,13 @@ namespace Files.Views
 
         private void Pane_ContentChanged(object sender, TabItemArguments e)
         {
-            NavParamsLeft = PaneLeft.TabItemArguments?.NavigationArg as string;
-            NavParamsRight = PaneRight?.TabItemArguments?.NavigationArg as string;
             TabItemArguments = new TabItemArguments()
             {
                 InitialPageType = typeof(PaneHolderPage),
                 NavigationArg = new PaneNavigationArguments()
                 {
-                    LeftPaneNavPathParam = NavParamsLeft,
-                    RightPaneNavPathParam = IsRightPaneVisible ? NavParamsRight : null
+                    LeftPaneNavPathParam = PaneLeft.TabItemArguments?.NavigationArg as string,
+                    RightPaneNavPathParam = IsRightPaneVisible ? PaneRight?.TabItemArguments?.NavigationArg as string : null
                 }
             };
         }
