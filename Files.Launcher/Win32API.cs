@@ -102,26 +102,28 @@ namespace FilesFullTrust
             }
         }
 
-        public static (string icon, string overlay, bool isCustom) GetFileIconAndOverlay(string path, int thumbnailSize, bool getOverlay = true)
+        public static (string icon, string overlay, bool isCustom) GetFileIconAndOverlay(string path, int thumbnailSize, bool getOverlay = true, bool onlyGetOverlay = false)
         {
             string iconStr = null, overlayStr = null;
-
-            using var shellItem = new Vanara.Windows.Shell.ShellItem(path);
-            if (shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
+            if (!onlyGetOverlay)
             {
-                var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
-                if (thumbnailSize < 80) flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
-                var hres = fctry.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
-                if (hres == HRESULT.S_OK)
+                using var shellItem = new Vanara.Windows.Shell.ShellItem(path);
+                if (shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
                 {
-                    using var image = GetBitmapFromHBitmap(hbitmap);
-                    if (image != null)
+                    var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
+                    if (thumbnailSize < 80) flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
+                    var hres = fctry.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
+                    if (hres == HRESULT.S_OK)
                     {
-                        byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                        iconStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                        using var image = GetBitmapFromHBitmap(hbitmap);
+                        if (image != null)
+                        {
+                            byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                            iconStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                        }
                     }
+                    //Marshal.ReleaseComObject(fctry);
                 }
-                //Marshal.ReleaseComObject(fctry);
             }
 
             if (getOverlay)

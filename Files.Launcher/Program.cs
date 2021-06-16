@@ -399,7 +399,8 @@ namespace FilesFullTrust
                 case "GetIconOverlay":
                     var fileIconPath = (string)message["filePath"];
                     var thumbnailSize = (int)(long)message["thumbnailSize"];
-                    var iconOverlay = Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize)).Result;
+                    var isOverlayOnly = Convert.ToBoolean(message["isOverlayOnly"]);
+                    var iconOverlay = Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize, true, isOverlayOnly)).Result;
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
                         { "Icon", iconOverlay.icon },

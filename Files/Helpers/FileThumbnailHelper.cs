@@ -11,7 +11,7 @@ namespace Files.Helpers
 {
     public static class FileThumbnailHelper
     {
-        public static async Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconOverlayAsync(string filePath, uint thumbnailSize)
+        public static async Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconAndOverlayAsync(string filePath, uint thumbnailSize)
         {
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
@@ -37,6 +37,31 @@ namespace Files.Helpers
                 }
             }
             return (null, null, false);
+        }
+
+        public static async Task<byte[]> LoadOverlayAsync(string filePath)
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                var value = new ValueSet
+                {
+                    { "Arguments", "GetIconOverlay" },
+                    { "filePath", filePath },
+                    { "thumbnailSize", 0 }, // Must pass in arbitrary int value for this to work
+                    { "isOverlayOnly", true }
+                };
+                var (status, response) = await connection.SendMessageForResponseAsync(value);
+                if (status == AppServiceResponseStatus.Success)
+                {
+                    var overlay = response.Get("Overlay", (string)null);
+
+                    // BitmapImage can only be created on UI thread, so return raw data and create
+                    // BitmapImage later to prevent exceptions once SynchorizationContext lost
+                    return overlay == null ? null : Convert.FromBase64String(overlay);
+                }
+            }
+            return null;
         }
 
         public static async Task<byte[]> LoadIconWithoutOverlayAsync(string filePath, uint thumbnailSize)
