@@ -99,7 +99,7 @@ namespace Files.Views
             }
         }
 
-        public string RightPaneHeader => string.IsNullOrEmpty(NavParamsRight) ? "NewTab".GetLocalized() : Path.GetFileName(NavParamsLeft.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+        public string RightPaneHeader => string.IsNullOrEmpty(NavParamsRight) ? "NewTab".GetLocalized() : Path.GetFileName(NavParamsRight.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
 
         private string navParamsRight;
 

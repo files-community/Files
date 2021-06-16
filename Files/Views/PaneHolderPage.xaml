@@ -129,7 +129,10 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock VerticalAlignment="Center" Text="{x:Bind LeftPaneHeader, Mode=OneWay}" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontWeight="SemiBold"
+                            Text="{x:Bind LeftPaneHeader, Mode=OneWay}" />
                         <Button
                             x:Uid="PaneHolderClosePaneButton"
                             Grid.Column="1"
@@ -176,7 +179,10 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock VerticalAlignment="Center" Text="{x:Bind RightPaneHeader, Mode=OneWay}" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontWeight="SemiBold"
+                            Text="{x:Bind RightPaneHeader, Mode=OneWay}" />
                         <Button
                             x:Uid="PaneHolderClosePaneButton"
                             Grid.Column="1"
@@ -185,6 +191,7 @@
                             AutomationProperties.Name="Close pane"
                             Background="Transparent"
                             BorderBrush="Transparent"
+                            Click="RightPaneCloseButton_Click"
                             ToolTipService.ToolTip="Close pane">
                             <FontIcon FontSize="16" Glyph="&#xE89F;" />
                         </Button>
