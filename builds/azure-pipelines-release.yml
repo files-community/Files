@@ -88,18 +88,6 @@ jobs:
     displayName: 'Publish Artifact: drop'
     inputs:
       PathtoPublish: '$(build.artifactstagingdirectory)'
-    
-  - task: store-flight@0
-    inputs:
-      serviceEndpoint: 'Files'
-      appId: '9NGHP3DX8HDX'
-      flightName: 'Files - Canary'
-      packagePath: '$(appxPackageDir)\**\*.msixupload'
-      force: false
-      skipPolling: false
-      deletePackages: true
-      numberOfPackagesToKeep: '5'
-      isMandatoryUpdate: true
 
 ### Store release ###
 - job: StoreRelease
@@ -156,18 +144,6 @@ jobs:
       configuration: '$(buildConfiguration)'
       msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreAndSideload'
       maximumCpuCount: true
-
-  - task: CopyFiles@2
-    displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
-    inputs:
-      SourceFolder: '$(system.defaultworkingdirectory)'
-      Contents: '**\bin\$(BuildConfiguration)\**'
-      TargetFolder: '$(build.artifactstagingdirectory)'
-
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: drop'
-    inputs:
-      PathtoPublish: '$(build.artifactstagingdirectory)'
     
   - task: store-flight@0
     inputs:
