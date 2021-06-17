@@ -103,15 +103,31 @@ namespace Files.ViewModels
                     break;
 
                 case VirtualKey.Tab:
-                    // Select the next tab
-                    if ((App.MainViewModel.TabStripSelectedIndex + 1) < AppInstances.Count)
+                    bool shift = e.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
+
+                    if (!shift) // ctrl + tab, select next tab
                     {
-                        indexToSelect = App.MainViewModel.TabStripSelectedIndex + 1;
+                        if ((App.MainViewModel.TabStripSelectedIndex + 1) < AppInstances.Count)
+                        {
+                            indexToSelect = App.MainViewModel.TabStripSelectedIndex + 1;
+                        }
+                        else
+                        {
+                            indexToSelect = 0;
+                        }
                     }
-                    else
+                    else // ctrl + shift + tab, select previous tab
                     {
-                        indexToSelect = 0;
+                        if ((App.MainViewModel.TabStripSelectedIndex - 1) >= 0)
+                        {
+                            indexToSelect = App.MainViewModel.TabStripSelectedIndex - 1;
+                        }
+                        else
+                        {
+                            indexToSelect = AppInstances.Count - 1;
+                        }
                     }
+                    
                     break;
             }
 
