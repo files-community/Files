@@ -42,9 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Usuń z listy</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Niedawno używane pliki</value>
-  </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
@@ -483,9 +480,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Ostatnio używany:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Właściciel:</value>
-  </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>Anuluj</value>
   </data>
@@ -845,9 +839,6 @@
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>Motyw aplikacji</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Pokazuj właściciela w właściwościach</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Centrum statusu</value>
@@ -1596,9 +1587,6 @@
   <data name="Browse" xml:space="preserve">
     <value>Wyszukaj</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Ostatnie lokalizacje</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Podgląd niedostępny</value>
   </data>
@@ -1619,9 +1607,6 @@
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Biblioteki</value>
-  </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>Otwórz w nowym Panelu</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Liczba elementów</value>

@@ -90,9 +90,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>التشغيل الأخير</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>المالك</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>ازالة كل العناصر</value>
   </data>
@@ -110,9 +107,6 @@
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>إزالة هذا العنصر</value>
-  </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>العناصر الحديثة</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>الملفات</value>
@@ -185,9 +179,6 @@
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>عند بدء التشغيل</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>اظهر المالك في الخصائص</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>التفضيلات</value>
@@ -1529,9 +1520,6 @@
   </data>
   <data name="Browse" xml:space="preserve">
     <value>تصفح</value>
-  </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>المواقع التي تمت زيارتها حديثاً</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>المعاينة غير متوفرة</value>

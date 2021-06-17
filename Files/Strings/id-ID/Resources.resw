@@ -30,9 +30,6 @@
   <data name="Browse" xml:space="preserve">
     <value>Jelajahi</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Lokasi terakhir</value>
-  </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>Drive</value>
   </data>
@@ -96,9 +93,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Diakses:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Pemilik:</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Hapus semua item</value>
   </data>
@@ -116,9 +110,6 @@
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Hapus item ini</value>
-  </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Item terbaru</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
@@ -191,9 +182,6 @@
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Di Awal</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Tampilkan pemilik item di properti </value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferensi</value>
@@ -1662,9 +1650,6 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
   </data>
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumen</value>
-  </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>Buka di Panel baru</value>
   </data>
   <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>Tampilkan pustaka di bilah sisi</value>

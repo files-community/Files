@@ -105,9 +105,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>இந்த உருப்படியை அகற்று</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>சமீபத்திய உருப்படிகள்</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>பின்னூட்டத்தைச் சமர்ப்பி</value>
   </data>
@@ -480,9 +477,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>அணுகியது:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>உரிமையாளர்:</value>
-  </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>இரத்து</value>
   </data>
@@ -814,9 +808,6 @@
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>பயன்பாட்டுக் கருப்பொருள்</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>பண்புகளில் உரிமையாளரை காண்பி</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>செயல் மையம்</value>
@@ -1168,9 +1159,6 @@
   </data>
   <data name="Browse" xml:space="preserve">
     <value>உலாவு</value>
-  </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>சமீபத்திய இருப்பிடங்கள்</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>முன்னோட்டம் கிடைக்கவில்லை</value>

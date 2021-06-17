@@ -90,9 +90,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Hozzáférés:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Tulajdonos:</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Minden elem eltávolítása</value>
   </data>
@@ -110,9 +107,6 @@
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Elem eltávolítása</value>
-  </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Előzmények</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
@@ -179,9 +173,6 @@
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Induláskor</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Tulajdonos mutatása a tulajdonságoknál</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Működés</value>
@@ -1605,9 +1596,6 @@
   <data name="Browse" xml:space="preserve">
     <value>Tallózás</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Legutóbbi helyek</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nincs elérhető előnézet</value>
   </data>
@@ -1628,9 +1616,6 @@
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Könyvtárak</value>
-  </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>Megnyitás jobb oldali panelen</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Elemek száma</value>

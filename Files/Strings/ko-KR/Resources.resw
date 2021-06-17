@@ -42,9 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>이 항목 삭제</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>최근 파일</value>
-  </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
@@ -468,9 +465,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>액세스한 날짜:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>소유자:</value>
-  </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>취소</value>
   </data>
@@ -695,9 +689,6 @@
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
     <value>숨김 파일, 폴더 표시</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>파일 속성에 소유자 표시</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>파일</value>
@@ -1605,9 +1596,6 @@
   <data name="Browse" xml:space="preserve">
     <value>탐색</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>최근 위치</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>미리보기를 사용할 수 없습니다</value>
   </data>
@@ -1628,9 +1616,6 @@
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>라이브러리</value>
-  </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>새 패널에서 열기</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>항목 수</value>
