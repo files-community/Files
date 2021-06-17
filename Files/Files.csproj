@@ -204,11 +204,11 @@
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Filesystem\Permissions\FilePermissionsManager.cs" />
     <Compile Include="Filesystem\Permissions\FileSystemAccessRule.cs" />
+    <Compile Include="Filesystem\Permissions\FileSystemAccessRuleForUI.cs" />
     <Compile Include="Filesystem\Permissions\RulesForUser.cs" />
     <Compile Include="Filesystem\Permissions\UserGroup.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupedCollection.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupingHelper.cs" />
-    <Compile Include="Helpers\MathHelpers.cs" />
     <Compile Include="Helpers\UniversalLogWriter.cs" />
     <Compile Include="Helpers\SaveImageToFile.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
@@ -337,7 +337,7 @@
     </Compile>
     <Compile Include="ViewModels\NavToolbarViewModel.cs" />
     <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
-    <Compile Include="ViewModels\Properties\FileSystemProperties.cs" />
+    <Compile Include="ViewModels\Properties\SecurityProperties.cs" />
     <Compile Include="ViewModels\SettingsViewModels\SidebarViewModel.cs" />
     <Compile Include="ViewModels\SearchBoxViewModel.cs" />
     <Compile Include="ViewModels\SidebarViewModel.cs" />
@@ -527,6 +527,9 @@
     </Compile>
     <Compile Include="Views\Pages\PropertiesSecurity.xaml.cs">
       <DependentUpon>PropertiesSecurity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\PropertiesSecurityAdvanced.xaml.cs">
+      <DependentUpon>PropertiesSecurityAdvanced.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PaneHolderPage.xaml.cs">
       <DependentUpon>PaneHolderPage.xaml</DependentUpon>
@@ -1006,6 +1009,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Pages\PropertiesSecurity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\PropertiesSecurityAdvanced.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

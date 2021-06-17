@@ -1,9 +1,7 @@
 ﻿using Files.DataModels.NavigationControlItems;
 using Files.Extensions;
-using Files.Filesystem;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;

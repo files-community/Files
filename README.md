@@ -12,7 +12,6 @@ Files [code of conduct](https://github.com/files-community/Files/blob/main/CODE_
 
 ## Where to get Files
 - [Microsoft Store](https://www.microsoft.com/store/apps/9NGHP3DX8HDX)
-- [Alternative download](https://files-community.github.io/package.github.io/Files.Package/Files.Package.appinstaller)
 
 ## What is Files?
 Files is a file manager which leverages the latest features of the Windows platform including Fluent Design, seamless updates, and APIs which enable the performance and lifecycle behavior that users expect. Whether you want to simplify your experience with your files or try something new, Files is a one-stop solution for exploring your files on the fly.
