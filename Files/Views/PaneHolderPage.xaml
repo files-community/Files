@@ -121,7 +121,7 @@
                     <local:ModernShellPage
                         x:Name="PaneLeft"
                         ContentChanged="Pane_ContentChanged"
-                        CurrentInstanceBorderThickness="0,0,0,2"
+                        CurrentInstanceBorderThickness="0,0,2,0"
                         IsPageMainPane="True"
                         NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
                         PaneHolder="{x:Bind}"
@@ -139,7 +139,7 @@
                     <local:ModernShellPage
                         x:Name="PaneRight"
                         ContentChanged="Pane_ContentChanged"
-                        CurrentInstanceBorderThickness="0,0,0,2"
+                        CurrentInstanceBorderThickness="2,0,0,0"
                         IsPageMainPane="False"
                         NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
                         PaneHolder="{x:Bind}"
