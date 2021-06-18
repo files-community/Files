@@ -229,7 +229,6 @@
                                     </icore:EventTriggerBehavior>
                                 </i:Interaction.Behaviors>
 
-                                <!--  Remove Reveal Highlight Effect  -->
                                 <GridView.ItemContainerStyle>
                                     <Style TargetType="GridViewItem" />
                                 </GridView.ItemContainerStyle>
