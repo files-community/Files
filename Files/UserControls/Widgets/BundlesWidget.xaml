@@ -231,7 +231,6 @@
 
                                 <GridView.ItemContainerStyle>
                                     <Style TargetType="GridViewItem" />
-                                </GridView.ItemContainerStyle>
 
                                 <GridView.ItemTemplate>
                                     <!--  Bundle Item design  -->
