@@ -61,6 +61,8 @@
                             <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorBase}" />
                             <!--  File Browser Control  -->
                             <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorBase}" />
+                            <!--  Preview pane  -->
+                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorQuarternary}" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
@@ -91,6 +93,8 @@
                             <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorBase}" />
                             <!--  File Browser Control  -->
                             <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorBase}" />
+                            <!--  Preview pane  -->
+                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorQuarternary}" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
@@ -121,6 +125,8 @@
                             <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorBase}" />
                             <!--  File Browser Control  -->
                             <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorBase}" />
+                            <!--  Preview pane  -->
+                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorQuarternary}" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                     <LinearGradientBrush x:Key="ControlElevationBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,3">

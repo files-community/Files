@@ -33,7 +33,7 @@
     <Grid
         x:Name="RootGrid"
         HorizontalAlignment="Stretch"
-        Background="{ThemeResource SolidBackgroundFillColorQuarternary}">
+        Background="{ThemeResource PreviewPaneBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
