@@ -75,7 +75,7 @@ namespace Files.ViewModels.Previews
 
             list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
                                                                                             (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
-            return list.Where(i => i.Value != null).ToList();
+            return list.Where(i => i.ValueText != null).ToList();
         }
 
         /// <summary>

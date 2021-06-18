@@ -5,6 +5,8 @@ using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -262,9 +264,25 @@ namespace Files.ViewModels.Properties
                     propsToGet.Add(prop.Property);
                 }
             }
-
+#if DEBUG
+            // This makes it much easier to debug issues with the property list
+            var keyValuePairs = new Dictionary<string, object>();
+            foreach (var prop in propsToGet)
+            {
+                object val = null;
+                try
+                {
+                    val = (await file.Properties.RetrievePropertiesAsync(new string[] { prop })).First().Value;
+                }
+                catch (ArgumentException e)
+                {
+                    Debug.WriteLine($"Unable to retrieve system file property {prop}.\n{e}");
+                }
+                keyValuePairs.Add(prop, val);
+            }
+#else
             var keyValuePairs = await file.Properties.RetrievePropertiesAsync(propsToGet);
-
+#endif
             foreach (var prop in list)
             {
                 if (!string.IsNullOrEmpty(prop.Property))

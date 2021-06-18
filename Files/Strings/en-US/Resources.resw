@@ -2565,4 +2565,22 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Close pane</value>
   </data>
+  <data name="PropertyFileDescription" xml:space="preserve">
+    <value>File description</value>
+  </data>
+  <data name="PropertyCompany" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="PropertyLanguage" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="PropertyTrademarks" xml:space="preserve">
+    <value>Trademarks</value>
+  </data>
+  <data name="PropertyFileVersion" xml:space="preserve">
+    <value>File version</value>
+  </data>
+  <data name="PropertySyncStatus" xml:space="preserve">
+    <value>Sync status</value>
+  </data>
 </root>
