@@ -23,57 +23,35 @@ namespace Files.ViewModels
 {
     public class PreviewPaneViewModel : ObservableObject
     {
-        private List<ListedItem> selectedItems;
+        private CancellationTokenSource loadCancellationTokenSource;
 
-        public List<ListedItem> SelectedItems
+        private bool isItemSelected;
+        public bool IsItemSelected
         {
-            get => selectedItems;
-            set
-            {
-                if (SetProperty(ref selectedItems, value))
-                {
-                    SelectedItem = SelectedItems?.FirstOrDefault();
-                }
-            }
+            get => isItemSelected;
+            set => SetProperty(ref isItemSelected, value);
         }
 
         private ListedItem selectedItem;
-
-        private CancellationTokenSource loadCancellationTokenSource;
-
         public ListedItem SelectedItem
         {
             get => selectedItem;
             set
             {
-                SetProperty(ref selectedItem, value);
-                SelectedItem?.FileDetails?.Clear();
-                SelectedItemChanged();
+                if(SetProperty(ref selectedItem, value))
+                {
+                    SelectedItem?.FileDetails?.Clear();
+                    SelectedItemChanged();
+                }
             }
         }
 
-        private string previewErrorText;
 
-        public string PreviewErrorText
+        private PreviewPaneStates previewPaneState;
+        public PreviewPaneStates PreviewPaneState
         {
-            get => previewErrorText;
-            set => SetProperty(ref previewErrorText, value);
-        }
-
-        private string detailsErrorText;
-
-        public string DetailsErrorText
-        {
-            get => detailsErrorText;
-            set => SetProperty(ref detailsErrorText, value);
-        }
-
-        private Visibility detailsListVisibility = Visibility.Collapsed;
-
-        public Visibility DetailsListVisibility
-        {
-            get => detailsListVisibility;
-            set => SetProperty(ref detailsListVisibility, value);
+            get => previewPaneState;
+            set => SetProperty(ref previewPaneState, value);
         }
 
         private UIElement previewPaneContent;
@@ -90,13 +68,11 @@ namespace Files.ViewModels
 
         private async Task LoadPreviewControlAsync(CancellationToken token)
         {
-            DetailsErrorText = "";
-            PreviewErrorText = "";
-
+            PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
             if (SelectedItem.IsHiddenItem)
             {
-                DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
-                PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
+                PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
+
                 PreviewPaneContent = null;
                 return;
             }
@@ -245,11 +221,11 @@ namespace Files.ViewModels
         private async void SelectedItemChanged()
         {
             loadCancellationTokenSource?.Cancel();
-            if (SelectedItem != null && SelectedItems.Count == 1)
+            if (SelectedItem != null && IsItemSelected)
             {
                 try
                 {
-                    DetailsListVisibility = Visibility.Visible;
+                    PreviewPaneState = PreviewPaneStates.NoPreviewAvailable;
                     loadCancellationTokenSource = new CancellationTokenSource();
                     await LoadPreviewControlAsync(loadCancellationTokenSource.Token);
                 }
@@ -257,7 +233,7 @@ namespace Files.ViewModels
                 {
                     Debug.WriteLine(e);
                     loadCancellationTokenSource?.Cancel();
-                    // If initial loading fails, attempt to load a basic preivew (thumbnail and details only)
+                    // If initial loading fails, attempt to load a basic preview (thumbnail and details only)
                     // If that fails, revert to no preview/details available as long as the item is not a shortcut or folder
                     if(!SelectedItem.IsShortcutItem && SelectedItem.PrimaryItemAttribute != StorageItemTypes.Folder)
                     {
@@ -275,25 +251,27 @@ namespace Files.ViewModels
                     }
 
                     PreviewPaneContent = null;
-                    DetailsListVisibility = Visibility.Collapsed;
-                    DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
-                    PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
+                    PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
                 }
             }
-            else if (SelectedItem != null)
+            else if (!IsItemSelected)
             {
                 PreviewPaneContent = null;
-                DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
-                PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
-                DetailsListVisibility = Visibility.Collapsed;
+                PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
             }
             else
             {
                 PreviewPaneContent = null;
-                DetailsErrorText = "NoItemSelected".GetLocalized();
-                PreviewErrorText = "NoItemSelected".GetLocalized();
-                DetailsListVisibility = Visibility.Collapsed;
+                PreviewPaneState = PreviewPaneStates.NoItemSelected;
             }
         }
+    }
+
+    public enum PreviewPaneStates
+    {
+        NoItemSelected,
+        NoPreviewAvailable,
+        NoPreviewOrDetailsAvailable,
+        PreviewAndDetailsAvailable,
     }
 }

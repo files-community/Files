@@ -61,6 +61,8 @@ namespace Files
 
         public IShellPage ParentShellPageInstance { get; private set; } = null;
 
+        public PreviewPaneViewModel PreviewPaneViewModel { get; } = new PreviewPaneViewModel();
+
         public bool IsRenamingItem { get; set; } = false;
 
         private bool isMiddleClickToScrollEnabled = true;
@@ -222,6 +224,17 @@ namespace Files
                             }
                         }
                     }
+
+                    if(value?.Count == 1)
+                    {
+                        PreviewPaneViewModel.SelectedItem = SelectedItems.First();
+                        PreviewPaneViewModel.IsItemSelected = true;
+                    } else
+                    {
+                        PreviewPaneViewModel.SelectedItem = null;
+                        PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
+                    }
+
                     NotifyPropertyChanged(nameof(SelectedItems));
                     ItemManipulationModel.SetDragModeForItems();
                 }
@@ -412,7 +425,6 @@ namespace Files
             }
 
             ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
-            ParentShellPageInstance.LoadPreviewPaneChanged();
             ParentShellPageInstance.FilesystemViewModel.UpdateGroupOptions();
             UpdateCollectionViewSource();
             FolderSettings.IsLayoutModeChanging = false;

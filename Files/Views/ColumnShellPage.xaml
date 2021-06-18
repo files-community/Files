@@ -166,8 +166,7 @@
     <Grid
         x:Name="RootGrid"
         BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
-        BorderThickness="0,0,0,2"
-        SizeChanged="RootGrid_SizeChanged">
+        BorderThickness="0,0,0,2">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -198,32 +197,5 @@
             Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
             Canvas.ZIndex="30"
             Navigated="ItemDisplayFrame_Navigated" />
-
-        <Custom:DropShadowPanel
-            x:Name="PreviewPaneDropShadowPanel"
-            Grid.Row="1"
-            Grid.Column="2"
-            HorizontalContentAlignment="Stretch"
-            x:Load="{x:Bind LoadPreviewPane, Mode=OneWay}"
-            BlurRadius="16"
-            Canvas.ZIndex="10"
-            OffsetX="-4"
-            ShadowOpacity="0.04">
-            <controls:PreviewPane
-                x:Name="PreviewPane"
-                x:Uid="SelectedFilePreviewPane"
-                AutomationProperties.Name="Selected file preview pane"
-                Loading="PreviewPane_Loading"
-                SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" />
-        </Custom:DropShadowPanel>
-
-        <Custom:GridSplitter
-            x:Name="PreviewPaneGridSplitter"
-            Grid.Row="1"
-            Grid.Column="1"
-            x:Load="{x:Bind LoadPreviewPane, Mode=OneWay}"
-            ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted"
-            ResizeBehavior="BasedOnAlignment"
-            Style="{StaticResource DefaultGridSplitterStyle}" />
     </Grid>
 </Page>

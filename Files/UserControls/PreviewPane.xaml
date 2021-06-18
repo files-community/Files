@@ -57,11 +57,13 @@
                 x:Name="PreviewErrorText"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Text="{x:Bind Model.PreviewErrorText, Mode=OneWay}" />
+                Text="{x:Bind GetLocalizedText('NoItemSelected')}" />
             <ContentControl
+                x:Name="PreviewControlPresenter"
                 HorizontalContentAlignment="Stretch"
                 VerticalContentAlignment="Stretch"
-                Content="{x:Bind Model.PreviewPaneContent, Mode=OneWay}" />
+                Content="{x:Bind Model.PreviewPaneContent, Mode=OneWay}"
+                Visibility="Collapsed" />
         </Grid>
 
         <controls:GridSplitter
@@ -87,7 +89,8 @@
                 x:Name="DetailsErrorText"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Text="{x:Bind Model.DetailsErrorText, Mode=OneWay}" />
+                Text="{x:Bind GetLocalizedText('NoItemSelected')}"
+                Visibility="Visible" />
 
             <ListView
                 x:Name="FileDetailsList"
@@ -95,7 +98,7 @@
                 AutomationProperties.Name="File Details"
                 ItemsSource="{x:Bind Model.SelectedItem.FileDetails, Mode=OneWay}"
                 SelectionMode="None"
-                Visibility="{x:Bind Model.DetailsListVisibility, Mode=OneWay}">
+                Visibility="Collapsed">
                 <ListView.Header>
                     <StackPanel
                         Margin="10"
@@ -205,23 +208,49 @@
             </VisualStateGroup>
 
             <VisualStateGroup>
-                <VisualState x:Name="NoDetailsAvailable">
+                <VisualState x:Name="NoItemSelected">
                     <VisualState.StateTriggers>
-                        <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind Model.DetailsErrorText, Mode=OneWay}" />
+                        <triggers:IsEqualStateTrigger Value="{x:Bind Model.PreviewPaneState, Mode=OneWay}" To="0" />
+                        <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind Model, Mode=OneWay}" />
                     </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="DetailsErrorText.Visibility" Value="Collapsed" />
-                    </VisualState.Setters>
                 </VisualState>
-            </VisualStateGroup>
 
-            <VisualStateGroup>
                 <VisualState x:Name="NoPreviewAvailable">
                     <VisualState.StateTriggers>
-                        <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind Model.PreviewErrorText, Mode=OneWay}" />
+                        <triggers:IsEqualStateTrigger Value="{x:Bind Model.PreviewPaneState, Mode=OneWay}" To="1" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PreviewErrorText.Visibility" Value="Visible" />
+                        <Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedText('DetailsPanePreviewNotAvaliableText')}" />
+                        <Setter Target="DetailsErrorText.Visibility" Value="Collapsed" />
+                        <Setter Target="FileDetailsList.Visibility" Value="Visible" />
+                        <Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="NoPreviewOrDetailsAvailable">
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind Model.PreviewPaneState, Mode=OneWay}" To="2" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PreviewErrorText.Visibility" Value="Visible" />
+                        <Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedText('DetailsPanePreviewNotAvaliableText')}" />
+                        <Setter Target="DetailsErrorText.Visibility" Value="Visible" />
+                        <Setter Target="DetailsErrorText.Text" Value="{x:Bind GetLocalizedText('PreviewPaneDetailsNotAvailableText')}" />
+                        <Setter Target="FileDetailsList.Visibility" Value="Collapsed" />
+                        <Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="PreviewAndDetailsAvailable">
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind Model.PreviewPaneState, Mode=OneWay}" To="3" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
+                        <Setter Target="DetailsErrorText.Visibility" Value="Collapsed" />
+                        <Setter Target="FileDetailsList.Visibility" Value="Visible" />
+                        <Setter Target="PreviewControlPresenter.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

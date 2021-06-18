@@ -50,8 +50,6 @@ namespace Files
         void RemoveLastPageFromBackStack();
 
         void SubmitSearch(string query, bool searchUnindexedItems);
-
-        void LoadPreviewPaneChanged();
     }
 
     public interface IPaneHolder : IDisposable

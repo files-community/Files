@@ -8,6 +8,8 @@ using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
@@ -25,7 +27,7 @@ namespace Files.Views
     /// <summary>
     /// The root page of Files
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
         public MainViewModel MainViewModel => App.MainViewModel;
@@ -82,6 +84,7 @@ namespace Files.Views
             {
                 SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs((e.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
                 UpdateStatusBarProperties();
+                UpdatePreviewPaneProperties();
             }
         }
 
@@ -96,6 +99,7 @@ namespace Files.Views
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((e.CurrentInstance.TabItemArguments?.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
             UpdateStatusBarProperties();
             UpdateNavToolbarProperties();
+            UpdatePreviewPaneProperties();
             e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
             e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
         }
@@ -104,6 +108,7 @@ namespace Files.Views
         {
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments.NavigationArg.ToString());
             UpdateStatusBarProperties();
+            UpdatePreviewPaneProperties();
             UpdateNavToolbarProperties();
         }
 
@@ -122,6 +127,15 @@ namespace Files.Views
             {
                 NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.NavToolbarViewModel;
                 NavToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.IsMultiPaneEnabled && (SidebarAdaptiveViewModel.PaneHolder?.IsLeftPaneActive ?? false);
+            }
+        }
+
+        private void UpdatePreviewPaneProperties()
+        {
+            if(PreviewPane != null)
+            {
+                PreviewPane.Model = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage?.PreviewPaneViewModel;
+                LoadPreviewPaneChanged();
             }
         }
 
@@ -277,6 +291,102 @@ namespace Files.Views
             }
 
             e.Handled = true;
+        }
+
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if(LoadPreviewPane)
+            {
+                UpdatePositioning();
+            }
+        }
+
+        /// <summary>
+        /// Call this function to update the positioning of the preview pane.
+        /// This is a workaround as the VisualStateManager causes problems.
+        /// </summary>
+        private void UpdatePositioning()
+        {
+            if (!LoadPreviewPane || PreviewPaneDropShadowPanel is null || PreviewPane is null)
+            {
+                PreviewPaneRow.Height = new GridLength(0);
+                PreviewPaneColumn.Width = new GridLength(0);
+            }
+            else if (RootGrid.ActualWidth > 800)
+            {
+                PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 1);
+                PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 2);
+
+                PreviewPaneDropShadowPanel.OffsetX = -2;
+                PreviewPaneDropShadowPanel.OffsetY = 0;
+                PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
+
+                PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 1);
+                PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 1);
+                PreviewPaneGridSplitter.Width = 2;
+                PreviewPaneGridSplitter.Height = RootGrid.ActualHeight;
+
+                PreviewPaneRow.Height = new GridLength(0);
+                PreviewPaneColumn.Width = AppSettings.PreviewPaneSizeVertical;
+                PreviewPane.IsHorizontal = false;
+            }
+            else if (RootGrid.ActualWidth <= 800)
+            {
+                PreviewPaneRow.Height = AppSettings.PreviewPaneSizeHorizontal;
+                PreviewPaneColumn.Width = new GridLength(0);
+
+                PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 3);
+                PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 0);
+
+                PreviewPaneDropShadowPanel.OffsetX = 0;
+                PreviewPaneDropShadowPanel.OffsetY = -2;
+                PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
+
+                PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 2);
+                PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 0);
+                PreviewPaneGridSplitter.Height = 2;
+                PreviewPaneGridSplitter.Width = RootGrid.Width;
+                PreviewPane.IsHorizontal = true;
+            }
+        }
+
+        private void PreviewPaneGridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            if (PreviewPane == null)
+            {
+                return;
+            }
+
+            if (PreviewPane.IsHorizontal)
+            {
+                AppSettings.PreviewPaneSizeHorizontal = new GridLength(PreviewPane.ActualHeight);
+            }
+            else
+            {
+                AppSettings.PreviewPaneSizeVertical = new GridLength(PreviewPane.ActualWidth);
+            }
+        }
+
+        public bool LoadPreviewPane => App.AppSettings.PreviewPaneEnabled;
+
+        public void LoadPreviewPaneChanged()
+        {
+            NotifyPropertyChanged(nameof(LoadPreviewPane));
+            UpdatePositioning();
+        }
+
+        private void PreviewPane_Loading(FrameworkElement sender, object args)
+        {
+            UpdatePreviewPaneProperties();
+            UpdatePositioning();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
