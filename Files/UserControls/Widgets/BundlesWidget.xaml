@@ -99,22 +99,10 @@
             ReorderMode="Enabled"
             SelectionMode="None">
 
-            <!--  Remove Reveal Highlight Effect  -->
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <!--  Spacing  -->
-                    <Setter Property="Margin" Value="0,0,8,8" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="GridViewItem">
-                                <ListViewItemPresenter
-                                    x:Name="Root"
-                                    RevealBackground="{ThemeResource GridViewItemRevealBackground}"
-                                    RevealBorderBrush="{ThemeResource GridViewItemRevealBorderBrush}"
-                                    RevealBorderThickness="0" />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
+                    <Setter Property="Margin" Value="0,0,20,8" />
                 </Style>
             </GridView.ItemContainerStyle>
 
@@ -243,19 +231,7 @@
 
                                 <!--  Remove Reveal Highlight Effect  -->
                                 <GridView.ItemContainerStyle>
-                                    <Style TargetType="GridViewItem">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="GridViewItem">
-                                                    <ListViewItemPresenter
-                                                        x:Name="Root"
-                                                        RevealBackground="{ThemeResource GridViewItemRevealBackground}"
-                                                        RevealBorderBrush="{ThemeResource GridViewItemRevealBorderBrush}"
-                                                        RevealBorderThickness="0" />
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
+                                    <Style TargetType="GridViewItem" />
                                 </GridView.ItemContainerStyle>
 
                                 <GridView.ItemTemplate>
