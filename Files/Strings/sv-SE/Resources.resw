@@ -90,9 +90,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Använd:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Ägare:</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Rensa alla objekt</value>
   </data>
@@ -110,9 +107,6 @@
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Ta bort det här objektet</value>
-  </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Senaste objekt</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
@@ -185,9 +179,6 @@
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Vid start</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Visa ägare i egenskaper</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Alternativ</value>
@@ -1574,9 +1565,6 @@
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Bläddra</value>
-  </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Nyligen använda platser</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Ingen förhandsgranskning är tillgänglig</value>

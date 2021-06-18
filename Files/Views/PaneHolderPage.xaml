@@ -122,8 +122,6 @@
                         x:Name="PaneLeft"
                         ContentChanged="Pane_ContentChanged"
                         CurrentInstanceBorderThickness="0,0,2,0"
-                        IsMultiPaneActive="{x:Bind IsRightPaneVisible, Mode=OneWay}"
-                        IsMultiPaneEnabled="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
                         IsPageMainPane="True"
                         NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
                         PaneHolder="{x:Bind}"
@@ -137,12 +135,11 @@
                     x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}"
                     BorderBrush="{ThemeResource PaneBorderBrush}"
                     BorderThickness="2,0,0,0">
+
                     <local:ModernShellPage
                         x:Name="PaneRight"
                         ContentChanged="Pane_ContentChanged"
                         CurrentInstanceBorderThickness="2,0,0,0"
-                        IsMultiPaneActive="{x:Bind IsRightPaneVisible, Mode=OneWay}"
-                        IsMultiPaneEnabled="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
                         IsPageMainPane="False"
                         NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
                         PaneHolder="{x:Bind}"

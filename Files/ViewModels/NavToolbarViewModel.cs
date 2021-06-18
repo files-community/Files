@@ -505,6 +505,8 @@ namespace Files.ViewModels
 
         public ICommand OpenNewPaneCommand { get; set; }
 
+        public ICommand ClosePaneCommand { get; set; }
+
         public ICommand OpenDirectoryInDefaultTerminalCommand { get; set; }
 
         public ICommand AddNewTabToMultitaskingControlCommand { get; set; }

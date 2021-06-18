@@ -42,9 +42,6 @@
   <data name="Browse" xml:space="preserve">
     <value>Examinar</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Ubicaciones recientes</value>
-  </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>Dispositivos y unidades</value>
   </data>
@@ -111,9 +108,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Accedido:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Propietario:</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Borrar todo</value>
   </data>
@@ -131,9 +125,6 @@
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Quitar</value>
-  </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Recientes</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
@@ -206,9 +197,6 @@
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>En el inicio</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Mostrar propietario de archivo en la ventana de propiedades</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferencias</value>
@@ -1664,9 +1652,6 @@
   </data>
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumentos</value>
-  </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>Abrir en nuevo Panel</value>
   </data>
   <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>Mostrar Bibliotecas en la barra lateral</value>

@@ -99,9 +99,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Elimina questo elemento</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>File recenti</value>
-  </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
@@ -1599,9 +1596,6 @@
   <data name="Browse" xml:space="preserve">
     <value>Esplora</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Percorsi recenti</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Anteprima non disponibile</value>
   </data>
@@ -1618,13 +1612,10 @@
     <value>Argomenti:</value>
   </data>
   <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
-    <value>Mostra le librerie nella barra laterale</value>
+    <value>Mostra le raccolte nella barra laterale</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
-    <value>Librerie</value>
-  </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>Apri in un nuovo pannello</value>
+    <value>Raccolte</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Numero elementi</value>
@@ -1690,13 +1681,13 @@
     <value>{0:#,##0} file, {1:#,##0} cartelle da {2:#,##0} percorsi</value>
   </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
-    <value>Libreria</value>
+    <value>Raccolta</value>
   </data>
   <data name="LibraryItemAutomation" xml:space="preserve">
-    <value>Libreria</value>
+    <value>Raccolta</value>
   </data>
   <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
-    <value>Libreria</value>
+    <value>Raccolta</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
     <value>Percorsi:</value>
@@ -1726,10 +1717,10 @@
     <value>Questo nome non è consentito!</value>
   </data>
   <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
-    <value>Una libreria con questo nome esiste già!</value>
+    <value>Una raccolta con questo nome esiste già!</value>
   </data>
   <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
-    <value>Elimina Libreria</value>
+    <value>Elimina Raccolta</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Crea</value>
@@ -1831,7 +1822,7 @@
     <value>Gestisci i Widget</value>
   </data>
   <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>Mostra widget Libreria</value>
+    <value>Mostra widget Raccolta</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
     <value>Ci sono {0} conflitti, and {1} elemento/i senza conflitti.</value>
@@ -2414,5 +2405,59 @@
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>Sostituisci tutte le voci delle autorizzazioni degli oggetti figlio con le voci delle autorizzazioni ereditabili da questo oggetto</value>
+  </data>
+  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Menu schede verticale</value>
+  </data>
+  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Menu schede verticale</value>
+  </data>
+  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Nuova scheda (Ctrl+T)</value>
+  </data>
+  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
+    <value>Apri nel pannello secondario</value>
+  </data>
+  <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
+    <value>Crea nuova raccolta</value>
+  </data>
+  <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
+    <value>Ripristina raccolte predefinite</value>
+  </data>
+  <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
+    <value>Ripristina</value>
+  </data>
+  <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
+    <value>Sei sicuro di voler ripristinare le raccolte predefinite? Nessun file verrà cancellato..</value>
+  </data>
+  <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
+    <value>Ripristina le raccolte</value>
+  </data>
+  <data name="StatusLibraryRestoration" xml:space="preserve">
+    <value>Ripristinando le raccolte</value>
+  </data>
+  <data name="StatusLibraryRestorationInProgress" xml:space="preserve">
+    <value>Ripristino delle raccolte predefinite in corso...</value>
+  </data>
+  <data name="StatusLibraryRestorationComplete" xml:space="preserve">
+    <value>Raccolte ripristinate</value>
+  </data>
+  <data name="StatusLibraryRestorationFailed" xml:space="preserve">
+    <value>Errore durante ripristino delle raccolte</value>
+  </data>
+  <data name="StatusRestoreLibrariesDetails" xml:space="preserve">
+    <value>{0} raccolta/e ripristinate </value>
+  </data>
+  <data name="RecentFilesHeader.Text" xml:space="preserve">
+    <value>File recenti</value>
+  </data>
+  <data name="CreateBundleBtn.AutomationProperties.Name" xml:space="preserve">
+    <value>Crea Gruppo</value>
+  </data>
+  <data name="CreateBundleBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Crea Gruppo</value>
+  </data>
+  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
+    <value>Chiudi pannello</value>
   </data>
 </root>

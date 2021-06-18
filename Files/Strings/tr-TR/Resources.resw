@@ -42,9 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Bu ögeyi sil</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Son kullanılanlar</value>
-  </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
@@ -483,9 +480,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Erişim:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Sahibi:</value>
-  </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>İptal</value>
   </data>
@@ -845,9 +839,6 @@
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>Uygulama teması</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Özellikle içinde Sahip görüntülensin</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Durum merkezi</value>
@@ -1605,9 +1596,6 @@
   <data name="Browse" xml:space="preserve">
     <value>Göz at</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Son konumlar</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Ön izleme yok</value>
   </data>
@@ -1628,9 +1616,6 @@
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Kitaplıklar</value>
-  </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>Yeni panoda aç</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Öğe sayısı</value>

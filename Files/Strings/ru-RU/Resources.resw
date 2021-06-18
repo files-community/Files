@@ -42,9 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Убрать из списка</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Последние файлы</value>
-  </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
@@ -483,9 +480,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Открыт:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Владелец:</value>
-  </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>Отмена</value>
   </data>
@@ -845,9 +839,6 @@
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>Тема</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Показать Владельца в свойствах</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Текущие операции</value>
@@ -1565,9 +1556,6 @@
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Обзор</value>
-  </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Недавние расположения</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Фрагмент недоступен</value>

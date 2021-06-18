@@ -104,7 +104,9 @@ namespace Files.Views
         {
             if (SidebarAdaptiveViewModel.PaneHolder != null)
             {
-                SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs((e.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
+                var paneArgs = e.NavigationArg as PaneNavigationArguments;
+                SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ? 
+                    paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
                 UpdateStatusBarProperties();
             }
         }
@@ -113,10 +115,10 @@ namespace Files.Views
         {
             if (SidebarAdaptiveViewModel.PaneHolder != null)
             {
-                SidebarAdaptiveViewModel.PaneHolder.ActivePaneChanged -= PaneHolder_ActivePaneChanged;
+                SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
             }
             SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
-            SidebarAdaptiveViewModel.PaneHolder.ActivePaneChanged += PaneHolder_ActivePaneChanged;
+            SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((e.CurrentInstance.TabItemArguments?.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
             UpdateStatusBarProperties();
             UpdateNavToolbarProperties();
@@ -124,7 +126,7 @@ namespace Files.Views
             e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
         }
 
-        private void PaneHolder_ActivePaneChanged(object sender, EventArgs e)
+        private void PaneHolder_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments.NavigationArg.ToString());
             UpdateStatusBarProperties();
@@ -145,7 +147,8 @@ namespace Files.Views
             if (NavToolbar != null)
             {
                 NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.NavToolbarViewModel;
-                NavToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.IsMultiPaneEnabled && (SidebarAdaptiveViewModel.PaneHolder?.IsLeftPaneActive ?? false);
+                NavToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
+                NavToolbar.IsMultiPaneActive = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
             }
         }
 

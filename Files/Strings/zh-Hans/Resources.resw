@@ -42,9 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>删除</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>最近使用的文件</value>
-  </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
@@ -483,9 +480,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>访问:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>所有者:</value>
-  </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>取消</value>
   </data>
@@ -845,9 +839,6 @@
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>应用主题</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>在属性中显示所有者</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>状态中心</value>
@@ -1605,9 +1596,6 @@
   <data name="Browse" xml:space="preserve">
     <value>浏览</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>最近浏览的位置</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>预览不可用</value>
   </data>
@@ -1628,9 +1616,6 @@
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>库</value>
-  </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>在新面板打开</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>项目数</value>

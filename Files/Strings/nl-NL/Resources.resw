@@ -42,9 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Dit item verwijderen</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Onlangs gebruikt</value>
-  </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
@@ -483,9 +480,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Laatst geopend:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Eigenaar:</value>
-  </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>Annuleren</value>
   </data>
@@ -845,9 +839,6 @@
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>Appthema</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Itemeigenaar weergeven in eigenschappen</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Beoordeling</value>
@@ -1605,9 +1596,6 @@
   <data name="Browse" xml:space="preserve">
     <value>Bladeren</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Recente locaties</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Geen voorbeeld beschikbaar</value>
   </data>
@@ -1628,9 +1616,6 @@
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Bibliotheken</value>
-  </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>In nieuw paneel openen</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Aantal items</value>

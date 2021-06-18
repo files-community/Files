@@ -1,11 +1,10 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
-using Files.Interacts;
-using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
 using System;
+using System.ComponentModel;
 
 namespace Files
 {
@@ -54,24 +53,25 @@ namespace Files
         void LoadPreviewPaneChanged();
     }
 
-    public interface IPaneHolder : IDisposable
+    public interface IPaneHolder : IDisposable, INotifyPropertyChanged
     {
-        public event EventHandler ActivePaneChanged;
-
         public IShellPage ActivePane { get; set; }
         public IFilesystemHelpers FilesystemHelpers { get; }
         public TabItemArguments TabItemArguments { get; set; }
 
         public void OpenPathInNewPane(string path);
+        public void CloseActivePane();
+
         public bool IsLeftPaneActive { get; }
         public bool IsRightPaneActive { get; }
+
+        public bool IsMultiPaneActive { get; } // Another pane is shown
+        public bool IsMultiPaneEnabled { get; } // Multi pane is enabled
     }
 
     public interface IMultiPaneInfo
     {
         public bool IsPageMainPane { get; } // The instance is the left (or only) pane
-        public bool IsMultiPaneActive { get; } // Another pane is shown
-        public bool IsMultiPaneEnabled { get; } // Multi pane is enabled
         public IPaneHolder PaneHolder { get; }
     }
 }

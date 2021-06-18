@@ -90,9 +90,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>ଉପଲବ୍ଧିତ:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>ମାଲିକ:</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>ସମସ୍ତ ଆଇଟମ୍ ଅପସାରଣ କର</value>
   </data>
@@ -110,9 +107,6 @@
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>ଏହି ଆଇଟମ୍ ଅପସାରଣ କରନ୍ତୁ</value>
-  </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>ସାମ୍ପ୍ରତିକ ଆଇଟମଗୁଡ଼ିକ</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files UWP</value>
@@ -1070,9 +1064,6 @@
   </data>
   <data name="Browse" xml:space="preserve">
     <value>ବ୍ରାଉଜ୍ କରନ୍ତୁ</value>
-  </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>ସାମ୍ପ୍ରତିକ ଅବସ୍ଥାନସମୂହ</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>କୌଣସି ପୂର୍ବବଲୋକନ ଉପଲବ୍ଧ ନାହିଁ</value>

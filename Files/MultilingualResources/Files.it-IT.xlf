@@ -122,10 +122,6 @@
           <source>Remove this item</source>
           <target state="translated">Elimina questo elemento</target>
         </trans-unit>
-        <trans-unit id="RecentItems.Text" translate="yes" xml:space="preserve">
-          <source>Recent items</source>
-          <target state="translated">File recenti</target>
-        </trans-unit>
         <trans-unit id="SettingsAboutAppName.Text" translate="yes" xml:space="preserve">
           <source>Files</source>
           <target state="translated">Files</target>
@@ -2123,10 +2119,6 @@
           <source>Browse</source>
           <target state="translated">Esplora</target>
         </trans-unit>
-        <trans-unit id="RecentLocations" translate="yes" xml:space="preserve">
-          <source>Recent locations</source>
-          <target state="translated">Percorsi recenti</target>
-        </trans-unit>
         <trans-unit id="DetailsPanePreviewNotAvaliableText" translate="yes" xml:space="preserve">
           <source>No preview available</source>
           <target state="translated">Anteprima non disponibile</target>
@@ -2149,15 +2141,11 @@
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Header" translate="yes" xml:space="preserve">
           <source>Show library section on the sidebar</source>
-          <target state="translated">Mostra le librerie nella barra laterale</target>
+          <target state="translated">Mostra le raccolte nella barra laterale</target>
         </trans-unit>
         <trans-unit id="SidebarLibraries" translate="yes" xml:space="preserve">
           <source>Libraries</source>
-          <target state="translated">Librerie</target>
-        </trans-unit>
-        <trans-unit id="BundlesOpenInNewPane" translate="yes" xml:space="preserve">
-          <source>Open in new Pane</source>
-          <target state="translated">Apri in un nuovo pannello</target>
+          <target state="translated">Raccolte</target>
         </trans-unit>
         <trans-unit id="PropertyItemCount" translate="yes" xml:space="preserve">
           <source>Item count</source>
@@ -2245,15 +2233,15 @@
         </trans-unit>
         <trans-unit id="ItemTypeLibrary" translate="yes" xml:space="preserve">
           <source>Library</source>
-          <target state="translated">Libreria</target>
+          <target state="translated">Raccolta</target>
         </trans-unit>
         <trans-unit id="LibraryItemAutomation" translate="yes" xml:space="preserve">
           <source>Library</source>
-          <target state="translated">Libreria</target>
+          <target state="translated">Raccolta</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogTabLibrary.Content" translate="yes" xml:space="preserve">
           <source>Library</source>
-          <target state="translated">Libreria</target>
+          <target state="translated">Raccolta</target>
         </trans-unit>
         <trans-unit id="LibraryLocations.Text" translate="yes" xml:space="preserve">
           <source>Locations:</source>
@@ -2293,11 +2281,11 @@
         </trans-unit>
         <trans-unit id="CreateLibraryErrorAlreadyExists" translate="yes" xml:space="preserve">
           <source>Library with the same name already exists!</source>
-          <target state="translated">Una libreria con questo nome esiste già!</target>
+          <target state="translated">Una raccolta con questo nome esiste già!</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutDeleteLibrary.Text" translate="yes" xml:space="preserve">
           <source>Delete Library</source>
-          <target state="translated">Elimina Libreria</target>
+          <target state="translated">Elimina Raccolta</target>
         </trans-unit>
         <trans-unit id="DialogCreateLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Create</source>
@@ -2433,7 +2421,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarShowFolderWidget.Header" translate="yes" xml:space="preserve">
           <source>Show Folders widget</source>
-          <target state="translated">Mostra widget Libreria</target>
+          <target state="translated">Mostra widget Raccolta</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" translate="yes" xml:space="preserve">
           <source>There are {0} conflicting file names, and {1} outgoing item(s).</source>
@@ -3213,55 +3201,75 @@
         </trans-unit>
         <trans-unit id="VerticalTabFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Vertical tab flyout</source>
-          <target state="new">Vertical tab flyout</target>
+          <target state="translated">Menu schede verticale</target>
         </trans-unit>
         <trans-unit id="VerticalTabFlyout.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Vertical tab flyout</source>
-          <target state="new">Vertical tab flyout</target>
+          <target state="translated">Menu schede verticale</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>New tab (Ctrl+T)</source>
-          <target state="new">New tab (Ctrl+T)</target>
+          <target state="translated">Nuova scheda (Ctrl+T)</target>
+        </trans-unit>
+        <trans-unit id="BundlesOpenInNewPane.Text" translate="yes" xml:space="preserve">
+          <source>Open in new Pane</source>
+          <target state="translated">Apri nel pannello secondario</target>
         </trans-unit>
         <trans-unit id="SideBarCreateNewLibrary.Text" translate="yes" xml:space="preserve">
           <source>Create new library</source>
-          <target state="new">Create new library</target>
+          <target state="translated">Crea nuova raccolta</target>
         </trans-unit>
         <trans-unit id="SideBarRestoreLibraries.Text" translate="yes" xml:space="preserve">
           <source>Restore default libraries</source>
-          <target state="new">Restore default libraries</target>
+          <target state="translated">Ripristina raccolte predefinite</target>
         </trans-unit>
         <trans-unit id="DialogRestoreLibrariesButtonText" translate="yes" xml:space="preserve">
           <source>Restore</source>
-          <target state="new">Restore</target>
+          <target state="translated">Ripristina</target>
         </trans-unit>
         <trans-unit id="DialogRestoreLibrariesSubtitleText" translate="yes" xml:space="preserve">
           <source>Are you sure you want to restore the default libraries? All your files will remain on your storage.</source>
-          <target state="new">Are you sure you want to restore the default libraries? All your files will remain on your storage.</target>
+          <target state="translated">Sei sicuro di voler ripristinare le raccolte predefinite? Nessun file verrà cancellato..</target>
         </trans-unit>
         <trans-unit id="DialogRestoreLibrariesTitleText" translate="yes" xml:space="preserve">
           <source>Restore Libraries</source>
-          <target state="new">Restore Libraries</target>
+          <target state="translated">Ripristina le raccolte</target>
         </trans-unit>
         <trans-unit id="StatusLibraryRestoration" translate="yes" xml:space="preserve">
           <source>Restoring libraries</source>
-          <target state="new">Restoring libraries</target>
+          <target state="translated">Ripristinando le raccolte</target>
         </trans-unit>
         <trans-unit id="StatusLibraryRestorationInProgress" translate="yes" xml:space="preserve">
           <source>Restoring default libraries in progress...</source>
-          <target state="new">Restoring default libraries in progress...</target>
+          <target state="translated">Ripristino delle raccolte predefinite in corso...</target>
         </trans-unit>
         <trans-unit id="StatusLibraryRestorationComplete" translate="yes" xml:space="preserve">
           <source>Libraries restored</source>
-          <target state="new">Libraries restored</target>
+          <target state="translated">Raccolte ripristinate</target>
         </trans-unit>
         <trans-unit id="StatusLibraryRestorationFailed" translate="yes" xml:space="preserve">
           <source>Failed to restore libraries</source>
-          <target state="new">Failed to restore libraries</target>
+          <target state="translated">Errore durante ripristino delle raccolte</target>
         </trans-unit>
         <trans-unit id="StatusRestoreLibrariesDetails" translate="yes" xml:space="preserve">
           <source>{0} library files successfully restored</source>
-          <target state="new">{0} library files successfully restored</target>
+          <target state="translated">{0} raccolta/e ripristinate </target>
+        </trans-unit>
+        <trans-unit id="RecentFilesHeader.Text" translate="yes" xml:space="preserve">
+          <source>Recent Files</source>
+          <target state="translated">File recenti</target>
+        </trans-unit>
+        <trans-unit id="CreateBundleBtn.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Create Bundle</source>
+          <target state="translated">Crea Gruppo</target>
+        </trans-unit>
+        <trans-unit id="CreateBundleBtn.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Create Bundle</source>
+          <target state="translated">Crea Gruppo</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarClosePane.Label" translate="yes" xml:space="preserve">
+          <source>Close pane</source>
+          <target state="translated">Chiudi pannello</target>
         </trans-unit>
       </group>
     </body>

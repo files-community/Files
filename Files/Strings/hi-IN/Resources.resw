@@ -90,9 +90,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>एक्सेस किया गया:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>मालिक:</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>सभी वस्तुओं को साफ़ करें</value>
   </data>
@@ -110,9 +107,6 @@
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>इस वस्तु को निकालें</value>
-  </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>हाल ही का वस्तु</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files UWP</value>
@@ -1127,9 +1121,6 @@
   </data>
   <data name="Browse" xml:space="preserve">
     <value>ब्राउज़</value>
-  </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>हाल ही के स्थान</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>कोई पूर्वावलोकन उपलब्ध नहीं</value>

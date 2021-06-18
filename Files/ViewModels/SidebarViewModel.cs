@@ -69,13 +69,13 @@ namespace Files.ViewModels
         public static readonly GridLength CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();
 
         private NavigationViewDisplayMode sidebarDisplayMode;
-        
+
         public NavigationViewDisplayMode SidebarDisplayMode
         {
             get => sidebarDisplayMode;
-            set 
-            { 
-                if(SetProperty(ref sidebarDisplayMode, value))
+            set
+            {
+                if (SetProperty(ref sidebarDisplayMode, value))
                 {
                     OnPropertyChanged(nameof(IsSidebarCompactSize));
                     UpdateTabControlMargin();
@@ -83,7 +83,7 @@ namespace Files.ViewModels
             }
         }
 
-        public bool IsSidebarCompactSize => SidebarDisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Compact || SidebarDisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Minimal;
+        public bool IsSidebarCompactSize => SidebarDisplayMode == NavigationViewDisplayMode.Compact || SidebarDisplayMode == NavigationViewDisplayMode.Minimal;
 
         public void NotifyInstanceRelatedPropertiesChanged(string arg)
         {
@@ -135,11 +135,6 @@ namespace Files.ViewModels
             }
         }
 
-        public bool IsMultiPaneEnabled
-        {
-            get => App.AppSettings.IsDualPaneEnabled && !IsSidebarCompactSize;
-        }
-
         public bool IsSidebarOpen
         {
             get => App.AppSettings.IsSidebarOpen;
@@ -182,10 +177,6 @@ namespace Files.ViewModels
                         OnPropertyChanged(nameof(IsSidebarOpen));
                     }
                     break;
-
-                case nameof(App.AppSettings.IsDualPaneEnabled):
-                    OnPropertyChanged(nameof(IsMultiPaneEnabled));
-                    break;
             }
         }
 
@@ -205,7 +196,7 @@ namespace Files.ViewModels
             TabControlMargin = SidebarDisplayMode switch
             {
                 // This prevents the pane toggle button from overlapping the tab control in minimal mode
-                NavigationViewDisplayMode.Minimal => new Thickness(44, 0, 0, 0), 
+                NavigationViewDisplayMode.Minimal => new Thickness(44, 0, 0, 0),
                 _ => new Thickness(0, 0, 0, 0),
             };
         }

@@ -116,13 +116,9 @@ namespace Files.Views
                 {
                     isPageMainPane = value;
                     NotifyPropertyChanged(nameof(IsPageMainPane));
-                    NotifyPropertyChanged(nameof(IsPageSecondaryPane));
                 }
             }
         }
-
-        public static readonly DependencyProperty IsPageMainPaneProperty =
-            DependencyProperty.Register("IsPageMainPane", typeof(bool), typeof(ColumnShellPage), new PropertyMetadata(true));
 
         public SolidColorBrush CurrentInstanceBorderBrush
         {
@@ -132,8 +128,6 @@ namespace Files.Views
 
         public static readonly DependencyProperty CurrentInstanceBorderBrushProperty =
             DependencyProperty.Register("CurrentInstanceBorderBrush", typeof(SolidColorBrush), typeof(ColumnShellPage), new PropertyMetadata(null));
-
-        public bool IsPageSecondaryPane => !IsMultiPaneActive || !IsPageMainPane;
 
         public Type CurrentPageType => ItemDisplayFrame.SourcePageType;
 
@@ -201,6 +195,7 @@ namespace Files.Views
             NavToolbarViewModel.CopyPathOfWorkingDirectoryCommand = new RelayCommand(CopyWorkingLocation);
             NavToolbarViewModel.OpenNewWindowCommand = new RelayCommand(NavigationHelpers.LaunchNewWindow);
             NavToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized()));
+            NavToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
             NavToolbarViewModel.OpenDirectoryInDefaultTerminalCommand = new RelayCommand(() => NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory, this));
             NavToolbarViewModel.AddNewTabToMultitaskingControlCommand = new RelayCommand(async () => await MainPageViewModel.AddNewTabAsync());
             NavToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, x, this));
@@ -514,37 +509,6 @@ namespace Files.Views
                 {
                     tabItemArguments = value;
                     ContentChanged?.Invoke(this, value);
-                }
-            }
-        }
-
-        private bool isMultiPaneActive;
-
-        public bool IsMultiPaneActive
-        {
-            get => isMultiPaneActive;
-            set
-            {
-                if (value != isMultiPaneActive)
-                {
-                    isMultiPaneActive = value;
-                    NotifyPropertyChanged(nameof(IsMultiPaneActive));
-                    NotifyPropertyChanged(nameof(IsPageSecondaryPane));
-                }
-            }
-        }
-
-        private bool isMultiPaneEnabled;
-
-        public bool IsMultiPaneEnabled
-        {
-            get => isMultiPaneEnabled;
-            set
-            {
-                if (value != isMultiPaneEnabled)
-                {
-                    isMultiPaneEnabled = value;
-                    NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
                 }
             }
         }

@@ -1,30 +1,16 @@
 ﻿using Files.DataModels;
-using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
-using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
-using static Files.UserControls.INavigationToolbar;
 
 namespace Files.UserControls
 {
@@ -94,22 +80,17 @@ namespace Files.UserControls
         public static readonly DependencyProperty ShowMultiPaneControlsProperty =
             DependencyProperty.Register(nameof(ShowMultiPaneControls), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
 
-        private bool isMultiPaneActive;
 
         public bool IsMultiPaneActive
         {
-            get
-            {
-                return isMultiPaneActive;
-            }
-            set
-            {
-                if (value != isMultiPaneActive)
-                {
-                    isMultiPaneActive = value;
-                }
-            }
+            get { return (bool)GetValue(IsMultiPaneActiveProperty); }
+            set { SetValue(IsMultiPaneActiveProperty, value); }
         }
+
+        // Using a DependencyProperty as the backing store for IsMultiPaneActive.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsMultiPaneActiveProperty =
+            DependencyProperty.Register("IsMultiPaneActive", typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(false));
+
 
         private void VisiblePath_Loaded(object sender, RoutedEventArgs e)
         {
