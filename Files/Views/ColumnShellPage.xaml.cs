@@ -875,10 +875,9 @@ namespace Files.Views
 
             foreach (var x in multitaskingControls)
             {
-                x.SetLoadingIndicatorStatus(x.Items.First(x => x.Control == tabItemControl), isLoading);
+                x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.Control == tabItemControl), isLoading);
             }
         }
-
 
         public DataPackageOperation TabItemDragOver(object sender, DragEventArgs e)
         {
