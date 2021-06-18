@@ -1,13 +1,11 @@
 ﻿using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
+using Files.Filesystem.Permissions;
 using Files.Helpers;
-using Files.Helpers.XamlHelpers;
-using Files.ViewModels;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
 using System;
-using System.Threading;
+using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation.Metadata;
@@ -21,25 +19,27 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Navigation;
 
+// Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234238
+
 namespace Files.Views
 {
-    public sealed partial class Properties : Page
+    /// <summary>
+    /// Pagina vuota che può essere usata autonomamente oppure per l'esplorazione all'interno di un frame.
+    /// </summary>
+    public sealed partial class PropertiesSecurityAdvanced : Page
     {
         private static ApplicationViewTitleBar TitleBar;
-
-        private CancellationTokenSource tokenSource = new CancellationTokenSource();
-        private ContentDialog propertiesDialog;
 
         private object navParameterItem;
         private IShellPage AppInstance;
 
-        private ListedItem listedItem;
+        public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), ViewModel.Item.ItemName);
 
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public SecurityProperties ViewModel { get; set; }
 
-        public Properties()
+        public PropertiesSecurityAdvanced()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
 
@@ -54,18 +54,22 @@ namespace Files.Views
             var args = e.Parameter as PropertiesPageNavigationArguments;
             AppInstance = args.AppInstanceArgument;
             navParameterItem = args.Item;
-            listedItem = args.Item as ListedItem;
-            TabShorcut.Visibility = listedItem != null && listedItem.IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
-            TabLibrary.Visibility = listedItem != null && listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
-            TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem && !listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
-            TabSecurity.Visibility = args.Item is DriveItem ||
-                (listedItem != null && !listedItem.IsLibraryItem && !listedItem.IsRecycleBinItem) ? Visibility.Visible : Visibility.Collapsed;
+
+            if (args.Item is ListedItem listedItem)
+            {
+                ViewModel = new SecurityProperties(listedItem, AppInstance);
+            }
+            else if (args.Item is DriveItem driveitem)
+            {
+                ViewModel = new SecurityProperties(driveitem, AppInstance);
+            }
+
             base.OnNavigatedTo(e);
         }
 
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
-            AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+            App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 // Set window size in the loaded event to prevent flickering
@@ -73,38 +77,19 @@ namespace Files.Views
                 TitleBar = ApplicationView.GetForCurrentView().TitleBar;
                 TitleBar.ButtonBackgroundColor = Colors.Transparent;
                 TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => App.AppSettings.UpdateThemeElements.Execute(null));
             }
             else
             {
-                propertiesDialog = DependencyObjectHelpers.FindParent<ContentDialog>(this);
-                propertiesDialog.Closed += PropertiesDialog_Closed;
             }
+
+            ViewModel.GetFilePermissions();
         }
 
         private void Properties_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
         {
-            AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+            App.AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
             ApplicationView.GetForCurrentView().Consolidated -= Properties_Consolidated;
-            (contentFrame.Content as PropertiesTab).Dispose();
-            if (tokenSource != null && !tokenSource.IsCancellationRequested)
-            {
-                tokenSource.Cancel();
-                tokenSource = null;
-            }
-        }
-
-        private void PropertiesDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
-        {
-            AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
-            sender.Closed -= PropertiesDialog_Closed;
-            (contentFrame.Content as PropertiesTab).Dispose();
-            if (tokenSource != null && !tokenSource.IsCancellationRequested)
-            {
-                tokenSource.Cancel();
-                tokenSource = null;
-            }
-            propertiesDialog.Hide();
         }
 
         private void Properties_Unloaded(object sender, RoutedEventArgs e)
@@ -143,25 +128,15 @@ namespace Files.Views
 
         private async void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            if (contentFrame.Content is PropertiesGeneral propertiesGeneral)
-            {
-                await propertiesGeneral.SaveChangesAsync(listedItem);
-            }
-            else
-            {
-                if (!await (contentFrame.Content as PropertiesTab).SaveChangesAsync(listedItem))
-                {
-                    return;
-                }
-            }
-
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                if (await ViewModel.SetFilePermissions())
+                {
+                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                }
             }
             else
             {
-                propertiesDialog?.Hide();
             }
         }
 
@@ -173,7 +148,6 @@ namespace Files.Views
             }
             else
             {
-                propertiesDialog?.Hide();
             }
         }
 
@@ -187,55 +161,8 @@ namespace Files.Views
                 }
                 else
                 {
-                    propertiesDialog?.Hide();
                 }
             }
-        }
-
-        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-        {
-            var navParam = new PropertyNavParam()
-            {
-                tokenSource = tokenSource,
-                navParameter = navParameterItem,
-                AppInstanceArgument = AppInstance
-            };
-
-            switch (args.SelectedItemContainer.Tag)
-            {
-                case "General":
-                    contentFrame.Navigate(typeof(PropertiesGeneral), navParam, args.RecommendedNavigationTransitionInfo);
-                    break;
-
-                case "Shortcut":
-                    contentFrame.Navigate(typeof(PropertiesShortcut), navParam, args.RecommendedNavigationTransitionInfo);
-                    break;
-
-                case "Library":
-                    contentFrame.Navigate(typeof(PropertiesLibrary), navParam, args.RecommendedNavigationTransitionInfo);
-                    break;
-
-                case "Details":
-                    contentFrame.Navigate(typeof(PropertiesDetails), navParam, args.RecommendedNavigationTransitionInfo);
-                    break;
-
-                case "Security":
-                    contentFrame.Navigate(typeof(PropertiesSecurity), navParam, args.RecommendedNavigationTransitionInfo);
-                    break;
-            }
-        }
-
-        public class PropertiesPageNavigationArguments
-        {
-            public object Item { get; set; }
-            public IShellPage AppInstanceArgument { get; set; }
-        }
-
-        public class PropertyNavParam
-        {
-            public CancellationTokenSource tokenSource;
-            public object navParameter;
-            public IShellPage AppInstanceArgument { get; set; }
         }
 
         private void Page_Loading(FrameworkElement sender, object args)
@@ -249,6 +176,32 @@ namespace Files.Views
             }
             catch (Exception)
             {
+            }
+        }
+
+        public class PropertiesPageNavigationArguments
+        {
+            public object Item { get; set; }
+            public IShellPage AppInstanceArgument { get; set; }
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ViewModel.SelectedAccessRules = (sender as ListView).SelectedItems.Cast<FileSystemAccessRuleForUI>().ToList();
+
+            if (e.AddedItems != null)
+            {
+                foreach (var item in e.AddedItems)
+                {
+                    (item as FileSystemAccessRuleForUI).IsSelected = true;
+                }
+            }
+            if (e.RemovedItems != null)
+            {
+                foreach (var item in e.RemovedItems)
+                {
+                    (item as FileSystemAccessRuleForUI).IsSelected = false;
+                }
             }
         }
     }

@@ -6,7 +6,9 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -406,26 +408,6 @@ namespace Files.ViewModels
             set => SetProperty(ref itemAccessedTimestampVisibility, value);
         }
 
-        public string itemFileOwner;
-
-        public string ItemFileOwner
-        {
-            get => itemFileOwner;
-            set
-            {
-                ItemFileOwnerVisibility = Visibility.Visible;
-                SetProperty(ref itemFileOwner, value);
-            }
-        }
-
-        private Visibility itemFileOwnerVisibility = Visibility.Collapsed;
-
-        public Visibility ItemFileOwnerVisibility
-        {
-            get => itemFileOwnerVisibility;
-            set => SetProperty(ref itemFileOwnerVisibility, value);
-        }
-
         private Visibility lastSeparatorVisibility = Visibility.Visible;
 
         public Visibility LastSeparatorVisibility
@@ -682,49 +664,6 @@ namespace Files.ViewModels
         {
             get => isHidden;
             set => SetProperty(ref isHidden, value);
-        }
-
-        public RelayCommand EditOwnerCommand { get; set; }
-
-        public RelayCommand AddRulesForUserCommand { get; set; }
-
-        public RelayCommand RemoveRulesForUserCommand { get; set; }
-
-        public FilePermissionsManager filePermissions;
-
-        public FilePermissionsManager FilePermissions
-        {
-            get => filePermissions;
-            set
-            {
-                if (SetProperty(ref filePermissions, value))
-                {
-                    EditOwnerCommand.NotifyCanExecuteChanged();
-                    AddRulesForUserCommand.NotifyCanExecuteChanged();
-                    RemoveRulesForUserCommand.NotifyCanExecuteChanged();
-                }
-            }
-        }
-
-        private RulesForUser selectedRuleForUser;
-        public RulesForUser SelectedRuleForUser
-        {
-            get => selectedRuleForUser;
-            set
-            {
-                if (SetProperty(ref selectedRuleForUser, value))
-                {
-                    RemoveRulesForUserCommand.NotifyCanExecuteChanged();
-                }
-            }
-        }
-
-        public bool isFolder;
-
-        public bool IsFolder
-        {
-            get => isFolder;
-            set => SetProperty(ref isFolder, value);
         }
     }
 }

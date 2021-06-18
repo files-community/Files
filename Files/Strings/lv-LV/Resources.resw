@@ -30,9 +30,6 @@
   <data name="Browse" xml:space="preserve">
     <value>Pārlūkot</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Pēdējās atrašanās vietas</value>
-  </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>Diski</value>
   </data>
@@ -96,9 +93,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Piekļūts:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Īpašnieks:</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Notīrīt visus vienumus</value>
   </data>
@@ -116,9 +110,6 @@
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Noņemt šo vienumu</value>
-  </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Nesenie vienumi</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Faili</value>
@@ -191,9 +182,6 @@
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Startējot</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Rekvizītos rādīt vienuma īpašnieku</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Iestatījumi</value>
@@ -858,9 +846,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Pāriet vienu mapi augšup</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Vertikālā ciļņu josla</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Mainīt komandu uzvednes lietotnes</value>
   </data>
@@ -1353,7 +1338,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dubulti paneļi</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Mapes</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
@@ -1629,9 +1614,6 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumenti</value>
   </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>Atvērt jaunā panelī</value>
-  </data>
   <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
     <value>Rādīt bibliotēku sadaļu sānu joslā</value>
   </data>
@@ -1725,24 +1707,6 @@
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Nav atrašanās vietu</value>
   </data>
-  <data name="LibraryCardsOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Vairāk bibliotēku opcijas</value>
-  </data>
-  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vairāk opciju...</value>
-  </data>
-  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>Izveidot Bibliotēku</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Vēlamais nosaukums</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>Izveidot bibliotēku</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Ievadīt jaunās bibliotēkas nosaukumu</value>
-  </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
     <value>Ievades lauks nedrīkst būt tukšs!</value>
   </data>
@@ -1757,12 +1721,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
     <value>Dzēst Bibliotēku</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogTitleText" xml:space="preserve">
-    <value>Dzēst Bibliotēku</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Vai tiešām vēlaties dzēst šo bibliotēku? Faili un mapes netiks dzēsti.</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Izveidot</value>
@@ -1863,7 +1821,7 @@
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
     <value>Pārvaldīt logrīkus</value>
   </data>
-  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
+  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
     <value>Rādīt Bibliotēkas logrīku</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
@@ -2174,9 +2132,6 @@
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Logrīki</value>
-  </data>
-  <data name="VerticalTabStrip.Label" xml:space="preserve">
-    <value>Cilnes</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Atlasīt</value>

@@ -58,7 +58,7 @@ namespace Files.Helpers
                 CoreApplicationView newWindow = CoreApplication.CreateNewView();
                 ApplicationView newView = null;
 
-                await newWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await newWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
                     Frame frame = new Frame();
                     frame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments()
@@ -73,16 +73,19 @@ namespace Files.Helpers
                     newWindow.TitleBar.ExtendViewIntoTitleBar = true;
                     newView.Title = "PropertiesTitle".GetLocalized();
                     newView.PersistedStateId = "Properties";
-                    newView.SetPreferredMinSize(new Size(400, 550));
+                    newView.SetPreferredMinSize(new Size(400, 500));
                     newView.Consolidated += delegate
                     {
                         Window.Current.Close();
                     };
-                });
 
-                bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newView.Id);
-                // Set window size again here as sometimes it's not resized in the page Loaded event
-                newView.TryResizeView(new Size(400, 550));
+                    bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newView.Id);
+                    if (viewShown && newView != null)
+                    {
+                        // Set window size again here as sometimes it's not resized in the page Loaded event
+                        newView.TryResizeView(new Size(400, 550));
+                    }
+                });
             }
             else
             {

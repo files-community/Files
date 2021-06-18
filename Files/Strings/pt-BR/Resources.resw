@@ -90,9 +90,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Acessado em:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Proprietário:</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Limpar todos os itens</value>
   </data>
@@ -110,9 +107,6 @@
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Remover este item</value>
-  </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Arquivos recentes</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
@@ -804,9 +798,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Suba um diretório</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Faixa de tabulação vertical</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Editar aplicativos de terminal</value>
   </data>
@@ -848,9 +839,6 @@
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>Tema do aplicativo</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Mostrar proprietário nas propriedades</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Centro de status</value>
@@ -1341,7 +1329,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalize o menu de contexto (Botão Direito)</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Pastas</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
@@ -1568,9 +1556,6 @@
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Navegador</value>
-  </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Locais recentes</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nenhuma visualização disponível</value>

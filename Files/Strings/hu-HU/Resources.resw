@@ -90,9 +90,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Hozzáférés:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Tulajdonos:</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Minden elem eltávolítása</value>
   </data>
@@ -110,9 +107,6 @@
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Elem eltávolítása</value>
-  </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Előzmények</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
@@ -179,9 +173,6 @@
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Induláskor</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Tulajdonos mutatása a tulajdonságoknál</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Működés</value>
@@ -825,9 +816,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Egy szinttel feljebb</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Függőleges lap lista</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Terminál alkalmazások módosítása</value>
   </data>
@@ -1341,7 +1329,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Helyi menü testreszabása</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Mappák</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
@@ -1608,9 +1596,6 @@
   <data name="Browse" xml:space="preserve">
     <value>Tallózás</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Legutóbbi helyek</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nincs elérhető előnézet</value>
   </data>
@@ -1631,9 +1616,6 @@
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Könyvtárak</value>
-  </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>Megnyitás jobb oldali panelen</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Elemek száma</value>
@@ -1725,24 +1707,6 @@
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Nincsenek helyek</value>
   </data>
-  <data name="LibraryCardsOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>További widget lehetőségek</value>
-  </data>
-  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>További lehetőségek...</value>
-  </data>
-  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>Könyvtár létrehozása</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Könyvtár neve</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>Létrehozás</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Adja meg a könyvtár új nevét</value>
-  </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
     <value>A mező nem lehet üres!</value>
   </data>
@@ -1757,12 +1721,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
     <value>Könyvtár törlése</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogTitleText" xml:space="preserve">
-    <value>Könyvtár törlése</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Biztosan törölné ezt a könyvtárat? A fájlok és mappák megmaradnak a fájlrendszerben.</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Létrehozás</value>
@@ -1857,7 +1815,7 @@
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
     <value>Widgetek kezelése</value>
   </data>
-  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
+  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
     <value>Könyvtárak megjelenítése</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
@@ -2169,9 +2127,6 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgetek</value>
   </data>
-  <data name="VerticalTabStrip.Label" xml:space="preserve">
-    <value>Lapok</value>
-  </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Kiválasztás</value>
   </data>
@@ -2279,5 +2234,35 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Ismeretlen tulajdonos</value>
+  </data>
+  <data name="SettingsNavSidebar.Content" xml:space="preserve">
+    <value>Oldalsáv</value>
+  </data>
+  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
+    <value>Oldalsáv</value>
+  </data>
+  <data name="SettingsVerticalTabFlyoutSwitch.Header" xml:space="preserve">
+    <value>Lapok megjelenítése a címsoron</value>
+  </data>
+  <data name="DefaultSkin" xml:space="preserve">
+    <value>Alapértelmezett</value>
+  </data>
+  <data name="SettingsAppearanceCustomSkins.Header" xml:space="preserve">
+    <value>Alternatív kinézet</value>
+  </data>
+  <data name="SettingsAppearanceOpenSkinsFolderButton.Content" xml:space="preserve">
+    <value>Kinézetek mappa megnyitása</value>
+  </data>
+  <data name="SettingsSkinsLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Tudjon meg többet az alternatív kinézetekről</value>
+  </data>
+  <data name="SettingsSkinsLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Tudjon meg többet az alternatív kinézetekről</value>
+  </data>
+  <data name="SettingsSkinsTeachingTipHeader.Text" xml:space="preserve">
+    <value>Az alternatív kinézetek remek lehetőséget nyújtanak a Files személyre szabására.</value>
+  </data>
+  <data name="SettingsSkinsTeachingTipHyperlinkText.Text" xml:space="preserve">
+    <value>Dokumentáció megtekintése.</value>
   </data>
 </root>

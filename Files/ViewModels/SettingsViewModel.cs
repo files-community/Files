@@ -73,7 +73,6 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(ShowFileExtensions)} {ShowFileExtensions}");
             Analytics.TrackEvent($"{nameof(ShowConfirmDeleteDialog)} {ShowConfirmDeleteDialog}");
             Analytics.TrackEvent($"{nameof(IsAcrylicDisabled)} {IsAcrylicDisabled}");
-            Analytics.TrackEvent($"{nameof(ShowFileOwner)} {ShowFileOwner}");
             Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutEnabled)} {IsVerticalTabFlyoutEnabled}");
             Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)} {IsDualPaneEnabled}");
             Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)} {AlwaysOpenDualPaneInNewTab}");
@@ -102,7 +101,7 @@ namespace Files.ViewModels
         /// </summary>
         public GridLength SidebarWidth
         {
-            get => new GridLength(Math.Min(Math.Max(Get(255d), 255d), 500d), GridUnitType.Pixel);
+            get => new GridLength(Math.Min(Math.Max(Get(255d), Constants.UI.MinimumSidebarWidth), 500d), GridUnitType.Pixel);
             set => Set(value.Value);
         }
 
@@ -392,7 +391,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not the library cards widget should be visible.
         /// </summary>
-        public bool ShowLibraryCardsWidget
+        public bool ShowFolderWidgetWidget
         {
             get => Get(true);
             set => Set(value);
@@ -542,16 +541,6 @@ namespace Files.ViewModels
         #endregion Appearance
 
         #region Experimental
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to show the item owner in the properties window.
-        /// </summary>
-        public bool ShowFileOwner
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
 
         #endregion Experimental
 

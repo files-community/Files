@@ -42,9 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Supprimer cet élément</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Éléments récents</value>
-  </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
@@ -483,9 +480,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Dernier accès le :</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Propriétaire :</value>
-  </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>Annuler</value>
   </data>
@@ -845,9 +839,6 @@
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>Thème de l'application</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Afficher le propriétaire dans les propriétés</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Centre de statut</value>
@@ -1314,7 +1305,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personnaliser le menu contextuel du clic droit</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Dossiers</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
@@ -1578,9 +1569,6 @@
   <data name="Browse" xml:space="preserve">
     <value>Parcourir</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Emplacements récents</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pas d'aperçu disponible</value>
   </data>
@@ -1601,9 +1589,6 @@
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Bibliothèques</value>
-  </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>Ouvrir dans un nouveau panneau</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Nombre d'éléments</value>
@@ -1695,24 +1680,6 @@
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Pas d'emplacement</value>
   </data>
-  <data name="LibraryCardsOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Plus d'options de bibliothèque</value>
-  </data>
-  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Plus d'options...</value>
-  </data>
-  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>Créer une bibliothèque</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Nom désiré</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>Créer une bibliothèque</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Entrez le nom de la nouvelle bibliothèque</value>
-  </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
     <value>Le champ ne peut pas être vide !</value>
   </data>
@@ -1727,12 +1694,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
     <value>Supprimer la bibliothèque</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogTitleText" xml:space="preserve">
-    <value>Supprimer la bibliothèque</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Voulez-vous vraiment supprimer cette bibliothèque ? Les fichiers et dossiers resteront sur votre système de fichiers.</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Créer</value>
@@ -1827,7 +1788,7 @@
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
     <value>Gérer les widgets</value>
   </data>
-  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
+  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
     <value>Montrer les bibliothèques</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">

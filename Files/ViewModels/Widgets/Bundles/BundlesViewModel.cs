@@ -458,7 +458,6 @@ namespace Files.ViewModels.Widgets.Bundles
             }
 
             Items.CollectionChanged -= Items_CollectionChanged;
-            Items = null;
         }
 
         #endregion IDisposable

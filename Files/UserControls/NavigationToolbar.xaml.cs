@@ -1,30 +1,16 @@
 ﻿using Files.DataModels;
-using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
-using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
-using static Files.UserControls.INavigationToolbar;
 
 namespace Files.UserControls
 {
@@ -95,23 +81,16 @@ namespace Files.UserControls
             DependencyProperty.Register(nameof(ShowMultiPaneControls), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
 
 
-
-        private bool isMultiPaneActive;
-
         public bool IsMultiPaneActive
         {
-            get
-            {
-                return isMultiPaneActive;
-            }
-            set
-            {
-                if (value != isMultiPaneActive)
-                {
-                    isMultiPaneActive = value;
-                }
-            }
+            get { return (bool)GetValue(IsMultiPaneActiveProperty); }
+            set { SetValue(IsMultiPaneActiveProperty, value); }
         }
+
+        // Using a DependencyProperty as the backing store for IsMultiPaneActive.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsMultiPaneActiveProperty =
+            DependencyProperty.Register("IsMultiPaneActive", typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(false));
+
 
         private void VisiblePath_Loaded(object sender, RoutedEventArgs e)
         {
@@ -119,9 +98,6 @@ namespace Files.UserControls
             VisiblePath.Focus(FocusState.Programmatic);
             DependencyObjectHelpers.FindChild<TextBox>(VisiblePath)?.SelectAll();
         }
-
-
-        public UserControl MultitaskingControl => VerticalTabs;
 
         private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
         {
@@ -164,110 +140,6 @@ namespace Files.UserControls
             }
         }
 
-        private async void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
-            {
-                e.Handled = true;
-                cancelFlyoutOpen = false;
-                await Task.Delay(1000);
-                if (!cancelFlyoutOpen)
-                {
-                    if (sender != null)
-                    {
-                        (sender as Button).Flyout.ShowAt(sender as Button);
-                    }
-                    cancelFlyoutOpen = false;
-                }
-                else
-                {
-                    cancelFlyoutOpen = false;
-                }
-            }
-        }
-
-        private bool cancelFlyoutOpen = false;
-
-        private void VerticalTabStripInvokeButton_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
-            {
-                e.Handled = true;
-                if (!(sender as Button).Flyout.IsOpen)
-                {
-                    cancelFlyoutOpen = true;
-                }
-            }
-        }
-
-        private void Button_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            e.Handled = true;
-            (sender as Button).Flyout.ShowAt(sender as Button);
-        }
-
-        private void Flyout_Opened(object sender, object e)
-        {
-            if (VerticalTabStripInvokeButton != null)
-            {
-                VisualStateManager.GoToState(VerticalTabStripInvokeButton, "PointerOver", false);
-            }
-        }
-
-        private void Flyout_Closed(object sender, object e)
-        {
-            if (VerticalTabStripInvokeButton != null)
-            {
-                VisualStateManager.GoToState(VerticalTabStripInvokeButton, "Normal", false);
-            }
-        }
-
-        private void VerticalTabStripInvokeButton_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Handled = true;
-            (sender as Button).Flyout.ShowAt(sender as Button);
-        }
-
-        private bool cancelFlyoutAutoClose = false;
-
-        private async void VerticalTabs_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
-            {
-                e.Handled = true;
-                cancelFlyoutAutoClose = false;
-                VerticalTabs.PointerEntered += VerticalTabs_PointerEntered;
-                await Task.Delay(1000);
-                if (VerticalTabs != null)
-                {
-                    VerticalTabs.PointerEntered -= VerticalTabs_PointerEntered;
-                }
-                if (!cancelFlyoutAutoClose)
-                {
-                    VerticalTabViewFlyout?.Hide();
-                }
-                cancelFlyoutAutoClose = false;
-            }
-        }
-
-        private void VerticalTabs_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
-            {
-                e.Handled = true;
-                cancelFlyoutAutoClose = true;
-            }
-        }
-
-        private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (!(mainPage.ViewModel.MultitaskingControl is VerticalTabViewControl))
-            {
-                mainPage.ViewModel.MultitaskingControl = VerticalTabs;
-                mainPage.ViewModel.MultitaskingControls.Add(VerticalTabs);
-                mainPage.ViewModel.MultitaskingControl.CurrentInstanceChanged += mainPage.MultitaskingControl_CurrentInstanceChanged;
-            }
-        }
         private void SearchButton_Click(object sender, RoutedEventArgs e) => ViewModel.SwitchSearchBoxVisibility();
 
         private void SearchBox_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args) => ViewModel.CloseSearchBox();

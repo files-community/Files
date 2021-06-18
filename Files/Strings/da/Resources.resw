@@ -90,9 +90,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Åbnet:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Ejer:</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Ryd alle emner</value>
   </data>
@@ -110,9 +107,6 @@
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Fjern dette emne</value>
-  </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Seneste emner</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
@@ -185,9 +179,6 @@
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Ved opstart</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Vis ejer i indstillinger</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Præferencer</value>
@@ -849,9 +840,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Gå en mappe op</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Lodret fane strimmel</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Redigér terminalapplikationer</value>
   </data>
@@ -1341,7 +1329,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dobbeltrude</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Mapper</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
@@ -1490,9 +1478,6 @@
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Søg</value>
-  </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Seneste placeringer</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Der er ikke noget eksempel.</value>

@@ -8,6 +8,7 @@ using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -63,6 +64,29 @@ namespace Files.Views
             ToggleFullScreenAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ToggleFullScreenAccelerator);
         }
 
+        public UserControl MultitaskingControl => VerticalTabs;
+
+        private void VerticalTabStrip_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            e.Handled = true;
+            (sender as Button).Flyout.ShowAt(sender as Button);
+        }
+
+        private void VerticalTabStripInvokeButton_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+            (sender as Button).Flyout.ShowAt(sender as Button);
+        }
+
+        private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (!(ViewModel.MultitaskingControl is VerticalTabViewControl))
+            {
+                ViewModel.MultitaskingControl = VerticalTabs;
+                ViewModel.MultitaskingControls.Add(VerticalTabs);
+                ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
+            }
+        }
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
             RightPaddingColumn.Width = new GridLength(sender.SystemOverlayRightInset);
@@ -82,7 +106,9 @@ namespace Files.Views
         {
             if (SidebarAdaptiveViewModel.PaneHolder != null)
             {
-                SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs((e.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
+                var paneArgs = e.NavigationArg as PaneNavigationArguments;
+                SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ? 
+                    paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
                 UpdateStatusBarProperties();
                 UpdatePreviewPaneProperties();
             }
@@ -92,10 +118,10 @@ namespace Files.Views
         {
             if (SidebarAdaptiveViewModel.PaneHolder != null)
             {
-                SidebarAdaptiveViewModel.PaneHolder.ActivePaneChanged -= PaneHolder_ActivePaneChanged;
+                SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
             }
             SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
-            SidebarAdaptiveViewModel.PaneHolder.ActivePaneChanged += PaneHolder_ActivePaneChanged;
+            SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((e.CurrentInstance.TabItemArguments?.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
             UpdateStatusBarProperties();
             UpdateNavToolbarProperties();
@@ -104,7 +130,7 @@ namespace Files.Views
             e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
         }
 
-        private void PaneHolder_ActivePaneChanged(object sender, EventArgs e)
+        private void PaneHolder_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments.NavigationArg.ToString());
             UpdateStatusBarProperties();
@@ -126,7 +152,8 @@ namespace Files.Views
             if (NavToolbar != null)
             {
                 NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.NavToolbarViewModel;
-                NavToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.IsMultiPaneEnabled && (SidebarAdaptiveViewModel.PaneHolder?.IsLeftPaneActive ?? false);
+                NavToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
+                NavToolbar.IsMultiPaneActive = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
             }
         }
 
@@ -291,6 +318,11 @@ namespace Files.Views
             }
 
             e.Handled = true;
+        }
+
+        private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            SidebarAdaptiveViewModel.UpdateTabControlMargin(); // Set the correct tab margin on startup
         }
 
 

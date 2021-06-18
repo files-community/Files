@@ -311,21 +311,6 @@
                 Text="{x:Bind ViewModel.ItemAccessedTimestamp, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.ItemAccessedTimestampVisibility, Mode=OneWay}" />
 
-            <TextBlock
-                x:Uid="PropertiesOwner"
-                Grid.Row="14"
-                Grid.Column="0"
-                Style="{StaticResource PropertyName}"
-                Text="Owner:"
-                Visibility="{x:Bind ViewModel.ItemFileOwnerVisibility, Mode=OneWay}" />
-            <TextBlock
-                x:Uid="ItemFileOwnerValue"
-                Grid.Row="14"
-                Grid.Column="1"
-                Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.ItemFileOwner, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemFileOwnerVisibility, Mode=OneWay}" />
-
             <MenuFlyoutSeparator
                 Grid.Row="15"
                 Grid.Column="0"

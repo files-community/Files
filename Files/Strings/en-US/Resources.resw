@@ -147,9 +147,6 @@
   <data name="Browse" xml:space="preserve">
     <value>Browse</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Recent locations</value>
-  </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>Drives</value>
   </data>
@@ -216,9 +213,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Accessed:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Owner:</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Clear all items</value>
   </data>
@@ -237,8 +231,8 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Remove this item</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Recent items</value>
+  <data name="RecentFilesHeader.Text" xml:space="preserve">
+    <value>Recent Files</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
@@ -311,9 +305,6 @@
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>On Startup</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Show item owner in properties</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferences</value>
@@ -993,8 +984,11 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Go up one directory</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Vertical tab strip</value>
+  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Vertical tab flyout</value>
+  </data>
+  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vertical tab flyout</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Edit terminal applications</value>
@@ -1326,9 +1320,6 @@
   <data name="PropertyAddress" xml:space="preserve">
     <value>Address</value>
   </data>
-  <data name="VerticalTabStrip.Label" xml:space="preserve">
-    <value>Tabs</value>
-  </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Selection options</value>
   </data>
@@ -1384,6 +1375,9 @@
     <value>New tab</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>New tab (Ctrl+T)</value>
+  </data>
+  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
     <value>New tab (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
@@ -1506,7 +1500,7 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dual pane</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Folders</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
@@ -1794,7 +1788,7 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Arguments</value>
   </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
+  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
     <value>Open in new Pane</value>
   </data>
   <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
@@ -1896,24 +1890,6 @@
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>No locations</value>
   </data>
-  <data name="LibraryCardsOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>More library options</value>
-  </data>
-  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>More options...</value>
-  </data>
-  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>Create Library</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Desired name</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>Create Library</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Enter the name of the new library</value>
-  </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
     <value>Input field cannot be empty!</value>
   </data>
@@ -1928,12 +1904,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
     <value>Delete Library</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogTitleText" xml:space="preserve">
-    <value>Delete Library</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Do you really want to delete this library? The files and folders will remain on your filesystem.</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Create</value>
@@ -2025,8 +1995,8 @@
   <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
     <value>Show Drives widget</value>
   </data>
-  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
-    <value>Show Library widget</value>
+  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
+    <value>Show Folders widget</value>
   </data>
   <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
     <value>Show Recent Files widget</value>
@@ -2420,5 +2390,179 @@
   </data>
   <data name="SettingsSkinsTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>View documentation.</value>
+  </data>
+  <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
+    <value>Create new library</value>
+  </data>
+  <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
+    <value>Restore default libraries</value>
+  </data>
+  <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
+    <value>Are you sure you want to restore the default libraries? All your files will remain on your storage.</value>
+  </data>
+  <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
+    <value>Restore Libraries</value>
+  </data>
+  <data name="StatusLibraryRestoration" xml:space="preserve">
+    <value>Restoring libraries</value>
+  </data>
+  <data name="StatusLibraryRestorationInProgress" xml:space="preserve">
+    <value>Restoring default libraries in progress...</value>
+  </data>
+  <data name="StatusLibraryRestorationComplete" xml:space="preserve">
+    <value>Libraries restored</value>
+  </data>
+  <data name="StatusLibraryRestorationFailed" xml:space="preserve">
+    <value>Failed to restore libraries</value>
+  </data>
+  <data name="StatusRestoreLibrariesDetails" xml:space="preserve">
+    <value>{0} library files successfully restored</value>
+  </data>
+  <data name="PropertyFileOwner" xml:space="preserve">
+    <value>Owner</value>
+  </data>
+  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
+    <value>Advanced permissions for {0}</value>
+  </data>
+  <data name="SecuritySpecialLabel.Text" xml:space="preserve">
+    <value>Special</value>
+  </data>
+  <data name="SecurityAdvancedAccessLabel.Text" xml:space="preserve">
+    <value>Access</value>
+  </data>
+  <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
+    <value>Applies to</value>
+  </data>
+  <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
+    <value>Entity</value>
+  </data>
+  <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
+    <value>files</value>
+  </data>
+  <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
+    <value>this folder</value>
+  </data>
+  <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
+    <value>subfolders</value>
+  </data>
+  <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
+    <value>Inherited</value>
+  </data>
+  <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
+    <value>Permissions</value>
+  </data>
+  <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
+    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
+  </data>
+  <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
+    <value>Special</value>
+  </data>
+  <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
+    <value>This folder and files</value>
+  </data>
+  <data name="SecurityAdvancedFolderSubfoldersFiles.Text" xml:space="preserve">
+    <value>This folder, subfolders and files</value>
+  </data>
+  <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
+    <value>Only files</value>
+  </data>
+  <data name="SecurityAdvancedOnlySubfolders.Text" xml:space="preserve">
+    <value>Only subfolders</value>
+  </data>
+  <data name="SecurityAdvancedOnlySubfoldersFiles.Text" xml:space="preserve">
+    <value>Only subfolders and files</value>
+  </data>
+  <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
+    <value>Only this folder</value>
+  </data>
+  <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
+    <value>This folder and subfolders</value>
+  </data>
+  <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
+    <value>Append data</value>
+  </data>
+  <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
+    <value>Change permission</value>
+  </data>
+  <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
+    <value>Create folders</value>
+  </data>
+  <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
+    <value>Create files</value>
+  </data>
+  <data name="SecurityDeleteLabel.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
+    <value>Delete subdirectories and files</value>
+  </data>
+  <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
+    <value>Execute files</value>
+  </data>
+  <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
+    <value>Read attributes</value>
+  </data>
+  <data name="SecurityReadDataLabel.Text" xml:space="preserve">
+    <value>Read data</value>
+  </data>
+  <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
+    <value>Read extended attributes</value>
+  </data>
+  <data name="SecurityReadPermissionsLabel.Text" xml:space="preserve">
+    <value>Read permissions</value>
+  </data>
+  <data name="SecurityTakeOwnershipLabel.Text" xml:space="preserve">
+    <value>Take ownership</value>
+  </data>
+  <data name="SecurityTraverseLabel.Text" xml:space="preserve">
+    <value>Visit folder</value>
+  </data>
+  <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
+    <value>Write attributes</value>
+  </data>
+  <data name="SecurityWriteDataLabel.Text" xml:space="preserve">
+    <value>Write data</value>
+  </data>
+  <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
+    <value>Write extended attributes</value>
+  </data>
+  <data name="SecurityNoneLabel.Text" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
+    <value>Convert inherited permissions into explicit permissions</value>
+  </data>
+  <data name="SecurityAdvancedInheritedEnable.Text" xml:space="preserve">
+    <value>Enable inheritance</value>
+  </data>
+  <data name="SecurityAdvancedInheritedRemove.Text" xml:space="preserve">
+    <value>Remove all inherited permissions</value>
+  </data>
+  <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
+    <value>Reset child permissions</value>
+  </data>
+  <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Replace all child object permissions entries with inheritable permission entries from this object</value>
+  </data>
+  <data name="CreateBundleBtn.AutomationProperties.Name" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
+  <data name="CreateBundleBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
+  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
+    <value>Close pane</value>
   </data>
 </root>

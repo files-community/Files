@@ -407,14 +407,14 @@ namespace Files.ViewModels
 
         #region YourHome Widgets
 
-        public bool ShowLibraryCardsWidget
+        public bool ShowFolderWidgetWidget
         {
-            get => App.AppSettings.ShowLibraryCardsWidget;
+            get => App.AppSettings.ShowFolderWidgetWidget;
             set
             {
-                if (App.AppSettings.ShowLibraryCardsWidget != value)
+                if (App.AppSettings.ShowFolderWidgetWidget != value)
                 {
-                    App.AppSettings.ShowLibraryCardsWidget = value;
+                    App.AppSettings.ShowFolderWidgetWidget = value;
 
                     RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
                 }
@@ -504,6 +504,8 @@ namespace Files.ViewModels
         public ICommand OpenNewWindowCommand { get; set; }
 
         public ICommand OpenNewPaneCommand { get; set; }
+
+        public ICommand ClosePaneCommand { get; set; }
 
         public ICommand OpenDirectoryInDefaultTerminalCommand { get; set; }
 

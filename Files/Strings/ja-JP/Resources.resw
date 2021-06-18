@@ -105,9 +105,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>削除</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>最近使用したファイル</value>
-  </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
@@ -483,9 +480,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>アクセス日時:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>所有者</value>
-  </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>キャンセル</value>
   </data>
@@ -804,9 +798,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>上のレベルに戻る</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>垂直タブストリップ</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>ターミナルアプリを編集</value>
   </data>
@@ -848,9 +839,6 @@
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>テーマ</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>プロパティにファイルの所有者を表示</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>ステータス センター</value>
@@ -1332,7 +1320,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>右クリックメニューをカスタマイズ</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>フォルダ</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
@@ -1599,9 +1587,6 @@
   <data name="Browse" xml:space="preserve">
     <value>ブラウズ</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>最近訪れた場所</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>プレビュー利用不可</value>
   </data>
@@ -1622,9 +1607,6 @@
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>ライブラリ</value>
-  </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>新しいペインで開く</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>ファイル数</value>
@@ -1716,24 +1698,6 @@
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>場所なし</value>
   </data>
-  <data name="LibraryCardsOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>その他のライブラリ オプション</value>
-  </data>
-  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>その他のオプション...</value>
-  </data>
-  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>ライブラリを作成</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>希望する名前</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>ライブラリを作成</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogSubtitleText" xml:space="preserve">
-    <value>新しいライブラリの名前を入力</value>
-  </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
     <value>入力フィールドは空欄にはできません！</value>
   </data>
@@ -1748,12 +1712,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
     <value>ライブラリを削除</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogTitleText" xml:space="preserve">
-    <value>ライブラリを削除</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogSubtitleText" xml:space="preserve">
-    <value>本当にこのライブラリを削除しますか？ ファイルとフォルダはファイルシステムに残存します。</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>作成</value>
@@ -1854,7 +1812,7 @@
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
     <value>ウィジェットを管理</value>
   </data>
-  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
+  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
     <value>ライブラリ ウィジェットを表示</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">

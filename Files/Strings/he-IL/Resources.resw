@@ -87,9 +87,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>נפתח:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>בעלים</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>נקה את כל פריטים</value>
   </data>
@@ -107,9 +104,6 @@
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>הסר פריט זה</value>
-  </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>פריטים אחרונים</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>קבצים</value>
@@ -705,9 +699,6 @@
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>תבנית תאריך.</value>
   </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>הצג בעלים במסך המאפיינים</value>
-  </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>דירוג</value>
   </data>
@@ -1095,7 +1086,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>התאם אישית את התפריט תלוי-ההקשר המופעל בלחיצה ימנית</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>תיקיות</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
@@ -1214,9 +1205,6 @@
   </data>
   <data name="Browse" xml:space="preserve">
     <value>צפייה</value>
-  </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>‏‏מיקומים אחרונים</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>אין תצוגה מקדימה זמינה</value>

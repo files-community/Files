@@ -16,14 +16,12 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views
 {
-    public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent, INotifyPropertyChanged
+    public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent
     {
         public bool IsLeftPaneActive => ActivePane == PaneLeft;
         public bool IsRightPaneActive => ActivePane == PaneRight;
 
         public event EventHandler<TabItemArguments> ContentChanged;
-
-        public event EventHandler ActivePaneChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -74,6 +72,8 @@ namespace Files.Views
         }
 
         private bool wasRightPaneVisible;
+
+        public bool IsMultiPaneActive => IsRightPaneVisible;
 
         public bool IsMultiPaneEnabled
         {
@@ -130,7 +130,6 @@ namespace Files.Views
                         ActivePane.IsCurrentInstance = isCurrentInstance;
                     }
                     NotifyPropertyChanged(nameof(ActivePane));
-                    ActivePaneChanged?.Invoke(this, EventArgs.Empty);
                     NotifyPropertyChanged(nameof(IsLeftPaneActive));
                     NotifyPropertyChanged(nameof(IsRightPaneActive));
                     NotifyPropertyChanged(nameof(FilesystemHelpers));
@@ -154,6 +153,7 @@ namespace Files.Views
                     }
                     Pane_ContentChanged(null, null);
                     NotifyPropertyChanged(nameof(IsRightPaneVisible));
+                    NotifyPropertyChanged(nameof(IsMultiPaneActive));
                 }
             }
         }
@@ -340,6 +340,12 @@ namespace Files.Views
             Window.Current.SizeChanged -= Current_SizeChanged;
             PaneLeft?.Dispose();
             PaneRight?.Dispose();
+        }
+
+        public void CloseActivePane()
+        {
+            // Can only close right pane atm
+            IsRightPaneVisible = false;
         }
     }
 

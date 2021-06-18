@@ -78,9 +78,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Видалити цей елемент</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Останні файли</value>
-  </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
@@ -483,9 +480,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Відкрито:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Власник:</value>
-  </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>Скасувати</value>
   </data>
@@ -804,9 +798,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Піднятися вгору на один каталог</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Вертикальна смуга вкладок</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Змінити профілі терміналів</value>
   </data>
@@ -848,9 +839,6 @@
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>Тема</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Показуквати Власника у властивостях</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Поточні операції</value>
@@ -1296,7 +1284,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Налаштування контекстного меню</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Папки</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
@@ -1562,9 +1550,6 @@
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Вибрати</value>
-  </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Нещодавні розташування</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Попередній перегляд недоступний</value>

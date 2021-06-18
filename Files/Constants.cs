@@ -13,10 +13,6 @@
             public const float SmallThreshold = 25.0f;
 
             public const float ExtraSmallThreshold = 15.0f;
-
-            public const int ItemsRequirementForDetails1 = 6;
-
-            public const int ItemsRequirementForDetails2 = 16;
         }
 
         public static class ImageRes
@@ -49,6 +45,13 @@
         public static class UI
         {
             public const float DimItemOpacity = 0.4f;
+
+            /// <summary>
+            /// The minimum width of the sidebar in expanded state
+            /// </summary>
+            public const double MinimumSidebarWidth = 250;
+
+            public const double MaximumSidebarWidth = 500;
         }
 
         public static class Browser
