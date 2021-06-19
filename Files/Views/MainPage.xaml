@@ -224,7 +224,7 @@
                 <RowDefinition
                     x:Name="PreviewPaneRow"
                     Height="0"
-                    MaxHeight="400" />
+                    MaxHeight="250" />
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -233,7 +233,7 @@
                 <ColumnDefinition
                     x:Name="PreviewPaneColumn"
                     Width="0"
-                    MaxWidth="600" />
+                    MaxWidth="400" />
             </Grid.ColumnDefinitions>
 
             <Custom:DropShadowPanel
@@ -244,7 +244,10 @@
                 BlurRadius="8"
                 OffsetY="2"
                 ShadowOpacity="0.04">
-                <controls:NavigationToolbar x:Name="NavToolbar" HorizontalAlignment="Stretch" />
+                <controls:NavigationToolbar
+                    x:Name="NavToolbar"
+                    HorizontalAlignment="Stretch"
+                    ShowPreviewPaneButton="{x:Bind IsPreviewPaneDisabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
             </Custom:DropShadowPanel>
 
             <ContentPresenter

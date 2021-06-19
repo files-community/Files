@@ -207,7 +207,6 @@ namespace Files.Views
             NavToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, x, this));
             NavToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, this));
             NavToolbarViewModel.PreviewPaneInvokedCommand = new RelayCommand(() => {
-                App.AppSettings.PreviewPaneEnabled = !App.AppSettings.PreviewPaneEnabled;
                 ((Window.Current.Content as Frame).Content as MainPage)?.LoadPreviewPaneChanged(); // workaround because property changed notifications were not working for AppSettings
             });
         }

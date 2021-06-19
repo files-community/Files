@@ -854,23 +854,24 @@
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarButton
+            <AppBarToggleButton
                 x:Name="PreviewPane"
                 x:Uid="PreviewPaneToggle"
                 AccessKey="P"
                 AutomationProperties.Name="Toggle preview pane"
                 Command="{x:Bind ViewModel.PreviewPaneInvokedCommand, Mode=OneWay}"
-                IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                IsChecked="{x:Bind AppSettings.PreviewPaneEnabled, Mode=TwoWay}"
+                IsEnabled="{x:Bind ShowPreviewPaneButton, Mode=OneWay}"
                 Label="Preview"
                 ToolTipService.ToolTip="Toggle the preview pane (Ctrl+P)"
-                Visibility="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}">
-                <AppBarButton.Icon>
+                Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
+                <AppBarToggleButton.Icon>
                     <FontIcon
                         FontSize="10"
                         Foreground="{ThemeResource SystemAccentColor}"
                         Glyph="&#xE146;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
+                </AppBarToggleButton.Icon>
+            </AppBarToggleButton>
             <CommandBar.SecondaryCommands>
                 <AppBarButton
                     x:Name="NavToolbarNewPane"

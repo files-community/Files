@@ -328,10 +328,7 @@ namespace Files.Views
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if(LoadPreviewPane)
-            {
-                UpdatePositioning();
-            }
+            LoadPreviewPaneChanged();
         }
 
         /// <summary>
@@ -342,7 +339,9 @@ namespace Files.Views
         {
             if (!LoadPreviewPane || PreviewPaneDropShadowPanel is null || PreviewPane is null)
             {
+                PreviewPaneRow.MinHeight = 0;
                 PreviewPaneRow.Height = new GridLength(0);
+                PreviewPaneColumn.MinWidth = 0;
                 PreviewPaneColumn.Width = new GridLength(0);
             }
             else if (RootGrid.ActualWidth > 800)
@@ -359,13 +358,18 @@ namespace Files.Views
                 PreviewPaneGridSplitter.Width = 2;
                 PreviewPaneGridSplitter.Height = RootGrid.ActualHeight;
 
+                PreviewPaneRow.MinHeight = 0;
                 PreviewPaneRow.Height = new GridLength(0);
+                PreviewPaneColumn.MinWidth = 150;
                 PreviewPaneColumn.Width = AppSettings.PreviewPaneSizeVertical;
+
                 PreviewPane.IsHorizontal = false;
             }
             else if (RootGrid.ActualWidth <= 800)
             {
+                PreviewPaneRow.MinHeight = 140;
                 PreviewPaneRow.Height = AppSettings.PreviewPaneSizeHorizontal;
+                PreviewPaneColumn.MinWidth = 0;
                 PreviewPaneColumn.Width = new GridLength(0);
 
                 PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 3);
@@ -379,6 +383,7 @@ namespace Files.Views
                 PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 0);
                 PreviewPaneGridSplitter.Height = 2;
                 PreviewPaneGridSplitter.Width = RootGrid.Width;
+
                 PreviewPane.IsHorizontal = true;
             }
         }
@@ -400,11 +405,14 @@ namespace Files.Views
             }
         }
 
-        public bool LoadPreviewPane => App.AppSettings.PreviewPaneEnabled;
+        public bool LoadPreviewPane => App.AppSettings.PreviewPaneEnabled && !IsPreviewPaneDisabled;
+
+        public bool IsPreviewPaneDisabled => Window.Current.Bounds.Width <= 800 && Window.Current.Bounds.Height <= 400; // Disable the preview pane for small windows as it won't function properly
 
         public void LoadPreviewPaneChanged()
         {
             NotifyPropertyChanged(nameof(LoadPreviewPane));
+            NotifyPropertyChanged(nameof(IsPreviewPaneDisabled));
             UpdatePositioning();
         }
 

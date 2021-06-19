@@ -35,14 +35,20 @@
         HorizontalAlignment="Stretch"
         Background="{ThemeResource PreviewPaneBackgroundBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="*" MinHeight="100" />
             <RowDefinition Height="Auto" />
-            <RowDefinition x:Name="PropertiesRow" Height="*" />
+            <RowDefinition
+                x:Name="PropertiesRow"
+                Height="*"
+                MinHeight="100" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" MinWidth="120" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition x:Name="PropertiesColumn" Width="*" />
+            <ColumnDefinition
+                x:Name="PropertiesColumn"
+                Width="*"
+                MinWidth="120" />
         </Grid.ColumnDefinitions>
 
         <Grid
@@ -57,7 +63,8 @@
                 x:Name="PreviewErrorText"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Text="{x:Bind GetLocalizedText('NoItemSelected')}" />
+                Text="{x:Bind GetLocalizedText('NoItemSelected')}"
+                TextWrapping="WrapWholeWords" />
             <ContentControl
                 x:Name="PreviewControlPresenter"
                 HorizontalContentAlignment="Stretch"
@@ -90,6 +97,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Text="{x:Bind GetLocalizedText('NoItemSelected')}"
+                TextWrapping="WrapWholeWords"
                 Visibility="Visible" />
 
             <ListView
@@ -184,6 +192,7 @@
                         <Setter Target="HorizontalGridSplitter.BorderThickness" Value="0, 1, 0, 0" />
                         <Setter Target="HorizontalGridSplitter.Width" Value="2" />
 
+                        <Setter Target="PropertiesRow.MinHeight" Value="0" />
                         <Setter Target="PropertiesRow.Height" Value="0" />
                         <Setter Target="ResizePill.Height" Value="28" />
                         <Setter Target="ResizePill.Width" Value="4" />
@@ -201,6 +210,7 @@
                         <Setter Target="HorizontalGridSplitter.Height" Value="2" />
 
                         <Setter Target="PropertiesColumn.Width" Value="0" />
+                        <Setter Target="PropertiesColumn.MinWidth" Value="0" />
                     </VisualState.Setters>
                 </VisualState>
 

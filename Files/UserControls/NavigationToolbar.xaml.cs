@@ -53,6 +53,18 @@ namespace Files.UserControls
             }
         }
 
+
+
+        public bool ShowPreviewPaneButton
+        {
+            get { return (bool)GetValue(ShowPreviewPaneButtonProperty); }
+            set { SetValue(ShowPreviewPaneButtonProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ShowPreviewPaneButton.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShowPreviewPaneButtonProperty =
+            DependencyProperty.Register("ShowPreviewPaneButton", typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+
         public SettingsViewModel AppSettings => App.AppSettings;
 
         private List<ShellNewEntry> cachedNewContextMenuEntries { get; set; }
