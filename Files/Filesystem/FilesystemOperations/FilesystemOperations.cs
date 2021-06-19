@@ -264,7 +264,7 @@ namespace Files.Filesystem
                 }
             }
 
-            if (Path.GetDirectoryName(destination) == associatedInstance.FilesystemViewModel.WorkingDirectory)
+            if (Path.GetDirectoryName(destination) == associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath())
             {
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                 {
@@ -469,7 +469,7 @@ namespace Files.Filesystem
                 errorCode?.Report(fsResult.ErrorCode);
             }
 
-            if (Path.GetDirectoryName(destination) == associatedInstance.FilesystemViewModel.WorkingDirectory)
+            if (Path.GetDirectoryName(destination) == associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath())
             {
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                 {

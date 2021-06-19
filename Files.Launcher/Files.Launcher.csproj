@@ -126,9 +126,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DeviceWatcher.cs" />
-    <Compile Include="DragDropForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="LogWriter.cs" />
     <Compile Include="FilePermissions.cs" />
     <Compile Include="NetworkDrivesAPI.cs" />

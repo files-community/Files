@@ -66,7 +66,7 @@ namespace Files.Interacts
             PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(commandsModel.PointerWheelChanged);
             GridViewSizeDecreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(commandsModel.GridViewSizeDecrease);
             GridViewSizeIncreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(commandsModel.GridViewSizeIncrease);
-            DragEnterCommand = new RelayCommand<DragEventArgs>(commandsModel.DragEnter);
+            DragOverCommand = new RelayCommand<DragEventArgs>(commandsModel.DragOver);
             DropCommand = new RelayCommand<DragEventArgs>(commandsModel.Drop);
             RefreshCommand = new RelayCommand<RoutedEventArgs>(commandsModel.RefreshItems);
             SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(commandsModel.SearchUnindexedItems);
@@ -149,7 +149,7 @@ namespace Files.Interacts
 
         public ICommand GridViewSizeIncreaseCommand { get; private set; }
 
-        public ICommand DragEnterCommand { get; private set; }
+        public ICommand DragOverCommand { get; private set; }
 
         public ICommand DropCommand { get; private set; }
 

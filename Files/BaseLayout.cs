@@ -528,47 +528,6 @@ namespace Files
             }
         }
 
-        private async void Item_DragStarting(object sender, DragStartingEventArgs e)
-        {
-            List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
-
-            if (sender is DataGridRow dataGridRow)
-            {
-                if (dataGridRow.DataContext is ListedItem item)
-                {
-                    ParentShellPageInstance.SlimContentPage.SelectedItems.Add(item);
-                }
-            }
-
-            foreach (ListedItem item in ParentShellPageInstance.SlimContentPage.SelectedItems)
-            {
-                if (item is ShortcutItem)
-                {
-                    // Can't drag shortcut items
-                    continue;
-                }
-                else if (item.PrimaryItemAttribute == StorageItemTypes.File)
-                {
-                    await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                        .OnSuccess(t => selectedStorageItems.Add(t));
-                }
-                else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                        .OnSuccess(t => selectedStorageItems.Add(t));
-                }
-            }
-
-            if (selectedStorageItems.Count == 0)
-            {
-                e.Cancel = true;
-                return;
-            }
-
-            e.Data.SetStorageItems(selectedStorageItems, false);
-            e.DragUI.SetContentFromDataPackage();
-        }
-
         protected async void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
             List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
@@ -713,7 +672,6 @@ namespace Files
             if (item != null)
             {
                 element.AllowDrop = false;
-                element.DragStarting -= Item_DragStarting;
                 element.DragOver -= Item_DragOver;
                 element.DragLeave -= Item_DragLeave;
                 element.Drop -= Item_Drop;
@@ -730,7 +688,6 @@ namespace Files
         protected void UninitializeDrag(UIElement element)
         {
             element.AllowDrop = false;
-            element.DragStarting -= Item_DragStarting;
             element.DragOver -= Item_DragOver;
             element.DragLeave -= Item_DragLeave;
             element.Drop -= Item_Drop;
@@ -743,9 +700,9 @@ namespace Files
 
         public abstract void Dispose();
 
-        protected void ItemsLayout_DragEnter(object sender, DragEventArgs e)
+        protected void ItemsLayout_DragOver(object sender, DragEventArgs e)
         {
-            CommandsViewModel?.DragEnterCommand?.Execute(e);
+            CommandsViewModel?.DragOverCommand?.Execute(e);
         }
 
         protected void ItemsLayout_Drop(object sender, DragEventArgs e)

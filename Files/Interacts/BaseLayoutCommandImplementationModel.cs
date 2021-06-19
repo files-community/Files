@@ -492,7 +492,7 @@ namespace Files.Interacts
             }
         }
 
-        public virtual async void DragEnter(DragEventArgs e)
+        public virtual async void DragOver(DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
@@ -508,14 +508,7 @@ namespace Files.Interacts
                 }
                 catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
                 {
-                    if (associatedInstance.ServiceConnection != null)
-                    {
-                        await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet() {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "DragDrop" },
-                            { "droptext", "DragDropWindowText".GetLocalized() },
-                            { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
-                    }
+                    // Handled by FTP
                 }
                 catch (Exception ex)
                 {
@@ -528,9 +521,9 @@ namespace Files.Interacts
                     return;
                 }
 
-                var folderName = System.IO.Path.GetFileName(associatedInstance.FilesystemViewModel.WorkingDirectory);
+                var folderName = Path.GetFileName(associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath());
                 // As long as one file doesn't already belong to this folder
-                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.All(x => Path.GetDirectoryName(x.Path) == associatedInstance.FilesystemViewModel.WorkingDirectory))
+                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(associatedInstance.FilesystemViewModel.WorkingDirectory))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
