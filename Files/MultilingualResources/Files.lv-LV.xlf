@@ -1134,10 +1134,6 @@
           <source>Go up one directory</source>
           <target state="translated">Pāriet vienu mapi augšup</target>
         </trans-unit>
-        <trans-unit id="VerticalTabStrip.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Vertical tab strip</source>
-          <target state="translated">Vertikālā ciļņu josla</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
           <target state="translated">Mainīt komandu uzvednes lietotnes</target>
@@ -1794,7 +1790,7 @@
           <source>Dual pane</source>
           <target state="translated">Dubulti paneļi</target>
         </trans-unit>
-        <trans-unit id="LibraryWidgetDescription.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="FolderWidgetDescription.Text" translate="yes" xml:space="preserve">
           <source>Folders</source>
           <target state="translated">Mapes</target>
         </trans-unit>
@@ -2290,30 +2286,6 @@
           <source>No locations</source>
           <target state="translated">Nav atrašanās vietu</target>
         </trans-unit>
-        <trans-unit id="LibraryCardsOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>More library options</source>
-          <target state="translated">Vairāk bibliotēku opcijas</target>
-        </trans-unit>
-        <trans-unit id="LibraryCardsOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>More options...</source>
-          <target state="translated">Vairāk opciju...</target>
-        </trans-unit>
-        <trans-unit id="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" translate="yes" xml:space="preserve">
-          <source>Create Library</source>
-          <target state="translated">Izveidot Bibliotēku</target>
-        </trans-unit>
-        <trans-unit id="LibraryCardsCreateNewLibraryInputPlaceholderText" translate="yes" xml:space="preserve">
-          <source>Desired name</source>
-          <target state="translated">Vēlamais nosaukums</target>
-        </trans-unit>
-        <trans-unit id="LibraryCardsCreateNewLibraryDialogTitleText" translate="yes" xml:space="preserve">
-          <source>Create Library</source>
-          <target state="translated">Izveidot bibliotēku</target>
-        </trans-unit>
-        <trans-unit id="LibraryCardsCreateNewLibraryDialogSubtitleText" translate="yes" xml:space="preserve">
-          <source>Enter the name of the new library</source>
-          <target state="translated">Ievadīt jaunās bibliotēkas nosaukumu</target>
-        </trans-unit>
         <trans-unit id="ErrorInputEmpty" translate="yes" xml:space="preserve">
           <source>Input field cannot be empty!</source>
           <target state="translated">Ievades lauks nedrīkst būt tukšs!</target>
@@ -2333,14 +2305,6 @@
         <trans-unit id="BaseLayoutContextFlyoutDeleteLibrary.Text" translate="yes" xml:space="preserve">
           <source>Delete Library</source>
           <target state="translated">Dzēst Bibliotēku</target>
-        </trans-unit>
-        <trans-unit id="LibraryCardsDeleteLibraryDialogTitleText" translate="yes" xml:space="preserve">
-          <source>Delete Library</source>
-          <target state="translated">Dzēst Bibliotēku</target>
-        </trans-unit>
-        <trans-unit id="LibraryCardsDeleteLibraryDialogSubtitleText" translate="yes" xml:space="preserve">
-          <source>Do you really want to delete this library? The files and folders will remain on your filesystem.</source>
-          <target state="translated">Vai tiešām vēlaties dzēst šo bibliotēku? Faili un mapes netiks dzēsti.</target>
         </trans-unit>
         <trans-unit id="DialogCreateLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Create</source>
@@ -2474,8 +2438,8 @@
           <source>Manage Widgets</source>
           <target state="translated">Pārvaldīt logrīkus</target>
         </trans-unit>
-        <trans-unit id="NavToolbarShowLibraryWidget.Header" translate="yes" xml:space="preserve">
-          <source>Show Library widget</source>
+        <trans-unit id="NavToolbarShowFolderWidget.Header" translate="yes" xml:space="preserve">
+          <source>Show Folders widget</source>
           <target state="translated">Rādīt Bibliotēkas logrīku</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" translate="yes" xml:space="preserve">
@@ -2890,10 +2854,6 @@
           <source>Widgets</source>
           <target state="translated">Logrīki</target>
         </trans-unit>
-        <trans-unit id="VerticalTabStrip.Label" translate="yes" xml:space="preserve">
-          <source>Tabs</source>
-          <target state="translated">Cilnes</target>
-        </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.Label" translate="yes" xml:space="preserve">
           <source>Select</source>
           <target state="translated">Atlasīt</target>
@@ -3077,6 +3037,58 @@
         <trans-unit id="SettingsSkinsTeachingTipHyperlinkText.Text" translate="yes" xml:space="preserve">
           <source>View documentation.</source>
           <target state="new">View documentation.</target>
+        </trans-unit>
+        <trans-unit id="VerticalTabFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Vertical tab flyout</source>
+          <target state="new">Vertical tab flyout</target>
+        </trans-unit>
+        <trans-unit id="VerticalTabFlyout.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Vertical tab flyout</source>
+          <target state="new">Vertical tab flyout</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>New tab (Ctrl+T)</source>
+          <target state="new">New tab (Ctrl+T)</target>
+        </trans-unit>
+        <trans-unit id="SideBarCreateNewLibrary.Text" translate="yes" xml:space="preserve">
+          <source>Create new library</source>
+          <target state="new">Create new library</target>
+        </trans-unit>
+        <trans-unit id="SideBarRestoreLibraries.Text" translate="yes" xml:space="preserve">
+          <source>Restore default libraries</source>
+          <target state="new">Restore default libraries</target>
+        </trans-unit>
+        <trans-unit id="DialogRestoreLibrariesButtonText" translate="yes" xml:space="preserve">
+          <source>Restore</source>
+          <target state="new">Restore</target>
+        </trans-unit>
+        <trans-unit id="DialogRestoreLibrariesSubtitleText" translate="yes" xml:space="preserve">
+          <source>Are you sure you want to restore the default libraries? All your files will remain on your storage.</source>
+          <target state="new">Are you sure you want to restore the default libraries? All your files will remain on your storage.</target>
+        </trans-unit>
+        <trans-unit id="DialogRestoreLibrariesTitleText" translate="yes" xml:space="preserve">
+          <source>Restore Libraries</source>
+          <target state="new">Restore Libraries</target>
+        </trans-unit>
+        <trans-unit id="StatusLibraryRestoration" translate="yes" xml:space="preserve">
+          <source>Restoring libraries</source>
+          <target state="new">Restoring libraries</target>
+        </trans-unit>
+        <trans-unit id="StatusLibraryRestorationInProgress" translate="yes" xml:space="preserve">
+          <source>Restoring default libraries in progress...</source>
+          <target state="new">Restoring default libraries in progress...</target>
+        </trans-unit>
+        <trans-unit id="StatusLibraryRestorationComplete" translate="yes" xml:space="preserve">
+          <source>Libraries restored</source>
+          <target state="new">Libraries restored</target>
+        </trans-unit>
+        <trans-unit id="StatusLibraryRestorationFailed" translate="yes" xml:space="preserve">
+          <source>Failed to restore libraries</source>
+          <target state="new">Failed to restore libraries</target>
+        </trans-unit>
+        <trans-unit id="StatusRestoreLibrariesDetails" translate="yes" xml:space="preserve">
+          <source>{0} library files successfully restored</source>
+          <target state="new">{0} library files successfully restored</target>
         </trans-unit>
       </group>
     </body>

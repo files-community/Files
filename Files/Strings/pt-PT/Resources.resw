@@ -804,9 +804,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Subir um diretório</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Faixa de tabulação vertical</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Editar aplicações de terminal</value>
   </data>
@@ -1341,7 +1338,7 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalize o menu de contexto (Botão Direito)</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Pastas</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
@@ -1725,24 +1722,6 @@
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Sem Localizações</value>
   </data>
-  <data name="LibraryCardsOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Mais opções da Biblioteca</value>
-  </data>
-  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Mais opções...</value>
-  </data>
-  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>Criar Biblioteca</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Nome desejado</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>Criar Biblioteca</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Insira um nome para a nova biblioteca</value>
-  </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
     <value>O campo não pode estar vazio!</value>
   </data>
@@ -1757,12 +1736,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
     <value>Eliminar Biblioteca</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogTitleText" xml:space="preserve">
-    <value>Eliminar Biblioteca</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Tem a certeza que quer eliminar esta Biblioteca? Os ficheiros e as pastas permanecerão no seu sistema de ficheiros.</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Criar</value>
@@ -1863,7 +1836,7 @@
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
     <value>Gerir Widgets</value>
   </data>
-  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
+  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
     <value>Mostrar widget de Biblioteca</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
@@ -2175,9 +2148,6 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgets</value>
   </data>
-  <data name="VerticalTabStrip.Label" xml:space="preserve">
-    <value>Separadores</value>
-  </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Selecionar</value>
   </data>
@@ -2285,5 +2255,35 @@
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Proprietário desconhecido</value>
+  </data>
+  <data name="SettingsNavSidebar.Content" xml:space="preserve">
+    <value>Barra Lateral</value>
+  </data>
+  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
+    <value>Barra Lateral</value>
+  </data>
+  <data name="SettingsVerticalTabFlyoutSwitch.Header" xml:space="preserve">
+    <value>Mostrar menu desdobrável do separador vertical na barra de titulo</value>
+  </data>
+  <data name="DefaultSkin" xml:space="preserve">
+    <value>Original</value>
+  </data>
+  <data name="SettingsAppearanceCustomSkins.Header" xml:space="preserve">
+    <value>Skin personalizada</value>
+  </data>
+  <data name="SettingsAppearanceOpenSkinsFolderButton.Content" xml:space="preserve">
+    <value>Abrir pasta das skins</value>
+  </data>
+  <data name="SettingsSkinsLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Aprenda mais sobre skins personalizadas</value>
+  </data>
+  <data name="SettingsSkinsLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Aprenda mais sobre skins personalizadas</value>
+  </data>
+  <data name="SettingsSkinsTeachingTipHeader.Text" xml:space="preserve">
+    <value>As skins personalizadas é uma ótima forma de personalizar o Files.</value>
+  </data>
+  <data name="SettingsSkinsTeachingTipHyperlinkText.Text" xml:space="preserve">
+    <value>Ver documentação.</value>
   </data>
 </root>
