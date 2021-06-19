@@ -620,16 +620,6 @@ namespace Files
         protected async void Item_DragOver(object sender, DragEventArgs e)
         {
             ListedItem item = GetItemFromElement(sender);
-
-            if (item is null && sender is GridViewItem gvi)
-            {
-                item = gvi.Content as ListedItem;
-            }
-            else if (item is null && sender is ListViewItem lvi)
-            {
-                item = lvi.Content as ListedItem;
-            }
-
             if (item is null)
             {
                 return;
@@ -709,10 +699,10 @@ namespace Files
             e.Handled = true;
             dragOverItem = null; // Reset dragged over item
 
-            ListedItem rowItem = GetItemFromElement(sender);
-            if (rowItem != null)
+            ListedItem item = GetItemFromElement(sender);
+            if (item != null)
             {
-                await ParentShellPageInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, false, true, rowItem.IsExecutable);
+                await ParentShellPageInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable);
             }
             deferral.Complete();
         }
@@ -727,7 +717,7 @@ namespace Files
                 element.DragOver -= Item_DragOver;
                 element.DragLeave -= Item_DragLeave;
                 element.Drop -= Item_Drop;
-                if (item.PrimaryItemAttribute == StorageItemTypes.Folder || (item.IsShortcutItem && (Path.GetExtension((item as ShortcutItem).TargetPath)?.Contains("exe") ?? false)))
+                if (item.PrimaryItemAttribute == StorageItemTypes.Folder || item.IsExecutable)
                 {
                     element.AllowDrop = true;
                     element.DragOver += Item_DragOver;

@@ -314,7 +314,7 @@ namespace Files.Filesystem
         public bool IsLibraryItem => this is LibraryItem;
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
 
-        public virtual bool IsExecutable => Path.GetExtension(ItemPath)?.Contains("exe") ?? false;
+        public virtual bool IsExecutable => Path.GetExtension(ItemPath)?.ToLower() == ".exe";
         public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 
         private StorageFile itemFile;
@@ -382,7 +382,7 @@ namespace Files.Filesystem
         public string WorkingDirectory { get; set; }
         public bool RunAsAdmin { get; set; }
         public bool IsUrl { get; set; }
-        public override bool IsExecutable => Path.GetExtension(TargetPath)?.Contains("exe") ?? false;
+        public override bool IsExecutable => Path.GetExtension(TargetPath)?.ToLower() == ".exe";
     }
 
     public class LibraryItem : ListedItem
