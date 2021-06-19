@@ -62,5 +62,10 @@ namespace Files.UserControls
             Model = null;
             this.Bindings.StopTracking();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Model.UpdateSelectedItemPreview(true);
+        }
     }
 }

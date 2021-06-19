@@ -60,6 +60,10 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             AutomationProperties.Name="File preview">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
             <TextBlock
                 x:Name="PreviewErrorText"
                 HorizontalAlignment="Center"
@@ -72,6 +76,15 @@
                 VerticalContentAlignment="Stretch"
                 Content="{x:Bind Model.PreviewPaneContent, Mode=OneWay}"
                 Visibility="Collapsed" />
+
+            <Button
+                x:Uid="PreviewPaneLoadCloudItemButton"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                Click="Button_Click"
+                Content="Load full preview"
+                ToolTipService.ToolTip="Downloads the item from the cloud and loads the preview"
+                Visibility="{x:Bind Model.ShowCloudItemButton, Mode=OneWay}" />
         </Grid>
 
         <controls:GridSplitter

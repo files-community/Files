@@ -41,7 +41,7 @@ namespace Files.ViewModels
                 if(SetProperty(ref selectedItem, value))
                 {
                     SelectedItem?.FileDetails?.Clear();
-                    SelectedItemChanged();
+                    UpdateSelectedItemPreview();
                 }
             }
         }
@@ -52,6 +52,14 @@ namespace Files.ViewModels
         {
             get => previewPaneState;
             set => SetProperty(ref previewPaneState, value);
+        }
+
+
+        private bool showCloudItemButton;
+        public bool ShowCloudItemButton
+        {
+            get => showCloudItemButton;
+            set => SetProperty(ref showCloudItemButton, value);
         }
 
         private UIElement previewPaneContent;
@@ -66,7 +74,7 @@ namespace Files.ViewModels
         {
         }
 
-        private async Task LoadPreviewControlAsync(CancellationToken token)
+        private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
         {
             PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
             if (SelectedItem.IsHiddenItem)
@@ -91,7 +99,7 @@ namespace Files.ViewModels
                 }
             }
 
-            var control = await GetBuiltInPreviewControlAsync(SelectedItem);
+            var control = await GetBuiltInPreviewControlAsync(SelectedItem, downloadItem);
 
             if (token.IsCancellationRequested)
             {
@@ -110,8 +118,16 @@ namespace Files.ViewModels
             PreviewPaneContent = control;
         }
 
-        private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item)
+        private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item, bool downloadItem)
         {
+            if(item.SyncStatusUI.SyncStatus == Enums.CloudDriveSyncStatus.FileOnline && !downloadItem)
+            {
+                ShowCloudItemButton = true;
+                return null;
+            }
+
+            ShowCloudItemButton = false;
+
             if (item.IsShortcutItem)
             {
                 var model = new ShortcutPreviewViewModel(SelectedItem);
@@ -218,7 +234,7 @@ namespace Files.ViewModels
             return control;
         }
 
-        private async void SelectedItemChanged()
+        public async void UpdateSelectedItemPreview(bool downloadItem = false)
         {
             loadCancellationTokenSource?.Cancel();
             if (SelectedItem != null && IsItemSelected)
@@ -227,7 +243,7 @@ namespace Files.ViewModels
                 {
                     PreviewPaneState = PreviewPaneStates.NoPreviewAvailable;
                     loadCancellationTokenSource = new CancellationTokenSource();
-                    await LoadPreviewControlAsync(loadCancellationTokenSource.Token);
+                    await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
                 }
                 catch (Exception e)
                 {
