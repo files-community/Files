@@ -10,20 +10,27 @@
     d:DesignWidth="400"
     mc:Ignorable="d">
 
-    <ListView
-        x:Name="PageList"
-        ItemsSource="{x:Bind ViewModel.Pages, Mode=OneWay}"
-        SelectionMode="None">
-        <ListView.ItemTemplate>
-            <DataTemplate x:DataType="Page">
-                <Grid Margin="0,5,0,5">
-                    <Image Source="{Binding PageImage}" />
-                </Grid>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-
-        <ListView.Footer>
-            <muxc:ProgressBar IsIndeterminate="True" Visibility="{x:Bind ViewModel.LoadingBarVisibility, Mode=OneWay}" />
-        </ListView.Footer>
-    </ListView>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListView
+            x:Name="PageList"
+            ItemsSource="{x:Bind ViewModel.Pages, Mode=OneWay}"
+            SelectionMode="None">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="Page">
+                    <Grid Margin="0,5,0,5">
+                        <Image Source="{Binding PageImage}" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <muxc:ProgressBar
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            IsIndeterminate="True"
+            Visibility="{x:Bind ViewModel.LoadingBarVisibility, Mode=OneWay}" />
+    </Grid>
 </UserControl>
