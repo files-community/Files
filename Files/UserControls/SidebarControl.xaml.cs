@@ -499,9 +499,16 @@ namespace Files.UserControls
                 }
                 else if (!storageItems.Any())
                 {
-                    e.DragUIOverride.IsCaptionVisible = true;
-                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
-                    e.AcceptedOperation = DataPackageOperation.Copy;
+                    if (locationItem.Path.StartsWith(App.AppSettings.RecycleBinPath))
+                    {
+                        e.AcceptedOperation = DataPackageOperation.None;
+                    }
+                    else
+                    {
+                        e.DragUIOverride.IsCaptionVisible = true;
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.AcceptedOperation = DataPackageOperation.Copy;
+                    }
                 }
                 else
                 {

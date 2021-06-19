@@ -528,9 +528,16 @@ namespace Files.Interacts
                 }
                 else if (!draggedItems.Any())
                 {
-                    e.DragUIOverride.IsCaptionVisible = true;
-                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
-                    e.AcceptedOperation = DataPackageOperation.Copy;
+                    if (pwd.StartsWith(App.AppSettings.RecycleBinPath))
+                    {
+                        e.AcceptedOperation = DataPackageOperation.None;
+                    }
+                    else
+                    {
+                        e.DragUIOverride.IsCaptionVisible = true;
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
+                        e.AcceptedOperation = DataPackageOperation.Copy;
+                    }
                 }
                 else
                 {
