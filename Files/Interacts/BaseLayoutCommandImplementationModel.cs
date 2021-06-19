@@ -535,7 +535,12 @@ namespace Files.Interacts
                 else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
-                    if (e.Modifiers.HasFlag(DragDropModifiers.Control))
+                    if (pwd.StartsWith(App.AppSettings.RecycleBinPath))
+                    {
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
+                        e.AcceptedOperation = DataPackageOperation.Move;
+                    }
+                    else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
                     {
                         e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Copy;

@@ -493,7 +493,6 @@ namespace Files.UserControls
                 }
 
                 if (string.IsNullOrEmpty(locationItem.Path) ||
-                    locationItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
                     (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(locationItem.Path)))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
@@ -507,7 +506,12 @@ namespace Files.UserControls
                 else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
-                    if (e.Modifiers.HasFlag(DragDropModifiers.Control))
+                    if (locationItem.Path.StartsWith(App.AppSettings.RecycleBinPath))
+                    {
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.AcceptedOperation = DataPackageOperation.Move;
+                    }
+                    else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
                     {
                         e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Copy;
