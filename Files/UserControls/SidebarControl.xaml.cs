@@ -501,8 +501,8 @@ namespace Files.UserControls
                 else if (!storageItems.Any())
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
-                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
-                    e.AcceptedOperation = DataPackageOperation.Move;
+                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
+                    e.AcceptedOperation = DataPackageOperation.Copy;
                 }
                 else
                 {
@@ -630,8 +630,8 @@ namespace Files.UserControls
             else if (!storageItems.Any())
             {
                 e.DragUIOverride.IsCaptionVisible = true;
-                e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), driveItem.Text);
-                e.AcceptedOperation = DataPackageOperation.Move;
+                e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), driveItem.Text);
+                e.AcceptedOperation = DataPackageOperation.Copy;
             }
             else
             {

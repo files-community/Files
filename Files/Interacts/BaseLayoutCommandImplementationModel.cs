@@ -529,8 +529,8 @@ namespace Files.Interacts
                 else if (!draggedItems.Any())
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
-                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
-                    e.AcceptedOperation = DataPackageOperation.Move;
+                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
+                    e.AcceptedOperation = DataPackageOperation.Copy;
                 }
                 else
                 {
