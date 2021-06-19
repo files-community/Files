@@ -574,7 +574,6 @@ namespace Files.Views
             FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
             OnNavigationParamsChanged();
             ServiceConnection = await AppServiceConnectionHelper.Instance;
-            FilesystemViewModel.OnAppServiceConnectionChanged(ServiceConnection);
             this.Loaded -= Page_Loaded;
         }
 
@@ -942,7 +941,6 @@ namespace Files.Views
         private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<NamedPipeAsAppServiceConnection> e)
         {
             ServiceConnection = await e;
-            FilesystemViewModel?.OnAppServiceConnectionChanged(ServiceConnection);
         }
 
         private void FilesystemViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)
