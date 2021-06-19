@@ -6,10 +6,10 @@
     xmlns:local="using:Files.UserControls.FilePreviews"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:vms="using:Files.ViewModels.Previews"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -20,9 +20,13 @@
             ItemsSource="{x:Bind ViewModel.Pages, Mode=OneWay}"
             SelectionMode="None">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="Page">
-                    <Grid Margin="0,5,0,5">
-                        <Image Source="{Binding PageImage}" />
+                <DataTemplate x:DataType="vms:PageViewModel">
+                    <Grid>
+                        <Viewbox Margin="0,5,0,5" StretchDirection="DownOnly">
+                            <ContentPresenter CornerRadius="{StaticResource ControlCornerRadius}">
+                                <Image Source="{x:Bind PageImage}" />
+                            </ContentPresenter>
+                        </Viewbox>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

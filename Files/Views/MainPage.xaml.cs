@@ -353,6 +353,8 @@ namespace Files.Views
                 PreviewPaneDropShadowPanel.OffsetY = 0;
                 PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
 
+                PreviewPane.Margin = new Thickness(0, 8, 8, 8);
+
                 PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 1);
                 PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 1);
                 PreviewPaneGridSplitter.Width = 2;
@@ -374,6 +376,8 @@ namespace Files.Views
 
                 PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 3);
                 PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 0);
+
+                PreviewPane.Margin = new Thickness(8, 0, 8, 8);
 
                 PreviewPaneDropShadowPanel.OffsetX = 0;
                 PreviewPaneDropShadowPanel.OffsetY = -2;

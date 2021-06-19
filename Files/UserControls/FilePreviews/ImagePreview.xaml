@@ -8,10 +8,9 @@
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
-
-    <Grid>
-        <Viewbox StretchDirection="DownOnly">
+    <Viewbox StretchDirection="DownOnly">
+        <ContentPresenter CornerRadius="{StaticResource ControlCornerRadius}">
             <Image Source="{x:Bind ViewModel.ImageSource, Mode=OneWay}" />
-        </Viewbox>
-    </Grid>
+        </ContentPresenter>
+    </Viewbox>
 </UserControl>

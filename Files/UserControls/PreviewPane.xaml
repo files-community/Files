@@ -35,7 +35,8 @@
     <Grid
         x:Name="RootGrid"
         HorizontalAlignment="Stretch"
-        Background="{ThemeResource PreviewPaneBackgroundBrush}">
+        Background="{ThemeResource PreviewPaneBackgroundBrush}"
+        CornerRadius="{StaticResource ControlCornerRadius}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" MinHeight="100" />
             <RowDefinition Height="Auto" />
@@ -71,11 +72,12 @@
                 VerticalAlignment="Center"
                 Text="{x:Bind GetLocalizedText('NoItemSelected')}"
                 TextWrapping="WrapWholeWords" />
-            <ContentControl
+            <ContentPresenter
                 x:Name="PreviewControlPresenter"
                 HorizontalContentAlignment="Stretch"
                 VerticalContentAlignment="Stretch"
                 Content="{x:Bind Model.PreviewPaneContent, Mode=OneWay}"
+                CornerRadius="{StaticResource ControlCornerRadius}"
                 Visibility="Collapsed" />
 
             <muxc:ProgressRing
@@ -129,26 +131,31 @@
                 Visibility="Collapsed">
                 <ListView.Header>
                     <StackPanel
-                        Margin="10"
+                        Margin="8,8,8,12"
                         Orientation="Vertical"
                         Spacing="5">
                         <TextBlock
                             FontSize="20"
                             FontWeight="Bold"
+                            HorizontalTextAlignment="Center"
                             IsTextSelectionEnabled="True"
                             Text="{x:Bind Model.SelectedItem.ItemName, Mode=OneWay}"
+                            TextAlignment="Center"
                             TextWrapping="Wrap" />
                         <TextBlock
+                            HorizontalAlignment="Stretch"
                             FontSize="18"
+                            HorizontalTextAlignment="Center"
                             IsTextSelectionEnabled="True"
                             Text="{x:Bind Model.SelectedItem.ItemType, Mode=OneWay}"
+                            TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="properties:FileProperty">
                         <Grid
-                            Padding="0,0,0,10"
+                            Padding="0,0,0,8"
                             HorizontalAlignment="Stretch"
                             AutomationProperties.Name="{x:Bind Name, Mode=OneWay}">
                             <Grid.RowDefinitions>
