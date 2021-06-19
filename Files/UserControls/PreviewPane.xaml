@@ -261,7 +261,7 @@
                         <Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedText('DetailsPanePreviewNotAvaliableText')}" />
                         <Setter Target="DetailsErrorText.Visibility" Value="Visible" />
                         <Setter Target="DetailsErrorText.Text" Value="{x:Bind GetLocalizedText('PreviewPaneDetailsNotAvailableText')}" />
-                        <Setter Target="FileDetailsList.Visibility" Value="Collapsed" />
+                        <Setter Target="FileDetailsList.Visibility" Value="Visible" />
                         <Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
