@@ -506,7 +506,7 @@ namespace Files.Interacts
                 {
                     draggedItems = await e.DataView.GetStorageItemsAsync();
                 }
-                catch (Exception dropEx) when ((uint)dropEx.HResult == 0x80040064)
+                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
                 {
                     if (associatedInstance.ServiceConnection != null)
                     {

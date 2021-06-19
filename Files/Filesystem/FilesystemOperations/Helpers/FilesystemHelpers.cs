@@ -683,7 +683,7 @@ namespace Files.Filesystem
                 {
                     source = await packageView.GetStorageItemsAsync();
                 }
-                catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
                 {
                     return ReturnResult.UnknownException;
                 }
@@ -927,7 +927,7 @@ namespace Files.Filesystem
             {
                 source = await packageView.GetStorageItemsAsync();
             }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
             {
                 return ReturnResult.UnknownException;
             }

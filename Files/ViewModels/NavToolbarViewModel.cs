@@ -258,7 +258,7 @@ namespace Files.ViewModels
             {
                 storageItems = await e.DataView.GetStorageItemsAsync();
             }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
             {
                 e.AcceptedOperation = DataPackageOperation.None;
                 deferral.Complete();
