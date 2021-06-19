@@ -13,6 +13,7 @@
     MinWidth="90"
     d:DesignHeight="300"
     d:DesignWidth="400"
+    Unloaded="UserControl_Unloaded"
     mc:Ignorable="d">
 
     <UserControl.Resources>

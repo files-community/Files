@@ -746,6 +746,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.P):
+                    AppSettings.PreviewPaneEnabled = !AppSettings.PreviewPaneEnabled;
                     NavToolbarViewModel.PreviewPaneInvokedCommand?.Execute(null);
                     break;
 

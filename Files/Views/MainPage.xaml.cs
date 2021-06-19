@@ -159,10 +159,10 @@ namespace Files.Views
 
         private void UpdatePreviewPaneProperties()
         {
+            LoadPreviewPaneChanged();
             if(PreviewPane != null)
             {
                 PreviewPane.Model = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage?.PreviewPaneViewModel;
-                LoadPreviewPaneChanged();
             }
         }
 
@@ -344,7 +344,7 @@ namespace Files.Views
                 PreviewPaneColumn.MinWidth = 0;
                 PreviewPaneColumn.Width = new GridLength(0);
             }
-            else if (RootGrid.ActualWidth > 800)
+            else if (RootGrid.ActualWidth > 700)
             {
                 PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 1);
                 PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 2);
@@ -365,7 +365,7 @@ namespace Files.Views
 
                 PreviewPane.IsHorizontal = false;
             }
-            else if (RootGrid.ActualWidth <= 800)
+            else if (RootGrid.ActualWidth <= 700)
             {
                 PreviewPaneRow.MinHeight = 140;
                 PreviewPaneRow.Height = AppSettings.PreviewPaneSizeHorizontal;
@@ -407,7 +407,8 @@ namespace Files.Views
 
         public bool LoadPreviewPane => App.AppSettings.PreviewPaneEnabled && !IsPreviewPaneDisabled;
 
-        public bool IsPreviewPaneDisabled => Window.Current.Bounds.Width <= 800 && Window.Current.Bounds.Height <= 400; // Disable the preview pane for small windows as it won't function properly
+        public bool IsPreviewPaneDisabled => (SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false) || !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane.InstanceViewModel.IsPageTypeNotHome ?? true) // hide the preview pane if on the home page and multipane is disabled
+            || (Window.Current.Bounds.Width <= 500 && Window.Current.Bounds.Height <= 400); // Disable the preview pane for small windows as it won't function properly
 
         public void LoadPreviewPaneChanged()
         {

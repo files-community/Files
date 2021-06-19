@@ -55,5 +55,12 @@ namespace Files.UserControls
         }
 
         private string GetLocalizedText(string resName) => resName.GetLocalized();
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            PreviewControlPresenter.Content = null;
+            Model = null;
+            this.Bindings.StopTracking();
+        }
     }
 }
