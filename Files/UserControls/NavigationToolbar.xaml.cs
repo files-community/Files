@@ -3,9 +3,11 @@ using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.ViewModels;
 using Files.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.System;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -192,5 +194,22 @@ namespace Files.UserControls
         }
 
         private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args) => ViewModel.VisiblePath_QuerySubmitted(sender, args);
+
+        private async void NavToolbarEnterCompactOverlay_Click(object sender, RoutedEventArgs e)
+        {
+            var view = ApplicationView.GetForCurrentView();
+            if (view.ViewMode == ApplicationViewMode.CompactOverlay)
+            {
+                await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+                NavToolbarExitCompactOverlay.Visibility = Visibility.Collapsed;
+                NavToolbarEnterCompactOverlay.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+                NavToolbarExitCompactOverlay.Visibility = Visibility.Visible;
+                NavToolbarEnterCompactOverlay.Visibility = Visibility.Collapsed;
+            }
+        }
     }
 }

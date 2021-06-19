@@ -935,6 +935,25 @@
                     </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
                 <AppBarButton
+                    x:Name="NavToolbarEnterCompactOverlay"
+                    x:Uid="NavigationToolbarEnterCompactOverlay"
+                    Click="NavToolbarEnterCompactOverlay_Click"
+                    Label="Enter compact overlay">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE8A7;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="NavToolbarExitCompactOverlay"
+                    x:Uid="NavigationToolbarExitCompactOverlay"
+                    Click="NavToolbarEnterCompactOverlay_Click"
+                    Label="Exit compact overlay"
+                    Visibility="Collapsed">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE944;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton
                     x:Name="CopyPathButton"
                     x:Uid="NavigationToolbarCopyPath"
                     x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
