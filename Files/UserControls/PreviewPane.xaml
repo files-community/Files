@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:properties="using:Files.ViewModels.Properties"
     xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     MinWidth="90"
@@ -75,6 +76,11 @@
                 HorizontalContentAlignment="Stretch"
                 VerticalContentAlignment="Stretch"
                 Content="{x:Bind Model.PreviewPaneContent, Mode=OneWay}"
+                Visibility="Collapsed" />
+
+            <muxc:ProgressRing
+                x:Name="PreviewLoadingIndicator"
+                IsIndeterminate="True"
                 Visibility="Collapsed" />
 
             <Button
@@ -275,6 +281,19 @@
                         <Setter Target="DetailsErrorText.Visibility" Value="Collapsed" />
                         <Setter Target="FileDetailsList.Visibility" Value="Visible" />
                         <Setter Target="PreviewControlPresenter.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="LoadingPreview">
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind Model.PreviewPaneState, Mode=OneWay}" To="4" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
+                        <Setter Target="DetailsErrorText.Visibility" Value="Collapsed" />
+                        <Setter Target="FileDetailsList.Visibility" Value="Visible" />
+                        <Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
+                        <Setter Target="PreviewLoadingIndicator.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

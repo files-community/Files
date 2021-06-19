@@ -76,7 +76,6 @@ namespace Files.ViewModels
 
         private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
         {
-            PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
             if (SelectedItem.IsHiddenItem)
             {
                 PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
@@ -95,6 +94,7 @@ namespace Files.ViewModels
                         PreviewPaneContent = extControl;
                     }
 
+                    PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
                     return;
                 }
             }
@@ -109,6 +109,7 @@ namespace Files.ViewModels
             if (control != null)
             {
                 PreviewPaneContent = control;
+                PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
                 return;
             }
 
@@ -116,6 +117,7 @@ namespace Files.ViewModels
             await basicModel.LoadAsync();
             control = new BasicPreview(basicModel);
             PreviewPaneContent = control;
+            PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
         }
 
         private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item, bool downloadItem)
@@ -241,7 +243,7 @@ namespace Files.ViewModels
             {
                 try
                 {
-                    PreviewPaneState = PreviewPaneStates.NoPreviewAvailable;
+                    PreviewPaneState = PreviewPaneStates.LoadingPreview;
                     loadCancellationTokenSource = new CancellationTokenSource();
                     await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
                 }
@@ -289,5 +291,6 @@ namespace Files.ViewModels
         NoPreviewAvailable,
         NoPreviewOrDetailsAvailable,
         PreviewAndDetailsAvailable,
+        LoadingPreview,
     }
 }
