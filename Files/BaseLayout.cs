@@ -227,12 +227,12 @@ namespace Files
 
                     if(value?.Count == 1)
                     {
-                        PreviewPaneViewModel.SelectedItem = SelectedItems.First();
                         PreviewPaneViewModel.IsItemSelected = true;
+                        PreviewPaneViewModel.SelectedItem = SelectedItems.First();
                     } else
                     {
-                        PreviewPaneViewModel.SelectedItem = null;
                         PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
+                        PreviewPaneViewModel.SelectedItem = null;
                     }
 
                     NotifyPropertyChanged(nameof(SelectedItems));
