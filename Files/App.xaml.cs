@@ -14,6 +14,7 @@ using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -81,6 +82,7 @@ namespace Files
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
+            Resuming += App_Resuming;
 
             //LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
             AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
@@ -374,11 +376,27 @@ namespace Files
 
             LibraryManager?.Dispose();
             DrivesManager?.Dispose();
+
+            // Close all running file system watchers
+            foreach (var inst in MainPageViewModel.AppInstances)
+            {
+                inst.Control.FindDescendant<ModernShellPage>()?.FilesystemViewModel.CloseWatcher();
+            }
             deferral.Complete();
 
 #if DEBUG
-            Current.Exit();
+            //Current.Exit();
 #endif
+        }
+
+        private void App_Resuming(object sender, object e)
+        {
+            // Resume all file system watchers
+            foreach (var inst in MainPageViewModel.AppInstances)
+            {
+                var page = inst.Control.FindDescendant<ModernShellPage>();
+                _ = page.FilesystemViewModel.BeginWatcher(page.FilesystemViewModel.WorkingDirectory);
+            }
         }
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages

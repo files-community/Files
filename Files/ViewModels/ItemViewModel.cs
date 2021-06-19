@@ -1005,29 +1005,10 @@ namespace Files.ViewModels
             }
             else
             {
-                var enumerated = await EnumerateItemsFromStandardFolderAsync(path, folderSettings.GetLayoutType(path, false), addFilesCTS.Token, library);
+                enumerated = await EnumerateItemsFromStandardFolderAsync(path, folderSettings.GetLayoutType(path, false), addFilesCTS.Token, library);
                 IsLoadingItems = false; // Hide progressbar after enumeration
-                switch (enumerated)
-                {
-                    case 0: // Enumerated with FindFirstFileExFromApp
-                        // Is folder synced to cloud storage?
-                        currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
-                        var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
-                        PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });
+                await BeginWatcher(path);
 
-                        WatchForDirectoryChanges(path, syncStatus);
-                        break;
-
-                    case 1: // Enumerated with StorageFolder
-                        PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
-                        currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
-                        WatchForStorageFolderChanges(currentStorageFolder?.Folder);
-                        break;
-
-                    case -1: // Enumeration failed
-                    default:
-                        break;
-                }
             }
 
             if (addFilesCTS.IsCancellationRequested)
@@ -1040,6 +1021,8 @@ namespace Files.ViewModels
             stopwatch.Stop();
             Debug.WriteLine($"Loading of items in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
+
+        private int enumerated = 0;
 
         public void CloseWatcher()
         {
@@ -1061,6 +1044,30 @@ namespace Files.ViewModels
                 itemQueryResult.ContentsChanged -= ItemQueryResult_ContentsChanged;
                 watchedItemsOperation?.Cancel();
                 watchedItemsOperation = null;
+            }
+        }
+        public async Task BeginWatcher(string path)
+        {
+            switch (enumerated)
+            {
+                case 0: // Enumerated with FindFirstFileExFromApp
+                        // Is folder synced to cloud storage?
+                    currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
+                    var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
+                    PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });
+
+                    WatchForDirectoryChanges(path, syncStatus);
+                    break;
+
+                case 1: // Enumerated with StorageFolder
+                    PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
+                    currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
+                    WatchForStorageFolderChanges(currentStorageFolder?.Folder);
+                    break;
+
+                case -1: // Enumeration failed
+                default:
+                    break;
             }
         }
 
