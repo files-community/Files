@@ -613,9 +613,8 @@ namespace Files
                 }
                 catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
                 {
-                    e.AcceptedOperation = DataPackageOperation.None;
-                    deferral.Complete();
-                    return;
+                    // Handled by FTP
+                    draggedItems = new List<IStorageItem>();
                 }
                 catch (Exception ex)
                 {
@@ -629,6 +628,12 @@ namespace Files
                 if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
+                }
+                else if (!draggedItems.Any())
+                {
+                    e.DragUIOverride.IsCaptionVisible = true;
+                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
+                    e.AcceptedOperation = DataPackageOperation.Move;
                 }
                 else
                 {

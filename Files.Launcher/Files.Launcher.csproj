@@ -132,6 +132,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuickLook.cs" />
+    <Compile Include="RemoteDataObject.cs" />
     <Compile Include="Win32API.cs" />
     <Compile Include="Win32API_ContextMenu.cs" />
   </ItemGroup>

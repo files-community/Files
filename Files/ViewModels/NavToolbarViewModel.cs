@@ -273,9 +273,9 @@ namespace Files.ViewModels
             }
 
             if (!storageItems.Any(storageItem =>
-            storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
-            Trim(Path.DirectorySeparatorChar).
-            Contains(Path.DirectorySeparatorChar)))
+                storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
+                Trim(Path.DirectorySeparatorChar).
+                Contains(Path.DirectorySeparatorChar)))
             {
                 e.AcceptedOperation = DataPackageOperation.None;
             }

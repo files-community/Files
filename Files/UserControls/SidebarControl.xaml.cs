@@ -481,9 +481,8 @@ namespace Files.UserControls
                 }
                 catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
                 {
-                    e.AcceptedOperation = DataPackageOperation.None;
-                    deferral.Complete();
-                    return;
+                    // Handled by FTP
+                    storageItems = new List<IStorageItem>();
                 }
                 catch (Exception ex)
                 {
@@ -493,12 +492,17 @@ namespace Files.UserControls
                     return;
                 }
 
-                if (storageItems.Count == 0 ||
-                    string.IsNullOrEmpty(locationItem.Path) ||
+                if (string.IsNullOrEmpty(locationItem.Path) ||
                     locationItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
-                    storageItems.AreItemsAlreadyInFolder(locationItem.Path))
+                    (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(locationItem.Path)))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
+                }
+                else if (!storageItems.Any())
+                {
+                    e.DragUIOverride.IsCaptionVisible = true;
+                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
+                    e.AcceptedOperation = DataPackageOperation.Move;
                 }
                 else
                 {
@@ -607,9 +611,8 @@ namespace Files.UserControls
             }
             catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
             {
-                e.AcceptedOperation = DataPackageOperation.None;
-                deferral.Complete();
-                return;
+                // Handled by FTP
+                storageItems = new List<IStorageItem>();
             }
             catch (Exception ex)
             {
@@ -619,11 +622,16 @@ namespace Files.UserControls
                 return;
             }
 
-            if (storageItems.Count == 0 ||
-                "DriveCapacityUnknown".GetLocalized().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
-                storageItems.AreItemsAlreadyInFolder(driveItem.Path))
+            if ("DriveCapacityUnknown".GetLocalized().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
+                (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
             {
                 e.AcceptedOperation = DataPackageOperation.None;
+            }
+            else if (!storageItems.Any())
+            {
+                e.DragUIOverride.IsCaptionVisible = true;
+                e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), driveItem.Text);
+                e.AcceptedOperation = DataPackageOperation.Move;
             }
             else
             {

@@ -1,4 +1,5 @@
-﻿using Files.DataModels;
+﻿using Files.Common;
+using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
 using Files.Extensions;
@@ -16,6 +17,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
@@ -685,7 +687,16 @@ namespace Files.Filesystem
                 }
                 catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
                 {
-                    return ReturnResult.UnknownException;
+                    if (associatedInstance.ServiceConnection != null)
+                    {
+                        var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet() {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "DragDrop" },
+                            { "droptext", "DragDropWindowText".GetLocalized() },
+                            { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
+                        return (status == AppServiceResponseStatus.Success && response.Get("Success", false)) ? ReturnResult.Success : ReturnResult.Failed;
+                    }
+                    return ReturnResult.Failed;
                 }
                 catch (Exception ex)
                 {
@@ -929,7 +940,16 @@ namespace Files.Filesystem
             }
             catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
             {
-                return ReturnResult.UnknownException;
+                if (associatedInstance.ServiceConnection != null)
+                {
+                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet() {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "DragDrop" },
+                            { "droptext", "DragDropWindowText".GetLocalized() },
+                            { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
+                    return (status == AppServiceResponseStatus.Success && response.Get("Success", false)) ? ReturnResult.Success : ReturnResult.Failed;
+                }
+                return ReturnResult.Failed;
             }
             catch (Exception ex)
             {
