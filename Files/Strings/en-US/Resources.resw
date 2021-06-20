@@ -2573,6 +2573,7 @@
   </data>
   <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
     <value>Exit compact overlay</value>
+</data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>File description</value>
   </data>
