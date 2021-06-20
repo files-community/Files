@@ -38,8 +38,8 @@
                         TintColor="{ThemeResource SolidBackgroundAcrylic}"
                         TintOpacity="{ThemeResource SidebarTintOpacity}" />
                 </ResourceDictionary>
-				<ResourceDictionary x:Key="Dark">
-					<AcrylicBrush
+                <ResourceDictionary x:Key="Dark">
+                    <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
                         Windows10version1903:TintLuminosityOpacity="{ThemeResource SidebarTintLuminosityOpacity}"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
@@ -47,8 +47,8 @@
                         FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                         TintColor="{ThemeResource SolidBackgroundAcrylic}"
                         TintOpacity="{ThemeResource SidebarTintOpacity}" />
-				</ResourceDictionary>
-			</ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
 
             <DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
                 <muxc:NavigationViewItem
