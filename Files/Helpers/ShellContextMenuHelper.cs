@@ -105,9 +105,9 @@ namespace Files.Helpers
                 BitmapImage image = null;
                 if (showIcons)
                 {
-                    image = new BitmapImage();
                     if (!string.IsNullOrEmpty(menuFlyoutItem.IconBase64))
                     {
+                        image = new BitmapImage();
                         byte[] bitmapData = Convert.FromBase64String(menuFlyoutItem.IconBase64);
                         using var ms = new MemoryStream(bitmapData);
                         image.SetSourceAsync(ms.AsRandomAccessStream()).AsTask().Wait(10);
