@@ -206,7 +206,6 @@ namespace Files.Views
             NavToolbarViewModel.AddNewTabToMultitaskingControlCommand = new RelayCommand(async () => await MainPageViewModel.AddNewTabAsync());
             NavToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, x, this));
             NavToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, this));
-            NavToolbarViewModel.PreviewPaneInvokedCommand = new RelayCommand(() => PreviewPaneEnabled = !PreviewPaneEnabled);
         }
 
         private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
@@ -743,7 +742,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.P):
-                    PreviewPaneEnabled = !PreviewPaneEnabled;
+                    AppSettings.PreviewPaneEnabled = !AppSettings.PreviewPaneEnabled;
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
@@ -1044,77 +1043,6 @@ namespace Files.Views
             return DataPackageOperation.None;
         }
 
-        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            UpdatePositioning();
-        }
-
-        /// <summary>
-        /// Call this function to update the positioning of the preview pane.
-        /// This is a workaround as the VisualStateManager causes problems.
-        /// </summary>
-        private void UpdatePositioning()
-        {
-            if (!LoadPreviewPane || PreviewPaneDropShadowPanel is null || PreviewPane is null)
-            {
-                PreviewPaneRow.Height = new GridLength(0);
-                PreviewPaneColumn.Width = new GridLength(0);
-            }
-            else if (RootGrid.ActualWidth > 800)
-            {
-                PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 2);
-                PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 2);
-
-                PreviewPaneDropShadowPanel.OffsetX = -2;
-                PreviewPaneDropShadowPanel.OffsetY = 0;
-                PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
-
-                PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 2);
-                PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 1);
-                PreviewPaneGridSplitter.Width = 2;
-                PreviewPaneGridSplitter.Height = RootGrid.ActualHeight;
-
-                PreviewPaneRow.Height = new GridLength(0);
-                PreviewPaneColumn.Width = AppSettings.PreviewPaneSizeVertical;
-                PreviewPane.IsHorizontal = false;
-            }
-            else if (RootGrid.ActualWidth <= 800)
-            {
-                PreviewPaneRow.Height = AppSettings.PreviewPaneSizeHorizontal;
-                PreviewPaneColumn.Width = new GridLength(0);
-
-                PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 4);
-                PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 0);
-
-                PreviewPaneDropShadowPanel.OffsetX = 0;
-                PreviewPaneDropShadowPanel.OffsetY = -2;
-                PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
-
-                PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 3);
-                PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 0);
-                PreviewPaneGridSplitter.Height = 2;
-                PreviewPaneGridSplitter.Width = RootGrid.Width;
-                PreviewPane.IsHorizontal = true;
-            }
-        }
-
-        private void PreviewPaneGridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
-        {
-            if (PreviewPane == null)
-            {
-                return;
-            }
-
-            if (PreviewPane.IsHorizontal)
-            {
-                AppSettings.PreviewPaneSizeHorizontal = new GridLength(PreviewPane.ActualHeight);
-            }
-            else
-            {
-                AppSettings.PreviewPaneSizeVertical = new GridLength(PreviewPane.ActualWidth);
-            }
-        }
-
         public void NavigateHome()
         {
             ItemDisplayFrame.Navigate(typeof(WidgetsPage),
@@ -1186,38 +1114,6 @@ namespace Files.Views
         public void RemoveLastPageFromBackStack()
         {
             ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
-        }
-
-        public bool LoadPreviewPane => PreviewPaneEnabled && InstanceViewModel.IsPageTypeNotHome;
-
-        public void LoadPreviewPaneChanged()
-        {
-            NotifyPropertyChanged(nameof(LoadPreviewPane));
-            UpdatePositioning();
-        }
-
-        private void PreviewPane_Loading(FrameworkElement sender, object args)
-        {
-            UpdatePositioning();
-        }
-
-        private bool previewPaneEnabled = App.AppSettings.PreviewPaneEnabled;
-        // This is needed so the layout can be updated when the preview pane is opened
-        public bool PreviewPaneEnabled
-        {
-            get => previewPaneEnabled;
-            set
-            {
-                if (value != previewPaneEnabled)
-                {
-                    previewPaneEnabled = value;
-                    AppSettings.PreviewPaneEnabled = value;
-                    NavToolbarViewModel.PreviewPaneEnabled = value;
-                    NotifyPropertyChanged(nameof(PreviewPaneEnabled));
-                    NotifyPropertyChanged(nameof(LoadPreviewPane));
-                    UpdatePositioning();
-                }
-            }
         }
     }
 

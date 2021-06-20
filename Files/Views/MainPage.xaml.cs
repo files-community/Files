@@ -9,6 +9,8 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
@@ -26,7 +28,7 @@ namespace Files.Views
     /// <summary>
     /// The root page of Files
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
         public MainViewModel MainViewModel => App.MainViewModel;
@@ -60,6 +62,18 @@ namespace Files.Views
             AllowDrop = true;
 
             ToggleFullScreenAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ToggleFullScreenAccelerator);
+
+            App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
+        }
+
+        private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(App.AppSettings.PreviewPaneEnabled):
+                    LoadPreviewPaneChanged();
+                    break;
+            }
         }
 
         public UserControl MultitaskingControl => VerticalTabs;
@@ -108,6 +122,7 @@ namespace Files.Views
                 SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ? 
                     paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
                 UpdateStatusBarProperties();
+                UpdatePreviewPaneProperties();
             }
         }
 
@@ -122,6 +137,7 @@ namespace Files.Views
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((e.CurrentInstance.TabItemArguments?.NavigationArg as PaneNavigationArguments).LeftPaneNavPathParam);
             UpdateStatusBarProperties();
             UpdateNavToolbarProperties();
+            UpdatePreviewPaneProperties();
             e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
             e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
         }
@@ -130,6 +146,7 @@ namespace Files.Views
         {
             SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments.NavigationArg.ToString());
             UpdateStatusBarProperties();
+            UpdatePreviewPaneProperties();
             UpdateNavToolbarProperties();
         }
 
@@ -149,6 +166,15 @@ namespace Files.Views
                 NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.NavToolbarViewModel;
                 NavToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
                 NavToolbar.IsMultiPaneActive = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
+            }
+        }
+
+        private void UpdatePreviewPaneProperties()
+        {
+            LoadPreviewPaneChanged();
+            if(PreviewPane != null)
+            {
+                PreviewPane.Model = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage?.PreviewPaneViewModel;
             }
         }
 
@@ -309,6 +335,111 @@ namespace Files.Views
         private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
         {
             SidebarAdaptiveViewModel.UpdateTabControlMargin(); // Set the correct tab margin on startup
+        }
+
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            LoadPreviewPaneChanged();
+        }
+
+        /// <summary>
+        /// Call this function to update the positioning of the preview pane.
+        /// This is a workaround as the VisualStateManager causes problems.
+        /// </summary>
+        private void UpdatePositioning()
+        {
+            if (!LoadPreviewPane || PreviewPaneDropShadowPanel is null || PreviewPane is null)
+            {
+                PreviewPaneRow.MinHeight = 0;
+                PreviewPaneRow.Height = new GridLength(0);
+                PreviewPaneColumn.MinWidth = 0;
+                PreviewPaneColumn.Width = new GridLength(0);
+            }
+            else if (RootGrid.ActualWidth > 700)
+            {
+                PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 1);
+                PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 2);
+
+                PreviewPaneDropShadowPanel.OffsetX = -2;
+                PreviewPaneDropShadowPanel.OffsetY = 0;
+                PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
+
+                PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 1);
+                PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 1);
+                PreviewPaneGridSplitter.Width = 2;
+                PreviewPaneGridSplitter.Height = RootGrid.ActualHeight;
+
+                PreviewPaneRow.MinHeight = 0;
+                PreviewPaneRow.Height = new GridLength(0);
+                PreviewPaneColumn.MinWidth = 150;
+                PreviewPaneColumn.Width = AppSettings.PreviewPaneSizeVertical;
+
+                PreviewPane.IsHorizontal = false;
+            }
+            else if (RootGrid.ActualWidth <= 700)
+            {
+                PreviewPaneRow.MinHeight = 140;
+                PreviewPaneRow.Height = AppSettings.PreviewPaneSizeHorizontal;
+                PreviewPaneColumn.MinWidth = 0;
+                PreviewPaneColumn.Width = new GridLength(0);
+
+                PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 3);
+                PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 0);
+
+                PreviewPaneDropShadowPanel.OffsetX = 0;
+                PreviewPaneDropShadowPanel.OffsetY = -2;
+                PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
+
+                PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 2);
+                PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 0);
+                PreviewPaneGridSplitter.Height = 2;
+                PreviewPaneGridSplitter.Width = RootGrid.Width;
+
+                PreviewPane.IsHorizontal = true;
+            }
+        }
+
+        private void PreviewPaneGridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            if (PreviewPane == null)
+            {
+                return;
+            }
+
+            if (PreviewPane.IsHorizontal)
+            {
+                AppSettings.PreviewPaneSizeHorizontal = new GridLength(PreviewPane.ActualHeight);
+            }
+            else
+            {
+                AppSettings.PreviewPaneSizeVertical = new GridLength(PreviewPane.ActualWidth);
+            }
+        }
+
+        public bool LoadPreviewPane => App.AppSettings.PreviewPaneEnabled && !IsPreviewPaneDisabled;
+
+        public bool IsPreviewPaneDisabled => (SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false) || !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane.InstanceViewModel.IsPageTypeNotHome ?? false) // hide the preview pane if on the home page and multipane is disabled
+            || (Window.Current.Bounds.Width <= 450 || Window.Current.Bounds.Height <= 400); // Disable the preview pane for small windows as it won't function properly
+
+        private void LoadPreviewPaneChanged()
+        {
+            NotifyPropertyChanged(nameof(LoadPreviewPane));
+            NotifyPropertyChanged(nameof(IsPreviewPaneDisabled));
+            UpdatePositioning();
+        }
+
+        private void PreviewPane_Loading(FrameworkElement sender, object args)
+        {
+            UpdatePreviewPaneProperties();
+            UpdatePositioning();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
