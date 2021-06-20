@@ -253,13 +253,19 @@ namespace Files.UserControls.Widgets
             }
             else
             {
-                StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(item.Path);
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                StorageFolder folder = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(item.Path).AsTask());
+                if (folder != null)
                 {
-                    item.Icon = new BitmapImage();
-                    Windows.Storage.FileProperties.StorageItemThumbnail thumbnail = await folder.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 48, Windows.Storage.FileProperties.ThumbnailOptions.ReturnOnlyIfCached);
-                    await item.Icon.SetSourceAsync(thumbnail);
-                });
+                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                    {
+                        item.Icon = new BitmapImage();
+                        using var thumbnail = await folder.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 48, Windows.Storage.FileProperties.ThumbnailOptions.ReturnOnlyIfCached);
+                        if (thumbnail != null)
+                        {
+                            await item.Icon.SetSourceAsync(thumbnail);
+                        }
+                    });
+                }
             }
         }
     }

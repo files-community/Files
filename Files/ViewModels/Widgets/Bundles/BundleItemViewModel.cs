@@ -166,12 +166,11 @@ namespace Files.ViewModels.Widgets.Bundles
                     }
 
                     BitmapImage icon = new BitmapImage();
-                    StorageItemThumbnail thumbnail = await file.GetThumbnailAsync(ThumbnailMode.ListView, 24u, ThumbnailOptions.UseCurrentScale);
+                    using var thumbnail = await file.GetThumbnailAsync(ThumbnailMode.ListView, 24u, ThumbnailOptions.UseCurrentScale);
 
                     if (thumbnail != null)
                     {
                         await icon.SetSourceAsync(thumbnail);
-
                         Icon = icon;
                         OnPropertyChanged(nameof(Icon));
                     }

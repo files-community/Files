@@ -211,7 +211,7 @@ namespace Files.Filesystem
                 type = DriveType.Removable;
             }
 
-            var thumbnail = await root.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
+            using var thumbnail = await root.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
             lock (drivesList)
             {
                 // If drive already in list, skip.
@@ -254,8 +254,6 @@ namespace Files.Filesystem
 
             foreach (var drive in drives)
             {
-                StorageItemThumbnail thumbnail;
-
                 var res = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Name).AsTask());
                 if (res == FileSystemStatusCode.Unauthorized)
                 {
@@ -268,10 +266,8 @@ namespace Files.Filesystem
                     Logger.Warn($"{res.ErrorCode}: Attempting to add the device, {drive.Name}, failed at the StorageFolder initialization step. This device will be ignored.");
                     continue;
                 }
-                else
-                {
-                    thumbnail = await res.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
-                }
+
+                using var thumbnail = await res.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
 
                 lock (drivesList)
                 {
@@ -404,8 +400,6 @@ namespace Files.Filesystem
                         return;
                     }
 
-                    var thumbnail = await rootAdded.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
-
                     lock (drivesList)
                     {
                         // If drive already in list, skip.
@@ -419,14 +413,18 @@ namespace Files.Filesystem
                         }
                     }
 
-                    var type = GetDriveType(driveAdded);
-                    var driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, deviceId, type, thumbnail);
-
-                    lock (drivesList)
+                    using (var thumbnail = await rootAdded.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale))
                     {
-                        Logger.Info($"Drive added from fulltrust process: {driveItem.Path}, {driveItem.Type}");
-                        drivesList.Add(driveItem);
+                        var type = GetDriveType(driveAdded);
+                        var driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, deviceId, type, thumbnail);
+
+                        lock (drivesList)
+                        {
+                            Logger.Info($"Drive added from fulltrust process: {driveItem.Path}, {driveItem.Type}");
+                            drivesList.Add(driveItem);
+                        }
                     }
+
                     DeviceWatcher_EnumerationCompleted(null, null);
                     break;
 
