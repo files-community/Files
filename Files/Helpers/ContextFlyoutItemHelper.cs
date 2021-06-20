@@ -660,7 +660,7 @@ namespace Files.Helpers
                     Text = "Extract",
                     Glyph = "\xF11A",
                     Command = commandsViewModel.DecompressArchiveCommand,
-                    ShowItem = selectedItems.Count == 1 && selectedItems.First().FileExtension == ".zip",
+                    ShowItem = selectedItems.Count == 1 && new [] { ".zip", ".msix", ".msixbundle" }.Contains(selectedItems.First().FileExtension),
                     GlyphFontFamilyName = "CustomGlyph"
                 },
                 new ContextMenuFlyoutItemViewModel()
