@@ -365,9 +365,11 @@ namespace Files.Views.LayoutModes
             else if (e.Key == VirtualKey.Enter)
             {
                 TextBox textBox = sender as TextBox;
-                textBox.LostFocus -= RenameTextBox_LostFocus;
+                textBox.LostFocus -= RenameTextBox_LostFocus;                
                 CommitRename(textBox);
                 e.Handled = true;
+                System.Threading.Thread.Sleep(500);
+                CommandsViewModel.RefreshCommand.Execute(e);
             }
         }
 
