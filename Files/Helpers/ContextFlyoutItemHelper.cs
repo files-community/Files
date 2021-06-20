@@ -7,6 +7,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
@@ -657,11 +658,34 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "Extract",
+                    Text = "BaseLayoutItemContextFlyoutExtractionOptions".GetLocalized(),
                     Glyph = "\xF11A",
-                    Command = commandsViewModel.DecompressArchiveCommand,
                     ShowItem = selectedItems.Count == 1 && new [] { ".zip", ".msix", ".msixbundle" }.Contains(selectedItems.First().FileExtension),
-                    GlyphFontFamilyName = "CustomGlyph"
+                    GlyphFontFamilyName = "CustomGlyph",
+                    Items = new List<ContextMenuFlyoutItemViewModel>()
+                    {
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutItemContextFlyoutExtractFilesOption".GetLocalized(),
+                            Command = commandsViewModel.DecompressArchiveCommand,
+                            Glyph = "\xF11A",
+                            GlyphFontFamilyName = "CustomGlyph"
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutItemContextFlyoutExtractHereOption".GetLocalized(),
+                            Command = commandsViewModel.DecompressArchiveHereCommand,
+                            Glyph = "\xF11A",
+                            GlyphFontFamilyName = "CustomGlyph"
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalized(), Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)),
+                            Command = commandsViewModel.DecompressArchiveToChildFolderCommand,
+                            Glyph = "\xF11A",
+                            GlyphFontFamilyName = "CustomGlyph"
+                        }
+                    }
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {

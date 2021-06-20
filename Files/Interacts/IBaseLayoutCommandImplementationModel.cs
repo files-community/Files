@@ -90,5 +90,9 @@ namespace Files.Interacts
         void CreateFolderWithSelection(RoutedEventArgs e);
 
         void DecompressArchive();
+
+        void DecompressArchiveHere();
+
+        void DecompressArchiveToChildFolder();
     }
 }

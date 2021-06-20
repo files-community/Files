@@ -21,7 +21,7 @@
     IsTitleBarAutoPaddingEnabled="False"
     ItemInvoked="Sidebar_ItemInvoked"
     MenuItemsSource="{x:Bind local:SidebarControl.SideBarItems, Mode=OneWay}"
-    OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneWay}"
+    OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneTime}"
     PaneDisplayMode="Auto"
     SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
     mc:Ignorable="d">
@@ -113,6 +113,26 @@
             <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
                 <MenuFlyout.Items>
                     <MenuFlyoutItem
+                        x:Name="CreateNewLibrary"
+                        x:Uid="SideBarCreateNewLibrary"
+                        x:Load="{x:Bind IsLibrariesHeader, Mode=OneWay}"
+                        Command="{x:Bind CreateLibraryCommand, Mode=OneWay}"
+                        Text="Create new library">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE710;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        x:Name="RestoreLibraries"
+                        x:Uid="SideBarRestoreLibraries"
+                        x:Load="{x:Bind IsLibrariesHeader, Mode=OneWay}"
+                        Command="{x:Bind RestoreLibrariesCommand, Mode=OneWay}"
+                        Text="Restore default libraries">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE10E;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
                         x:Name="EmptyRecycleBin"
                         x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
                         x:Load="{x:Bind ShowEmptyRecycleBin, Mode=OneWay}"
@@ -126,7 +146,7 @@
                     <MenuFlyoutItem
                         x:Name="OpenInNewPane"
                         x:Uid="SideBarOpenInNewPane"
-                        x:Load="{x:Bind CanOpenInNewPane, Mode=OneWay}"
+                        x:Load="{x:Bind conv:MultiBooleanConverter.AndConvert(IsLocationItem, CanOpenInNewPane), Mode=OneWay}"
                         Click="OpenInNewPane_Click"
                         Text="Open in new pane">
                         <MenuFlyoutItem.Icon>
@@ -136,6 +156,7 @@
                     <MenuFlyoutItem
                         x:Name="OpenInNewTab"
                         x:Uid="SideBarOpenInNewTab"
+                        x:Load="{x:Bind IsLocationItem, Mode=OneWay}"
                         Click="OpenInNewTab_Click"
                         Text="Open in new tab">
                         <MenuFlyoutItem.Icon>
@@ -145,6 +166,7 @@
                     <MenuFlyoutItem
                         x:Name="OpenInNewWindow"
                         x:Uid="SideBarOpenInNewWindow"
+                        x:Load="{x:Bind IsLocationItem, Mode=OneWay}"
                         Click="OpenInNewWindow_Click"
                         Text="Open in new window">
                         <MenuFlyoutItem.Icon>
@@ -174,7 +196,7 @@
                     <MenuFlyoutItem
                         x:Name="PropertiesFolder"
                         x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
-                        x:Load="{x:Bind ShowProperties, Mode=OneWay}"
+                        x:Load="{x:Bind IsLocationItem, Mode=OneWay}"
                         Click="Properties_Click"
                         Text="Properties">
                         <MenuFlyoutItem.Icon>
@@ -240,29 +262,33 @@
                                         x:DeferLoadStrategy="Lazy"
                                         Fill="{ThemeResource SystemControlForegroundTransparentBrush}"
                                         Visibility="Collapsed" />
+                                </Grid>
 
-                                    <!--  This allows the user to resize the pane  -->
-                                    <Grid
-                                        x:Name="ResizeElementBorder"
-                                        Width="8"
-                                        HorizontalAlignment="Right"
-                                        AllowFocusOnInteraction="True"
-                                        BorderBrush="Transparent"
-                                        BorderThickness="0,0,1,0"
-                                        ManipulationDelta="Border_ManipulationDelta"
-                                        ManipulationMode="TranslateX"
-                                        PointerCanceled="Border_PointerExited"
-                                        PointerEntered="Border_PointerEntered"
-                                        PointerExited="Border_PointerExited">
-                                        <UserControl
-                                            x:Uid="ResizeElementKeyboardControl"
-                                            AutomationProperties.Name="Sidebar resizer"
-                                            FocusVisualPrimaryThickness="2"
-                                            IsTabStop="True"
-                                            KeyDown="Border_KeyDown"
-                                            UseSystemFocusVisuals="True" />
-                                    </Grid>
-
+                                <!--  This allows the user to resize the pane  -->
+                                <Grid
+                                    x:Name="ResizeElementBorder"
+                                    Grid.Column="{Binding ElementName=PaneRoot, Path=(Grid.Column), Mode=OneWay}"
+                                    Width="8"
+                                    HorizontalAlignment="Right"
+                                    AllowFocusOnInteraction="True"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    ManipulationCompleted="ResizeElementBorder_ManipulationCompleted"
+                                    ManipulationDelta="Border_ManipulationDelta"
+                                    ManipulationMode="TranslateX"
+                                    ManipulationStarted="ResizeElementBorder_ManipulationStarted"
+                                    PointerCanceled="Border_PointerExited"
+                                    PointerEntered="Border_PointerEntered"
+                                    PointerExited="Border_PointerExited"
+                                    RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}"
+                                    Visibility="{Binding ElementName=PaneRoot, Path=Visibility, Mode=OneWay}">
+                                    <UserControl
+                                        x:Name="ResizeElementControl"
+                                        x:Uid="ResizeElementKeyboardControl"
+                                        AutomationProperties.Name="Sidebar resizer"
+                                        IsTabStop="True"
+                                        KeyDown="Border_KeyDown"
+                                        UseSystemFocusVisuals="True" />
                                 </Grid>
 
                                 <!--  This defines the drag area for the title bar  -->
@@ -982,6 +1008,31 @@
                                             </Storyboard>
                                         </VisualState>
 
+                                    </VisualStateGroup>
+
+                                    <VisualStateGroup x:Name="ResizerStates">
+                                        <VisualState x:Name="ResizerNormal" />
+                                        <VisualState x:Name="ResizerPointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResizeElementBorder" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResizeElementBorder" Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+
+                                        <VisualState x:Name="ResizerPressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResizeElementBorder" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResizeElementBorder" Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
                                     </VisualStateGroup>
 
                                 </VisualStateManager.VisualStateGroups>

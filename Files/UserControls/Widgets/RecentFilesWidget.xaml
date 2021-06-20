@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="Files.UserControls.Widgets.RecentFiles"
+    x:Class="Files.UserControls.Widgets.RecentFilesWidget"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -15,13 +15,13 @@
             Grid.Column="0">
             <StackPanel Orientation="Vertical" Spacing="4">
                 <TextBlock
-                    x:Uid="RecentItems"
+                    x:Uid="RecentFilesHeader"
                     HorizontalAlignment="Left"
                     FontFamily="Segoe UI"
                     FontSize="14"
                     FontWeight="Medium"
                     Opacity=".8"
-                    Text="Recent files" />
+                    Text="Recent Files" />
                 <TextBlock
                     x:Name="RecentItemDescription"
                     x:Uid="RecentItemDescription"

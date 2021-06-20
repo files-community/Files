@@ -75,7 +75,7 @@ namespace FilesFullTrust
 
                 librariesWatcher = new FileSystemWatcher
                 {
-                    Path = librariesPath,
+                    Path = ShellLibraryItem.LibrariesPath,
                     Filter = "*" + ShellLibraryItem.EXTENSION,
                     NotifyFilter = NotifyFilters.Attributes | NotifyFilters.LastWrite | NotifyFilters.FileName,
                     IncludeSubdirectories = false,
@@ -162,7 +162,6 @@ namespace FilesFullTrust
         private static IList<FileSystemWatcher> binWatchers;
         private static DeviceWatcher deviceWatcher;
         private static FileSystemWatcher librariesWatcher;
-        private static readonly string librariesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries");
 
         private static async void InitializeAppServiceConnection()
         {
@@ -367,9 +366,11 @@ namespace FilesFullTrust
                 case "InvokeVerb":
                     var filePath = (string)message["FilePath"];
                     var split = filePath.Split('|').Where(x => !string.IsNullOrWhiteSpace(x));
+                    var verb = (string)message["Verb"];
                     using (var cMenu = Win32API.ContextMenu.GetContextMenuForFiles(split.ToArray(), Shell32.CMF.CMF_DEFAULTONLY))
                     {
-                        cMenu?.InvokeVerb((string)message["Verb"]);
+                        var result = cMenu?.InvokeVerb(verb);
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
                     }
                     break;
 
@@ -629,7 +630,7 @@ namespace FilesFullTrust
                         {
                             var libraryItems = new List<ShellLibraryItem>();
                             // https://docs.microsoft.com/en-us/windows/win32/search/-search-win7-development-scenarios#library-descriptions
-                            var libFiles = Directory.EnumerateFiles(librariesPath, "*" + ShellLibraryItem.EXTENSION);
+                            var libFiles = Directory.EnumerateFiles(ShellLibraryItem.LibrariesPath, "*" + ShellLibraryItem.EXTENSION);
                             foreach (var libFile in libFiles)
                             {
                                 using var shellItem = ShellItem.Open(libFile);
@@ -791,6 +792,11 @@ namespace FilesFullTrust
                     {
                         switch (message.Get("CommandString", (string)null))
                         {
+                            case "mount":
+                                var vhdPath = cMenuExec.ItemsPath.First();
+                                Win32API.MountVhdDisk(vhdPath);
+                                break;
+
                             case "format":
                                 var drivePath = cMenuExec.ItemsPath.First();
                                 Win32API.OpenFormatDriveDialog(drivePath);
@@ -1163,6 +1169,13 @@ namespace FilesFullTrust
             var arguments = message.Get("Arguments", "");
             var workingDirectory = message.Get("WorkingDirectory", "");
             var currentWindows = Win32API.GetDesktopWindows();
+
+            if (new[] { ".vhd", ".vhdx" }.Contains(Path.GetExtension(application).ToLower()))
+            {
+                // Use powershell to mount vhds as this requires admin rights
+                Win32API.MountVhdDisk(application);
+                return;
+            }
 
             try
             {

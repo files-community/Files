@@ -28,6 +28,7 @@ namespace Files.ViewModels
     public class MainPageViewModel : ObservableObject
     {
         public IMultitaskingControl MultitaskingControl { get; set; }
+        public List<IMultitaskingControl> MultitaskingControls { get; } = new List<IMultitaskingControl>();
 
         public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
 
@@ -427,6 +428,11 @@ namespace Files.ViewModels
         {
             await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
             App.MainViewModel.TabStripSelectedIndex = AppInstances.Count - 1;
+        }
+
+        public async void AddNewTab()
+        {
+            await AddNewTabAsync();
         }
 
         public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)

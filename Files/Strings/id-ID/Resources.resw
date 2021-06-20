@@ -870,9 +870,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Naik satu tingkat direktori</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>tab vertikal</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Ubah aplikasi terminal</value>
   </data>
@@ -1203,9 +1200,6 @@
   <data name="PropertyAddress" xml:space="preserve">
     <value>Alamat</value>
   </data>
-  <data name="VerticalTabStrip.Label" xml:space="preserve">
-    <value>Tab</value>
-  </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Opsi pilihan</value>
   </data>
@@ -1381,7 +1375,7 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Panel ganda</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Folder</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
@@ -1765,24 +1759,6 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Tidak ada lokasi</value>
   </data>
-  <data name="LibraryCardsOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Opsi pustaka lainnya</value>
-  </data>
-  <data name="LibraryCardsOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Opsi lainnya...</value>
-  </data>
-  <data name="LibraryCardsOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>Buat Pustaka</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Nama yang diinginkan</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>Buat Pustaka</value>
-  </data>
-  <data name="LibraryCardsCreateNewLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Masukkan nama pustaka baru </value>
-  </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
     <value>Kolom tidak boleh kosong!</value>
   </data>
@@ -1797,12 +1773,6 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
   </data>
   <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
     <value>Hapus Pustaka</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogTitleText" xml:space="preserve">
-    <value>Hapus Pustaka</value>
-  </data>
-  <data name="LibraryCardsDeleteLibraryDialogSubtitleText" xml:space="preserve">
-    <value>Yakin ingin menghapus pustaka ini? File dan folder akan tetap ada di sistem file Anda. </value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Buat</value>
@@ -1894,7 +1864,7 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
   <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
     <value>Tampilkan widget Drive</value>
   </data>
-  <data name="NavToolbarShowLibraryWidget.Header" xml:space="preserve">
+  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
     <value>Tampilkan widget Pustaka</value>
   </data>
   <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">

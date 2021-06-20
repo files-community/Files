@@ -640,6 +640,86 @@ namespace Files.Interacts
             }
         }
 
+        public async void DecompressArchiveHere()
+        {
+            StorageFile archive = await StorageItemHelpers.ToStorageItem<StorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
+            StorageFolder currentFolder = await StorageItemHelpers.ToStorageItem<StorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
+
+            if (archive != null && currentFolder != null)
+            {
+                CancellationTokenSource extractCancellation = new CancellationTokenSource();
+                PostedStatusBanner banner = App.StatusCenterViewModel.PostOperationBanner(
+                    string.Empty,
+                    "Extracting archive",
+                    0,
+                    ReturnResult.InProgress,
+                    FileOperationType.Extract,
+                    extractCancellation);
+
+
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+
+                await ZipHelpers.ExtractArchive(archive, currentFolder, banner.Progress, extractCancellation.Token);
+
+                sw.Stop();
+                banner.Remove();
+
+                if (sw.Elapsed.TotalSeconds >= 6)
+                {
+                    App.StatusCenterViewModel.PostBanner(
+                        "Extracting complete!",
+                        "The archive extraction completed successfully.",
+                        0,
+                        ReturnResult.Success,
+                        FileOperationType.Extract);
+                }
+            }
+        }
+
+        public async void DecompressArchiveToChildFolder()
+        {
+            StorageFile archive = await StorageItemHelpers.ToStorageItem<StorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
+            StorageFolder currentFolder = await StorageItemHelpers.ToStorageItem<StorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
+            StorageFolder destinationFolder = null;
+
+            if (currentFolder != null)
+            {
+                destinationFolder = await currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.OpenIfExists);
+            }
+
+            if (archive != null && destinationFolder != null)
+            {
+                CancellationTokenSource extractCancellation = new CancellationTokenSource();
+                PostedStatusBanner banner = App.StatusCenterViewModel.PostOperationBanner(
+                    string.Empty,
+                    "Extracting archive",
+                    0,
+                    ReturnResult.InProgress,
+                    FileOperationType.Extract,
+                    extractCancellation);
+
+
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+
+                await ZipHelpers.ExtractArchive(archive, destinationFolder, banner.Progress, extractCancellation.Token);
+
+                sw.Stop();
+                banner.Remove();
+
+                if (sw.Elapsed.TotalSeconds >= 6)
+                {
+                    App.StatusCenterViewModel.PostBanner(
+                        "Extracting complete!",
+                        "The archive extraction completed successfully.",
+                        0,
+                        ReturnResult.Success,
+                        FileOperationType.Extract);
+                }
+            }
+        }
+
         #endregion Command Implementation
     }
 }

@@ -234,6 +234,14 @@
                                                     IsTabStop="False" />
                                             </Viewbox>
 
+                                            <muxc:ProgressRing
+                                                x:Name="LoadingIndicator"
+                                                MaxWidth="{ThemeResource TabViewItemHeaderIconSize}"
+                                                MaxHeight="{ThemeResource TabViewItemHeaderIconSize}"
+                                                Margin="{ThemeResource TabViewItemHeaderIconMargin}"
+                                                IsIndeterminate="True"
+                                                Visibility="Collapsed" />
+
                                             <ContentPresenter
                                                 x:Name="ContentPresenter"
                                                 Grid.Column="1"
@@ -511,6 +519,16 @@
                                                     </VisualState.Setters>
                                                 </VisualState>
                                             </VisualStateGroup>
+                                            <!--  Visual states for the loading indicator  -->
+                                            <VisualStateGroup x:Name="LoadingStates">
+                                                <VisualState x:Name="NotLoading" />
+                                                <VisualState x:Name="Loading">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="IconBox.Visibility" Value="Collapsed" />
+                                                        <Setter Target="LoadingIndicator.Visibility" Value="Visible" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
                                         </VisualStateManager.VisualStateGroups>
                                     </Grid>
                                 </ControlTemplate>
@@ -536,7 +554,7 @@
             Background="Transparent"
             CanDragTabs="True"
             DragLeave="TabStrip_DragLeave"
-            IsAddTabButtonVisible="True"
+            IsAddTabButtonVisible="False"
             SelectedIndex="{x:Bind local1:App.MainViewModel.TabStripSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             SelectionChanged="TabStrip_SelectionChanged"
             TabCloseRequested="TabStrip_TabCloseRequested"
