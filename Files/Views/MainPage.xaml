@@ -269,7 +269,6 @@
                 <controls:PreviewPane
                     x:Name="PreviewPane"
                     x:Uid="SelectedFilePreviewPane"
-                    Margin="0,8,8,8"
                     AutomationProperties.Name="Selected file preview pane"
                     Loading="PreviewPane_Loading" />
             </Custom:DropShadowPanel>

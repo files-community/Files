@@ -35,8 +35,7 @@
     <Grid
         x:Name="RootGrid"
         HorizontalAlignment="Stretch"
-        Background="{ThemeResource PreviewPaneBackgroundBrush}"
-        CornerRadius="{StaticResource ControlCornerRadius}">
+        Background="{ThemeResource PreviewPaneBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" MinHeight="100" />
             <RowDefinition Height="Auto" />
