@@ -62,6 +62,18 @@ namespace Files.Views
             AllowDrop = true;
 
             ToggleFullScreenAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ToggleFullScreenAccelerator);
+
+            App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
+        }
+
+        private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(App.AppSettings.PreviewPaneEnabled):
+                    LoadPreviewPaneChanged();
+                    break;
+            }
         }
 
         public UserControl MultitaskingControl => VerticalTabs;
@@ -410,7 +422,7 @@ namespace Files.Views
         public bool IsPreviewPaneDisabled => (SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false) || !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane.InstanceViewModel.IsPageTypeNotHome ?? false) // hide the preview pane if on the home page and multipane is disabled
             || (Window.Current.Bounds.Width <= 450 || Window.Current.Bounds.Height <= 400); // Disable the preview pane for small windows as it won't function properly
 
-        public void LoadPreviewPaneChanged()
+        private void LoadPreviewPaneChanged()
         {
             NotifyPropertyChanged(nameof(LoadPreviewPane));
             NotifyPropertyChanged(nameof(IsPreviewPaneDisabled));

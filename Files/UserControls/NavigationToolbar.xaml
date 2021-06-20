@@ -799,7 +799,6 @@
                 x:Uid="PreviewPaneToggle"
                 AccessKey="P"
                 AutomationProperties.Name="Toggle preview pane"
-                Command="{x:Bind ViewModel.PreviewPaneInvokedCommand, Mode=OneWay}"
                 IsChecked="{x:Bind AppSettings.PreviewPaneEnabled, Mode=TwoWay}"
                 IsEnabled="{x:Bind ShowPreviewPaneButton, Mode=OneWay}"
                 Label="Preview"

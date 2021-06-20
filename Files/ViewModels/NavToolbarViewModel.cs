@@ -515,8 +515,6 @@ namespace Files.ViewModels
 
         public ICommand CreateNewFolderCommand { get; set; }
 
-        public ICommand PreviewPaneInvokedCommand { get; set; }
-
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {
             var nextPathItemTitle = PathComponents[PathComponents.IndexOf(pathItem) + 1].Title;

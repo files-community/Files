@@ -206,9 +206,6 @@ namespace Files.Views
             NavToolbarViewModel.AddNewTabToMultitaskingControlCommand = new RelayCommand(async () => await MainPageViewModel.AddNewTabAsync());
             NavToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, x, this));
             NavToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, this));
-            NavToolbarViewModel.PreviewPaneInvokedCommand = new RelayCommand(() => {
-                ((Window.Current.Content as Frame).Content as MainPage)?.LoadPreviewPaneChanged(); // workaround because property changed notifications were not working for AppSettings
-            });
         }
 
         private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
@@ -746,7 +743,6 @@ namespace Files.Views
 
                 case (true, false, false, true, VirtualKey.P):
                     AppSettings.PreviewPaneEnabled = !AppSettings.PreviewPaneEnabled;
-                    NavToolbarViewModel.PreviewPaneInvokedCommand?.Execute(null);
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
