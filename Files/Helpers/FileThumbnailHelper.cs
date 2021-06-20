@@ -17,7 +17,8 @@ namespace Files.Helpers
                 {
                     { "Arguments", "GetIconOverlay" },
                     { "filePath", filePath },
-                    { "thumbnailSize", (int)thumbnailSize }
+                    { "thumbnailSize", (int)thumbnailSize },
+                    { "isOverlayOnly", false }
                 };
                 var (status, response) = await connection.SendMessageForResponseAsync(value);
                 if (status == AppServiceResponseStatus.Success)
