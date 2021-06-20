@@ -167,18 +167,19 @@
                                 VerticalAlignment="Stretch"
                                 ColumnSpacing="12">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="44" />
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
                                     <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="28" />
-                                    <RowDefinition Height="16" />
+                                    <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <Image
                                     Grid.RowSpan="3"
                                     Grid.Column="0"
                                     Height="40"
+									Width="40"
                                     HorizontalAlignment="Center"
                                     x:Phase="1"
                                     Source="{x:Bind Icon, Mode=OneWay}" />
@@ -187,7 +188,7 @@
                                     x:Name="ItemLocationName"
                                     Grid.Row="0"
                                     Grid.Column="1"
-                                    VerticalAlignment="Center"
+                                    VerticalAlignment="Stretch"
                                     FontSize="14"
                                     FontWeight="Medium"
                                     Text="{x:Bind Text, Mode=OneWay}"
@@ -195,6 +196,7 @@
                                     TextWrapping="NoWrap" />
 
                                 <Grid
+									VerticalAlignment="Stretch"
                                     Grid.Row="1"
                                     Grid.Column="1"
                                     Grid.ColumnSpan="8">
@@ -238,6 +240,7 @@
                                     Grid.Column="1"
                                     x:Phase="1"
                                     FontSize="12"
+									VerticalAlignment="Bottom"
                                     Text="{x:Bind SpaceText, Mode=OneWay}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap"
