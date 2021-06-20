@@ -917,12 +917,12 @@ namespace Files.ViewModels
             return groupImage;
         }
 
-        public void RefreshItems(string previousDir)
+        public void RefreshItems(string previousDir, Action postLoadCallback = null)
         {
-            RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir);
+            RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, postLoadCallback);
         }
 
-        private async void RapidAddItemsToCollectionAsync(string path, string previousDir)
+        private async void RapidAddItemsToCollectionAsync(string path, string previousDir, Action postLoadCallback)
         {
             ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
@@ -993,6 +993,8 @@ namespace Files.ViewModels
                 }
                 itemLoadQueue.Clear();
             }
+
+            postLoadCallback?.Invoke();
         }
 
         private async Task RapidAddItemsToCollection(string path, LibraryItem library = null)
