@@ -38,7 +38,7 @@ namespace Files.ViewModels
             get => selectedItem;
             set
             {
-                if(SetProperty(ref selectedItem, value))
+                if (SetProperty(ref selectedItem, value))
                 {
                     SelectedItem?.FileDetails?.Clear();
                     UpdateSelectedItemPreview();
@@ -122,7 +122,7 @@ namespace Files.ViewModels
 
         private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item, bool downloadItem)
         {
-            if(item.SyncStatusUI.SyncStatus == Enums.CloudDriveSyncStatus.FileOnline && !downloadItem)
+            if (item.SyncStatusUI.SyncStatus == Enums.CloudDriveSyncStatus.FileOnline && !downloadItem)
             {
                 ShowCloudItemButton = true;
                 return null;
@@ -199,7 +199,7 @@ namespace Files.ViewModels
                 return new RichTextPreview(model);
             }
 
-            if(CodePreviewViewModel.Extensions.Contains(ext))
+            if (CodePreviewViewModel.Extensions.Contains(ext))
             {
                 var model = new CodePreviewViewModel(item);
                 await model.LoadAsync();
@@ -253,7 +253,7 @@ namespace Files.ViewModels
                     loadCancellationTokenSource?.Cancel();
                     // If initial loading fails, attempt to load a basic preview (thumbnail and details only)
                     // If that fails, revert to no preview/details available as long as the item is not a shortcut or folder
-                    if(!SelectedItem.IsShortcutItem && SelectedItem.PrimaryItemAttribute != StorageItemTypes.Folder)
+                    if (SelectedItem != null && !SelectedItem.IsShortcutItem && SelectedItem.PrimaryItemAttribute != StorageItemTypes.Folder)
                     {
                         try
                         {

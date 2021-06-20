@@ -285,10 +285,11 @@ namespace FilesFullTrust
                         }
                         if (mii.hbmpItem != HBITMAP.NULL && !Enum.IsDefined(typeof(HBITMAP_HMENU), ((IntPtr)mii.hbmpItem).ToInt64()))
                         {
-                            var bitmap = GetBitmapFromHBitmap(mii.hbmpItem);
+                            using var bitmap = GetBitmapFromHBitmap(mii.hbmpItem);
                             if (bitmap != null)
                             {
-                                menuItem.Icon = bitmap;
+                                byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(bitmap, typeof(byte[]));
+                                menuItem.IconBase64 = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
                             }
                         }
                         if (mii.hSubMenu != HMENU.NULL)
@@ -404,23 +405,6 @@ namespace FilesFullTrust
 
         public class ContextMenuItem : Win32ContextMenuItem, IDisposable
         {
-            private Bitmap icon;
-
-            [JsonIgnore]
-            public Bitmap Icon
-            {
-                get
-                {
-                    return icon;
-                }
-                set
-                {
-                    icon = value;
-                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(value, typeof(byte[]));
-                    IconBase64 = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                }
-            }
-
             public ContextMenuItem()
             {
                 this.SubItems = new List<Win32ContextMenuItem>();
@@ -428,7 +412,6 @@ namespace FilesFullTrust
 
             public void Dispose()
             {
-                Icon?.Dispose();
                 if (SubItems != null)
                 {
                     foreach (var si in SubItems)
