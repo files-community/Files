@@ -92,7 +92,7 @@ namespace Files.Interacts
                         { "runasadmin", false },
                         {
                             "filepath",
-                            System.IO.Path.Combine(associatedInstance.FilesystemViewModel.WorkingDirectory,
+                            Path.Combine(associatedInstance.FilesystemViewModel.WorkingDirectory,
                                 string.Format("ShortcutCreateNewSuffix".GetLocalized(), selectedItem.ItemName) + ".lnk")
                         }
                     };
@@ -223,7 +223,7 @@ namespace Files.Interacts
             }
 
             // Check if destination path exists
-            string folderPath = System.IO.Path.GetDirectoryName(item.TargetPath);
+            string folderPath = Path.GetDirectoryName(item.TargetPath);
             FilesystemResult<StorageFolderWithPath> destFolder = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
 
             if (destFolder)
@@ -231,6 +231,7 @@ namespace Files.Interacts
                 associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
                 {
                     NavPathParam = folderPath,
+                    SelectItems = new[] { Path.GetFileName(item.TargetPath.TrimPath()) },
                     AssociatedTabInstance = associatedInstance
                 });
             }

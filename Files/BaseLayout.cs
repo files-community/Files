@@ -399,7 +399,7 @@ namespace Files
                 ParentShellPageInstance.NavToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
                 if (!navigationArguments.IsLayoutSwitch)
                 {
-                    ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir);
+                    ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir, SetSelectedItemsOnNavigation);
                 }
                 else
                 {
@@ -430,9 +430,17 @@ namespace Files
 
             ItemManipulationModel.FocusFileList(); // Set focus on layout specific file list control
 
+            SetSelectedItemsOnNavigation();
+
+            ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
+            BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
+        }
+
+        public void SetSelectedItemsOnNavigation()
+        {
             try
             {
-                if (navigationArguments.SelectItems != null && navigationArguments.SelectItems.Count() > 0)
+                if (navigationArguments != null && navigationArguments.SelectItems != null && navigationArguments.SelectItems.Any())
                 {
                     List<ListedItem> liItemsToSelect = new List<ListedItem>();
                     foreach (string item in navigationArguments.SelectItems)
@@ -441,14 +449,12 @@ namespace Files
                     }
 
                     ItemManipulationModel.SetSelectedItems(liItemsToSelect);
+                    ItemManipulationModel.FocusSelectedItems();
                 }
             }
             catch (Exception)
             {
             }
-
-            ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
-            BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
         }
 
         private CancellationTokenSource groupingCancellationToken;
@@ -743,7 +749,7 @@ namespace Files
         {
             if (ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.IsGrouped)
             {
-                CollectionViewSource = new Windows.UI.Xaml.Data.CollectionViewSource()
+                CollectionViewSource = new CollectionViewSource()
                 {
                     IsSourceGrouped = true,
                     Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.GroupedCollection
@@ -751,7 +757,7 @@ namespace Files
             }
             else
             {
-                CollectionViewSource = new Windows.UI.Xaml.Data.CollectionViewSource()
+                CollectionViewSource = new CollectionViewSource()
                 {
                     IsSourceGrouped = false,
                     Source = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders

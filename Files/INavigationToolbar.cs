@@ -52,6 +52,7 @@ namespace Files.UserControls
     public class PathNavigationEventArgs
     {
         public string ItemPath { get; set; }
+        public string ItemName { get; set; }
     }
 
     public class ToolbarFlyoutOpenedEventArgs

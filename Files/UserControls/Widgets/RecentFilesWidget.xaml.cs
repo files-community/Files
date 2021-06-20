@@ -60,7 +60,8 @@ namespace Files.UserControls.Widgets
                 var folderPath = filePath.Substring(0, filePath.Length - clickedOnItem.Name.Length);
                 RecentFilesOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs()
                 {
-                    ItemPath = folderPath
+                    ItemPath = folderPath,
+                    ItemName = clickedOnItem.Name
                 });
             }
         }
