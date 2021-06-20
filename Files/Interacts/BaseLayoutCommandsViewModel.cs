@@ -71,6 +71,9 @@ namespace Files.Interacts
             RefreshCommand = new RelayCommand<RoutedEventArgs>(commandsModel.RefreshItems);
             SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(commandsModel.SearchUnindexedItems);
             CreateFolderWithSelection = new RelayCommand<RoutedEventArgs>(commandsModel.CreateFolderWithSelection);
+            DecompressArchiveCommand = new RelayCommand(commandsModel.DecompressArchive);
+            DecompressArchiveHereCommand = new RelayCommand(commandsModel.DecompressArchiveHere);
+            DecompressArchiveToChildFolderCommand = new RelayCommand(commandsModel.DecompressArchiveToChildFolder);
         }
 
         #endregion Command Initialization
@@ -154,8 +157,16 @@ namespace Files.Interacts
         public ICommand DropCommand { get; private set; }
 
         public ICommand RefreshCommand { get; private set; }
+
         public ICommand SearchUnindexedItems { get; private set; }
+
         public ICommand CreateFolderWithSelection { get; private set; }
+
+        public ICommand DecompressArchiveCommand { get; private set; }
+
+        public ICommand DecompressArchiveHereCommand { get; private set; }
+
+        public ICommand DecompressArchiveToChildFolderCommand { get; private set; }
 
         #endregion Commands
 
