@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.InteropServices;
@@ -438,6 +439,49 @@ namespace FilesFullTrust
                     SubItems = null;
                 }
             }
+        }
+
+        public static string GenerateUniquePath(string path)
+        {
+            string uniquePath = path;
+
+            if (File.Exists(path))
+            {
+                string nameWithoutExt = Path.GetFileNameWithoutExtension(path);
+                string extension = Path.GetExtension(path);
+                string directory = Path.GetDirectoryName(path);
+
+                for (ushort count = 1; File.Exists(uniquePath); count++)
+                {
+                    if (Regex.IsMatch(nameWithoutExt, @".*\(\d+\)"))
+                    {
+                        uniquePath = Path.Combine(directory, $"{nameWithoutExt.Substring(0, nameWithoutExt.LastIndexOf("(", StringComparison.InvariantCultureIgnoreCase))}({count}){extension}");
+                    }
+                    else
+                    {
+                        uniquePath = Path.Combine(directory, $"{nameWithoutExt} ({count}){extension}");
+                    }
+                }
+            }
+            else if (Directory.Exists(path))
+            {
+                string directory = Path.GetDirectoryName(path);
+                string Name = Path.GetFileName(path);
+
+                for (ushort Count = 1; Directory.Exists(uniquePath); Count++)
+                {
+                    if (Regex.IsMatch(Name, @".*\(\d+\)"))
+                    {
+                        uniquePath = Path.Combine(directory, $"{Name.Substring(0, Name.LastIndexOf("(", StringComparison.InvariantCultureIgnoreCase))}({Count})");
+                    }
+                    else
+                    {
+                        uniquePath = Path.Combine(directory, $"{Name} ({Count})");
+                    }
+                }
+            }
+
+            return uniquePath;
         }
 
         // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.

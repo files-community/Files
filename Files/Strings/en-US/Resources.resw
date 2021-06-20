@@ -1401,9 +1401,6 @@
   <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Learn more about date formats</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>Drop here</value>
-  </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Search</value>
   </data>
@@ -2405,21 +2402,6 @@
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Restore Libraries</value>
-  </data>
-  <data name="StatusLibraryRestoration" xml:space="preserve">
-    <value>Restoring libraries</value>
-  </data>
-  <data name="StatusLibraryRestorationInProgress" xml:space="preserve">
-    <value>Restoring default libraries in progress...</value>
-  </data>
-  <data name="StatusLibraryRestorationComplete" xml:space="preserve">
-    <value>Libraries restored</value>
-  </data>
-  <data name="StatusLibraryRestorationFailed" xml:space="preserve">
-    <value>Failed to restore libraries</value>
-  </data>
-  <data name="StatusRestoreLibrariesDetails" xml:space="preserve">
-    <value>{0} library files successfully restored</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Owner</value>

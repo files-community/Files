@@ -27,7 +27,6 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -65,7 +64,23 @@ namespace Files.ViewModels
 
         private IFileListCache fileListCache = FileListCacheController.GetInstance();
 
-        private NamedPipeAsAppServiceConnection Connection;
+        private NamedPipeAsAppServiceConnection connection;
+        private NamedPipeAsAppServiceConnection Connection
+        {
+            get => connection;
+            set
+            {
+                if (connection != null)
+                {
+                    connection.RequestReceived -= Connection_RequestReceived;
+                }
+                connection = value;
+                if (connection != null)
+                {
+                    connection.RequestReceived += Connection_RequestReceived;
+                }
+            }
+        }
 
         public string WorkingDirectory
         {
@@ -319,19 +334,13 @@ namespace Files.ViewModels
             semaphoreCTS = new CancellationTokenSource();
             loadPropsCTS = new CancellationTokenSource();
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
+
+            AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
         }
 
-        public void OnAppServiceConnectionChanged(NamedPipeAsAppServiceConnection connection)
+        private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<NamedPipeAsAppServiceConnection> e)
         {
-            if (Connection != null)
-            {
-                Connection.RequestReceived -= Connection_RequestReceived;
-            }
-            Connection = connection;
-            if (Connection != null)
-            {
-                Connection.RequestReceived += Connection_RequestReceived;
-            }
+            Connection = await e;
         }
 
         private async void Connection_RequestReceived(object sender, Dictionary<string, object> message)
@@ -949,6 +958,8 @@ namespace Files.ViewModels
                 FilesAndFolders.Clear();
 
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
+
+                Connection ??= await AppServiceConnectionHelper.Instance;
 
                 if (path.ToLower().EndsWith(ShellLibraryItem.EXTENSION))
                 {
@@ -1827,6 +1838,7 @@ namespace Files.ViewModels
             {
                 Connection.RequestReceived -= Connection_RequestReceived;
             }
+            AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
         }
     }
 

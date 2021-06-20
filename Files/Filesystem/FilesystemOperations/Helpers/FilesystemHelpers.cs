@@ -1,4 +1,5 @@
-﻿using Files.DataModels;
+﻿using Files.Common;
+using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
 using Files.Extensions;
@@ -16,6 +17,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
@@ -471,6 +473,10 @@ namespace Files.Filesystem
                 {
                     return default;
                 }
+                if (destination.StartsWith(App.AppSettings.RecycleBinPath))
+                {
+                    return await RecycleItemsFromClipboard(packageView, destination, showDialog, registerHistory);
+                }
                 else if (operation.HasFlag(DataPackageOperation.Copy))
                 {
                     return await CopyItemsFromClipboard(packageView, destination, showDialog, registerHistory);
@@ -674,6 +680,36 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
+        public async Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
+        {
+            if (!packageView.Contains(StandardDataFormats.StorageItems))
+            {
+                // Happens if you copy some text and then you Ctrl+V in Files
+                return ReturnResult.BadArgumentException;
+            }
+
+            IReadOnlyList<IStorageItem> source;
+            try
+            {
+                source = await packageView.GetStorageItemsAsync();
+            }
+            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
+            {
+                // Not supported
+                return ReturnResult.Failed;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.Warn(ex, ex.Message);
+                return ReturnResult.UnknownException;
+            }
+            ReturnResult returnStatus = ReturnResult.InProgress;
+
+            returnStatus = await DeleteItemsAsync(source, showDialog, false, registerHistory);
+
+            return returnStatus;
+        }
+
         public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
             if (packageView.Contains(StandardDataFormats.StorageItems))
@@ -683,9 +719,18 @@ namespace Files.Filesystem
                 {
                     source = await packageView.GetStorageItemsAsync();
                 }
-                catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
                 {
-                    return ReturnResult.UnknownException;
+                    if (associatedInstance.ServiceConnection != null)
+                    {
+                        var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet() {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "DragDrop" },
+                            { "droptext", "DragDropWindowText".GetLocalized() },
+                            { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
+                        return (status == AppServiceResponseStatus.Success && response.Get("Success", false)) ? ReturnResult.Success : ReturnResult.Failed;
+                    }
+                    return ReturnResult.Failed;
                 }
                 catch (Exception ex)
                 {
@@ -733,7 +778,6 @@ namespace Files.Filesystem
             }
 
             // Happens if you copy some text and then you Ctrl+V in Files
-            // Should this be done in ModernShellPage?
             return ReturnResult.BadArgumentException;
         }
 
@@ -918,7 +962,6 @@ namespace Files.Filesystem
             if (!packageView.Contains(StandardDataFormats.StorageItems))
             {
                 // Happens if you copy some text and then you Ctrl+V in Files
-                // Should this be done in ModernShellPage?
                 return ReturnResult.BadArgumentException;
             }
 
@@ -927,9 +970,10 @@ namespace Files.Filesystem
             {
                 source = await packageView.GetStorageItemsAsync();
             }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
             {
-                return ReturnResult.UnknownException;
+                // Not supported
+                return ReturnResult.Failed;
             }
             catch (Exception ex)
             {

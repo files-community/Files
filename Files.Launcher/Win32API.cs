@@ -27,6 +27,7 @@ namespace FilesFullTrust
             var tcs = new TaskCompletionSource<T>();
             Thread thread = new Thread(() =>
             {
+                Ole32.OleInitialize();
                 try
                 {
                     tcs.SetResult(func());
@@ -37,7 +38,15 @@ namespace FilesFullTrust
                     Program.Logger.Info(ex, ex.Message);
                     //tcs.SetException(e);
                 }
-            });
+                finally
+                {
+                    Ole32.OleUninitialize();
+                }
+            })
+            {
+                IsBackground = true,
+                Priority = ThreadPriority.Normal
+            };
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
             return tcs.Task;
