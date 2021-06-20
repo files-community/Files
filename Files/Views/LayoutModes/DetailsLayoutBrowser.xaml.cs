@@ -484,7 +484,7 @@ namespace Files.Views.LayoutModes
 
         protected override ListedItem GetItemFromElement(object element)
         {
-            return (element as ListViewItem).DataContext as ListedItem;
+            return (element as ListViewItem).DataContext as ListedItem ?? (element as ListViewItem).Content as ListedItem;
         }
 
         private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)

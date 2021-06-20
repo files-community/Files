@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -492,7 +493,7 @@ namespace Files.Interacts
             }
         }
 
-        public virtual async void DragEnter(DragEventArgs e)
+        public virtual async void DragOver(DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
@@ -500,49 +501,72 @@ namespace Files.Interacts
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 e.Handled = true;
-                e.DragUIOverride.IsCaptionVisible = true;
-                IEnumerable<IStorageItem> draggedItems = new List<IStorageItem>();
+                IEnumerable<IStorageItem> draggedItems;
                 try
                 {
                     draggedItems = await e.DataView.GetStorageItemsAsync();
                 }
-                catch (Exception dropEx) when ((uint)dropEx.HResult == 0x80040064)
+                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
                 {
-                    if (associatedInstance.ServiceConnection != null)
-                    {
-                        await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet() {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "DragDrop" },
-                            { "droptext", "DragDropWindowText".GetLocalized() },
-                            { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
-                    }
+                    // Handled by FTP
+                    draggedItems = new List<IStorageItem>();
                 }
                 catch (Exception ex)
                 {
                     App.Logger.Warn(ex, ex.Message);
-                }
-                if (!draggedItems.Any())
-                {
                     e.AcceptedOperation = DataPackageOperation.None;
                     deferral.Complete();
                     return;
                 }
 
-                var folderName = System.IO.Path.GetFileName(associatedInstance.FilesystemViewModel.WorkingDirectory);
+                var pwd = associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
+                var folderName = (Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd) ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
                 // As long as one file doesn't already belong to this folder
-                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.All(x => Path.GetDirectoryName(x.Path) == associatedInstance.FilesystemViewModel.WorkingDirectory))
+                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || (draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(associatedInstance.FilesystemViewModel.WorkingDirectory)))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
-                else if (draggedItems.AreItemsInSameDrive(associatedInstance.FilesystemViewModel.WorkingDirectory))
+                else if (!draggedItems.Any())
                 {
-                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
-                    e.AcceptedOperation = DataPackageOperation.Move;
+                    if (pwd.StartsWith(App.AppSettings.RecycleBinPath))
+                    {
+                        e.AcceptedOperation = DataPackageOperation.None;
+                    }
+                    else
+                    {
+                        e.DragUIOverride.IsCaptionVisible = true;
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
+                        e.AcceptedOperation = DataPackageOperation.Copy;
+                    }
                 }
                 else
                 {
-                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
-                    e.AcceptedOperation = DataPackageOperation.Copy;
+                    e.DragUIOverride.IsCaptionVisible = true;
+                    if (pwd.StartsWith(App.AppSettings.RecycleBinPath))
+                    {
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
+                        e.AcceptedOperation = DataPackageOperation.Move;
+                    }
+                    else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
+                    {
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
+                        e.AcceptedOperation = DataPackageOperation.Copy;
+                    }
+                    else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
+                    {
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
+                        e.AcceptedOperation = DataPackageOperation.Move;
+                    }
+                    else if (draggedItems.AreItemsInSameDrive(associatedInstance.FilesystemViewModel.WorkingDirectory))
+                    {
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
+                        e.AcceptedOperation = DataPackageOperation.Move;
+                    }
+                    else
+                    {
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
+                        e.AcceptedOperation = DataPackageOperation.Copy;
+                    }
                 }
             }
 

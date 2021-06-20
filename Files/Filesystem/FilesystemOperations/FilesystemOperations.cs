@@ -124,7 +124,7 @@ namespace Files.Filesystem
                                                      IProgress<FileSystemStatusCode> errorCode,
                                                      CancellationToken cancellationToken)
         {
-            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            if (destination.StartsWith(App.AppSettings.RecycleBinPath))
             {
                 errorCode?.Report(FileSystemStatusCode.Unauthorized);
                 progress?.Report(100.0f);
@@ -264,7 +264,7 @@ namespace Files.Filesystem
                 }
             }
 
-            if (Path.GetDirectoryName(destination) == associatedInstance.FilesystemViewModel.WorkingDirectory)
+            if (Path.GetDirectoryName(destination) == associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath())
             {
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                 {
@@ -331,7 +331,7 @@ namespace Files.Filesystem
                 return await CopyAsync(source, destination, collision, progress, errorCode, cancellationToken);
             }
 
-            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            if (destination.StartsWith(App.AppSettings.RecycleBinPath))
             {
                 errorCode?.Report(FileSystemStatusCode.Unauthorized);
                 progress?.Report(100.0f);
@@ -469,7 +469,7 @@ namespace Files.Filesystem
                 errorCode?.Report(fsResult.ErrorCode);
             }
 
-            if (Path.GetDirectoryName(destination) == associatedInstance.FilesystemViewModel.WorkingDirectory)
+            if (Path.GetDirectoryName(destination) == associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath())
             {
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                 {

@@ -443,7 +443,7 @@ namespace Files.Views.LayoutModes
 
         protected override ListedItem GetItemFromElement(object element)
         {
-            return (element as GridViewItem).DataContext as ListedItem;
+            return (element as GridViewItem).DataContext as ListedItem ?? (element as GridViewItem).Content as ListedItem;
         }
 
         private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)

@@ -87,9 +87,6 @@ namespace FilesFullTrust
                 librariesWatcher.Renamed += (object _, RenamedEventArgs e) => OnLibraryChanged(e.ChangeType, e.OldFullPath, e.FullPath);
                 librariesWatcher.EnableRaisingEvents = true;
 
-                // Create cancellation token for drop window
-                cancellation = new CancellationTokenSource();
-
                 // Connect to app service and wait until the connection gets closed
                 appServiceExit = new ManualResetEvent(false);
                 InitializeAppServiceConnection();
@@ -116,8 +113,6 @@ namespace FilesFullTrust
                 handleTable?.Dispose();
                 deviceWatcher?.Dispose();
                 librariesWatcher?.Dispose();
-                cancellation?.Cancel();
-                cancellation?.Dispose();
                 appServiceExit?.Dispose();
             }
         }
@@ -157,7 +152,6 @@ namespace FilesFullTrust
 
         private static NamedPipeServerStream connection;
         private static ManualResetEvent appServiceExit;
-        private static CancellationTokenSource cancellation;
         private static Win32API.DisposableDictionary handleTable;
         private static IList<FileSystemWatcher> binWatchers;
         private static DeviceWatcher deviceWatcher;
@@ -872,17 +866,46 @@ namespace FilesFullTrust
                     break;
 
                 case "DragDrop":
-                    cancellation.Cancel();
-                    cancellation.Dispose();
-                    cancellation = new CancellationTokenSource();
                     var dropPath = (string)message["droppath"];
-                    var dropText = (string)message["droptext"];
-                    var drops = Win32API.StartSTATask<List<string>>(() =>
+                    var result2 = await Win32API.StartSTATask(() =>
                     {
-                        var form = new DragDropForm(dropPath, dropText, cancellation.Token);
-                        System.Windows.Forms.Application.Run(form);
-                        return form.DropTargets;
+                        var rdo = new RemoteDataObject(System.Windows.Forms.Clipboard.GetDataObject());
+
+                        foreach (RemoteDataObject.DataPackage package in rdo.GetRemoteData())
+                        {
+                            try
+                            {
+                                if (package.ItemType == RemoteDataObject.StorageType.File)
+                                {
+                                    string directoryPath = Path.GetDirectoryName(dropPath);
+                                    if (!Directory.Exists(directoryPath))
+                                    {
+                                        Directory.CreateDirectory(directoryPath);
+                                    }
+
+                                    string uniqueName = Win32API.GenerateUniquePath(Path.Combine(dropPath, package.Name));
+                                    using (FileStream stream = new FileStream(uniqueName, FileMode.CreateNew))
+                                    {
+                                        package.ContentStream.CopyTo(stream);
+                                    }
+                                }
+                                else
+                                {
+                                    string directoryPath = Path.Combine(dropPath, package.Name);
+                                    if (!Directory.Exists(directoryPath))
+                                    {
+                                        Directory.CreateDirectory(directoryPath);
+                                    }
+                                }
+                            }
+                            finally
+                            {
+                                package.Dispose();
+                            }
+                        }
+                        return true;
                     });
+                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result2 } }, message.Get("RequestID", (string)null));
                     break;
 
                 case "DeleteItem":
