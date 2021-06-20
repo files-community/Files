@@ -611,7 +611,7 @@ namespace Files.Interacts
                     if (destinationFolder == null)
                     {
                         StorageFolder parentFolder = await StorageItemHelpers.ToStorageItem<StorageFolder>(Path.GetDirectoryName(archive.Path));
-                        destinationFolder = await parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath));
+                        destinationFolder = await parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName);
                     }
 
                     Stopwatch sw = new Stopwatch();
