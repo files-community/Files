@@ -1212,9 +1212,6 @@
   <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>日付書式について知る</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>ここにドロップ...</value>
-  </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>次の検索結果を表示:</value>
   </data>

@@ -2,7 +2,6 @@
 using Files.Extensions;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
-using Files.ViewModels;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
@@ -136,7 +135,6 @@ namespace Files.Filesystem
         {
             get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString) ? "CloudDriveSyncStatus_Unknown".GetLocalized() : SyncStatusUI.SyncStatusString;
         }
-
 
         private BitmapImage fileImage;
 
@@ -361,8 +359,8 @@ namespace Files.Filesystem
 
         // For recycle bin elements (path)
         public string ItemOriginalFolder => Path.IsPathRooted(ItemOriginalPath) ? Path.GetDirectoryName(ItemOriginalPath) : ItemOriginalPath;
-        public string ItemOriginalFolderName => Path.GetFileName(ItemOriginalFolder);
 
+        public string ItemOriginalFolderName => Path.GetFileName(ItemOriginalFolder);
     }
 
     public class ShortcutItem : ListedItem

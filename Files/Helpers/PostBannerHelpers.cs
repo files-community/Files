@@ -8,6 +8,7 @@ namespace Files.Helpers
     public static class PostBannerHelpers
     {
         private static StatusCenterViewModel statusCenterViewModel => statusCenterViewModel;
+
         public static void PostBanner_Delete(ReturnResult status, FileOperationType operation, Stopwatch sw, IShellPage associatedInstance)
         {
             if (status == ReturnResult.Failed ||

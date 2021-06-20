@@ -9,18 +9,14 @@ using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
@@ -67,6 +63,7 @@ namespace Files
         public bool IsRenamingItem { get; set; } = false;
 
         private bool isMiddleClickToScrollEnabled = true;
+
         public bool IsMiddleClickToScrollEnabled
         {
             get => isMiddleClickToScrollEnabled;
@@ -226,11 +223,12 @@ namespace Files
                         }
                     }
 
-                    if(value?.Count == 1)
+                    if (value?.Count == 1)
                     {
                         PreviewPaneViewModel.IsItemSelected = true;
                         PreviewPaneViewModel.SelectedItem = SelectedItems.First();
-                    } else
+                    }
+                    else
                     {
                         PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
                         PreviewPaneViewModel.SelectedItem = null;
@@ -454,6 +452,7 @@ namespace Files
         }
 
         private CancellationTokenSource groupingCancellationToken;
+
         private async void FolderSettings_GroupOptionPreferenceUpdated(object sender, EventArgs e)
         {
             // Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning

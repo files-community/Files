@@ -23,7 +23,7 @@ namespace Files.Models.Settings
 
         protected Dictionary<string, object> settingsCache;
 
-        #endregion
+        #endregion Protected Members
 
         #region Constructor
 
@@ -55,7 +55,7 @@ namespace Files.Models.Settings
             Initialize();
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Helpers
 
@@ -90,7 +90,7 @@ namespace Files.Models.Settings
             }
         }
 
-        #endregion
+        #endregion Helpers
 
         #region Get, Set
 
@@ -238,6 +238,6 @@ namespace Files.Models.Settings
             }
         }
 
-        #endregion
+        #endregion Get, Set
     }
 }

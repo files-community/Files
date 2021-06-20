@@ -1,10 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Files.Extensions
 {
@@ -60,14 +56,13 @@ namespace Files.Extensions
             var t2 = dt.ToLocalTime();
             var today = DateTime.Today;
 
-
             var diff = t - dt;
             if (t.Month == t2.Month && t.Day == t2.Day)
             {
                 return ("ItemTimeText_Today".GetLocalized(), today.ToUserDateString(), "\ue184", 0);
             }
 
-            if(t.Month == t2.Month && t.Day - t2.Day < 2)
+            if (t.Month == t2.Month && t.Day - t2.Day < 2)
             {
                 return ("ItemTimeText_Yesterday".GetLocalized(), today.Subtract(TimeSpan.FromDays(1)).ToUserDateString(), "\ue161", 1);
             }
@@ -84,17 +79,17 @@ namespace Files.Extensions
 
             if (t.Year == t2.Year && t.Month == t2.Month)
             {
-                return ("ItemTimeText_ThisMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day-1)).ToUserDateString(), "\ue163", 4);
-            }
-            
-            if(t.Year == t2.Year && t.Month-1 == t2.Month)
-            {
-                return ("ItemTimeText_LastMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day - 1 + calendar.GetDaysInMonth(t.Year, t.Month-1))).ToUserDateString(), "\ue163", 5);
+                return ("ItemTimeText_ThisMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day - 1)).ToUserDateString(), "\ue163", 4);
             }
 
-            if(t.Year == t2.Year)
+            if (t.Year == t2.Year && t.Month - 1 == t2.Month)
             {
-                return ("ItemTimeText_ThisYear".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.DayOfYear-1)).ToUserDateString(), "\ue163", 5);
+                return ("ItemTimeText_LastMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day - 1 + calendar.GetDaysInMonth(t.Year, t.Month - 1))).ToUserDateString(), "\ue163", 5);
+            }
+
+            if (t.Year == t2.Year)
+            {
+                return ("ItemTimeText_ThisYear".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.DayOfYear - 1)).ToUserDateString(), "\ue163", 5);
             }
 
             return ("ItemTimeText_Older".GetLocalized(), string.Format("ItemTimeText_Before".GetLocalized(), today.Subtract(TimeSpan.FromDays(today.DayOfYear - 1)).ToUserDateString()), "\uEC92", 6);
@@ -112,6 +107,7 @@ namespace Files.Extensions
         }
 
         private static Calendar calendar = new CultureInfo(CultureInfo.CurrentUICulture.Name).Calendar;
+
         public static int GetWeekOfYear(this DateTimeOffset t)
         {
             // Should we use the system setting for the first day of week in the future?
@@ -122,7 +118,7 @@ namespace Files.Extensions
         {
             return t.Date.ToShortDateString();
         }
-        
+
         public static string ToUserDateString(this DateTime t)
         {
             return t.ToShortDateString();

@@ -4,8 +4,6 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -14,6 +12,7 @@ namespace Files.DataModels.NavigationControlItems
     public class LocationItem : ObservableObject, INavigationControlItem
     {
         public BitmapImage icon;
+
         public BitmapImage Icon
         {
             get => icon;

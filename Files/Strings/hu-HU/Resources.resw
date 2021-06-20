@@ -1221,9 +1221,6 @@
   <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Tudjon meg többet a dátumformátumokról</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>Ejtse ide</value>
-  </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Keresés eredménye itt:</value>
   </data>
@@ -2264,5 +2261,23 @@
   </data>
   <data name="SettingsSkinsTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Dokumentáció megtekintése.</value>
+  </data>
+  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Új lap (Ctrl + T)</value>
+  </data>
+  <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
+    <value>Új könyvtár</value>
+  </data>
+  <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
+    <value>Alapértelmezett könyvtárak visszaállítása</value>
+  </data>
+  <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
+    <value>Visszaállítás</value>
+  </data>
+  <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
+    <value>Biztosan visszaállítaná az alapértelmezett könytárakat? Minden fájl megmarad a tárhelyen.</value>
+  </data>
+  <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
+    <value>Könyvtárak visszaállítása</value>
   </data>
 </root>

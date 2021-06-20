@@ -1,17 +1,14 @@
 ﻿using Files.Common;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace FilesFullTrust
 {
-    class LogWriter : ILogWriter
+    internal class LogWriter : ILogWriter
     {
-        StorageFile logFile;
+        private StorageFile logFile;
         private bool initialized = false;
 
         public async Task InitializeAsync(string name)

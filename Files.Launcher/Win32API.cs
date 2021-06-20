@@ -175,7 +175,6 @@ namespace FilesFullTrust
             {
                 return (iconStr, null, false);
             }
-
         }
 
         public static bool RunPowershellCommand(string command, bool runAsAdmin)
@@ -378,6 +377,7 @@ namespace FilesFullTrust
         public class Win32Window : IWin32Window
         {
             public IntPtr Handle { get; set; }
+
             public static Win32Window FromLong(long hwnd)
             {
                 return new Win32Window() { Handle = new IntPtr(hwnd) };

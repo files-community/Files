@@ -1,16 +1,12 @@
 ﻿using Files.Extensions;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 
 namespace Files.Helpers
 {
@@ -66,14 +62,17 @@ namespace Files.Helpers
 
         private Func<T, string> itemGroupKeySelector;
 
-        public Func<T, string> ItemGroupKeySelector {
+        public Func<T, string> ItemGroupKeySelector
+        {
             get => itemGroupKeySelector;
-            set {
+            set
+            {
                 itemGroupKeySelector = value;
                 if (value != null)
                 {
                     GroupedCollection ??= new BulkConcurrentObservableCollection<GroupedCollection<T>>();
-                } else
+                }
+                else
                 {
                     GroupedCollection = null;
                 }
@@ -81,6 +80,7 @@ namespace Files.Helpers
         }
 
         private Func<T, object> itemSortKeySelector;
+
         public Func<T, object> ItemSortKeySelector
         {
             get => itemSortKeySelector;
@@ -92,14 +92,12 @@ namespace Files.Helpers
 
         public BulkConcurrentObservableCollection()
         {
-
         }
 
         public BulkConcurrentObservableCollection(IEnumerable<T> items)
         {
             AddRange(items);
         }
-
 
         public virtual void BeginBulkOperation()
         {
@@ -135,7 +133,7 @@ namespace Files.Helpers
 
         public void ResetGroups(CancellationToken token = default)
         {
-            if(!IsGrouped)
+            if (!IsGrouped)
             {
                 return;
             }
@@ -150,14 +148,13 @@ namespace Files.Helpers
         {
             foreach (var item in items)
             {
-
-                if(token.IsCancellationRequested)
+                if (token.IsCancellationRequested)
                 {
                     return;
                 }
                 var key = GetGroupKeyForItem(item);
                 var groups = GroupedCollection.Where(x => x.Model.Key == key);
-                if(item is IGroupableItem groupable)
+                if (item is IGroupableItem groupable)
                 {
                     groupable.Key = key;
                 }
@@ -173,9 +170,9 @@ namespace Files.Helpers
                     {
                         item
                     };
-                    
+
                     group.GetExtendedGroupHeaderInfo = GetExtendedGroupHeaderInfo;
-                    if(!(GetGroupHeaderInfo is null))
+                    if (!(GetGroupHeaderInfo is null))
                     {
                         GetGroupHeaderInfo.Invoke(group);
                     }
@@ -206,7 +203,7 @@ namespace Files.Helpers
 
         public virtual void EndBulkOperation()
         {
-            if(!isBulkOperationStarted)
+            if (!isBulkOperationStarted)
             {
                 return;
             }
@@ -225,7 +222,7 @@ namespace Files.Helpers
             {
                 collection.Add(item);
             }
-            
+
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
         }
 
@@ -381,7 +378,7 @@ namespace Files.Helpers
 
         public void Sort()
         {
-            lock(SyncRoot)
+            lock (SyncRoot)
             {
                 collection.Sort();
             }
@@ -389,7 +386,7 @@ namespace Files.Helpers
 
         public void Sort(Comparison<T> comparison)
         {
-            lock(SyncRoot)
+            lock (SyncRoot)
             {
                 collection.Sort(comparison);
             }
@@ -398,7 +395,7 @@ namespace Files.Helpers
         public void Order(Func<List<T>, IEnumerable<T>> func)
         {
             IEnumerable<T> result;
-            lock(SyncRoot)
+            lock (SyncRoot)
             {
                 result = func.Invoke(collection);
             }

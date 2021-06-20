@@ -1,7 +1,6 @@
 ﻿using Files.Common;
 using System;
 using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -12,7 +11,7 @@ namespace Files.Helpers
     /// </summary>
     public class UniversalLogWriter : ILogWriter
     {
-        StorageFile logFile;
+        private StorageFile logFile;
         private bool initialized = false;
 
         public async Task InitializeAsync(string name)

@@ -999,9 +999,6 @@
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>לא צוין</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>שחרר כאן...</value>
-  </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>תוצאות חיפוש</value>
   </data>

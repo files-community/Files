@@ -1221,9 +1221,6 @@
   <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Tarih biçimleri hakkında ayrıntılı bilgi alın</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>Buraya bırakın</value>
-  </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Şuradaki arama sonuçları</value>
   </data>

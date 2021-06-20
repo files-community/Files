@@ -766,7 +766,7 @@ namespace Files.Filesystem
 
                     if (fsResult)
                     {
-                        fsResult = await FilesystemTasks.Wrap(() => MoveDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination), 
+                        fsResult = await FilesystemTasks.Wrap(() => MoveDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination),
                             CreationCollisionOption.FailIfExists, true));
                         // TODO: we could use here FilesystemHelpers with registerHistory false?
                     }

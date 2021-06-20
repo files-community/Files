@@ -1239,9 +1239,6 @@
   <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>날짜 형식 자세히 알아보기</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>여기에 놓기</value>
-  </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>검색</value>
   </data>

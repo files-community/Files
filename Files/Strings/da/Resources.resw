@@ -1233,9 +1233,6 @@
   <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Lær mere om datoformater</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>Drop here</value>
-  </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Søg</value>
   </data>

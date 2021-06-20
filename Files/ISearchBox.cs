@@ -9,13 +9,17 @@ namespace Files
     public interface ISearchBox
     {
         event TypedEventHandler<ISearchBox, SearchBoxTextChangedEventArgs> TextChanged;
+
         event TypedEventHandler<ISearchBox, SearchBoxSuggestionChosenEventArgs> SuggestionChosen;
+
         event TypedEventHandler<ISearchBox, SearchBoxQuerySubmittedEventArgs> QuerySubmitted;
+
         event EventHandler<ISearchBox> Escaped;
 
         string Query { get; set; }
 
         void ClearSuggestions();
+
         void SetSuggestions(IEnumerable<ListedItem> suggestions);
     }
 
@@ -42,6 +46,7 @@ namespace Files
 
         public SearchBoxSuggestionChosenEventArgs(ListedItem selectedSuggestion) => SelectedSuggestion = selectedSuggestion;
     }
+
     public class SearchBoxQuerySubmittedEventArgs
     {
         public ListedItem ChosenSuggestion { get; }
