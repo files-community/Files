@@ -404,8 +404,7 @@ namespace FilesFullTrust
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
                         { "Icon", iconOverlay.icon },
-                        { "Overlay", iconOverlay.overlay },
-                        { "HasCustomIcon", iconOverlay.isCustom }
+                        { "Overlay", iconOverlay.overlay }
                     }, message.Get("RequestID", (string)null));
                     break;
 

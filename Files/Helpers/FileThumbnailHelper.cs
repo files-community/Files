@@ -1,17 +1,14 @@
 ﻿using Files.Common;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Helpers
 {
     public static class FileThumbnailHelper
     {
-        public static async Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconAndOverlayAsync(string filePath, uint thumbnailSize)
+        public static async Task<(byte[] IconData, byte[] OverlayData)> LoadIconAndOverlayAsync(string filePath, uint thumbnailSize)
         {
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
@@ -25,18 +22,16 @@ namespace Files.Helpers
                 var (status, response) = await connection.SendMessageForResponseAsync(value);
                 if (status == AppServiceResponseStatus.Success)
                 {
-                    var hasCustomIcon = response.Get("HasCustomIcon", false);
                     var icon = response.Get("Icon", (string)null);
                     var overlay = response.Get("Overlay", (string)null);
 
                     // BitmapImage can only be created on UI thread, so return raw data and create
                     // BitmapImage later to prevent exceptions once SynchorizationContext lost
                     return (icon == null ? null : Convert.FromBase64String(icon),
-                        overlay == null ? null : Convert.FromBase64String(overlay),
-                        hasCustomIcon);
+                        overlay == null ? null : Convert.FromBase64String(overlay));
                 }
             }
-            return (null, null, false);
+            return (null, null);
         }
 
         public static async Task<byte[]> LoadOverlayAsync(string filePath)

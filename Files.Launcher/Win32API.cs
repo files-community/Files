@@ -102,10 +102,9 @@ namespace FilesFullTrust
             }
         }
 
-        public static (string icon, string overlay, bool isCustom) GetFileIconAndOverlay(string path, int thumbnailSize, bool getOverlay = true, bool onlyGetOverlay = false)
+        public static (string icon, string overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool getOverlay = true, bool onlyGetOverlay = false)
         {
             string iconStr = null, overlayStr = null;
-            bool isCustom = true;
 
             if (!onlyGetOverlay)
             {
@@ -139,7 +138,7 @@ namespace FilesFullTrust
                     Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
                 if (ret == IntPtr.Zero)
                 {
-                    return (iconStr, null, isCustom);
+                    return (iconStr, null);
                 }
 
                 User32.DestroyIcon(shfi.hIcon);
@@ -147,7 +146,7 @@ namespace FilesFullTrust
                 using var imageList = ComCtl32.SafeHIMAGELIST.FromIImageList(tmp);
                 if (imageList.IsNull || imageList.IsInvalid)
                 {
-                    return (iconStr, null, isCustom);
+                    return (iconStr, null);
                 }
 
                 var overlayIdx = shfi.iIcon >> 24;
@@ -163,13 +162,12 @@ namespace FilesFullTrust
                     }
                 }
 
-                return (iconStr, overlayStr, isCustom);
+                return (iconStr, overlayStr);
             }
             else
             {
-                return (iconStr, null, isCustom);
+                return (iconStr, null);
             }
-
         }
 
         public static bool RunPowershellCommand(string command, bool runAsAdmin)

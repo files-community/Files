@@ -701,24 +701,24 @@ namespace Files.ViewModels
 
             await Task.Run(async () =>
             {
-            if (item == null)
-            {
-                return;
-            }
+                if (item == null)
+                {
+                    return;
+                }
 
-            try
-            {
-                await loadExtendedPropsSemaphore.WaitAsync(loadPropsCTS.Token);
-            }
-            catch (OperationCanceledException)
-            {
-                return;
-            }
+                try
+                {
+                    await loadExtendedPropsSemaphore.WaitAsync(loadPropsCTS.Token);
+                }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
 
-            var wasSyncStatusLoaded = false;
-            ImageSource groupImage = null;
-            bool loadGroupHeaderInfo = false;
-            GroupedCollection<ListedItem> gp = null;
+                var wasSyncStatusLoaded = false;
+                ImageSource groupImage = null;
+                bool loadGroupHeaderInfo = false;
+                GroupedCollection<ListedItem> gp = null;
                 try
                 {
                     bool isFileTypeGroupMode = folderSettings.DirectoryGroupOption == GroupOption.FileType;
@@ -780,7 +780,6 @@ namespace Files.ViewModels
                                             item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
                                         }, Windows.System.DispatcherQueuePriority.Low);
                                     }
-
                                 }
 
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
@@ -934,7 +933,7 @@ namespace Files.ViewModels
             ImageSource groupImage = null;
             if (item.PrimaryItemAttribute != StorageItemTypes.Folder)
             {
-                (byte[] iconData, byte[] overlayData, bool isCustom) headerIconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, 76);
+                (byte[] iconData, byte[] overlayData) headerIconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, 76);
 
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                 {
