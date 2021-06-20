@@ -940,7 +940,7 @@
                     Click="NavToolbarEnterCompactOverlay_Click"
                     Label="Enter compact overlay">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE8A7;" />
+                        <FontIcon Glyph="&#xEE49;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton
@@ -950,7 +950,7 @@
                     Label="Exit compact overlay"
                     Visibility="Collapsed">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE944;" />
+                        <FontIcon Glyph="&#xEE47;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton
