@@ -105,6 +105,8 @@ namespace FilesFullTrust
         public static (string icon, string overlay, bool isCustom) GetFileIconAndOverlay(string path, int thumbnailSize, bool getOverlay = true, bool onlyGetOverlay = false)
         {
             string iconStr = null, overlayStr = null;
+            bool isCustom = true;
+
             if (!onlyGetOverlay)
             {
                 using var shellItem = new Vanara.Windows.Shell.ShellItem(path);
@@ -137,10 +139,9 @@ namespace FilesFullTrust
                     Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
                 if (ret == IntPtr.Zero)
                 {
-                    return (iconStr, null, false);
+                    return (iconStr, null, isCustom);
                 }
 
-                bool isCustom = true;
                 User32.DestroyIcon(shfi.hIcon);
                 Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var tmp);
                 using var imageList = ComCtl32.SafeHIMAGELIST.FromIImageList(tmp);
@@ -166,7 +167,7 @@ namespace FilesFullTrust
             }
             else
             {
-                return (iconStr, null, false);
+                return (iconStr, null, isCustom);
             }
 
         }
