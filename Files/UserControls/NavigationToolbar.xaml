@@ -31,16 +31,6 @@
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
 
                 <ResourceDictionary>
-                    <LinearGradientBrush x:Key="ControlElevationBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,3">
-                        <LinearGradientBrush.RelativeTransform>
-                            <ScaleTransform CenterY="0.5" ScaleY="-1" />
-                        </LinearGradientBrush.RelativeTransform>
-                        <LinearGradientBrush.GradientStops>
-                            <GradientStop Offset="0" Color="{StaticResource ControlStrokeColorSecondary}" />
-                            <GradientStop Offset="1.0" Color="{StaticResource ControlStrokeColorDefault}" />
-                        </LinearGradientBrush.GradientStops>
-                    </LinearGradientBrush>
-
                     <Style x:Key="NavigationButtonNormalStyle" TargetType="Button">
                         <Setter Property="Background" Value="{ThemeResource NavigationViewBackButtonBackground}" />
                         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
@@ -327,56 +317,6 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
-                    <SolidColorBrush x:Key="SystemControlSplitterPointerOver" Color="{ThemeResource SystemBaseLowColor}" />
-                    <SolidColorBrush x:Key="SystemControlSplitterPressed" Color="{ThemeResource SystemBaseHighColor}" />
-                    <Style x:Key="GridSplitterStyle_Invisible" TargetType="Custom:GridSplitter">
-                        <Setter Property="IsTabStop" Value="True" />
-                        <Setter Property="UseSystemFocusVisuals" Value="True" />
-                        <Setter Property="HorizontalAlignment" Value="Stretch" />
-                        <Setter Property="VerticalAlignment" Value="Stretch" />
-                        <Setter Property="IsFocusEngagementEnabled" Value="True" />
-                        <Setter Property="MinWidth" Value="2" />
-                        <Setter Property="MinHeight" Value="16" />
-                        <Setter Property="Background" Value="{ThemeResource SystemControlHighlightChromeHighBrush}" />
-                        <Setter Property="GripperForeground" Value="{ThemeResource SystemControlForegroundAltHighBrush}" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Custom:GridSplitter">
-                                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
-                                        <ContentPresenter
-                                            HorizontalContentAlignment="Stretch"
-                                            VerticalContentAlignment="Stretch"
-                                            Content="{TemplateBinding Element}" />
-                                        <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroup x:Name="GridSplitterStates">
-                                                <VisualState x:Name="Normal" />
-                                            </VisualStateGroup>
-                                        </VisualStateManager.VisualStateGroups>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-
-                    <ResourceDictionary.ThemeDictionaries>
-                        <ResourceDictionary x:Key="Light">
-                            <RevealBorderBrush
-                                x:Key="TransparentGridRevealBorderBrush"
-                                FallbackColor="Transparent"
-                                TargetTheme="Light"
-                                Color="Transparent" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="Dark">
-                            <RevealBorderBrush
-                                x:Key="TransparentGridRevealBorderBrush"
-                                FallbackColor="Transparent"
-                                TargetTheme="Dark"
-                                Color="Transparent" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="HighContrast">
-                            <SolidColorBrush x:Key="TransparentGridRevealBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
-                        </ResourceDictionary>
-                    </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

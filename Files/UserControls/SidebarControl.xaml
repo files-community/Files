@@ -28,7 +28,17 @@
     <muxc:NavigationView.Resources>
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Default">
+                <ResourceDictionary x:Key="Light">
+                    <AcrylicBrush
+                        x:Key="NavigationViewExpandedPaneBackground"
+                        Windows10version1903:TintLuminosityOpacity="{ThemeResource SidebarTintLuminosityOpacity}"
+                        AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
+                        BackgroundSource="HostBackdrop"
+                        FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
+                        TintColor="{ThemeResource SolidBackgroundAcrylic}"
+                        TintOpacity="{ThemeResource SidebarTintOpacity}" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
                         Windows10version1903:TintLuminosityOpacity="{ThemeResource SidebarTintLuminosityOpacity}"
@@ -795,7 +805,7 @@
                                                         <SplineDoubleKeyFrame
                                                             KeySpline="0.0,0.35 0.15,1.0"
                                                             KeyTime="{StaticResource SplitViewPaneAnimationOpenPreDuration}"
-                                                            Value="" />
+                                                            Value="0" />
                                                     </DoubleAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneClipRectangleTransform" Storyboard.TargetProperty="TranslateX">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
