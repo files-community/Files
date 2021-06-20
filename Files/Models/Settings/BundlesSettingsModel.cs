@@ -3,14 +3,15 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using Windows.Storage;
 
-namespace Files.ViewModels
+namespace Files.Models.Settings
 {
-    public class BundlesSettingsViewModel : BaseJsonSettingsViewModel, IBundlesSettings
+    public class BundlesSettingsModel : BaseJsonSettingsModel, IBundlesSettings
     {
         #region Constructor
 
-        public BundlesSettingsViewModel()
-            : base(System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName))
+        public BundlesSettingsModel()
+            : base(System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName),
+                  isCachingEnabled: true)
         {
         }
 

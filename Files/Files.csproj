@@ -341,7 +341,7 @@
     <Compile Include="ViewModels\SettingsViewModels\SidebarViewModel.cs" />
     <Compile Include="ViewModels\SearchBoxViewModel.cs" />
     <Compile Include="ViewModels\SidebarViewModel.cs" />
-    <Compile Include="ViewModels\BaseJsonSettingsViewModel.cs" />
+    <Compile Include="Models\Settings\BaseJsonSettingsModel.cs" />
     <Compile Include="ViewModels\ColumnsViewModel.cs" />
     <Compile Include="ViewModels\Pages\YourHomeViewModel.cs" />
     <Compile Include="ViewModels\StatusCenterViewModel.cs" />
@@ -368,7 +368,7 @@
     <Compile Include="ViewModels\Previews\ShortcutPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\TextPreviewViewModel.cs" />
     <Compile Include="SettingsInterfaces\IBundlesSettings.cs" />
-    <Compile Include="ViewModels\BundlesSettingsViewModel.cs" />
+    <Compile Include="Models\Settings\BundlesSettingsModel.cs" />
     <Compile Include="ViewModels\Properties\FileProperty.cs" />
     <Compile Include="UserControls\PreviewPane.xaml.cs">
       <DependentUpon>PreviewPane.xaml</DependentUpon>

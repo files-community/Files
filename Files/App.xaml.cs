@@ -4,6 +4,7 @@ using Files.Controllers;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
+using Files.Models.Settings;
 using Files.SettingsInterfaces;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
@@ -44,7 +45,7 @@ namespace Files
 
         public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
-        public static IBundlesSettings BundlesSettings = new BundlesSettingsViewModel();
+        public static IBundlesSettings BundlesSettings = new BundlesSettingsModel();
         public static SettingsViewModel AppSettings { get; private set; }
         public static MainViewModel MainViewModel { get; private set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
