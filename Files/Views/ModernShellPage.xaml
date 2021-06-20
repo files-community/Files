@@ -202,26 +202,16 @@
     <Grid
         x:Name="RootGrid"
         BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
-        BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}"
-        SizeChanged="RootGrid_SizeChanged">
+        BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="2*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition
-                x:Name="PreviewPaneRow"
-                Height="2*"
-                MaxHeight="400" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition
-                x:Name="PreviewPaneColumn"
-                Width="2*"
-                MaxWidth="600" />
         </Grid.ColumnDefinitions>
 
         <Frame
@@ -231,32 +221,5 @@
             x:FieldModifier="public"
             Background="{ThemeResource FileBrowserBackgroundBrush}"
             Navigated="ItemDisplayFrame_Navigated" />
-
-        <Custom:DropShadowPanel
-            x:Name="PreviewPaneDropShadowPanel"
-            Grid.Row="1"
-            Grid.Column="2"
-            HorizontalContentAlignment="Stretch"
-            x:Load="{x:Bind LoadPreviewPane, Mode=OneWay}"
-            BlurRadius="16"
-            Canvas.ZIndex="10"
-            OffsetX="-4"
-            ShadowOpacity="0.04">
-            <controls:PreviewPane
-                x:Name="PreviewPane"
-                x:Uid="SelectedFilePreviewPane"
-                AutomationProperties.Name="Selected file preview pane"
-                Loading="PreviewPane_Loading"
-                SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" />
-        </Custom:DropShadowPanel>
-
-        <Custom:GridSplitter
-            x:Name="PreviewPaneGridSplitter"
-            Grid.Row="1"
-            Grid.Column="1"
-            x:Load="{x:Bind LoadPreviewPane, Mode=OneWay}"
-            ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted"
-            ResizeBehavior="BasedOnAlignment"
-            Style="{StaticResource DefaultGridSplitterStyle}" />
     </Grid>
 </Page>

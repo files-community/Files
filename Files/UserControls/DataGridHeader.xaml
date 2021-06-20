@@ -29,10 +29,10 @@
 
     <Grid>
         <Button
+            AutomationProperties.Name="{x:Bind Header, Mode=OneWay}"
             Command="{x:Bind Command}"
             CommandParameter="{x:Bind CommandParameter}"
             IsEnabled="{x:Bind CanBeSorted, Mode=OneWay}"
-            AutomationProperties.Name="{x:Bind Header, Mode=OneWay}"
             Style="{StaticResource HeaderButtonStyle}">
             <Grid>
                 <Grid.ColumnDefinitions>

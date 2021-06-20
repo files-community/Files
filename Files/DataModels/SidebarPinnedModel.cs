@@ -45,7 +45,6 @@ namespace Files.DataModels
 
         public SidebarPinnedModel()
         {
-            
         }
 
         /// <summary>

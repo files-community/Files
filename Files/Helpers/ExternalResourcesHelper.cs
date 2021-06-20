@@ -42,7 +42,6 @@ namespace Files.Helpers
             }
             catch (Exception)
             {
-
             }
 
             SkinFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Skins", CreationCollisionOption.OpenIfExists);

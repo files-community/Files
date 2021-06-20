@@ -4,17 +4,14 @@ using Files.Controllers;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
+using Files.Models.Settings;
 using Files.SettingsInterfaces;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,7 +22,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -44,7 +40,7 @@ namespace Files
 
         public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
-        public static IBundlesSettings BundlesSettings = new BundlesSettingsViewModel();
+        public static IBundlesSettings BundlesSettings = new BundlesSettingsModel();
         public static SettingsViewModel AppSettings { get; private set; }
         public static MainViewModel MainViewModel { get; private set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
@@ -200,7 +196,6 @@ namespace Files
                 }
             }
         }
-
 
         protected override async void OnActivated(IActivatedEventArgs args)
         {
@@ -375,10 +370,6 @@ namespace Files
             LibraryManager?.Dispose();
             DrivesManager?.Dispose();
             deferral.Complete();
-
-#if DEBUG
-            Current.Exit();
-#endif
         }
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages

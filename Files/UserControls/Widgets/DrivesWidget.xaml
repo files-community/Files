@@ -167,17 +167,18 @@
                                 VerticalAlignment="Stretch"
                                 ColumnSpacing="12">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="44" />
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
                                     <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="28" />
-                                    <RowDefinition Height="16" />
+                                    <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <Image
                                     Grid.RowSpan="3"
                                     Grid.Column="0"
+                                    Width="40"
                                     Height="40"
                                     HorizontalAlignment="Center"
                                     x:Phase="1"
@@ -187,7 +188,7 @@
                                     x:Name="ItemLocationName"
                                     Grid.Row="0"
                                     Grid.Column="1"
-                                    VerticalAlignment="Center"
+                                    VerticalAlignment="Stretch"
                                     FontSize="14"
                                     FontWeight="Medium"
                                     Text="{x:Bind Text, Mode=OneWay}"
@@ -197,7 +198,8 @@
                                 <Grid
                                     Grid.Row="1"
                                     Grid.Column="1"
-                                    Grid.ColumnSpan="8">
+                                    Grid.ColumnSpan="8"
+                                    VerticalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
@@ -236,6 +238,7 @@
                                 <TextBlock
                                     Grid.Row="2"
                                     Grid.Column="1"
+                                    VerticalAlignment="Bottom"
                                     x:Phase="1"
                                     FontSize="12"
                                     Text="{x:Bind SpaceText, Mode=OneWay}"

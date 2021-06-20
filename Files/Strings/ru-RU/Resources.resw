@@ -1182,9 +1182,6 @@
   <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Узнайте больше о форматах даты</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>Перетащите сюда</value>
-  </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Результаты поиска в </value>
   </data>

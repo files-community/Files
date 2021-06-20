@@ -258,7 +258,7 @@ namespace Files.ViewModels
             {
                 storageItems = await e.DataView.GetStorageItemsAsync();
             }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
             {
                 e.AcceptedOperation = DataPackageOperation.None;
                 deferral.Complete();
@@ -273,9 +273,9 @@ namespace Files.ViewModels
             }
 
             if (!storageItems.Any(storageItem =>
-            storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
-            Trim(Path.DirectorySeparatorChar).
-            Contains(Path.DirectorySeparatorChar)))
+                storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
+                Trim(Path.DirectorySeparatorChar).
+                Contains(Path.DirectorySeparatorChar)))
             {
                 e.AcceptedOperation = DataPackageOperation.None;
             }
@@ -514,8 +514,6 @@ namespace Files.ViewModels
         public ICommand CreateNewFileCommand { get; set; }
 
         public ICommand CreateNewFolderCommand { get; set; }
-
-        public ICommand PreviewPaneInvokedCommand { get; set; }
 
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {

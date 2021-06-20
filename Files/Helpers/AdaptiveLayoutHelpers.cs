@@ -117,7 +117,7 @@ namespace Files.Helpers
                 miscFilesPercentage = (float)((float)miscFilesCount / (float)allItemsCount) * 100.0f;
 
                 // Decide layout mode
-                
+
                 // Mostly files + folders, lesser media and image files | Mostly folders
                 if ((foldersPercentage + miscFilesPercentage) > Constants.AdaptiveLayout.LargeThreshold)
                 {

@@ -1,14 +1,10 @@
 ﻿using Files.Enums;
-using Files.Filesystem;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Storage;
 using Files.Extensions;
-using ByteSizeLib;
+using Files.Filesystem;
 using Microsoft.Toolkit.Uwp;
+using System;
+using System.Linq;
+using Windows.Storage;
 
 namespace Files.Helpers
 {
@@ -59,7 +55,7 @@ namespace Files.Helpers
                 GroupOption.Size => (x =>
                 {
                     var first = x.First();
-                    if(first.PrimaryItemAttribute != StorageItemTypes.Folder)
+                    if (first.PrimaryItemAttribute != StorageItemTypes.Folder)
                     {
                         var vals = GetGroupSizeInfo(first.FileSizeBytes);
                         //x.Model.Text = vals.text;
@@ -98,7 +94,7 @@ namespace Files.Helpers
                         x.Model.Icon = vals?.glyph;
                         x.Model.SortIndexOverride = vals?.index ?? 0;
                     }, null),
-                    
+
                 GroupOption.OriginalFolder => (x =>
                     {
                         ListedItem first = x.First();
@@ -122,12 +118,12 @@ namespace Files.Helpers
                 if (size > sizeGp.size)
                 {
                     var rangeStr = i > 0 ? $"{sizeGp.sizeText} - {sizeGroups[i - 1].sizeText}" : $"{sizeGp.sizeText} +";
-                    return (sizeGp.size.ToString(), sizeGp.text, rangeStr, i+1); //i +1 is so that other groups always show below "unspecified"
+                    return (sizeGp.size.ToString(), sizeGp.text, rangeStr, i + 1); //i +1 is so that other groups always show below "unspecified"
                 }
                 lastSizeStr = sizeGp.sizeText;
             }
 
-            return ("0", "ItemSizeText_Tiny".GetLocalized(), $"{"0 B".ConvertSizeAbbreviation()} - {lastSizeStr}", sizeGroups.Length+1);
+            return ("0", "ItemSizeText_Tiny".GetLocalized(), $"{"0 B".ConvertSizeAbbreviation()} - {lastSizeStr}", sizeGroups.Length + 1);
         }
 
         public static string GetGroupSizeKey(long size)
@@ -146,9 +142,9 @@ namespace Files.Helpers
         private static readonly (long size, string text, string sizeText)[] sizeGroups = new (long, string, string)[]
         {
             (5000000000, "ItemSizeText_Huge".GetLocalized(), "5 GiB".ConvertSizeAbbreviation()),
-            (1000000000, "ItemSizeText_VeryLarge".GetLocalized(), "1 GiB".ConvertSizeAbbreviation()), 
-            (128000000, "ItemSizeText_Large".GetLocalized(), "128 MiB".ConvertSizeAbbreviation()), 
-            (1000000, "ItemSizeText_Medium".GetLocalized(), "1 MiB".ConvertSizeAbbreviation()), 
+            (1000000000, "ItemSizeText_VeryLarge".GetLocalized(), "1 GiB".ConvertSizeAbbreviation()),
+            (128000000, "ItemSizeText_Large".GetLocalized(), "128 MiB".ConvertSizeAbbreviation()),
+            (1000000, "ItemSizeText_Medium".GetLocalized(), "1 MiB".ConvertSizeAbbreviation()),
             (16000, "ItemSizeText_Small".GetLocalized(), "16 KiB".ConvertSizeAbbreviation()),
         };
     }

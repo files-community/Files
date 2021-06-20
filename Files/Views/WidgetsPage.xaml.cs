@@ -162,7 +162,9 @@ namespace Files.Views
         {
             AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
             {
-                NavPathParam = e.ItemPath
+                NavPathParam = e.ItemPath,
+                SelectItems = new [] { e.ItemName },
+                AssociatedTabInstance = AppInstance
             });
         }
 
@@ -213,8 +215,6 @@ namespace Files.Views
             AppInstance.NavToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
             AppInstance.NavToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
             AppInstance.NavToolbarViewModel.CanNavigateToParent = false;
-
-            AppInstance.LoadPreviewPaneChanged();
 
             // Set path of working directory empty
             await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");

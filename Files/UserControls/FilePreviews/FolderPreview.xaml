@@ -10,6 +10,10 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Image Source="{x:Bind Model.Thumbnail}" />
+        <Viewbox StretchDirection="DownOnly">
+            <ContentPresenter CornerRadius="{StaticResource ControlCornerRadius}">
+                <Image Source="{x:Bind Model.Thumbnail}" />
+            </ContentPresenter>
+        </Viewbox>
     </Grid>
 </UserControl>

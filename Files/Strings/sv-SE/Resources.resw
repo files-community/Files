@@ -1239,9 +1239,6 @@
   <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Läs mer om datumformat</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>Släpp här</value>
-  </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Sök</value>
   </data>

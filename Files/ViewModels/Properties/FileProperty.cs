@@ -5,6 +5,8 @@ using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -237,9 +239,11 @@ namespace Files.ViewModels.Properties
             return value;
         }
 
+        private static Dictionary<string, string> cachedPropertiesListFiles = new Dictionary<string, string>();
+
         /// <summary>
         /// This function retrieves the list of properties to display from the PropertiesInformation.json
-        /// file, then intilializes them.
+        /// file, then initializes them.
         /// If you would like to add more properties, define them in the PropertiesInformation file, then
         /// add the string resources to Strings/en-Us/Resources.resw file
         /// A full list of file properties and their information can be found here
@@ -251,7 +255,16 @@ namespace Files.ViewModels.Properties
         public async static Task<List<FileProperty>> RetrieveAndInitializePropertiesAsync(StorageFile file, string path = Constants.ResourceFilePaths.DetailsPagePropertiesJsonPath)
         {
             var propertiesJsonFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(path));
-            var list = JsonConvert.DeserializeObject<List<FileProperty>>(await FileIO.ReadTextAsync(propertiesJsonFile));
+
+            // cache the contents of the file to avoid repeatedly reading the file
+            string text;
+            if(!cachedPropertiesListFiles.TryGetValue(path, out text))
+            {
+                text = await FileIO.ReadTextAsync(propertiesJsonFile);
+                cachedPropertiesListFiles.Add(path, text);
+            }
+
+            List<FileProperty> list = JsonConvert.DeserializeObject<List<FileProperty>>(text);
 
             var propsToGet = new List<string>();
 
@@ -262,9 +275,25 @@ namespace Files.ViewModels.Properties
                     propsToGet.Add(prop.Property);
                 }
             }
-
+#if DEBUG
+            // This makes it much easier to debug issues with the property list
+            var keyValuePairs = new Dictionary<string, object>();
+            foreach (var prop in propsToGet)
+            {
+                object val = null;
+                try
+                {
+                    val = (await file.Properties.RetrievePropertiesAsync(new string[] { prop })).First().Value;
+                }
+                catch (ArgumentException e)
+                {
+                    Debug.WriteLine($"Unable to retrieve system file property {prop}.\n{e}");
+                }
+                keyValuePairs.Add(prop, val);
+            }
+#else
             var keyValuePairs = await file.Properties.RetrievePropertiesAsync(propsToGet);
-
+#endif
             foreach (var prop in list)
             {
                 if (!string.IsNullOrEmpty(prop.Property))

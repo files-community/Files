@@ -1221,9 +1221,6 @@
   <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>تعرف على المزيد حول تنسيقات التاريخ</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>أفلت هنا</value>
-  </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>بحث</value>
   </data>
