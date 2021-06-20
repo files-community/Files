@@ -1266,9 +1266,6 @@
   <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Pelajari tentang format tanggal</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>Letakkan di sini</value>
-  </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Cari</value>
   </data>

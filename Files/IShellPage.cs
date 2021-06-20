@@ -33,12 +33,14 @@ namespace Files
         void UpdatePathUIToWorkingDirectory(string newWorkingDir, string singleItemOverride = null);
 
         void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null);
+
         /// <summary>
         /// Gets the layout mode for the specified path then navigates to it
         /// </summary>
         /// <param name="navigationPath"></param>
         /// <param name="navArgs"></param>
         public void NavigateToPath(string navigationPath, NavigationArguments navArgs = null);
+
         /// <summary>
         /// Navigates to the home page
         /// </summary>
@@ -58,6 +60,7 @@ namespace Files
         public TabItemArguments TabItemArguments { get; set; }
 
         public void OpenPathInNewPane(string path);
+
         public void CloseActivePane();
 
         public bool IsLeftPaneActive { get; }

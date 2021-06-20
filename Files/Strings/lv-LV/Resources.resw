@@ -1242,9 +1242,6 @@
   <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Uzzināt vairāk par datumu formātiem</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>Nomest šeit</value>
-  </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Meklēt</value>
   </data>

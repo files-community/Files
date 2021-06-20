@@ -61,7 +61,7 @@ namespace Files.Helpers
                     // Adds a separator between items already there and the new ones
                     if (overflow.Items.Count != 0 && overflow.Items.Last().ItemType != ItemType.Separator && overflowItems.Count > 0)
                     {
-                        overflow.Items.Add(new ContextMenuFlyoutItemViewModel{ ItemType = ItemType.Separator });
+                        overflow.Items.Add(new ContextMenuFlyoutItemViewModel { ItemType = ItemType.Separator });
                     }
 
                     items = items.Except(overflowItems).ToList();

@@ -1221,9 +1221,6 @@
   <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>了解有关日期格式的更多信息</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>拖放到此处</value>
-  </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>搜索结果位于</value>
   </data>

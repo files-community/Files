@@ -178,8 +178,8 @@
                                 <Image
                                     Grid.RowSpan="3"
                                     Grid.Column="0"
+                                    Width="40"
                                     Height="40"
-									Width="40"
                                     HorizontalAlignment="Center"
                                     x:Phase="1"
                                     Source="{x:Bind Icon, Mode=OneWay}" />
@@ -196,10 +196,10 @@
                                     TextWrapping="NoWrap" />
 
                                 <Grid
-									VerticalAlignment="Stretch"
                                     Grid.Row="1"
                                     Grid.Column="1"
-                                    Grid.ColumnSpan="8">
+                                    Grid.ColumnSpan="8"
+                                    VerticalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
@@ -238,9 +238,9 @@
                                 <TextBlock
                                     Grid.Row="2"
                                     Grid.Column="1"
+                                    VerticalAlignment="Bottom"
                                     x:Phase="1"
                                     FontSize="12"
-									VerticalAlignment="Bottom"
                                     Text="{x:Bind SpaceText, Mode=OneWay}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap"

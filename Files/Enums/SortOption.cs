@@ -11,7 +11,7 @@
         OriginalPath,
         DateDeleted
     }
-    
+
     public enum GroupOption : byte
     {
         None,

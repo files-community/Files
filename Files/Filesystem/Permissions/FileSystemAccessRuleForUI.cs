@@ -28,7 +28,7 @@ namespace Files.Filesystem.Permissions
             GrantedPermissions = GetGrantedPermissions();
         }
 
-        public FileSystemAccessRuleForUI(FileSystemAccessRule accessRule, bool isFolder): this(isFolder)
+        public FileSystemAccessRuleForUI(FileSystemAccessRule accessRule, bool isFolder) : this(isFolder)
         {
             AccessControlType = accessRule.AccessControlType;
             FileSystemRights = accessRule.FileSystemRights;
@@ -42,6 +42,7 @@ namespace Files.Filesystem.Permissions
         public RelayCommand<string> ChangeInheritanceFlagsCommand { get; set; }
 
         private AccessControlType accessControlType;
+
         public AccessControlType AccessControlType
         {
             get => accessControlType;
@@ -58,6 +59,7 @@ namespace Files.Filesystem.Permissions
         public bool IsInherited { get; set; }
 
         private InheritanceFlags inheritanceFlags;
+
         public InheritanceFlags InheritanceFlags
         {
             get => inheritanceFlags;
@@ -71,6 +73,7 @@ namespace Files.Filesystem.Permissions
         }
 
         private PropagationFlags propagationFlags;
+
         public PropagationFlags PropagationFlags
         {
             get => propagationFlags;
@@ -84,6 +87,7 @@ namespace Files.Filesystem.Permissions
         }
 
         private FileSystemRights fileSystemRights;
+
         public FileSystemRights FileSystemRights
         {
             get => fileSystemRights;
@@ -111,6 +115,7 @@ namespace Files.Filesystem.Permissions
         public string InheritanceFlagsForUI => string.Join(", ", GetInheritanceStrings());
 
         private bool isSelected;
+
         public bool IsSelected
         {
             get => isSelected;
@@ -128,6 +133,7 @@ namespace Files.Filesystem.Permissions
         }
 
         private bool areAdvancedPermissionsShown;
+
         public bool AreAdvancedPermissionsShown
         {
             get => areAdvancedPermissionsShown;
@@ -143,6 +149,7 @@ namespace Files.Filesystem.Permissions
         public bool IsEditEnabled => IsSelected && !IsInherited;
 
         private List<GrantedPermission> grantedPermissions;
+
         public List<GrantedPermission> GrantedPermissions
         {
             get => grantedPermissions;
@@ -341,6 +348,7 @@ namespace Files.Filesystem.Permissions
         public bool GrantsReadAndExecute => FileSystemRights.HasFlag(FileSystemRights.ReadAndExecute);
         public bool GrantsModify => FileSystemRights.HasFlag(FileSystemRights.Modify);
         public bool GrantsFullControl => FileSystemRights.HasFlag(FileSystemRights.FullControl);
+
         public bool GrantsSpecial
         {
             get
@@ -430,6 +438,7 @@ namespace Files.Filesystem.Permissions
     public class SpecialPermission : GrantedPermission
     {
         private bool isGranted;
+
         public override bool IsGranted
         {
             get => fsar.GrantsSpecial;

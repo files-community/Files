@@ -4,15 +4,14 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.Helpers
 {
     public static class SortingHelper
     {
-        static object orderByNameFunc(ListedItem item) => item.ItemName;
+        private static object orderByNameFunc(ListedItem item) => item.ItemName;
+
         public static Func<ListedItem, object> GetSortFunc(SortOption directorySortOption)
         {
             return directorySortOption switch

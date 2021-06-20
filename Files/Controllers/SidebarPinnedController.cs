@@ -1,9 +1,6 @@
-﻿using Files.Common;
-using Files.DataModels;
-using Files.ViewModels;
+﻿using Files.DataModels;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;

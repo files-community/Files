@@ -29,7 +29,7 @@ namespace Files.Filesystem.Permissions
 
         public ObservableCollection<FileSystemAccessRuleForUI> AccessRules { get; set; }
 
-        // Consolidated view 1       
+        // Consolidated view 1
         public ObservableCollection<RulesForUser> RulesForUsers { get; private set; }
 
         public bool AreAccessRulesProtected { get; set; }
