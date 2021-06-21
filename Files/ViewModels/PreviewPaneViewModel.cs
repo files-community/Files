@@ -279,7 +279,7 @@ namespace Files.ViewModels
                     PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
                 }
             }
-            else if (!IsItemSelected)
+            else if (IsItemSelected)
             {
                 PreviewPaneContent = null;
                 PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
