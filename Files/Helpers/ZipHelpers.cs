@@ -17,10 +17,8 @@ namespace Files.Helpers
             using (ZipFile zipFile = new ZipFile(await archive.OpenStreamForReadAsync()))
             {
                 zipFile.IsStreamOwner = true;
-
                 List<ZipEntry> directoryEntries = new List<ZipEntry>();
                 List<ZipEntry> fileEntries = new List<ZipEntry>();
-
                 foreach (ZipEntry entry in zipFile)
                 {
                     if (entry.IsFile)
