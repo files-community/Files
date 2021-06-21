@@ -2595,4 +2595,7 @@
   <data name="DetailsArchiveItemCount" xml:space="preserve">
     <value>{0} items ({1} files, {2} folders)</value>
   </data>
+  <data name="PropertyUncompressedSize" xml:space="preserve">
+    <value>Uncompressed size</value>
+  </data>
 </root>

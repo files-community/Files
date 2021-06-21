@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Files.Extensions;
+using ByteSizeLib;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp;
 
@@ -30,11 +32,14 @@ namespace Files.ViewModels.Previews
 
             var folderCount = 0;
             var fileCount = 0;
+            long totalSize = 0;
+
             foreach (ZipEntry entry in zipFile)
             {
                 if (entry.IsFile)
                 {
                     fileCount++;
+                    totalSize += entry.Size;
                 }
                 else
                 {
@@ -44,8 +49,14 @@ namespace Files.ViewModels.Previews
 
             details.Add(new FileProperty()
             {
-                LocalizedName = "Item count",
+                NameResource = "PropertyItemCount",
                 Value = string.Format("DetailsArchiveItemCount".GetLocalized(), zipFile.Count, fileCount, folderCount),
+            });
+            
+            details.Add(new FileProperty()
+            {
+                NameResource = "PropertyUncompressedSize",
+                Value = $"{ByteSize.FromBytes(totalSize).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(totalSize).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})",
             });
 
             _ = await base.LoadPreviewAndDetails(); // Loads the thumbnail preview
