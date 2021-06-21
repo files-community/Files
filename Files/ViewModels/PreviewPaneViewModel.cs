@@ -206,7 +206,6 @@ namespace Files.ViewModels
                 return new CodePreview(model);
             }
 
-
             if (ArchivePreviewViewModel.Extensions.Contains(ext))
             {
                 var model = new ArchivePreviewViewModel(item);
