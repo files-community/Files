@@ -963,9 +963,6 @@
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>अनिर्दिष्ट.</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>यहाँ छोड़ें...</value>
-  </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>खोज परिणाम</value>
   </data>

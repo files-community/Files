@@ -40,7 +40,7 @@ namespace Files.Interacts
         /// <param name="primaryAction"></param>
         /// <returns>A StatusBanner object which may be used to automatically remove the banner from UI.</returns>
         PostedStatusBanner PostActionBanner(string title, string message, string primaryButtonText, string cancelButtonText, Action primaryAction);
-        
+
         /// <summary>
         /// Posts a banner that represents an operation that can be canceled.
         /// </summary>

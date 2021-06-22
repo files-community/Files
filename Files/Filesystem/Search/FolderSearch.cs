@@ -41,6 +41,7 @@ namespace Files.Filesystem.Search
 
             return results;
         }
+
         private async Task<IList<ListedItem>> SearchAsync(StorageFolder folder)
         {
             uint index = 0;
@@ -79,6 +80,7 @@ namespace Files.Filesystem.Search
                 await AddItemsAsync(folder, results);
             }
         }
+
         private async Task AddItemsAsync(string folder, ObservableCollection<ListedItem> results)
         {
             var workingFolder = await GetStorageFolderAsync(folder);

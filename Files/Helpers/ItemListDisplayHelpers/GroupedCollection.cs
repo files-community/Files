@@ -1,15 +1,9 @@
-﻿using Files.Filesystem;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml.Media;
 
 namespace Files.Helpers
@@ -32,7 +26,7 @@ namespace Files.Helpers
                 Text = key,
             };
         }
-        
+
         public GroupedCollection(string key, string text) : base()
         {
             AddEvents();
@@ -50,7 +44,7 @@ namespace Files.Helpers
 
         private void GroupedCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == nameof(Count))
+            if (e.PropertyName == nameof(Count))
             {
                 Model.CountText = string.Format(Count > 1 ? "GroupItemsCount_Plural".GetLocalized() : "GroupItemsCount_Singular".GetLocalized(), Count);
             }
@@ -58,7 +52,7 @@ namespace Files.Helpers
 
         public void InitializeExtendedGroupHeaderInfoAsync()
         {
-            if(GetExtendedGroupHeaderInfo is null)
+            if (GetExtendedGroupHeaderInfo is null)
             {
                 return;
             }
@@ -67,7 +61,7 @@ namespace Files.Helpers
 
             GetExtendedGroupHeaderInfo.Invoke(this);
             Model.Initialized = true;
-            if(isBulkOperationStarted)
+            if (isBulkOperationStarted)
             {
                 Model.PausePropertyChangedNotifications();
             }
@@ -104,14 +98,15 @@ namespace Files.Helpers
         public int SortIndexOverride { get; set; }
 
         private string text;
+
         public string Text
         {
             get => text;
             set => SetPropertyWithUpdateDelay(ref text, value);
         }
 
-
         private string subtext;
+
         public string Subtext
         {
             get => subtext;
@@ -119,6 +114,7 @@ namespace Files.Helpers
         }
 
         private string countText;
+
         public string CountText
         {
             get => countText;
@@ -126,6 +122,7 @@ namespace Files.Helpers
         }
 
         private bool showCountTextBelow;
+
         public bool ShowCountTextBelow
         {
             get => showCountTextBelow;
@@ -133,6 +130,7 @@ namespace Files.Helpers
         }
 
         private ImageSource imageSource;
+
         public ImageSource ImageSource
         {
             get => imageSource;
@@ -140,6 +138,7 @@ namespace Files.Helpers
         }
 
         private string icon;
+
         public string Icon
         {
             get => icon;
@@ -177,12 +176,12 @@ namespace Files.Helpers
 
         public void ResumePropertyChangedNotifications(bool triggerUpdates = true)
         {
-            if(deferPropChangedNotifs == false)
+            if (deferPropChangedNotifs == false)
             {
                 return;
             }
             deferPropChangedNotifs = false;
-            if(triggerUpdates)
+            if (triggerUpdates)
             {
                 changedPropQueue.ForEach(prop => OnPropertyChanged(prop));
                 changedPropQueue.Clear();

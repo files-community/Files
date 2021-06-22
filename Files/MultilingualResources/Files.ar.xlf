@@ -1647,10 +1647,6 @@
           <source>Learn more about date formats</source>
           <target state="translated">تعرف على المزيد حول تنسيقات التاريخ</target>
         </trans-unit>
-        <trans-unit id="DragDropWindowText" translate="yes" xml:space="preserve">
-          <source>Drop here</source>
-          <target state="translated" state-qualifier="tm-suggestion">أفلت هنا</target>
-        </trans-unit>
         <trans-unit id="NavSearchButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Search</source>
           <target state="translated" state-qualifier="tm-suggestion">بحث</target>
@@ -3071,26 +3067,6 @@
           <source>Restore Libraries</source>
           <target state="new">Restore Libraries</target>
         </trans-unit>
-        <trans-unit id="StatusLibraryRestoration" translate="yes" xml:space="preserve">
-          <source>Restoring libraries</source>
-          <target state="new">Restoring libraries</target>
-        </trans-unit>
-        <trans-unit id="StatusLibraryRestorationInProgress" translate="yes" xml:space="preserve">
-          <source>Restoring default libraries in progress...</source>
-          <target state="new">Restoring default libraries in progress...</target>
-        </trans-unit>
-        <trans-unit id="StatusLibraryRestorationComplete" translate="yes" xml:space="preserve">
-          <source>Libraries restored</source>
-          <target state="new">Libraries restored</target>
-        </trans-unit>
-        <trans-unit id="StatusLibraryRestorationFailed" translate="yes" xml:space="preserve">
-          <source>Failed to restore libraries</source>
-          <target state="new">Failed to restore libraries</target>
-        </trans-unit>
-        <trans-unit id="StatusRestoreLibrariesDetails" translate="yes" xml:space="preserve">
-          <source>{0} library files successfully restored</source>
-          <target state="new">{0} library files successfully restored</target>
-        </trans-unit>
         <trans-unit id="RecentFilesHeader.Text" translate="yes" xml:space="preserve">
           <source>Recent Files</source>
           <target state="new">Recent Files</target>
@@ -3290,6 +3266,38 @@
         <trans-unit id="NavigationToolbarClosePane.Label" translate="yes" xml:space="preserve">
           <source>Close pane</source>
           <target state="new">Close pane</target>
+        </trans-unit>
+        <trans-unit id="PropertyFileDescription" translate="yes" xml:space="preserve">
+          <source>File description</source>
+          <target state="new">File description</target>
+        </trans-unit>
+        <trans-unit id="PropertyCompany" translate="yes" xml:space="preserve">
+          <source>Company</source>
+          <target state="new">Company</target>
+        </trans-unit>
+        <trans-unit id="PropertyLanguage" translate="yes" xml:space="preserve">
+          <source>Language</source>
+          <target state="new">Language</target>
+        </trans-unit>
+        <trans-unit id="PropertyTrademarks" translate="yes" xml:space="preserve">
+          <source>Trademarks</source>
+          <target state="new">Trademarks</target>
+        </trans-unit>
+        <trans-unit id="PropertyFileVersion" translate="yes" xml:space="preserve">
+          <source>File version</source>
+          <target state="new">File version</target>
+        </trans-unit>
+        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
+          <source>Sync status</source>
+          <target state="new">Sync status</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneLoadCloudItemButton.Content" translate="yes" xml:space="preserve">
+          <source>Load full preview</source>
+          <target state="new">Load full preview</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Downloads the item from the cloud and loads the preview</source>
+          <target state="new">Downloads the item from the cloud and loads the preview</target>
         </trans-unit>
       </group>
     </body>

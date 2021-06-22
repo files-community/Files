@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.InteropServices;
@@ -284,10 +285,11 @@ namespace FilesFullTrust
                         }
                         if (mii.hbmpItem != HBITMAP.NULL && !Enum.IsDefined(typeof(HBITMAP_HMENU), ((IntPtr)mii.hbmpItem).ToInt64()))
                         {
-                            var bitmap = GetBitmapFromHBitmap(mii.hbmpItem);
+                            using var bitmap = GetBitmapFromHBitmap(mii.hbmpItem);
                             if (bitmap != null)
                             {
-                                menuItem.Icon = bitmap;
+                                byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(bitmap, typeof(byte[]));
+                                menuItem.IconBase64 = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
                             }
                         }
                         if (mii.hSubMenu != HMENU.NULL)
@@ -403,23 +405,6 @@ namespace FilesFullTrust
 
         public class ContextMenuItem : Win32ContextMenuItem, IDisposable
         {
-            private Bitmap icon;
-
-            [JsonIgnore]
-            public Bitmap Icon
-            {
-                get
-                {
-                    return icon;
-                }
-                set
-                {
-                    icon = value;
-                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(value, typeof(byte[]));
-                    IconBase64 = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
-                }
-            }
-
             public ContextMenuItem()
             {
                 this.SubItems = new List<Win32ContextMenuItem>();
@@ -427,7 +412,6 @@ namespace FilesFullTrust
 
             public void Dispose()
             {
-                Icon?.Dispose();
                 if (SubItems != null)
                 {
                     foreach (var si in SubItems)
@@ -438,6 +422,49 @@ namespace FilesFullTrust
                     SubItems = null;
                 }
             }
+        }
+
+        public static string GenerateUniquePath(string path)
+        {
+            string uniquePath = path;
+
+            if (File.Exists(path))
+            {
+                string nameWithoutExt = Path.GetFileNameWithoutExtension(path);
+                string extension = Path.GetExtension(path);
+                string directory = Path.GetDirectoryName(path);
+
+                for (ushort count = 1; File.Exists(uniquePath); count++)
+                {
+                    if (Regex.IsMatch(nameWithoutExt, @".*\(\d+\)"))
+                    {
+                        uniquePath = Path.Combine(directory, $"{nameWithoutExt.Substring(0, nameWithoutExt.LastIndexOf("(", StringComparison.InvariantCultureIgnoreCase))}({count}){extension}");
+                    }
+                    else
+                    {
+                        uniquePath = Path.Combine(directory, $"{nameWithoutExt} ({count}){extension}");
+                    }
+                }
+            }
+            else if (Directory.Exists(path))
+            {
+                string directory = Path.GetDirectoryName(path);
+                string Name = Path.GetFileName(path);
+
+                for (ushort Count = 1; Directory.Exists(uniquePath); Count++)
+                {
+                    if (Regex.IsMatch(Name, @".*\(\d+\)"))
+                    {
+                        uniquePath = Path.Combine(directory, $"{Name.Substring(0, Name.LastIndexOf("(", StringComparison.InvariantCultureIgnoreCase))}({Count})");
+                    }
+                    else
+                    {
+                        uniquePath = Path.Combine(directory, $"{Name} ({Count})");
+                    }
+                }
+            }
+
+            return uniquePath;
         }
 
         // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.

@@ -1233,9 +1233,6 @@
   <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Další informace o formátech data</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>Přetáhněte sem</value>
-  </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Hledat</value>
   </data>

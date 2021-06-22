@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.Win32.SafeHandles;
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
+using System.Threading;
 
 namespace Files.Helpers
 {
@@ -66,6 +68,12 @@ namespace Files.Helpers
             IntPtr hTemplateFile
         );
 
+        public static SafeFileHandle CreateFileForWrite(string filePath)
+        {
+            return new SafeFileHandle(CreateFileFromApp(filePath,
+                GENERIC_WRITE, 0, IntPtr.Zero, CREATE_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
+        }
+
         [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
         CallingConvention = CallingConvention.StdCall,
         SetLastError = true)]
@@ -75,6 +83,14 @@ namespace Files.Helpers
             uint dwShareMode,
             uint dwCreationDisposition,
             IntPtr pCreateExParams
+        );
+
+        [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
+        CallingConvention = CallingConvention.StdCall,
+        SetLastError = true)]
+        public static extern bool CreateDirectoryFromApp(
+            string lpPathName,
+            IntPtr SecurityAttributes
         );
 
         [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
@@ -142,6 +158,18 @@ namespace Files.Helpers
             int* lpBytesWritten,
             IntPtr lpOverlapped
         );
+
+        [DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
+            CallingConvention = CallingConvention.StdCall,
+            SetLastError = true)]
+        public static extern bool WriteFileEx(
+            IntPtr hFile,
+            byte[] lpBuffer,
+            uint nNumberOfBytesToWrite,
+            [In] ref NativeOverlapped lpOverlapped,
+            LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
+
+        public delegate void LPOVERLAPPED_COMPLETION_ROUTINE(uint dwErrorCode, uint dwNumberOfBytesTransfered, ref NativeOverlapped lpOverlapped);
 
         public enum GET_FILEEX_INFO_LEVELS
         {
@@ -235,6 +263,26 @@ namespace Files.Helpers
             }
             CloseHandle(hStream);
             return true;
+        }
+
+        public static bool WriteBufferToFileWithProgress(string filePath, byte[] buffer, LPOVERLAPPED_COMPLETION_ROUTINE callback)
+        {
+            using var hFile = CreateFileForWrite(filePath);
+
+            if (hFile.IsInvalid)
+            {
+                return false;
+            }
+
+            NativeOverlapped nativeOverlapped = new NativeOverlapped();
+            bool result = WriteFileEx(hFile.DangerousGetHandle(), buffer, (uint)buffer.LongLength, ref nativeOverlapped, callback);
+
+            if (!result)
+            {
+                System.Diagnostics.Debug.WriteLine(Marshal.GetLastWin32Error());
+            }
+
+            return result;
         }
     }
 }

@@ -1209,9 +1209,6 @@
   <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Mas información acerca de formatos de fecha</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>Soltar aquí</value>
-  </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Resultados de búsqueda en</value>
   </data>

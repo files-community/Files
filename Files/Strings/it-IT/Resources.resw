@@ -1221,9 +1221,6 @@
   <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Più informazioni sul formato data</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>Rilascia qui</value>
-  </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Cerca risultati in</value>
   </data>
@@ -2432,21 +2429,6 @@
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Ripristina le raccolte</value>
-  </data>
-  <data name="StatusLibraryRestoration" xml:space="preserve">
-    <value>Ripristinando le raccolte</value>
-  </data>
-  <data name="StatusLibraryRestorationInProgress" xml:space="preserve">
-    <value>Ripristino delle raccolte predefinite in corso...</value>
-  </data>
-  <data name="StatusLibraryRestorationComplete" xml:space="preserve">
-    <value>Raccolte ripristinate</value>
-  </data>
-  <data name="StatusLibraryRestorationFailed" xml:space="preserve">
-    <value>Errore durante ripristino delle raccolte</value>
-  </data>
-  <data name="StatusRestoreLibrariesDetails" xml:space="preserve">
-    <value>{0} raccolta/e ripristinate </value>
   </data>
   <data name="RecentFilesHeader.Text" xml:space="preserve">
     <value>File recenti</value>

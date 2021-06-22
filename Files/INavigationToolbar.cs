@@ -2,7 +2,6 @@
 using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls
@@ -53,6 +52,7 @@ namespace Files.UserControls
     public class PathNavigationEventArgs
     {
         public string ItemPath { get; set; }
+        public string ItemName { get; set; }
     }
 
     public class ToolbarFlyoutOpenedEventArgs

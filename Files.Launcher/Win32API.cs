@@ -27,6 +27,7 @@ namespace FilesFullTrust
             var tcs = new TaskCompletionSource<T>();
             Thread thread = new Thread(() =>
             {
+                Ole32.OleInitialize();
                 try
                 {
                     tcs.SetResult(func());
@@ -37,7 +38,15 @@ namespace FilesFullTrust
                     Program.Logger.Info(ex, ex.Message);
                     //tcs.SetException(e);
                 }
-            });
+                finally
+                {
+                    Ole32.OleUninitialize();
+                }
+            })
+            {
+                IsBackground = true,
+                Priority = ThreadPriority.Normal
+            };
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
             return tcs.Task;
@@ -166,7 +175,6 @@ namespace FilesFullTrust
             {
                 return (iconStr, null, false);
             }
-
         }
 
         public static bool RunPowershellCommand(string command, bool runAsAdmin)
@@ -251,10 +259,18 @@ namespace FilesFullTrust
                 {
                     return bmp;
                 }
-                if (IsAlphaBitmap(bmp, out var bmpData))
+                
+                Rectangle bmBounds = new Rectangle(0, 0, bmp.Width, bmp.Height);
+                var bmpData = bmp.LockBits(bmBounds, ImageLockMode.ReadOnly, bmp.PixelFormat);
+                if (IsAlphaBitmap(bmpData))
                 {
-                    return GetAlphaBitmapFromBitmapData(bmpData);
+                    var alpha = GetAlphaBitmapFromBitmapData(bmpData);
+                    bmp.UnlockBits(bmpData);
+                    bmp.Dispose();
+                    return alpha;
                 }
+
+                bmp.UnlockBits(bmpData);
                 return bmp;
             }
             catch
@@ -265,39 +281,29 @@ namespace FilesFullTrust
 
         private static Bitmap GetAlphaBitmapFromBitmapData(BitmapData bmpData)
         {
-            return new Bitmap(
-                    bmpData.Width,
-                    bmpData.Height,
-                    bmpData.Stride,
-                    PixelFormat.Format32bppArgb,
-                    bmpData.Scan0);
+            using var tmp = new Bitmap(bmpData.Width, bmpData.Height, bmpData.Stride, PixelFormat.Format32bppArgb, bmpData.Scan0);
+            Bitmap clone = new Bitmap(tmp.Width, tmp.Height, tmp.PixelFormat);
+            using (Graphics gr = Graphics.FromImage(clone))
+            {
+                gr.DrawImage(tmp, new Rectangle(0, 0, clone.Width, clone.Height));
+            }
+            return clone;
         }
 
-        private static bool IsAlphaBitmap(Bitmap bmp, out BitmapData bmpData)
+        private static bool IsAlphaBitmap(BitmapData bmpData)
         {
-            Rectangle bmBounds = new Rectangle(0, 0, bmp.Width, bmp.Height);
-
-            bmpData = bmp.LockBits(bmBounds, ImageLockMode.ReadOnly, bmp.PixelFormat);
-
-            try
+            for (int y = 0; y <= bmpData.Height - 1; y++)
             {
-                for (int y = 0; y <= bmpData.Height - 1; y++)
+                for (int x = 0; x <= bmpData.Width - 1; x++)
                 {
-                    for (int x = 0; x <= bmpData.Width - 1; x++)
-                    {
-                        Color pixelColor = Color.FromArgb(
-                            Marshal.ReadInt32(bmpData.Scan0, (bmpData.Stride * y) + (4 * x)));
+                    Color pixelColor = Color.FromArgb(
+                        Marshal.ReadInt32(bmpData.Scan0, (bmpData.Stride * y) + (4 * x)));
 
-                        if (pixelColor.A > 0 & pixelColor.A < 255)
-                        {
-                            return true;
-                        }
+                    if (pixelColor.A > 0 & pixelColor.A < 255)
+                    {
+                        return true;
                     }
                 }
-            }
-            finally
-            {
-                bmp.UnlockBits(bmpData);
             }
 
             return false;
@@ -369,6 +375,7 @@ namespace FilesFullTrust
         public class Win32Window : IWin32Window
         {
             public IntPtr Handle { get; set; }
+
             public static Win32Window FromLong(long hwnd)
             {
                 return new Win32Window() { Handle = new IntPtr(hwnd) };

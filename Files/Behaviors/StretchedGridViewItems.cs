@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -12,7 +8,7 @@ namespace Files.Behaviors
     public class StretchedGridViewItems
     {
         /// <summary>
-        /// This property specifies the minium width for child items in an items wrap grid panel. 
+        /// This property specifies the minium width for child items in an items wrap grid panel.
         /// Setting this property o an non zero value will enable dynamic sizing of items so that
         /// when items are wrapped the items control is always filled out horizontally
         /// i.e. the width of items are increased to fill the empty space.
@@ -22,8 +18,8 @@ namespace Files.Behaviors
             typeof(StretchedGridViewItems), new PropertyMetadata(0.0d, OnMinItemWidthChanged));
 
         /// <summary>
-        /// Only applicable when MinItemWidth is non zero. Typically the logic behind 
-        /// MinItemWidth will only trigger if the number of items is more than or equal to 
+        /// Only applicable when MinItemWidth is non zero. Typically the logic behind
+        /// MinItemWidth will only trigger if the number of items is more than or equal to
         /// what a single row will accomodate. This property specifies that the layout logic
         /// is also performed when there are less items than what a single row will accomodate.
         /// </summary>
@@ -34,7 +30,7 @@ namespace Files.Behaviors
         /// <summary>
         /// Returns the value of the FillBeforeWrap
         /// </summary>
-        /// <param name="obj">The dependency-object whichs value should be returned</param> 
+        /// <param name="obj">The dependency-object whichs value should be returned</param>
         /// <returns>The value of the property</returns>
         public static bool GetFillBeforeWrap(DependencyObject obj)
         {
@@ -54,7 +50,7 @@ namespace Files.Behaviors
         /// <summary>
         /// Returns the value of the MinItemWidthProperty
         /// </summary>
-        /// <param name="obj">The dependency-object whichs value should be returned</param> 
+        /// <param name="obj">The dependency-object whichs value should be returned</param>
         /// <returns>The value of the property</returns>
         public static double GetMinItemWidth(DependencyObject obj)
         {
@@ -106,8 +102,8 @@ namespace Files.Behaviors
                 //How many items can be fit whole.
                 var canBeFit = Math.Floor(total / itemMinSize);
 
-                //I could add logic that if the total items 
-                //are less then the number of items that 
+                //I could add logic that if the total items
+                //are less then the number of items that
                 //would fit then devide the total size by
                 //the number of items rather than the number
                 //of items that would actually fit.
@@ -120,8 +116,8 @@ namespace Files.Behaviors
 
                 // Set the items Panel item width appropriately.
                 // Note you will need your container to stretch
-                // along with the items panel or it will look 
-                // strange. 
+                // along with the items panel or it will look
+                // strange.
                 // <GridView.ItemContainerStyle>
                 //     <Style TargetType="GridViewItem">
                 //         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
