@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Enums;
+using Files.Filesystem;
 using Files.ViewModels.Properties;
 using System;
 using System.Collections.ObjectModel;
@@ -46,12 +47,12 @@ namespace Files.ViewModels.Previews
                 new FileProperty()
                 {
                     NameResource = "PropertyDateModified",
-                    Value = info.DateModified,
+                    Value = Extensions.DateTimeExtensions.GetFriendlyDateFromFormat(info.DateModified, "D")
                 },
                 new FileProperty()
                 {
                     NameResource = "PropertyDateCreated",
-                    Value = info.ItemDate,
+                    Value = Extensions.DateTimeExtensions.GetFriendlyDateFromFormat(info.ItemDate, "D")
                 },
                 new FileProperty()
                 {

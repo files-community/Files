@@ -9,7 +9,7 @@ namespace Files.Converters
         {
             if (value != null)
             {
-                return ((DateTimeOffset)value).ToLocalTime().ToString("D");
+                return (Extensions.DateTimeExtensions.GetFriendlyDateFromFormat((DateTimeOffset)value, "D"));
             }
 
             return "";

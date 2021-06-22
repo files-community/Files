@@ -10,7 +10,11 @@ namespace Files.Extensions
         {
             var elapsed = DateTimeOffset.Now - d;
 
-            if (elapsed.TotalDays > 7 || returnFormat == "g")
+            if (d.Year == 1601)
+            {
+                return " ";
+            }
+            else if (elapsed.TotalDays > 7 || returnFormat == "g")
             {
                 return d.ToLocalTime().ToString(returnFormat);
             }
