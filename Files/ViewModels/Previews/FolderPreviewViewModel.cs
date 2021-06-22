@@ -30,6 +30,9 @@ namespace Files.ViewModels.Previews
 
         private async Task LoadPreviewAndDetailsAsync()
         {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+
             Folder = await StorageFolder.GetFolderFromPathAsync(Item.ItemPath);
             var items = await Folder.GetItemsAsync();
 
@@ -47,12 +50,12 @@ namespace Files.ViewModels.Previews
                 new FileProperty()
                 {
                     NameResource = "PropertyDateModified",
-                    Value = Extensions.DateTimeExtensions.GetFriendlyDateFromFormat(info.DateModified, "D")
+                    Value = Extensions.DateTimeExtensions.GetFriendlyDateFromFormat(info.DateModified, returnformat)
                 },
                 new FileProperty()
                 {
                     NameResource = "PropertyDateCreated",
-                    Value = Extensions.DateTimeExtensions.GetFriendlyDateFromFormat(info.ItemDate, "D")
+                    Value = Extensions.DateTimeExtensions.GetFriendlyDateFromFormat(info.ItemDate, returnformat)
                 },
                 new FileProperty()
                 {
