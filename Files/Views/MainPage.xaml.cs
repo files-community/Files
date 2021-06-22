@@ -43,6 +43,9 @@ namespace Files.Views
 
         public ICommand ToggleFullScreenAcceleratorCommand { get; private set; }
 
+        private ICommand ToggleCompactOverlayCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleCompactOverlay());
+        private ICommand SetCompactOverlayCommand => new RelayCommand<bool>(x => SetCompactOverlay(x));
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -309,6 +312,22 @@ namespace Files.Views
         private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
         {
             SidebarAdaptiveViewModel.UpdateTabControlMargin(); // Set the correct tab margin on startup
+        }
+
+        private void ToggleCompactOverlay() => SetCompactOverlay(ApplicationView.GetForCurrentView().ViewMode != ApplicationViewMode.CompactOverlay);
+
+        private async void SetCompactOverlay(bool isCompact)
+        {
+            var view = ApplicationView.GetForCurrentView();
+
+            if (!isCompact)
+            {
+                NavToolbar.IsCompactOverlay = !await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+            }
+            else
+            {
+                NavToolbar.IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+            }
         }
     }
 }
