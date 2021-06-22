@@ -50,12 +50,12 @@ namespace Files.ViewModels.Previews
                 new FileProperty()
                 {
                     NameResource = "PropertyDateModified",
-                    Value = Extensions.DateTimeExtensions.GetFriendlyDateFromFormat(info.DateModified, returnformat)
+                    Value = Extensions.DateTimeExtensions.GetFriendlyDateFromFormat(info.DateModified, returnformat, true)
                 },
                 new FileProperty()
                 {
                     NameResource = "PropertyDateCreated",
-                    Value = Extensions.DateTimeExtensions.GetFriendlyDateFromFormat(info.ItemDate, returnformat)
+                    Value = Extensions.DateTimeExtensions.GetFriendlyDateFromFormat(info.ItemDate, returnformat, true)
                 },
                 new FileProperty()
                 {

@@ -13,7 +13,7 @@ namespace Files.Converters
             {
                 ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
                 string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-                return (Extensions.DateTimeExtensions.GetFriendlyDateFromFormat((DateTimeOffset)value, returnformat));
+                return (Extensions.DateTimeExtensions.GetFriendlyDateFromFormat((DateTimeOffset)value, returnformat, true));
             }
 
             return "";
