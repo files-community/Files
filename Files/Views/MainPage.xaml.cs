@@ -22,6 +22,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Files.Extensions;
 
 namespace Files.Views
 {
@@ -458,6 +459,15 @@ namespace Files.Views
             else
             {
                 NavToolbar.IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+            }
+        }
+
+        private void RootGrid_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            // prevents the arrow key events from navigating the list instead of switching compact ovleray
+            if(EnterCompactOverlayKeyboardAccelerator.CheckIsPressed() || ExitCompactOverlayKeyboardAccelerator.CheckIsPressed())
+            {
+                Focus(FocusState.Keyboard);
             }
         }
     }

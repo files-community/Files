@@ -211,14 +211,20 @@
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
-        <KeyboardAccelerator Key="Up" Modifiers="Menu,Control">
+        <KeyboardAccelerator
+            Key="Up"
+            x:Name="EnterCompactOverlayKeyboardAccelerator"
+            Modifiers="Menu,Control">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
                     <icore:InvokeCommandAction Command="{x:Bind SetCompactOverlayCommand}" CommandParameter="{StaticResource True}" />
                 </icore:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </KeyboardAccelerator>
-        <KeyboardAccelerator Key="Down" Modifiers="Menu,Control">
+        <KeyboardAccelerator
+            Key="Down"
+            x:Name="ExitCompactOverlayKeyboardAccelerator"
+            Modifiers="Menu,Control">
             <i:Interaction.Behaviors>
                 <icore:EventTriggerBehavior EventName="Invoked">
                     <icore:InvokeCommandAction Command="{x:Bind SetCompactOverlayCommand}" CommandParameter="{StaticResource False}" />
@@ -328,7 +334,10 @@
             </Grid>
         </controls:SidebarControl.TabContent>
 
-        <Grid x:Name="RootGrid" SizeChanged="RootGrid_SizeChanged">
+        <Grid
+            x:Name="RootGrid"
+            PreviewKeyDown="RootGrid_PreviewKeyDown"
+            SizeChanged="RootGrid_SizeChanged">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
