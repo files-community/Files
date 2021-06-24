@@ -3302,6 +3302,42 @@
           <source>Downloads the item from the cloud and loads the preview</source>
           <target state="new">Downloads the item from the cloud and loads the preview</target>
         </trans-unit>
+        <trans-unit id="DecompressArchiveDialog.Title" translate="yes" xml:space="preserve">
+          <source>Select a destination and extract files</source>
+          <target state="new">Select a destination and extract files</target>
+        </trans-unit>
+        <trans-unit id="DecompressArchiveDialogBrowseFolder.Content" translate="yes" xml:space="preserve">
+          <source>Browse</source>
+          <target state="new">Browse</target>
+        </trans-unit>
+        <trans-unit id="DecompressArchiveDialogOpenDestinationWhenComplete.Content" translate="yes" xml:space="preserve">
+          <source>Open destination folder when complete</source>
+          <target state="new">Open destination folder when complete</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutExtractFilesOption" translate="yes" xml:space="preserve">
+          <source>Extract files</source>
+          <target state="new">Extract files</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutExtractHereOption" translate="yes" xml:space="preserve">
+          <source>Extract here</source>
+          <target state="new">Extract here</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutExtractionOptions" translate="yes" xml:space="preserve">
+          <source>Extract...</source>
+          <target state="new">Extract...</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutExtractToChildFolder" translate="yes" xml:space="preserve">
+          <source>Extract to {0}\</source>
+          <target state="new">Extract to {0}\</target>
+        </trans-unit>
+        <trans-unit id="DetailsArchiveItemCount" translate="yes" xml:space="preserve">
+          <source>{0} items ({1} files, {2} folders)</source>
+          <target state="new">{0} items ({1} files, {2} folders)</target>
+        </trans-unit>
+        <trans-unit id="PropertyUncompressedSize" translate="yes" xml:space="preserve">
+          <source>Uncompressed size</source>
+          <target state="new">Uncompressed size</target>
+        </trans-unit>
       </group>
     </body>
   </file>
