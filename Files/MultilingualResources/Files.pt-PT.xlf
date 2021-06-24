@@ -2224,7 +2224,7 @@
         </trans-unit>
         <trans-unit id="PropertiesFilesFoldersAndLocationsCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</source>
-          <target state="translated">{0:#,##0} ficheiros da pasta {1:#,##0} na localização {2:#,##0}</target>
+          <target state="translated">{0:#,##0} ficheiros, {1:#,##0} pastas em {2:#,##0} localizações</target>
         </trans-unit>
         <trans-unit id="ItemTypeLibrary" translate="yes" xml:space="preserve">
           <source>Library</source>
