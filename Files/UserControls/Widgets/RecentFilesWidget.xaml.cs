@@ -136,7 +136,7 @@ namespace Files.UserControls.Widgets
                 ItemType = StorageItemTypes.File;
                 ItemImage = new BitmapImage();
                 StorageFile file = (StorageFile)item;
-                var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
+                using var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
                 if (thumbnail == null)
                 {
                     ItemEmptyImgVis = true;

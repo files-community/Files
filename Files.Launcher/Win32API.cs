@@ -111,26 +111,29 @@ namespace FilesFullTrust
             }
         }
 
-        public static (string icon, string overlay, bool isCustom) GetFileIconAndOverlay(string path, int thumbnailSize, bool getOverlay = true)
+        public static (string icon, string overlay) GetFileIconAndOverlay(string path, int thumbnailSize, bool getOverlay = true, bool onlyGetOverlay = false)
         {
             string iconStr = null, overlayStr = null;
 
-            using var shellItem = new Vanara.Windows.Shell.ShellItem(path);
-            if (shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
+            if (!onlyGetOverlay)
             {
-                var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
-                if (thumbnailSize < 80) flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
-                var hres = fctry.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
-                if (hres == HRESULT.S_OK)
+                using var shellItem = new Vanara.Windows.Shell.ShellItem(path);
+                if (shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
                 {
-                    using var image = GetBitmapFromHBitmap(hbitmap);
-                    if (image != null)
+                    var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
+                    if (thumbnailSize < 80) flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
+                    var hres = fctry.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
+                    if (hres == HRESULT.S_OK)
                     {
-                        byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                        iconStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                        using var image = GetBitmapFromHBitmap(hbitmap);
+                        if (image != null)
+                        {
+                            byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                            iconStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                        }
                     }
+                    //Marshal.ReleaseComObject(fctry);
                 }
-                //Marshal.ReleaseComObject(fctry);
             }
 
             if (getOverlay)
@@ -144,16 +147,15 @@ namespace FilesFullTrust
                     Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
                 if (ret == IntPtr.Zero)
                 {
-                    return (iconStr, null, false);
+                    return (iconStr, null);
                 }
 
-                bool isCustom = true;
                 User32.DestroyIcon(shfi.hIcon);
                 Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var tmp);
                 using var imageList = ComCtl32.SafeHIMAGELIST.FromIImageList(tmp);
                 if (imageList.IsNull || imageList.IsInvalid)
                 {
-                    return (iconStr, null, isCustom);
+                    return (iconStr, null);
                 }
 
                 var overlayIdx = shfi.iIcon >> 24;
@@ -169,11 +171,11 @@ namespace FilesFullTrust
                     }
                 }
 
-                return (iconStr, overlayStr, isCustom);
+                return (iconStr, overlayStr);
             }
             else
             {
-                return (iconStr, null, false);
+                return (iconStr, null);
             }
         }
 
