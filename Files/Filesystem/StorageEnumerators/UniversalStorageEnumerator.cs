@@ -198,7 +198,7 @@ namespace Files.Filesystem.StorageEnumerators
             {
                 try
                 {
-                    var itemThumbnailImg = suppressThumbnailLoading ? null :
+                    using var itemThumbnailImg = suppressThumbnailLoading ? null :
                         await file.GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.UseCurrentScale);
                     if (itemThumbnailImg != null)
                     {
@@ -226,7 +226,7 @@ namespace Files.Filesystem.StorageEnumerators
             {
                 try
                 {
-                    var itemThumbnailImg = suppressThumbnailLoading ? null :
+                    using var itemThumbnailImg = suppressThumbnailLoading ? null :
                         await file.GetThumbnailAsync(ThumbnailMode.ListView, 80, ThumbnailOptions.UseCurrentScale);
                     if (itemThumbnailImg != null)
                     {

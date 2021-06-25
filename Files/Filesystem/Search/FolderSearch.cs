@@ -210,7 +210,7 @@ namespace Files.Filesystem.Search
             {
                 var file = (StorageFile)item;
                 var bitmapIcon = new BitmapImage();
-                var thumbnail = await file.GetThumbnailAsync(ThumbnailMode.ListView, ThumbnailSize, ThumbnailOptions.UseCurrentScale);
+                using var thumbnail = await file.GetThumbnailAsync(ThumbnailMode.ListView, ThumbnailSize, ThumbnailOptions.UseCurrentScale);
 
                 string itemFileExtension = null;
                 string itemType = null;

@@ -259,7 +259,7 @@ namespace Files.DataModels
 
                 if (res)
                 {
-                    var thumbnail = await res.Result.GetThumbnailAsync(
+                    using var thumbnail = await res.Result.GetThumbnailAsync(
                         Windows.Storage.FileProperties.ThumbnailMode.ListView,
                         24,
                         Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);

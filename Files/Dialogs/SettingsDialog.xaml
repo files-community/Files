@@ -44,13 +44,13 @@
         </Grid.ColumnDefinitions>
         <muxc:NavigationView
             x:Name="SettingsPane"
-            Grid.Column="0"
+            Grid.Column="0" Width="180"
             Margin="12,12,0,12"
             IsBackButtonVisible="Collapsed"
             IsBackEnabled="False"
             IsPaneOpen="True"
             IsPaneToggleButtonVisible="False"
-            IsSettingsVisible="False"
+            IsSettingsVisible="False" 
             IsTitleBarAutoPaddingEnabled="False"
             OpenPaneLength="180"
             PaneDisplayMode="Left"
