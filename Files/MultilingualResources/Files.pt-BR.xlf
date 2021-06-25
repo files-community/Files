@@ -2620,11 +2620,11 @@
         </trans-unit>
         <trans-unit id="ItemTimeText_Today" translate="yes" xml:space="preserve">
           <source>Today</source>
-          <target state="new">Today</target>
+          <target state="translated">Hoje</target>
         </trans-unit>
         <trans-unit id="ItemTimeText_Yesterday" translate="yes" xml:space="preserve">
           <source>Yesterday</source>
-          <target state="translated">Hoje</target>
+          <target state="translated">Ontem</target>
         </trans-unit>
         <trans-unit id="ItemTimeText_ThisWeek" translate="yes" xml:space="preserve">
           <source>Earlier this week</source>
