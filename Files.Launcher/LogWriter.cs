@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace FilesFullTrust
 {
@@ -26,7 +27,13 @@ namespace FilesFullTrust
             {
                 return;
             }
-            await FileIO.AppendTextAsync(logFile, $"\n{text}");
+            using var stream = await logFile.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.AllowOnlyReaders);
+            using var outputStream = stream.GetOutputStreamAt(stream.Size);
+            using var dataWriter = new DataWriter(outputStream);
+            dataWriter.WriteString("\n" + text);
+            await dataWriter.StoreAsync();
+            await outputStream.FlushAsync();
+
             Debug.WriteLine($"Logged event: {text}");
         }
     }
