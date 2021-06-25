@@ -3280,39 +3280,39 @@
         </trans-unit>
         <trans-unit id="DecompressArchiveDialog.Title" translate="yes" xml:space="preserve">
           <source>Select a destination and extract files</source>
-          <target state="new">Select a destination and extract files</target>
+          <target state="translated">Selecionar o destino e extrair os ficheiros</target>
         </trans-unit>
         <trans-unit id="DecompressArchiveDialogBrowseFolder.Content" translate="yes" xml:space="preserve">
           <source>Browse</source>
-          <target state="new">Browse</target>
+          <target state="translated">Procurar</target>
         </trans-unit>
         <trans-unit id="DecompressArchiveDialogOpenDestinationWhenComplete.Content" translate="yes" xml:space="preserve">
           <source>Open destination folder when complete</source>
-          <target state="new">Open destination folder when complete</target>
+          <target state="translated">Abrir pasta de destino quando completado</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutExtractFilesOption" translate="yes" xml:space="preserve">
           <source>Extract files</source>
-          <target state="new">Extract files</target>
+          <target state="translated">Extrair ficheiros</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutExtractHereOption" translate="yes" xml:space="preserve">
           <source>Extract here</source>
-          <target state="new">Extract here</target>
+          <target state="translated">Extrair aqui</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutExtractionOptions" translate="yes" xml:space="preserve">
           <source>Extract...</source>
-          <target state="new">Extract...</target>
+          <target state="translated">Extrair...</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutExtractToChildFolder" translate="yes" xml:space="preserve">
           <source>Extract to {0}\</source>
-          <target state="new">Extract to {0}\</target>
+          <target state="translated">Extrair para {0}\</target>
         </trans-unit>
         <trans-unit id="DetailsArchiveItemCount" translate="yes" xml:space="preserve">
           <source>{0} items ({1} files, {2} folders)</source>
-          <target state="new">{0} items ({1} files, {2} folders)</target>
+          <target state="translated">{0} itens ({1} ficheiros, {2} pastas)</target>
         </trans-unit>
         <trans-unit id="PropertyUncompressedSize" translate="yes" xml:space="preserve">
           <source>Uncompressed size</source>
-          <target state="new">Uncompressed size</target>
+          <target state="translated">Tamanho descomprimido</target>
         </trans-unit>
       </group>
     </body>
