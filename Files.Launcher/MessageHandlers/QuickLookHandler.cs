@@ -1,16 +1,36 @@
 ﻿using Files.Common;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
 using System.Security.Principal;
+using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 
-namespace FilesFullTrust
+namespace FilesFullTrust.MessageHandlers
 {
-    internal static class QuickLook
+    public class QuickLookHandler : MessageHandler
     {
         private static readonly Logger Logger = Program.Logger;
 
-        public static void ToggleQuickLook(string path)
+        public async Task ParseArgumentsAsync(NamedPipeServerStream connection, Dictionary<string, object> message, string arguments)
+        {
+            switch (arguments)
+            {
+                case "DetectQuickLook":
+                    // Check QuickLook Availability
+                    var available = CheckQuickLookAvailability();
+                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "IsAvailable", available } }, message.Get("RequestID", (string)null));
+                    break;
+
+                case "ToggleQuickLook":
+                    var path = (string)message["path"];
+                    ToggleQuickLook(path);
+                    break;
+            }
+        }
+
+        public void ToggleQuickLook(string path)
         {
             Logger.Info("Toggle QuickLook");
 
@@ -29,7 +49,7 @@ namespace FilesFullTrust
             }
         }
 
-        public static bool CheckQuickLookAvailability()
+        public bool CheckQuickLookAvailability()
         {
             static int QuickLookServerAvailable()
             {
@@ -68,6 +88,10 @@ namespace FilesFullTrust
                 Logger.Info(ex, ex.Message);
                 return false;
             }
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

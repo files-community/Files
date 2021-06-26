@@ -126,15 +126,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DeviceWatcher.cs" />
+    <Compile Include="Helpers\ShellFolderHelpers.cs" />
+    <Compile Include="Helpers\ThreadWithMessageQueue.cs" />
+    <Compile Include="MessageHandlers\LibrariesHandler.cs" />
     <Compile Include="LogWriter.cs" />
     <Compile Include="FilePermissions.cs" />
+    <Compile Include="MessageHandlers\ApplicationLaunchHandler.cs" />
+    <Compile Include="MessageHandlers\ContextMenuHandler.cs" />
+    <Compile Include="MessageHandlers\FileOperationsHandler.cs" />
+    <Compile Include="MessageHandlers\MessageHandler.cs" />
+    <Compile Include="MessageHandlers\NetworkDrivesHandler.cs" />
+    <Compile Include="MessageHandlers\RecycleBinHandler.cs" />
+    <Compile Include="MessageHandlers\Win32MessageHandler.cs" />
     <Compile Include="NetworkDrivesAPI.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QuickLook.cs" />
-    <Compile Include="RemoteDataObject.cs" />
+    <Compile Include="MessageHandlers\QuickLookHandler.cs" />
+    <Compile Include="Helpers\RemoteDataObject.cs" />
     <Compile Include="Win32API.cs" />
-    <Compile Include="Win32API_ContextMenu.cs" />
+    <Compile Include="ContextMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

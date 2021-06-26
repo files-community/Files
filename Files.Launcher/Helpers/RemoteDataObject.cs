@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using Vanara.PInvoke;
 using STATSTG = System.Runtime.InteropServices.ComTypes.STATSTG;
 
-namespace FilesFullTrust
+namespace FilesFullTrust.Helpers
 {
     // Class taken from Rx-Explorer (https://github.com/zhuxb711/RX-Explorer)
     public class RemoteDataObject
