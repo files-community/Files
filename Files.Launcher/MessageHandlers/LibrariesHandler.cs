@@ -19,7 +19,7 @@ namespace FilesFullTrust.MessageHandlers
 
         private FileSystemWatcher librariesWatcher;
 
-        public LibrariesHandler(NamedPipeServerStream connection)
+        public void Initialize(NamedPipeServerStream connection)
         {
             this.connection = connection;
 

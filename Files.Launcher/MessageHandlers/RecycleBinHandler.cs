@@ -20,7 +20,7 @@ namespace FilesFullTrust.MessageHandlers
         private IList<FileSystemWatcher> binWatchers;
         private NamedPipeServerStream connection;
 
-        public RecycleBinHandler(NamedPipeServerStream connection)
+        public void Initialize(NamedPipeServerStream connection)
         {
             this.connection = connection;
 

@@ -37,20 +37,23 @@ namespace FilesFullTrust
 
             try
             {
-                // Connect to app service and wait until the connection gets closed
-                appServiceExit = new ManualResetEvent(false);
-                InitializeAppServiceConnection();
-
-                // Initialize message handlers
+                // Create message handlers
                 messageHandlers = new List<MessageHandler>();
-                messageHandlers.Add(new RecycleBinHandler(connection));
-                messageHandlers.Add(new LibrariesHandler(connection));
+                messageHandlers.Add(new RecycleBinHandler());
+                messageHandlers.Add(new LibrariesHandler());
                 messageHandlers.Add(new ApplicationLaunchHandler());
                 messageHandlers.Add(new NetworkDrivesHandler());
                 messageHandlers.Add(new FileOperationsHandler());
                 messageHandlers.Add(new ContextMenuHandler());
                 messageHandlers.Add(new QuickLookHandler());
                 messageHandlers.Add(new Win32MessageHandler());
+
+                // Connect to app service and wait until the connection gets closed
+                appServiceExit = new ManualResetEvent(false);
+                InitializeAppServiceConnection();
+
+                // Initialize message handlers
+                messageHandlers.ForEach(mh => mh.Initialize(connection));
 
                 // Initialize device watcher
                 deviceWatcher = new DeviceWatcher(connection);

@@ -21,7 +21,10 @@ namespace FilesFullTrust.MessageHandlers
         {
             // Create handle table to store context menu references
             handleTable = new DisposableDictionary();
+        }
 
+        public void Initialize(NamedPipeServerStream connection)
+        {
             // Preload context menu for better performance
             // We query the context menu for the app's local folder
             var preloadPath = ApplicationData.Current.LocalFolder.Path;

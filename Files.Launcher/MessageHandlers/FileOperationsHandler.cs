@@ -15,6 +15,10 @@ namespace FilesFullTrust.MessageHandlers
 {
     public class FileOperationsHandler : MessageHandler
     {
+        public void Initialize(NamedPipeServerStream connection)
+        {
+        }
+
         public async Task ParseArgumentsAsync(NamedPipeServerStream connection, Dictionary<string, object> message, string arguments)
         {
             switch (arguments)
