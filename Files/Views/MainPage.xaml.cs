@@ -437,6 +437,7 @@ namespace Files.Views
         {
             UpdatePreviewPaneProperties();
             UpdatePositioning();
+            PreviewPane.Model.UpdateSelectedItemPreview();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
