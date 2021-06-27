@@ -437,6 +437,42 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show drives section].
+        /// </summary>
+        public bool ShowDrivesSection
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [show cloud drives section].
+        /// </summary>
+        public bool ShowCloudDrivesSection
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [show network drives section].
+        /// </summary>
+        public bool ShowNetworkDrivesSection
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [show wsl section].
+        /// </summary>
+        public bool ShowWslSection
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         //TODO: This shouldn't pin recycle bin to the sidebar, it should only hold the value whether it should or shouldn't be pinned
         /// <summary>
         /// Gets or sets a value indicating whether or not recycle bin should be pinned to the sidebar.

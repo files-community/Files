@@ -51,6 +51,11 @@ namespace Files.Filesystem
 
         public async Task EnumerateDrivesAsync()
         {
+            if (!App.AppSettings.ShowNetworkDrivesSection)
+            {
+                return;
+            }
+
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
             {
@@ -112,10 +117,8 @@ namespace Files.Filesystem
                 await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    SidebarControl.SideBarItems.BeginBulkOperation();
-
                     var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalized()) as LocationItem;
-                    if (section == null)
+                    if (App.AppSettings.ShowNetworkDrivesSection && section == null)
                     {
                         section = new LocationItem()
                         {
@@ -125,7 +128,11 @@ namespace Files.Filesystem
                             Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.NetworkDrives).Image),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
-                        SidebarControl.SideBarItems.Add(section);
+                        var index = 1 +
+                                    Convert.ToInt32(App.AppSettings.ShowLibrarySection) +
+                                    Convert.ToInt32(App.AppSettings.ShowDrivesSection) +
+                                    Convert.ToInt32(App.AppSettings.ShowCloudDrivesSection); // After cloud section
+                        SidebarControl.SideBarItems.Insert(index, section);
                     }
 
                     if (section != null)
@@ -141,14 +148,38 @@ namespace Files.Filesystem
                             }
                         }
                     }
-
-                    SidebarControl.SideBarItems.EndBulkOperation();
                 }
                 finally
                 {
                     SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
+        }
+
+        private void RemoveNetworkDrivesSideBarSection()
+        {
+            try
+            {
+                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarNetworkDrives".GetLocalized()) select n).FirstOrDefault();
+                if (!App.AppSettings.ShowNetworkDrivesSection && item != null)
+                {
+                    SidebarControl.SideBarItems.Remove(item);
+                }
+            }
+            catch (Exception)
+            { }
+        }
+
+        public async void UpdateNetworkDrivesSectionVisibility()
+        {
+            if (App.AppSettings.ShowNetworkDrivesSection)
+            {
+                await EnumerateDrivesAsync();
+            }
+            else
+            {
+                RemoveNetworkDrivesSideBarSection();
+            }
         }
     }
 }
