@@ -128,7 +128,7 @@ namespace Files.Filesystem
                             Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.NetworkDrives).Image),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
-                        var index = 1 +
+                        var index =
                                     Convert.ToInt32(App.AppSettings.ShowLibrarySection) +
                                     Convert.ToInt32(App.AppSettings.ShowDrivesSection) +
                                     Convert.ToInt32(App.AppSettings.ShowCloudDrivesSection); // After cloud section
