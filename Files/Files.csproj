@@ -204,6 +204,7 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\FileIconInfoExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
+    <Compile Include="Extensions\KeyboardAcceleratorExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Filesystem\Permissions\FilePermissionsManager.cs" />
     <Compile Include="Filesystem\Permissions\FileSystemAccessRule.cs" />

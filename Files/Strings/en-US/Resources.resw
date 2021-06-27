@@ -2568,6 +2568,12 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Close pane</value>
   </data>
+  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+    <value>Enter compact overlay</value>
+  </data>
+  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+    <value>Exit compact overlay</value>
+</data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>File description</value>
   </data>
