@@ -246,6 +246,11 @@ namespace Files.UserControls
             {
                 AppSettings.PinRecycleBinToSideBar = false;
             }
+            else if ("SidebarFavorites".GetLocalized().Equals(RightClickedItem.Text))
+            {
+                AppSettings.ShowFavoritesSection = false;
+                App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
+            }
             else if ("SidebarLibraries".GetLocalized().Equals(RightClickedItem.Text))
             {
                 AppSettings.ShowLibrarySection = false;
@@ -344,6 +349,11 @@ namespace Files.UserControls
                 ShowUnpinItem = ((library || favorite) && !item.IsDefaultLocation);
                 ShowEjectDevice = false;
 
+                if (string.Equals(item.Path, "Home", StringComparison.OrdinalIgnoreCase))
+                {
+                    ShowProperties = false;
+                }
+
                 if (string.Equals(item.Path, AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
                     RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
@@ -359,7 +369,7 @@ namespace Files.UserControls
                 RightClickedItem = item;
                 SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
             }
-            else if (!favoritesHeader)
+            else
             {
                 IsLocationItem = false;
                 ShowProperties = false;
@@ -764,9 +774,9 @@ namespace Files.UserControls
                 SetSize(step);
                 e.Handled = true;
             }
-            
+
             // if the user focuses the resizer and attempts to resize while the pane is closed, open it
-            if(!IsPaneOpen && DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right))
+            if (!IsPaneOpen && DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right))
             {
                 IsPaneOpen = true;
             }
@@ -791,7 +801,7 @@ namespace Files.UserControls
 
         private void Border_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            if(!dragging) // keep showing pressed event if currently resizing the sidebar
+            if (!dragging) // keep showing pressed event if currently resizing the sidebar
             {
                 Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
@@ -800,10 +810,10 @@ namespace Files.UserControls
 
         private void SetSize(double val)
         {
-            if(IsPaneOpen)
+            if (IsPaneOpen)
             {
                 var newSize = originalSize + val;
-                if(newSize <= Constants.UI.MaximumSidebarWidth && newSize >= Constants.UI.MinimumSidebarWidth)
+                if (newSize <= Constants.UI.MaximumSidebarWidth && newSize >= Constants.UI.MinimumSidebarWidth)
                 {
                     OpenPaneLength = newSize; // passing a negative value will cause an exception
                 }
@@ -815,7 +825,8 @@ namespace Files.UserControls
                         IsPaneOpen = false;
                     }
                 }
-            } else
+            }
+            else
             {
                 if (val >= Constants.UI.MinimumSidebarWidth - CompactPaneLength)
                 {
@@ -827,7 +838,7 @@ namespace Files.UserControls
 
         private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            if(DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
+            if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
             {
                 Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPointerOver", true);

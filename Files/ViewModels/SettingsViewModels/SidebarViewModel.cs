@@ -6,6 +6,7 @@ namespace Files.ViewModels.SettingsViewModels
     public class SidebarViewModel : ObservableObject
     {
         private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
+        private bool showFavoritesSection = App.AppSettings.ShowFavoritesSection;
         private bool showLibrarySection = App.AppSettings.ShowLibrarySection;
         private bool showDrivesSection = App.AppSettings.ShowDrivesSection;
         private bool showCloudDrivesSection = App.AppSettings.ShowCloudDrivesSection;
@@ -27,6 +28,22 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref pinRecycleBinToSideBar, value))
                 {
                     App.AppSettings.PinRecycleBinToSideBar = value;
+                }
+            }
+        }
+
+        public bool ShowFavoritesSection
+        {
+            get
+            {
+                return showFavoritesSection;
+            }
+            set
+            {
+                if (SetProperty(ref showFavoritesSection, value))
+                {
+                    App.AppSettings.ShowFavoritesSection = value;
+                    App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
                 }
             }
         }

@@ -37,6 +37,12 @@
                     IsOn="{Binding PinRecycleBinToSideBar, Mode=TwoWay}" />
 
                 <ToggleSwitch
+                    x:Name="ShowFavoritesSection"
+                    x:Uid="SettingsShowFavoritesSection"
+                    Header="Show favorites section on the sidebar"
+                    IsOn="{Binding ShowFavoritesSection, Mode=TwoWay}" />
+
+                <ToggleSwitch
                     x:Name="ShowLibrarySection"
                     x:Uid="SettingsShowLibrarySection"
                     Header="Show library section on the sidebar"
