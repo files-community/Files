@@ -59,11 +59,6 @@ namespace Files.DataModels
             FavoriteItems.Add(udp.Documents);
         }
 
-        public async void UpdateFavoritesSectionVisibility()
-        {
-            await AddAllItemsToSidebar();
-        }
-
         /// <summary>
         /// Gets the items from the navigation page
         /// </summary>
@@ -88,11 +83,6 @@ namespace Files.DataModels
 
         public async Task ShowHideRecycleBinItemAsync(bool show)
         {
-            if (!App.AppSettings.ShowFavoritesSection || favoriteSection == null)
-            {
-                return;
-            }
-
             await SidebarControl.SideBarItemsSemaphore.WaitAsync();
             try
             {
@@ -313,6 +303,13 @@ namespace Files.DataModels
         /// </summary>
         public async Task AddAllItemsToSidebar()
         {
+            await SidebarControl.SideBarItemsSemaphore.WaitAsync();
+
+            if (IconResources is null)
+            {
+                IconResources = (await SidebarViewModel.LoadSidebarIconResources())?.ToList();
+            }
+
             homeSection = new LocationItem()
             {
                 Text = "SidebarHome".GetLocalized(),
@@ -323,59 +320,36 @@ namespace Files.DataModels
                 Path = "Home",
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
-
-            if (IconResources is null)
+            favoriteSection = new LocationItem()
             {
-                IconResources = (await SidebarViewModel.LoadSidebarIconResources())?.ToList();
-            }
-
-            await SidebarControl.SideBarItemsSemaphore.WaitAsync();
+                Text = "SidebarFavorites".GetLocalized(),
+                Section = SectionType.Favorites,
+                SelectsOnInvoked = false,
+                Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.Shell32.QuickAccess).Image),
+                Font = MainViewModel.FontName,
+                ChildItems = new ObservableCollection<INavigationControlItem>()
+            };
             try
             {
-                if (!App.AppSettings.ShowFavoritesSection)
-                {
-                    var favorites = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarFavorites".GetLocalized()) as LocationItem;
-                    if (favorites != null)
-                    {
-                        SidebarControl.SideBarItems.Remove(favorites);
-                    }
-                    var home = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarHome".GetLocalized()) as LocationItem;
-                    if (home == null)
-                    {
-                        SidebarControl.SideBarItems.Insert(0, homeSection);
-                    }
-                }
-                else
-                {
-                    favoriteSection = new LocationItem()
-                    {
-                        Text = "SidebarFavorites".GetLocalized(),
-                        Section = SectionType.Favorites,
-                        SelectsOnInvoked = false,
-                        Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.Shell32.QuickAccess).Image),
-                        Font = MainViewModel.FontName,
-                        ChildItems = new ObservableCollection<INavigationControlItem>()
-                    };
+                SidebarControl.SideBarItems.BeginBulkOperation();
 
+                if (homeSection != null)
+                {
                     AddItemToSidebarAsync(homeSection);
-
-                    for (int i = 0; i < FavoriteItems.Count(); i++)
-                    {
-                        string path = FavoriteItems[i];
-                        await AddItemToSidebarAsync(path);
-                    }
-
-                    var home = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarHome".GetLocalized()) as LocationItem;
-                    if (home != null)
-                    {
-                        SidebarControl.SideBarItems.Remove(home);
-                    }
-                    var favorites = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarFavorites".GetLocalized()) as LocationItem;
-                    if (favorites == null)
-                    {
-                        SidebarControl.SideBarItems.Insert(0, favoriteSection);
-                    }
                 }
+
+                for (int i = 0; i < FavoriteItems.Count(); i++)
+                {
+                    string path = FavoriteItems[i];
+                    await AddItemToSidebarAsync(path);
+                }
+
+                if (!SidebarControl.SideBarItems.Contains(favoriteSection))
+                {
+                    SidebarControl.SideBarItems.Add(favoriteSection);
+                }
+
+                SidebarControl.SideBarItems.EndBulkOperation();
             }
             finally
             {

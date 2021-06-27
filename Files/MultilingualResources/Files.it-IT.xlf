@@ -3323,10 +3323,6 @@
           <source>Show drives section on the sidebar</source>
           <target state="translated">Mostra i dischi sulla barra laterale</target>
         </trans-unit>
-        <trans-unit id="SettingsShowFavoritesSection.Header" translate="yes" xml:space="preserve">
-          <source>Show favorites section on the sidebar</source>
-          <target state="translated">Mostra i preferiti sulla barra laterale</target>
-        </trans-unit>
         <trans-unit id="SettingsShowWslSection.Header" translate="yes" xml:space="preserve">
           <source>Show WSL section on the sidebar</source>
           <target state="translated">Mostra la sezione WSL sulla barra laterale</target>
