@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Files.UserControls.Selection
 {
@@ -13,18 +14,30 @@ namespace Files.UserControls.Selection
 
         public override void HandleIntersectionWithItem(object item)
         {
-            if (!selectedItems.Contains(item))
+            try
             {
-                selectedItems.Add(item);
+                if (!selectedItems.Contains(item))
+                {
+                    selectedItems.Add(item);
+                }
+            }
+            catch (COMException) // List is being modified
+            {
             }
         }
 
         public override void HandleNoIntersectionWithItem(object item)
         {
-            // Restore selection on items not intersecting with the rectangle
-            if (!prevSelectedItems.Contains(item))
+            try
             {
-                selectedItems.Remove(item);
+                // Restore selection on items not intersecting with the rectangle
+                if (!prevSelectedItems.Contains(item))
+                {
+                    selectedItems.Remove(item);
+                }
+            }
+            catch (COMException) // List is being modified
+            {
             }
         }
     }
