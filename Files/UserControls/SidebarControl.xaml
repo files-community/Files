@@ -143,46 +143,6 @@
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
-                        x:Name="UnpinFavoritesSections"
-                        x:Uid="SideBarUnpinFavoritesSections"
-                        x:Load="{x:Bind IsFavoritesHeader, Mode=OneWay}"
-                        Click="{x:Bind UnpinFromSidebar_Click}"
-                        Text="Unpin from sidebar">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE77A;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        x:Name="UnpinDrivesSections"
-                        x:Uid="SideBarUnpinDrivesSections"
-                        x:Load="{x:Bind IsDrivesHeader, Mode=OneWay}"
-                        Click="{x:Bind UnpinFromSidebar_Click}"
-                        Text="Unpin from sidebar">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE77A;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        x:Name="UnpinCloudDrivesSections"
-                        x:Uid="SideBarUnpinCloudDrivesSections"
-                        x:Load="{x:Bind IsCloudDrivesHeader, Mode=OneWay}"
-                        Click="{x:Bind UnpinFromSidebar_Click}"
-                        Text="Unpin from sidebar">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE77A;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        x:Name="UnpinNetworkDrivesSections"
-                        x:Uid="SideBarUnpinNetworkDrivesSections"
-                        x:Load="{x:Bind IsNetworkDrivesHeader, Mode=OneWay}"
-                        Click="{x:Bind UnpinFromSidebar_Click}"
-                        Text="Unpin from sidebar">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE77A;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
                         x:Name="EmptyRecycleBin"
                         x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
                         x:Load="{x:Bind ShowEmptyRecycleBin, Mode=OneWay}"
@@ -246,7 +206,7 @@
                     <MenuFlyoutItem
                         x:Name="PropertiesFolder"
                         x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
-                        x:Load="{x:Bind IsLocationItem, Mode=OneWay}"
+                        x:Load="{x:Bind ShowProperties, Mode=OneWay}"
                         Click="Properties_Click"
                         Text="Properties">
                         <MenuFlyoutItem.Icon>

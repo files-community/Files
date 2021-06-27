@@ -115,6 +115,8 @@ namespace Files.Helpers
                 Data = data
             };
 
+            thumbnail?.Result?.Dispose();
+
             return entry;
         }
 

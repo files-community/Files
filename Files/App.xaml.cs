@@ -45,7 +45,6 @@ namespace Files
         public static MainViewModel MainViewModel { get; private set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
-        public static FavoritesManager FavoritesManager { get; private set; } 
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
         public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
         public static DrivesManager DrivesManager { get; private set; }
@@ -99,7 +98,6 @@ namespace Files
             DrivesManager ??= new DrivesManager();
             NetworkDrivesManager ??= new NetworkDrivesManager();
             CloudDrivesManager ??= new CloudDrivesManager();
-            FavoritesManager ??= new FavoritesManager();
             WSLDistroManager ??= new WSLDistroManager();
 
             // Start off a list of tasks we need to run before we can continue startup

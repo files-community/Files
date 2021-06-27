@@ -429,6 +429,15 @@ namespace Files.ViewModels
         #region Sidebar
 
         /// <summary>
+        /// Gets or sets a value indicating whether [show favorites section].
+        /// </summary>
+        public bool ShowFavoritesSection
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not to show the library section on the sidebar.
         /// </summary>
         public bool ShowLibrarySection
@@ -438,48 +447,36 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether [show favorites section].
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if [show favorites section]; otherwise, <c>false</c>.
-        /// </value>
-        public bool ShowFavoritesSection
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating whether [show drives section].
         /// </summary>
-        /// <value>
-        ///   <c>true</c> if [show drives section]; otherwise, <c>false</c>.
-        /// </value>
         public bool ShowDrivesSection
         {
-            get => Get(false);
+            get => Get(true);
             set => Set(value);
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether [show cloud drives section].
         /// </summary>
-        /// <value>
-        ///   <c>true</c> if [show cloud drives section]; otherwise, <c>false</c>.
-        /// </value>
         public bool ShowCloudDrivesSection
         {
-            get => Get(false);
+            get => Get(true);
             set => Set(value);
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether [show network drives section].
         /// </summary>
-        /// <value>
-        ///   <c>true</c> if [show network drives section]; otherwise, <c>false</c>.
-        /// </value>
         public bool ShowNetworkDrivesSection
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [show wsl section].
+        /// </summary>
+        public bool ShowWslSection
         {
             get => Get(false);
             set => Set(value);

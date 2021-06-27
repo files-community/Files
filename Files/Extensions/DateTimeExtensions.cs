@@ -6,37 +6,45 @@ namespace Files.Extensions
 {
     public static class DateTimeExtensions
     {
-        public static string GetFriendlyDateFromFormat(this DateTimeOffset d, string returnFormat)
+        public static string GetFriendlyDateFromFormat(this DateTimeOffset d, string returnFormat, bool isDetailed = false)
         {
             var elapsed = DateTimeOffset.Now - d;
 
-            if (elapsed.TotalDays > 7 || returnFormat == "g")
+            if (d.Year == 1601)
+            {
+                return " ";
+            }
+            else if (isDetailed && returnFormat != "g" && elapsed.TotalDays < 7)
+            {
+                return d.ToLocalTime().ToString(returnFormat) + " (" + GetFriendlyDateFromFormat(d, returnFormat) + ")";
+            }
+            else if (elapsed.TotalDays >= 7 || returnFormat == "g")
             {
                 return d.ToLocalTime().ToString(returnFormat);
             }
-            else if (elapsed.TotalDays > 2)
+            else if (elapsed.TotalDays >= 2)
             {
                 return string.Format("DaysAgo".GetLocalized(), elapsed.Days);
             }
-            else if (elapsed.TotalDays > 1)
+            else if (elapsed.TotalDays >= 1)
             {
                 return string.Format("DayAgo".GetLocalized(), elapsed.Days);
             }
-            else if (elapsed.TotalHours > 2)
+            else if (elapsed.TotalHours >= 2)
             {
                 return string.Format("HoursAgo".GetLocalized(), elapsed.Hours);
             }
-            else if (elapsed.TotalHours > 1)
+            else if (elapsed.TotalHours >= 1)
             {
-                return string.Format("HoursAgo".GetLocalized(), elapsed.Hours);
+                return string.Format("HourAgo".GetLocalized(), elapsed.Hours);
             }
-            else if (elapsed.TotalMinutes > 2)
+            else if (elapsed.TotalMinutes >= 2)
             {
                 return string.Format("MinutesAgo".GetLocalized(), elapsed.Minutes);
             }
-            else if (elapsed.TotalMinutes > 1)
+            else if (elapsed.TotalMinutes >= 1)
             {
-                return string.Format("MinutesAgo".GetLocalized(), elapsed.Minutes);
+                return string.Format("MinuteAgo".GetLocalized(), elapsed.Minutes);
             }
             else
             {

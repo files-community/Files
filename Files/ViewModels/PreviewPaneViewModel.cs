@@ -206,6 +206,13 @@ namespace Files.ViewModels
                 return new CodePreview(model);
             }
 
+            if (ArchivePreviewViewModel.Extensions.Contains(ext))
+            {
+                var model = new ArchivePreviewViewModel(item);
+                await model.LoadAsync();
+                return new BasicPreview(model);
+            }
+
             var control = await TextPreviewViewModel.TryLoadAsTextAsync(SelectedItem);
             if (control != null)
             {
@@ -272,7 +279,7 @@ namespace Files.ViewModels
                     PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
                 }
             }
-            else if (!IsItemSelected)
+            else if (IsItemSelected)
             {
                 PreviewPaneContent = null;
                 PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;

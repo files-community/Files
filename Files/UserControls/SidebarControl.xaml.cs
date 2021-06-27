@@ -78,7 +78,7 @@ namespace Files.UserControls
         {
             this.InitializeComponent();
             this.Loaded += SidebarNavView_Loaded;
-            
+
             dragOverSectionTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             dragOverItemTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
@@ -140,7 +140,7 @@ namespace Files.UserControls
                 }
             }
         }
-                
+
         private bool showProperties;
 
         public bool ShowProperties
@@ -231,102 +231,6 @@ namespace Files.UserControls
             }
         }
 
-        /// <summary>
-        /// The is favorites header
-        /// </summary>
-        private bool isFavoritesHeader;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance is favorites header.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is favorites header; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsFavoritesHeader
-        {
-            get => isFavoritesHeader;
-            set
-            {
-                if (value != isFavoritesHeader)
-                {
-                    isFavoritesHeader = value;
-                    NotifyPropertyChanged(nameof(IsFavoritesHeader));
-                }
-            }
-        }
-
-        /// <summary>
-        /// The is drives header
-        /// </summary>
-        private bool isDrivesHeader;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance is drives header.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is drives header; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsDrivesHeader
-        {
-            get => isDrivesHeader;
-            set
-            {
-                if (value != isDrivesHeader)
-                {
-                    isDrivesHeader = value;
-                    NotifyPropertyChanged(nameof(IsDrivesHeader));
-                }
-            }
-        }
-
-        /// <summary>
-        /// The is cloud drives header
-        /// </summary>
-        private bool isCloudDrivesHeader;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance is cloud drives header.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is cloud drives header; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsCloudDrivesHeader
-        {
-            get => isCloudDrivesHeader;
-            set
-            {
-                if (value != isCloudDrivesHeader)
-                {
-                    isCloudDrivesHeader = value;
-                    NotifyPropertyChanged(nameof(IsCloudDrivesHeader));
-                }
-            }
-        }
-
-        /// <summary>
-        /// The is network drives header
-        /// </summary>
-        private bool isNetworkDrivesHeader;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance is network drives header.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is network drives header; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsNetworkDrivesHeader
-        {
-            get => isNetworkDrivesHeader;
-            set
-            {
-                if (value != isNetworkDrivesHeader)
-                {
-                    isNetworkDrivesHeader = value;
-                    NotifyPropertyChanged(nameof(IsNetworkDrivesHeader));
-                }
-            }
-        }
-
         public INavigationControlItem RightClickedItem;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -342,34 +246,39 @@ namespace Files.UserControls
             {
                 AppSettings.PinRecycleBinToSideBar = false;
             }
+            else if ("SidebarFavorites".GetLocalized().Equals(RightClickedItem.Text))
+            {
+                AppSettings.ShowFavoritesSection = false;
+                App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
+            }
             else if ("SidebarLibraries".GetLocalized().Equals(RightClickedItem.Text))
             {
                 AppSettings.ShowLibrarySection = false;
                 App.LibraryManager.UpdateLibrariesSectionVisibility();
             }
-        }
-
-        public void UnpinFromSidebar_Click(object sender, RoutedEventArgs e)
-        {
-            if (RightClickedItem.Section == SectionType.Favorites)
-            {
-                AppSettings.ShowFavoritesSection = false;
-                App.FavoritesManager.UpdateFavoritesSectionVisibility();
-            }
-            else if (RightClickedItem.Section == SectionType.CloudDrives)
+            else if ("SidebarCloudDrives".GetLocalized().Equals(RightClickedItem.Text))
             {
                 AppSettings.ShowCloudDrivesSection = false;
                 App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
             }
-            else if (RightClickedItem.Section == SectionType.Drives)
+            else if ("SidebarDrives".GetLocalized().Equals(RightClickedItem.Text))
             {
                 AppSettings.ShowDrivesSection = false;
                 App.DrivesManager.UpdateDrivesSectionVisibility();
             }
-            else if (RightClickedItem.Section == SectionType.Network)
+            else if ("SidebarNetworkDrives".GetLocalized().Equals(RightClickedItem.Text))
             {
                 AppSettings.ShowNetworkDrivesSection = false;
                 App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
+            }
+            else if ("WSL".GetLocalized().Equals(RightClickedItem.Text))
+            {
+                AppSettings.ShowWslSection = false;
+                App.WSLDistroManager.UpdateWslSectionVisibility();
+            }
+            else if (RightClickedItem.Section == SectionType.Favorites)
+            {
+                App.SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
             }
         }
 
@@ -429,16 +338,21 @@ namespace Files.UserControls
             bool favoritesHeader = "SidebarFavorites".GetLocalized().Equals(item.Text);
             bool header = drivesHeader || networkDrivesHeader || cloudDrivesHeader || librariesHeader || wslHeader || favoritesHeader;
 
-            if (!header || librariesHeader)
+            if (!header)
             {
-                bool library = !header && item.Section == SectionType.Library;
-                bool favorite = !header && item.Section == SectionType.Favorites;
+                bool library = item.Section == SectionType.Library;
+                bool favorite = item.Section == SectionType.Favorites;
 
-                IsLocationItem = !header;
-                ShowProperties = !header;
-                IsLibrariesHeader = librariesHeader;
-                ShowUnpinItem = librariesHeader || ((library || favorite) && !item.IsDefaultLocation);
+                IsLocationItem = true;
+                ShowProperties = true;
+                IsLibrariesHeader = false;
+                ShowUnpinItem = ((library || favorite) && !item.IsDefaultLocation);
                 ShowEjectDevice = false;
+
+                if (string.Equals(item.Path, "Home", StringComparison.OrdinalIgnoreCase))
+                {
+                    ShowProperties = false;
+                }
 
                 if (string.Equals(item.Path, AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
@@ -455,70 +369,12 @@ namespace Files.UserControls
                 RightClickedItem = item;
                 SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
             }
-            else if (!header || favoritesHeader)
+            else
             {
-                IsLocationItem = !header;
-                ShowProperties = !header;
-                IsFavoritesHeader = favoritesHeader;
-                IsLibrariesHeader = false;
-
-                ShowUnpinItem = false;
-                ShowEjectDevice = false;
-                ShowEmptyRecycleBin = false;
-
-                RightClickedItem = item;
-                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
-            }
-            else if (!header || drivesHeader)
-            {
-                IsLocationItem = !header;
-                ShowProperties = !header;
-                IsFavoritesHeader = drivesHeader;
-                IsLibrariesHeader = false;
-                
-                ShowUnpinItem = false;
-                ShowEjectDevice = false;
-                ShowEmptyRecycleBin = false;
-
-                RightClickedItem = item;
-                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
-            }
-            else if (!header || networkDrivesHeader)
-            {
-                IsLocationItem = !header;
-                ShowProperties = !header;
-                IsFavoritesHeader = networkDrivesHeader;
-                IsLibrariesHeader = false;
-
-                ShowUnpinItem = false;
-                ShowEjectDevice = false;
-                ShowEmptyRecycleBin = false;
-
-                RightClickedItem = item;
-                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
-            }
-            else if (!header || cloudDrivesHeader)
-            {
-                IsLocationItem = !header;
-                ShowProperties = !header;
-                IsFavoritesHeader = cloudDrivesHeader;
-                IsLibrariesHeader = false;
-
-                ShowUnpinItem = false;
-                ShowEjectDevice = false;
-                ShowEmptyRecycleBin = false;
-
-                RightClickedItem = item;
-                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
-            }
-            else if (!header || wslHeader)
-            {
-                IsLocationItem = !header;
-                ShowProperties = !header;
-                IsFavoritesHeader = wslHeader;
-                IsLibrariesHeader = false;
-
-                ShowUnpinItem = false;
+                IsLocationItem = false;
+                ShowProperties = false;
+                IsLibrariesHeader = librariesHeader;
+                ShowUnpinItem = true;
                 ShowEjectDevice = false;
                 ShowEmptyRecycleBin = false;
 
@@ -918,9 +774,9 @@ namespace Files.UserControls
                 SetSize(step);
                 e.Handled = true;
             }
-            
+
             // if the user focuses the resizer and attempts to resize while the pane is closed, open it
-            if(!IsPaneOpen && DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right))
+            if (!IsPaneOpen && DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right))
             {
                 IsPaneOpen = true;
             }
@@ -945,7 +801,7 @@ namespace Files.UserControls
 
         private void Border_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            if(!dragging) // keep showing pressed event if currently resizing the sidebar
+            if (!dragging) // keep showing pressed event if currently resizing the sidebar
             {
                 Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
@@ -954,10 +810,10 @@ namespace Files.UserControls
 
         private void SetSize(double val)
         {
-            if(IsPaneOpen)
+            if (IsPaneOpen)
             {
                 var newSize = originalSize + val;
-                if(newSize <= Constants.UI.MaximumSidebarWidth && newSize >= Constants.UI.MinimumSidebarWidth)
+                if (newSize <= Constants.UI.MaximumSidebarWidth && newSize >= Constants.UI.MinimumSidebarWidth)
                 {
                     OpenPaneLength = newSize; // passing a negative value will cause an exception
                 }
@@ -969,7 +825,8 @@ namespace Files.UserControls
                         IsPaneOpen = false;
                     }
                 }
-            } else
+            }
+            else
             {
                 if (val >= Constants.UI.MinimumSidebarWidth - CompactPaneLength)
                 {
@@ -981,7 +838,7 @@ namespace Files.UserControls
 
         private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            if(DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
+            if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
             {
                 Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPointerOver", true);

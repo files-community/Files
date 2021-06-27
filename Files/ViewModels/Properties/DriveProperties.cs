@@ -52,7 +52,7 @@ namespace Files.ViewModels.Properties
             {
                 if (ViewModel.LoadFileIcon)
                 {
-                    var thumbnail = await diskRoot.GetThumbnailAsync(ThumbnailMode.SingleItem, 80, ThumbnailOptions.UseCurrentScale);
+                    using var thumbnail = await diskRoot.GetThumbnailAsync(ThumbnailMode.SingleItem, 80, ThumbnailOptions.UseCurrentScale);
                     ViewModel.IconData = await thumbnail.ToByteArrayAsync();
                 }
 

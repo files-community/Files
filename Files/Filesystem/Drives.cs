@@ -27,9 +27,6 @@ namespace Files.Filesystem
     {
         private static readonly Logger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
-        
-        private LocationItem drivesSection;
-        public BulkConcurrentObservableCollection<DrivesLocationItem> DriveItems { get; } = new BulkConcurrentObservableCollection<DrivesLocationItem>();
 
         public IReadOnlyList<DriveItem> Drives
         {
@@ -80,87 +77,6 @@ namespace Files.Filesystem
             driveEnumInProgress = false;
         }
 
-        public async Task DrivesEnumeratorAsync()
-        {
-            try
-            {
-                await SyncDrivesSideBarItemsUI();
-            }
-            catch (Exception) // UI Thread not ready yet, so we defer the pervious operation until it is.
-            {
-                System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
-                // Defer because UI-thread is not ready yet (and DriveItem requires it?)
-                CoreApplication.MainView.Activated += EnumerateDrivesAsync;
-            }
-        }
-
-        private async void EnumerateDrivesAsync(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
-        {
-            await SyncDrivesSideBarItemsUI();
-            CoreApplication.MainView.Activated -= EnumerateDrivesAsync;
-        }
-
-        private async Task SyncDrivesSideBarItemsUI()
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                if (App.AppSettings.ShowDrivesSection && !SidebarControl.SideBarItems.Contains(drivesSection))
-                {
-                    await SidebarControl.SideBarItemsSemaphore.WaitAsync();
-                    try
-                    {
-                        SidebarControl.SideBarItems.BeginBulkOperation();
-                        drivesSection = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) as LocationItem;
-
-                        if (drivesSection == null)
-                        {
-                            drivesSection = new LocationItem
-                            {
-                                Text = "SidebarDrives".GetLocalized(),
-                                Section = SectionType.Drives,
-                                SelectsOnInvoked = false,
-                                Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.Folder).Image),
-                                ChildItems = new ObservableCollection<INavigationControlItem>()
-                            };
-                            SidebarControl.SideBarItems.Insert(1, drivesSection);
-                        }
-
-                        if (drivesSection != null)
-                        {
-                            await EnumerateDrivesAsync();
-
-                            foreach (DriveItem drive in Drives.ToList())
-                            {
-                                if (!drivesSection.ChildItems.Contains(drive))
-                                {
-                                    drivesSection.ChildItems.Add(drive);
-
-                                    if (drive.Type != DriveType.VirtualDrive)
-                                    {
-                                        DrivesWidget.ItemsAdded.Add(drive);
-                                    }
-                                }
-                            }
-
-                            foreach (DriveItem drive in drivesSection.ChildItems.ToList())
-                            {
-                                if (!Drives.Contains(drive))
-                                {
-                                    drivesSection.ChildItems.Remove(drive);
-                                    DrivesWidget.ItemsAdded.Remove(drive);
-                                }
-                            }
-                        }
-                        SidebarControl.SideBarItems.EndBulkOperation();
-                    }
-                    finally
-                    {
-                        SidebarControl.SideBarItemsSemaphore.Release();
-                    }
-                }
-            });
-        }
-
         private void SetupDeviceWatcher()
         {
             deviceWatcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
@@ -177,66 +93,10 @@ namespace Files.Filesystem
             {
                 deviceWatcher?.Start();
             }
-        }
-
-        public async void UpdateDrivesSectionVisibility()
-        {
-            if (App.AppSettings.ShowDrivesSection)
-            {
-                await DrivesEnumeratorAsync();
-            }
             else
             {
-                RemoveDrivesSideBarSection();
+                DeviceWatcher_EnumerationCompleted(null, null);
             }
-        }
-
-        public void RemoveDrivesSideBarSection()
-        {
-            try
-            {
-                RemoveDrivesSideBarItemsUI();
-            }
-            catch (Exception)
-            {
-                System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
-                // Defer because UI-thread is not ready yet (and DriveItem requires it?)
-                CoreApplication.MainView.Activated += RemoveDrivesItems;
-            }
-        }
-
-        private void RemoveDrivesItems(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
-        {
-            RemoveDrivesSideBarItemsUI();
-            CoreApplication.MainView.Activated -= RemoveDrivesItems;
-        }
-
-        internal void UnpinDrivesSideBarSection()
-        {
-            var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarDrives".GetLocalized()) select n).FirstOrDefault();
-            if (SidebarControl.SideBarItems.Contains(item) && item != null)
-            {
-                SidebarControl.SideBarItems.Remove(item);
-                App.AppSettings.ShowDrivesSection = false;
-            }
-        }
-
-        public void RemoveDrivesSideBarItemsUI()
-        {
-            SidebarControl.SideBarItems.BeginBulkOperation();
-
-            try
-            {
-                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarDrives".GetLocalized()) select n).FirstOrDefault();
-                if (!App.AppSettings.ShowDrivesSection && item != null)
-                {
-                    SidebarControl.SideBarItems.Remove(item);
-                }
-            }
-            catch (Exception)
-            { }
-
-            SidebarControl.SideBarItems.EndBulkOperation();
         }
 
         private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
@@ -269,57 +129,68 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                if (App.AppSettings.ShowDrivesSection)
+                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
+                try
                 {
-                    await SidebarControl.SideBarItemsSemaphore.WaitAsync();
-                    try
+                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) as LocationItem;
+                    if (App.AppSettings.ShowDrivesSection && section == null)
                     {
-                        SidebarControl.SideBarItems.BeginBulkOperation();
-
-                        var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) as LocationItem;
-                        if (section == null)
+                        section = new LocationItem()
                         {
-                            section = new LocationItem()
-                            {
-                                Text = "SidebarDrives".GetLocalized(),
-                                Section = SectionType.Drives,
-                                SelectsOnInvoked = false,
-                                Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.ThisPC).Image),
-                                ChildItems = new ObservableCollection<INavigationControlItem>()
-                            };
-                            SidebarControl.SideBarItems.Add(section);
-                        }
+                            Text = "SidebarDrives".GetLocalized(),
+                            Section = SectionType.Drives,
+                            SelectsOnInvoked = false,
+                            Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.ThisPC).Image),
+                            ChildItems = new ObservableCollection<INavigationControlItem>()
+                        };
+                        var index = 1 +
+                                    Convert.ToInt32(App.AppSettings.ShowLibrarySection); // After libraries section
+                        SidebarControl.SideBarItems.Insert(index, section);
+                    }
 
-                        if (section != null)
+                    // Sync drives to sidebar
+                    if (section != null)
+                    {
+                        foreach (DriveItem drive in Drives.ToList())
                         {
-                            foreach (DriveItem drive in Drives.ToList())
+                            if (!section.ChildItems.Contains(drive))
                             {
-                                if (!section.ChildItems.Contains(drive))
-                                {
-                                    section.ChildItems.Add(drive);
-
-                                    if (drive.Type != DriveType.VirtualDrive)
-                                    {
-                                        DrivesWidget.ItemsAdded.Add(drive);
-                                    }
-                                }
-                            }
-
-                            foreach (DriveItem drive in section.ChildItems.ToList())
-                            {
-                                if (!Drives.Contains(drive))
-                                {
-                                    section.ChildItems.Remove(drive);
-                                    DrivesWidget.ItemsAdded.Remove(drive);
-                                }
+                                section.ChildItems.Add(drive);
                             }
                         }
-                        SidebarControl.SideBarItems.EndBulkOperation();
+
+                        foreach (DriveItem drive in section.ChildItems.ToList())
+                        {
+                            if (!Drives.Contains(drive))
+                            {
+                                section.ChildItems.Remove(drive);
+                            }
+                        }
                     }
-                    finally
+
+                    // Sync drives to drives widget
+                    foreach (DriveItem drive in Drives.ToList())
                     {
-                        SidebarControl.SideBarItemsSemaphore.Release();
+                        if (!DrivesWidget.ItemsAdded.Contains(drive))
+                        {
+                            if (drive.Type != DriveType.VirtualDrive)
+                            {
+                                DrivesWidget.ItemsAdded.Add(drive);
+                            }
+                        }
                     }
+
+                    foreach (DriveItem drive in DrivesWidget.ItemsAdded.ToList())
+                    {
+                        if (!Drives.Contains(drive))
+                        {
+                            DrivesWidget.ItemsAdded.Remove(drive);
+                        }
+                    }
+                }
+                finally
+                {
+                    SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
         }
@@ -358,7 +229,7 @@ namespace Files.Filesystem
                 type = DriveType.Removable;
             }
 
-            var thumbnail = await root.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
+            using var thumbnail = await root.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
             lock (drivesList)
             {
                 // If drive already in list, skip.
@@ -401,8 +272,6 @@ namespace Files.Filesystem
 
             foreach (var drive in drives)
             {
-                StorageItemThumbnail thumbnail;
-
                 var res = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Name).AsTask());
                 if (res == FileSystemStatusCode.Unauthorized)
                 {
@@ -415,10 +284,8 @@ namespace Files.Filesystem
                     Logger.Warn($"{res.ErrorCode}: Attempting to add the device, {drive.Name}, failed at the StorageFolder initialization step. This device will be ignored.");
                     continue;
                 }
-                else
-                {
-                    thumbnail = await res.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
-                }
+
+                using var thumbnail = await res.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
 
                 lock (drivesList)
                 {
@@ -440,6 +307,32 @@ namespace Files.Filesystem
             }
 
             return unauthorizedAccessDetected;
+        }
+
+        private void RemoveDrivesSideBarSection()
+        {
+            try
+            {
+                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarDrives".GetLocalized()) select n).FirstOrDefault();
+                if (!App.AppSettings.ShowDrivesSection && item != null)
+                {
+                    SidebarControl.SideBarItems.Remove(item);
+                }
+            }
+            catch (Exception)
+            { }
+        }
+
+        public async void UpdateDrivesSectionVisibility()
+        {
+            if (App.AppSettings.ShowDrivesSection)
+            {
+                await EnumerateDrivesAsync();
+            }
+            else
+            {
+                RemoveDrivesSideBarSection();
+            }
         }
 
         private DriveType GetDriveType(DriveInfo drive)
@@ -551,8 +444,6 @@ namespace Files.Filesystem
                         return;
                     }
 
-                    var thumbnail = await rootAdded.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
-
                     lock (drivesList)
                     {
                         // If drive already in list, skip.
@@ -566,14 +457,18 @@ namespace Files.Filesystem
                         }
                     }
 
-                    var type = GetDriveType(driveAdded);
-                    var driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, deviceId, type, thumbnail);
-
-                    lock (drivesList)
+                    using (var thumbnail = await rootAdded.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale))
                     {
-                        Logger.Info($"Drive added from fulltrust process: {driveItem.Path}, {driveItem.Type}");
-                        drivesList.Add(driveItem);
+                        var type = GetDriveType(driveAdded);
+                        var driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, deviceId, type, thumbnail);
+
+                        lock (drivesList)
+                        {
+                            Logger.Info($"Drive added from fulltrust process: {driveItem.Path}, {driveItem.Type}");
+                            drivesList.Add(driveItem);
+                        }
                     }
+
                     DeviceWatcher_EnumerationCompleted(null, null);
                     break;
 

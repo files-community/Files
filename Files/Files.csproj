@@ -205,11 +205,6 @@
     <Compile Include="Extensions\FileIconInfoExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
-    <Compile Include="Filesystem\NetworkDrivesLocationItem.cs" />
-    <Compile Include="Filesystem\CloudDrivesLocationItem.cs" />
-    <Compile Include="Filesystem\DrivesLocationItem.cs" />
-    <Compile Include="Filesystem\FavoritesManager.cs" />
-    <Compile Include="Filesystem\FavoritesLocationItem.cs" />
     <Compile Include="Filesystem\Permissions\FilePermissionsManager.cs" />
     <Compile Include="Filesystem\Permissions\FileSystemAccessRule.cs" />
     <Compile Include="Filesystem\Permissions\FileSystemAccessRuleForUI.cs" />
@@ -346,6 +341,7 @@
     </Compile>
     <Compile Include="ViewModels\Dialogs\DecompressArchiveDialogViewModel.cs" />
     <Compile Include="ViewModels\NavToolbarViewModel.cs" />
+    <Compile Include="ViewModels\Previews\ArchivePreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
     <Compile Include="ViewModels\Properties\SecurityProperties.cs" />
     <Compile Include="ViewModels\SettingsViewModels\SidebarViewModel.cs" />
@@ -1126,10 +1122,10 @@
       <Version>2021.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>4.2.0</Version>
+      <Version>4.3.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
-      <Version>4.2.0</Version>
+      <Version>4.3.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Data.Sqlite.Core">
       <Version>5.0.7</Version>
@@ -1171,7 +1167,7 @@
       <Version>7.0.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.6.0-prerelease.210430001</Version>
+      <Version>2.6.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Win32.Registry">
       <Version>5.0.0</Version>

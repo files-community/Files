@@ -41,7 +41,7 @@
                     x:Uid="SettingsShowFavoritesSection"
                     Header="Show favorites section on the sidebar"
                     IsOn="{Binding ShowFavoritesSection, Mode=TwoWay}" />
-                
+
                 <ToggleSwitch
                     x:Name="ShowLibrarySection"
                     x:Uid="SettingsShowLibrarySection"
@@ -66,6 +66,11 @@
                     Header="Show network drives section on the sidebar"
                     IsOn="{Binding ShowNetworkDrivesSection, Mode=TwoWay}" />
 
+                <ToggleSwitch
+                    x:Name="ShowWslSection"
+                    x:Uid="SettingsShowWslSection"
+                    Header="Show WSL section on the sidebar"
+                    IsOn="{Binding ShowWslSection, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -59,11 +59,11 @@ namespace Files.ViewModels.Previews
 
         private async Task LoadItemThumbnail()
         {
-            var (IconData, OverlayData, IsCustom) = await FileThumbnailHelper.LoadIconOverlayAsync(Item.ItemPath, 400);
+            var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
 
-            if (IconData != null)
+            if (iconData != null)
             {
-                Item.FileImage = await IconData.ToBitmapAsync();
+                Item.FileImage = await iconData.ToBitmapAsync();
             }
         }
     }
