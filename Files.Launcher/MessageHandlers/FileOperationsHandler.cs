@@ -160,22 +160,63 @@ namespace FilesFullTrust.MessageHandlers
                     break;
 
                 case "CopyItem":
-                    var fileToCopyPath = (string)message["filepath"];
-                    var copyDestination = (string)message["destpath"];
+                    var fileToCopyPath = ((string)message["filepath"]).Split('|');
+                    var copyDestination = ((string)message["destpath"]).Split('|');
+                    var operationID = (string)message["operationID"];
                     var overwriteOnCopy = (bool)message["overwrite"];
-                    using (var op = new ShellFileOperations())
+                    var (succcess, resultItems) = await Win32API.StartSTATask(async () =>
                     {
-                        op.Options = ShellFileOperations.OperationFlags.NoUI;
-                        op.Options |= !overwriteOnCopy ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision : 0;
-                        using var shi = new ShellItem(fileToCopyPath);
-                        using var shd = new ShellFolder(Path.GetDirectoryName(copyDestination));
-                        op.QueueCopyOperation(shi, shd, Path.GetFileName(copyDestination));
-                        var copyTcs = new TaskCompletionSource<bool>();
-                        op.PostCopyItem += (s, e) => copyTcs.TrySetResult(e.Result.Succeeded);
-                        op.PerformOperations();
-                        var result = await copyTcs.Task;
-                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
-                    }
+                        using (var op = new ShellFileOperations())
+                        {
+                            List<string> resultItems = new List<string>();
+
+                            op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
+                                        | ShellFileOperations.OperationFlags.Silent
+                                        | ShellFileOperations.OperationFlags.NoErrorUI
+                                        | ShellFileOperations.OperationFlags.EarlyFailure;
+
+                            op.Options |= !overwriteOnCopy ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
+                                : ShellFileOperations.OperationFlags.NoConfirmation;
+
+                            for (var i = 0; i < fileToCopyPath.Length; i++)
+                            {
+                                using (ShellItem shi = new ShellItem(fileToCopyPath[i]))
+                                using (ShellFolder shd = new ShellFolder(Path.GetDirectoryName(copyDestination[i])))
+                                {
+                                    op.QueueCopyOperation(shi, shd, Path.GetFileName(copyDestination[i]));
+                                }
+                            }
+
+                            var copyTcs = new TaskCompletionSource<bool>();
+                            op.PostCopyItem += (s, e) =>
+                            {
+                                if (e.Result == HRESULT.S_OK)
+                                {
+                                    if (e.DestItem == null || string.IsNullOrEmpty(e.Name))
+                                    {
+                                        resultItems.Add($"{Path.Combine(e.DestFolder.FileSystemPath, e.SourceItem.Name)}");
+                                    }
+                                    else
+                                    {
+                                        resultItems.Add($"{Path.Combine(e.DestFolder.FileSystemPath, e.Name)}");
+                                    }
+                                }
+                            };
+                            op.FinishOperations += (s, e) => copyTcs.TrySetResult(e.Result.Succeeded);
+                            op.UpdateProgress += async (s, e) => await Win32API.SendMessageAsync(connection, new ValueSet() {
+                                { "Progress", e.ProgressPercentage },
+                                { "OperationID", operationID }
+                            });
+
+                            op.PerformOperations();
+
+                            return (await copyTcs.Task, resultItems);
+                        }
+                    });
+                    await Win32API.SendMessageAsync(connection, new ValueSet() {
+                        { "Success", succcess && resultItems.Count == fileToCopyPath.Length },
+                        { "ResultItems", JsonConvert.SerializeObject(resultItems) },
+                    }, message.Get("RequestID", (string)null));
                     break;
 
                 case "ParseLink":

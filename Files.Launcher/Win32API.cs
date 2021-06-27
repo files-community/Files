@@ -53,6 +53,36 @@ namespace FilesFullTrust
             return tcs.Task;
         }
 
+        public static Task<T> StartSTATask<T>(Func<Task<T>> func)
+        {
+            var tcs = new TaskCompletionSource<T>();
+            Thread thread = new Thread(async () =>
+            {
+                Ole32.OleInitialize();
+                try
+                {
+                    tcs.SetResult(await func());
+                }
+                catch (Exception ex)
+                {
+                    tcs.SetResult(default);
+                    Program.Logger.Info(ex, ex.Message);
+                    //tcs.SetException(e);
+                }
+                finally
+                {
+                    Ole32.OleUninitialize();
+                }
+            })
+            {
+                IsBackground = true,
+                Priority = ThreadPriority.Normal
+            };
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            return tcs.Task;
+        }
+
         public static async Task<string> GetFileAssociationAsync(string filename)
         {
             // Find UWP apps
