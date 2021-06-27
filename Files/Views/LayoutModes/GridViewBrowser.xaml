@@ -490,7 +490,8 @@
                     PreviewKeyDown="FileList_PreviewKeyDown"
                     ScrollViewer.IsHorizontalScrollChainingEnabled="False"
                     SelectionChanged="FileList_SelectionChanged"
-                    SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}">
+                    SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
+                    StretchContentForSingleRow="False">
                     <controls:AdaptiveGridView.GroupStyle>
                         <GroupStyle>
                             <GroupStyle.HeaderTemplate>
@@ -542,15 +543,6 @@
                             <EntranceThemeTransition IsStaggeringEnabled="False" />
                         </TransitionCollection>
                     </controls:AdaptiveGridView.ItemContainerTransitions>
-
-                    <!--<controls:AdaptiveGridView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsWrapGrid
-                                Margin="0,0,8,0"
-                                AreStickyGroupHeadersEnabled="True"
-                                Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </controls:AdaptiveGridView.ItemsPanel>-->
 
                     <controls:AdaptiveGridView.Resources>
                         <ResourceDictionary>
