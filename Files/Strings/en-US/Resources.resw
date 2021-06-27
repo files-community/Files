@@ -2613,4 +2613,7 @@
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
   </data>
+  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
+    <value>Hide {0} section</value>
+  </data>
 </root>

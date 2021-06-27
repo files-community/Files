@@ -469,7 +469,7 @@ namespace Files.ViewModels
         /// </summary>
         public bool ShowWslSection
         {
-            get => Get(false);
+            get => Get(true);
             set => Set(value);
         }
 

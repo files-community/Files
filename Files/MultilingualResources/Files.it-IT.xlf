@@ -3335,6 +3335,10 @@
           <source>Show network drives section on the sidebar</source>
           <target state="translated">Mostra le risorse di rete sulla barra laterale</target>
         </trans-unit>
+        <trans-unit id="SideBarHideSectionFromSideBar.Text" translate="yes" xml:space="preserve">
+          <source>Hide {0} section</source>
+          <target state="translated">Nascondi la sezione {0}</target>
+        </trans-unit>
       </group>
     </body>
   </file>
