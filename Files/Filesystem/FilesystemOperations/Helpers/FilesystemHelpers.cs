@@ -67,7 +67,7 @@ namespace Files.Filesystem
         {
             this.associatedInstance = associatedInstance;
             this.cancellationToken = cancellationToken;
-            this.filesystemOperations = new FilesystemOperations(this.associatedInstance);
+            this.filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
             this.recycleBinHelpers = new RecycleBinHelpers(this.associatedInstance);
         }
 
