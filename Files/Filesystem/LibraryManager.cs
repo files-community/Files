@@ -37,6 +37,7 @@ namespace Files.Filesystem
             {
                 return;
             }
+
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 await SidebarControl.SideBarItemsSemaphore.WaitAsync();
@@ -128,18 +129,18 @@ namespace Files.Filesystem
             }
         }
 
-        public void RemoveLibrariesSideBarSection()
+        private void RemoveLibrariesSideBarSection()
         {
             try
             {
-                RemoveLibrarySideBarItemsUI();
+                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarLibraries".GetLocalized()) select n).FirstOrDefault();
+                if (!App.AppSettings.ShowLibrarySection && item != null)
+                {
+                    SidebarControl.SideBarItems.Remove(item);
+                }
             }
             catch (Exception)
-            {
-                System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
-                // Defer because UI-thread is not ready yet (and DriveItem requires it?)
-                CoreApplication.MainView.Activated += RemoveLibraryItems;
-            }
+            { }
         }
 
         public async void UpdateLibrariesSectionVisibility()
@@ -158,30 +159,6 @@ namespace Files.Filesystem
         {
             await SyncLibrarySideBarItemsUI();
             CoreApplication.MainView.Activated -= EnumerateLibrariesAsync;
-        }
-
-        private void RemoveLibraryItems(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
-        {
-            RemoveLibrarySideBarItemsUI();
-            CoreApplication.MainView.Activated -= RemoveLibraryItems;
-        }
-
-        public void RemoveLibrarySideBarItemsUI()
-        {
-            SidebarControl.SideBarItems.BeginBulkOperation();
-
-            try
-            {
-                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarLibraries".GetLocalized()) select n).FirstOrDefault();
-                if (!App.AppSettings.ShowLibrarySection && item != null)
-                {
-                    SidebarControl.SideBarItems.Remove(item);
-                }
-            }
-            catch (Exception)
-            { }
-
-            SidebarControl.SideBarItems.EndBulkOperation();
         }
 
         public async Task HandleWin32LibraryEvent(ShellLibraryItem library, string oldPath)
@@ -210,10 +187,11 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                if (App.AppSettings.ShowLibrarySection && !SidebarControl.SideBarItems.Contains(librarySection))
+                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
+                try
                 {
-                    await SidebarControl.SideBarItemsSemaphore.WaitAsync();
-                    try
+                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarLibraries".GetLocalized()) as LocationItem;
+                    if (App.AppSettings.ShowLibrarySection && section == null)
                     {
                         librarySection = new LocationItem
                         {
@@ -223,12 +201,13 @@ namespace Files.Filesystem
                             Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.Libraries).Image),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
-                        SidebarControl.SideBarItems.Insert(1, librarySection);
+                        var index = 1; // After favorites section
+                        SidebarControl.SideBarItems.Insert(index, librarySection);
                     }
-                    finally
-                    {
-                        SidebarControl.SideBarItemsSemaphore.Release();
-                    }
+                }
+                finally
+                {
+                    SidebarControl.SideBarItemsSemaphore.Release();
                 }
 
                 Libraries.BeginBulkOperation();

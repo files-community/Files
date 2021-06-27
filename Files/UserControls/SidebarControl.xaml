@@ -206,7 +206,7 @@
                     <MenuFlyoutItem
                         x:Name="PropertiesFolder"
                         x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
-                        x:Load="{x:Bind IsLocationItem, Mode=OneWay}"
+                        x:Load="{x:Bind ShowProperties, Mode=OneWay}"
                         Click="Properties_Click"
                         Text="Properties">
                         <MenuFlyoutItem.Icon>
