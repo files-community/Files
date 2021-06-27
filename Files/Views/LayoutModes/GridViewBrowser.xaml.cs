@@ -224,7 +224,6 @@ namespace Files.Views.LayoutModes
         private void SetItemMinWidth()
         {
             NotifyPropertyChanged(nameof(GridViewItemMinWidth));
-            Behaviors.StretchedGridViewItems.ResizeItems(FileList);
         }
 
         private bool itemTemplateChanging = false;
@@ -520,7 +519,6 @@ namespace Files.Views.LayoutModes
             if(itemTemplateChanging)
             {
                 itemTemplateChanging = false;
-                Behaviors.StretchedGridViewItems.ResizeItems(FileList);
             }
 
             if (args.ItemContainer == null)
