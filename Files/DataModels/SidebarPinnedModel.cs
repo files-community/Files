@@ -303,60 +303,63 @@ namespace Files.DataModels
         /// </summary>
         public async Task AddAllItemsToSidebar()
         {
-            await SidebarControl.SideBarItemsSemaphore.WaitAsync();
+            if (App.AppSettings.ShowFavoritesSection)
+            {
+                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
 
-            if (IconResources is null)
-            {
-                IconResources = (await SidebarViewModel.LoadSidebarIconResources())?.ToList();
-            }
-
-            homeSection = new LocationItem()
-            {
-                Text = "SidebarHome".GetLocalized(),
-                Section = SectionType.Home,
-                Font = MainViewModel.FontName,
-                IsDefaultLocation = true,
-                Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png")),
-                Path = "Home",
-                ChildItems = new ObservableCollection<INavigationControlItem>()
-            };
-            favoriteSection = new LocationItem()
-            {
-                Text = "SidebarFavorites".GetLocalized(),
-                Section = SectionType.Favorites,
-                SelectsOnInvoked = false,
-                Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.Shell32.QuickAccess).Image),
-                Font = MainViewModel.FontName,
-                ChildItems = new ObservableCollection<INavigationControlItem>()
-            };
-            try
-            {
-                SidebarControl.SideBarItems.BeginBulkOperation();
-
-                if (homeSection != null)
+                if (IconResources is null)
                 {
-                    AddItemToSidebarAsync(homeSection);
+                    IconResources = (await SidebarViewModel.LoadSidebarIconResources())?.ToList();
                 }
 
-                for (int i = 0; i < FavoriteItems.Count(); i++)
+                homeSection = new LocationItem()
                 {
-                    string path = FavoriteItems[i];
-                    await AddItemToSidebarAsync(path);
+                    Text = "SidebarHome".GetLocalized(),
+                    Section = SectionType.Home,
+                    Font = MainViewModel.FontName,
+                    IsDefaultLocation = true,
+                    Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png")),
+                    Path = "Home",
+                    ChildItems = new ObservableCollection<INavigationControlItem>()
+                };
+                favoriteSection = new LocationItem()
+                {
+                    Text = "SidebarFavorites".GetLocalized(),
+                    Section = SectionType.Favorites,
+                    SelectsOnInvoked = false,
+                    Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.Shell32.QuickAccess).Image),
+                    Font = MainViewModel.FontName,
+                    ChildItems = new ObservableCollection<INavigationControlItem>()
+                };
+                try
+                {
+                    SidebarControl.SideBarItems.BeginBulkOperation();
+
+                    if (homeSection != null)
+                    {
+                        AddItemToSidebarAsync(homeSection);
+                    }
+
+                    for (int i = 0; i < FavoriteItems.Count(); i++)
+                    {
+                        string path = FavoriteItems[i];
+                        await AddItemToSidebarAsync(path);
+                    }
+
+                    if (!SidebarControl.SideBarItems.Contains(favoriteSection))
+                    {
+                        SidebarControl.SideBarItems.Add(favoriteSection);
+                    }
+
+                    SidebarControl.SideBarItems.EndBulkOperation();
+                }
+                finally
+                {
+                    SidebarControl.SideBarItemsSemaphore.Release();
                 }
 
-                if (!SidebarControl.SideBarItems.Contains(favoriteSection))
-                {
-                    SidebarControl.SideBarItems.Add(favoriteSection);
-                }
-
-                SidebarControl.SideBarItems.EndBulkOperation();
+                await ShowHideRecycleBinItemAsync(App.AppSettings.PinRecycleBinToSideBar);
             }
-            finally
-            {
-                SidebarControl.SideBarItemsSemaphore.Release();
-            }
-
-            await ShowHideRecycleBinItemAsync(App.AppSettings.PinRecycleBinToSideBar);
         }
 
         /// <summary>

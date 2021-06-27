@@ -27,6 +27,9 @@ namespace Files.Filesystem
     {
         private static readonly Logger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
+        
+        private LocationItem drivesSection;
+        public BulkConcurrentObservableCollection<DrivesLocationItem> DriveItems { get; } = new BulkConcurrentObservableCollection<DrivesLocationItem>();
 
         public IReadOnlyList<DriveItem> Drives
         {
@@ -77,6 +80,87 @@ namespace Files.Filesystem
             driveEnumInProgress = false;
         }
 
+        public async Task DrivesEnumeratorAsync()
+        {
+            try
+            {
+                await SyncDrivesSideBarItemsUI();
+            }
+            catch (Exception) // UI Thread not ready yet, so we defer the pervious operation until it is.
+            {
+                System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
+                // Defer because UI-thread is not ready yet (and DriveItem requires it?)
+                CoreApplication.MainView.Activated += EnumerateDrivesAsync;
+            }
+        }
+
+        private async void EnumerateDrivesAsync(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
+        {
+            await SyncDrivesSideBarItemsUI();
+            CoreApplication.MainView.Activated -= EnumerateDrivesAsync;
+        }
+
+        private async Task SyncDrivesSideBarItemsUI()
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                if (App.AppSettings.ShowDrivesSection && !SidebarControl.SideBarItems.Contains(drivesSection))
+                {
+                    await SidebarControl.SideBarItemsSemaphore.WaitAsync();
+                    try
+                    {
+                        SidebarControl.SideBarItems.BeginBulkOperation();
+                        drivesSection = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) as LocationItem;
+
+                        if (drivesSection == null)
+                        {
+                            drivesSection = new LocationItem
+                            {
+                                Text = "SidebarDrives".GetLocalized(),
+                                Section = SectionType.Drives,
+                                SelectsOnInvoked = false,
+                                Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.Folder).Image),
+                                ChildItems = new ObservableCollection<INavigationControlItem>()
+                            };
+                            SidebarControl.SideBarItems.Insert(1, drivesSection);
+                        }
+
+                        if (drivesSection != null)
+                        {
+                            await EnumerateDrivesAsync();
+
+                            foreach (DriveItem drive in Drives.ToList())
+                            {
+                                if (!drivesSection.ChildItems.Contains(drive))
+                                {
+                                    drivesSection.ChildItems.Add(drive);
+
+                                    if (drive.Type != DriveType.VirtualDrive)
+                                    {
+                                        DrivesWidget.ItemsAdded.Add(drive);
+                                    }
+                                }
+                            }
+
+                            foreach (DriveItem drive in drivesSection.ChildItems.ToList())
+                            {
+                                if (!Drives.Contains(drive))
+                                {
+                                    drivesSection.ChildItems.Remove(drive);
+                                    DrivesWidget.ItemsAdded.Remove(drive);
+                                }
+                            }
+                        }
+                        SidebarControl.SideBarItems.EndBulkOperation();
+                    }
+                    finally
+                    {
+                        SidebarControl.SideBarItemsSemaphore.Release();
+                    }
+                }
+            });
+        }
+
         private void SetupDeviceWatcher()
         {
             deviceWatcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
@@ -93,6 +177,66 @@ namespace Files.Filesystem
             {
                 deviceWatcher?.Start();
             }
+        }
+
+        public async void UpdateDrivesSectionVisibility()
+        {
+            if (App.AppSettings.ShowDrivesSection)
+            {
+                await DrivesEnumeratorAsync();
+            }
+            else
+            {
+                RemoveDrivesSideBarSection();
+            }
+        }
+
+        public void RemoveDrivesSideBarSection()
+        {
+            try
+            {
+                RemoveDrivesSideBarItemsUI();
+            }
+            catch (Exception)
+            {
+                System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
+                // Defer because UI-thread is not ready yet (and DriveItem requires it?)
+                CoreApplication.MainView.Activated += RemoveDrivesItems;
+            }
+        }
+
+        private void RemoveDrivesItems(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
+        {
+            RemoveDrivesSideBarItemsUI();
+            CoreApplication.MainView.Activated -= RemoveDrivesItems;
+        }
+
+        internal void UnpinDrivesSideBarSection()
+        {
+            var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarDrives".GetLocalized()) select n).FirstOrDefault();
+            if (SidebarControl.SideBarItems.Contains(item) && item != null)
+            {
+                SidebarControl.SideBarItems.Remove(item);
+                App.AppSettings.ShowDrivesSection = false;
+            }
+        }
+
+        public void RemoveDrivesSideBarItemsUI()
+        {
+            SidebarControl.SideBarItems.BeginBulkOperation();
+
+            try
+            {
+                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarDrives".GetLocalized()) select n).FirstOrDefault();
+                if (!App.AppSettings.ShowDrivesSection && item != null)
+                {
+                    SidebarControl.SideBarItems.Remove(item);
+                }
+            }
+            catch (Exception)
+            { }
+
+            SidebarControl.SideBarItems.EndBulkOperation();
         }
 
         private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
@@ -125,52 +269,57 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
-                try
+                if (App.AppSettings.ShowDrivesSection)
                 {
-                    SidebarControl.SideBarItems.BeginBulkOperation();
-
-                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) as LocationItem;
-                    if (section == null)
+                    await SidebarControl.SideBarItemsSemaphore.WaitAsync();
+                    try
                     {
-                        section = new LocationItem()
-                        {
-                            Text = "SidebarDrives".GetLocalized(),
-                            Section = SectionType.Drives,
-                            SelectsOnInvoked = false,
-                            Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.ThisPC).Image),
-                            ChildItems = new ObservableCollection<INavigationControlItem>()
-                        };
-                        SidebarControl.SideBarItems.Add(section);
-                    }
+                        SidebarControl.SideBarItems.BeginBulkOperation();
 
-                    foreach (DriveItem drive in Drives.ToList())
-                    {
-                        if (!section.ChildItems.Contains(drive))
+                        var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) as LocationItem;
+                        if (section == null)
                         {
-                            section.ChildItems.Add(drive);
-
-                            if (drive.Type != DriveType.VirtualDrive)
+                            section = new LocationItem()
                             {
-                                DrivesWidget.ItemsAdded.Add(drive);
+                                Text = "SidebarDrives".GetLocalized(),
+                                Section = SectionType.Drives,
+                                SelectsOnInvoked = false,
+                                Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.ThisPC).Image),
+                                ChildItems = new ObservableCollection<INavigationControlItem>()
+                            };
+                            SidebarControl.SideBarItems.Add(section);
+                        }
+
+                        if (section != null)
+                        {
+                            foreach (DriveItem drive in Drives.ToList())
+                            {
+                                if (!section.ChildItems.Contains(drive))
+                                {
+                                    section.ChildItems.Add(drive);
+
+                                    if (drive.Type != DriveType.VirtualDrive)
+                                    {
+                                        DrivesWidget.ItemsAdded.Add(drive);
+                                    }
+                                }
+                            }
+
+                            foreach (DriveItem drive in section.ChildItems.ToList())
+                            {
+                                if (!Drives.Contains(drive))
+                                {
+                                    section.ChildItems.Remove(drive);
+                                    DrivesWidget.ItemsAdded.Remove(drive);
+                                }
                             }
                         }
+                        SidebarControl.SideBarItems.EndBulkOperation();
                     }
-
-                    foreach (DriveItem drive in section.ChildItems.ToList())
+                    finally
                     {
-                        if (!Drives.Contains(drive))
-                        {
-                            section.ChildItems.Remove(drive);
-                            DrivesWidget.ItemsAdded.Remove(drive);
-                        }
+                        SidebarControl.SideBarItemsSemaphore.Release();
                     }
-
-                    SidebarControl.SideBarItems.EndBulkOperation();
-                }
-                finally
-                {
-                    SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
         }

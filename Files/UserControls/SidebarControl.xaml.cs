@@ -78,7 +78,7 @@ namespace Files.UserControls
         {
             this.InitializeComponent();
             this.Loaded += SidebarNavView_Loaded;
-
+            
             dragOverSectionTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             dragOverItemTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
@@ -140,7 +140,7 @@ namespace Files.UserControls
                 }
             }
         }
-
+                
         private bool showProperties;
 
         public bool ShowProperties
@@ -231,6 +231,102 @@ namespace Files.UserControls
             }
         }
 
+        /// <summary>
+        /// The is favorites header
+        /// </summary>
+        private bool isFavoritesHeader;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is favorites header.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is favorites header; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsFavoritesHeader
+        {
+            get => isFavoritesHeader;
+            set
+            {
+                if (value != isFavoritesHeader)
+                {
+                    isFavoritesHeader = value;
+                    NotifyPropertyChanged(nameof(IsFavoritesHeader));
+                }
+            }
+        }
+
+        /// <summary>
+        /// The is drives header
+        /// </summary>
+        private bool isDrivesHeader;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is drives header.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is drives header; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsDrivesHeader
+        {
+            get => isDrivesHeader;
+            set
+            {
+                if (value != isDrivesHeader)
+                {
+                    isDrivesHeader = value;
+                    NotifyPropertyChanged(nameof(IsDrivesHeader));
+                }
+            }
+        }
+
+        /// <summary>
+        /// The is cloud drives header
+        /// </summary>
+        private bool isCloudDrivesHeader;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is cloud drives header.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is cloud drives header; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsCloudDrivesHeader
+        {
+            get => isCloudDrivesHeader;
+            set
+            {
+                if (value != isCloudDrivesHeader)
+                {
+                    isCloudDrivesHeader = value;
+                    NotifyPropertyChanged(nameof(IsCloudDrivesHeader));
+                }
+            }
+        }
+
+        /// <summary>
+        /// The is network drives header
+        /// </summary>
+        private bool isNetworkDrivesHeader;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is network drives header.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is network drives header; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsNetworkDrivesHeader
+        {
+            get => isNetworkDrivesHeader;
+            set
+            {
+                if (value != isNetworkDrivesHeader)
+                {
+                    isNetworkDrivesHeader = value;
+                    NotifyPropertyChanged(nameof(IsNetworkDrivesHeader));
+                }
+            }
+        }
+
         public INavigationControlItem RightClickedItem;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -251,9 +347,29 @@ namespace Files.UserControls
                 AppSettings.ShowLibrarySection = false;
                 App.LibraryManager.UpdateLibrariesSectionVisibility();
             }
-            else if (RightClickedItem.Section == SectionType.Favorites)
+        }
+
+        public void UnpinFromSidebar_Click(object sender, RoutedEventArgs e)
+        {
+            if (RightClickedItem.Section == SectionType.Favorites)
             {
-                App.SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
+                AppSettings.ShowFavoritesSection = false;
+                App.FavoritesManager.UpdateFavoritesSectionVisibility();
+            }
+            else if (RightClickedItem.Section == SectionType.CloudDrives)
+            {
+                AppSettings.ShowCloudDrivesSection = false;
+                App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
+            }
+            else if (RightClickedItem.Section == SectionType.Drives)
+            {
+                AppSettings.ShowDrivesSection = false;
+                App.DrivesManager.UpdateDrivesSectionVisibility();
+            }
+            else if (RightClickedItem.Section == SectionType.Network)
+            {
+                AppSettings.ShowNetworkDrivesSection = false;
+                App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
             }
         }
 
@@ -335,6 +451,76 @@ namespace Files.UserControls
                 {
                     ShowEmptyRecycleBin = false;
                 }
+
+                RightClickedItem = item;
+                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+            }
+            else if (!header || favoritesHeader)
+            {
+                IsLocationItem = !header;
+                ShowProperties = !header;
+                IsFavoritesHeader = favoritesHeader;
+                IsLibrariesHeader = false;
+
+                ShowUnpinItem = false;
+                ShowEjectDevice = false;
+                ShowEmptyRecycleBin = false;
+
+                RightClickedItem = item;
+                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+            }
+            else if (!header || drivesHeader)
+            {
+                IsLocationItem = !header;
+                ShowProperties = !header;
+                IsFavoritesHeader = drivesHeader;
+                IsLibrariesHeader = false;
+                
+                ShowUnpinItem = false;
+                ShowEjectDevice = false;
+                ShowEmptyRecycleBin = false;
+
+                RightClickedItem = item;
+                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+            }
+            else if (!header || networkDrivesHeader)
+            {
+                IsLocationItem = !header;
+                ShowProperties = !header;
+                IsFavoritesHeader = networkDrivesHeader;
+                IsLibrariesHeader = false;
+
+                ShowUnpinItem = false;
+                ShowEjectDevice = false;
+                ShowEmptyRecycleBin = false;
+
+                RightClickedItem = item;
+                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+            }
+            else if (!header || cloudDrivesHeader)
+            {
+                IsLocationItem = !header;
+                ShowProperties = !header;
+                IsFavoritesHeader = cloudDrivesHeader;
+                IsLibrariesHeader = false;
+
+                ShowUnpinItem = false;
+                ShowEjectDevice = false;
+                ShowEmptyRecycleBin = false;
+
+                RightClickedItem = item;
+                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+            }
+            else if (!header || wslHeader)
+            {
+                IsLocationItem = !header;
+                ShowProperties = !header;
+                IsFavoritesHeader = wslHeader;
+                IsLibrariesHeader = false;
+
+                ShowUnpinItem = false;
+                ShowEjectDevice = false;
+                ShowEmptyRecycleBin = false;
 
                 RightClickedItem = item;
                 SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));

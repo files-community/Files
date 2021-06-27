@@ -4,6 +4,7 @@ using Files.DataModels.NavigationControlItems;
 using Files.Extensions;
 using Files.Helpers;
 using Files.UserControls;
+using Files.UserControls.Widgets;
 using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
@@ -215,31 +216,53 @@ namespace Files.Filesystem
                     await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                     try
                     {
-                        librarySection = new LocationItem
+                        SidebarControl.SideBarItems.BeginBulkOperation();
+
+                        librarySection = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarLibraries".GetLocalized()) as LocationItem;
+                        if (librarySection == null)
                         {
-                            Text = "SidebarLibraries".GetLocalized(),
-                            Section = SectionType.Library,
-                            SelectsOnInvoked = false,
-                            Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.Libraries).Image),
-                            ChildItems = new ObservableCollection<INavigationControlItem>()
-                        };
-                        SidebarControl.SideBarItems.Insert(1, librarySection);
+                            librarySection = new LocationItem
+                            {
+                                Text = "SidebarLibraries".GetLocalized(),
+                                Section = SectionType.Library,
+                                SelectsOnInvoked = false,
+                                Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.Libraries).Image),
+                                ChildItems = new ObservableCollection<INavigationControlItem>()
+                            };
+                            SidebarControl.SideBarItems.Insert(SidebarControl.SideBarItems.Count.Equals(0) ? 0 : 1, librarySection);
+                        }
+                        
+                        if (librarySection != null)
+                        {
+                            foreach (LibraryLocationItem drive in Libraries.ToList())
+                            {
+                                if (!librarySection.ChildItems.Contains(drive))
+                                {
+                                    librarySection.ChildItems.Add(drive);
+
+                                    if (drive.ItemType != NavigationControlItemType.Location)
+                                    {
+                                        DrivesWidget.ItemsAdded.Add(drive);
+                                    }
+                                }
+                            }
+
+                            foreach (LibraryLocationItem drive in librarySection.ChildItems.ToList())
+                            {
+                                if (!Libraries.Contains(drive))
+                                {
+                                    librarySection.ChildItems.Remove(drive);
+                                    DrivesWidget.ItemsAdded.Remove(drive);
+                                }
+                            }
+                        }
+                        SidebarControl.SideBarItems.EndBulkOperation();
                     }
                     finally
                     {
                         SidebarControl.SideBarItemsSemaphore.Release();
                     }
                 }
-
-                Libraries.BeginBulkOperation();
-                Libraries.Clear();
-                var libs = await LibraryHelper.ListUserLibraries();
-                if (libs != null)
-                {
-                    libs.Sort();
-                    Libraries.AddRange(libs);
-                }
-                Libraries.EndBulkOperation();
             });
         }
 
