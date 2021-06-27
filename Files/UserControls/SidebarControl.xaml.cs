@@ -251,6 +251,26 @@ namespace Files.UserControls
                 AppSettings.ShowLibrarySection = false;
                 App.LibraryManager.UpdateLibrariesSectionVisibility();
             }
+            else if ("SidebarCloudDrives".GetLocalized().Equals(RightClickedItem.Text))
+            {
+                AppSettings.ShowCloudDrivesSection = false;
+                App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
+            }
+            else if ("SidebarDrives".GetLocalized().Equals(RightClickedItem.Text))
+            {
+                AppSettings.ShowDrivesSection = false;
+                App.DrivesManager.UpdateDrivesSectionVisibility();
+            }
+            else if ("SidebarNetworkDrives".GetLocalized().Equals(RightClickedItem.Text))
+            {
+                AppSettings.ShowNetworkDrivesSection = false;
+                App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
+            }
+            else if ("WSL".GetLocalized().Equals(RightClickedItem.Text))
+            {
+                AppSettings.ShowWslSection = false;
+                App.WSLDistroManager.UpdateWslSectionVisibility();
+            }
             else if (RightClickedItem.Section == SectionType.Favorites)
             {
                 App.SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
@@ -313,15 +333,15 @@ namespace Files.UserControls
             bool favoritesHeader = "SidebarFavorites".GetLocalized().Equals(item.Text);
             bool header = drivesHeader || networkDrivesHeader || cloudDrivesHeader || librariesHeader || wslHeader || favoritesHeader;
 
-            if (!header || librariesHeader)
+            if (!header)
             {
-                bool library = !header && item.Section == SectionType.Library;
-                bool favorite = !header && item.Section == SectionType.Favorites;
+                bool library = item.Section == SectionType.Library;
+                bool favorite = item.Section == SectionType.Favorites;
 
-                IsLocationItem = !header;
-                ShowProperties = !header;
-                IsLibrariesHeader = librariesHeader;
-                ShowUnpinItem = librariesHeader || ((library || favorite) && !item.IsDefaultLocation);
+                IsLocationItem = true;
+                ShowProperties = true;
+                IsLibrariesHeader = false;
+                ShowUnpinItem = ((library || favorite) && !item.IsDefaultLocation);
                 ShowEjectDevice = false;
 
                 if (string.Equals(item.Path, AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
@@ -335,6 +355,18 @@ namespace Files.UserControls
                 {
                     ShowEmptyRecycleBin = false;
                 }
+
+                RightClickedItem = item;
+                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+            }
+            else if (!favoritesHeader)
+            {
+                IsLocationItem = false;
+                ShowProperties = false;
+                IsLibrariesHeader = librariesHeader;
+                ShowUnpinItem = true;
+                ShowEjectDevice = false;
+                ShowEmptyRecycleBin = false;
 
                 RightClickedItem = item;
                 SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));

@@ -93,6 +93,10 @@ namespace Files.Filesystem
             {
                 deviceWatcher?.Start();
             }
+            else
+            {
+                DeviceWatcher_EnumerationCompleted(null, null);
+            }
         }
 
         private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
@@ -128,10 +132,8 @@ namespace Files.Filesystem
                 await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    SidebarControl.SideBarItems.BeginBulkOperation();
-
                     var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) as LocationItem;
-                    if (section == null)
+                    if (App.AppSettings.ShowDrivesSection && section == null)
                     {
                         section = new LocationItem()
                         {
@@ -141,15 +143,36 @@ namespace Files.Filesystem
                             Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.ThisPC).Image),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
-                        SidebarControl.SideBarItems.Add(section);
+                        var index = 1 +
+                                    Convert.ToInt32(App.AppSettings.ShowLibrarySection); // After libraries section
+                        SidebarControl.SideBarItems.Insert(index, section);
                     }
 
+                    // Sync drives to sidebar
+                    if (section != null)
+                    {
+                        foreach (DriveItem drive in Drives.ToList())
+                        {
+                            if (!section.ChildItems.Contains(drive))
+                            {
+                                section.ChildItems.Add(drive);
+                            }
+                        }
+
+                        foreach (DriveItem drive in section.ChildItems.ToList())
+                        {
+                            if (!Drives.Contains(drive))
+                            {
+                                section.ChildItems.Remove(drive);
+                            }
+                        }
+                    }
+
+                    // Sync drives to drives widget
                     foreach (DriveItem drive in Drives.ToList())
                     {
-                        if (!section.ChildItems.Contains(drive))
+                        if (!DrivesWidget.ItemsAdded.Contains(drive))
                         {
-                            section.ChildItems.Add(drive);
-
                             if (drive.Type != DriveType.VirtualDrive)
                             {
                                 DrivesWidget.ItemsAdded.Add(drive);
@@ -157,16 +180,13 @@ namespace Files.Filesystem
                         }
                     }
 
-                    foreach (DriveItem drive in section.ChildItems.ToList())
+                    foreach (DriveItem drive in DrivesWidget.ItemsAdded.ToList())
                     {
                         if (!Drives.Contains(drive))
                         {
-                            section.ChildItems.Remove(drive);
                             DrivesWidget.ItemsAdded.Remove(drive);
                         }
                     }
-
-                    SidebarControl.SideBarItems.EndBulkOperation();
                 }
                 finally
                 {
@@ -287,6 +307,32 @@ namespace Files.Filesystem
             }
 
             return unauthorizedAccessDetected;
+        }
+
+        private void RemoveDrivesSideBarSection()
+        {
+            try
+            {
+                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarDrives".GetLocalized()) select n).FirstOrDefault();
+                if (!App.AppSettings.ShowDrivesSection && item != null)
+                {
+                    SidebarControl.SideBarItems.Remove(item);
+                }
+            }
+            catch (Exception)
+            { }
+        }
+
+        public async void UpdateDrivesSectionVisibility()
+        {
+            if (App.AppSettings.ShowDrivesSection)
+            {
+                await EnumerateDrivesAsync();
+            }
+            else
+            {
+                RemoveDrivesSideBarSection();
+            }
         }
 
         private DriveType GetDriveType(DriveInfo drive)
