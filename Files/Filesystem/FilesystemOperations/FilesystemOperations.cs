@@ -866,7 +866,7 @@ namespace Files.Filesystem
 
             if (deleteSource)
             {
-                await sourceFolder.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                await sourceFolder.DeleteAsync(StorageDeleteOption.Default);
             }
 
             App.JumpList.RemoveFolder(sourceFolder.Path);
@@ -908,5 +908,125 @@ namespace Files.Filesystem
         }
 
         #endregion IDisposable
+
+        public async Task<IStorageHistory> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, IEnumerable<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
+        {
+            return await CopyItemsAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, collisions, progress, errorCode, cancellationToken);
+        }
+
+        public async Task<IStorageHistory> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IEnumerable<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken token)
+        {
+            var rawStorageHistory = new List<IStorageHistory>();
+
+            for (int i = 0; i < source.Count(); i++)
+            {
+                if (token.IsCancellationRequested)
+                {
+                    break;
+                }
+
+                if (collisions.ElementAt(i) != FileNameConflictResolveOptionType.Skip)
+                {
+                    rawStorageHistory.Add(await CopyAsync(
+                        source.ElementAt(i),
+                        destination.ElementAt(i),
+                        collisions.ElementAt(i).Convert(),
+                        null,
+                        errorCode,
+                        token));
+                }
+
+                progress?.Report(i / (float)source.Count() * 100.0f);
+            }
+
+            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
+            {
+                return new StorageHistory(
+                    rawStorageHistory[0].OperationType,
+                    rawStorageHistory.SelectMany((item) => item.Source).ToList(),
+                    rawStorageHistory.SelectMany((item) => item.Destination).ToList());
+            }
+            return null;
+        }
+
+        public async Task<IStorageHistory> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, IEnumerable<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
+        {
+            return await MoveItemsAsync(source.Select((item) => item.FromStorageItem()).ToList(), destination, collisions, progress, errorCode, cancellationToken);
+        }
+
+        public async Task<IStorageHistory> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IEnumerable<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken token)
+        {
+            var rawStorageHistory = new List<IStorageHistory>();
+
+            for (int i = 0; i < source.Count(); i++)
+            {
+                if (token.IsCancellationRequested)
+                {
+                    break;
+                }
+
+                if (collisions.ElementAt(i) != FileNameConflictResolveOptionType.Skip)
+                {
+                    rawStorageHistory.Add(await MoveAsync(
+                        source.ElementAt(i),
+                        destination.ElementAt(i),
+                        collisions.ElementAt(i).Convert(),
+                        null,
+                        errorCode,
+                        token));
+                }
+
+                progress?.Report(i / (float)source.Count() * 100.0f);
+            }
+
+            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
+            {
+                return new StorageHistory(
+                    rawStorageHistory[0].OperationType,
+                    rawStorageHistory.SelectMany((item) => item.Source).ToList(),
+                    rawStorageHistory.SelectMany((item) => item.Destination).ToList());
+            }
+            return null;
+        }
+
+        public async Task<IStorageHistory> DeleteItemsAsync(IEnumerable<IStorageItem> source, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, bool permanently, CancellationToken cancellationToken)
+        {
+            return await DeleteItemsAsync(source.Select((item) => item.FromStorageItem()), progress, errorCode, permanently, cancellationToken);
+        }
+
+        public async Task<IStorageHistory> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, bool permanently, CancellationToken token)
+        {
+            bool originalPermanently = permanently;
+            var rawStorageHistory = new List<IStorageHistory>();
+
+            for (int i = 0; i < source.Count(); i++)
+            {
+                if (token.IsCancellationRequested)
+                {
+                    break;
+                }
+
+                if (recycleBinHelpers.IsPathUnderRecycleBin(source.ElementAt(i).Path))
+                {
+                    permanently = true;
+                }
+                else
+                {
+                    permanently = originalPermanently;
+                }
+
+                rawStorageHistory.Add(await DeleteAsync(source.ElementAt(i), null, errorCode, permanently, token));
+                progress?.Report((float)i / source.Count() * 100.0f);
+            }
+
+            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
+            {
+                return new StorageHistory(
+                    rawStorageHistory[0].OperationType,
+                    rawStorageHistory.SelectMany((item) => item.Source).ToList(),
+                    rawStorageHistory.SelectMany((item) => item.Destination).ToList());
+            }
+            return null;
+        }
     }
 }

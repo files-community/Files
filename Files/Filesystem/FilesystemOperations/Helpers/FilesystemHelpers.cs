@@ -101,7 +101,6 @@ namespace Files.Filesystem
         {
             var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
             PostedStatusBanner banner = null;
-            int itemsDeleted = 0;
             var returnStatus = ReturnResult.InProgress;
 
             var pathsUnderRecycleBin = GetPathsUnderRecycleBin(source);
@@ -165,46 +164,15 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            IStorageHistory history;
-            var rawStorageHistory = new List<IStorageHistory>();
-
             bool originalPermanently = permanently;
-            float progress;
 
-            for (int i = 0; i < source.Count(); i++)
+            IStorageHistory history = await filesystemOperations.DeleteItemsAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
+
+            if (!permanently && registerHistory)
             {
-                if (token.IsCancellationRequested)
-                {
-                    break;
-                }
-
-                if (pathsUnderRecycleBin.Contains(source.ElementAt(i).Path))
-                {
-                    permanently = true;
-                }
-                else
-                {
-                    permanently = originalPermanently;
-                }
-
-                rawStorageHistory.Add(await filesystemOperations.DeleteAsync(source.ElementAt(i), null, banner.ErrorCode, permanently, token));
-                progress = ((float)i / (float)source.Count()) * 100.0f;
-                ((IProgress<float>)banner.Progress).Report(progress);
-                itemsDeleted++;
+                App.HistoryWrapper.AddHistory(history);
             }
-
-            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
-            {
-                history = new StorageHistory(
-                    rawStorageHistory[0].OperationType,
-                    rawStorageHistory.SelectMany((item) => item.Source).ToList(),
-                    rawStorageHistory.SelectMany((item) => item.Destination).ToList());
-
-                if (!permanently && registerHistory)
-                {
-                    App.HistoryWrapper.AddHistory(history);
-                }
-            }
+            var itemsDeleted = history?.Source.Count() ?? 0;
 
             banner.Remove();
             sw.Stop();
@@ -552,48 +520,14 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            IStorageHistory history;
-            List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
-
             itemManipulationModel.ClearSelection();
-            var itemsCopied = 0;
-            float progress;
-            for (int i = 0; i < source.Count(); i++)
+
+            IStorageHistory history = await filesystemOperations.CopyItemsAsync(source, destination, collisions, banner.Progress, banner.ErrorCode, token);
+            if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
             {
-                if (token.IsCancellationRequested)
-                {
-                    break;
-                }
-
-                if (collisions.ElementAt(i) != FileNameConflictResolveOptionType.Skip)
-                {
-                    rawStorageHistory.Add(await filesystemOperations.CopyAsync(
-                        source.ElementAt(i),
-                        destination.ElementAt(i),
-                        collisions.ElementAt(i).Convert(),
-                        null,
-                        banner.ErrorCode,
-                        token));
-
-                    itemsCopied++;
-                }
-
-                progress = i / (float)source.Count() * 100.0f;
-                ((IProgress<float>)banner.Progress).Report(progress);
+                App.HistoryWrapper.AddHistory(history);
             }
-
-            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
-            {
-                history = new StorageHistory(
-                    rawStorageHistory[0].OperationType,
-                    rawStorageHistory.SelectMany((item) => item.Source).ToList(),
-                    rawStorageHistory.SelectMany((item) => item.Destination).ToList());
-
-                if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
-                {
-                    App.HistoryWrapper.AddHistory(history);
-                }
-            }
+            var itemsCopied = history?.Source.Count() ?? 0;
 
             banner.Remove();
             sw.Stop();
@@ -726,7 +660,6 @@ namespace Files.Filesystem
                         var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet() {
                             { "Arguments", "FileOperation" },
                             { "fileop", "DragDrop" },
-                            { "droptext", "DragDropWindowText".GetLocalized() },
                             { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
                         return (status == AppServiceResponseStatus.Success && response.Get("Success", false)) ? ReturnResult.Success : ReturnResult.Failed;
                     }
@@ -823,47 +756,14 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            IStorageHistory history;
-            var rawStorageHistory = new List<IStorageHistory>();
-            int itemsMoved = 0;
-
             itemManipulationModel.ClearSelection();
-            float progress;
-            for (int i = 0; i < source.Count(); i++)
+
+            IStorageHistory history = await filesystemOperations.MoveItemsAsync(source, destination, collisions, banner.Progress, banner.ErrorCode, token);
+            if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
             {
-                if (token.IsCancellationRequested)
-                {
-                    break;
-                }
-
-                if (collisions.ElementAt(i) != FileNameConflictResolveOptionType.Skip)
-                {
-                    rawStorageHistory.Add(await filesystemOperations.MoveAsync(
-                        source.ElementAt(i),
-                        destination.ElementAt(i),
-                        collisions.ElementAt(i).Convert(),
-                        null,
-                        banner.ErrorCode,
-                        token));
-                    itemsMoved++;
-                }
-
-                progress = i / (float)source.Count() * 100.0f;
-                ((IProgress<float>)banner.Progress).Report(progress);
+                App.HistoryWrapper.AddHistory(history);
             }
-
-            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
-            {
-                history = new StorageHistory(
-                    rawStorageHistory[0].OperationType,
-                    rawStorageHistory.SelectMany((item) => item.Source).ToList(),
-                    rawStorageHistory.SelectMany((item) => item.Destination).ToList());
-
-                if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
-                {
-                    App.HistoryWrapper.AddHistory(history);
-                }
-            }
+            int itemsMoved = history?.Source.Count() ?? 0;
 
             banner.Remove();
             sw.Stop();
