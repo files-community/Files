@@ -2604,9 +2604,6 @@
   <data name="SettingsShowDrivesSection.Header" xml:space="preserve">
     <value>Show drives section on the sidebar</value>
   </data>
-  <data name="SettingsShowFavoritesSection.Header" xml:space="preserve">
-    <value>Show favorites section on the sidebar</value>
-  </data>
   <data name="SettingsShowWslSection.Header" xml:space="preserve">
     <value>Show WSL section on the sidebar</value>
   </data>
