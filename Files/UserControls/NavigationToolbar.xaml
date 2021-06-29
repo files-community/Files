@@ -465,7 +465,7 @@
                 VerticalAlignment="Center"
                 extensions:FrameworkElementExtensions.Cursor="Hand"
                 x:Load="{x:Bind ViewModel.ClickablePathLoaded, Mode=OneWay}"
-                Background="{ThemeResource SolidBackgroundFillColorQuarternaryBrush}"
+                Background="{ThemeResource NavigationToolbarBreadcrumbBackgroundBrush}"
                 BorderBrush="{ThemeResource ControlElevationBorderBrush}"
                 BorderThickness="1"
                 CornerRadius="{StaticResource ControlCornerRadius}"

@@ -7,7 +7,8 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="700"
     d:DesignWidth="400"
-    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    Background="{ThemeResource PropertiesDialogRootBackgroundBrush}"
     KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
     Loading="Page_Loading"
@@ -30,7 +31,6 @@
             x:Name="NavigationView"
             Grid.Row="1"
             AllowDrop="False"
-            Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
             IsBackButtonVisible="Collapsed"
             IsPaneOpen="False"
             IsPaneToggleButtonVisible="False"
@@ -39,10 +39,6 @@
             SelectedItem="{x:Bind TabGeneral}"
             SelectionChanged="NavigationView_SelectionChanged"
             SelectionFollowsFocus="Enabled">
-            <!--<muxc:NavigationView.Resources>
-                <SolidColorBrush x:Key="TransparentBackdropColor" Color="Transparent" />
-                <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="TransparentBackdropColor" />
-            </muxc:NavigationView.Resources>-->
 
             <!--  Tabs  -->
             <muxc:NavigationView.MenuItems>

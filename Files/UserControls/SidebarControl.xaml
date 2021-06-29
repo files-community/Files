@@ -34,7 +34,7 @@
                         Windows10version1903:TintLuminosityOpacity="{ThemeResource SidebarTintLuminosityOpacity}"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
-                        FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
+                        FallbackColor="{ThemeResource SidebarFallbackBrush}"
                         TintColor="{ThemeResource SolidBackgroundAcrylic}"
                         TintOpacity="{ThemeResource SidebarTintOpacity}" />
                 </ResourceDictionary>
@@ -44,7 +44,7 @@
                         Windows10version1903:TintLuminosityOpacity="{ThemeResource SidebarTintLuminosityOpacity}"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
-                        FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
+                        FallbackColor="{ThemeResource SidebarFallbackBrush}"
                         TintColor="{ThemeResource SolidBackgroundAcrylic}"
                         TintOpacity="{ThemeResource SidebarTintOpacity}" />
                 </ResourceDictionary>
@@ -335,7 +335,7 @@
                                 <Grid
                                     x:Name="ContentRoot"
                                     Grid.ColumnSpan="2"
-                                    Margin="0,50,0,0">
+                                    Margin="0,128,0,0">
                                     <Grid.RenderTransform>
                                         <CompositeTransform x:Name="ContentTransform" />
                                     </Grid.RenderTransform>
