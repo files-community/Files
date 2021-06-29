@@ -336,21 +336,15 @@
                     </Button>
                 </StackPanel>
 
-                <Custom:DropShadowPanel
+                <controls:NavigationToolbar
+                    x:Name="NavToolbar"
                     Grid.Row="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
-                    BlurRadius="8"
-                    OffsetY="2"
-                    ShadowOpacity="0.04">
-                    <controls:NavigationToolbar
-                        x:Name="NavToolbar"
-                        HorizontalAlignment="Stretch"
-                        SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
-                        ShowPreviewPaneButton="{x:Bind IsPreviewPaneDisabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
-                </Custom:DropShadowPanel>
+                    SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
+                    ShowPreviewPaneButton="{x:Bind IsPreviewPaneDisabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
             </Grid>
         </controls:SidebarControl.TabContent>
 
