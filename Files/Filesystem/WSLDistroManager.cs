@@ -59,12 +59,12 @@ namespace Files.Filesystem
                                 Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png")),
                                 ChildItems = new ObservableCollection<INavigationControlItem>()
                             };
-                            var index = 1 +
-                                    Convert.ToInt32(App.AppSettings.ShowLibrarySection) +
-                                    Convert.ToInt32(App.AppSettings.ShowDrivesSection) +
-                                    Convert.ToInt32(App.AppSettings.ShowCloudDrivesSection) +
-                                    Convert.ToInt32(App.AppSettings.ShowNetworkDrivesSection); // After network section
-                            SidebarControl.SideBarItems.Insert(index, section);
+                            var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
+                                        (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
+                                        (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0) +
+                                        (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.CloudDrives) ? 1 : 0) +
+                                        (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Network) ? 1 : 0); // After network section
+                            SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), section);
                         }
 
                         if (section != null)
