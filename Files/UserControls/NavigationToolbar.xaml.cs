@@ -3,9 +3,12 @@ using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.ViewModels;
 using Files.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 using Windows.System;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -204,5 +207,48 @@ namespace Files.UserControls
         }
 
         private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args) => ViewModel.VisiblePath_QuerySubmitted(sender, args);
+
+
+
+        public bool IsCompactOverlay
+        {
+            get { return (bool)GetValue(IsCompactOverlayProperty); }
+            set { SetValue(IsCompactOverlayProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsCompactOverlay.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsCompactOverlayProperty =
+            DependencyProperty.Register("IsCompactOverlay", typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+
+
+
+        public ICommand SetCompactOverlayCommand
+        {
+            get { return (ICommand)GetValue(SetCompactOverlayCommandProperty); }
+            set { SetValue(SetCompactOverlayCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ToggleCompactOverlayCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SetCompactOverlayCommandProperty =
+            DependencyProperty.Register("ToggleCompactOverlayCommand", typeof(ICommand), typeof(NavigationToolbar), new PropertyMetadata(null));
+
+
+
+        private async void NavToolbarEnterCompactOverlay_Click(object sender, RoutedEventArgs e)
+        {
+            var view = ApplicationView.GetForCurrentView();
+            if (view.ViewMode == ApplicationViewMode.CompactOverlay)
+            {
+                await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+                NavToolbarExitCompactOverlay.Visibility = Visibility.Collapsed;
+                NavToolbarEnterCompactOverlay.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+                NavToolbarExitCompactOverlay.Visibility = Visibility.Visible;
+                NavToolbarEnterCompactOverlay.Visibility = Visibility.Collapsed;
+            }
+        }
     }
 }

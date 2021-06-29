@@ -41,7 +41,7 @@ namespace Files.ViewModels
         private readonly SemaphoreSlim enumFolderSemaphore = new SemaphoreSlim(1, 1);
         private readonly SemaphoreSlim loadExtendedPropsSemaphore = new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
         private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
-        private readonly SemaphoreSlim operationSemaphore = new SemaphoreSlim(1, 1);
+        private readonly ManualResetEventSlim operationEvent = new ManualResetEventSlim();
         private IntPtr hWatchDir;
         private IAsyncAction aWatcherAction;
 
@@ -1549,14 +1549,7 @@ namespace Files.ViewModels
 
                                 operationQueue.Enqueue((action, FileName));
 
-                                try
-                                {
-                                    operationSemaphore.Release();
-                                }
-                                catch (Exception)
-                                {
-                                    // Prevent semaphore handles exceeding
-                                }
+                                operationEvent.Set();
 
                                 offset += notifyInfo.NextEntryOffset;
                             } while (notifyInfo.NextEntryOffset != 0 && x.Status != AsyncStatus.Canceled);
@@ -1587,48 +1580,59 @@ namespace Files.ViewModels
             const uint FILE_ACTION_RENAMED_NEW_NAME = 0x00000005;
 
             var sampler = new IntervalSampler(500);
+            bool anyEdits = false;
 
             try
             {
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    await operationSemaphore.WaitAsync(cancellationToken);
-                    while (operationQueue.TryDequeue(out var operation))
+                    if (operationEvent.Wait(500, cancellationToken))
                     {
-                        if (cancellationToken.IsCancellationRequested) break;
-                        try
+                        operationEvent.Reset();
+                        while (operationQueue.TryDequeue(out var operation))
                         {
-                            switch (operation.Action)
+                            if (cancellationToken.IsCancellationRequested) break;
+                            try
                             {
-                                case FILE_ACTION_ADDED:
-                                case FILE_ACTION_RENAMED_NEW_NAME:
-                                    await AddFileOrFolderAsync(operation.FileName, returnformat);
-                                    break;
+                                switch (operation.Action)
+                                {
+                                    case FILE_ACTION_ADDED:
+                                    case FILE_ACTION_RENAMED_NEW_NAME:
+                                        await AddFileOrFolderAsync(operation.FileName, returnformat);
+                                        anyEdits = true;
+                                        break;
 
-                                case FILE_ACTION_MODIFIED:
-                                    await UpdateFileOrFolderAsync(operation.FileName);
-                                    break;
+                                    case FILE_ACTION_MODIFIED:
+                                        await UpdateFileOrFolderAsync(operation.FileName);
+                                        break;
 
-                                case FILE_ACTION_REMOVED:
-                                case FILE_ACTION_RENAMED_OLD_NAME:
-                                    await RemoveFileOrFolderAsync(operation.FileName);
-                                    break;
+                                    case FILE_ACTION_REMOVED:
+                                    case FILE_ACTION_RENAMED_OLD_NAME:
+                                        await RemoveFileOrFolderAsync(operation.FileName);
+                                        anyEdits = true;
+                                        break;
+                                }
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            App.Logger.Warn(ex, ex.Message);
-                        }
+                            catch (Exception ex)
+                            {
+                                App.Logger.Warn(ex, ex.Message);
+                            }
 
-                        if (sampler.CheckNow())
-                        {
-                            await OrderFilesAndFoldersAsync();
-                            await ApplyFilesAndFoldersChangesAsync();
+                            if (anyEdits && sampler.CheckNow())
+                            {
+                                await OrderFilesAndFoldersAsync();
+                                await ApplyFilesAndFoldersChangesAsync();
+                                anyEdits = false;
+                            }
                         }
                     }
 
-                    await OrderFilesAndFoldersAsync();
-                    await ApplyFilesAndFoldersChangesAsync();
+                    if (anyEdits && sampler.CheckNow())
+                    {
+                        await OrderFilesAndFoldersAsync();
+                        await ApplyFilesAndFoldersChangesAsync();
+                        anyEdits = false;
+                    }
                 }
             }
             catch

@@ -24,9 +24,15 @@
             <converters:LayoutModeToBoolConverter x:Key="LayoutModeConverter" />
             <converters:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
             <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
+            <converters1:BoolToVisibilityConverter
+                x:Key="NegatedBoolToVisibilityConverter"
+                FalseValue="Visible"
+                TrueValue="Collapsed" />
             <converters:IntToGroupOption x:Key="IntToGroupOption" />
             <converters:IntToSortOption x:Key="IntToSortOption" />
             <converters:IntToSortDirection x:Key="IntToSortDirection" />
+            <x:Boolean x:Key="True">True</x:Boolean>
+            <x:Boolean x:Key="False">False</x:Boolean>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
 
@@ -873,6 +879,40 @@
                             Key="N"
                             IsEnabled="False"
                             Modifiers="Control" />
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="NavToolbarEnterCompactOverlay"
+                    x:Uid="NavigationToolbarEnterCompactOverlay"
+                    Command="{x:Bind SetCompactOverlayCommand}"
+                    CommandParameter="{StaticResource True}"
+                    Label="Enter compact overlay"
+                    Visibility="{x:Bind IsCompactOverlay, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator
+                            Key="Up"
+                            IsEnabled="False"
+                            Modifiers="Menu,Control" />
+                    </AppBarButton.KeyboardAccelerators>
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xEE49;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="NavToolbarExitCompactOverlay"
+                    x:Uid="NavigationToolbarExitCompactOverlay"
+                    Command="{x:Bind SetCompactOverlayCommand}"
+                    CommandParameter="{StaticResource False}"
+                    Label="Exit compact overlay"
+                    Visibility="{x:Bind IsCompactOverlay, Mode=OneWay}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xEE47;" />
+                    </AppBarButton.Icon>
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator
+                            Key="Down"
+                            IsEnabled="False"
+                            Modifiers="Menu,Control" />
                     </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
                 <AppBarButton

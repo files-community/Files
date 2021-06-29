@@ -2568,6 +2568,12 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Close pane</value>
   </data>
+  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+    <value>Enter compact overlay</value>
+  </data>
+  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+    <value>Exit compact overlay</value>
+</data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>File description</value>
   </data>
@@ -2597,5 +2603,23 @@
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Uncompressed size</value>
+  </data>
+  <data name="SettingsShowCloudDrivesSection.Header" xml:space="preserve">
+    <value>Show cloud drives section on the sidebar</value>
+  </data>
+  <data name="SettingsShowDrivesSection.Header" xml:space="preserve">
+    <value>Show drives section on the sidebar</value>
+  </data>
+  <data name="SettingsShowWslSection.Header" xml:space="preserve">
+    <value>Show WSL section on the sidebar</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSection.Header" xml:space="preserve">
+    <value>Show network drives section on the sidebar</value>
+  </data>
+  <data name="WSL" xml:space="preserve">
+    <value>WSL</value>
+  </data>
+  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
+    <value>Hide {0} section</value>
   </data>
 </root>

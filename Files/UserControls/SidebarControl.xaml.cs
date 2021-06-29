@@ -141,6 +141,21 @@ namespace Files.UserControls
             }
         }
 
+        private bool showHideSection;
+
+        public bool ShowHideSection
+        {
+            get => showHideSection;
+            set
+            {
+                if (value != showHideSection)
+                {
+                    showHideSection = value;
+                    NotifyPropertyChanged(nameof(ShowHideSection));
+                }
+            }
+        }
+
         private bool showProperties;
 
         public bool ShowProperties
@@ -240,16 +255,40 @@ namespace Files.UserControls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public void HideSection_Click(object sender, RoutedEventArgs e)
+        {
+            if ("SidebarLibraries".GetLocalized().Equals(RightClickedItem.Text))
+            {
+                AppSettings.ShowLibrarySection = false;
+                App.LibraryManager.UpdateLibrariesSectionVisibility();
+            }
+            else if ("SidebarCloudDrives".GetLocalized().Equals(RightClickedItem.Text))
+            {
+                AppSettings.ShowCloudDrivesSection = false;
+                App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
+            }
+            else if ("SidebarDrives".GetLocalized().Equals(RightClickedItem.Text))
+            {
+                AppSettings.ShowDrivesSection = false;
+                App.DrivesManager.UpdateDrivesSectionVisibility();
+            }
+            else if ("SidebarNetworkDrives".GetLocalized().Equals(RightClickedItem.Text))
+            {
+                AppSettings.ShowNetworkDrivesSection = false;
+                App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
+            }
+            else if ("WSL".GetLocalized().Equals(RightClickedItem.Text))
+            {
+                AppSettings.ShowWslSection = false;
+                App.WSLDistroManager.UpdateWslSectionVisibility();
+            }
+        }
+
         public void UnpinItem_Click(object sender, RoutedEventArgs e)
         {
             if (string.Equals(AppSettings.RecycleBinPath, RightClickedItem.Path, StringComparison.OrdinalIgnoreCase))
             {
                 AppSettings.PinRecycleBinToSideBar = false;
-            }
-            else if ("SidebarLibraries".GetLocalized().Equals(RightClickedItem.Text))
-            {
-                AppSettings.ShowLibrarySection = false;
-                App.LibraryManager.UpdateLibrariesSectionVisibility();
             }
             else if (RightClickedItem.Section == SectionType.Favorites)
             {
@@ -313,16 +352,22 @@ namespace Files.UserControls
             bool favoritesHeader = "SidebarFavorites".GetLocalized().Equals(item.Text);
             bool header = drivesHeader || networkDrivesHeader || cloudDrivesHeader || librariesHeader || wslHeader || favoritesHeader;
 
-            if (!header || librariesHeader)
+            if (!header)
             {
-                bool library = !header && item.Section == SectionType.Library;
-                bool favorite = !header && item.Section == SectionType.Favorites;
+                bool library = item.Section == SectionType.Library;
+                bool favorite = item.Section == SectionType.Favorites;
 
-                IsLocationItem = !header;
-                ShowProperties = !header;
-                IsLibrariesHeader = librariesHeader;
-                ShowUnpinItem = librariesHeader || ((library || favorite) && !item.IsDefaultLocation);
+                IsLocationItem = true;
+                ShowProperties = true;
+                IsLibrariesHeader = false;
+                ShowUnpinItem = ((library || favorite) && !item.IsDefaultLocation);
+                ShowHideSection = false;
                 ShowEjectDevice = false;
+
+                if (string.Equals(item.Path, "Home", StringComparison.OrdinalIgnoreCase))
+                {
+                    ShowProperties = false;
+                }
 
                 if (string.Equals(item.Path, AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
@@ -335,6 +380,21 @@ namespace Files.UserControls
                 {
                     ShowEmptyRecycleBin = false;
                 }
+
+                RightClickedItem = item;
+                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+            }
+            else if (!favoritesHeader)
+            {
+                IsLocationItem = false;
+                ShowProperties = false;
+                IsLibrariesHeader = librariesHeader;
+                ShowUnpinItem = false;
+                ShowHideSection = true;
+                ShowEjectDevice = false;
+                ShowEmptyRecycleBin = false;
+
+                HideSectionItem.Text = string.Format("SideBarHideSectionFromSideBar/Text".GetLocalized(), item.Text);
 
                 RightClickedItem = item;
                 SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
@@ -732,9 +792,9 @@ namespace Files.UserControls
                 SetSize(step);
                 e.Handled = true;
             }
-            
+
             // if the user focuses the resizer and attempts to resize while the pane is closed, open it
-            if(!IsPaneOpen && DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right))
+            if (!IsPaneOpen && DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right))
             {
                 IsPaneOpen = true;
             }
@@ -759,7 +819,7 @@ namespace Files.UserControls
 
         private void Border_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            if(!dragging) // keep showing pressed event if currently resizing the sidebar
+            if (!dragging) // keep showing pressed event if currently resizing the sidebar
             {
                 Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
@@ -768,10 +828,10 @@ namespace Files.UserControls
 
         private void SetSize(double val)
         {
-            if(IsPaneOpen)
+            if (IsPaneOpen)
             {
                 var newSize = originalSize + val;
-                if(newSize <= Constants.UI.MaximumSidebarWidth && newSize >= Constants.UI.MinimumSidebarWidth)
+                if (newSize <= Constants.UI.MaximumSidebarWidth && newSize >= Constants.UI.MinimumSidebarWidth)
                 {
                     OpenPaneLength = newSize; // passing a negative value will cause an exception
                 }
@@ -783,7 +843,8 @@ namespace Files.UserControls
                         IsPaneOpen = false;
                     }
                 }
-            } else
+            }
+            else
             {
                 if (val >= Constants.UI.MinimumSidebarWidth - CompactPaneLength)
                 {
@@ -795,7 +856,7 @@ namespace Files.UserControls
 
         private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            if(DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
+            if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
             {
                 Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPointerOver", true);

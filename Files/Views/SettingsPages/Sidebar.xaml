@@ -41,6 +41,30 @@
                     x:Uid="SettingsShowLibrarySection"
                     Header="Show library section on the sidebar"
                     IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Name="ShowDrivesSection"
+                    x:Uid="SettingsShowDrivesSection"
+                    Header="Show drives section on the sidebar"
+                    IsOn="{Binding ShowDrivesSection, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Name="ShowCloudDrivesSection"
+                    x:Uid="SettingsShowCloudDrivesSection"
+                    Header="Show cloud drives section on the sidebar"
+                    IsOn="{Binding ShowCloudDrivesSection, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Name="ShowNetworkDrivesSection"
+                    x:Uid="SettingsShowNetworkDrivesSection"
+                    Header="Show network drives section on the sidebar"
+                    IsOn="{Binding ShowNetworkDrivesSection, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Name="ShowWslSection"
+                    x:Uid="SettingsShowWslSection"
+                    Header="Show WSL section on the sidebar"
+                    IsOn="{Binding ShowWslSection, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
