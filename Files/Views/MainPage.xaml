@@ -11,9 +11,10 @@
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:usercontrols="using:Files.UserControls.MultitaskingControl"
     xmlns:viewmodels="using:Files.ViewModels"
-    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
     NavigationCacheMode="Required"
@@ -250,15 +251,18 @@
             <Grid
                 x:Name="RightMarginGrid"
                 Grid.Column="1"
-                Height="50"
                 Margin="{x:Bind SidebarAdaptiveViewModel.TabControlMargin, Mode=OneWay}"
-                HorizontalAlignment="Left"
+                HorizontalAlignment="Stretch"
                 VerticalAlignment="Top"
                 Canvas.ZIndex="4"
                 IsHitTestVisible="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition x:Name="RightPaddingColumn" Width="0" />
                 </Grid.ColumnDefinitions>
                 <usercontrols:HorizontalMultitaskingControl
@@ -356,21 +360,6 @@
                     Width="0"
                     MaxWidth="400" />
             </Grid.ColumnDefinitions>
-
-            <Custom:DropShadowPanel
-                Grid.Column="0"
-                Grid.ColumnSpan="3"
-                HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Stretch"
-                BlurRadius="8"
-                OffsetY="2"
-                ShadowOpacity="0.04">
-                <controls:NavigationToolbar
-                    x:Name="NavToolbar"
-                    HorizontalAlignment="Stretch"
-                    SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
-                    ShowPreviewPaneButton="{x:Bind IsPreviewPaneDisabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
-            </Custom:DropShadowPanel>
 
             <ContentPresenter
                 Grid.Row="1"

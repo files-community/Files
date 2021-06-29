@@ -14,7 +14,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:multitaskingcontrol="using:Files.UserControls.MultitaskingControl"
-    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+    Background="{ThemeResource PaneHolderPageBackgroundBrush}"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -83,7 +83,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource SolidBackgroundFillColorSecondary}">
+    <Grid Background="{ThemeResource PaneHolderPageBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" MinHeight="50" />
             <RowDefinition Height="*" />
