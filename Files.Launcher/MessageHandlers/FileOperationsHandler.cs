@@ -103,23 +103,59 @@ namespace FilesFullTrust.MessageHandlers
                     break;
 
                 case "DeleteItem":
-                    var fileToDeletePath = (string)message["filepath"];
+                    var fileToDeletePath = ((string)message["filepath"]).Split('|');
                     var permanently = (bool)message["permanently"];
-                    using (var op = new ShellFileOperations())
+                    var operationID2 = (string)message["operationID"];
+                    var (succcess2, deletedItems, recycledItems) = await Win32API.StartSTATask(async () =>
                     {
-                        op.Options = ShellFileOperations.OperationFlags.NoUI;
-                        if (!permanently)
+                        using (var op = new ShellFileOperations())
                         {
-                            op.Options |= ShellFileOperations.OperationFlags.RecycleOnDelete;
+                            op.Options = ShellFileOperations.OperationFlags.Silent
+                                        | ShellFileOperations.OperationFlags.NoConfirmation
+                                        | ShellFileOperations.OperationFlags.NoErrorUI
+                                        | ShellFileOperations.OperationFlags.EarlyFailure;
+                            if (!permanently)
+                            {
+                                op.Options |= ShellFileOperations.OperationFlags.RecycleOnDelete
+                                            | ShellFileOperations.OperationFlags.WantNukeWarning;
+                            }
+                            List<string> deletedItems = new List<string>();
+                            List<string> recycledItems = new List<string>();
+
+                            for (var i = 0; i < fileToDeletePath.Length; i++)
+                            {
+                                using var shi = new ShellItem(fileToDeletePath[i]);
+                                op.QueueDeleteOperation(shi);
+                            }
+
+                            var deleteTcs = new TaskCompletionSource<bool>();
+                            op.PostDeleteItem += (s, e) =>
+                            {
+                                if (e.Result.Succeeded)
+                                {
+                                    deletedItems.Add(e.SourceItem.FileSystemPath);
+                                    if (e.DestItem != null)
+                                    {
+                                        recycledItems.Add(e.DestItem.FileSystemPath);
+                                    }
+                                }
+                            };
+                            op.FinishOperations += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
+                            op.UpdateProgress += async (s, e) => await Win32API.SendMessageAsync(connection, new ValueSet() {
+                                { "Progress", e.ProgressPercentage },
+                                { "OperationID", operationID2 }
+                            });
+
+                            op.PerformOperations();
+
+                            return (await deleteTcs.Task, deletedItems, recycledItems);
                         }
-                        using var shi = new ShellItem(fileToDeletePath);
-                        op.QueueDeleteOperation(shi);
-                        var deleteTcs = new TaskCompletionSource<bool>();
-                        op.PostDeleteItem += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
-                        op.PerformOperations();
-                        var result = await deleteTcs.Task;
-                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
-                    }
+                    });
+                    await Win32API.SendMessageAsync(connection, new ValueSet() {
+                        { "Success", succcess2 && deletedItems.Count == fileToDeletePath.Length },
+                        { "DeletedItems", JsonConvert.SerializeObject(deletedItems) },
+                        { "RecycledItems", JsonConvert.SerializeObject(recycledItems) }
+                    }, message.Get("RequestID", (string)null));
                     break;
 
                 case "RenameItem":
@@ -164,11 +200,11 @@ namespace FilesFullTrust.MessageHandlers
                     var copyDestination = ((string)message["destpath"]).Split('|');
                     var operationID = (string)message["operationID"];
                     var overwriteOnCopy = (bool)message["overwrite"];
-                    var (succcess, resultItems) = await Win32API.StartSTATask(async () =>
+                    var (succcess, copiedItems) = await Win32API.StartSTATask(async () =>
                     {
                         using (var op = new ShellFileOperations())
                         {
-                            List<string> resultItems = new List<string>();
+                            List<string> copiedItems = new List<string>();
 
                             op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
                                         | ShellFileOperations.OperationFlags.Silent
@@ -190,15 +226,15 @@ namespace FilesFullTrust.MessageHandlers
                             var copyTcs = new TaskCompletionSource<bool>();
                             op.PostCopyItem += (s, e) =>
                             {
-                                if (e.Result == HRESULT.S_OK)
+                                if (e.Result.Succeeded)
                                 {
                                     if (e.DestItem == null || string.IsNullOrEmpty(e.Name))
                                     {
-                                        resultItems.Add($"{Path.Combine(e.DestFolder.FileSystemPath, e.SourceItem.Name)}");
+                                        copiedItems.Add($"{Path.Combine(e.DestFolder.FileSystemPath, e.SourceItem.Name)}");
                                     }
                                     else
                                     {
-                                        resultItems.Add($"{Path.Combine(e.DestFolder.FileSystemPath, e.Name)}");
+                                        copiedItems.Add($"{Path.Combine(e.DestFolder.FileSystemPath, e.Name)}");
                                     }
                                 }
                             };
@@ -210,12 +246,12 @@ namespace FilesFullTrust.MessageHandlers
 
                             op.PerformOperations();
 
-                            return (await copyTcs.Task, resultItems);
+                            return (await copyTcs.Task, copiedItems);
                         }
                     });
                     await Win32API.SendMessageAsync(connection, new ValueSet() {
-                        { "Success", succcess && resultItems.Count == fileToCopyPath.Length },
-                        { "ResultItems", JsonConvert.SerializeObject(resultItems) },
+                        { "Success", succcess && copiedItems.Count == fileToCopyPath.Length },
+                        { "CopiedItems", JsonConvert.SerializeObject(copiedItems) },
                     }, message.Get("RequestID", (string)null));
                     break;
 
