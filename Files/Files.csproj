@@ -200,6 +200,7 @@
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
+    <Compile Include="Events\ContextItemsChangedEventArgs.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\FileIconInfoExtensions.cs" />

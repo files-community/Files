@@ -517,8 +517,9 @@
         </Grid>
 
         <CommandBar
+            x:Name="ContextCommandBar"
             Grid.Row="1"
-            HorizontalAlignment="Right"
+            HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             DefaultLabelPosition="Right">
             <CommandBar.Resources>
@@ -527,6 +528,7 @@
                     <SolidColorBrush x:Key="CommandBarBorderBrushOpen" Color="Transparent" />
                 </ResourceDictionary>
             </CommandBar.Resources>
+            <AppBarSeparator x:Name="CurrentItemOptionSeparator" />
             <AppBarButton
                 x:Name="WidgetsManager"
                 x:Uid="NavToolbarWidgets"

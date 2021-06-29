@@ -1,5 +1,6 @@
 ﻿using Files.DataModels;
 using Files.Helpers;
+using Files.Helpers.ContextFlyouts;
 using Files.Helpers.XamlHelpers;
 using Files.ViewModels;
 using Files.Views;
@@ -249,6 +250,27 @@ namespace Files.UserControls
                 NavToolbarExitCompactOverlay.Visibility = Visibility.Visible;
                 NavToolbarEnterCompactOverlay.Visibility = Visibility.Collapsed;
             }
+        }
+
+        public void SetCommandBarContextItems(List<ContextMenuFlyoutItemViewModel> items)
+        {
+            // Clear out all old context items
+            for (int i = 0; i < ContextCommandBar.PrimaryCommands.IndexOf(CurrentItemOptionSeparator); i++)
+            {
+                ContextCommandBar.PrimaryCommands.RemoveAt(i);
+            }
+
+            var appBarItems = ItemModelListToContextFlyoutHelper.GetAppBarButtonsFromModelIgnorePrimary(items);
+
+            foreach (var item in appBarItems)
+            {
+                ContextCommandBar.PrimaryCommands.Insert(ContextCommandBar.PrimaryCommands.IndexOf(CurrentItemOptionSeparator), item);
+            }
+        }
+        
+        public void SetShellCommandBarContextItems()
+        {
+
         }
     }
 }

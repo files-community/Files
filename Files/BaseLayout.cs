@@ -1,4 +1,5 @@
 ﻿using Files.EventArguments;
+using Files.Events;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
@@ -19,6 +20,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -76,6 +78,8 @@ namespace Files
                 }
             }
         }
+
+        public event TypedEventHandler<object, ContextItemsChangedEventArgs> ContextItemsChanged;
 
         protected NavigationToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<NavigationToolbar>();
 
@@ -545,6 +549,14 @@ namespace Files
             var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
             primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
+        }
+
+        private void LoadToolbarContextItemsAsync()
+        {
+            SelectedItemsPropertiesViewModel.CheckFileExtension(SelectedItem?.FileExtension);
+            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var items = ContextFlyoutItemHelper.GetItemContextCommands(connection: Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
+            ContextItemsChanged?.Invoke(this, new ContextItemsChangedEventArgs(items));
         }
 
         protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
