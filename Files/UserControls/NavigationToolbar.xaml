@@ -333,13 +333,14 @@
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         Background="{ThemeResource NavigationToolbarBackgroundBrush}"
-        ColumnSpacing="0">
+        ColumnSpacing="0"
+        CornerRadius="{StaticResource ControlCornerRadius}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="32" />
+            <RowDefinition Height="40" />
             <RowDefinition Height="44" />
         </Grid.RowDefinitions>
 
-        <Grid Padding="8,0,8,0" ColumnSpacing="4">
+        <Grid Padding="8,8,8,0" ColumnSpacing="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />

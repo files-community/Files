@@ -53,7 +53,7 @@
                             <SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
                             <SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <!--  Navigation Toolbar  -->
-                            <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="Transparent" />
+                            <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="#3EFFFFFF" />
                             <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
                             <!--  Horizontal Tab Control  -->
                             <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
@@ -90,7 +90,7 @@
                             <SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
                             <SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
                             <!--  Navigation Toolbar  -->
-                            <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="Transparent" />
+                            <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="#1C000000" />
                             <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
                             <!--  Horizontal Tab Control  -->
                             <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />

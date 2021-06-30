@@ -243,10 +243,16 @@
                                     <ColumnDefinition x:Name="ColumnDefinition2" Width="*" />
                                 </Grid.ColumnDefinitions>
 
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
 
                                 <!--  Pane Content Area  -->
                                 <Grid
                                     x:Name="PaneRoot"
+                                    Grid.RowSpan="2"
                                     Grid.ColumnSpan="2"
                                     Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.OpenPaneLength}"
                                     HorizontalAlignment="Left"
@@ -286,6 +292,7 @@
                                 <!--  This allows the user to resize the pane  -->
                                 <Grid
                                     x:Name="ResizeElementBorder"
+                                    Grid.RowSpan="2"
                                     Grid.Column="{Binding ElementName=PaneRoot, Path=(Grid.Column), Mode=OneWay}"
                                     Width="8"
                                     HorizontalAlignment="Right"
@@ -334,8 +341,8 @@
                                 <!--  Content Area  -->
                                 <Grid
                                     x:Name="ContentRoot"
-                                    Grid.ColumnSpan="2"
-                                    Margin="0,128,0,0">
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="2">
                                     <Grid.RenderTransform>
                                         <CompositeTransform x:Name="ContentTransform" />
                                     </Grid.RenderTransform>
