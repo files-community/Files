@@ -49,6 +49,8 @@ namespace Files.ViewModels
         public string ID { get; set; }
 
         public bool IsPrimary { get; set; }
+
+        public bool CollapseLabel { get; set; }
     }
 
     public enum ItemType

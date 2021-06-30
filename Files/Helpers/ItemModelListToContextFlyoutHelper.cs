@@ -199,6 +199,7 @@ namespace Files.Helpers.ContextFlyouts
                     CommandParameter = item.CommandParameter,
                     IsChecked = item.IsChecked,
                     Content = content,
+                    LabelPosition = item.CollapseLabel ? CommandBarLabelPosition.Collapsed : CommandBarLabelPosition.Default,
                     IsEnabled = item.IsEnabled
                 };
 
@@ -207,7 +208,7 @@ namespace Files.Helpers.ContextFlyouts
                     (element as AppBarToggleButton).Icon = icon;
                 }
 
-                if (item.IsPrimary)
+                if (item.IsPrimary || item.CollapseLabel)
                 {
                     (element as AppBarToggleButton).SetValue(ToolTipService.ToolTipProperty, item.Text);
                 }
@@ -221,6 +222,7 @@ namespace Files.Helpers.ContextFlyouts
                     Command = item.Command,
                     CommandParameter = item.CommandParameter,
                     Flyout = ctxFlyout,
+                    LabelPosition = item.CollapseLabel ? CommandBarLabelPosition.Collapsed : CommandBarLabelPosition.Default,
                     Content = content,
                     IsEnabled = item.IsEnabled
                 };
@@ -230,7 +232,7 @@ namespace Files.Helpers.ContextFlyouts
                     (element as AppBarButton).Icon = icon;
                 }
 
-                if (item.IsPrimary)
+                if (item.IsPrimary || item.CollapseLabel)
                 {
                     (element as AppBarButton).SetValue(ToolTipService.ToolTipProperty, item.Text);
                 }

@@ -40,6 +40,13 @@ namespace Files.Helpers
             return menuItemsList;
         }
 
+        public static List<ContextMenuFlyoutItemViewModel> GetToolbarContextCommands(NamedPipeAsAppServiceConnection connection, CurrentInstanceViewModel currentInstanceViewModel, string workingDir, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, bool showOpenMenu, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel)
+        {
+            var menuItemsList = ShellContextmenuHelper.SetShellContextmenu(GetNavItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel), shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, connection: connection, workingDirectory: workingDir, selectedItems: selectedItems);
+            menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems);
+            return menuItemsList;
+        }
+
         public static List<ContextMenuFlyoutItemViewModel> GetBaseContextCommands(NamedPipeAsAppServiceConnection connection, CurrentInstanceViewModel currentInstanceViewModel, ItemViewModel itemViewModel, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, bool showOpenMenu)
         {
             var menuItemsList = ShellContextmenuHelper.SetShellContextmenu(GetBaseLayoutMenuItems(currentInstanceViewModel, itemViewModel, commandsViewModel), shiftPressed, showOpenMenu, connection, itemViewModel.WorkingDirectory, new List<ListedItem>());
@@ -452,6 +459,298 @@ namespace Files.Helpers
             };
         }
 
+        public static List<ContextMenuFlyoutItemViewModel> GetNavItemMenuItems(BaseLayoutCommandsViewModel commandsViewModel, List<ListedItem> selectedItems, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel)
+        {
+            return new List<ContextMenuFlyoutItemViewModel>()
+            {
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutRestore/Text".GetLocalized(),
+                    Glyph = "\uE8E5",
+                    Command = commandsViewModel.RestoreItemCommand,
+                    ShowInRecycleBin = true,
+                    ShowItem = selectedItems.All(x => x.IsRecycleBinItem)
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutOpenItem/Text".GetLocalized(),
+                    Glyph = "\uE8E5",
+                    Command = commandsViewModel.OpenItemCommand,
+                    ShowItem = selectedItems.Count <= 10,
+                    CollapseLabel = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalized(),
+                    Glyph = "\uE17D",
+                    Command = commandsViewModel.OpenItemWithApplicationPickerCommand,
+                    ShowItem = selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem),
+                    CollapseLabel = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutOpenFileLocation/Text".GetLocalized(),
+                    Glyph = "\uE8DA",
+                    Command = commandsViewModel.OpenFileLocationCommand,
+                    ShowItem = selectedItems.All(i => i.IsShortcutItem),
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutOpenInNewPane/Text".GetLocalized(),
+                    Glyph = "\uF117",
+                    GlyphFontFamilyName = "CustomGlyph",
+                    Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
+                    ShowItem = App.AppSettings.IsDualPaneEnabled && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
+                    SingleItemOnly = true,
+                    CollapseLabel = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutOpenInNewTab/Text".GetLocalized(),
+                    Glyph = "\uF113",
+                    GlyphFontFamilyName = "CustomGlyph",
+                    Command = commandsViewModel.OpenDirectoryInNewTabCommand,
+                    ShowItem = selectedItems.Count < 5 && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
+
+                    CollapseLabel = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutOpenInNewWindow/Text".GetLocalized(),
+                    Glyph = "\uE737",
+                    Command = commandsViewModel.OpenInNewWindowItemCommand,
+                    ShowItem = selectedItems.Count < 5 && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
+
+                    CollapseLabel = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    ItemType = ItemType.Separator,
+                    ShowInRecycleBin = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutRename/Text".GetLocalized(),
+                    Glyph = "\uE8AC",
+                    Command = commandsViewModel.RenameItemCommand,
+                    SingleItemOnly = true,
+                    CollapseLabel = true,
+                    KeyboardAccelerator = new KeyboardAccelerator
+                    {
+                        Key = Windows.System.VirtualKey.F2,
+                        IsEnabled = false,
+                    },
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutShare/Text".GetLocalized(),
+                    Glyph = "\uE72D",
+                    Command = commandsViewModel.ShareItemCommand,
+                    ShowItem = DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem),
+
+                    CollapseLabel = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutCut/Text".GetLocalized(),
+                    Glyph = "\uE8C6",
+                    CollapseLabel = true,
+                    Command = commandsViewModel.CutItemCommand,
+                    KeyboardAccelerator = new KeyboardAccelerator
+                    {
+                        Key = Windows.System.VirtualKey.X,
+                        Modifiers = Windows.System.VirtualKeyModifiers.Control,
+                        IsEnabled = false,
+                    },
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutCopy/Text".GetLocalized(),
+                    Glyph = "\uE8C8",
+                    Command = commandsViewModel.CopyItemCommand,
+                    ShowInRecycleBin = true,
+                    CollapseLabel = true,
+                    KeyboardAccelerator = new KeyboardAccelerator
+                    {
+                        Key = Windows.System.VirtualKey.C,
+                        Modifiers = Windows.System.VirtualKeyModifiers.Control,
+                        IsEnabled = false,
+                    },
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutCopyLocation/Text".GetLocalized(),
+                    Glyph = "\uE167",
+                    CollapseLabel = true,
+                    Command = commandsViewModel.CopyPathOfSelectedItemCommand,
+                    SingleItemOnly = true,
+
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalized(),
+                    Glyph = "\uE16D",
+                    Command = commandsViewModel.PasteItemsFromClipboardCommand,
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder),
+                    SingleItemOnly = true,
+                    CollapseLabel = true,
+                    IsEnabled = App.MainViewModel.IsPasteEnabled,
+                    KeyboardAccelerator = new KeyboardAccelerator
+                    {
+                        Key = Windows.System.VirtualKey.V,
+                        Modifiers = Windows.System.VirtualKeyModifiers.Control,
+                        IsEnabled = false,
+                    },
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutDelete/Text".GetLocalized(),
+                    Glyph = "\uE74D",
+                    Command = commandsViewModel.DeleteItemCommand,
+                    ShowInRecycleBin = true,
+
+                    CollapseLabel = true,
+                    KeyboardAccelerator = new KeyboardAccelerator
+                    {
+                        Key = Windows.System.VirtualKey.Delete,
+                        IsEnabled = false,
+                    },
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutProperties/Text".GetLocalized(),
+                    Glyph = "\uE946",
+                    CollapseLabel = true,
+                    Command = commandsViewModel.ShowPropertiesCommand,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    ItemType = ItemType.Separator,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutSetAs/Text".GetLocalized(),
+                    Glyph = "\uE91B",
+                    ShowItem = selectedItemsPropertiesViewModel.IsSelectedItemImage,
+                    Items = new List<ContextMenuFlyoutItemViewModel>()
+                    {
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutItemContextFlyoutSetAsDesktopBackground/Text".GetLocalized(),
+                            Glyph = "\uE91B",
+                            Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutItemContextFlyoutSetAsLockscreenBackground/Text".GetLocalized(),
+                            Glyph = "\uF114",
+                            GlyphFontFamilyName = "CustomGlyph",
+                            Command = commandsViewModel.SetAsLockscreenBackgroundItemCommand,
+                        },
+                    }
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutContextFlyoutRunAsAdmin/Text".GetLocalized(),
+                    Glyph = "\uE7EF",
+                    Command = commandsViewModel.RunAsAdminCommand,
+                    ShowItem = new string[]{".bat", ".exe", "cmd" }.Contains(selectedItems.FirstOrDefault().FileExtension)
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutContextFlyoutRunAsAnotherUser/Text".GetLocalized(),
+                    Glyph = "\uE7EE",
+                    Command = commandsViewModel.RunAsAnotherUserCommand,
+                    ShowItem = new string[]{".bat", ".exe", "cmd" }.Contains(selectedItems.FirstOrDefault().FileExtension)
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutShortcut/Text".GetLocalized(),
+                    Glyph = "\uF10A",
+                    GlyphFontFamilyName = "CustomGlyph",
+                    Command = commandsViewModel.CreateShortcutCommand,
+                    ShowItem = !selectedItems.FirstOrDefault().IsShortcutItem,
+                    SingleItemOnly = true,
+
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutExtractionOptions".GetLocalized(),
+                    Glyph = "\xF11A",
+                    ShowItem = selectedItems.Count == 1 && selectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new [] { ".zip", ".msix", ".msixbundle" }.Contains(selectedItems.First().FileExtension.ToLowerInvariant()),
+                    GlyphFontFamilyName = "CustomGlyph",
+                    Items = new List<ContextMenuFlyoutItemViewModel>()
+                    {
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutItemContextFlyoutExtractFilesOption".GetLocalized(),
+                            Command = commandsViewModel.DecompressArchiveCommand,
+                            Glyph = "\xF11A",
+                            GlyphFontFamilyName = "CustomGlyph"
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutItemContextFlyoutExtractHereOption".GetLocalized(),
+                            Command = commandsViewModel.DecompressArchiveHereCommand,
+                            Glyph = "\xF11A",
+                            GlyphFontFamilyName = "CustomGlyph"
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalized(), Path.GetFileNameWithoutExtension(selectedItems.First().ItemName)),
+                            Command = commandsViewModel.DecompressArchiveToChildFolderCommand,
+                            Glyph = "\xF11A",
+                            GlyphFontFamilyName = "CustomGlyph"
+                        }
+                    }
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutPinToSidebar/Text".GetLocalized(),
+                    Glyph = "\uE840",
+                    Command = commandsViewModel.SidebarPinItemCommand,
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsPinned),
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutContextFlyoutUnpinDirectoryFromSidebar/Text".GetLocalized(),
+                    Glyph = "\uE77A",
+                    Command = commandsViewModel.SidebarUnpinItemCommand,
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsPinned),
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "PinItemToStart/Text".GetLocalized(),
+                    Glyph = "\uE840",
+                    Command = commandsViewModel.PinItemToStartCommand,
+                    ShowOnShift = true,
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsItemPinnedToStart),
+                    SingleItemOnly = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "UnpinItemFromStart/Text".GetLocalized(),
+                    Glyph = "\uE77A",
+                    Command = commandsViewModel.UnpinItemFromStartCommand,
+                    ShowOnShift = true,
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsItemPinnedToStart),
+                    SingleItemOnly = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutCreateFolderWithSelection/Text".GetLocalized(),
+                    Glyph = "\uE1DA",
+                    Command = commandsViewModel.CreateFolderWithSelection,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "ContextMenuMoreItemsLabel".GetLocalized(),
+                    Glyph = "\xE712",
+                    ID = "ItemOverflow",
+                },
+            };
+        }
+
         public static List<ContextMenuFlyoutItemViewModel> GetBaseItemMenuItems(BaseLayoutCommandsViewModel commandsViewModel, List<ListedItem> selectedItems, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel)
         {
             return new List<ContextMenuFlyoutItemViewModel>()
@@ -483,6 +782,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalized(),
                     Glyph = "\uE17D",
                     Command = commandsViewModel.OpenItemWithApplicationPickerCommand,
+                    CollapseLabel = true,
                     ShowItem = selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem),
                 },
                 new ContextMenuFlyoutItemViewModel()

@@ -255,16 +255,72 @@ namespace Files.UserControls
         public void SetCommandBarContextItems(List<ContextMenuFlyoutItemViewModel> items)
         {
             // Clear out all old context items
-            for (int i = 0; i < ContextCommandBar.PrimaryCommands.IndexOf(CurrentItemOptionSeparator); i++)
+            /*for (int i = 0; i < ; i++)
             {
-                ContextCommandBar.PrimaryCommands.RemoveAt(i);
+                
+            }*/
+
+            var i = ContextCommandBar.PrimaryCommands.IndexOf(CurrentItemOptionSeparator);
+            while (i > 0)
+            {
+                ContextCommandBar.PrimaryCommands.RemoveAt(i-1);
+                i = ContextCommandBar.PrimaryCommands.IndexOf(CurrentItemOptionSeparator);
             }
 
-            var appBarItems = ItemModelListToContextFlyoutHelper.GetAppBarButtonsFromModelIgnorePrimary(items);
-
-            foreach (var item in appBarItems)
+            if(items is null || !items.Any())
             {
-                ContextCommandBar.PrimaryCommands.Insert(ContextCommandBar.PrimaryCommands.IndexOf(CurrentItemOptionSeparator), item);
+                return;
+            }
+
+            (var primaryAppBarItems, var secondaryAppBarItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
+
+            //foreach (var item in primaryAppBarItems)
+            //{
+            //    SetAppBarButtonProps(item);
+            //    var index = ContextCommandBar.PrimaryCommands.IndexOf(CurrentItemOptionSeparator) - 1;
+            //    if(index < 0)
+            //    {
+            //        index = 0;
+            //    }
+            //    ContextCommandBar.PrimaryCommands.Insert(index, item);
+            //}
+
+            foreach (var item in secondaryAppBarItems)
+            {
+                SetAppBarButtonProps(item);
+                var index = ContextCommandBar.PrimaryCommands.IndexOf(CurrentItemOptionSeparator);
+                //if (index < 0)
+                //{
+                //    index = 0;
+                //}
+                ContextCommandBar.PrimaryCommands.Insert(index, item);
+            }
+        }
+
+        private void SetAppBarButtonProps(ICommandBarElement e)
+        {
+            if (e is AppBarButton appBarButton)
+            {
+                if (appBarButton.Icon is FontIcon bFontIcon)
+                {
+                    bFontIcon.Style = Resources["AccentColorFontIconStyle"] as Style;
+                }
+                if(appBarButton.LabelPosition == CommandBarLabelPosition.Collapsed)
+                {
+                    appBarButton.Width = 48;
+                }
+            }
+            else if (e is AppBarToggleButton appBarToggleButton)
+            {
+                if (appBarToggleButton.Icon is FontIcon tFontIcon)
+                {
+                    tFontIcon.Style = Resources["AccentColorFontIconStyle"] as Style;
+                }
+
+                if (appBarToggleButton.LabelPosition == CommandBarLabelPosition.Collapsed)
+                {
+                    appBarToggleButton.Width = 48;
+                }
             }
         }
         

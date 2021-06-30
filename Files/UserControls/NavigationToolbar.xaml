@@ -323,6 +323,10 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
+
+                    <Style x:Key="AccentColorFontIconStyle" TargetType="FontIcon">
+                        <Setter Property="Foreground" Value="{ThemeResource SystemAccentColor}" />
+                    </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

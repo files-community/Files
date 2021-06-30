@@ -79,7 +79,7 @@ namespace Files
             }
         }
 
-        public event TypedEventHandler<object, ContextItemsChangedEventArgs> ContextItemsChanged;
+        public event TypedEventHandler<IBaseLayout, ContextItemsChangedEventArgs> ContextItemsChanged;
 
         protected NavigationToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<NavigationToolbar>();
 
@@ -182,7 +182,8 @@ namespace Files
             }
             internal set
             {
-                if (value != selectedItems)
+                //if (!(value?.All(x => selectedItems?.Contains(x) ?? false) ?? value == selectedItems)) // check if the new list is different then the old one
+                if (value != selectedItems) // check if the new list is different then the old one
                 {
                     if(value?.FirstOrDefault() != selectedItems?.FirstOrDefault())
                     {
@@ -248,8 +249,10 @@ namespace Files
                         }
                     }
 
+                    LoadToolbarContextItemsAsync();
+
                     NotifyPropertyChanged(nameof(SelectedItems));
-                    ItemManipulationModel.SetDragModeForItems();
+                    //ItemManipulationModel.SetDragModeForItems();
                 }
             }
         }
@@ -553,11 +556,26 @@ namespace Files
 
         private void LoadToolbarContextItemsAsync()
         {
-            SelectedItemsPropertiesViewModel.CheckFileExtension(SelectedItem?.FileExtension);
-            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var items = ContextFlyoutItemHelper.GetItemContextCommands(connection: Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
-            ContextItemsChanged?.Invoke(this, new ContextItemsChangedEventArgs(items));
+            SelectionContextItems = new List<ContextMenuFlyoutItemViewModel>();
+            if(SelectedItems is null || !SelectedItems.Any())
+            {
+                ContextItemsChanged?.Invoke(this, new ContextItemsChangedEventArgs(SelectionContextItems));
+                return;
+            }
+            try
+            {
+                SelectedItemsPropertiesViewModel.CheckFileExtension(SelectedItem?.FileExtension);
+                SelectionContextItems = ContextFlyoutItemHelper.GetToolbarContextCommands(connection: Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: false, showOpenMenu: false);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+
+            ContextItemsChanged?.Invoke(this, new ContextItemsChangedEventArgs(SelectionContextItems));
         }
+
+        public List<ContextMenuFlyoutItemViewModel> SelectionContextItems { get; private set; } = new List<ContextMenuFlyoutItemViewModel>();
 
         protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
