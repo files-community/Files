@@ -248,6 +248,17 @@
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
 
+                                <!--  I exist to make a nice looking background for both the tab strip without interfering with the drag area grid  -->
+                                <Border
+                                    Grid.Column="{Binding ElementName=ContentRoot, Path=(Grid.Column), Mode=OneWay}"
+                                    Grid.ColumnSpan="{Binding ElementName=ContentRoot, Path=(Grid.ColumnSpan), Mode=OneWay}"
+                                    VerticalAlignment="Stretch"
+                                    Background="{ThemeResource TitlebarContentBackgroundBrush}"
+                                    BorderBrush="{ThemeResource NavigationViewContentGridBorderBrush}"
+                                    BorderThickness="{ThemeResource NavigationViewContentGridBorderThickness}"
+                                    CornerRadius="{Binding ElementName=TabContentBorder, Path=CornerRadius, Mode=OneWay}"
+                                    IsHitTestVisible="False"
+                                    RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}" />
 
                                 <!--  Pane Content Area  -->
                                 <Grid
@@ -336,6 +347,7 @@
                                     Grid.ColumnSpan="{Binding ElementName=ContentRoot, Path=(Grid.ColumnSpan), Mode=OneWay}"
                                     VerticalAlignment="Top"
                                     Canvas.ZIndex="2"
+                                    CornerRadius="{StaticResource NavToolbarCornerRadius}"
                                     RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}" />
 
                                 <!--  Content Area  -->
@@ -833,7 +845,11 @@
                                                 </Storyboard>
                                             </VisualTransition>
                                         </VisualStateGroup.Transitions>
-                                        <VisualState x:Name="Closed" />
+                                        <VisualState x:Name="Closed">
+                                            <VisualState.Setters>
+                                                <Setter Target="TabContentBorder.CornerRadius" Value="0" />
+                                            </VisualState.Setters>
+                                        </VisualState>
                                         <VisualState x:Name="ClosedCompactLeft">
 
                                             <Storyboard>
