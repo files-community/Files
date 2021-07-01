@@ -90,6 +90,7 @@ namespace Files.Filesystem
                 App.HistoryWrapper.AddHistory(result.Item1);
             }
 
+            await Task.Yield();
             return (returnCode.ToStatus(), result.Item2);
         }
 
@@ -167,6 +168,8 @@ namespace Files.Filesystem
             bool originalPermanently = permanently;
 
             IStorageHistory history = await filesystemOperations.DeleteItemsAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
+            ((IProgress<float>)banner.Progress).Report(100.0f);
+            await Task.Yield();
 
             if (!permanently && registerHistory)
             {
@@ -316,6 +319,7 @@ namespace Files.Filesystem
 
             IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
             ((IProgress<float>)banner.Progress).Report(100.0f);
+            await Task.Yield();
 
             if (!permanently && registerHistory)
             {
@@ -396,6 +400,7 @@ namespace Files.Filesystem
 
             IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
             ((IProgress<float>)banner.Progress).Report(100.0f);
+            await Task.Yield();
 
             if (!permanently && registerHistory)
             {
@@ -425,6 +430,7 @@ namespace Files.Filesystem
                 App.HistoryWrapper.AddHistory(history);
             }
 
+            await Task.Yield();
             return returnCode.ToStatus();
         }
 
@@ -523,6 +529,9 @@ namespace Files.Filesystem
             itemManipulationModel.ClearSelection();
 
             IStorageHistory history = await filesystemOperations.CopyItemsAsync(source, destination, collisions, banner.Progress, banner.ErrorCode, token);
+            ((IProgress<float>)banner.Progress).Report(100.0f);
+            await Task.Yield();
+
             if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
             {
                 App.HistoryWrapper.AddHistory(history);
@@ -586,6 +595,7 @@ namespace Files.Filesystem
             {
                 history = await filesystemOperations.CopyAsync(source, destination, collisions.First().Convert(), banner.Progress, banner.ErrorCode, cancellationToken);
                 ((IProgress<float>)banner.Progress).Report(100.0f);
+                await Task.Yield();
             }
             else
             {
@@ -759,6 +769,9 @@ namespace Files.Filesystem
             itemManipulationModel.ClearSelection();
 
             IStorageHistory history = await filesystemOperations.MoveItemsAsync(source, destination, collisions, banner.Progress, banner.ErrorCode, token);
+            ((IProgress<float>)banner.Progress).Report(100.0f);
+            await Task.Yield();
+
             if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
             {
                 App.HistoryWrapper.AddHistory(history);
@@ -829,6 +842,7 @@ namespace Files.Filesystem
             {
                 history = await filesystemOperations.MoveAsync(source, destination, collisions.First().Convert(), banner.Progress, banner.ErrorCode, cancellationToken);
                 ((IProgress<float>)banner.Progress).Report(100.0f);
+                await Task.Yield();
             }
             else
             {
@@ -910,6 +924,7 @@ namespace Files.Filesystem
                 App.HistoryWrapper.AddHistory(history);
             }
 
+            await Task.Yield();
             return returnCode.ToStatus();
         }
 
@@ -961,6 +976,7 @@ namespace Files.Filesystem
                 App.HistoryWrapper.AddHistory(history);
             }
 
+            await Task.Yield();
             return returnCode.ToStatus();
         }
 

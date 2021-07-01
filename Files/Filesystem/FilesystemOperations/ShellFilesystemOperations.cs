@@ -72,6 +72,9 @@ namespace Files.Filesystem
 
             source = source.Where((src, index) => collisions.ElementAt(index) != FileNameConflictResolveOptionType.Skip);
 
+            var operationID = Guid.NewGuid().ToString();
+            using var _ = cancellationToken.Register(CancelOperation, operationID, false);
+
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
             associatedInstance.ServiceConnection.RequestReceived += handler;
 
@@ -79,7 +82,7 @@ namespace Files.Filesystem
             {
                 { "Arguments", "FileOperation" },
                 { "fileop", "CopyItem" },
-                { "operationID", Guid.NewGuid().ToString() },
+                { "operationID", operationID },
                 { "filepath", string.Join('|', source.Select(s => s.Path)) },
                 { "destpath", string.Join('|', destination) },
                 { "overwrite", collisions.All(x => x == FileNameConflictResolveOptionType.ReplaceExisting) }
@@ -110,18 +113,8 @@ namespace Files.Filesystem
             return null;
         }
 
-        private void OnProgressUpdated(object sender, Dictionary<string, object> message, IProgress<float> progress)
-        {
-            if (message.ContainsKey("OperationID"))
-            {
-                var value = (long)message["Progress"];
-                progress?.Report(value);
-            }
-        }
-
         public async Task<(IStorageHistory, IStorageItem)> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            // TODO
             return await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
         }
 
@@ -163,6 +156,9 @@ namespace Files.Filesystem
                 deleleFilePaths = deleleFilePaths.Concat(source.Select(x => Path.Combine(Path.GetDirectoryName(x.Path), Path.GetFileName(x.Path).Replace("$R", "$I"))));
             }
 
+            var operationID = Guid.NewGuid().ToString();
+            using var _ = cancellationToken.Register(CancelOperation, operationID, false);
+
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
             associatedInstance.ServiceConnection.RequestReceived += handler;
 
@@ -170,7 +166,7 @@ namespace Files.Filesystem
             {
                 { "Arguments", "FileOperation" },
                 { "fileop", "DeleteItem" },
-                { "operationID", Guid.NewGuid().ToString() },
+                { "operationID", operationID },
                 { "filepath", string.Join('|', deleleFilePaths) },
                 { "permanently", permanently }
             });
@@ -237,6 +233,9 @@ namespace Files.Filesystem
 
             source = source.Where((src, index) => collisions.ElementAt(index) != FileNameConflictResolveOptionType.Skip);
 
+            var operationID = Guid.NewGuid().ToString();
+            using var _ = cancellationToken.Register(CancelOperation, operationID, false);
+
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
             associatedInstance.ServiceConnection.RequestReceived += handler;
 
@@ -244,7 +243,7 @@ namespace Files.Filesystem
             {
                 { "Arguments", "FileOperation" },
                 { "fileop", "MoveItem" },
-                { "operationID", Guid.NewGuid().ToString() },
+                { "operationID", operationID },
                 { "filepath", string.Join('|', source.Select(s => s.Path)) },
                 { "destpath", string.Join('|', destination) },
                 { "overwrite", collisions.All(x => x == FileNameConflictResolveOptionType.ReplaceExisting) }
@@ -324,6 +323,9 @@ namespace Files.Filesystem
                 return await filesystemOperations.RestoreFromTrashAsync(source, destination, progress, errorCode, cancellationToken);
             }
 
+            var operationID = Guid.NewGuid().ToString();
+            using var _ = cancellationToken.Register(CancelOperation, operationID, false);
+
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
             associatedInstance.ServiceConnection.RequestReceived += handler;
 
@@ -331,7 +333,7 @@ namespace Files.Filesystem
             {
                 { "Arguments", "FileOperation" },
                 { "fileop", "MoveItem" },
-                { "operationID", Guid.NewGuid().ToString() },
+                { "operationID", operationID },
                 { "filepath", source.Path },
                 { "destpath", destination },
                 { "overwrite", false }
@@ -364,6 +366,25 @@ namespace Files.Filesystem
             errorCode?.Report(FileSystemStatusCode.Generic);
             progress?.Report(100.0f);
             return null;
+        }
+
+        private void OnProgressUpdated(object sender, Dictionary<string, object> message, IProgress<float> progress)
+        {
+            if (message.ContainsKey("OperationID"))
+            {
+                var value = (long)message["Progress"];
+                progress?.Report(value);
+            }
+        }
+
+        private async void CancelOperation(object operationID)
+        {
+            await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet()
+            {
+                { "Arguments", "FileOperation" },
+                { "fileop", "CancelOperation" },
+                { "operationID", (string)operationID }
+            });
         }
 
         #region IDisposable

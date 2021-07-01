@@ -3,6 +3,7 @@ using FilesFullTrust.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
@@ -16,6 +17,14 @@ namespace FilesFullTrust.MessageHandlers
 {
     public class FileOperationsHandler : MessageHandler
     {
+        private DisposableDictionary handleTable;
+
+        public FileOperationsHandler()
+        {
+            // Create handle table to store context menu references
+            handleTable = new DisposableDictionary();
+        }
+
         public void Initialize(NamedPipeServerStream connection)
         {
         }
@@ -129,7 +138,15 @@ namespace FilesFullTrust.MessageHandlers
                                 op.QueueDeleteOperation(shi);
                             }
 
+                            handleTable.SetValue(operationID2, false);
                             var deleteTcs = new TaskCompletionSource<bool>();
+                            op.PreDeleteItem += (s, e) =>
+                            {
+                                if (handleTable.GetValue<bool>(operationID2))
+                                {
+                                    throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
+                                }
+                            };
                             op.PostDeleteItem += (s, e) =>
                             {
                                 if (e.Result.Succeeded)
@@ -152,6 +169,8 @@ namespace FilesFullTrust.MessageHandlers
                             });
 
                             op.PerformOperations();
+
+                            handleTable.RemoveValue(operationID2);
 
                             return (await deleteTcs.Task, deletedItems, recycledItems);
                         }
@@ -182,7 +201,15 @@ namespace FilesFullTrust.MessageHandlers
                             using var shi = new ShellItem(fileToRenamePath);
                             op.QueueRenameOperation(shi, newName);
 
+                            handleTable.SetValue(operationID4, false);
                             var renameTcs = new TaskCompletionSource<bool>();
+                            op.PreRenameItem += (s, e) =>
+                            {
+                                if (handleTable.GetValue<bool>(operationID4))
+                                {
+                                    throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
+                                }
+                            };
                             op.PostRenameItem += (s, e) =>
                             {
                                 if (e.Result.Succeeded)
@@ -200,6 +227,9 @@ namespace FilesFullTrust.MessageHandlers
                             op.FinishOperations += (s, e) => renameTcs.TrySetResult(e.Result.Succeeded);
 
                             op.PerformOperations();
+
+                            handleTable.RemoveValue(operationID4);
+
                             return (await renameTcs.Task, renamedItems);
                         }
                     });
@@ -237,7 +267,15 @@ namespace FilesFullTrust.MessageHandlers
                                 }
                             }
 
+                            handleTable.SetValue(operationID3, false);
                             var moveTcs = new TaskCompletionSource<bool>();
+                            op.PreMoveItem += (s, e) =>
+                            {
+                                if (handleTable.GetValue<bool>(operationID3))
+                                {
+                                    throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
+                                }
+                            };
                             op.PostMoveItem += (s, e) =>
                             {
                                 if (e.Result.Succeeded)
@@ -263,6 +301,8 @@ namespace FilesFullTrust.MessageHandlers
                             });
 
                             op.PerformOperations();
+
+                            handleTable.RemoveValue(operationID3);
 
                             return (await moveTcs.Task, movedItems);
                         }
@@ -301,7 +341,15 @@ namespace FilesFullTrust.MessageHandlers
                                 }
                             }
 
+                            handleTable.SetValue(operationID, false);
                             var copyTcs = new TaskCompletionSource<bool>();
+                            op.PreCopyItem += (s, e) =>
+                            {
+                                if (handleTable.GetValue<bool>(operationID))
+                                {
+                                    throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
+                                }
+                            };
                             op.PostCopyItem += (s, e) =>
                             {
                                 if (e.Result.Succeeded)
@@ -328,6 +376,8 @@ namespace FilesFullTrust.MessageHandlers
 
                             op.PerformOperations();
 
+                            handleTable.RemoveValue(operationID);
+
                             return (await copyTcs.Task, copiedItems);
                         }
                     });
@@ -335,6 +385,11 @@ namespace FilesFullTrust.MessageHandlers
                         { "Success", succcess && copiedItems.Count == fileToCopyPath.Length },
                         { "CopiedItems", JsonConvert.SerializeObject(copiedItems) },
                     }, message.Get("RequestID", (string)null));
+                    break;
+
+                case "CancelOperation":
+                    var operationID5 = (string)message["operationID"];
+                    handleTable.SetValue(operationID5, true);
                     break;
 
                 case "ParseLink":
@@ -467,6 +522,7 @@ namespace FilesFullTrust.MessageHandlers
 
         public void Dispose()
         {
+            handleTable?.Dispose();
         }
     }
 }

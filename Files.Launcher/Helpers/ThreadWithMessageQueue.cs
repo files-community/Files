@@ -92,14 +92,20 @@ namespace FilesFullTrust.Helpers
 
         public object GetValue(string key)
         {
-            dict.TryGetValue(key, out var elem);
-            return elem;
+            if (dict.TryGetValue(key, out var elem))
+            {
+                return elem;
+            }
+            return null;
         }
 
         public T GetValue<T>(string key)
         {
-            dict.TryGetValue(key, out var elem);
-            return (T)elem;
+            if (dict.TryGetValue(key, out var elem))
+            {
+                return (T)elem;
+            }
+            return default;
         }
 
         public void RemoveValue(string key)
