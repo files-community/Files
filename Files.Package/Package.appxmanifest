@@ -25,7 +25,7 @@
     <Applications>
         <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$" desktop4:SupportsMultipleInstances="true">
             <uap:VisualElements DisplayName="Files - Dev" Description="Meet Files, a free and open-source File Manager for Windows 10. Created from the ground up to look and feel amazing, Files is built to replace the dated Windows File Explorer." Square150x150Logo="Assets\AppTiles\Square150x150Logo.png"  Square44x44Logo="Assets\AppTiles\Square44x44Logo.png"  BackgroundColor="transparent">
-                <uap:DefaultTile Wide310x150Logo="Assets\AppTiles\Wide310x150Logo.png" Square71x71Logo="Assets\AppTiles\SmallTile.png" Square310x310Logo="Assets\AppTiles\LargeTile.png" ShortName="Files">
+                <uap:DefaultTile Wide310x150Logo="Assets\AppTiles\Wide310x150Logo.png" Square71x71Logo="Assets\AppTiles\Small71x71Logo.png" Square310x310Logo="Assets\AppTiles\Large310x310Logo.png" ShortName="Files">
                     <uap:ShowNameOnTiles>
                         <uap:ShowOn Tile="square150x150Logo"/>
                         <uap:ShowOn Tile="wide310x150Logo"/>
