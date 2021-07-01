@@ -35,7 +35,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Image
                         Width="60"
-                        Source="/Assets/Files Icon.png"
+                        Source="/Assets/AppTiles/StoreLogo.scale-400.png"
                         Stretch="Uniform" />
                     <StackPanel Padding="12,0,0,0" Orientation="Vertical">
                         <TextBlock
