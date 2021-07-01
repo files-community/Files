@@ -524,7 +524,7 @@
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you're trying to delete is currently being used by an another application.</source>
-          <target state="translated">Die Datei, die sie löschen möchten, wird gerade von einer anderen Anwendung verwendet.</target>
+          <target state="translated">Die Datei, die Sie löschen möchten, wird gerade von einer anderen Anwendung verwendet.</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>File is in use</source>
