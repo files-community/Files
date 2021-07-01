@@ -166,19 +166,47 @@ namespace FilesFullTrust.MessageHandlers
                 case "RenameItem":
                     var fileToRenamePath = (string)message["filepath"];
                     var newName = (string)message["newName"];
+                    var operationID4 = (string)message["operationID"];
                     var overwriteOnRename = (bool)message["overwrite"];
-                    using (var op = new ShellFileOperations())
+                    var (succcess4, renamedItems) = await Win32API.StartSTATask(async () =>
                     {
-                        op.Options = ShellFileOperations.OperationFlags.NoUI;
-                        op.Options |= !overwriteOnRename ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision : 0;
-                        using var shi = new ShellItem(fileToRenamePath);
-                        op.QueueRenameOperation(shi, newName);
-                        var renameTcs = new TaskCompletionSource<bool>();
-                        op.PostRenameItem += (s, e) => renameTcs.TrySetResult(e.Result.Succeeded);
-                        op.PerformOperations();
-                        var result = await renameTcs.Task;
-                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
-                    }
+                        using (var op = new ShellFileOperations())
+                        {
+                            List<string> renamedItems = new List<string>();
+
+                            op.Options = ShellFileOperations.OperationFlags.Silent
+                                      | ShellFileOperations.OperationFlags.NoErrorUI
+                                      | ShellFileOperations.OperationFlags.EarlyFailure;
+                            op.Options |= !overwriteOnRename ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision : 0;
+
+                            using var shi = new ShellItem(fileToRenamePath);
+                            op.QueueRenameOperation(shi, newName);
+
+                            var renameTcs = new TaskCompletionSource<bool>();
+                            op.PostRenameItem += (s, e) =>
+                            {
+                                if (e.Result.Succeeded)
+                                {
+                                    if (e.DestItem == null || string.IsNullOrEmpty(e.Name))
+                                    {
+                                        renamedItems.Add($"{Path.Combine(Path.GetDirectoryName(e.SourceItem.FileSystemPath), newName)}");
+                                    }
+                                    else
+                                    {
+                                        renamedItems.Add($"{Path.Combine(Path.GetDirectoryName(e.SourceItem.FileSystemPath), e.Name)}");
+                                    }
+                                }
+                            };
+                            op.FinishOperations += (s, e) => renameTcs.TrySetResult(e.Result.Succeeded);
+
+                            op.PerformOperations();
+                            return (await renameTcs.Task, renamedItems);
+                        }
+                    });
+                    await Win32API.SendMessageAsync(connection, new ValueSet() {
+                        { "Success", succcess4 && renamedItems.Count == 1 },
+                        { "RenamedItems", JsonConvert.SerializeObject(renamedItems) },
+                    }, message.Get("RequestID", (string)null));
                     break;
 
                 case "MoveItem":

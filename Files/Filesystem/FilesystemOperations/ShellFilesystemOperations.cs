@@ -282,8 +282,38 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            // TODO
-            return await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+            if (associatedInstance.ServiceConnection == null || string.IsNullOrWhiteSpace(source.Path))
+            {
+                // Fallback to builtin file operations
+                return await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+            }
+
+            var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+            {
+                { "Arguments", "FileOperation" },
+                { "fileop", "RenameItem" },
+                { "operationID", Guid.NewGuid().ToString() },
+                { "filepath", source.Path },
+                { "newName", newName },
+                { "overwrite", collision == NameCollisionOption.ReplaceExisting }
+            });
+            var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
+                && response.Get("Success", false));
+
+            if (result)
+            {
+                var renamedItems = JsonConvert.DeserializeObject<IEnumerable<string>>(response["RenamedItems"] as string);
+                errorCode?.Report(FileSystemStatusCode.Success);
+                if (collision != NameCollisionOption.ReplaceExisting && renamedItems != null && renamedItems.Count() == 1)
+                {
+                    return new StorageHistory(FileOperationType.Rename, source,
+                        StorageItemHelpers.FromPathAndType(renamedItems.Single(), source.ItemType));
+                }
+                return null; // Cannot undo overwrite operation
+            }
+
+            errorCode?.Report(FileSystemStatusCode.Generic);
+            return null;
         }
 
         public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source, string destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
