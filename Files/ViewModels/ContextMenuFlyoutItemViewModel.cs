@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Files.UserControls;
+using System.Collections.Generic;
 using System.Windows.Input;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
@@ -51,6 +52,8 @@ namespace Files.ViewModels
         public bool IsPrimary { get; set; }
 
         public bool CollapseLabel { get; set; }
+
+        public ColoredIconModel ColoredIcon { get; set; }
     }
 
     public enum ItemType
@@ -58,5 +61,19 @@ namespace Files.ViewModels
         Item,
         Separator,
         Toggle,
+    }
+
+    public struct ColoredIconModel
+    {
+        public string OverlayLayerGlyph { get; set; }
+        public string BaseLayerGlyph { get; set; }
+
+        public ColoredIcon ToColoredIcon() => new ColoredIcon()
+        {
+            OverlayLayerGlyph = OverlayLayerGlyph,
+            BaseLayerGlyph = BaseLayerGlyph,
+        };
+
+        public bool IsValid => !string.IsNullOrEmpty(BaseLayerGlyph);
     }
 }

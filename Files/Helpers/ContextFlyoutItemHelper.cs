@@ -177,7 +177,11 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutSortBy/Text".GetLocalized(),
-                    Glyph = "\uE8CB",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0029",
+                        OverlayLayerGlyph = "\u0030",
+                    },
                     ShowInRecycleBin = true,
                     Items = new List<ContextMenuFlyoutItemViewModel>()
                     {
@@ -379,7 +383,12 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalized(),
-                    Glyph = "\uE16D",
+                    //Glyph = "\uE16D",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0023",
+                        OverlayLayerGlyph = "\u0024",
+                    },
                     Command = commandsViewModel.PasteItemsFromClipboardCommand,
                     IsEnabled = currentInstanceViewModel.CanPasteInPage && App.MainViewModel.IsPasteEnabled,
                     KeyboardAccelerator = new KeyboardAccelerator
@@ -531,7 +540,12 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutRename/Text".GetLocalized(),
-                    Glyph = "\uE8AC",
+                    //Glyph = "\uE8AC",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0027",
+                        OverlayLayerGlyph = "\u0028",
+                    },
                     Command = commandsViewModel.RenameItemCommand,
                     SingleItemOnly = true,
                     CollapseLabel = true,
@@ -544,10 +558,14 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutShare/Text".GetLocalized(),
-                    Glyph = "\uE72D",
+                    //Glyph = "\uE72D",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0025",
+                        OverlayLayerGlyph = "\u0026",
+                    },
                     Command = commandsViewModel.ShareItemCommand,
                     ShowItem = DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem),
-
                     CollapseLabel = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -566,7 +584,12 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutCopy/Text".GetLocalized(),
-                    Glyph = "\uE8C8",
+                    //Glyph = "\uE8C8",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0021",
+                        OverlayLayerGlyph = "\u0022",
+                    },
                     Command = commandsViewModel.CopyItemCommand,
                     ShowInRecycleBin = true,
                     CollapseLabel = true,
@@ -589,7 +612,12 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalized(),
-                    Glyph = "\uE16D",
+                    //Glyph = "\uE16D",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0023",
+                        OverlayLayerGlyph = "\u0024",
+                    },
                     Command = commandsViewModel.PasteItemsFromClipboardCommand,
                     ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder),
                     SingleItemOnly = true,
@@ -880,7 +908,12 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutCopy/Text".GetLocalized(),
-                    Glyph = "\uE8C8",
+                    //Glyph = "\uE8C8",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0021",
+                        OverlayLayerGlyph = "\u0022",
+                    },
                     Command = commandsViewModel.CopyItemCommand,
                     ShowInRecycleBin = true,
                     KeyboardAccelerator = new KeyboardAccelerator
@@ -901,7 +934,12 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalized(),
-                    Glyph = "\uE16D",
+                    //Glyph = "\uE16D",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0023",
+                        OverlayLayerGlyph = "\u0024",
+                    },
                     Command = commandsViewModel.PasteItemsFromClipboardCommand,
                     ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder),
                     SingleItemOnly = true,
@@ -939,7 +977,12 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutRename/Text".GetLocalized(),
-                    Glyph = "\uE8AC",
+                    //Glyph = "\uE8AC",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0027",
+                        OverlayLayerGlyph = "\u0028",
+                    },
                     Command = commandsViewModel.RenameItemCommand,
                     SingleItemOnly = true,
                     KeyboardAccelerator = new KeyboardAccelerator
@@ -951,7 +994,12 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutShare/Text".GetLocalized(),
-                    Glyph = "\uE72D",
+                    //Glyph = "\uE72D",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0025",
+                        OverlayLayerGlyph = "\u0026",
+                    },
                     Command = commandsViewModel.ShareItemCommand,
                     ShowItem = DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem),
                     IsPrimary = true,

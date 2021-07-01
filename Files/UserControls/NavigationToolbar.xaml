@@ -324,9 +324,7 @@
                         </Setter>
                     </Style>
 
-                    <Style x:Key="AccentColorFontIconStyle" TargetType="FontIcon">
-                        <Setter Property="Foreground" Value="{ThemeResource SystemAccentColor}" />
-                    </Style>
+                    <Style x:Key="AccentColorFontIconStyle" TargetType="FontIcon" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -645,12 +643,19 @@
                 AutomationProperties.Name="Sort"
                 Label="Sort"
                 ToolTipService.ToolTip="Sort">
-                <AppBarButton.Icon>
+                <!--<AppBarButton.Icon>
                     <FontIcon
                         FontSize="10"
                         Foreground="{ThemeResource SystemAccentColor}"
                         Glyph="&#xE174;" />
-                </AppBarButton.Icon>
+                </AppBarButton.Icon>-->
+                <AppBarButton.Content>
+                    <uc:ColoredIcon
+                        Width="24"
+                        Height="24"
+                        BaseLayerGlyph="&#xF029;"
+                        OverlayLayerGlyph="&#xF02A;" />
+                </AppBarButton.Content>
                 <AppBarButton.Flyout>
                     <Flyout>
                         <uc:ArrangementOptions

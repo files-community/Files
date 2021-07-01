@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
@@ -180,13 +181,16 @@ namespace Files.Helpers.ContextFlyouts
                 GetMenuFlyoutItemsFromModel(item.Items).ForEach(i => ctxFlyout.Items.Add(i));
             }
 
-            Image content = null;
+            UIElement content = null;
             if (item.BitmapIcon != null)
             {
                 content = new Image()
                 {
                     Source = item.BitmapIcon,
                 };
+            } else if(item.ColoredIcon.IsValid)
+            {
+                content = item.ColoredIcon.ToColoredIcon();
             }
 
             if (item.ItemType == ItemType.Toggle)
