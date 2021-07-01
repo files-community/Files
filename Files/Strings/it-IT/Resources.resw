@@ -2442,4 +2442,73 @@
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Chiudi pannello</value>
   </data>
+  <data name="PropertyFileDescription" xml:space="preserve">
+    <value>Descrizione</value>
+  </data>
+  <data name="PropertyCompany" xml:space="preserve">
+    <value>Compagnia</value>
+  </data>
+  <data name="PropertyLanguage" xml:space="preserve">
+    <value>Lingua</value>
+  </data>
+  <data name="PropertyTrademarks" xml:space="preserve">
+    <value>Marchio</value>
+  </data>
+  <data name="PropertyFileVersion" xml:space="preserve">
+    <value>Versione</value>
+  </data>
+  <data name="PropertySyncStatus" xml:space="preserve">
+    <value>Stato sincronizzazione</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.Content" xml:space="preserve">
+    <value>Carica anteprima completa</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Scarica il file dal cloud e carica l'anteprima</value>
+  </data>
+  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
+    <value>Seleziona una destinazione ed estrai i file</value>
+  </data>
+  <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
+    <value>Sfoglia</value>
+  </data>
+  <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
+    <value>Mostra i file estratti al termine</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
+    <value>Estrai</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
+    <value>Estrai qui</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
+    <value>Estrai...</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
+    <value>Estrai in {0}\</value>
+  </data>
+  <data name="DetailsArchiveItemCount" xml:space="preserve">
+    <value>{0} elementi ({1} file, {2} cartelle)</value>
+  </data>
+  <data name="PropertyUncompressedSize" xml:space="preserve">
+    <value>Dimensione non compressa</value>
+  </data>
+  <data name="SettingsShowCloudDrivesSection.Header" xml:space="preserve">
+    <value>Mostra gli archivi cloud sulla barra laterale</value>
+  </data>
+  <data name="SettingsShowDrivesSection.Header" xml:space="preserve">
+    <value>Mostra i dischi sulla barra laterale</value>
+  </data>
+  <data name="SettingsShowWslSection.Header" xml:space="preserve">
+    <value>Mostra la sezione WSL sulla barra laterale</value>
+  </data>
+  <data name="WSL" xml:space="preserve">
+    <value>WSL</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSection.Header" xml:space="preserve">
+    <value>Mostra le risorse di rete sulla barra laterale</value>
+  </data>
+  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
+    <value>Nascondi la sezione {0}</value>
+  </data>
 </root>

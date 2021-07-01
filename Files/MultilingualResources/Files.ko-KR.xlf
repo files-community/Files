@@ -3332,6 +3332,38 @@
           <source>Uncompressed size</source>
           <target state="new">Uncompressed size</target>
         </trans-unit>
+        <trans-unit id="NavigationToolbarEnterCompactOverlay.Label" translate="yes" xml:space="preserve">
+          <source>Enter compact overlay</source>
+          <target state="new">Enter compact overlay</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarExitCompactOverlay.Label" translate="yes" xml:space="preserve">
+          <source>Exit compact overlay</source>
+          <target state="new">Exit compact overlay</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowCloudDrivesSection.Header" translate="yes" xml:space="preserve">
+          <source>Show cloud drives section on the sidebar</source>
+          <target state="new">Show cloud drives section on the sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowDrivesSection.Header" translate="yes" xml:space="preserve">
+          <source>Show drives section on the sidebar</source>
+          <target state="new">Show drives section on the sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowWslSection.Header" translate="yes" xml:space="preserve">
+          <source>Show WSL section on the sidebar</source>
+          <target state="new">Show WSL section on the sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowNetworkDrivesSection.Header" translate="yes" xml:space="preserve">
+          <source>Show network drives section on the sidebar</source>
+          <target state="new">Show network drives section on the sidebar</target>
+        </trans-unit>
+        <trans-unit id="WSL" translate="yes" xml:space="preserve">
+          <source>WSL</source>
+          <target state="new">WSL</target>
+        </trans-unit>
+        <trans-unit id="SideBarHideSectionFromSideBar.Text" translate="yes" xml:space="preserve">
+          <source>Hide {0} section</source>
+          <target state="new">Hide {0} section</target>
+        </trans-unit>
       </group>
     </body>
   </file>
