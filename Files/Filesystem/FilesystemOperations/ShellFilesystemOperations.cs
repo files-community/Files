@@ -318,8 +318,52 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source, string destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            // TODO
-            return await filesystemOperations.RestoreFromTrashAsync(source, destination, progress, errorCode, cancellationToken);
+            if (associatedInstance.ServiceConnection == null || string.IsNullOrWhiteSpace(source.Path) || string.IsNullOrWhiteSpace(destination))
+            {
+                // Fallback to builtin file operations
+                return await filesystemOperations.RestoreFromTrashAsync(source, destination, progress, errorCode, cancellationToken);
+            }
+
+            EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
+            associatedInstance.ServiceConnection.RequestReceived += handler;
+
+            var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+            {
+                { "Arguments", "FileOperation" },
+                { "fileop", "MoveItem" },
+                { "operationID", Guid.NewGuid().ToString() },
+                { "filepath", source.Path },
+                { "destpath", destination },
+                { "overwrite", false }
+            });
+            var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
+                && response.Get("Success", false));
+
+            if (associatedInstance.ServiceConnection != null)
+            {
+                associatedInstance.ServiceConnection.RequestReceived -= handler;
+            }
+
+            if (result)
+            {
+                progress?.Report(100.0f);
+                var movedItems = JsonConvert.DeserializeObject<IEnumerable<string>>(response["MovedItems"] as string);
+                errorCode?.Report(FileSystemStatusCode.Success);
+                if (movedItems != null && movedItems.Count() == 1)
+                {
+                    // Recycle bin also stores a file starting with $I for each item
+                    await DeleteAsync(StorageItemHelpers.FromPathAndType(
+                        Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I")), source.ItemType), 
+                        null, null, true, cancellationToken);
+                    return new StorageHistory(FileOperationType.Restore, source,
+                        StorageItemHelpers.FromPathAndType(movedItems.Single(), source.ItemType));
+                }
+                return null; // Cannot undo overwrite operation
+            }
+
+            errorCode?.Report(FileSystemStatusCode.Generic);
+            progress?.Report(100.0f);
+            return null;
         }
 
         #region IDisposable

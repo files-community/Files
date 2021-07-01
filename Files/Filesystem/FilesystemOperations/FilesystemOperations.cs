@@ -876,6 +876,7 @@ namespace Files.Filesystem
 
         private async Task<FilesystemResult> PerformAdminOperation(ValueSet operation)
         {
+            operation.Add("operationID", Guid.NewGuid().ToString());
             var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
             var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
             if (elevateConfirmResult == ContentDialogResult.Primary)
