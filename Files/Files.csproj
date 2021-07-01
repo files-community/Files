@@ -998,11 +998,6 @@
     </Content>
     <Content Include="Assets\AnimatedVisuals\LottiePulseStatusCenter.json" />
     <Content Include="Resources\MiddleClickScrolling-CursorType.res" />
-    <None Include="Assets\AppTiles\.DS_Store" />
-    <None Include="Assets\AppTiles\contrast-black\.DS_Store" />
-    <None Include="Assets\AppTiles\contrast-standard\.DS_Store" />
-    <None Include="Assets\AppTiles\contrast-standard\theme-dark\.DS_Store" />
-    <None Include="Assets\AppTiles\contrast-standard\theme-light\.DS_Store" />
     <None Include="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

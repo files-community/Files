@@ -94,13 +94,11 @@
     <ProjectReference Include="..\Files.Launcher\Files.Launcher.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\AppTiles\.DS_Store" />
     <Content Include="Assets\AppTiles\BadgeLogo.scale-100.png" />
     <Content Include="Assets\AppTiles\BadgeLogo.scale-125.png" />
     <Content Include="Assets\AppTiles\BadgeLogo.scale-150.png" />
     <Content Include="Assets\AppTiles\BadgeLogo.scale-200.png" />
     <Content Include="Assets\AppTiles\BadgeLogo.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-black\.DS_Store" />
     <Content Include="Assets\AppTiles\contrast-black\BadgeLogo.scale-100_contrast-black.png" />
     <Content Include="Assets\AppTiles\contrast-black\BadgeLogo.scale-125_contrast-black.png" />
     <Content Include="Assets\AppTiles\contrast-black\BadgeLogo.scale-150_contrast-black.png" />
@@ -183,8 +181,6 @@
     <Content Include="Assets\AppTiles\contrast-black\Wide310x150Logo.scale-150_contrast-black.png" />
     <Content Include="Assets\AppTiles\contrast-black\Wide310x150Logo.scale-200_contrast-black.png" />
     <Content Include="Assets\AppTiles\contrast-black\Wide310x150Logo.scale-400_contrast-black.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\.DS_Store" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-dark\.DS_Store" />
     <Content Include="Assets\AppTiles\contrast-standard\theme-dark\BadgeLogo.scale-100.png" />
     <Content Include="Assets\AppTiles\contrast-standard\theme-dark\BadgeLogo.scale-125.png" />
     <Content Include="Assets\AppTiles\contrast-standard\theme-dark\BadgeLogo.scale-150.png" />
@@ -253,7 +249,6 @@
     <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\AppTiles\contrast-standard\theme-dark\Wide310x150Logo.scale-400.png" />
-    <Content Include="Assets\AppTiles\contrast-standard\theme-light\.DS_Store" />
     <Content Include="Assets\AppTiles\contrast-standard\theme-light\BadgeLogo.scale-100.png" />
     <Content Include="Assets\AppTiles\contrast-standard\theme-light\BadgeLogo.scale-125.png" />
     <Content Include="Assets\AppTiles\contrast-standard\theme-light\BadgeLogo.scale-150.png" />
