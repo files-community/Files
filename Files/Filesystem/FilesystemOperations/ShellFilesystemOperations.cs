@@ -7,6 +7,7 @@ using Files.Interacts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -63,11 +64,13 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IEnumerable<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            if (associatedInstance.ServiceConnection == null)
+            if (associatedInstance.ServiceConnection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path)) || destination.Any(x => string.IsNullOrWhiteSpace(x)))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.CopyItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
             }
+
+            source = source.Where((src, index) => collisions.ElementAt(index) != FileNameConflictResolveOptionType.Skip);
 
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
             associatedInstance.ServiceConnection.RequestReceived += handler;
@@ -143,13 +146,22 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, bool permanently, CancellationToken cancellationToken)
         {
-            if (associatedInstance.ServiceConnection == null)
+            if (associatedInstance.ServiceConnection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path)))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.DeleteItemsAsync(source, progress, errorCode, permanently, cancellationToken);
             }
 
-            permanently |= source.Any() ? recycleBinHelpers.IsPathUnderRecycleBin(source.ElementAt(0).Path) : permanently;
+            var deleleFilePaths = source.Select(s => s.Path);
+
+            var deleteFromRecycleBin = source.Any() ? recycleBinHelpers.IsPathUnderRecycleBin(source.ElementAt(0).Path) : false;
+            permanently |= deleteFromRecycleBin;
+
+            if (deleteFromRecycleBin)
+            {
+                // Recycle bin also stores a file starting with $I for each item
+                deleleFilePaths = deleleFilePaths.Concat(source.Select(x => Path.Combine(Path.GetDirectoryName(x.Path), Path.GetFileName(x.Path).Replace("$R", "$I"))));
+            }
 
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
             associatedInstance.ServiceConnection.RequestReceived += handler;
@@ -159,7 +171,7 @@ namespace Files.Filesystem
                 { "Arguments", "FileOperation" },
                 { "fileop", "DeleteItem" },
                 { "operationID", Guid.NewGuid().ToString() },
-                { "filepath", string.Join('|', source.Select(s => s.Path)) },
+                { "filepath", string.Join('|', deleleFilePaths) },
                 { "permanently", permanently }
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
@@ -217,8 +229,50 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IEnumerable<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            // TODO
-            return await filesystemOperations.MoveItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
+            if (associatedInstance.ServiceConnection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path)) || destination.Any(x => string.IsNullOrWhiteSpace(x)))
+            {
+                // Fallback to builtin file operations
+                return await filesystemOperations.MoveItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
+            }
+
+            source = source.Where((src, index) => collisions.ElementAt(index) != FileNameConflictResolveOptionType.Skip);
+
+            EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
+            associatedInstance.ServiceConnection.RequestReceived += handler;
+
+            var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+            {
+                { "Arguments", "FileOperation" },
+                { "fileop", "MoveItem" },
+                { "operationID", Guid.NewGuid().ToString() },
+                { "filepath", string.Join('|', source.Select(s => s.Path)) },
+                { "destpath", string.Join('|', destination) },
+                { "overwrite", collisions.All(x => x == FileNameConflictResolveOptionType.ReplaceExisting) }
+            });
+            var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
+                && response.Get("Success", false));
+
+            if (associatedInstance.ServiceConnection != null)
+            {
+                associatedInstance.ServiceConnection.RequestReceived -= handler;
+            }
+
+            if (result)
+            {
+                progress?.Report(100.0f);
+                var movedItems = JsonConvert.DeserializeObject<IEnumerable<string>>(response["MovedItems"] as string);
+                errorCode?.Report(FileSystemStatusCode.Success);
+                if (collisions.All(x => x != FileNameConflictResolveOptionType.ReplaceExisting) && movedItems != null && movedItems.Count() == source.Count())
+                {
+                    return new StorageHistory(FileOperationType.Move, source,
+                        movedItems.Select((item, index) => StorageItemHelpers.FromPathAndType(item, source.ElementAt(index).ItemType)));
+                }
+                return null; // Cannot undo overwrite operation
+            }
+
+            errorCode?.Report(FileSystemStatusCode.Generic);
+            progress?.Report(100.0f);
+            return null;
         }
 
         public async Task<IStorageHistory> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)

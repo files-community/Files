@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
+using System.Linq;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -133,6 +134,10 @@ namespace FilesFullTrust.MessageHandlers
                             {
                                 if (e.Result.Succeeded)
                                 {
+                                    if (!fileToDeletePath.Any(x => x == e.SourceItem.FileSystemPath))
+                                    {
+                                        return;
+                                    }
                                     deletedItems.Add(e.SourceItem.FileSystemPath);
                                     if (e.DestItem != null)
                                     {
@@ -177,22 +182,67 @@ namespace FilesFullTrust.MessageHandlers
                     break;
 
                 case "MoveItem":
-                    var fileToMovePath = (string)message["filepath"];
-                    var moveDestination = (string)message["destpath"];
+                    var fileToMovePath = ((string)message["filepath"]).Split('|');
+                    var moveDestination = ((string)message["destpath"]).Split('|');
+                    var operationID3 = (string)message["operationID"];
                     var overwriteOnMove = (bool)message["overwrite"];
-                    using (var op = new ShellFileOperations())
+                    var (succcess3, movedItems) = await Win32API.StartSTATask(async () =>
                     {
-                        op.Options = ShellFileOperations.OperationFlags.NoUI;
-                        op.Options |= !overwriteOnMove ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision : 0;
-                        using var shi = new ShellItem(fileToMovePath);
-                        using var shd = new ShellFolder(Path.GetDirectoryName(moveDestination));
-                        op.QueueMoveOperation(shi, shd, Path.GetFileName(moveDestination));
-                        var moveTcs = new TaskCompletionSource<bool>();
-                        op.PostMoveItem += (s, e) => moveTcs.TrySetResult(e.Result.Succeeded);
-                        op.PerformOperations();
-                        var result = await moveTcs.Task;
-                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
-                    }
+                        using (var op = new ShellFileOperations())
+                        {
+                            List<string> movedItems = new List<string>();
+
+                            op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
+                                        | ShellFileOperations.OperationFlags.Silent
+                                        | ShellFileOperations.OperationFlags.NoErrorUI
+                                        | ShellFileOperations.OperationFlags.EarlyFailure;
+
+                            op.Options |= !overwriteOnMove ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
+                                : ShellFileOperations.OperationFlags.NoConfirmation;
+
+                            for (var i = 0; i < fileToMovePath.Length; i++)
+                            {
+                                using (ShellItem shi = new ShellItem(fileToMovePath[i]))
+                                using (ShellFolder shd = new ShellFolder(Path.GetDirectoryName(moveDestination[i])))
+                                {
+                                    op.QueueMoveOperation(shi, shd, Path.GetFileName(moveDestination[i]));
+                                }
+                            }
+
+                            var moveTcs = new TaskCompletionSource<bool>();
+                            op.PostMoveItem += (s, e) =>
+                            {
+                                if (e.Result.Succeeded)
+                                {
+                                    if (!fileToMovePath.Any(x => x == e.SourceItem.FileSystemPath))
+                                    {
+                                        return;
+                                    }
+                                    if (e.DestItem == null || string.IsNullOrEmpty(e.Name))
+                                    {
+                                        movedItems.Add($"{Path.Combine(e.DestFolder.FileSystemPath, e.SourceItem.Name)}");
+                                    }
+                                    else
+                                    {
+                                        movedItems.Add($"{Path.Combine(e.DestFolder.FileSystemPath, e.Name)}");
+                                    }
+                                }
+                            };
+                            op.FinishOperations += (s, e) => moveTcs.TrySetResult(e.Result.Succeeded);
+                            op.UpdateProgress += async (s, e) => await Win32API.SendMessageAsync(connection, new ValueSet() {
+                                { "Progress", e.ProgressPercentage },
+                                { "OperationID", operationID3 }
+                            });
+
+                            op.PerformOperations();
+
+                            return (await moveTcs.Task, movedItems);
+                        }
+                    });
+                    await Win32API.SendMessageAsync(connection, new ValueSet() {
+                        { "Success", succcess3 && movedItems.Count == fileToMovePath.Length },
+                        { "MovedItems", JsonConvert.SerializeObject(movedItems) },
+                    }, message.Get("RequestID", (string)null));
                     break;
 
                 case "CopyItem":
@@ -228,6 +278,10 @@ namespace FilesFullTrust.MessageHandlers
                             {
                                 if (e.Result.Succeeded)
                                 {
+                                    if (!fileToCopyPath.Any(x => x == e.SourceItem.FileSystemPath))
+                                    {
+                                        return;
+                                    }
                                     if (e.DestItem == null || string.IsNullOrEmpty(e.Name))
                                     {
                                         copiedItems.Add($"{Path.Combine(e.DestFolder.FileSystemPath, e.SourceItem.Name)}");
