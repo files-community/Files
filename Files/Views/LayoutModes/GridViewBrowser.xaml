@@ -68,7 +68,6 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
-                        x:Phase="1"
                         Source="{x:Bind FileImage, Mode=OneWay}"
                         Stretch="Uniform" />
                     <Viewbox
@@ -91,8 +90,7 @@
                         Margin="12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
-                        x:Phase="1">
+                        x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
                         <FontIcon Glyph="&#xE7C3;" />
                     </Viewbox>
                     <Image
@@ -103,7 +101,6 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
                         x:Load="True"
-                        x:Phase="1"
                         Source="{x:Bind IconOverlay, Mode=OneWay}"
                         Stretch="Uniform" />
                     <Viewbox
@@ -113,8 +110,7 @@
                         Margin="12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
-                        x:Phase="1">
+                        x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}">
                         <FontIcon FontSize="28" Glyph="&#xE71B;" />
                     </Viewbox>
                     <Border
@@ -124,7 +120,6 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
                         x:Load="{x:Bind IsShortcutItem}"
-                        x:Phase="1"
                         Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
                         BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
                         BorderThickness="1">
@@ -221,7 +216,6 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
-                        x:Phase="1"
                         Source="{x:Bind FileImage, Mode=OneWay}"
                         Stretch="Uniform" />
                     <FontIcon
@@ -237,7 +231,6 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
-                        x:Phase="1"
                         FontSize="74"
                         Glyph="&#xE7C3;" />
                     <Image
@@ -248,7 +241,6 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
                         x:Load="True"
-                        x:Phase="1"
                         Source="{x:Bind IconOverlay, Mode=OneWay}"
                         Stretch="Uniform" />
                     <Viewbox
@@ -256,8 +248,7 @@
                         MaxWidth="74"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
-                        x:Phase="1">
+                        x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}">
                         <FontIcon FontSize="28" Glyph="&#xE71B;" />
                     </Viewbox>
                     <Border
@@ -267,7 +258,6 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
                         x:Load="{x:Bind IsShortcutItem}"
-                        x:Phase="1"
                         Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
                         BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
                         BorderThickness="1">
@@ -479,7 +469,7 @@
                     x:FieldModifier="public"
                     AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                     CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                    ChoosingItemContainer="FileList_ChoosingItemContainer"
+                    ContainerContentChanging="FileList_ContainerContentChanging"
                     DoubleTapped="FileList_DoubleTapped"
                     DragItemsStarting="FileList_DragItemsStarting"
                     DragOver="ItemsLayout_DragOver"
