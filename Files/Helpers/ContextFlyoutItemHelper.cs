@@ -516,30 +516,37 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutOpenInNewPane/Text".GetLocalized(),
-                    Glyph = "\uF117",
+                    Text = "Open in",
+                    Glyph = "\uE17D",
                     GlyphFontFamilyName = "CustomGlyph",
-                    Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
                     ShowItem = App.AppSettings.IsDualPaneEnabled && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
-                    SingleItemOnly = true,
-                    CollapseLabel = true,
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = "BaseLayoutItemContextFlyoutOpenInNewTab/Text".GetLocalized(),
-                    Glyph = "\uF113",
-                    GlyphFontFamilyName = "CustomGlyph",
-                    Command = commandsViewModel.OpenDirectoryInNewTabCommand,
-                    ShowItem = selectedItems.Count < 5 && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
-                    CollapseLabel = true,
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = "BaseLayoutItemContextFlyoutOpenInNewWindow/Text".GetLocalized(),
-                    Glyph = "\uE737",
-                    Command = commandsViewModel.OpenInNewWindowItemCommand,
-                    ShowItem = selectedItems.Count < 5 && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
-                    CollapseLabel = true,
+                    Items = new List<ContextMenuFlyoutItemViewModel>()
+                    {
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutItemContextFlyoutOpenInNewPane/Text".GetLocalized(),
+                            Glyph = "\uF117",
+                            GlyphFontFamilyName = "CustomGlyph",
+                            Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
+                            SingleItemOnly = true,
+                            CollapseLabel = true,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutItemContextFlyoutOpenInNewTab/Text".GetLocalized(),
+                            Glyph = "\uF113",
+                            GlyphFontFamilyName = "CustomGlyph",
+                            Command = commandsViewModel.OpenDirectoryInNewTabCommand,
+                            CollapseLabel = true,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutItemContextFlyoutOpenInNewWindow/Text".GetLocalized(),
+                            Glyph = "\uE737",
+                            Command = commandsViewModel.OpenInNewWindowItemCommand,
+                            CollapseLabel = true,
+                        },
+                    }
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
