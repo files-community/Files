@@ -44,6 +44,15 @@ namespace Files.Helpers
         {
             var menuItemsList = ShellContextmenuHelper.SetShellContextmenu(GetNavItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel), shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, connection: connection, workingDirectory: workingDir, selectedItems: selectedItems);
             menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems);
+            // collapse all labels except for items with subitems
+            menuItemsList = menuItemsList.Select(x =>
+            {
+                if(x.Items == null || x.Items.Count == 0)
+                {
+                    x.CollapseLabel = true;
+                }
+                return x;
+            }).ToList();
             return menuItemsList;
         }
 
@@ -478,6 +487,7 @@ namespace Files.Helpers
                     Glyph = "\uE8E5",
                     Command = commandsViewModel.RestoreItemCommand,
                     ShowInRecycleBin = true,
+                    CollapseLabel = true,
                     ShowItem = selectedItems.All(x => x.IsRecycleBinItem)
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -502,6 +512,7 @@ namespace Files.Helpers
                     Glyph = "\uE8DA",
                     Command = commandsViewModel.OpenFileLocationCommand,
                     ShowItem = selectedItems.All(i => i.IsShortcutItem),
+                    CollapseLabel = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -520,7 +531,6 @@ namespace Files.Helpers
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = commandsViewModel.OpenDirectoryInNewTabCommand,
                     ShowItem = selectedItems.Count < 5 && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
-
                     CollapseLabel = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -529,7 +539,6 @@ namespace Files.Helpers
                     Glyph = "\uE737",
                     Command = commandsViewModel.OpenInNewWindowItemCommand,
                     ShowItem = selectedItems.Count < 5 && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
-
                     CollapseLabel = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
