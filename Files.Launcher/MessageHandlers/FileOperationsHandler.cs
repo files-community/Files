@@ -140,13 +140,6 @@ namespace FilesFullTrust.MessageHandlers
 
                             handleTable.SetValue(operationID2, false);
                             var deleteTcs = new TaskCompletionSource<bool>();
-                            op.PreDeleteItem += (s, e) =>
-                            {
-                                if (handleTable.GetValue<bool>(operationID2))
-                                {
-                                    throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
-                                }
-                            };
                             op.PostDeleteItem += (s, e) =>
                             {
                                 if (e.Result.Succeeded)
@@ -167,6 +160,13 @@ namespace FilesFullTrust.MessageHandlers
                                 { "Progress", e.ProgressPercentage },
                                 { "OperationID", operationID2 }
                             });
+                            op.UpdateProgress += (s, e) =>
+                            {
+                                if (handleTable.GetValue<bool>(operationID2))
+                                {
+                                    throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
+                                }
+                            };
 
                             op.PerformOperations();
 
@@ -203,13 +203,6 @@ namespace FilesFullTrust.MessageHandlers
 
                             handleTable.SetValue(operationID4, false);
                             var renameTcs = new TaskCompletionSource<bool>();
-                            op.PreRenameItem += (s, e) =>
-                            {
-                                if (handleTable.GetValue<bool>(operationID4))
-                                {
-                                    throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
-                                }
-                            };
                             op.PostRenameItem += (s, e) =>
                             {
                                 if (e.Result.Succeeded)
@@ -269,13 +262,6 @@ namespace FilesFullTrust.MessageHandlers
 
                             handleTable.SetValue(operationID3, false);
                             var moveTcs = new TaskCompletionSource<bool>();
-                            op.PreMoveItem += (s, e) =>
-                            {
-                                if (handleTable.GetValue<bool>(operationID3))
-                                {
-                                    throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
-                                }
-                            };
                             op.PostMoveItem += (s, e) =>
                             {
                                 if (e.Result.Succeeded)
@@ -299,6 +285,13 @@ namespace FilesFullTrust.MessageHandlers
                                 { "Progress", e.ProgressPercentage },
                                 { "OperationID", operationID3 }
                             });
+                            op.UpdateProgress += (s, e) =>
+                            {
+                                if (handleTable.GetValue<bool>(operationID3))
+                                {
+                                    throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
+                                }
+                            };
 
                             op.PerformOperations();
 
@@ -343,13 +336,6 @@ namespace FilesFullTrust.MessageHandlers
 
                             handleTable.SetValue(operationID, false);
                             var copyTcs = new TaskCompletionSource<bool>();
-                            op.PreCopyItem += (s, e) =>
-                            {
-                                if (handleTable.GetValue<bool>(operationID))
-                                {
-                                    throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
-                                }
-                            };
                             op.PostCopyItem += (s, e) =>
                             {
                                 if (e.Result.Succeeded)
@@ -373,6 +359,13 @@ namespace FilesFullTrust.MessageHandlers
                                 { "Progress", e.ProgressPercentage },
                                 { "OperationID", operationID }
                             });
+                            op.UpdateProgress += (s, e) =>
+                            {
+                                if (handleTable.GetValue<bool>(operationID))
+                                {
+                                    throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
+                                }
+                            };
 
                             op.PerformOperations();
 
