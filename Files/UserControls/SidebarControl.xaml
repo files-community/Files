@@ -249,6 +249,7 @@
                                 </Grid.RowDefinitions>
 
                                 <!--  I exist to make a nice looking background for both the tab strip without interfering with the drag area grid  -->
+                                <!--
                                 <Border
                                     Grid.Column="{Binding ElementName=ContentRoot, Path=(Grid.Column), Mode=OneWay}"
                                     Grid.ColumnSpan="{Binding ElementName=ContentRoot, Path=(Grid.ColumnSpan), Mode=OneWay}"
@@ -258,7 +259,7 @@
                                     BorderThickness="{ThemeResource NavigationViewContentGridBorderThickness}"
                                     CornerRadius="{Binding ElementName=TabContentBorder, Path=CornerRadius, Mode=OneWay}"
                                     IsHitTestVisible="False"
-                                    RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}" />
+                                    RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}" />-->
 
                                 <!--  Pane Content Area  -->
                                 <Grid

@@ -540,15 +540,16 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid
-        HorizontalAlignment="Left"
-        Background="{ThemeResource HorizontalTabControlBackgroundBrush}"
-        Canvas.ZIndex="4">
-
+    <Grid HorizontalAlignment="Stretch" Background="{ThemeResource HorizontalTabControlBackgroundBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
         <muxc:TabView
             x:Name="HorizontalTabView"
             Margin="4,0"
             VerticalAlignment="Stretch"
+            HorizontalContentAlignment="Left"
             AddTabButtonClick="TabView_AddTabButtonClick"
             AllowDropTabs="True"
             Background="Transparent"
@@ -564,7 +565,8 @@
             TabItemsChanged="HorizontalTabView_TabItemsChanged"
             TabItemsSource="{x:Bind Items, Mode=OneWay}"
             TabStripDragOver="TabStrip_TabStripDragOver"
-            TabStripDrop="TabStrip_TabStripDrop">
+            TabStripDrop="TabStrip_TabStripDrop"
+            Visibility="{x:Bind TabStripVisibility, Mode=OneWay}">
             <muxc:TabView.TabItemTemplate>
                 <DataTemplate x:DataType="local:TabItem">
                     <muxc:TabViewItem
@@ -582,5 +584,9 @@
                 </DataTemplate>
             </muxc:TabView.TabItemTemplate>
         </muxc:TabView>
+        <Border
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Child="{x:Bind ActionsControl, Mode=OneWay}" />
     </Grid>
 </local:BaseMultitaskingControl>

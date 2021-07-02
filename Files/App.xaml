@@ -107,7 +107,7 @@
                             <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
                             <StaticResource x:Key="FileBrowserHeaderBackgroundBrush" ResourceKey="SolidBackgroundFillColorBaseBrush" />
                             <!--  Preview pane  -->
-                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="Transparent" />
+                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="#3F2C2C2C" />
 
                             <SolidColorBrush x:Key="PropertiesDialogRootBackgroundBrush" Color="Transparent" />
 
@@ -158,7 +158,7 @@
                             <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
                             <StaticResource x:Key="FileBrowserHeaderBackgroundBrush" ResourceKey="SolidBackgroundFillColorBaseBrush" />
                             <!--  Preview pane  -->
-                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="Transparent" />
+                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorQuarternary}" />
 
                             <SolidColorBrush x:Key="PropertiesDialogRootBackgroundBrush" Color="Transparent" />
                             <StaticResource x:Key="TitlebarContentBackgroundBrush" ResourceKey="SystemColorWindowColor" />

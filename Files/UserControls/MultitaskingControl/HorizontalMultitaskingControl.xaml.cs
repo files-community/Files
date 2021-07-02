@@ -199,5 +199,31 @@ namespace Files.UserControls.MultitaskingControl
         }
 
         public override DependencyObject ContainerFromItem(ITabItem item) => HorizontalTabView.ContainerFromItem(item);
+
+
+
+        public UIElement ActionsControl
+        {
+            get { return (UIElement)GetValue(ActionsControlProperty); }
+            set { SetValue(ActionsControlProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ActionsControl.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ActionsControlProperty =
+            DependencyProperty.Register("ActionsControl", typeof(UIElement), typeof(HorizontalMultitaskingControl), new PropertyMetadata(null));
+
+
+
+        public Visibility TabStripVisibility
+        {
+            get { return (Visibility)GetValue(TabStripVisibilityProperty); }
+            set { SetValue(TabStripVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TabStripVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TabStripVisibilityProperty =
+            DependencyProperty.Register("TabStripVisibility", typeof(Visibility), typeof(HorizontalMultitaskingControl), new PropertyMetadata(Visibility.Visible));
+
+
     }
 }
