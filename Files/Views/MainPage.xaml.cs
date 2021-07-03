@@ -22,6 +22,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using Files.Extensions;
 
 namespace Files.Views
 {
@@ -44,6 +45,9 @@ namespace Files.Views
         public StatusCenterViewModel StatusCenterViewModel => App.StatusCenterViewModel;
 
         public ICommand ToggleFullScreenAcceleratorCommand { get; private set; }
+
+        private ICommand ToggleCompactOverlayCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleCompactOverlay());
+        private ICommand SetCompactOverlayCommand => new RelayCommand<bool>(x => SetCompactOverlay(x));
 
         public MainPage()
         {
@@ -433,6 +437,7 @@ namespace Files.Views
         {
             UpdatePreviewPaneProperties();
             UpdatePositioning();
+            PreviewPane.Model.UpdateSelectedItemPreview();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -440,6 +445,31 @@ namespace Files.Views
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ToggleCompactOverlay() => SetCompactOverlay(ApplicationView.GetForCurrentView().ViewMode != ApplicationViewMode.CompactOverlay);
+
+        private async void SetCompactOverlay(bool isCompact)
+        {
+            var view = ApplicationView.GetForCurrentView();
+
+            if (!isCompact)
+            {
+                NavToolbar.IsCompactOverlay = !await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+            }
+            else
+            {
+                NavToolbar.IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+            }
+        }
+
+        private void RootGrid_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            // prevents the arrow key events from navigating the list instead of switching compact overlay
+            if(EnterCompactOverlayKeyboardAccelerator.CheckIsPressed() || ExitCompactOverlayKeyboardAccelerator.CheckIsPressed())
+            {
+                Focus(FocusState.Keyboard);
+            }
         }
     }
 }

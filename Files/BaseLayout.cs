@@ -180,6 +180,27 @@ namespace Files
             {
                 if (value != selectedItems)
                 {
+                    if(value?.FirstOrDefault() != selectedItems?.FirstOrDefault())
+                    {
+                        // update preview pane properties
+                        if (value?.Count == 1)
+                        {
+                            PreviewPaneViewModel.IsItemSelected = true;
+                            PreviewPaneViewModel.SelectedItem = value.First();
+                        }
+                        else
+                        {
+                            PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
+                            PreviewPaneViewModel.SelectedItem = null;
+                        }
+
+                        // check if the preview pane is open before updating the model
+                        if (((Window.Current.Content as Frame)?.Content as MainPage)?.LoadPreviewPane ?? false)
+                        {
+                            PreviewPaneViewModel.UpdateSelectedItemPreview();
+                        }
+                    }
+
                     selectedItems = value;
                     if (selectedItems.Count == 0 || selectedItems[0] == null)
                     {
@@ -221,17 +242,6 @@ namespace Files
                                 SelectedItemsPropertiesViewModel.ItemSize = string.Empty;
                             }
                         }
-                    }
-
-                    if (value?.Count == 1)
-                    {
-                        PreviewPaneViewModel.IsItemSelected = true;
-                        PreviewPaneViewModel.SelectedItem = SelectedItems.First();
-                    }
-                    else
-                    {
-                        PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
-                        PreviewPaneViewModel.SelectedItem = null;
                     }
 
                     NotifyPropertyChanged(nameof(SelectedItems));

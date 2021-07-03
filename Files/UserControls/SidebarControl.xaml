@@ -194,6 +194,15 @@
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
+                        x:Name="HideSectionItem"
+                        x:Load="{x:Bind ShowHideSection, Mode=OneWay}"
+                        Click="{x:Bind HideSection_Click}"
+                        Text="Hide section">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE77A;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
                         x:Name="EjectDevice"
                         x:Uid="SideBarEjectDevice"
                         x:Load="{x:Bind ShowEjectDevice, Mode=OneWay}"
@@ -206,7 +215,7 @@
                     <MenuFlyoutItem
                         x:Name="PropertiesFolder"
                         x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
-                        x:Load="{x:Bind IsLocationItem, Mode=OneWay}"
+                        x:Load="{x:Bind ShowProperties, Mode=OneWay}"
                         Click="Properties_Click"
                         Text="Properties">
                         <MenuFlyoutItem.Icon>

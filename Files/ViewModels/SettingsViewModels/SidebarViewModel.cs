@@ -1,13 +1,5 @@
-﻿using Files.Enums;
-using Files.Filesystem;
-using Files.Helpers;
+﻿using Files.Filesystem;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
 
 namespace Files.ViewModels.SettingsViewModels
 {
@@ -15,12 +7,13 @@ namespace Files.ViewModels.SettingsViewModels
     {
         private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
         private bool showLibrarySection = App.AppSettings.ShowLibrarySection;
-
-        public static LibraryManager LibraryManager { get; private set; }
+        private bool showDrivesSection = App.AppSettings.ShowDrivesSection;
+        private bool showCloudDrivesSection = App.AppSettings.ShowCloudDrivesSection;
+        private bool showNetworkDrivesSection = App.AppSettings.ShowNetworkDrivesSection;
+        private bool showWslSection = App.AppSettings.ShowWslSection;
 
         public SidebarViewModel()
         {
-            LibraryManager ??= new LibraryManager();
         }
 
         public bool PinRecycleBinToSideBar
@@ -49,7 +42,71 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref showLibrarySection, value))
                 {
                     App.AppSettings.ShowLibrarySection = value;
-                    LibraryManager.UpdateLibrariesSectionVisibility();
+                    App.LibraryManager.UpdateLibrariesSectionVisibility();
+                }
+            }
+        }
+
+        public bool ShowDrivesSection
+        {
+            get
+            {
+                return showDrivesSection;
+            }
+            set
+            {
+                if (SetProperty(ref showDrivesSection, value))
+                {
+                    App.AppSettings.ShowDrivesSection = value;
+                    App.DrivesManager.UpdateDrivesSectionVisibility();
+                }
+            }
+        }
+
+        public bool ShowCloudDrivesSection
+        {
+            get
+            {
+                return showCloudDrivesSection;
+            }
+            set
+            {
+                if (SetProperty(ref showCloudDrivesSection, value))
+                {
+                    App.AppSettings.ShowCloudDrivesSection = value;
+                    App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
+                }
+            }
+        }
+
+        public bool ShowNetworkDrivesSection
+        {
+            get
+            {
+                return showNetworkDrivesSection;
+            }
+            set
+            {
+                if (SetProperty(ref showNetworkDrivesSection, value))
+                {
+                    App.AppSettings.ShowNetworkDrivesSection = value;
+                    App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
+                }
+            }
+        }
+
+        public bool ShowWslSection
+        {
+            get
+            {
+                return showWslSection;
+            }
+            set
+            {
+                if (SetProperty(ref showWslSection, value))
+                {
+                    App.AppSettings.ShowWslSection = value;
+                    App.WSLDistroManager.UpdateWslSectionVisibility();
                 }
             }
         }

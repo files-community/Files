@@ -1,8 +1,10 @@
 ﻿using Files.Common;
 using System;
 using System.Diagnostics;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace Files.Helpers
 {
@@ -29,8 +31,13 @@ namespace Files.Helpers
             {
                 return;
             }
+            using var stream = await logFile.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.AllowOnlyReaders);
+            using var outputStream = stream.GetOutputStreamAt(stream.Size);
+            using var dataWriter = new DataWriter(outputStream);
+            dataWriter.WriteString("\n" + text);
+            await dataWriter.StoreAsync();
+            await outputStream.FlushAsync();
 
-            await FileIO.AppendTextAsync(logFile, $"\n{text}");
             Debug.WriteLine($"Logged event: {text}");
         }
     }

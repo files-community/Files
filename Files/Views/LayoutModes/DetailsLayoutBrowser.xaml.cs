@@ -554,22 +554,33 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
+        private async void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
-            if (args.ItemContainer == null)
+            if (args.InRecycleQueue)
             {
-                args.ItemContainer = new ListViewItem();
+                UninitializeDrag(args.ItemContainer);
+                args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
             }
-            args.ItemContainer.DataContext = args.Item;
-            InitializeDrag(args.ItemContainer);
-
-            if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
+            else
             {
-                args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
-                args.ItemContainer.CanDrag = args.ItemContainer.IsSelected; // Update CanDrag
+                switch (args.Phase)
+                {
+                    case 0:
+                        args.ItemContainer.DataContext = args.Item;
+                        InitializeDrag(args.ItemContainer);
+                        args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
+                        args.RegisterUpdateCallback(1, FileList_ContainerContentChanging);
+                        args.Handled = true;
+                        break;
 
-                item.ItemPropertiesInitialized = true;
-                await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
+                    case 1:
+                        if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
+                        {
+                            item.ItemPropertiesInitialized = true;
+                            await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
+                        }
+                        break;
+                }
             }
         }
 
