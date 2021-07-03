@@ -142,13 +142,7 @@ namespace Files.Filesystem
         public BitmapImage FileImage
         {
             get => fileImage;
-            set
-            {
-                if (value != null)
-                {
-                    SetProperty(ref fileImage, value);
-                }
-            }
+            set => SetProperty(ref fileImage, value);
         }
 
         public bool IsItemPinnedToStart => App.SecondaryTileHelper.CheckFolderPinned(ItemPath);

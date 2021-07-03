@@ -470,10 +470,9 @@ namespace Files
             await ParentShellPageInstance.FilesystemViewModel.ReloadItemGroupHeaderImagesAsync();
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        protected async override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
@@ -484,8 +483,9 @@ namespace Files
             var parameter = e.Parameter as NavigationArguments;
             if (!parameter.IsLayoutSwitch)
             {
-                ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles();
+                await ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles();
             }
+            GC.Collect();
         }
 
         public void ItemContextFlyout_Opening(object sender, object e)

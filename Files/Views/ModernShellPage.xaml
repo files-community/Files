@@ -217,6 +217,7 @@
         <Frame
             x:Name="ItemDisplayFrame"
             Grid.Row="2"
+			CacheSize="1"
             HorizontalAlignment="Stretch"
             x:FieldModifier="public"
             Background="{ThemeResource FileBrowserBackgroundBrush}"
