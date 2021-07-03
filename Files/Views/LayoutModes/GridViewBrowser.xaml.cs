@@ -514,31 +514,40 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
+        private async void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
-            // This resizes the items after the item template has been changed and reloaded
-            if(itemTemplateChanging)
+            if (args.InRecycleQueue)
             {
-                itemTemplateChanging = false;
-                Behaviors.StretchedGridViewItems.ResizeItems(FileList);
+                UninitializeDrag(args.ItemContainer);
+                args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
             }
-
-            if (args.ItemContainer == null)
+            else
             {
-                GridViewItem gvi = new GridViewItem();
-                args.ItemContainer = gvi;
-            }
-            args.ItemContainer.DataContext = args.Item;
+                switch (args.Phase)
+                {
+                    case 0:
+                        args.ItemContainer.DataContext = args.Item;
+                        InitializeDrag(args.ItemContainer);
+                        args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
 
-            InitializeDrag(args.ItemContainer);
-            if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
-            {
-                args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
-                args.ItemContainer.CanDrag = args.ItemContainer.IsSelected; // Update CanDrag
+                        if (itemTemplateChanging) // This resizes the items after the item template has been changed and reloaded
+                        {
+                            itemTemplateChanging = false;
+                            Behaviors.StretchedGridViewItems.ResizeItems(FileList);
+                        }
 
-                item.ItemPropertiesInitialized = true;
+                        args.RegisterUpdateCallback(1, FileList_ContainerContentChanging);
+                        args.Handled = true;
+                        break;
 
-                await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
+                    case 1:
+                        if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
+                        {
+                            item.ItemPropertiesInitialized = true;
+                            await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
+                        }
+                        break;
+                }
             }
         }
 
