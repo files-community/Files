@@ -554,17 +554,17 @@ namespace Files.Views.LayoutModes
                 if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
                 {
                     args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
-                    args.ItemContainer.CanDrag = args.ItemContainer.IsSelected; // Update CanDrag
 
-
-                    args.RegisterUpdateCallback(3, async (s, c) => {
+                    args.RegisterUpdateCallback(3, async (s, c) =>
+                    {
                         item.ItemPropertiesInitialized = true;
                         await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
                     });
                 }
-                else if (args.Item is ListedItem item1 && item1.ItemPropertiesInitialized && item1.FileImage == null)
+                else if (args.Item is ListedItem item1 && item1.ItemPropertiesInitialized && !item1.LoadFileIcon)
                 {
-                    args.RegisterUpdateCallback(3, async (s, c) => {
+                    args.RegisterUpdateCallback(3, async (s, c) =>
+                    {
                         await ParentShellPageInstance.FilesystemViewModel.LoadItemThumbnail(item1, currentIconSize);
                     });
                 }
@@ -574,9 +574,9 @@ namespace Files.Views.LayoutModes
                 UninitializeDrag(args.ItemContainer);
                 args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
 
-                if (args.Item is ListedItem item && item.ItemPropertiesInitialized && item.FileImage != null)
+                if (args.Item is ListedItem item && item.ItemPropertiesInitialized && item.LoadFileIcon)
                 {
-                    args.RegisterUpdateCallback(4, (s, c) => ParentShellPageInstance.FilesystemViewModel.UnloadItemThumbnail(item));
+                    ParentShellPageInstance.FilesystemViewModel.UnloadItemThumbnail(item);
                 }
             }
         }

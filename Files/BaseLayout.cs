@@ -480,7 +480,7 @@ namespace Files
             await ParentShellPageInstance.FilesystemViewModel.ReloadItemGroupHeaderImagesAsync();
         }
 
-        protected async override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
             // Remove item jumping handler
@@ -493,7 +493,7 @@ namespace Files
             var parameter = e.Parameter as NavigationArguments;
             if (!parameter.IsLayoutSwitch)
             {
-                await ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles();
+                ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles();
             }
             GC.Collect();
         }

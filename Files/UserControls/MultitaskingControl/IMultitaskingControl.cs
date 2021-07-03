@@ -10,7 +10,8 @@ namespace Files.UserControls.MultitaskingControl
 
         public ObservableCollection<TabItem> Items { get; }
 
-        public List<ITabItem> RecentlyClosedTabs { get; }
+        // RecentlyClosedTabs is now static (shared between all multitasking controls)
+        //public List<ITabItem> RecentlyClosedTabs { get; }
 
         public ITabItemContent GetCurrentSelectedTabInstance();
 
