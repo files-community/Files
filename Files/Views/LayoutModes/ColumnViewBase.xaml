@@ -1340,6 +1340,7 @@
                                         x:Name="Picture"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
+                                        x:Phase="1"
                                         Source="{x:Bind FileImage, Mode=OneWay}"
                                         Stretch="Uniform"
                                         Visibility="{x:Bind LoadFileIcon, Mode=OneWay}" />
@@ -1357,6 +1358,7 @@
                                         MaxHeight="24"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
+                                        x:Phase="1"
                                         Visibility="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
                                         <FontIcon Glyph="&#xE7C3;" />
                                     </Viewbox>
@@ -1367,6 +1369,7 @@
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Bottom"
                                         x:Load="True"
+                                        x:Phase="1"
                                         Source="{x:Bind IconOverlay, Mode=OneWay}"
                                         Stretch="Uniform" />
                                     <Viewbox
@@ -1375,6 +1378,7 @@
                                         MaxHeight="24"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
+                                        x:Phase="1"
                                         Visibility="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}">
                                         <FontIcon FontSize="20" Glyph="&#xE71B;" />
                                     </Viewbox>
@@ -1382,6 +1386,7 @@
                                         x:Name="ShortcutGlyphElement"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Bottom"
+                                        x:Phase="1"
                                         Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
                                         BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
                                         BorderThickness="1"
