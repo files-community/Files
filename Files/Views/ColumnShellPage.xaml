@@ -195,6 +195,7 @@
             HorizontalAlignment="Stretch"
             x:FieldModifier="public"
             Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+            CacheSize="1"
             Canvas.ZIndex="30"
             Navigated="ItemDisplayFrame_Navigated" />
     </Grid>

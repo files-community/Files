@@ -265,14 +265,6 @@ namespace Files.Views.LayoutModes
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            var selectorItems = new List<SelectorItem>();
-            DependencyObjectHelpers.FindChildren<SelectorItem>(selectorItems, FileList);
-            foreach (SelectorItem gvi in selectorItems)
-            {
-                base.UninitializeDrag(gvi);
-                gvi.PointerPressed -= FileListGridItem_PointerPressed;
-            }
-            selectorItems.Clear();
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;

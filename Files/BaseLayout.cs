@@ -495,7 +495,6 @@ namespace Files
             {
                 ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles();
             }
-            GC.Collect();
         }
 
         public void ItemContextFlyout_Opening(object sender, object e)

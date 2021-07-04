@@ -217,10 +217,10 @@
         <Frame
             x:Name="ItemDisplayFrame"
             Grid.Row="2"
-			CacheSize="1"
             HorizontalAlignment="Stretch"
             x:FieldModifier="public"
             Background="{ThemeResource FileBrowserBackgroundBrush}"
+            CacheSize="1"
             Navigated="ItemDisplayFrame_Navigated" />
     </Grid>
 </Page>
