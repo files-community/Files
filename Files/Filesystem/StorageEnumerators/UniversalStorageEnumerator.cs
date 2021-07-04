@@ -181,7 +181,7 @@ namespace Files.Filesystem.StorageEnumerators
             var itemName = string.IsNullOrEmpty(file.DisplayName) || App.AppSettings.ShowFileExtensions ?
                 file.Name : file.DisplayName;
             var itemModifiedDate = basicProperties.DateModified;
-            DateTimeOffset.TryParse(extraProperties["System.DateCreated"] as string, out var itemCreatedDate);
+            var itemCreatedDate = file.DateCreated;
             var itemPath = string.IsNullOrEmpty(file.Path) ? Path.Combine(currentStorageFolder.Path, file.Name) : file.Path;
             var itemSize = ByteSize.FromBytes(basicProperties.Size).ToBinaryString().ConvertSizeAbbreviation();
             var itemSizeBytes = basicProperties.Size;
