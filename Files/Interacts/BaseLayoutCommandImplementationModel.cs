@@ -6,6 +6,7 @@ using Files.Helpers;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
 using Files.Views;
+using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -420,7 +421,10 @@ namespace Files.Interacts
                     }
                     else
                     {
-                        await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
+                        if (SlimContentPage is ColumnViewBrowser)
+                        {
+                            await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
+                        }                        
                     }
                 }
             }

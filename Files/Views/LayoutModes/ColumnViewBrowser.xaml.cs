@@ -622,7 +622,7 @@ namespace Files.Views.LayoutModes
                     //await pane.FilesystemViewModel.SetWorkingDirectoryAsync(item.ItemPath);
                     //pane.IsPageMainPane = false;
                     //pane.NavParams = item.ItemPath;
-
+                    
                     if (item.ContainsFilesOrFolders)
                     {
                         listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
@@ -635,7 +635,7 @@ namespace Files.Views.LayoutModes
                         //    NavPathParam = item.ItemPath,
                         //    AssociatedTabInstance = ParentShellPageInstance
                         //});
-
+                        
                         frame.Navigate(typeof(ColumnShellPage), new ColumnParam
                         {
                             Column = 1,
@@ -648,7 +648,7 @@ namespace Files.Views.LayoutModes
                 {
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
-            }
+            }            
         }
 
         private void ColumnShellPage_NotifyRoot(object sender, EventArgs e)
@@ -704,6 +704,13 @@ namespace Files.Views.LayoutModes
                 }
             }
             else if (e.GetCurrentPoint(sender as UIElement).Properties.IsLeftButtonPressed)
+            {
+                if (!(sender as SelectorItem).IsSelected)
+                {
+                    (sender as SelectorItem).IsSelected = true;
+                }
+            }
+            else if (e.GetCurrentPoint(sender as UIElement).Properties.IsMiddleButtonPressed)
             {
                 if (!(sender as SelectorItem).IsSelected)
                 {
