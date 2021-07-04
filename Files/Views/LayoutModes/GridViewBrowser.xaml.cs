@@ -251,7 +251,10 @@ namespace Files.Views.LayoutModes
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
             GridViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as GridViewItem;
             TextBox textBox = null;
-
+            if (gridViewItem == null)
+            {
+                return;
+            }
             // Handle layout differences between tiles browser and photo album
             if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
             {

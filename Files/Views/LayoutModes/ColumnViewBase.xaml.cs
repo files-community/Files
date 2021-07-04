@@ -225,6 +225,10 @@ namespace Files.Views.LayoutModes
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
             ListViewItem listViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
             TextBox textBox = null;
+            if (listViewItem == null)
+            {
+                return;
+            }
             textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
             textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
             //textBlock = (listViewItem.ContentTemplateRoot as Border).FindDescendant("ItemName") as TextBlock;

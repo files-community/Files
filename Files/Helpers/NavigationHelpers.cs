@@ -50,9 +50,10 @@ namespace Files.Helpers
             {
                 var value = new ValueSet()
                 {
+                    { "Arguments", "LaunchApp" },
                     { "WorkingDirectory", workingDir },
                     { "Application", terminal.Path },
-                    { "Arguments", string.Format(terminal.Arguments,
+                    { "Parameters", string.Format(terminal.Arguments,
                        Helpers.PathNormalization.NormalizePath(workingDir)) }
                 };
                 await associatedInstance.ServiceConnection.SendMessageAsync(value);
