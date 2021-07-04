@@ -79,12 +79,6 @@
                     </Button>
                 </StackPanel>
 
-                <ToggleSwitch
-                    x:Name="AcrylicSidebarSwitch"
-                    x:Uid="SettingsAppearanceAcrylicSidebar"
-                    Header="Acrylic sidebar"
-                    IsOn="{Binding IsAcrylicDisabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}" />
-
                 <TextBlock
                     x:Uid="SettingsContextMenu"
                     FontSize="16"

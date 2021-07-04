@@ -13,7 +13,6 @@ namespace Files.ViewModels.SettingsViewModels
     public class AppearanceViewModel : ObservableObject
     {
         private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
-        private bool isAcrylicDisabled = App.AppSettings.IsAcrylicDisabled;
         private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
         private AppSkin selectedSkin = App.AppSettings.SelectedSkin;
         private bool showRestartControl = false;
@@ -38,21 +37,6 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref selectedThemeIndex, value))
                 {
                     ThemeHelper.RootTheme = (ElementTheme)value;
-                }
-            }
-        }
-
-        public bool IsAcrylicDisabled
-        {
-            get
-            {
-                return isAcrylicDisabled;
-            }
-            set
-            {
-                if (SetProperty(ref isAcrylicDisabled, value))
-                {
-                    App.AppSettings.IsAcrylicDisabled = value;
                 }
             }
         }

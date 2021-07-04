@@ -43,10 +43,6 @@
                             <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
                             <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
                             <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
-                            <!--  Sidebar  -->
-                            <x:Double x:Key="SidebarTintOpacity">0.8</x:Double>
-                            <x:Double x:Key="SidebarTintLuminosityOpacity">0.8</x:Double>
-                            <SolidColorBrush x:Key="SidebarFallbackBrush" Color="Transparent" />
                             <!--  Tabs  -->
                             <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
                             <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#4AFFFFFF" />
@@ -88,10 +84,6 @@
                             <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
                             <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
                             <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
-                            <!--  Sidebar  -->
-                            <x:Double x:Key="SidebarTintOpacity">0.8</x:Double>
-                            <x:Double x:Key="SidebarTintLuminosityOpacity">0.8</x:Double>
-                            <SolidColorBrush x:Key="SidebarFallbackBrush" Color="Transparent" />
 
                             <!--  Tabs  -->
                             <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
@@ -145,10 +137,6 @@
                             <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
                             <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
                             <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
-                            <!--  Sidebar  -->
-                            <x:Double x:Key="SidebarTintOpacity">0.8</x:Double>
-                            <x:Double x:Key="SidebarTintLuminosityOpacity">0.8</x:Double>
-                            <SolidColorBrush x:Key="SidebarFallbackBrush" Color="Transparent" />
                             <!--  Tabs  -->
                             <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SystemColorWindowColor}" />
                             <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource SystemColorHighlightColor}" />
