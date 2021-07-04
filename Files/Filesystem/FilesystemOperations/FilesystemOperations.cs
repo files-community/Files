@@ -550,9 +550,10 @@ namespace Files.Filesystem
             if (fsResult == FileSystemStatusCode.Unauthorized)
             {
                 // Try again with fulltrust process (non admin: for shortcuts and hidden files)
-                if (associatedInstance.ServiceConnection != null)
+                var connection = await AppServiceConnectionHelper.Instance;
+                if (connection != null)
                 {
-                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "DeleteItem" },
@@ -888,13 +889,14 @@ namespace Files.Filesystem
             var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
             if (elevateConfirmResult == ContentDialogResult.Primary)
             {
-                if (associatedInstance.ServiceConnection != null &&
-                    await associatedInstance.ServiceConnection.Elevate())
+                var connection = await AppServiceConnectionHelper.Instance;
+                if (connection != null && await connection.Elevate())
                 {
                     // Try again with fulltrust process (admin)
-                    if (associatedInstance.ServiceConnection != null)
+                    connection = await AppServiceConnectionHelper.Instance;
+                    if (connection != null)
                     {
-                        var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(operation);
+                        var (status, response) = await connection.SendMessageForResponseAsync(operation);
                         return (FilesystemResult)(status == AppServiceResponseStatus.Success
                             && response.Get("Success", false));
                     }

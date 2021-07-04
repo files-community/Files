@@ -9,7 +9,7 @@ using Windows.Foundation.Collections;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    public class QuickLookHandler : MessageHandler
+    public class QuickLookHandler : IMessageHandler
     {
         private static readonly Logger Logger = Program.Logger;
 

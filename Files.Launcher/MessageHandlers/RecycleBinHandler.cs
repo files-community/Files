@@ -15,7 +15,7 @@ using Windows.Storage;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    public class RecycleBinHandler : MessageHandler
+    public class RecycleBinHandler : IMessageHandler
     {
         private IList<FileSystemWatcher> binWatchers;
         private NamedPipeServerStream connection;

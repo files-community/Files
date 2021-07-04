@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    public interface MessageHandler : IDisposable
+    public interface IMessageHandler : IDisposable
     {
         Task ParseArgumentsAsync(NamedPipeServerStream connection, Dictionary<string, object> message, string arguments);
 

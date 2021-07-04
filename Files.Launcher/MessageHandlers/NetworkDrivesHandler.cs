@@ -12,7 +12,7 @@ using Windows.Foundation.Collections;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    public class NetworkDrivesHandler : MessageHandler
+    public class NetworkDrivesHandler : IMessageHandler
     {
         public void Initialize(NamedPipeServerStream connection)
         {

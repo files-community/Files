@@ -11,7 +11,7 @@ using Windows.Foundation.Collections;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    public class Win32MessageHandler : MessageHandler
+    public class Win32MessageHandler : IMessageHandler
     {
         public void Initialize(NamedPipeServerStream connection)
         {

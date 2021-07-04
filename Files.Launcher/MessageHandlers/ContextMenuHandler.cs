@@ -13,7 +13,7 @@ using Windows.Storage;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    public class ContextMenuHandler : MessageHandler
+    public class ContextMenuHandler : IMessageHandler
     {
         private DisposableDictionary handleTable;
 

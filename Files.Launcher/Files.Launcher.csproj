@@ -126,6 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DeviceWatcher.cs" />
+    <Compile Include="Helpers\DisposableDictionary.cs" />
     <Compile Include="Helpers\ShellFolderHelpers.cs" />
     <Compile Include="Helpers\ThreadWithMessageQueue.cs" />
     <Compile Include="MessageHandlers\LibrariesHandler.cs" />
@@ -134,7 +135,7 @@
     <Compile Include="MessageHandlers\ApplicationLaunchHandler.cs" />
     <Compile Include="MessageHandlers\ContextMenuHandler.cs" />
     <Compile Include="MessageHandlers\FileOperationsHandler.cs" />
-    <Compile Include="MessageHandlers\MessageHandler.cs" />
+    <Compile Include="MessageHandlers\IMessageHandler.cs" />
     <Compile Include="MessageHandlers\NetworkDrivesHandler.cs" />
     <Compile Include="MessageHandlers\RecycleBinHandler.cs" />
     <Compile Include="MessageHandlers\Win32MessageHandler.cs" />

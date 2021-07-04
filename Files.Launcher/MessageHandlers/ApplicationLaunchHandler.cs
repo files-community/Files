@@ -14,7 +14,7 @@ using Vanara.Windows.Shell;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    public class ApplicationLaunchHandler : MessageHandler
+    public class ApplicationLaunchHandler : IMessageHandler
     {
         public void Initialize(NamedPipeServerStream connection)
         {

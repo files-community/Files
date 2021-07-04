@@ -64,7 +64,8 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IEnumerable<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            if (associatedInstance.ServiceConnection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\")) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\")))
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\")) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\")))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.CopyItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
@@ -77,9 +78,9 @@ namespace Files.Filesystem
             using var _ = cancellationToken.Register(CancelOperation, operationID, false);
 
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
-            associatedInstance.ServiceConnection.RequestReceived += handler;
+            connection.RequestReceived += handler;
 
-            var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
             {
                 { "Arguments", "FileOperation" },
                 { "fileop", "CopyItem" },
@@ -91,9 +92,9 @@ namespace Files.Filesystem
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
 
-            if (associatedInstance.ServiceConnection != null)
+            if (connection != null)
             {
-                associatedInstance.ServiceConnection.RequestReceived -= handler;
+                connection.RequestReceived -= handler;
             }
 
             if (result)
@@ -142,7 +143,8 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, bool permanently, CancellationToken cancellationToken)
         {
-            if (associatedInstance.ServiceConnection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\")))
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\")))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.DeleteItemsAsync(source, progress, errorCode, permanently, cancellationToken);
@@ -163,9 +165,9 @@ namespace Files.Filesystem
             using var _ = cancellationToken.Register(CancelOperation, operationID, false);
 
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
-            associatedInstance.ServiceConnection.RequestReceived += handler;
+            connection.RequestReceived += handler;
 
-            var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
             {
                 { "Arguments", "FileOperation" },
                 { "fileop", "DeleteItem" },
@@ -176,9 +178,9 @@ namespace Files.Filesystem
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
 
-            if (associatedInstance.ServiceConnection != null)
+            if (connection != null)
             {
-                associatedInstance.ServiceConnection.RequestReceived -= handler;
+                connection.RequestReceived -= handler;
             }
 
             if (result)
@@ -230,7 +232,8 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IEnumerable<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            if (associatedInstance.ServiceConnection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\")) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\")))
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\")) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\")))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.MoveItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
@@ -243,9 +246,9 @@ namespace Files.Filesystem
             using var _ = cancellationToken.Register(CancelOperation, operationID, false);
 
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
-            associatedInstance.ServiceConnection.RequestReceived += handler;
+            connection.RequestReceived += handler;
 
-            var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
             {
                 { "Arguments", "FileOperation" },
                 { "fileop", "MoveItem" },
@@ -257,9 +260,9 @@ namespace Files.Filesystem
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
 
-            if (associatedInstance.ServiceConnection != null)
+            if (connection != null)
             {
-                associatedInstance.ServiceConnection.RequestReceived -= handler;
+                connection.RequestReceived -= handler;
             }
 
             if (result)
@@ -289,13 +292,14 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            if (associatedInstance.ServiceConnection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\"))
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\"))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
             }
 
-            var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
             {
                 { "Arguments", "FileOperation" },
                 { "fileop", "RenameItem" },
@@ -326,7 +330,8 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source, string destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            if (associatedInstance.ServiceConnection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\") || string.IsNullOrWhiteSpace(destination) || destination.StartsWith(@"\\?\"))
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\") || string.IsNullOrWhiteSpace(destination) || destination.StartsWith(@"\\?\"))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.RestoreFromTrashAsync(source, destination, progress, errorCode, cancellationToken);
@@ -336,9 +341,9 @@ namespace Files.Filesystem
             using var _ = cancellationToken.Register(CancelOperation, operationID, false);
 
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
-            associatedInstance.ServiceConnection.RequestReceived += handler;
+            connection.RequestReceived += handler;
 
-            var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
             {
                 { "Arguments", "FileOperation" },
                 { "fileop", "MoveItem" },
@@ -350,9 +355,9 @@ namespace Files.Filesystem
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
 
-            if (associatedInstance.ServiceConnection != null)
+            if (connection != null)
             {
-                associatedInstance.ServiceConnection.RequestReceived -= handler;
+                connection.RequestReceived -= handler;
             }
 
             if (result)
@@ -388,12 +393,16 @@ namespace Files.Filesystem
 
         private async void CancelOperation(object operationID)
         {
-            await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet()
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
             {
-                { "Arguments", "FileOperation" },
-                { "fileop", "CancelOperation" },
-                { "operationID", (string)operationID }
-            });
+                await connection.SendMessageAsync(new ValueSet()
+                {
+                    { "Arguments", "FileOperation" },
+                    { "fileop", "CancelOperation" },
+                    { "operationID", (string)operationID }
+                });
+            }
         }
 
         #region IDisposable

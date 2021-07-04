@@ -13,7 +13,7 @@ using Windows.Foundation.Collections;
 
 namespace FilesFullTrust.MessageHandlers
 {
-    public class LibrariesHandler : MessageHandler
+    public class LibrariesHandler : IMessageHandler
     {
         private NamedPipeServerStream connection;
 

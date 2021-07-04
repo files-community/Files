@@ -38,7 +38,7 @@ namespace FilesFullTrust
             try
             {
                 // Create message handlers
-                messageHandlers = new List<MessageHandler>();
+                messageHandlers = new List<IMessageHandler>();
                 messageHandlers.Add(new RecycleBinHandler());
                 messageHandlers.Add(new LibrariesHandler());
                 messageHandlers.Add(new ApplicationLaunchHandler());
@@ -80,7 +80,7 @@ namespace FilesFullTrust
         private static NamedPipeServerStream connection;
         private static ManualResetEvent appServiceExit;
         private static DeviceWatcher deviceWatcher;
-        private static List<MessageHandler> messageHandlers;
+        private static List<IMessageHandler> messageHandlers;
 
         private static async void InitializeAppServiceConnection()
         {
