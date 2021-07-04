@@ -64,7 +64,7 @@
                             <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
                             <StaticResource x:Key="FileBrowserHeaderBackgroundBrush" ResourceKey="SolidBackgroundFillColorBaseBrush" />
                             <!--  Preview pane  -->
-                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="Transparent" />
+                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="#21000000" />
 
                             <contract13Present:SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
                             <contract13NotPresent:ThemeResource x:Key="RootBackgroundBrush" ResourceKey="ApplicationPageBackgroundThemeBrush" />
@@ -106,7 +106,7 @@
                             <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
                             <StaticResource x:Key="FileBrowserHeaderBackgroundBrush" ResourceKey="SolidBackgroundFillColorBaseBrush" />
                             <!--  Preview pane  -->
-                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="#3F2C2C2C" />
+                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="#31000000" />
 
                             <contract13Present:SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
                             <contract13NotPresent:ThemeResource x:Key="RootBackgroundBrush" ResourceKey="ApplicationPageBackgroundThemeBrush" />
