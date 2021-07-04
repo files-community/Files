@@ -334,7 +334,7 @@
         VerticalAlignment="Stretch"
         Background="{ThemeResource NavigationToolbarBackgroundBrush}"
         ColumnSpacing="0"
-        CornerRadius="{StaticResource ControlCornerRadius}">
+        CornerRadius="{StaticResource NavToolbarCornerRadius}">
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition Height="44" />
