@@ -41,10 +41,14 @@ namespace Files.Helpers
 
         public const uint GENERIC_READ = 0x80000000;
         public const uint GENERIC_WRITE = 0x40000000;
+        public const uint FILE_APPEND_DATA = 0x0004;
 
         public const uint FILE_SHARE_READ = 0x00000001;
         public const uint FILE_SHARE_WRITE = 0x00000002;
         public const uint FILE_SHARE_DELETE = 0x00000004;
+
+        public const uint FILE_BEGIN = 0;
+        public const uint FILE_END = 2;
 
         public const uint CREATE_ALWAYS = 2;
         public const uint CREATE_NEW = 1;
@@ -136,6 +140,16 @@ namespace Files.Helpers
         public static extern bool SetFileAttributesFromApp(
             string lpFileName,
             System.IO.FileAttributes dwFileAttributes);
+
+        [DllImport("api-ms-win-core-file-l1-2-1.dll", ExactSpelling = true,
+        CallingConvention = CallingConvention.StdCall,
+        SetLastError = true)]
+        public static extern uint SetFilePointer(
+            IntPtr hFile,
+            long lDistanceToMove,
+            IntPtr lpDistanceToMoveHigh,
+            uint dwMoveMethod
+        );
 
         [DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
         CallingConvention = CallingConvention.StdCall,

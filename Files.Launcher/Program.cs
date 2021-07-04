@@ -120,7 +120,7 @@ namespace FilesFullTrust
         private static void UnhandledExceptionTrapper(object sender, UnhandledExceptionEventArgs e)
         {
             var exception = e.ExceptionObject as Exception;
-            Logger.Error(exception, exception.Message);
+            Logger.UnhandledError(exception, exception.Message);
         }
 
         private static async void RecycleBinWatcher_Changed(object sender, FileSystemEventArgs e)
