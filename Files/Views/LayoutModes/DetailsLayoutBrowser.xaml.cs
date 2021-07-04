@@ -311,11 +311,14 @@ namespace Files.Views.LayoutModes
         {
             renamingItem = SelectedItem;
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
-            ListViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
+            ListViewItem listViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
             TextBox textBox = null;
-
-            TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-            textBox = gridViewItem.FindDescendant("ItemNameTextBox") as TextBox;
+            if (listViewItem == null)
+            {
+                return;
+            }
+            TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
+            textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
             //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
             //textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
             textBox.Text = textBlock.Text;
