@@ -15,6 +15,7 @@
     xmlns:usercontrols="using:Files.UserControls.MultitaskingControl"
     xmlns:viewmodels="using:Files.ViewModels"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    Background="{ThemeResource RootBackgroundBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
     NavigationCacheMode="Required"
