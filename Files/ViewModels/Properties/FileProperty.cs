@@ -258,10 +258,10 @@ namespace Files.ViewModels.Properties
 
             // cache the contents of the file to avoid repeatedly reading the file
             string text;
-            if(!cachedPropertiesListFiles.TryGetValue(path, out text))
+            if (!cachedPropertiesListFiles.TryGetValue(path, out text))
             {
                 text = await FileIO.ReadTextAsync(propertiesJsonFile);
-                cachedPropertiesListFiles.Add(path, text);
+                cachedPropertiesListFiles[path] = text;
             }
 
             List<FileProperty> list = JsonConvert.DeserializeObject<List<FileProperty>>(text);

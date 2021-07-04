@@ -248,6 +248,49 @@ namespace FilesFullTrust
                 return null;
             }
         }
+
+        public bool HasPermission(FileSystemRights perm)
+        {
+            return GetEffectiveRights().HasFlag(perm);
+        }
+
+        public FileSystemRights GetEffectiveRights()
+        {
+            using var user = WindowsIdentity.GetCurrent();
+            var userSids = new List<string> { user.User.Value };
+            userSids.AddRange(user.Groups.Select(x => x.Value));
+
+            FileSystemRights inheritedDenyRights = 0, denyRights = 0;
+            FileSystemRights inheritedAllowRights = 0, allowRights = 0;
+
+            foreach (var Rule in AccessRules.Where(x => userSids.Contains(x.IdentityReference)))
+            {
+                if (Rule.AccessControlType == AccessControlType.Deny)
+                {
+                    if (Rule.IsInherited)
+                    {
+                        inheritedDenyRights |= Rule.FileSystemRights;
+                    }
+                    else
+                    {
+                        denyRights |= Rule.FileSystemRights;
+                    }
+                }
+                else if (Rule.AccessControlType == AccessControlType.Allow)
+                {
+                    if (Rule.IsInherited)
+                    {
+                        inheritedAllowRights |= Rule.FileSystemRights;
+                    }
+                    else
+                    {
+                        allowRights |= Rule.FileSystemRights;
+                    }
+                }
+            }
+
+            return (inheritedAllowRights & ~inheritedDenyRights) | (allowRights & ~denyRights);
+        }
     }
 
     public class FileSystemAccessRule2

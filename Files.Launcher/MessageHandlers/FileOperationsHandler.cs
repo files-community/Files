@@ -168,15 +168,22 @@ namespace FilesFullTrust.MessageHandlers
                                 }
                             };
 
-                            op.PerformOperations();
+                            try
+                            {
+                                op.PerformOperations();
+                            }
+                            catch
+                            {
+                                deleteTcs.TrySetResult(false);
+                            }
 
                             handleTable.RemoveValue(operationID2);
 
-                            return (await deleteTcs.Task, deletedItems, recycledItems);
+                            return (await deleteTcs.Task && deletedItems.Count == fileToDeletePath.Length, deletedItems, recycledItems);
                         }
                     });
                     await Win32API.SendMessageAsync(connection, new ValueSet() {
-                        { "Success", succcess2 && deletedItems.Count == fileToDeletePath.Length },
+                        { "Success", succcess2 },
                         { "DeletedItems", JsonConvert.SerializeObject(deletedItems) },
                         { "RecycledItems", JsonConvert.SerializeObject(recycledItems) }
                     }, message.Get("RequestID", (string)null));
@@ -207,27 +214,27 @@ namespace FilesFullTrust.MessageHandlers
                             {
                                 if (e.Result.Succeeded)
                                 {
-                                    if (e.DestItem == null || string.IsNullOrEmpty(e.Name))
-                                    {
-                                        renamedItems.Add($"{Path.Combine(Path.GetDirectoryName(e.SourceItem.FileSystemPath), newName)}");
-                                    }
-                                    else
-                                    {
-                                        renamedItems.Add($"{Path.Combine(Path.GetDirectoryName(e.SourceItem.FileSystemPath), e.Name)}");
-                                    }
+                                    renamedItems.Add($"{Path.Combine(Path.GetDirectoryName(e.SourceItem.FileSystemPath), e.Name)}");
                                 }
                             };
                             op.FinishOperations += (s, e) => renameTcs.TrySetResult(e.Result.Succeeded);
 
-                            op.PerformOperations();
+                            try
+                            {
+                                op.PerformOperations();
+                            }
+                            catch
+                            {
+                                renameTcs.TrySetResult(false);
+                            }
 
                             handleTable.RemoveValue(operationID4);
 
-                            return (await renameTcs.Task, renamedItems);
+                            return (await renameTcs.Task && renamedItems.Count == 1, renamedItems);
                         }
                     });
                     await Win32API.SendMessageAsync(connection, new ValueSet() {
-                        { "Success", succcess4 && renamedItems.Count == 1 },
+                        { "Success", succcess4 },
                         { "RenamedItems", JsonConvert.SerializeObject(renamedItems) },
                     }, message.Get("RequestID", (string)null));
                     break;
@@ -237,11 +244,12 @@ namespace FilesFullTrust.MessageHandlers
                     var moveDestination = ((string)message["destpath"]).Split('|');
                     var operationID3 = (string)message["operationID"];
                     var overwriteOnMove = (bool)message["overwrite"];
-                    var (succcess3, movedItems) = await Win32API.StartSTATask(async () =>
+                    var (succcess3, movedItems, movedSources) = await Win32API.StartSTATask(async () =>
                     {
                         using (var op = new ShellFileOperations())
                         {
                             List<string> movedItems = new List<string>();
+                            List<string> movedSources = new List<string>();
 
                             op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
                                         | ShellFileOperations.OperationFlags.Silent
@@ -270,13 +278,10 @@ namespace FilesFullTrust.MessageHandlers
                                     {
                                         return;
                                     }
-                                    if (e.DestItem == null || string.IsNullOrEmpty(e.Name))
-                                    {
-                                        movedItems.Add($"{Path.Combine(e.DestFolder.FileSystemPath, e.SourceItem.Name)}");
-                                    }
-                                    else
+                                    if (e.DestFolder != null && !string.IsNullOrEmpty(e.Name))
                                     {
                                         movedItems.Add($"{Path.Combine(e.DestFolder.FileSystemPath, e.Name)}");
+                                        movedSources.Add(e.SourceItem.FileSystemPath);
                                     }
                                 }
                             };
@@ -293,16 +298,24 @@ namespace FilesFullTrust.MessageHandlers
                                 }
                             };
 
-                            op.PerformOperations();
+                            try
+                            {
+                                op.PerformOperations();
+                            }
+                            catch
+                            {
+                                moveTcs.TrySetResult(false);
+                            }
 
                             handleTable.RemoveValue(operationID3);
 
-                            return (await moveTcs.Task, movedItems);
+                            return (await moveTcs.Task && movedItems.Count == fileToMovePath.Length, movedItems, movedSources);
                         }
                     });
                     await Win32API.SendMessageAsync(connection, new ValueSet() {
-                        { "Success", succcess3 && movedItems.Count == fileToMovePath.Length },
+                        { "Success", succcess3 },
                         { "MovedItems", JsonConvert.SerializeObject(movedItems) },
+                        { "MovedSources", JsonConvert.SerializeObject(movedSources) },
                     }, message.Get("RequestID", (string)null));
                     break;
 
@@ -311,11 +324,12 @@ namespace FilesFullTrust.MessageHandlers
                     var copyDestination = ((string)message["destpath"]).Split('|');
                     var operationID = (string)message["operationID"];
                     var overwriteOnCopy = (bool)message["overwrite"];
-                    var (succcess, copiedItems) = await Win32API.StartSTATask(async () =>
+                    var (succcess, copiedItems, copiedSources) = await Win32API.StartSTATask(async () =>
                     {
                         using (var op = new ShellFileOperations())
                         {
                             List<string> copiedItems = new List<string>();
+                            List<string> copiedSources = new List<string>();
 
                             op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
                                         | ShellFileOperations.OperationFlags.Silent
@@ -344,13 +358,10 @@ namespace FilesFullTrust.MessageHandlers
                                     {
                                         return;
                                     }
-                                    if (e.DestItem == null || string.IsNullOrEmpty(e.Name))
-                                    {
-                                        copiedItems.Add($"{Path.Combine(e.DestFolder.FileSystemPath, e.SourceItem.Name)}");
-                                    }
-                                    else
+                                    if (e.DestFolder != null && !string.IsNullOrEmpty(e.Name))
                                     {
                                         copiedItems.Add($"{Path.Combine(e.DestFolder.FileSystemPath, e.Name)}");
+                                        copiedSources.Add(e.SourceItem.FileSystemPath);
                                     }
                                 }
                             };
@@ -367,16 +378,24 @@ namespace FilesFullTrust.MessageHandlers
                                 }
                             };
 
-                            op.PerformOperations();
+                            try
+                            {
+                                op.PerformOperations();
+                            }
+                            catch
+                            {
+                                copyTcs.TrySetResult(false);
+                            }
 
                             handleTable.RemoveValue(operationID);
 
-                            return (await copyTcs.Task, copiedItems);
+                            return (await copyTcs.Task && copiedItems.Count == fileToCopyPath.Length, copiedItems, copiedSources);
                         }
                     });
                     await Win32API.SendMessageAsync(connection, new ValueSet() {
-                        { "Success", succcess && copiedItems.Count == fileToCopyPath.Length },
+                        { "Success", succcess },
                         { "CopiedItems", JsonConvert.SerializeObject(copiedItems) },
+                        { "CopiedSources", JsonConvert.SerializeObject(copiedSources) },
                     }, message.Get("RequestID", (string)null));
                     break;
 

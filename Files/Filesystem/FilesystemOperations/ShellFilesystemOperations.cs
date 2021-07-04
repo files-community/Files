@@ -71,6 +71,7 @@ namespace Files.Filesystem
             }
 
             source = source.Where((src, index) => collisions.ElementAt(index) != FileNameConflictResolveOptionType.Skip);
+            destination = destination.Where((src, index) => collisions.ElementAt(index) != FileNameConflictResolveOptionType.Skip);
 
             var operationID = Guid.NewGuid().ToString();
             using var _ = cancellationToken.Register(CancelOperation, operationID, false);
@@ -107,10 +108,12 @@ namespace Files.Filesystem
                 }
                 return null; // Cannot undo overwrite operation
             }
-
-            errorCode?.Report(FileSystemStatusCode.Generic);
-            progress?.Report(100.0f);
-            return null;
+            else
+            {
+                var copiedSources = JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("CopiedSources", "")) ?? Enumerable.Empty<string>();
+                var copiedZip = source.Zip(destination, (src, dest) => new { src, dest }).Where(x => !copiedSources.Contains(x.src.Path));
+                return await filesystemOperations.CopyItemsAsync(copiedZip.Select(x => x.src), copiedZip.Select(x => x.dest), collisions, progress, errorCode, cancellationToken);
+            }
         }
 
         public async Task<(IStorageHistory, IStorageItem)> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
@@ -197,10 +200,12 @@ namespace Files.Filesystem
                 }
                 return new StorageHistory(FileOperationType.Delete, source, null);
             }
-
-            errorCode?.Report(FileSystemStatusCode.Generic);
-            progress?.Report(100.0f);
-            return null;
+            else
+            {
+                var deletedSources = JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("DeletedItems", "")) ?? Enumerable.Empty<string>();
+                var deletedZip = source.Where(x => !deletedSources.Contains(x.Path));
+                return await filesystemOperations.DeleteItemsAsync(deletedZip, progress, errorCode, permanently, cancellationToken);
+            }
         }
 
         public async Task<IStorageHistory> MoveAsync(IStorageItem source, string destination, NameCollisionOption collision, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
@@ -232,6 +237,7 @@ namespace Files.Filesystem
             }
 
             source = source.Where((src, index) => collisions.ElementAt(index) != FileNameConflictResolveOptionType.Skip);
+            destination = destination.Where((src, index) => collisions.ElementAt(index) != FileNameConflictResolveOptionType.Skip);
 
             var operationID = Guid.NewGuid().ToString();
             using var _ = cancellationToken.Register(CancelOperation, operationID, false);
@@ -268,10 +274,12 @@ namespace Files.Filesystem
                 }
                 return null; // Cannot undo overwrite operation
             }
-
-            errorCode?.Report(FileSystemStatusCode.Generic);
-            progress?.Report(100.0f);
-            return null;
+            else
+            {
+                var movedSources = JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("MovedSources", "")) ?? Enumerable.Empty<string>();
+                var copiedZip = source.Zip(destination, (src, dest) => new { src, dest }).Where(x => !movedSources.Contains(x.src.Path));
+                return await filesystemOperations.MoveItemsAsync(copiedZip.Select(x => x.src), copiedZip.Select(x => x.dest), collisions, progress, errorCode, cancellationToken);
+            }
         }
 
         public async Task<IStorageHistory> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
@@ -310,9 +318,10 @@ namespace Files.Filesystem
                 }
                 return null; // Cannot undo overwrite operation
             }
-
-            errorCode?.Report(FileSystemStatusCode.Generic);
-            return null;
+            else
+            {
+                return await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
+            }
         }
 
         public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source, string destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
@@ -362,10 +371,10 @@ namespace Files.Filesystem
                 }
                 return null; // Cannot undo overwrite operation
             }
-
-            errorCode?.Report(FileSystemStatusCode.Generic);
-            progress?.Report(100.0f);
-            return null;
+            else
+            {
+                return await filesystemOperations.RestoreFromTrashAsync(source, destination, progress, errorCode, cancellationToken);
+            }
         }
 
         private void OnProgressUpdated(object sender, Dictionary<string, object> message, IProgress<float> progress)

@@ -203,6 +203,7 @@ namespace Files.Filesystem
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "CopyItem" },
+                            { "operationID", Guid.NewGuid().ToString() },
                             { "filepath", source.Path },
                             { "destpath", destination },
                             { "overwrite", collision == NameCollisionOption.ReplaceExisting }
@@ -251,6 +252,7 @@ namespace Files.Filesystem
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "CopyItem" },
+                            { "operationID", Guid.NewGuid().ToString() },
                             { "filepath", source.Path },
                             { "destpath", destination },
                             { "overwrite", collision == NameCollisionOption.ReplaceExisting }
@@ -415,6 +417,7 @@ namespace Files.Filesystem
                             {
                                 { "Arguments", "FileOperation" },
                                 { "fileop", "MoveItem" },
+                                { "operationID", Guid.NewGuid().ToString() },
                                 { "filepath", source.Path },
                                 { "destpath", destination },
                                 { "overwrite", collision == NameCollisionOption.ReplaceExisting }
@@ -460,6 +463,7 @@ namespace Files.Filesystem
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "MoveItem" },
+                            { "operationID", Guid.NewGuid().ToString() },
                             { "filepath", source.Path },
                             { "destpath", destination },
                             { "overwrite", collision == NameCollisionOption.ReplaceExisting }
@@ -552,6 +556,7 @@ namespace Files.Filesystem
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "DeleteItem" },
+                        { "operationID", Guid.NewGuid().ToString() },
                         { "filepath", source.Path },
                         { "permanently", permanently }
                     });
@@ -564,6 +569,7 @@ namespace Files.Filesystem
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "DeleteItem" },
+                        { "operationID", Guid.NewGuid().ToString() },
                         { "filepath", source.Path },
                         { "permanently", permanently }
                     });
@@ -682,6 +688,7 @@ namespace Files.Filesystem
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "RenameItem" },
+                            { "operationID", Guid.NewGuid().ToString() },
                             { "filepath", source.Path },
                             { "newName", newName },
                             { "overwrite", collision == NameCollisionOption.ReplaceExisting }
@@ -792,6 +799,7 @@ namespace Files.Filesystem
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "MoveItem" },
+                        { "operationID", Guid.NewGuid().ToString() },
                         { "filepath", source.Path },
                         { "destpath", destination },
                         { "overwrite", false }
@@ -876,7 +884,6 @@ namespace Files.Filesystem
 
         private async Task<FilesystemResult> PerformAdminOperation(ValueSet operation)
         {
-            operation.Add("operationID", Guid.NewGuid().ToString());
             var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
             var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
             if (elevateConfirmResult == ContentDialogResult.Primary)
