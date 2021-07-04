@@ -41,6 +41,7 @@ namespace Files.UserControls.MultitaskingControl
 
         public ObservableCollection<TabItem> Items => MainPageViewModel.AppInstances;
 
+        // RecentlyClosedTabs is shared between all multitasking controls
         public static List<ITabItem> RecentlyClosedTabs { get; private set; } = new List<ITabItem>();
 
         private void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
