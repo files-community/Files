@@ -926,7 +926,7 @@ namespace Files.Views
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
 
-            if (FilesystemViewModel != null)    // Prevent weird case of this being null when many tabs are opened/closed quickly
+            if (FilesystemViewModel != null) // Prevent weird case of this being null when many tabs are opened/closed quickly
             {
                 FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
                 FilesystemViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
@@ -934,6 +934,12 @@ namespace Files.Views
                 FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
                 FilesystemViewModel.Dispose();
             }
+
+            if (ItemDisplayFrame.Content is IDisposable disposableContent)
+            {
+                disposableContent?.Dispose();
+            }
+
             AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
         }
 

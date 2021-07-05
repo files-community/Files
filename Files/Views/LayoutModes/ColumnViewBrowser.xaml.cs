@@ -249,14 +249,6 @@ namespace Files.Views.LayoutModes
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            var selectorItems = new List<SelectorItem>();
-            DependencyObjectHelpers.FindChildren<SelectorItem>(selectorItems, FileList);
-            foreach (SelectorItem gvi in selectorItems)
-            {
-                base.UninitializeDrag(gvi);
-                gvi.PointerPressed -= FileListListItem_PointerPressed;
-            }
-            selectorItems.Clear();
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
         }
@@ -716,36 +708,6 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private async void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            if (args.InRecycleQueue)
-            {
-                UninitializeDrag(args.ItemContainer);
-                args.ItemContainer.PointerPressed -= FileListListItem_PointerPressed;
-            }
-            else
-            {
-                switch (args.Phase)
-                {
-                    case 0:
-                        args.ItemContainer.DataContext = args.Item;
-                        InitializeDrag(args.ItemContainer);
-                        args.ItemContainer.PointerPressed += FileListListItem_PointerPressed;
-                        args.RegisterUpdateCallback(1, FileList_ContainerContentChanging);
-                        args.Handled = true;
-                        break;
-
-                    case 1:
-                        if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
-                        {
-                            item.ItemPropertiesInitialized = true;
-                            await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, 24);
-                        }
-                        break;
-                }
-            }
-        }
-
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             // This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
@@ -755,6 +717,41 @@ namespace Files.Views.LayoutModes
                 item = VisualTreeHelper.GetParent(item);
             var itemContainer = item as ListViewItem;
             itemContainer.ContextFlyout = ItemContextMenuFlyout;
+        }
+
+        private void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            if (!args.InRecycleQueue)
+            {
+                InitializeDrag(args.ItemContainer);
+                if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
+                {
+                    args.ItemContainer.PointerPressed += FileListListItem_PointerPressed;
+
+                    args.RegisterUpdateCallback(3, async (s, c) =>
+                    {
+                        item.ItemPropertiesInitialized = true;
+                        await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, 24);
+                    });
+                }
+                else if (args.Item is ListedItem item1 && item1.ItemPropertiesInitialized && !item1.LoadFileIcon)
+                {
+                    args.RegisterUpdateCallback(3, async (s, c) =>
+                    {
+                        await ParentShellPageInstance.FilesystemViewModel.LoadItemThumbnail(item1, 24);
+                    });
+                }
+            }
+            else
+            {
+                UninitializeDrag(args.ItemContainer);
+                args.ItemContainer.PointerPressed -= FileListListItem_PointerPressed;
+
+                if (args.Item is ListedItem item && item.ItemPropertiesInitialized && item.LoadFileIcon)
+                {
+                    ParentShellPageInstance.FilesystemViewModel.UnloadItemThumbnail(item);
+                }
+            }
         }
     }
 }
