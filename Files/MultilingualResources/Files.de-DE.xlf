@@ -2174,7 +2174,7 @@
         </trans-unit>
         <trans-unit id="StatusCopyComplete" translate="yes" xml:space="preserve">
           <source>Copy complete</source>
-          <target state="translation">Kopiervorgang abgeschlossen</target>
+          <target state="translated">Kopiervorgang abgeschlossen</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.CloseButtonText" translate="yes" xml:space="preserve">
           <source>No</source>
