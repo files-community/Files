@@ -28,6 +28,7 @@ namespace Files.Helpers
             {
                 var value = new ValueSet()
                 {
+                    { "Arguments", "LaunchApp" },
                     { "WorkingDirectory", string.IsNullOrEmpty(workingDirectory) ? associatedInstance?.FilesystemViewModel?.WorkingDirectory : workingDirectory },
                     { "Application", applicationPaths.FirstOrDefault() },
                     { "ApplicationList", JsonConvert.SerializeObject(applicationPaths) },
@@ -35,11 +36,11 @@ namespace Files.Helpers
 
                 if (runAsAdmin)
                 {
-                    value.Add("Arguments", "runas");
+                    value.Add("Parameters", "runas");
                 }
                 else
                 {
-                    value.Add("Arguments", arguments);
+                    value.Add("Parameters", arguments);
                 }
 
                 await associatedInstance.ServiceConnection.SendMessageAsync(value);
