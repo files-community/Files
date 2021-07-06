@@ -421,10 +421,7 @@ namespace Files.Interacts
                     }
                     else
                     {
-                        if (SlimContentPage is ColumnViewBrowser)
-                        {
-                            await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
-                        }                        
+                        await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
                     }
                 }
             }
