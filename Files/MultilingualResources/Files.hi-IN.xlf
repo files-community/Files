@@ -853,7 +853,7 @@
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemPath.Text" translate="yes" xml:space="preserve">
           <source>Destination:</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">मंजिल:</target>
+          <target state="translated" state-qualifier="tm-suggestion">मंजिल:</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemType.Text" translate="yes" xml:space="preserve">
           <source>Shortcut type:</source>
