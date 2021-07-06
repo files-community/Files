@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
 using Files.Extensions;
 using Files.Helpers;
@@ -19,7 +20,7 @@ namespace Files.Filesystem
 {
     public class LibraryManager : ObservableObject, IDisposable
     {
-        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+        public MainViewModel MainViewModel => App.MainViewModel;
 
         private LocationItem librarySection;
 
@@ -36,6 +37,7 @@ namespace Files.Filesystem
             {
                 return;
             }
+
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 await SidebarControl.SideBarItemsSemaphore.WaitAsync();
@@ -62,8 +64,9 @@ namespace Files.Filesystem
                                 {
                                     if (await lib.CheckDefaultSaveFolderAccess())
                                     {
-                                        lib.Font = InteractionViewModel.FontName;
+                                        lib.Font = MainViewModel.FontName;
                                         librarySection.ChildItems.AddSorted(lib);
+                                        this.LoadLibraryIcon(lib);
                                     }
                                 }
                             }
@@ -81,8 +84,9 @@ namespace Files.Filesystem
                             {
                                 if (await lib.CheckDefaultSaveFolderAccess())
                                 {
-                                    lib.Font = InteractionViewModel.FontName;
+                                    lib.Font = MainViewModel.FontName;
                                     librarySection.ChildItems.AddSorted(lib);
+                                    this.LoadLibraryIcon(lib);
                                 }
                             }
                             break;
@@ -96,6 +100,15 @@ namespace Files.Filesystem
         }
 
         private static bool IsLibraryOnSidebar(LibraryLocationItem item) => item != null && !item.IsEmpty && item.IsDefaultLocation;
+
+        private async void LoadLibraryIcon(LibraryLocationItem lib)
+        {
+            lib.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(lib.Path, 24u);
+            if (lib.IconData != null)
+            {
+                lib.Icon = await lib.IconData.ToBitmapAsync();
+            }
+        }
 
         public void Dispose()
         {
@@ -116,36 +129,8 @@ namespace Files.Filesystem
             }
         }
 
-        public void RemoveLibrariesSideBarSection()
+        private void RemoveLibrariesSideBarSection()
         {
-            try
-            {
-                RemoveLibrarySideBarItemsUI();
-            }
-            catch (Exception)
-            {
-                System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
-                // Defer because UI-thread is not ready yet (and DriveItem requires it?)
-                CoreApplication.MainView.Activated += RemoveLibraryItems;
-            }
-        }
-
-        private async void EnumerateLibrariesAsync(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
-        {
-            await SyncLibrarySideBarItemsUI();
-            CoreApplication.MainView.Activated -= EnumerateLibrariesAsync;
-        }
-
-        private void RemoveLibraryItems(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
-        {
-            RemoveLibrarySideBarItemsUI();
-            CoreApplication.MainView.Activated -= RemoveLibraryItems;
-        }
-
-        public void RemoveLibrarySideBarItemsUI()
-        {
-            SidebarControl.SideBarItems.BeginBulkOperation();
-
             try
             {
                 var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarLibraries".GetLocalized()) select n).FirstOrDefault();
@@ -156,8 +141,24 @@ namespace Files.Filesystem
             }
             catch (Exception)
             { }
+        }
 
-            SidebarControl.SideBarItems.EndBulkOperation();
+        public async void UpdateLibrariesSectionVisibility()
+        {
+            if (App.AppSettings.ShowLibrarySection)
+            {
+                await EnumerateLibrariesAsync();
+            }
+            else
+            {
+                RemoveLibrariesSideBarSection();
+            }
+        }
+
+        private async void EnumerateLibrariesAsync(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
+        {
+            await SyncLibrarySideBarItemsUI();
+            CoreApplication.MainView.Activated -= EnumerateLibrariesAsync;
         }
 
         public async Task HandleWin32LibraryEvent(ShellLibraryItem library, string oldPath)
@@ -186,24 +187,27 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                if (App.AppSettings.ShowLibrarySection && !SidebarControl.SideBarItems.Contains(librarySection))
+                await SidebarControl.SideBarItemsSemaphore.WaitAsync();
+                try
                 {
-                    await SidebarControl.SideBarItemsSemaphore.WaitAsync();
-                    try
+                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarLibraries".GetLocalized()) as LocationItem;
+                    if (App.AppSettings.ShowLibrarySection && section == null)
                     {
                         librarySection = new LocationItem
                         {
                             Text = "SidebarLibraries".GetLocalized(),
                             Section = SectionType.Library,
                             SelectsOnInvoked = false,
+                            Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.Libraries).Image),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
-                        SidebarControl.SideBarItems.Insert(1, librarySection);
+                        var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0); // After favorites section
+                        SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), librarySection);
                     }
-                    finally
-                    {
-                        SidebarControl.SideBarItemsSemaphore.Release();
-                    }
+                }
+                finally
+                {
+                    SidebarControl.SideBarItemsSemaphore.Release();
                 }
 
                 Libraries.BeginBulkOperation();

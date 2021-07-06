@@ -48,11 +48,11 @@ namespace Files.ViewModels.Previews
         /// <returns>A list of details</returns>
         public async virtual Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            var (IconData, OverlayData, IsCustom) = await FileThumbnailHelper.LoadIconOverlayAsync(Item.ItemPath, 400);
+            var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
 
-            if (IconData != null)
+            if (iconData != null)
             {
-                Item.FileImage = await IconData.ToBitmapAsync();
+                Item.FileImage = await iconData.ToBitmapAsync();
             }
             else
             {
@@ -75,7 +75,7 @@ namespace Files.ViewModels.Previews
 
             list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
                                                                                             (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
-            return list.Where(i => i.Value != null).ToList();
+            return list.Where(i => i.ValueText != null).ToList();
         }
 
         /// <summary>
@@ -88,7 +88,6 @@ namespace Files.ViewModels.Previews
             var detailsFull = new List<FileProperty>();
             Item.ItemFile ??= await StorageFile.GetFileFromPathAsync(Item.ItemPath);
             DetailsFromPreview = await LoadPreviewAndDetails();
-            RaiseLoadedEvent();
             var props = await GetSystemFileProperties();
 
             // Add the details from the preview function, then the system file properties
@@ -98,15 +97,7 @@ namespace Files.ViewModels.Previews
             Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(detailsFull);
         }
 
-        public event LoadedEventHandler LoadedEvent;
-
         public delegate void LoadedEventHandler(object sender, EventArgs e);
-
-        protected virtual void RaiseLoadedEvent()
-        {
-            // Raise the event in a thread-safe manner using the ?. operator.
-            LoadedEvent?.Invoke(this, new EventArgs());
-        }
 
         public static async Task LoadDetailsOnly(ListedItem item, List<FileProperty> details = null)
         {

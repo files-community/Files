@@ -214,7 +214,7 @@ namespace Files.Helpers
                 if (isRunningOnArm == null)
                 {
                     isRunningOnArm = IsArmProcessor();
-                    NLog.LogManager.GetCurrentClassLogger().Info("Running on ARM: {0}", isRunningOnArm);
+                    App.Logger.Info("Running on ARM: {0}", isRunningOnArm);
                 }
                 return isRunningOnArm ?? false;
             }

@@ -5,6 +5,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
 namespace Files.ViewModels.SettingsViewModels
@@ -12,13 +13,10 @@ namespace Files.ViewModels.SettingsViewModels
     public class AppearanceViewModel : ObservableObject
     {
         private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
-        private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
         private bool isAcrylicDisabled = App.AppSettings.IsAcrylicDisabled;
         private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
-        private AppTheme selectedTheme = App.AppSettings.SelectedTheme;
+        private AppSkin selectedSkin = App.AppSettings.SelectedSkin;
         private bool showRestartControl = false;
-        public RelayCommand OpenThemesFolderCommand => new RelayCommand(() => SettingsViewModel.OpenThemesFolder());
-
         public AppearanceViewModel()
         {
             Themes = new List<string>()
@@ -27,16 +25,10 @@ namespace Files.ViewModels.SettingsViewModels
                 "LightTheme".GetLocalized(),
                 "DarkTheme".GetLocalized()
             };
-
-            DateFormats = new List<string>
-            {
-                "ApplicationTimeStye".GetLocalized(),
-                "SystemTimeStye".GetLocalized()
-            };
         }
 
         public List<string> Themes { get; set; }
-        public List<AppTheme> ColorSchemes => App.ExternalResourcesHelper.Themes;
+        public List<AppSkin> CustomSkins => App.ExternalResourcesHelper.Skins;
 
         public int SelectedThemeIndex
         {
@@ -46,23 +38,6 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref selectedThemeIndex, value))
                 {
                     ThemeHelper.RootTheme = (ElementTheme)value;
-                }
-            }
-        }
-
-        public List<string> DateFormats { get; set; }
-
-        public int SelectedDateFormatIndex
-        {
-            get
-            {
-                return selectedDateFormatIndex;
-            }
-            set
-            {
-                if (SetProperty(ref selectedDateFormatIndex, value))
-                {
-                    App.AppSettings.DisplayedTimeStyle = (TimeStyle)value;
                 }
             }
         }
@@ -97,26 +72,45 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public AppTheme SelectedTheme
+        public AppSkin SelectedSkin
         {
             get
             {
-                return selectedTheme;
+                return selectedSkin;
             }
             set
             {
-                if (SetProperty(ref selectedTheme, value))
+                if (SetProperty(ref selectedSkin, value))
                 {
-                    App.AppSettings.SelectedTheme = selectedTheme;
-                    ShowRestartControl = true;
+                    // Remove the old resource file and load the new file
+                    App.ExternalResourcesHelper.UpdateSkin(App.AppSettings.SelectedSkin, selectedSkin);
+
+                    App.AppSettings.SelectedSkin = selectedSkin;
+
+                    // Force the application to use the correct resource file
+                    UpdateTheme();
                 }
             }
         }
 
-        public bool ShowRestartControl
+        /// <summary>
+        /// Forces the application to use the correct resource styles
+        /// </summary>
+        private async void UpdateTheme()
         {
-            get => showRestartControl;
-            set => SetProperty(ref showRestartControl, value);
+            // Allow time to remove the old theme
+            await Task.Delay(250);
+
+            // Get the index of the current theme
+            var selTheme = SelectedThemeIndex;
+
+            // Toggle between the themes to force the controls to use the new resource styles
+            SelectedThemeIndex = 0;
+            SelectedThemeIndex = 1;
+            SelectedThemeIndex = 2;
+
+            // Restore the theme to the correct theme
+            SelectedThemeIndex = selTheme;
         }
     }
 }

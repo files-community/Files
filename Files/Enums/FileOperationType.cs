@@ -29,7 +29,7 @@ namespace Files.Enums
         Move = 4,
 
         /// <summary>
-        /// An item has been extracted
+        /// An archive has been extracted
         /// </summary>
         Extract = 5,
 

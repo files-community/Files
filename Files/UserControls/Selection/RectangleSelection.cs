@@ -35,10 +35,6 @@ namespace Files.UserControls.Selection
             {
                 return new RectangleSelection_ListViewBase(uiElement as ListViewBase, selectionRectangle, selectionChanged);
             }
-            else if (uiElement is DataGrid)
-            {
-                return new RectangleSelection_DataGrid(uiElement as DataGrid, selectionRectangle, selectionChanged);
-            }
             else
             {
                 throw new ArgumentException("uiElement must derive from ListViewBase or DataGrid");

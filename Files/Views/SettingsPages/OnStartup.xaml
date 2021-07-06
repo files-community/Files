@@ -21,7 +21,7 @@
             <StackPanel
                 Margin="12,12,8,8"
                 Orientation="Vertical"
-                Spacing="14">
+                Spacing="20">
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />
@@ -30,32 +30,28 @@
 
                 <TextBlock
                     x:Uid="SettingsOnStartupTitle"
-                    FontSize="22"
+                    FontSize="20"
                     FontWeight="Medium"
                     Text="On Startup" />
 
                 <TextBlock
                     x:Uid="SettingsWhenLaunchingFiles"
-                    FontSize="18"
+                    FontSize="16"
                     Text="When launching Files" />
 
                 <RadioButton
                     x:Uid="SettingsOnStartupOpenANewTab"
                     Grid.Column="0"
-                    Padding="8,4,0,0"
                     VerticalAlignment="Center"
                     Content="Open a new tab"
-                    FontSize="16"
                     GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{Binding OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <RadioButton
                     x:Uid="SettingsOnStartupContinueWhereYouLeftOff"
                     Grid.Column="0"
-                    Padding="8,4,0,0"
                     VerticalAlignment="Center"
                     Content="Continue where you left off"
-                    FontSize="16"
                     GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{Binding ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -63,16 +59,13 @@
                     x:Name="OpenSpecificPage"
                     x:Uid="SettingsOnStartupOpenASpecificPage"
                     Grid.Column="0"
-                    Padding="8,4,0,0"
                     VerticalAlignment="Center"
                     Content="Open a specific page or pages"
-                    FontSize="16"
                     GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{Binding OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Grid
                     Width="Auto"
-                    Padding="0,0,10,0"
                     HorizontalAlignment="Left"
                     Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
                     <Grid.ColumnDefinitions>
@@ -87,7 +80,7 @@
                         x:Uid="SettingsOnStartupPages"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        FontSize="18"
+                        FontSize="16"
                         Text="Pages: " />
                     <CommandBar
                         Grid.Column="1"
@@ -141,24 +134,20 @@
 
                 <TextBlock
                     x:Uid="SettingsOnStartupNewInstanceBehavior"
-                    FontSize="18"
+                    FontSize="16"
                     Text="When opening a folder in Files" />
 
                 <RadioButton
                     x:Uid="SettingsOnStartupLaunchNewTab"
-                    Padding="8,3,0,0"
                     VerticalAlignment="Center"
                     Content="Open folder in a new tab"
-                    FontSize="16"
                     GroupName="StartupPageLaunchRadioGroup"
                     IsChecked="{Binding AlwaysOpenANewInstance, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}" />
 
                 <RadioButton
                     x:Uid="SettingsOnStartupLaunchNewInstance"
-                    Padding="8,3,0,0"
                     VerticalAlignment="Center"
                     Content="Always open a new instance"
-                    FontSize="16"
                     GroupName="StartupPageLaunchRadioGroup"
                     IsChecked="{Binding AlwaysOpenANewInstance, Mode=TwoWay}" />
             </StackPanel>

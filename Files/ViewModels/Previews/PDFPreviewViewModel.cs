@@ -1,11 +1,14 @@
 ﻿using Files.Filesystem;
 using Files.ViewModels.Properties;
+using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Data.Pdf;
+using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
@@ -82,22 +85,26 @@ namespace Files.ViewModels.Previews
                 using var stream = new InMemoryRandomAccessStream();
                 await page.RenderToStreamAsync(stream);
 
+                var decoder = await BitmapDecoder.CreateAsync(stream);
+                var sw = await decoder.GetSoftwareBitmapAsync();
+
                 var src = new BitmapImage();
                 await src.SetSourceAsync(stream);
                 var pageData = new PageViewModel()
                 {
                     PageImage = src,
                     PageNumber = (int)i,
+                    PageImageSB = sw,
                 };
                 Pages.Add(pageData);
             }
             LoadingBarVisibility = Visibility.Collapsed;
         }
-
-        public struct PageViewModel
-        {
-            public int PageNumber { get; set; }
-            public BitmapImage PageImage { get; set; }
-        }
+    }
+    public struct PageViewModel
+    {
+        public int PageNumber { get; set; }
+        public BitmapImage PageImage { get; set; }
+        public SoftwareBitmap PageImageSB { get; set; }
     }
 }

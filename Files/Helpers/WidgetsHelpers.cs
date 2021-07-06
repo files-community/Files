@@ -6,7 +6,7 @@ namespace Files.Helpers
 {
     public static class WidgetsHelpers
     {
-        public static TWidget TryGetWidget<TWidget>(WidgetsListControlViewModel widgetsViewModel, out bool shouldReload, TWidget defaultValue = default(TWidget)) where TWidget : IWidgetItemModel, new()
+        public static TWidget TryGetWidget<TWidget>(WidgetsListControlViewModel widgetsViewModel, out bool shouldReload, TWidget defaultValue = default) where TWidget : IWidgetItemModel, new()
         {
             bool canAddWidget = widgetsViewModel.CanAddWidget(typeof(TWidget).Name);
             bool isWidgetSettingEnabled = TryGetIsWidgetSettingEnabled<TWidget>();
@@ -21,34 +21,34 @@ namespace Files.Helpers
                 // Remove the widget
                 widgetsViewModel.RemoveWidget<TWidget>();
                 shouldReload = false;
-                return default(TWidget);
+                return default;
             }
             else if (!isWidgetSettingEnabled)
             {
                 shouldReload = false;
-                return default(TWidget);
+                return default;
             }
 
-            shouldReload = EqualityComparer<TWidget>.Default.Equals(defaultValue, default(TWidget));
+            shouldReload = EqualityComparer<TWidget>.Default.Equals(defaultValue, default);
 
             return (defaultValue);
         }
 
         public static bool TryGetIsWidgetSettingEnabled<TWidget>() where TWidget : IWidgetItemModel
         {
-            if (typeof(TWidget) == typeof(LibraryCards))
+            if (typeof(TWidget) == typeof(FolderWidget))
             {
-                return App.AppSettings.ShowLibraryCardsWidget;
+                return App.AppSettings.ShowFolderWidgetWidget;
             }
             if (typeof(TWidget) == typeof(DrivesWidget))
             {
                 return App.AppSettings.ShowDrivesWidget;
             }
-            if (typeof(TWidget) == typeof(Bundles))
+            if (typeof(TWidget) == typeof(BundlesWidget))
             {
                 return App.AppSettings.ShowBundlesWidget;
             }
-            if (typeof(TWidget) == typeof(RecentFiles))
+            if (typeof(TWidget) == typeof(RecentFilesWidget))
             {
                 return App.AppSettings.ShowRecentFilesWidget;
             }

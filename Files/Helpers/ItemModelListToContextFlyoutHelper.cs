@@ -105,12 +105,12 @@ namespace Files.Helpers.ContextFlyouts
             }
             else
             {
-                var icon = new FontIcon
+                var icon = string.IsNullOrEmpty(i.Glyph) ? null : new FontIcon
                 {
-                    Glyph = !string.IsNullOrEmpty(i.Glyph) ? i.Glyph : "",
+                    Glyph = i.Glyph,
                 };
 
-                if (!string.IsNullOrEmpty(i.GlyphFontFamilyName))
+                if (icon != null && !string.IsNullOrEmpty(i.GlyphFontFamilyName))
                 {
                     var fontFamily = App.Current.Resources[i.GlyphFontFamilyName] as FontFamily;
                     icon.FontFamily = fontFamily;

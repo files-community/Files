@@ -83,12 +83,12 @@ namespace Files.Helpers
                         Tag = ((Win32ContextMenuItem)null, menuHandle),
                         Glyph = "\xE712",
                     };
-                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, false);
+                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, showIcons);
                     menuItemsListLocal.Insert(0, menuLayoutSubItem);
                 }
                 else
                 {
-                    LoadMenuFlyoutItem(moreItem.Items, overflowItems, menuHandle, false);
+                    LoadMenuFlyoutItem(moreItem.Items, overflowItems, menuHandle, showIcons);
                 }
             }
             foreach (var menuFlyoutItem in menuItems
@@ -105,9 +105,9 @@ namespace Files.Helpers
                 BitmapImage image = null;
                 if (showIcons)
                 {
-                    image = new BitmapImage();
                     if (!string.IsNullOrEmpty(menuFlyoutItem.IconBase64))
                     {
+                        image = new BitmapImage();
                         byte[] bitmapData = Convert.FromBase64String(menuFlyoutItem.IconBase64);
                         using var ms = new MemoryStream(bitmapData);
                         image.SetSourceAsync(ms.AsRandomAccessStream()).AsTask().Wait(10);
@@ -131,7 +131,7 @@ namespace Files.Helpers
                         Text = menuFlyoutItem.Label.Replace("&", ""),
                         Tag = (menuFlyoutItem, menuHandle),
                     };
-                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, menuFlyoutItem.SubItems, menuHandle, false);
+                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, menuFlyoutItem.SubItems, menuHandle, showIcons);
                     menuItemsListLocal.Insert(0, menuLayoutSubItem);
                 }
                 else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))

@@ -1,0 +1,53 @@
+﻿<ContentDialog
+    x:Class="Files.Dialogs.DecompressArchiveDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
+    xmlns:local="using:Files.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Uid="DecompressArchiveDialog"
+    Title="Select a destination and extract files"
+    CornerRadius="{StaticResource OverlayCornerRadius}"
+    DefaultButton="Primary"
+    PrimaryButtonText="Extract"
+    RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+    SecondaryButtonText="Cancel"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+
+    <Grid
+        MinWidth="400"
+        Margin="0,16,0,0"
+        ColumnSpacing="6"
+        RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <TextBox
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            IsReadOnly="True"
+            Text="{x:Bind ViewModel.DestinationFolderPath, Mode=OneWay}" />
+
+        <Button
+            x:Uid="DecompressArchiveDialogBrowseFolder"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Background="Transparent"
+            Command="{x:Bind ViewModel.SelectDestinationCommand}"
+            Content="Browse" />
+
+        <CheckBox
+            x:Uid="DecompressArchiveDialogOpenDestinationWhenComplete"
+            Grid.Row="1"
+            Content="Open destination folder when complete"
+            IsChecked="{x:Bind ViewModel.OpenDestinationFolderOnCompletion, Mode=TwoWay}" />
+    </Grid>
+</ContentDialog>

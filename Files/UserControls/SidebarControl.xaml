@@ -7,21 +7,22 @@
     xmlns:conv="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
-	xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems"
-	HorizontalAlignment="Stretch"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:navigationcontrolitems="using:Files.DataModels.NavigationControlItems"
+    HorizontalAlignment="Stretch"
     d:DesignHeight="768"
     d:DesignWidth="200"
+    CompactModeThresholdWidth="750"
     IsBackButtonVisible="Collapsed"
     IsPaneToggleButtonVisible="True"
     IsSettingsVisible="True"
     IsTitleBarAutoPaddingEnabled="False"
     ItemInvoked="Sidebar_ItemInvoked"
     MenuItemsSource="{x:Bind local:SidebarControl.SideBarItems, Mode=OneWay}"
-    OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneWay}"
-    PaneDisplayMode="{x:Bind IsCompact, Mode=OneWay, Converter={StaticResource DisplayModeConverter}}"
+    OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneTime}"
+    PaneDisplayMode="Auto"
     SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
     mc:Ignorable="d">
     <muxc:NavigationView.Resources>
@@ -30,32 +31,28 @@
                 <ResourceDictionary x:Key="Light">
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="0.85"
+                        Windows10version1903:TintLuminosityOpacity="{ThemeResource SidebarTintLuminosityOpacity}"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                         TintColor="{ThemeResource SolidBackgroundAcrylic}"
-                        TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
+                        TintOpacity="{ThemeResource SidebarTintOpacity}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="0.85"
+                        Windows10version1903:TintLuminosityOpacity="{ThemeResource SidebarTintLuminosityOpacity}"
                         AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
                         TintColor="{ThemeResource SolidBackgroundAcrylic}"
-                        TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="HighContrast">
-                    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="{ThemeResource SystemColorWindowColor}" />
+                        TintOpacity="{ThemeResource SidebarTintOpacity}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 
             <DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
                 <muxc:NavigationViewItem
                     AllowDrop="True"
-                    BorderThickness="0.8"
                     CanDrag="False"
                     Content="{x:Bind Text}"
                     DataContext="{x:Bind}"
@@ -73,7 +70,7 @@
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
-                        <muxc:ImageIcon Source="{x:Bind Icon}" />
+                        <muxc:ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
@@ -82,7 +79,6 @@
                 <muxc:NavigationViewItem
                     Padding="0"
                     AllowDrop="True"
-                    BorderThickness="0.8"
                     Content="{x:Bind Text, Mode=OneWay}"
                     DataContext="{x:Bind}"
                     DragEnter="NavigationViewItem_DragEnter"
@@ -104,7 +100,6 @@
             <DataTemplate x:Key="LinuxNavItem" x:DataType="navigationcontrolitems:WslDistroItem">
                 <muxc:NavigationViewItem
                     Padding="0"
-                    BorderThickness="0.8"
                     Content="{x:Bind Text}"
                     DataContext="{x:Bind}"
                     DragEnter="NavigationViewItem_DragEnter"
@@ -112,24 +107,41 @@
                     PointerPressed="Sidebar_PointerPressed"
                     RightTapped="NavigationViewWSLItem_RightTapped"
                     Tag="{x:Bind Path}"
-                    ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}">
+                    ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
                     <muxc:NavigationViewItem.Icon>
-						<muxc:ImageIcon>
-							<muxc:ImageIcon.Source>
-								<BitmapImage UriSource="{x:Bind Logo}"/>
-							</muxc:ImageIcon.Source>
-						</muxc:ImageIcon>
+                        <muxc:ImageIcon>
+                            <muxc:ImageIcon.Source>
+                                <BitmapImage UriSource="{x:Bind Logo}" />
+                            </muxc:ImageIcon.Source>
+                        </muxc:ImageIcon>
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
             <mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
-            <conv:NavigationViewCompactConverter x:Key="DisplayModeConverter" />
-
-            <x:Double x:Key="NavigationViewItemExpandedGlyphFontSize">8.0</x:Double>
 
             <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
                 <MenuFlyout.Items>
+                    <MenuFlyoutItem
+                        x:Name="CreateNewLibrary"
+                        x:Uid="SideBarCreateNewLibrary"
+                        x:Load="{x:Bind IsLibrariesHeader, Mode=OneWay}"
+                        Command="{x:Bind CreateLibraryCommand, Mode=OneWay}"
+                        Text="Create new library">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE710;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        x:Name="RestoreLibraries"
+                        x:Uid="SideBarRestoreLibraries"
+                        x:Load="{x:Bind IsLibrariesHeader, Mode=OneWay}"
+                        Command="{x:Bind RestoreLibrariesCommand, Mode=OneWay}"
+                        Text="Restore default libraries">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE10E;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
                     <MenuFlyoutItem
                         x:Name="EmptyRecycleBin"
                         x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
@@ -144,7 +156,7 @@
                     <MenuFlyoutItem
                         x:Name="OpenInNewPane"
                         x:Uid="SideBarOpenInNewPane"
-                        x:Load="{x:Bind CanOpenInNewPane, Mode=OneWay}"
+                        x:Load="{x:Bind conv:MultiBooleanConverter.AndConvert(IsLocationItem, CanOpenInNewPane), Mode=OneWay}"
                         Click="OpenInNewPane_Click"
                         Text="Open in new pane">
                         <MenuFlyoutItem.Icon>
@@ -154,6 +166,7 @@
                     <MenuFlyoutItem
                         x:Name="OpenInNewTab"
                         x:Uid="SideBarOpenInNewTab"
+                        x:Load="{x:Bind IsLocationItem, Mode=OneWay}"
                         Click="OpenInNewTab_Click"
                         Text="Open in new tab">
                         <MenuFlyoutItem.Icon>
@@ -163,6 +176,7 @@
                     <MenuFlyoutItem
                         x:Name="OpenInNewWindow"
                         x:Uid="SideBarOpenInNewWindow"
+                        x:Load="{x:Bind IsLocationItem, Mode=OneWay}"
                         Click="OpenInNewWindow_Click"
                         Text="Open in new window">
                         <MenuFlyoutItem.Icon>
@@ -175,6 +189,15 @@
                         x:Load="{x:Bind ShowUnpinItem, Mode=OneWay}"
                         Click="{x:Bind UnpinItem_Click}"
                         Text="Unpin from Sidebar">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE77A;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        x:Name="HideSectionItem"
+                        x:Load="{x:Bind ShowHideSection, Mode=OneWay}"
+                        Click="{x:Bind HideSection_Click}"
+                        Text="Hide section">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE77A;" />
                         </MenuFlyoutItem.Icon>
@@ -210,15 +233,16 @@
                 <Setter Property="OpenPaneLength" Value="{ThemeResource SplitViewOpenPaneThemeLength}" />
                 <Setter Property="CompactPaneLength" Value="{ThemeResource SplitViewCompactPaneThemeLength}" />
                 <Setter Property="PaneBackground" Value="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" />
-                <!--<contract7Present:Setter Property="CornerRadius" Value="{ThemeResource SplitViewPaneRootCornerRadius}" />-->
+                <Setter Property="CornerRadius" Value="0" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="SplitView">
-                            <Grid Background="{TemplateBinding Background}">
+                            <Grid Background="{TemplateBinding Background}" CornerRadius="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition x:Name="ColumnDefinition1" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.OpenPaneGridLength, FallbackValue=0}" />
                                     <ColumnDefinition x:Name="ColumnDefinition2" Width="*" />
                                 </Grid.ColumnDefinitions>
+
 
                                 <!--  Pane Content Area  -->
                                 <Grid
@@ -226,11 +250,10 @@
                                     Grid.ColumnSpan="2"
                                     Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.OpenPaneLength}"
                                     HorizontalAlignment="Left"
-                                    contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
                                     Background="{TemplateBinding PaneBackground}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
-                                    Canvas.ZIndex="1"
+                                    CornerRadius="0"
                                     Visibility="Collapsed">
 
                                     <contract7Present:Grid.BackgroundTransition>
@@ -258,32 +281,61 @@
                                         x:DeferLoadStrategy="Lazy"
                                         Fill="{ThemeResource SystemControlForegroundTransparentBrush}"
                                         Visibility="Collapsed" />
-
-                                    <!--  This allows the user to resize the pane  -->
-                                    <Grid
-                                        x:Name="ResizeElementBorder"
-                                        Width="8"
-                                        HorizontalAlignment="Right"
-                                        AllowFocusOnInteraction="True"
-                                        BorderBrush="Transparent"
-                                        BorderThickness="0,0,1,0"
-                                        ManipulationDelta="Border_ManipulationDelta"
-                                        ManipulationMode="TranslateX"
-                                        PointerCanceled="Border_PointerExited"
-                                        PointerEntered="Border_PointerEntered"
-                                        PointerExited="Border_PointerExited">
-                                        <UserControl
-                                            x:Uid="ResizeElementKeyboardControl"
-                                            AutomationProperties.Name="Sidebar resizer"
-                                            FocusVisualPrimaryThickness="2"
-                                            IsTabStop="True"
-                                            KeyDown="Border_KeyDown" />
-                                    </Grid>
-
                                 </Grid>
 
+                                <!--  This allows the user to resize the pane  -->
+                                <Grid
+                                    x:Name="ResizeElementBorder"
+                                    Grid.Column="{Binding ElementName=PaneRoot, Path=(Grid.Column), Mode=OneWay}"
+                                    Width="8"
+                                    HorizontalAlignment="Right"
+                                    AllowFocusOnInteraction="True"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    ManipulationCompleted="ResizeElementBorder_ManipulationCompleted"
+                                    ManipulationDelta="Border_ManipulationDelta"
+                                    ManipulationMode="TranslateX"
+                                    ManipulationStarted="ResizeElementBorder_ManipulationStarted"
+                                    PointerCanceled="Border_PointerExited"
+                                    PointerEntered="Border_PointerEntered"
+                                    PointerExited="Border_PointerExited"
+                                    RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}"
+                                    Visibility="{Binding ElementName=PaneRoot, Path=Visibility, Mode=OneWay}">
+                                    <UserControl
+                                        x:Name="ResizeElementControl"
+                                        x:Uid="ResizeElementKeyboardControl"
+                                        AutomationProperties.Name="Sidebar resizer"
+                                        IsTabStop="True"
+                                        KeyDown="Border_KeyDown"
+                                        UseSystemFocusVisuals="True" />
+                                </Grid>
+
+                                <!--  This defines the drag area for the title bar  -->
+                                <Grid
+                                    x:Name="DragArea"
+                                    Grid.ColumnSpan="2"
+                                    Height="50"
+                                    Margin="38,0,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Top"
+                                    Background="Transparent"
+                                    Canvas.ZIndex="1"
+                                    Loaded="DragArea_Loaded" />
+
+                                <!--  This is a special spot just for tabs so that the title bar DragArea can function properly  -->
+                                <Border
+                                    x:Name="TabContentBorder"
+                                    Grid.Column="{Binding ElementName=ContentRoot, Path=(Grid.Column), Mode=OneWay}"
+                                    Grid.ColumnSpan="{Binding ElementName=ContentRoot, Path=(Grid.ColumnSpan), Mode=OneWay}"
+                                    VerticalAlignment="Top"
+                                    Canvas.ZIndex="2"
+                                    RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}" />
+
                                 <!--  Content Area  -->
-                                <Grid x:Name="ContentRoot" Grid.ColumnSpan="2">
+                                <Grid
+                                    x:Name="ContentRoot"
+                                    Grid.ColumnSpan="2"
+                                    Margin="0,50,0,0">
                                     <Grid.RenderTransform>
                                         <CompositeTransform x:Name="ContentTransform" />
                                     </Grid.RenderTransform>
@@ -297,11 +349,12 @@
 
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="DisplayModeStates">
-
                                         <VisualStateGroup.Transitions>
                                             <VisualTransition From="Closed" To="OpenOverlayLeft">
-
                                                 <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="3" />
+                                                    </ObjectAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
                                                     </ObjectAnimationUsingKeyFrames>
@@ -335,8 +388,10 @@
                                                 </Storyboard>
                                             </VisualTransition>
                                             <VisualTransition From="Closed" To="OpenOverlayRight">
-
                                                 <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="3" />
+                                                    </ObjectAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
                                                     </ObjectAnimationUsingKeyFrames>
@@ -378,6 +433,9 @@
                                             <VisualTransition From="ClosedCompactLeft" To="OpenCompactOverlayLeft">
 
                                                 <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="3" />
+                                                    </ObjectAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnDefinition1" Storyboard.TargetProperty="Width">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CompactPaneGridLength, FallbackValue=0}" />
                                                     </ObjectAnimationUsingKeyFrames>
@@ -415,6 +473,9 @@
                                             <VisualTransition From="ClosedCompactRight" To="OpenCompactOverlayRight">
 
                                                 <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="3" />
+                                                    </ObjectAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnDefinition1" Storyboard.TargetProperty="Width">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="*" />
                                                     </ObjectAnimationUsingKeyFrames>
@@ -456,7 +517,6 @@
                                                 </Storyboard>
                                             </VisualTransition>
                                             <VisualTransition From="OpenOverlayLeft" To="Closed">
-
                                                 <Storyboard>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
@@ -562,10 +622,12 @@
                                                             KeyTime="0:0:0.12"
                                                             Value="0.0" />
                                                     </DoubleAnimationUsingKeyFrames>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0" />
+                                                    </ObjectAnimationUsingKeyFrames>
                                                 </Storyboard>
                                             </VisualTransition>
                                             <VisualTransition From="OpenCompactOverlayRight" To="ClosedCompactRight">
-
                                                 <Storyboard>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnDefinition1" Storyboard.TargetProperty="Width">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="*" />
@@ -605,6 +667,9 @@
                                                             KeyTime="0:0:0.12"
                                                             Value="0.0" />
                                                     </DoubleAnimationUsingKeyFrames>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0" />
+                                                    </ObjectAnimationUsingKeyFrames>
                                                 </Storyboard>
                                             </VisualTransition>
                                             <VisualTransition From="OpenInlineLeft" To="Closed">
@@ -691,7 +756,6 @@
                                                 </Storyboard>
                                             </VisualTransition>
                                             <VisualTransition From="ClosedCompactLeft" To="OpenInlineLeft">
-
                                                 <Storyboard>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Visibility">
                                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
@@ -750,7 +814,7 @@
                                                         <SplineDoubleKeyFrame
                                                             KeySpline="0.0,0.35 0.15,1.0"
                                                             KeyTime="{StaticResource SplitViewPaneAnimationOpenPreDuration}"
-                                                            Value="" />
+                                                            Value="0" />
                                                     </DoubleAnimationUsingKeyFrames>
                                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneClipRectangleTransform" Storyboard.TargetProperty="TranslateX">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
@@ -814,8 +878,10 @@
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="OpenOverlayLeft">
-
                                             <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="3" />
+                                                </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Visibility">
                                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
                                                 </ObjectAnimationUsingKeyFrames>
@@ -828,8 +894,10 @@
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="OpenOverlayRight">
-
                                             <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="3" />
+                                                </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="Visibility">
                                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
                                                 </ObjectAnimationUsingKeyFrames>
@@ -891,6 +959,9 @@
                                         <VisualState x:Name="OpenCompactOverlayLeft">
 
                                             <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="3" />
+                                                </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnDefinition1" Storyboard.TargetProperty="Width">
                                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CompactPaneGridLength, FallbackValue=0}" />
                                                 </ObjectAnimationUsingKeyFrames>
@@ -914,6 +985,9 @@
                                         <VisualState x:Name="OpenCompactOverlayRight">
 
                                             <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneRoot" Storyboard.TargetProperty="(Canvas.ZIndex)">
+                                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="3" />
+                                                </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnDefinition1" Storyboard.TargetProperty="Width">
                                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="*" />
                                                 </ObjectAnimationUsingKeyFrames>
@@ -955,6 +1029,31 @@
 
                                     </VisualStateGroup>
 
+                                    <VisualStateGroup x:Name="ResizerStates">
+                                        <VisualState x:Name="ResizerNormal" />
+                                        <VisualState x:Name="ResizerPointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResizeElementBorder" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResizeElementBorder" Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+
+                                        <VisualState x:Name="ResizerPressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResizeElementBorder" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResizeElementBorder" Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+
                                 </VisualStateManager.VisualStateGroups>
                             </Grid>
 
@@ -971,7 +1070,7 @@
             Margin="10,6"
             VerticalAlignment="Center"
             FontSize="16"
-            FontWeight="Medium"
+            FontWeight="SemiBold"
             Text="Files" />
     </muxc:NavigationView.PaneHeader>
 

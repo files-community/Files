@@ -11,10 +11,11 @@
     Title="Create a New Item"
     Grid.RowSpan="4"
     BorderThickness="0"
-    CornerRadius="4"
+    CornerRadius="{StaticResource OverlayCornerRadius}"
     PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
     PrimaryButtonText="Cancel"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
+    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <Grid RowSpacing="25">

@@ -1,0 +1,94 @@
+﻿<UserControl
+    x:Class="Files.UserControls.SearchBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:fs="using:Files.Filesystem"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+
+        <Style
+            x:Key="TextBoxStyle"
+            BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}"
+            TargetType="TextBox">
+            <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}" />
+            <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}" />
+            <Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}" />
+            <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemBaseMediumLowColor}" />
+            <Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="Background" Value="{ThemeResource TextControlBackground}" />
+            <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}" />
+            <Setter Property="Opacity" Value="1" />
+            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto" />
+            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+        </Style>
+
+        <DataTemplate x:Key="SuggestionTemplate" x:DataType="fs:ListedItem">
+            <Grid Tag="{x:Bind ItemPath}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Grid
+                        Width="24"
+                        Height="24"
+                        Tag="ItemImage">
+                        <Grid
+                            x:Name="Picture"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            x:Load="{x:Bind LoadFileIcon, Mode=OneWay}">
+                            <Image
+                                Width="24"
+                                Height="24"
+                                Source="{x:Bind FileImage, Mode=OneWay}"
+                                Stretch="Uniform" />
+                        </Grid>
+                        <FontIcon
+                            x:Name="EmptyIconGlyph"
+                            x:Load="{x:Bind LoadUnknownTypeGlyph}"
+                            Glyph="&#xE7C3;" />
+                        <FontIcon
+                            x:Name="FolderGlyphIcon"
+                            Width="24"
+                            Height="24"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
+                            Glyph="&#xF12B;" />
+                    </Grid>
+                    <TextBlock VerticalAlignment="Center" Text="{x:Bind ItemName}" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <AutoSuggestBox
+        x:Name="SearchRegion"
+        x:Uid="NavigationToolbarSearchReigon"
+        ItemTemplate="{StaticResource SuggestionTemplate}"
+        ItemsSource="{x:Bind SearchBoxViewModel.Suggestions, Mode=OneWay}"
+        PlaceholderText="Search"
+        QuerySubmitted="SearchRegion_QuerySubmitted"
+        SuggestionChosen="SearchRegion_SuggestionChosen"
+        Text="{x:Bind SearchBoxViewModel.Query, Mode=TwoWay}"
+        TextBoxStyle="{StaticResource TextBoxStyle}"
+        TextChanged="SearchRegion_TextChanged"
+        UpdateTextOnSelect="False">
+        <AutoSuggestBox.QueryIcon>
+            <FontIcon FontSize="14" Glyph="&#xE094;" />
+        </AutoSuggestBox.QueryIcon>
+        <AutoSuggestBox.KeyboardAccelerators>
+            <KeyboardAccelerator Key="Escape" Invoked="SearchRegion_Escaped" />
+        </AutoSuggestBox.KeyboardAccelerators>
+    </AutoSuggestBox>
+
+</UserControl>

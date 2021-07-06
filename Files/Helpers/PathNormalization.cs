@@ -1,10 +1,9 @@
-﻿using NLog;
-using System;
+﻿using System;
 using System.IO;
 
 namespace Files.Helpers
 {
-    public class PathNormalization
+    public static class PathNormalization
     {
         public static string GetPathRoot(string path)
         {
@@ -56,10 +55,25 @@ namespace Files.Helpers
                 }
                 catch (UriFormatException ex)
                 {
-                    LogManager.GetCurrentClassLogger().Warn(ex, path);
+                    App.Logger.Warn(ex, path);
                     return path;
                 }
             }
+        }
+
+        public static string TrimPath(this string path)
+        {
+            return path?.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        }
+
+        public static string GetParentDir(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                return string.Empty;
+            }
+            var index = path.LastIndexOf("\\");
+            return path.Substring(0, index != -1 ? index : path.Length);
         }
     }
 }

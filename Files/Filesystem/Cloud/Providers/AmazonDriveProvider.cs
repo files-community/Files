@@ -8,6 +8,8 @@ namespace Files.Filesystem.Cloud.Providers
 {
     public class AmazonDriveProvider : ICloudProviderDetector
     {
+#pragma warning disable 1998
+
         public async Task<IList<CloudProvider>> DetectAsync()
         {
             try
@@ -34,5 +36,7 @@ namespace Files.Filesystem.Cloud.Providers
                 return Array.Empty<CloudProvider>();
             }
         }
+
+#pragma warning restore 1998
     }
 }

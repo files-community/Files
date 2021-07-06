@@ -1,11 +1,14 @@
 using ByteSizeLib;
 using Files.Extensions;
+using Files.Filesystem.Permissions;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -38,14 +41,6 @@ namespace Files.ViewModels
             set => SetProperty(ref loadCombinedItemsGlyph, value);
         }
 
-        private SvgImageSource customIcon;
-
-        public SvgImageSource CustomIcon
-        {
-            get => customIcon;
-            set => SetProperty(ref customIcon, value);
-        }
-
         private Uri customIconSource;
 
         public Uri CustomIconSource
@@ -75,14 +70,6 @@ namespace Files.ViewModels
         {
             get => iconData;
             set => SetProperty(ref iconData, value);
-        }
-
-        private ImageSource fileIconSource;
-
-        public ImageSource FileIconSource
-        {
-            get => fileIconSource;
-            set => SetProperty(ref fileIconSource, value);
         }
 
         private string itemName;
@@ -421,26 +408,6 @@ namespace Files.ViewModels
             set => SetProperty(ref itemAccessedTimestampVisibility, value);
         }
 
-        public string itemFileOwner;
-
-        public string ItemFileOwner
-        {
-            get => itemFileOwner;
-            set
-            {
-                ItemFileOwnerVisibility = Visibility.Visible;
-                SetProperty(ref itemFileOwner, value);
-            }
-        }
-
-        private Visibility itemFileOwnerVisibility = Visibility.Collapsed;
-
-        public Visibility ItemFileOwnerVisibility
-        {
-            get => itemFileOwnerVisibility;
-            set => SetProperty(ref itemFileOwnerVisibility, value);
-        }
-
         private Visibility lastSeparatorVisibility = Visibility.Visible;
 
         public Visibility LastSeparatorVisibility
@@ -530,11 +497,8 @@ namespace Files.ViewModels
             set => SetProperty(ref isItemSelected, value);
         }
 
-        private IBaseLayout contentPage;
-
-        public SelectedItemsPropertiesViewModel(IBaseLayout contentPage)
+        public SelectedItemsPropertiesViewModel()
         {
-            this.contentPage = contentPage;
         }
 
         private bool isSelectedItemImage = false;
@@ -553,25 +517,24 @@ namespace Files.ViewModels
             set => SetProperty(ref isSelectedItemShortcut, value);
         }
 
-        public void CheckFileExtension()
+        public void CheckFileExtension(string itemExtension)
         {
             // Set properties to false
             IsSelectedItemImage = false;
             IsSelectedItemShortcut = false;
 
             //check if the selected item is an image file
-            string ItemExtension = contentPage?.SelectedItem?.FileExtension;
-            if (!string.IsNullOrEmpty(ItemExtension) && SelectedItemsCount == 1)
+            if (!string.IsNullOrEmpty(itemExtension) && SelectedItemsCount == 1)
             {
-                if (ItemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)
-                || ItemExtension.Equals(".jpg", StringComparison.OrdinalIgnoreCase)
-                || ItemExtension.Equals(".bmp", StringComparison.OrdinalIgnoreCase)
-                || ItemExtension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
+                if (itemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)
+                || itemExtension.Equals(".jpg", StringComparison.OrdinalIgnoreCase)
+                || itemExtension.Equals(".bmp", StringComparison.OrdinalIgnoreCase)
+                || itemExtension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
                 {
                     // Since item is an image, set the IsSelectedItemImage property to true
                     IsSelectedItemImage = true;
                 }
-                else if (ItemExtension.Equals(".lnk", StringComparison.OrdinalIgnoreCase))
+                else if (itemExtension.Equals(".lnk", StringComparison.OrdinalIgnoreCase))
                 {
                     // The selected item is a shortcut, so set the IsSelectedItemShortcut property to true
                     IsSelectedItemShortcut = true;

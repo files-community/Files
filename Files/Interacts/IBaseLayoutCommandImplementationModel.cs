@@ -79,7 +79,7 @@ namespace Files.Interacts
 
         void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e);
 
-        void DragEnter(DragEventArgs e);
+        void DragOver(DragEventArgs e);
 
         void Drop(DragEventArgs e);
 
@@ -88,5 +88,11 @@ namespace Files.Interacts
         void SearchUnindexedItems(RoutedEventArgs e);
 
         void CreateFolderWithSelection(RoutedEventArgs e);
+
+        void DecompressArchive();
+
+        void DecompressArchiveHere();
+
+        void DecompressArchiveToChildFolder();
     }
 }

@@ -1,0 +1,147 @@
+﻿<UserControl
+    x:Class="Files.UserControls.ArrangementOptions"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:Files.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    d:DesignHeight="500"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:IntToGroupOption x:Key="IntToGroupOption" />
+        <converters:IntToSortOption x:Key="IntToSortOption" />
+        <converters:IntToSortDirection x:Key="IntToSortDirection" />
+        <Style BasedOn="{StaticResource DefaultRadioButtonStyle}" TargetType="RadioButton">
+            <Setter Property="FontWeight" Value="Normal" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <muxc:RadioButtons
+            x:Uid="NavToolbarGroupByRadioButtons"
+            FontWeight="Bold"
+            Header="Group By"
+            SelectedIndex="{x:Bind SelectedGroupMode, Mode=TwoWay, Converter={StaticResource IntToGroupOption}}">
+            <RadioButton
+                x:Uid="NavToolbarGroupByOption_None"
+                Content="None"
+                GroupName="GroupOptionsGroup" />
+            <RadioButton
+                x:Uid="NavToolbarArrangementOption_Name"
+                Content="Name"
+                GroupName="GroupOptionsGroup" />
+            <RadioButton
+                x:Uid="NavToolbarArrangementOption_DateModified"
+                Content="Date modified"
+                GroupName="GroupOptionsGroup" />
+            <RadioButton
+                x:Uid="NavToolbarArrangementOption_DateCreated"
+                Content="Date created"
+                GroupName="GroupOptionsGroup" />
+            <RadioButton
+                x:Uid="NavToolbarArrangementOption_Size"
+                Content="Size"
+                GroupName="GroupOptionsGroup" />
+            <RadioButton
+                x:Uid="NavToolbarArrangementOption_Type"
+                Content="Type"
+                GroupName="GroupOptionsGroup" />
+            <RadioButton
+                x:Uid="NavToolbarArrangementOption_SyncStatus"
+                Content="Sync status"
+                GroupName="GroupOptionsGroup"
+                IsEnabled="{x:Bind IsPageTypeCloudDrive, Mode=OneWay}" />
+            <RadioButton
+                x:Uid="NavToolbarArrangementOption_OriginalFolder"
+                Content="Original folder"
+                GroupName="GroupOptionsGroup"
+                IsEnabled="{x:Bind IsPageTypeRecycleBin, Mode=OneWay}" />
+            <RadioButton
+                x:Uid="NavToolbarArrangementOption_DateDeleted"
+                Content="Date deleted"
+                GroupName="GroupOptionsGroup"
+                IsEnabled="{x:Bind IsPageTypeRecycleBin, Mode=OneWay}" />
+        </muxc:RadioButtons>
+
+        <Rectangle
+            Grid.Column="1"
+            Width="1"
+            Margin="16,0,16,0"
+            VerticalAlignment="Stretch"
+            Fill="{ThemeResource MenuFlyoutSeparatorThemeBrush}"
+            RadiusX="1"
+            RadiusY="1" />
+
+        <StackPanel
+            Grid.Column="2"
+            Orientation="Vertical"
+            Spacing="8">
+            <muxc:RadioButtons
+                x:Uid="NavToolbarSortByRadioButtons"
+                Grid.Column="2"
+                FontWeight="Bold"
+                Header="Sort By"
+                SelectedIndex="{x:Bind SelectedSortMode, Mode=TwoWay, Converter={StaticResource IntToSortOption}}">
+                <RadioButton
+                    x:Uid="NavToolbarArrangementOption_Name"
+                    Content="Name"
+                    GroupName="SortOptionsGroup" />
+                <RadioButton
+                    x:Uid="NavToolbarArrangementOption_DateModified"
+                    Content="Date modified"
+                    GroupName="SortOptionsGroup" />
+                <RadioButton
+                    x:Uid="NavToolbarArrangementOption_DateCreated"
+                    Content="Date created"
+                    GroupName="SortOptionsGroup" />
+                <RadioButton
+                    x:Uid="NavToolbarArrangementOption_Size"
+                    Content="Size"
+                    GroupName="SortOptionsGroup" />
+                <RadioButton
+                    x:Uid="NavToolbarArrangementOption_Type"
+                    Content="Type"
+                    GroupName="SortOptionsGroup" />
+                <RadioButton
+                    x:Uid="NavToolbarArrangementOption_SyncStatus"
+                    Content="Sync status"
+                    GroupName="SortOptionsGroup"
+                    IsEnabled="{x:Bind IsPageTypeCloudDrive, Mode=OneWay}" />
+                <RadioButton
+                    x:Uid="NavToolbarArrangementOption_OriginalFolder"
+                    Content="Original folder"
+                    GroupName="SortOptionsGroup"
+                    IsEnabled="{x:Bind IsPageTypeRecycleBin, Mode=OneWay}" />
+                <RadioButton
+                    x:Uid="NavToolbarArrangementOption_DateDeleted"
+                    Content="Date deleted"
+                    GroupName="SortOptionsGroup"
+                    IsEnabled="{x:Bind IsPageTypeRecycleBin, Mode=OneWay}" />
+            </muxc:RadioButtons>
+
+            <muxc:RadioButtons
+                x:Uid="NavToolbarSortDirectionRadioButtons"
+                FontWeight="Bold"
+                Header="Sort direction"
+                MaxColumns="1"
+                SelectedIndex="{x:Bind SelectedSortDirection, Mode=TwoWay, Converter={StaticResource IntToSortDirection}}">
+                <RadioButton
+                    x:Uid="NavToolbarSortDirectionOption_Ascending"
+                    Content="Ascending"
+                    GroupName="SortDirectionGroup" />
+                <RadioButton
+                    x:Uid="NavToolbarSortDirectionOption_Descending"
+                    Content="Descending"
+                    GroupName="SortDirectionGroup" />
+            </muxc:RadioButtons>
+        </StackPanel>
+    </Grid>
+
+</UserControl>

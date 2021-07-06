@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 
 namespace Files.Helpers
 {
@@ -28,7 +29,7 @@ namespace Files.Helpers
                 //      we could implement this code here for getting .lnk files
                 //      for now, we can't
 
-                return default(TOut);
+                return default;
 
                 if (false) // Prevent unnecessary exceptions
                 {
@@ -72,7 +73,7 @@ namespace Files.Helpers
                 return (TOut)(IStorageItem)folder.Result;
             }
 
-            return default(TOut);
+            return default;
 
             // Extensions
 
@@ -99,6 +100,12 @@ namespace Files.Helpers
                     folder = await associatedInstance?.FilesystemViewModel?.GetFolderFromPathAsync(path);
                 }
             }
+        }
+
+        public static async Task<long> GetFileSize(this IStorageFile file)
+        {
+            BasicProperties properties = await file.GetBasicPropertiesAsync();
+            return (long)properties.Size;
         }
 
         public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItemWithPath item, IShellPage associatedInstance = null)

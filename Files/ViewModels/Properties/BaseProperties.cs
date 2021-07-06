@@ -1,7 +1,6 @@
 ﻿using ByteSizeLib;
 using Files.Enums;
 using Files.Extensions;
-using Files.Filesystem;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -32,23 +31,15 @@ namespace Files.ViewModels.Properties
         public async void GetOtherProperties(StorageItemContentProperties properties)
         {
             string dateAccessedProperty = "System.DateAccessed";
-            string fileOwnerProperty = "System.FileOwner";
             List<string> propertiesName = new List<string>();
             propertiesName.Add(dateAccessedProperty);
-            propertiesName.Add(fileOwnerProperty);
             IDictionary<string, object> extraProperties = await properties.RetrievePropertiesAsync(propertiesName);
 
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
 
             // Cannot get date and owner in MTP devices
-            ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDateFromFormat((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now), returnformat);
-
-            if (App.AppSettings.ShowFileOwner)
-            {
-                // Cannot get date and owner in MTP devices
-                ViewModel.ItemFileOwner = extraProperties[fileOwnerProperty]?.ToString();
-            }
+            ViewModel.ItemAccessedTimestamp = ((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now)).GetFriendlyDateFromFormat(returnformat);
         }
 
         public async Task<long> CalculateFolderSizeAsync(string path, CancellationToken token)

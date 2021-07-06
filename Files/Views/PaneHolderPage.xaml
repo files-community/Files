@@ -12,8 +12,8 @@
     xmlns:local="using:Files.Views"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:multitaskingcontrol="using:Files.UserControls.MultitaskingControl"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:multitaskingcontrol="using:Files.UserControls.MultitaskingControl"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
 
@@ -101,7 +101,7 @@
             Canvas.ZIndex="100"
             OffsetX="-8"
             ShadowOpacity="0.04 ">
-            <Grid Background="{ThemeResource SolidBackgroundFillColorSecondary}">
+            <Grid Background="{ThemeResource PaneHolderPageBackgroundBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition
                         x:Name="LeftColumn"
@@ -113,7 +113,7 @@
                         MinWidth="0" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" MinHeight="50" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
@@ -121,8 +121,7 @@
                     <local:ModernShellPage
                         x:Name="PaneLeft"
                         ContentChanged="Pane_ContentChanged"
-                        IsMultiPaneActive="{x:Bind IsRightPaneVisible, Mode=OneWay}"
-                        IsMultiPaneEnabled="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
+                        CurrentInstanceBorderThickness="0,0,2,0"
                         IsPageMainPane="True"
                         NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
                         PaneHolder="{x:Bind}"
@@ -136,11 +135,11 @@
                     x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}"
                     BorderBrush="{ThemeResource PaneBorderBrush}"
                     BorderThickness="2,0,0,0">
+
                     <local:ModernShellPage
                         x:Name="PaneRight"
                         ContentChanged="Pane_ContentChanged"
-                        IsMultiPaneActive="{x:Bind IsRightPaneVisible, Mode=OneWay}"
-                        IsMultiPaneEnabled="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
+                        CurrentInstanceBorderThickness="2,0,0,0"
                         IsPageMainPane="False"
                         NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
                         PaneHolder="{x:Bind}"

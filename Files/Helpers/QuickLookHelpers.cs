@@ -30,7 +30,7 @@ namespace Files.Helpers
             catch (FileNotFoundException)
             {
                 await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundPreviewDialog/Text".GetLocalized());
-                associatedInstance.NavigationToolbar.CanRefresh = false;
+                associatedInstance.NavToolbarViewModel.CanRefresh = false;
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var ContentOwnedViewModelInstance = associatedInstance.FilesystemViewModel;
