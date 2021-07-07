@@ -1,5 +1,5 @@
 ﻿using Files.Common;
-using Files.Helpers;
+using Files.DataModels.NavigationControlItems;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -18,8 +18,6 @@ namespace Files.Filesystem
             Section = SectionType.Library;
             Text = shellLibrary.DisplayName;
             Path = shellLibrary.FullPath;
-            Glyph = GlyphHelper.GetItemIcon(shellLibrary.DefaultSaveFolder);
-
             DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
             Folders = shellLibrary.Folders == null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
             IsDefaultLocation = shellLibrary.IsPinned;
@@ -42,9 +40,13 @@ namespace Files.Filesystem
             {
                 return false;
             }
-            var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(DefaultSaveFolder));
-            var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(DefaultSaveFolder, item));
-            return res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(DefaultSaveFolder);
+            var res = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(DefaultSaveFolder);
+            if (!res)
+            {
+                var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(DefaultSaveFolder));
+                res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(DefaultSaveFolder, item));
+            }
+            return res;
         }
     }
 }

@@ -1,8 +1,10 @@
-﻿using Files.Helpers;
+﻿using Files.Common;
+using Files.DataModels;
+using Files.DataModels.NavigationControlItems;
+using Files.Helpers;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +19,7 @@ namespace Files.Filesystem
 {
     public class NetworkDrivesManager : ObservableObject
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
         public IReadOnlyList<DriveItem> Drives
@@ -49,6 +51,11 @@ namespace Files.Filesystem
 
         public async Task EnumerateDrivesAsync()
         {
+            if (!App.AppSettings.ShowNetworkDrivesSection)
+            {
+                return;
+            }
+
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
             {
@@ -110,20 +117,22 @@ namespace Files.Filesystem
                 await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    SidebarControl.SideBarItems.BeginBulkOperation();
-
                     var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalized()) as LocationItem;
-                    if (section == null && this.drivesList.Any(d => d.DeviceID != "network-folder"))
+                    if (App.AppSettings.ShowNetworkDrivesSection && section == null)
                     {
                         section = new LocationItem()
                         {
                             Text = "SidebarNetworkDrives".GetLocalized(),
                             Section = SectionType.Network,
-                            Glyph = "\uE8CE",
                             SelectsOnInvoked = false,
+                            Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.NetworkDrives).Image),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
-                        SidebarControl.SideBarItems.Add(section);
+                        var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
+                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
+                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0) +
+                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.CloudDrives) ? 1 : 0); // After cloud section
+                        SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), section);
                     }
 
                     if (section != null)
@@ -132,20 +141,45 @@ namespace Files.Filesystem
                         .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                         .ThenBy(o => o.Text))
                         {
+                            drive.Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.Folder).Image);
                             if (!section.ChildItems.Contains(drive))
                             {
                                 section.ChildItems.Add(drive);
                             }
                         }
                     }
-
-                    SidebarControl.SideBarItems.EndBulkOperation();
                 }
                 finally
                 {
                     SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
+        }
+
+        private void RemoveNetworkDrivesSideBarSection()
+        {
+            try
+            {
+                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarNetworkDrives".GetLocalized()) select n).FirstOrDefault();
+                if (!App.AppSettings.ShowNetworkDrivesSection && item != null)
+                {
+                    SidebarControl.SideBarItems.Remove(item);
+                }
+            }
+            catch (Exception)
+            { }
+        }
+
+        public async void UpdateNetworkDrivesSectionVisibility()
+        {
+            if (App.AppSettings.ShowNetworkDrivesSection)
+            {
+                await EnumerateDrivesAsync();
+            }
+            else
+            {
+                RemoveNetworkDrivesSideBarSection();
+            }
         }
     }
 }

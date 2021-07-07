@@ -2,20 +2,20 @@
 using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls
 {
     public interface INavigationToolbar
     {
-        public bool IsSearchRegionVisible { get; set; }
+        public bool IsSearchBoxVisible { get; set; }
         public bool IsEditModeEnabled { get; set; }
         public bool CanRefresh { get; set; }
         public bool CanCopyPathInPage { get; set; }
         public bool CanNavigateToParent { get; set; }
         public bool CanGoBack { get; set; }
         public bool CanGoForward { get; set; }
+        public bool IsSingleItemOverride { get; set; }
         public string PathControlDisplayText { get; set; }
         public ObservableCollection<PathBoxItem> PathComponents { get; }
 
@@ -29,12 +29,6 @@ namespace Files.UserControls
 
         public event ItemDraggedOverPathItemEventHandler ItemDraggedOverPathItem;
 
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmitted;
-
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs> SearchTextChanged;
-
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs> SearchSuggestionChosen;
-
         public event EventHandler BackRequested;
 
         public event EventHandler ForwardRequested;
@@ -43,7 +37,11 @@ namespace Files.UserControls
 
         public event EventHandler RefreshRequested;
 
-        public void ClearSearchBoxQueryText(bool collapseSearchReigon = false);
+        public event EventHandler RefreshWidgetsRequested;
+
+        public void SwitchSearchBoxVisibility();
+
+        public ISearchBox SearchBox { get; }
     }
 
     public class ToolbarQuerySubmittedEventArgs
@@ -54,6 +52,7 @@ namespace Files.UserControls
     public class PathNavigationEventArgs
     {
         public string ItemPath { get; set; }
+        public string ItemName { get; set; }
     }
 
     public class ToolbarFlyoutOpenedEventArgs

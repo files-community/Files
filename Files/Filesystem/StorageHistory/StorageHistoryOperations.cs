@@ -31,8 +31,8 @@ namespace Files.Filesystem.FilesystemHistory
         {
             this.associatedInstance = associatedInstance;
             this.cancellationToken = cancellationToken;
-            filesystemOperations = new FilesystemOperations(associatedInstance);
-            filesystemHelpers = new FilesystemHelpers(associatedInstance, cancellationToken);
+            filesystemOperations = new ShellFilesystemOperations(associatedInstance);
+            filesystemHelpers = this.associatedInstance.FilesystemHelpers;
         }
 
         #endregion Constructor
@@ -91,7 +91,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        return await filesystemHelpers.CopyItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false);
+                        return await filesystemHelpers.CopyItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false, false);
                     }
 
                 case FileOperationType.Move: // Move PASS
@@ -101,7 +101,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        return await filesystemHelpers.MoveItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false);
+                        return await filesystemHelpers.MoveItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false, false);
                     }
 
                 case FileOperationType.Extract: // Extract PASS
@@ -119,24 +119,9 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
-                        for (int i = 0; i < history.Source.Count(); i++)
+                        var newHistory = await filesystemOperations.DeleteItemsAsync(history.Source, null, errorCode, false, cancellationToken);
+                        if (newHistory != null)
                         {
-                            rawStorageHistory.Add(await filesystemOperations.DeleteAsync(
-                                history.Source.ElementAt(i),
-                                null,
-                                errorCode,
-                                false,
-                                cancellationToken));
-                        }
-
-                        if (rawStorageHistory.TrueForAll((item) => item != null))
-                        {
-                            IStorageHistory newHistory = new StorageHistory(
-                                FileOperationType.Recycle,
-                                rawStorageHistory.SelectMany((item) => item?.Source).ToList(),
-                                rawStorageHistory.SelectMany((item) => item?.Destination).ToList());
-
                             // We need to change the recycled item paths (since IDs are different) - for Undo() to work
                             App.HistoryWrapper.ModifyCurrentHistory(newHistory);
                         }
@@ -239,7 +224,7 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        return await filesystemHelpers.MoveItemsAsync(history.Destination, history.Source.Select((item) => item.Path), false);
+                        return await filesystemHelpers.MoveItemsAsync(history.Destination, history.Source.Select((item) => item.Path), false, false);
                     }
 
                 case FileOperationType.Extract: // Extract PASS
@@ -285,24 +270,9 @@ namespace Files.Filesystem.FilesystemHistory
                             break;
                         }
 
-                        List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
-                        for (int i = 0; i < history.Destination.Count(); i++)
+                        var newHistory = await filesystemOperations.DeleteItemsAsync(history.Destination, null, errorCode, false, cancellationToken);
+                        if (newHistory != null)
                         {
-                            rawStorageHistory.Add(await filesystemOperations.DeleteAsync(
-                                history.Destination.ElementAt(i),
-                                null,
-                                errorCode,
-                                false,
-                                cancellationToken));
-                        }
-
-                        if (rawStorageHistory.TrueForAll((item) => item != null))
-                        {
-                            IStorageHistory newHistory = new StorageHistory(
-                                FileOperationType.Restore,
-                                rawStorageHistory.SelectMany((item) => item?.Destination).ToList(),
-                                rawStorageHistory.SelectMany((item) => item?.Source).ToList());
-
                             // We need to change the recycled item paths (since IDs are different) - for Redo() to work
                             App.HistoryWrapper.ModifyCurrentHistory(newHistory);
                         }

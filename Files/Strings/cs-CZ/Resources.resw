@@ -12,29 +12,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Odstranit položku/y</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>Storno</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>Odstranit</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Odstranit navždy</value>
-  </data>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
     <value>Otevřít na nové kartě</value>
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>Otevřít v novém okně</value>
-  </data>
-  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>Nová záložka</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>Nové okno</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>Složka</value>
@@ -44,12 +26,6 @@
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Textový soubor</value>
-  </data>
-  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>Zkopírovat cestu</value>
-  </data>
-  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
-    <value>Vložit</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>Jednotky</value>
@@ -65,9 +41,6 @@
   </data>
   <data name="sizeColumn.Header" xml:space="preserve">
     <value>Velikost</value>
-  </data>
-  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>Otevřít v Terminálu...</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Vytvořeno:</value>
@@ -99,13 +72,13 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Typ položky:</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Vybrat vše</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Obrátit výběr</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Vymazat výběr</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
@@ -116,9 +89,6 @@
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Poslední přístup:</value>
-  </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Vlastník:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Vymazat všechny položky</value>
@@ -138,17 +108,11 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Odstranit tuto položku</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Poslední položky</value>
-  </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Odeslat zpětnou vazbu</value>
-  </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Zašlete vývojářům zprávu o problému s podrobnými informacemi</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Licence třetích stran</value>
@@ -159,7 +123,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Průhledný postranní panel</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Formát data</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -182,9 +146,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimentální funkce</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>Nastavení</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>O aplikaci</value>
@@ -218,9 +179,6 @@
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Po spuštění</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Zobrazit vlastníka ve vlastnostech</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Předvolby</value>
@@ -282,9 +240,6 @@
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5Hash:</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>Nový</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Složka</value>
   </data>
@@ -329,9 +284,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Vlastnosti</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Vítejte v aplikaci Files!</value>
@@ -401,9 +353,6 @@
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Hledat</value>
-  </data>
-  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Více možností</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Vlastnosti</value>
@@ -486,9 +435,6 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Možnosti výběru</value>
-  </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Pouze pro čtení</value>
   </data>
@@ -545,9 +491,6 @@
   </data>
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>Otevřít umístění logu</value>
-  </data>
-  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Nová záložka (Ctrl + T)</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>vybraná položka</value>
@@ -609,7 +552,7 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Spustit jako správce</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Další informace o formátech data</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -774,14 +717,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Přispěvatelé</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Podívejte se, kdo přispěl do „Files"</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Poznámky k vydání</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Zjistěte, co je nového v aplikaci Files</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>Odkazovaná položka je buď neplatná nebo nepřístupná.{0}Chybová zpráva:{0}{1}</value>
@@ -840,9 +777,6 @@
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Podpořte nás</value>
   </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>Podpořte nás na PayPalu</value>
-  </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Nemohli jsme vytvořit tuto položku</value>
   </data>
@@ -852,38 +786,14 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Storno</value>
   </data>
-  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>Opravdu chcete odstranit {0} položek?</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>Opravdu chcete smazat tuto položku?</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Přidat záložku</value>
   </data>
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>Otevřít záložky</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptivní (doporučeno)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Vybere nejlepší ovládací prvek pro více úkolů na základě změny velikosti okna aplikace. Když je okno malé, všimnete si, že vodorovný panel karet se sbalí do rozbalovací nabídky na panelu nástrojů navigace.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Horizontální</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Vždy skryje vertikální multitaskingový plovoucí panel z navigačního panelu nástrojů a v okně aplikace zobrazí tradiční vodorovný pás karet. To je vhodné pro uživatele, kteří potřebují mít neustále přehled o každé otevřené instanci aplikace.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitasking</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Vertikální</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Sbalí vodorovný seznam instancí aplikace do svislé rozevírací nabídky na navigačním panelu nástrojů, určené pro uživatele, kteří chtějí čisté rozhraní aplikace na vyžádání pro multitasking.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitasking</value>
@@ -930,9 +840,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>O položku výše</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Svislý pás karet</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Upravit aplikace Terminálu</value>
   </data>
@@ -951,7 +858,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Přesunout přetékající položky do podnabídky</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Připněte koš na postranní panel</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1260,12 +1167,6 @@
   <data name="PropertyAddress" xml:space="preserve">
     <value>Adresa</value>
   </data>
-  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Více možností</value>
-  </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Možnosti výběru</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Stavové centrum</value>
   </data>
@@ -1289,21 +1190,6 @@
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>Přesunout sem</value>
-  </data>
-  <data name="SettingsWidgets.Content" xml:space="preserve">
-    <value>Widgety</value>
-  </data>
-  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
-    <value>Zobrazit disky na domovské stránce</value>
-  </data>
-  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
-    <value>Zobrazit karty knihovny na domovské stránce</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
-    <value>Zobrazit poslední soubory na domovské stránce</value>
-  </data>
-  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
-    <value>Widgety</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>Bezpečné odpojení zařízení</value>
@@ -1344,23 +1230,8 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Stavové centrum</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>Licence</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>Licence</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>Web</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>Web</value>
-  </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Další informace o formátech data</value>
-  </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>Přetáhněte sem</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Hledat</value>
@@ -1422,9 +1293,6 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Umístění</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>Indexovat soubory a složky pro lepší výkon</value>
-  </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Přidat</value>
   </data>
@@ -1452,35 +1320,20 @@
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Otevřít v novém panelu</value>
   </data>
-  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
-    <value>Nový panel</value>
-  </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>Otevřít v sekundárním panelu</value>
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dvoupanelové rozhraní</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Složky</value>
-  </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Povolit animace při otevírání a zavírání kontextové nabídky</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Zobrazení podrobností</value>
   </data>
-  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
-    <value>Režim rozložení</value>
-  </data>
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
     <value>&amp;Možnosti zobrazení</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>&amp;Možnosti zobrazení</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Možnosti zobrazení</value>
   </data>
   <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
     <value>Zobrazovat přípony souborů</value>
@@ -1569,7 +1422,7 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Neznámý</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>Vícenásobný výběr</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
@@ -1605,9 +1458,6 @@
   <data name="Browse" xml:space="preserve">
     <value>Procházet</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Poslední umístění</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Náhled není k dispozici</value>
   </data>
@@ -1625,12 +1475,6 @@
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Knihovny</value>
-  </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>Výchozí</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Barevné schéma</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Počet položek</value>
@@ -1655,5 +1499,11 @@
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Správce</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Možnosti výběru</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Možnosti výběru</value>
   </data>
 </root>

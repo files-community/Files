@@ -23,7 +23,6 @@ namespace Files.Filesystem.StorageEnumerators
             string returnformat,
             Type sourcePageType,
             CancellationToken cancellationToken,
-            List<string> skipItems,
             int countLimit,
             Func<List<ListedItem>, Task> intermediateAction
         )
@@ -74,14 +73,7 @@ namespace Files.Filesystem.StorageEnumerators
                         var folder = await AddFolderAsync(item as StorageFolder, currentStorageFolder, returnformat, cancellationToken);
                         if (folder != null)
                         {
-                            if (skipItems?.Contains(folder.ItemPath) ?? false)
-                            {
-                                skipItems.Remove(folder.ItemPath);
-                            }
-                            else
-                            {
-                                tempList.Add(folder);
-                            }
+                            tempList.Add(folder);
                         }
                     }
                     else
@@ -90,14 +82,7 @@ namespace Files.Filesystem.StorageEnumerators
                         var fileEntry = await AddFileAsync(file, currentStorageFolder, returnformat, true, sourcePageType, cancellationToken);
                         if (fileEntry != null)
                         {
-                            if (skipItems?.Contains(fileEntry.ItemPath) ?? false)
-                            {
-                                skipItems.Remove(fileEntry.ItemPath);
-                            }
-                            else
-                            {
-                                tempList.Add(fileEntry);
-                            }
+                            tempList.Add(fileEntry);
                         }
                     }
                     if (cancellationToken.IsCancellationRequested)
@@ -205,6 +190,7 @@ namespace Files.Filesystem.StorageEnumerators
             var itemFileExtension = file.FileType;
 
             BitmapImage icon = new BitmapImage();
+            byte[] iconData = null;
             bool itemThumbnailImgVis;
             bool itemEmptyImgVis;
 
@@ -212,7 +198,7 @@ namespace Files.Filesystem.StorageEnumerators
             {
                 try
                 {
-                    var itemThumbnailImg = suppressThumbnailLoading ? null :
+                    using var itemThumbnailImg = suppressThumbnailLoading ? null :
                         await file.GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.UseCurrentScale);
                     if (itemThumbnailImg != null)
                     {
@@ -221,6 +207,7 @@ namespace Files.Filesystem.StorageEnumerators
                         icon.DecodePixelWidth = 40;
                         icon.DecodePixelHeight = 40;
                         await icon.SetSourceAsync(itemThumbnailImg);
+                        iconData = await itemThumbnailImg.ToByteArrayAsync();
                     }
                     else
                     {
@@ -239,7 +226,7 @@ namespace Files.Filesystem.StorageEnumerators
             {
                 try
                 {
-                    var itemThumbnailImg = suppressThumbnailLoading ? null :
+                    using var itemThumbnailImg = suppressThumbnailLoading ? null :
                         await file.GetThumbnailAsync(ThumbnailMode.ListView, 80, ThumbnailOptions.UseCurrentScale);
                     if (itemThumbnailImg != null)
                     {
@@ -248,6 +235,7 @@ namespace Files.Filesystem.StorageEnumerators
                         icon.DecodePixelWidth = 80;
                         icon.DecodePixelHeight = 80;
                         await icon.SetSourceAsync(itemThumbnailImg);
+                        iconData = await itemThumbnailImg.ToByteArrayAsync();
                     }
                     else
                     {
@@ -290,6 +278,7 @@ namespace Files.Filesystem.StorageEnumerators
                     Opacity = 1,
                     LoadUnknownTypeGlyph = itemEmptyImgVis,
                     FileImage = icon,
+                    CustomIconData = iconData,
                     LoadFileIcon = itemThumbnailImgVis,
                     LoadFolderGlyph = itemFolderImgVis,
                     ItemName = itemName,

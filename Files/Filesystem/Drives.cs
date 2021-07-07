@@ -1,11 +1,12 @@
 using Files.Common;
+using Files.DataModels;
+using Files.DataModels.NavigationControlItems;
 using Files.Enums;
+using Files.Helpers;
 using Files.UserControls;
 using Files.UserControls.Widgets;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,13 +17,15 @@ using Windows.ApplicationModel.Core;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.UI.Core;
+using DriveType = Files.DataModels.NavigationControlItems.DriveType;
 
 namespace Files.Filesystem
 {
     public class DrivesManager : ObservableObject
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
         public IReadOnlyList<DriveItem> Drives
@@ -90,6 +93,10 @@ namespace Files.Filesystem
             {
                 deviceWatcher?.Start();
             }
+            else
+            {
+                DeviceWatcher_EnumerationCompleted(null, null);
+            }
         }
 
         private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
@@ -125,28 +132,47 @@ namespace Files.Filesystem
                 await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    SidebarControl.SideBarItems.BeginBulkOperation();
-
                     var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) as LocationItem;
-                    if (section == null)
+                    if (App.AppSettings.ShowDrivesSection && section == null)
                     {
                         section = new LocationItem()
                         {
                             Text = "SidebarDrives".GetLocalized(),
                             Section = SectionType.Drives,
-                            Glyph = "\uE7F8",
                             SelectsOnInvoked = false,
+                            Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.ThisPC).Image),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
-                        SidebarControl.SideBarItems.Add(section);
+                        var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
+                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0); // After libraries section
+                        SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), section);
                     }
 
+                    // Sync drives to sidebar
+                    if (section != null)
+                    {
+                        foreach (DriveItem drive in Drives.ToList())
+                        {
+                            if (!section.ChildItems.Contains(drive))
+                            {
+                                section.ChildItems.Add(drive);
+                            }
+                        }
+
+                        foreach (DriveItem drive in section.ChildItems.ToList())
+                        {
+                            if (!Drives.Contains(drive))
+                            {
+                                section.ChildItems.Remove(drive);
+                            }
+                        }
+                    }
+
+                    // Sync drives to drives widget
                     foreach (DriveItem drive in Drives.ToList())
                     {
-                        if (!section.ChildItems.Contains(drive))
+                        if (!DrivesWidget.ItemsAdded.Contains(drive))
                         {
-                            section.ChildItems.Add(drive);
-
                             if (drive.Type != DriveType.VirtualDrive)
                             {
                                 DrivesWidget.ItemsAdded.Add(drive);
@@ -154,16 +180,13 @@ namespace Files.Filesystem
                         }
                     }
 
-                    foreach (DriveItem drive in section.ChildItems.ToList())
+                    foreach (DriveItem drive in DrivesWidget.ItemsAdded.ToList())
                     {
                         if (!Drives.Contains(drive))
                         {
-                            section.ChildItems.Remove(drive);
                             DrivesWidget.ItemsAdded.Remove(drive);
                         }
                     }
-
-                    SidebarControl.SideBarItems.EndBulkOperation();
                 }
                 finally
                 {
@@ -178,7 +201,7 @@ namespace Files.Filesystem
             CoreApplication.MainView.Activated -= MainView_Activated;
         }
 
-        private void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
+        private async void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
         {
             var deviceId = args.Id;
             StorageFolder root = null;
@@ -206,17 +229,21 @@ namespace Files.Filesystem
                 type = DriveType.Removable;
             }
 
+            using var thumbnail = await root.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
             lock (drivesList)
             {
                 // If drive already in list, skip.
                 if (drivesList.Any(x => x.DeviceID == deviceId ||
-                    string.IsNullOrEmpty(root.Path) ? x.Path.Contains(root.Name) : x.Path == root.Path))
+                string.IsNullOrEmpty(root.Path) ? x.Path.Contains(root.Name) : x.Path == root.Path))
                 {
                     return;
                 }
+            }
 
-                var driveItem = new DriveItem(root, deviceId, type);
+            var driveItem = await DriveItem.CreateFromPropertiesAsync(root, deviceId, type, thumbnail);
 
+            lock (drivesList)
+            {
                 Logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
 
                 drivesList.Add(driveItem);
@@ -243,28 +270,6 @@ namespace Files.Filesystem
 
             var drives = DriveInfo.GetDrives().ToList();
 
-            var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
-            List<string> supportedDevicesNames = new List<string>();
-            foreach (var item in remDevices)
-            {
-                try
-                {
-                    supportedDevicesNames.Add(StorageDevice.FromId(item.Id).Name);
-                }
-                catch (Exception e)
-                {
-                    Logger.Warn($"Can't get storage device name: {e.Message}, skipping...");
-                }
-            }
-
-            foreach (DriveInfo driveInfo in drives.ToList())
-            {
-                if (!supportedDevicesNames.Contains(driveInfo.Name) && driveInfo.DriveType == System.IO.DriveType.Removable)
-                {
-                    drives.Remove(driveInfo);
-                }
-            }
-
             foreach (var drive in drives)
             {
                 var res = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Name).AsTask());
@@ -280,6 +285,8 @@ namespace Files.Filesystem
                     continue;
                 }
 
+                using var thumbnail = await res.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
+
                 lock (drivesList)
                 {
                     // If drive already in list, skip.
@@ -287,18 +294,45 @@ namespace Files.Filesystem
                     {
                         continue;
                     }
+                }
 
-                    var type = GetDriveType(drive);
+                var type = GetDriveType(drive);
+                var driveItem = await DriveItem.CreateFromPropertiesAsync(res.Result, drive.Name.TrimEnd('\\'), type, thumbnail);
 
-                    var driveItem = new DriveItem(res.Result, drive.Name.TrimEnd('\\'), type);
-
+                lock (drivesList)
+                {
                     Logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
-
                     drivesList.Add(driveItem);
                 }
             }
 
             return unauthorizedAccessDetected;
+        }
+
+        private void RemoveDrivesSideBarSection()
+        {
+            try
+            {
+                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarDrives".GetLocalized()) select n).FirstOrDefault();
+                if (!App.AppSettings.ShowDrivesSection && item != null)
+                {
+                    SidebarControl.SideBarItems.Remove(item);
+                }
+            }
+            catch (Exception)
+            { }
+        }
+
+        public async void UpdateDrivesSectionVisibility()
+        {
+            if (App.AppSettings.ShowDrivesSection)
+            {
+                await EnumerateDrivesAsync();
+            }
+            else
+            {
+                RemoveDrivesSideBarSection();
+            }
         }
 
         private DriveType GetDriveType(DriveInfo drive)
@@ -409,22 +443,32 @@ namespace Files.Filesystem
                         Logger.Warn($"{rootAdded.ErrorCode}: Attempting to add the device, {deviceId}, failed at the StorageFolder initialization step. This device will be ignored.");
                         return;
                     }
+
                     lock (drivesList)
                     {
                         // If drive already in list, skip.
                         var matchingDrive = drivesList.FirstOrDefault(x => x.DeviceID == deviceId ||
-                            string.IsNullOrEmpty(rootAdded.Result.Path) ? x.Path.Contains(rootAdded.Result.Name) : x.Path == rootAdded.Result.Path);
+                        string.IsNullOrEmpty(rootAdded.Result.Path) ? x.Path.Contains(rootAdded.Result.Name) : x.Path == rootAdded.Result.Path);
                         if (matchingDrive != null)
                         {
                             // Update device id to match drive letter
                             matchingDrive.DeviceID = deviceId;
                             return;
                         }
-                        var type = GetDriveType(driveAdded);
-                        var driveItem = new DriveItem(rootAdded, deviceId, type);
-                        Logger.Info($"Drive added from fulltrust process: {driveItem.Path}, {driveItem.Type}");
-                        drivesList.Add(driveItem);
                     }
+
+                    using (var thumbnail = await rootAdded.Result.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale))
+                    {
+                        var type = GetDriveType(driveAdded);
+                        var driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, deviceId, type, thumbnail);
+
+                        lock (drivesList)
+                        {
+                            Logger.Info($"Drive added from fulltrust process: {driveItem.Path}, {driveItem.Type}");
+                            drivesList.Add(driveItem);
+                        }
+                    }
+
                     DeviceWatcher_EnumerationCompleted(null, null);
                     break;
 
@@ -442,11 +486,11 @@ namespace Files.Filesystem
                     DriveItem matchingDriveEjected = Drives.FirstOrDefault(x => x.DeviceID == deviceId);
                     if (rootModified && matchingDriveEjected != null)
                     {
-                        _ = CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                        _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                         {
                             matchingDriveEjected.Root = rootModified.Result;
                             matchingDriveEjected.Text = rootModified.Result.DisplayName;
-                            await matchingDriveEjected.UpdatePropertiesAsync();
+                            return matchingDriveEjected.UpdatePropertiesAsync();
                         });
                     }
                     break;

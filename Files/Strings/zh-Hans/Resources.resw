@@ -42,17 +42,11 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>删除</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>最近使用的文件</value>
-  </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>提交反馈</value>
-  </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>向开发者报告问题，并提供更多信息</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>第三方许可证</value>
@@ -102,18 +96,6 @@
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>从侧边栏取消固定</value>
   </data>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>删除项</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>取消</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>删除</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>永久删除</value>
-  </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>桌面</value>
   </data>
@@ -134,9 +116,6 @@
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>视频</value>
-  </data>
-  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>新建标签页</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>排序方式</value>
@@ -167,9 +146,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
     <value>在终端中打开...</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>新建</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>文件夹</value>
@@ -210,31 +186,16 @@
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>属性</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>速览 (QuickLook)</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>在新窗口中打开</value>
-  </data>
-  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>复制路径</value>
-  </data>
-  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
-    <value>粘贴</value>
-  </data>
-  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>在终端中打开...</value>
-  </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>输入路径</value>
   </data>
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>搜索</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>全部选择</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>取消选择</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
@@ -324,9 +285,6 @@
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>搜索</value>
   </data>
-  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>更多选项</value>
-  </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>驱动器</value>
   </data>
@@ -351,10 +309,7 @@
   <data name="ErrorDialogCancel" xml:space="preserve">
     <value>取消</value>
   </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>设置</value>
-  </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>反选</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
@@ -444,9 +399,6 @@
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>确实要删除此文件夹吗？</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>选项</value>
-  </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
     <value>删除目标文件正被其他程序使用。</value>
   </data>
@@ -510,9 +462,6 @@
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>打开日志目录</value>
   </data>
-  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>新标签页 (Ctrl+T)</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>已选</value>
   </data>
@@ -530,9 +479,6 @@
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>访问:</value>
-  </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>所有者:</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>取消</value>
@@ -576,7 +522,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>将文件移动到回收站</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>了解日期格式相关信息</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -646,7 +592,7 @@
     <value>页数:</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>启动收藏文件夹时</value>
+    <value>在 Files 中打开新文件夹时</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>始终打开新实例</value>
@@ -744,14 +690,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>贡献者</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>查看 Files 贡献者</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>发行说明</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>发现 Files 新增功能</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>引用的项无效或无法访问。{0}代码:{0}{1}</value>
@@ -778,7 +718,7 @@
     <value>共享中 {0} {1}</value>
   </data>
   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>你正在尝试重命名的项目不存在。请确认你需要重命名项目的正确位置。</value>
+    <value>您正在尝试重命名的项目不存在。请确认您需要重命名项目的正确位置。</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
     <value>项目不存在</value>
@@ -801,32 +741,8 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>取消</value>
   </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>确实要删除此项目吗？</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>确实要删除 {0} 个项目吗？</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>自适应 (推荐)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>根据应用窗口的大小自动调整最佳多任务控件大小。当窗口较小时，控件会自动折叠。</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>平分</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>始终在导航工具栏隐藏垂直多任务弹出窗口，并在应用窗口中显示水平标签页栏。</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>多任务</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>垂直</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>将水平列表改为垂直排列。</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>多任务</value>
@@ -882,9 +798,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>上一个目录</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>垂直排列标签页</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>编辑终端应用</value>
   </data>
@@ -903,16 +816,13 @@
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>支持我们</value>
   </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>在PayPal上支持我们</value>
-  </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>我们不能创建这个项目</value>
   </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>拒绝访问</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>将回收站固定到侧边栏</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -924,20 +834,11 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>侧边栏亚克力效果</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>日期格式</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>应用主题</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>在属性中显示所有者</value>
-  </data>
-  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>更多选项</value>
-  </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>选择选项</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>状态中心</value>
@@ -962,21 +863,6 @@
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>驱动器</value>
-  </data>
-  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
-    <value>在主页上显示资料卡</value>
-  </data>
-  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
-    <value>小工具</value>
-  </data>
-  <data name="SettingsWidgets.Content" xml:space="preserve">
-    <value>小工具</value>
-  </data>
-  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
-    <value>在主页上显示驱动器</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
-    <value>在主页上显示最近的文件</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
     <value>显示隐藏的文件和文件夹</value>
@@ -1332,23 +1218,8 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>状态中心</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>许可证</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>许可证</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>网站</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>网站</value>
-  </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>了解有关日期格式的更多信息</value>
-  </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>拖放到此处</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>搜索结果位于</value>
@@ -1425,9 +1296,6 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>移除</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>缓存文件和文件夹以获取更好的性能</value>
-  </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>取消</value>
   </data>
@@ -1446,9 +1314,6 @@
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>在第二面板打开</value>
   </data>
-  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
-    <value>新建面板</value>
-  </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>在第二面板打开</value>
   </data>
@@ -1461,11 +1326,8 @@
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>自定义右键上下文菜单</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>文件夹</value>
-  </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>打开或关闭上下文菜单时启用动画</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>详细信息视图</value>
@@ -1482,16 +1344,7 @@
   <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
     <value>平铺视图</value>
   </data>
-  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
-    <value>布局模式</value>
-  </data>
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>显示选项</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>显示选项</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>显示选项</value>
   </data>
   <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
@@ -1522,10 +1375,10 @@
     <value>删除日期</value>
   </data>
   <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>自定义标签页</value>
+    <value>标签页自定义</value>
   </data>
   <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>当打开文件时</value>
+    <value>当启动 Files 时</value>
   </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>确认</value>
@@ -1618,16 +1471,13 @@
     <value>项目路径</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>切换预览窗格 (Ctrl + P)</value>
+    <value>切换预览面板 (Ctrl + P)</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>项目名称</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>云盘</value>
-  </data>
-  <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
-    <value>在主页上显示包</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>从侧边栏取消固定路径</value>
@@ -1639,34 +1489,61 @@
     <value>文件详细信息</value>
   </data>
   <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
-    <value>文件预览:</value>
+    <value>文件预览</value>
+  </data>
+  <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
+    <value>从预览面板选择文件</value>
+  </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>网络驱动器</value>
   </data>
   <data name="Network" xml:space="preserve">
-    <value>网络连接</value>
+    <value>网络</value>
   </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>文档</value>
   </data>
+  <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>访问 Files 文档网站</value>
+  </data>
+  <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>正在进行的任务弹窗</value>
+  </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
-    <value>联机时可用</value>
+    <value>联机可用</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>脱机可用</value>
   </data>
+  <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
+    <value>脱机部分可用</value>
+  </data>
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
-    <value>正在同步…</value>
+    <value>正在同步</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
+    <value>从同步中排除</value>
   </data>
   <data name="ItemSizeNotCalcluated" xml:space="preserve">
     <value>未计算</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>unknown</value>
+    <value>未知</value>
   </data>
-  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>多选</value>
   </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>如果您改变文件扩展名，文件可能会变得不可用。您确定您想要改变它吗？</value>
+  </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
-    <value>CD-ROM 驱动器</value>
+    <value>CD ROM 驱动器</value>
+  </data>
+  <data name="DriveTypeCloudDrive" xml:space="preserve">
+    <value>云驱动器</value>
+  </data>
+  <data name="DriveTypeFixed" xml:space="preserve">
+    <value>硬盘驱动器</value>
   </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
     <value>软盘驱动器</value>
@@ -1674,8 +1551,20 @@
   <data name="DriveTypeNetwork" xml:space="preserve">
     <value>网络驱动器</value>
   </data>
+  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
+    <value>未挂载驱动</value>
+  </data>
+  <data name="DriveTypeRam" xml:space="preserve">
+    <value>内存驱动器</value>
+  </data>
+  <data name="DriveTypeRemovable" xml:space="preserve">
+    <value>便携式驱动器</value>
+  </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>unknown</value>
+    <value>未知</value>
+  </data>
+  <data name="DriveTypeVirtualDrive" xml:space="preserve">
+    <value>虚拟驱动器</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
     <value>创建日期</value>
@@ -1684,7 +1573,7 @@
     <value>创建日期</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>更多选项</value>
+    <value>更多选项...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>映射网络驱动器</value>
@@ -1692,47 +1581,59 @@
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>断开连接</value>
   </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>更多包选项</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>更多驱动器选项</value>
+  </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>收藏夹</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>浏览</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>最近浏览的位置</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>无预览可用</value>
+    <value>预览不可用</value>
   </data>
   <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>没有可用的详细信息。</value>
+    <value>详细信息不可用</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
-    <value>未选择任何物料</value>
+    <value>未选择任何项目</value>
   </data>
   <data name="PropertyItemTarget" xml:space="preserve">
-    <value>目标型</value>
+    <value>目标</value>
   </data>
   <data name="PropertyItemArguments" xml:space="preserve">
-    <value>参数:</value>
+    <value>参数</value>
+  </data>
+  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
+    <value>在侧边栏上显示库</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>库</value>
   </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>默认</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>配色方案</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
-    <value>项目计数</value>
+    <value>项目数</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
     <value>删除失败</value>
   </data>
   <data name="StatusUnknownError" xml:space="preserve">
-    <value>出现未知错误。</value>
+    <value>发生未知错误。</value>
+  </data>
+  <data name="StatusDeletionComplete" xml:space="preserve">
+    <value>删除完成</value>
+  </data>
+  <data name="StatusOperationCompleted" xml:space="preserve">
+    <value>此操作已完成。</value>
+  </data>
+  <data name="StatusRecycleComplete" xml:space="preserve">
+    <value>回收完成</value>
+  </data>
+  <data name="StatusMoveComplete" xml:space="preserve">
+    <value>移动完成</value>
   </data>
   <data name="StatusCopyComplete" xml:space="preserve">
     <value>复制完成</value>
@@ -1743,10 +1644,31 @@
   <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
     <value>是</value>
   </data>
+  <data name="ElevateConfirmDialog.Title" xml:space="preserve">
+    <value>此操作需要管理员权限</value>
+  </data>
+  <data name="ElevateConfirmDialog.Content" xml:space="preserve">
+    <value>您想要以管理员权限继续吗？</value>
+  </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
-    <value>关闭右侧的标签页</value>
+    <value>关闭标签页到右侧</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>管理员</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
+    <value>Files 正在以管理员权限运行</value>
+  </data>
+  <data name="PinItemToStart.Text" xml:space="preserve">
+    <value>固定到开始菜单</value>
+  </data>
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+    <value>从开始菜单取消固定</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>选项</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>选择选项</value>
   </data>
 </root>

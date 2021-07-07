@@ -1,5 +1,7 @@
 ﻿using Files.Enums;
+using Files.Extensions;
 using Files.Filesystem.Cloud;
+using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
@@ -12,32 +14,26 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {
-    public class ListedItem : ObservableObject
+    public class ListedItem : ObservableObject, IGroupableItem
     {
         public bool IsHiddenItem { get; set; } = false;
         public StorageItemTypes PrimaryItemAttribute { get; set; }
         public bool ItemPropertiesInitialized { get; set; } = false;
-        public string FolderTooltipText { get; set; }
+
+        public string ItemTooltipText
+        {
+            get
+            {
+                return $"{"ToolTipDescriptionName".GetLocalized()} {itemName}{Environment.NewLine}" +
+                    $"{"ToolTipDescriptionType".GetLocalized()} {itemType}{Environment.NewLine}" +
+                    $"{"ToolTipDescriptionDate".GetLocalized()} {ItemDateModified}";
+            }
+        }
+
         public string FolderRelativeId { get; set; }
         public bool ContainsFilesOrFolders { get; set; }
         private bool loadFolderGlyph;
         private bool loadFileIcon;
-
-        public Uri FolderIconSource
-        {
-            get
-            {
-                return ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2.svg") : new Uri("ms-appx:///Assets/FolderIcon.svg");
-            }
-        }
-
-        public Uri FolderIconSourceLarge
-        {
-            get
-            {
-                return ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2Large.svg") : new Uri("ms-appx:///Assets/FolderIconLarge.svg");
-            }
-        }
 
         public bool LoadFolderGlyph
         {
@@ -67,24 +63,43 @@ namespace Files.Filesystem
             set => SetProperty(ref loadWebShortcutGlyph, value);
         }
 
-        private bool loadCustomGlyph;
+        private bool loadCustomIcon;
 
-        public bool LoadCustomGlyph
+        public bool LoadCustomIcon
         {
-            get => loadCustomGlyph;
-            set => SetProperty(ref loadCustomGlyph, value);
+            get => loadCustomIcon;
+            set => SetProperty(ref loadCustomIcon, value);
         }
 
-        private string customGlyph;
+        // Note: Never attempt to call this from a secondary window or another thread, create a new instance from CustomIconSource instead
+        // TODO: eventually we should remove this b/c it's not thread safe
+        private BitmapImage customIcon;
 
-        public string CustomGlyph
+        public BitmapImage CustomIcon
         {
-            get => customGlyph;
+            get => customIcon;
             set
             {
-                LoadCustomGlyph = true;
-                SetProperty(ref customGlyph, value);
+                LoadCustomIcon = true;
+                SetProperty(ref customIcon, value);
             }
+        }
+
+        private Uri customIconSource;
+
+        public Uri CustomIconSource
+        {
+            get => customIconSource;
+            set => SetProperty(ref customIconSource, value);
+        }
+
+        private byte[] customIconData;
+
+        [JsonIgnore]
+        public byte[] CustomIconData
+        {
+            get => customIconData;
+            set => SetProperty(ref customIconData, value);
         }
 
         private double opacity;
@@ -95,13 +110,30 @@ namespace Files.Filesystem
             set => SetProperty(ref opacity, value);
         }
 
-        private CloudDriveSyncStatusUI syncStatusUI;
+        private CloudDriveSyncStatusUI syncStatusUI = new CloudDriveSyncStatusUI();
 
         [JsonIgnore]
         public CloudDriveSyncStatusUI SyncStatusUI
         {
             get => syncStatusUI;
-            set => SetProperty(ref syncStatusUI, value);
+            set
+            {
+                // For some reason this being null will cause a crash with bindings
+                if (value is null)
+                {
+                    value = new CloudDriveSyncStatusUI();
+                }
+                if (SetProperty(ref syncStatusUI, value))
+                {
+                    OnPropertyChanged(nameof(SyncStatusString));
+                }
+            }
+        }
+
+        // This is used to avoid passing a null value to AutomationProperties.Name, which causes a crash
+        public string SyncStatusString
+        {
+            get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString) ? "CloudDriveSyncStatus_Unknown".GetLocalized() : SyncStatusUI.SyncStatusString;
         }
 
         private BitmapImage fileImage;
@@ -110,13 +142,7 @@ namespace Files.Filesystem
         public BitmapImage FileImage
         {
             get => fileImage;
-            set
-            {
-                if (value != null)
-                {
-                    SetProperty(ref fileImage, value);
-                }
-            }
+            set => SetProperty(ref fileImage, value);
         }
 
         public bool IsItemPinnedToStart => App.SecondaryTileHelper.CheckFolderPinned(ItemPath);
@@ -168,8 +194,8 @@ namespace Files.Filesystem
 
         public string FileExtension { get; set; }
         public string FileSize { get; set; }
+        public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalcluated".GetLocalized() : FileSize;
         public long FileSizeBytes { get; set; }
-
         public string ItemDateModified { get; private set; }
         public string ItemDateCreated { get; private set; }
         public string ItemDateAccessed { get; private set; }
@@ -179,7 +205,7 @@ namespace Files.Filesystem
             get => itemDateModifiedReal;
             set
             {
-                ItemDateModified = GetFriendlyDateFromFormat(value, DateReturnFormat);
+                ItemDateModified = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateModifiedReal = value;
             }
         }
@@ -191,7 +217,7 @@ namespace Files.Filesystem
             get => itemDateCreatedReal;
             set
             {
-                ItemDateCreated = GetFriendlyDateFromFormat(value, DateReturnFormat);
+                ItemDateCreated = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateCreatedReal = value;
             }
         }
@@ -203,7 +229,7 @@ namespace Files.Filesystem
             get => itemDateAccessedReal;
             set
             {
-                ItemDateAccessed = GetFriendlyDateFromFormat(value, DateReturnFormat);
+                ItemDateAccessed = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateAccessedReal = value;
             }
         }
@@ -244,44 +270,6 @@ namespace Files.Filesystem
 
         protected string DateReturnFormat { get; }
 
-        public static string GetFriendlyDateFromFormat(DateTimeOffset d, string returnFormat)
-        {
-            var elapsed = DateTimeOffset.Now - d;
-
-            if (elapsed.TotalDays > 7 || returnFormat == "g")
-            {
-                return d.ToLocalTime().ToString(returnFormat);
-            }
-            else if (elapsed.TotalDays > 2)
-            {
-                return string.Format("DaysAgo".GetLocalized(), elapsed.Days);
-            }
-            else if (elapsed.TotalDays > 1)
-            {
-                return string.Format("DayAgo".GetLocalized(), elapsed.Days);
-            }
-            else if (elapsed.TotalHours > 2)
-            {
-                return string.Format("HoursAgo".GetLocalized(), elapsed.Hours);
-            }
-            else if (elapsed.TotalHours > 1)
-            {
-                return string.Format("HoursAgo".GetLocalized(), elapsed.Hours);
-            }
-            else if (elapsed.TotalMinutes > 2)
-            {
-                return string.Format("MinutesAgo".GetLocalized(), elapsed.Minutes);
-            }
-            else if (elapsed.TotalMinutes > 1)
-            {
-                return string.Format("MinutesAgo".GetLocalized(), elapsed.Minutes);
-            }
-            else
-            {
-                return string.Format("SecondsAgo".GetLocalized(), elapsed.Seconds);
-            }
-        }
-
         private ObservableCollection<FileProperty> fileDetails;
 
         [JsonIgnore]
@@ -318,6 +306,7 @@ namespace Files.Filesystem
         public bool IsLibraryItem => this is LibraryItem;
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
 
+        public virtual bool IsExecutable => Path.GetExtension(ItemPath)?.ToLower() == ".exe";
         public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 
         private StorageFile itemFile;
@@ -327,6 +316,12 @@ namespace Files.Filesystem
             get => itemFile;
             set => SetProperty(ref itemFile, value);
         }
+
+        // This is a hack used because x:Bind casting did not work properly
+        [JsonIgnore]
+        public RecycleBinItem AsRecycleBinItem => this as RecycleBinItem;
+
+        public string Key { get; set; }
     }
 
     public class RecycleBinItem : ListedItem
@@ -346,7 +341,7 @@ namespace Files.Filesystem
             get => itemDateDeletedReal;
             set
             {
-                ItemDateDeleted = GetFriendlyDateFromFormat(value, DateReturnFormat);
+                ItemDateDeleted = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateDeletedReal = value;
             }
         }
@@ -358,6 +353,8 @@ namespace Files.Filesystem
 
         // For recycle bin elements (path)
         public string ItemOriginalFolder => Path.IsPathRooted(ItemOriginalPath) ? Path.GetDirectoryName(ItemOriginalPath) : ItemOriginalPath;
+
+        public string ItemOriginalFolderName => Path.GetFileName(ItemOriginalFolder);
     }
 
     public class ShortcutItem : ListedItem
@@ -377,6 +374,7 @@ namespace Files.Filesystem
         public string WorkingDirectory { get; set; }
         public bool RunAsAdmin { get; set; }
         public bool IsUrl { get; set; }
+        public override bool IsExecutable => Path.GetExtension(TargetPath)?.ToLower() == ".exe";
     }
 
     public class LibraryItem : ListedItem
@@ -387,8 +385,11 @@ namespace Files.Filesystem
             ItemName = lib.Text;
             PrimaryItemAttribute = StorageItemTypes.Folder;
             ItemType = "ItemTypeLibrary".GetLocalized();
-            LoadCustomGlyph = true;
-            CustomGlyph = lib.Glyph;
+            LoadCustomIcon = true;
+            CustomIcon = lib.Icon;
+            //CustomIconSource = lib.IconSource;
+            CustomIconData = lib.IconData;
+            LoadFileIcon = CustomIconData != null;
 
             IsEmpty = lib.IsEmpty;
             DefaultSaveFolder = lib.DefaultSaveFolder;

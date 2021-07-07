@@ -16,7 +16,7 @@ namespace Files.Filesystem
         /// <param name="source">FullPath to the item</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> CreateAsync(IStorageItemWithPath source, bool registerHistory);
+        Task<(ReturnResult, IStorageItem)> CreateAsync(IStorageItemWithPath source, bool registerHistory);
 
         #region Delete
 
@@ -77,6 +77,7 @@ namespace Files.Filesystem
         /// <param name="operation">The operation</param>
         /// <param name="packageView">The package view data</param>
         /// <param name="destination">Destination directory to perform the operation
+        /// <param name="showDialog">Determines whether to show dialog</param>
         /// <br/>
         /// <br/>
         /// Note:
@@ -84,7 +85,7 @@ namespace Files.Filesystem
         /// The <paramref name="destination"/> is NOT fullPath</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> PerformOperationTypeAsync(DataPackageOperation operation, DataPackageView packageView, string destination, bool registerHistory);
+        Task<ReturnResult> PerformOperationTypeAsync(DataPackageOperation operation, DataPackageView packageView, string destination, bool showDialog, bool registerHistory, bool isDestinationExecutable = false);
 
         #region Copy
 
@@ -93,42 +94,47 @@ namespace Files.Filesystem
         /// </summary>
         /// <param name="source">The source items to be copied</param>
         /// <param name="destination">The destination fullPath</param>
+        /// <param name="showDialog">Determines whether to show copy dialog</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory);
+        Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory);
 
         /// <summary>
         /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
         /// </summary>
         /// <param name="source">The source item to be copied</param>
         /// <param name="destination">The destination fullPath</param>
+        /// <param name="showDialog">Determines whether to show copy dialog</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool registerHistory);
+        Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool showDialog, bool registerHistory);
 
         /// <summary>
         /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
         /// </summary>
         /// <param name="source">The source items to be copied</param>
         /// <param name="destination">The destination fullPath</param>
+        /// <param name="showDialog">Determines whether to show copy dialog</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory);
+        Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory);
 
         /// <summary>
         /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
         /// </summary>
         /// <param name="source">The source item to be copied</param>
         /// <param name="destination">The destination fullPath</param>
+        /// <param name="showDialog">Determines whether to show copy dialog</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> CopyItemAsync(IStorageItemWithPath source, string destination, bool registerHistory);
+        Task<ReturnResult> CopyItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory);
 
         /// <summary>
         /// Copies items from clipboard to <paramref name="destination"/> fullPath
         /// </summary>
         /// <param name="packageView">Clipboard data</param>
         /// <param name="destination">Destination directory to perform the operation
+        /// <param name="showDialog">Determines whether to show copy dialog</param>
         /// <br/>
         /// <br/>
         /// Note:
@@ -136,7 +142,7 @@ namespace Files.Filesystem
         /// The <paramref name="destination"/> is NOT fullPath</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool registerHistory);
+        Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory);
 
         #endregion Copy
 
@@ -147,42 +153,47 @@ namespace Files.Filesystem
         /// </summary>
         /// <param name="source">The source items to be moved</param>
         /// <param name="destination">The destination fullPath</param>
+        /// <param name="showDialog">Determines whether to show move dialog</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory);
+        Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory);
 
         /// <summary>
         /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
         /// </summary>
         /// <param name="source">The source to move</param>
         /// <param name="destination">The destination fullPath</param>
+        /// <param name="showDialog">Determines whether to show move dialog</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> MoveItemAsync(IStorageItem source, string destination, bool registerHistory);
+        Task<ReturnResult> MoveItemAsync(IStorageItem source, string destination, bool showDialog, bool registerHistory);
 
         /// <summary>
         /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
         /// </summary>
         /// <param name="source">The source items to be moved</param>
         /// <param name="destination">The destination fullPath</param>
+        /// <param name="showDialog">Determines whether to show move dialog</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool registerHistory);
+        Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool showDialog, bool registerHistory);
 
         /// <summary>
         /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
         /// </summary>
         /// <param name="source">The source to move</param>
         /// <param name="destination">The destination fullPath</param>
+        /// <param name="showDialog">Determines whether to show move dialog</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> MoveItemAsync(IStorageItemWithPath source, string destination, bool registerHistory);
+        Task<ReturnResult> MoveItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory);
 
         /// <summary>
         /// Moves items from clipboard to <paramref name="destination"/> fullPath
         /// </summary>
         /// <param name="packageView">Clipboard data</param>
         /// <param name="destination">Destination directory to perform the operation
+        /// <param name="showDialog">Determines whether to show move dialog</param>
         /// <br/>
         /// <br/>
         /// Note:
@@ -190,7 +201,7 @@ namespace Files.Filesystem
         /// The <paramref name="destination"/> is NOT fullPath</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
-        Task<ReturnResult> MoveItemsFromClipboard(DataPackageView packageView, string destination, bool registerHistory);
+        Task<ReturnResult> MoveItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory);
 
         #endregion Move
 

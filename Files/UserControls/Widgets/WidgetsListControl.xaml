@@ -1,0 +1,40 @@
+﻿<UserControl
+    x:Class="Files.UserControls.Widgets.WidgetsListControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.UserControls.Widgets"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Files.ViewModels.Widgets"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <Border>
+        <Grid>
+            <ListView ItemsSource="{x:Bind ViewModel.Widgets, Mode=OneWay}" SelectionMode="None">
+
+                <!--  Remove Reveal Highlight Effect  -->
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <!--  Spacing  -->
+                        <Setter Property="Margin" Value="14" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <ListViewItemPresenter
+                                        x:Name="Root"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        RevealBackground="{ThemeResource GridViewItemRevealBackground}"
+                                        RevealBorderBrush="{ThemeResource GridViewItemRevealBorderBrush}"
+                                        RevealBorderThickness="0" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </Grid>
+    </Border>
+</UserControl>

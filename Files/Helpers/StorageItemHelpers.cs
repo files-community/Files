@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 
 namespace Files.Helpers
 {
@@ -27,8 +28,8 @@ namespace Files.Helpers
                 // TODO: In the future, when IStorageItemWithPath will inherit from IStorageItem,
                 //      we could implement this code here for getting .lnk files
                 //      for now, we can't
-                
-                return default(TOut);
+
+                return default;
 
                 if (false) // Prevent unnecessary exceptions
                 {
@@ -72,7 +73,7 @@ namespace Files.Helpers
                 return (TOut)(IStorageItem)folder.Result;
             }
 
-            return default(TOut);
+            return default;
 
             // Extensions
 
@@ -99,6 +100,12 @@ namespace Files.Helpers
                     folder = await associatedInstance?.FilesystemViewModel?.GetFolderFromPathAsync(path);
                 }
             }
+        }
+
+        public static async Task<long> GetFileSize(this IStorageFile file)
+        {
+            BasicProperties properties = await file.GetBasicPropertiesAsync();
+            return (long)properties.Size;
         }
 
         public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItemWithPath item, IShellPage associatedInstance = null)
@@ -135,11 +142,9 @@ namespace Files.Helpers
             return item == null ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File);
         }
 
-        public static async Task<bool> Exists(string path, IShellPage associatedInstance = null)
+        public static bool Exists(string path)
         {
-            IStorageItem item = await ToStorageItem<IStorageItem>(path, associatedInstance);
-
-            return item != null;
+            return NativeFileOperationsHelper.GetFileAttributesExFromApp(path, NativeFileOperationsHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out _);
         }
 
         public static IStorageItemWithPath FromStorageItem(this IStorageItem item, string customPath = null, FilesystemItemType? itemType = null)

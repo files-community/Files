@@ -12,29 +12,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>ଆଇଟମ୍(ଗୁଡିକ) ବିଲୋପ କର</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>ବାତିଲ୍ କର</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>ବିଲୋପ କର</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>ସ୍ଥାୟୀ ଭାବରେ ବିଲୋପ କର</value>
-  </data>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
     <value>ନୂଆ ଟ୍ୟାବରେ ଖୋଲ</value>
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>ନୂଆ ୱିଣ୍ଡୋରେ ଖୋଲ</value>
-  </data>
-  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>ନୂତନ ଟ୍ୟାବ୍</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>ନୂତନ ୱିଣ୍ଡୋ</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>ଫୋଲ୍ଡର</value>
@@ -44,12 +26,6 @@
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>ପାଠ୍ୟ ଦସ୍ତାବେଜ</value>
-  </data>
-  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>ପଥ କପି କରନ୍ତୁ</value>
-  </data>
-  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
-    <value>ଲେପନ କର</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>ଡ୍ରାଇଭଗୁଡ଼ିକ</value>
@@ -65,9 +41,6 @@
   </data>
   <data name="sizeColumn.Header" xml:space="preserve">
     <value>ଆକାର</value>
-  </data>
-  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>ଟର୍ମିନାଲ୍ ରେ ଖୋଲ ...</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>ସୃଷ୍ଟି:</value>
@@ -99,13 +72,13 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>ଆଇଟମ୍ ପ୍ରକାର:</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>ସବୁ ବାଛ</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>ଓଲଟା ଚୟନ</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>ଚୟନ ସଫା କରନ୍ତୁ</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
@@ -116,9 +89,6 @@
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>ଉପଲବ୍ଧିତ:</value>
-  </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>ମାଲିକ:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>ସମସ୍ତ ଆଇଟମ୍ ଅପସାରଣ କର</value>
@@ -138,17 +108,11 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>ଏହି ଆଇଟମ୍ ଅପସାରଣ କରନ୍ତୁ</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>ସାମ୍ପ୍ରତିକ ଆଇଟମଗୁଡ଼ିକ</value>
-  </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files UWP</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>ମତାମତ ଦାଖଲ କରନ୍ତୁ</value>
-  </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>ଅଧିକ ସୂଚନା ସହିତ ବିକାଶକାରୀଙ୍କୁ ଏକ ଇସୁ ରିପୋର୍ଟ ପଠାନ୍ତୁ</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>ତୃତୀୟ ପକ୍ଷ ଲାଇସେନ୍ସ</value>
@@ -164,9 +128,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>ପରୀକ୍ଷାମୂଳକ</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>ସେଟିଂସମୂହ</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>ବିଷୟରେ</value>
@@ -264,9 +225,6 @@
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5ହ୍ୟାସ୍:</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>ନୂତନ</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>ଫୋଲ୍ଡର</value>
   </data>
@@ -308,9 +266,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>ଗୁଣଧର୍ମ</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Files UWP କୁ ସ୍ଵାଗତ</value>
@@ -377,9 +332,6 @@
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ସନ୍ଧାନ କର</value>
-  </data>
-  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ଅଧିକ ବିକଳ୍ପ</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>ଗୁଣଧର୍ମ</value>
@@ -462,9 +414,6 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>ଠିକ୍ ଅଛି</value>
   </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ଚୟନ ବିକଳ୍ପଗୁଡ଼ିକ</value>
-  </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>ରିସାଇକ୍ଲବିନ୍ ଖାଲି କର</value>
   </data>
@@ -515,9 +464,6 @@
   </data>
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>ଲଗ୍ ଅବସ୍ଥାନ ଖୋଲ</value>
-  </data>
-  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ନୂତନ ଟ୍ୟାବ୍ (Ctrl + T)</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>ଆଇଟମ୍ ମନୋନୀତ</value>
@@ -579,7 +525,7 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>ପ୍ରଶାସକ ଭାବରେ ଚଲାନ୍ତୁ</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>ତାରିଖ ଫର୍ମାଟ୍ ବିଷୟରେ ଅଧିକ ଜାଣନ୍ତୁ</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -741,17 +687,8 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>ବାତିଲ୍</value>
   </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>ଆପଣ ଏହି ଆଇଟମ୍ ବିଲୋପ କରିବାକୁ ଚାହୁଁଥିବା ନିଶ୍ଚିତ କି?</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>ଅକ୍ଷାଂଶ</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>ମଲ୍ଟିଟାସ୍କିଂ</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>ଭୂ-ଲମ୍ବ</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>ମଲ୍ଟିଟାସ୍କିଂ</value>
@@ -780,7 +717,7 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>ପ୍ରବେଶ ପ୍ରତ୍ୟାଖ୍ୟାତ</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>ତାରିଖ ଫର୍ମାଟ୍</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
@@ -936,12 +873,6 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>ଡକ୍ୟୁମେଣ୍ଟ୍</value>
   </data>
-  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>ଅଧିକ ବିକଳ୍ପସମୂହ</value>
-  </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>ଚୟନ ବିକଳ୍ପସମୂହ</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>ଫାଇଲ୍:</value>
   </data>
@@ -996,18 +927,6 @@
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>ଅନିର୍ଦ୍ଦିଷ୍ଟ</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>ଲାଇସେନ୍ସ</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>ଲାଇସେନ୍ସ</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>ୱେବ୍‌ସାଇଟ୍</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>ୱେବ୍‌ସାଇଟ୍</value>
-  </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>ସନ୍ଧାନ ଫଳାଫଳ</value>
   </data>
@@ -1050,16 +969,10 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>ବାତିଲ୍</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>ଫୋଲ୍ଡରଗୁଡିକ</value>
   </data>
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>ପ୍ରଦର୍ଶନ ବିକଳ୍ପ</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>ପ୍ରଦର୍ଶନ ବିକଳ୍ପ</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ପ୍ରଦର୍ଶନ ବିକଳ୍ପ</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
@@ -1152,9 +1065,6 @@
   <data name="Browse" xml:space="preserve">
     <value>ବ୍ରାଉଜ୍ କରନ୍ତୁ</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>ସାମ୍ପ୍ରତିକ ଅବସ୍ଥାନସମୂହ</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>କୌଣସି ପୂର୍ବବଲୋକନ ଉପଲବ୍ଧ ନାହିଁ</value>
   </data>
@@ -1169,12 +1079,6 @@
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>ଲାଇବ୍ରେରୀଗୁଡିକ</value>
-  </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>ଡିଫଲ୍ଟ</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>ରଙ୍ଗ ସ୍କିମ୍:</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>ଆଇଟମ୍ ଗଣନା:</value>
@@ -1193,5 +1097,11 @@
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>ବ୍ୟବସ୍ଥାପକ</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>ଚୟନ ବିକଳ୍ପଗୁଡ଼ିକ</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>ଚୟନ ବିକଳ୍ପଗୁଡ଼ିକ</value>
   </data>
 </root>

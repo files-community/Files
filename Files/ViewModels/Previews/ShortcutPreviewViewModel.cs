@@ -1,6 +1,6 @@
 ﻿using Files.Filesystem;
+using Files.Helpers;
 using Files.ViewModels.Properties;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,21 +45,25 @@ namespace Files.ViewModels.Previews
                 }
             };
 
-            _ = await base.LoadPreviewAndDetails();
+            await LoadItemThumbnail();
 
             return details;
         }
 
         public override async Task LoadAsync()
         {
-            try
+            var details = await LoadPreviewAndDetails();
+            Item.FileDetails?.Clear();
+            Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(details.Where(i => i.Value != null));
+        }
+
+        private async Task LoadItemThumbnail()
+        {
+            var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
+
+            if (iconData != null)
             {
-                var details = await LoadPreviewAndDetails();
-                Item.FileDetails?.Clear();
-                Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(details.Where(i => i.Value != null));
-            }
-            catch (Exception)
-            {
+                Item.FileImage = await iconData.ToBitmapAsync();
             }
         }
     }

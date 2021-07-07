@@ -4,7 +4,6 @@ using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -27,20 +26,21 @@ namespace Files.ViewModels.Properties
 {
     public class FileProperties : BaseProperties
     {
-        private ProgressBar ProgressBar;
-
         public ListedItem Item { get; }
 
-        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item, IShellPage instance)
+        private IProgress<float> hashProgress;
+
+        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, IProgress<float> hashProgress, ListedItem item, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;
-            ProgressBar = progressBar;
             Dispatcher = coreDispatcher;
             Item = item;
             AppInstance = instance;
+            this.hashProgress = hashProgress;
 
             GetBaseProperties();
+
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
@@ -55,11 +55,11 @@ namespace Files.ViewModels.Properties
                     (Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
                 ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
-                //ViewModel.FileIconSource = Item.FileImage;
                 ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
+                ViewModel.IconData = Item.CustomIconData;
                 ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
-                ViewModel.LoadCustomGlyph = Item.LoadCustomGlyph;
-                ViewModel.CustomGlyph = Item.CustomGlyph;
+                ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
+                ViewModel.CustomIconSource = Item.CustomIconSource;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
 
                 if (Item.IsShortcutItem)
@@ -109,10 +109,12 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemSizeVisibility = Visibility.Visible;
             ViewModel.ItemSize = $"{ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(Item.FileSizeBytes).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
 
-            var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
-            if (fileIconInfo.IconData != null)
+            var fileIconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 80);
+            if (fileIconData != null)
             {
-                ViewModel.FileIconSource = await fileIconInfo.IconData.ToBitmapAsync();
+                ViewModel.IconData = fileIconData;
+                ViewModel.LoadUnknownTypeGlyph = false;
+                ViewModel.LoadFileIcon = true;
             }
 
             if (Item.IsShortcutItem)
@@ -148,11 +150,11 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemMD5HashVisibility = Visibility.Visible;
             try
             {
-                ViewModel.ItemMD5Hash = await GetHashForFileAsync(Item, hashAlgTypeName, TokenSource.Token, ProgressBar, AppInstance);
+                ViewModel.ItemMD5Hash = await GetHashForFileAsync(Item, hashAlgTypeName, TokenSource.Token, hashProgress, AppInstance);
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                App.Logger.Warn(ex, ex.Message);
                 ViewModel.ItemMD5HashCalcError = true;
             }
         }
@@ -341,7 +343,7 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        private async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, ProgressBar progress, IShellPage associatedInstance)
+        private async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, IProgress<float> progress, IShellPage associatedInstance)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
             StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath, associatedInstance);
@@ -382,10 +384,7 @@ namespace Files.ViewModels.Properties
                 {
                     break;
                 }
-                if (progress != null)
-                {
-                    progress.Value = (double)str.Position / str.Length * 100;
-                }
+                progress?.Report((float)str.Position / str.Length * 100.0f);
             }
             inputStream.Dispose();
             stream.Dispose();

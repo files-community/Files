@@ -39,13 +39,15 @@
     "SectionResource": "PropertySectionImage",
     "Property": "System.Image.HorizontalResolution",
     "IsReadOnly": true,
-    "ID": null
+    "ID": null,
+    "DisplayFunctionName": "RoundDouble"
   },
   {
     "NameResource": "PropertyVerticalResolution",
     "SectionResource": "PropertySectionImage",
     "Property": "System.Image.VerticalResolution",
     "IsReadOnly": true,
+    "DisplayFunctionName": "RoundDouble",
     "ID": null
   },
   {
@@ -120,6 +122,7 @@
     "SectionResource": "PropertySectionPhoto",
     "Property": "System.Photo.FocalLength",
     "IsReadOnly": true,
+    "DisplayFunctionName": "UnitMM",
     "ID": null
   },
   {
@@ -127,7 +130,16 @@
     "SectionResource": "PropertySectionPhoto",
     "Property": "System.Photo.Aperture",
     "IsReadOnly": true,
-    "ID": null
+    "ID": null,
+    "DisplayFunctionName": "AddF"
+  },
+  {
+    "NameResource": "PropertyISO",
+    "SectionResource": "PropertySectionPhoto",
+    "Property": "System.Photo.ISOSpeed",
+    "IsReadOnly": true,
+    "ID": null,
+    "DisplayFunctionName": "AddISO"
   },
   {
     "NameResource": "PropertyPeopleNames",
@@ -566,6 +578,46 @@
     "ID": null
   },
   {
+    "NameResource": "PropertyTrademarks",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.Trademarks",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyLanguage",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.Language",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyFileVersion",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.FileVersion",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertySyncStatus",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.FilePlaceholderStatus",
+    "IsReadOnly": true,
+    "EnumeratedList": {
+      "0": "CloudDriveSyncStatus_Unknown",
+      "1": "CloudDriveSyncStatus_Online",
+      "2": "CloudDriveSyncStatus_Online",
+      "3": "CloudDriveSyncStatus_Offline",
+      "4": "CloudDriveSyncStatus_Excluded",
+      "5": "CloudDriveSyncStatus_Offline",
+      "8": "CloudDriveSyncStatus_Online",
+      "9": "CloudDriveSyncStatus_Sync",
+      "14": "CloudDriveSyncStatus_Offline",
+      "15": "CloudDriveSyncStatus_Offline"
+    },
+    "ID": null
+  },
+  {
     "NameResource": "PropertyDateCreated",
     "SectionResource": "PropertySectionCore",
     "Property": "System.DateCreated",
@@ -576,6 +628,13 @@
     "NameResource": "PropertyDateModified",
     "SectionResource": "PropertySectionCore",
     "Property": "System.DateModified",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyFileOwner",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.FileOwner",
     "IsReadOnly": true,
     "ID": null
   }

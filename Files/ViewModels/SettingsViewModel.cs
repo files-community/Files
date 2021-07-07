@@ -21,6 +21,8 @@ using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
@@ -71,10 +73,7 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(ShowFileExtensions)} {ShowFileExtensions}");
             Analytics.TrackEvent($"{nameof(ShowConfirmDeleteDialog)} {ShowConfirmDeleteDialog}");
             Analytics.TrackEvent($"{nameof(IsAcrylicDisabled)} {IsAcrylicDisabled}");
-            Analytics.TrackEvent($"{nameof(ShowFileOwner)} {ShowFileOwner}");
-            Analytics.TrackEvent($"{nameof(IsHorizontalTabStripOn)} {IsHorizontalTabStripOn}");
-            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutOn)} {IsVerticalTabFlyoutOn}");
-            Analytics.TrackEvent($"{nameof(IsMultitaskingExperienceAdaptive)} {IsMultitaskingExperienceAdaptive}");
+            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutEnabled)} {IsVerticalTabFlyoutEnabled}");
             Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)} {IsDualPaneEnabled}");
             Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)} {AlwaysOpenDualPaneInNewTab}");
             Analytics.TrackEvent($"{nameof(AreHiddenItemsVisible)} {AreHiddenItemsVisible}");
@@ -83,13 +82,14 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(ShowLibrarySection)} {ShowLibrarySection}");
             Analytics.TrackEvent($"{nameof(ShowBundlesWidget)} {ShowBundlesWidget}");
             Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)} {ListAndSortDirectoriesAlongsideFiles}");
-            Analytics.TrackEvent($"{nameof(AreRightClickContentMenuAnimationsEnabled)} {AreRightClickContentMenuAnimationsEnabled}");
         }
 
         public static async void OpenLogLocation()
         {
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
+
+        public static async void OpenSkinsFolder() => await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.SkinFolder.Path);
 
         public static async void ReportIssueOnGitHub()
         {
@@ -101,7 +101,7 @@ namespace Files.ViewModels
         /// </summary>
         public GridLength SidebarWidth
         {
-            get => new GridLength(Math.Min(Math.Max(Get(255d), 255d), 500d), GridUnitType.Pixel);
+            get => new GridLength(Math.Min(Math.Max(Get(255d), Constants.UI.MinimumSidebarWidth), 500d), GridUnitType.Pixel);
             set => Set(value.Value);
         }
 
@@ -161,7 +161,7 @@ namespace Files.ViewModels
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                App.Logger.Warn(ex, ex.Message);
             }
         }
 
@@ -274,6 +274,7 @@ namespace Files.ViewModels
 
         // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
         public string RecycleBinPath { get; set; } = @"Shell:RecycleBinFolder";
+
         public string NetworkFolderPath { get; set; } = @"Shell:NetworkPlacesFolder";
 
         #endregion CommonPaths
@@ -357,29 +358,11 @@ namespace Files.ViewModels
         #region Multitasking
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not to automatically switch between the horizontal and vertical tab layout.
+        /// Gets or sets a value indicating whether or not to enable the vertical tab flyout.
         /// </summary>
-        public bool IsMultitaskingExperienceAdaptive
+        public bool IsVerticalTabFlyoutEnabled
         {
             get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to enable the vertical tab layout.
-        /// </summary>
-        public bool IsVerticalTabFlyoutOn
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to enable the horizontal tab layout.
-        /// </summary>
-        public bool IsHorizontalTabStripOn
-        {
-            get => Get(false);
             set => Set(value);
         }
 
@@ -408,7 +391,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not the library cards widget should be visible.
         /// </summary>
-        public bool ShowLibraryCardsWidget
+        public bool ShowFolderWidgetWidget
         {
             get => Get(true);
             set => Set(value);
@@ -443,6 +426,71 @@ namespace Files.ViewModels
 
         #endregion Widgets
 
+        #region Sidebar
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to show the library section on the sidebar.
+        /// </summary>
+        public bool ShowLibrarySection
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [show drives section].
+        /// </summary>
+        public bool ShowDrivesSection
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [show cloud drives section].
+        /// </summary>
+        public bool ShowCloudDrivesSection
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [show network drives section].
+        /// </summary>
+        public bool ShowNetworkDrivesSection
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [show wsl section].
+        /// </summary>
+        public bool ShowWslSection
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        //TODO: This shouldn't pin recycle bin to the sidebar, it should only hold the value whether it should or shouldn't be pinned
+        /// <summary>
+        /// Gets or sets a value indicating whether or not recycle bin should be pinned to the sidebar.
+        /// </summary>
+        public bool PinRecycleBinToSideBar
+        {
+            get => Get(true);
+            set
+            {
+                if (Set(value))
+                {
+                    _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(value);
+                }
+            }
+        }
+
+        #endregion
+
         #region Preferences
 
         /// <summary>
@@ -455,9 +503,12 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not to show the library section on the sidebar.
+        /// Gets or sets a value indicating whether [open folders new tab].
         /// </summary>
-        public bool ShowLibrarySection
+        /// <value>
+        ///   <c>true</c> if [open folders new tab]; otherwise, <c>false</c>.
+        /// </value>
+        public bool OpenFoldersNewTab
         {
             get => Get(false);
             set => Set(value);
@@ -487,23 +538,7 @@ namespace Files.ViewModels
             {
                 ApplicationLanguages.PrimaryLanguageOverride = value.ID;
             }
-        }
-
-        //TODO: This shouldn't pin recycle bin to the sidebar, it should only hold the value whether it should or shouldn't be pinned
-        /// <summary>
-        /// Gets or sets a value indicating whether or not recycle bin should be pinned to the sidebar.
-        /// </summary>
-        public bool PinRecycleBinToSideBar
-        {
-            get => Get(true);
-            set
-            {
-                if (Set(value))
-                {
-                    _ = App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(value);
-                }
-            }
-        }
+        }        
 
         #endregion Preferences
 
@@ -519,15 +554,6 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not right click context menu animations are enabled.
-        /// </summary>
-        public bool AreRightClickContentMenuAnimationsEnabled
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating whether or not to move overflow menu items into a sub menu.
         /// </summary>
         public bool MoveOverflowMenuItemsToSubMenu
@@ -537,61 +563,20 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// The relative path (from the Themes folder) to an xaml file containing a resource dictionary to be loaded at startup.
+        /// Gets or sets the user's current selected skin
         /// </summary>
-        public string PathToThemeFile
+        public AppSkin SelectedSkin
         {
-            get => Get("DefaultScheme".GetLocalized());
-            set => Set(value);
+            get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppSkin>(Get(System.Text.Json.JsonSerializer.Serialize(new AppSkin()
+            {
+                Name = "DefaultSkin".GetLocalized()
+            })));
+            set => Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
         }
+
         #endregion Appearance
 
         #region Experimental
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to show the item owner in the properties window.
-        /// </summary>
-        public bool ShowFileOwner
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to cache files and folders.
-        /// </summary>
-        public bool UseFileListCache
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to use preemptive caching.
-        /// </summary>
-        public bool UsePreemptiveCache
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating the limit of parallel preemptive cache loading limit.
-        /// </summary>
-        public int PreemptiveCacheParallelLimit
-        {
-            get => Get(2);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to enable the multiselect option.
-        /// </summary>
-        public bool ShowMultiselectOption
-        {
-            get => Get(false);
-            set => Set(value);
-        }
 
         #endregion Experimental
 
@@ -713,6 +698,13 @@ namespace Files.ViewModels
         public SortOption DefaultDirectorySortOption
         {
             get => (SortOption)Get((byte)SortOption.Name);
+            set => Set((byte)value);
+        }
+
+
+        public GroupOption DefaultDirectoryGroupOption
+        {
+            get => (GroupOption)Get((byte)GroupOption.None);
             set => Set((byte)value);
         }
 

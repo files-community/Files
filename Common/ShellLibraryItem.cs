@@ -1,8 +1,13 @@
-﻿namespace Files.Common
+﻿using System;
+using System.IO;
+
+namespace Files.Common
 {
     public class ShellLibraryItem
     {
         public const string EXTENSION = ".library-ms";
+
+        public static readonly string LibrariesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries");
 
         /// <summary>
         /// Full path of library file.<br/>
@@ -11,7 +16,7 @@
         /// C:\Users\[username]\AppData\Roaming\Microsoft\Windows\Libraries\Custom library.library-ms
         /// </summary>
         public string FullPath;
-        
+
         /// <summary>
         /// ShellItemDisplayString.DesktopAbsoluteParsing<br/>
         /// <br/>
@@ -40,6 +45,8 @@
         public string DefaultSaveFolder;
         public string[] Folders;
 
-        public ShellLibraryItem() { }
+        public ShellLibraryItem()
+        {
+        }
     }
 }

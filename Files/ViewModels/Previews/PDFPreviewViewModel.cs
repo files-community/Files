@@ -1,10 +1,14 @@
 ﻿using Files.Filesystem;
 using Files.ViewModels.Properties;
+using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Data.Pdf;
+using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
@@ -35,20 +39,34 @@ namespace Files.ViewModels.Previews
         public async override Task<List<FileProperty>> LoadPreviewAndDetails()
         {
             var pdf = await PdfDocument.LoadFromFileAsync(Item.ItemFile);
-            var details = new List<FileProperty>();
-
-            LoadPagesAsync(pdf);
-            // Add the number of pages to the details
-            details.Add(new FileProperty()
+            TryLoadPagesAsync(pdf);
+            var details = new List<FileProperty>
             {
-                NameResource = "PropertyPageCount",
-                Value = pdf.PageCount,
-            });
+
+                // Add the number of pages to the details
+                new FileProperty()
+                {
+                    NameResource = "PropertyPageCount",
+                    Value = pdf.PageCount,
+                }
+            };
 
             return details;
         }
 
-        private async void LoadPagesAsync(PdfDocument pdf)
+        public async void TryLoadPagesAsync(PdfDocument pdf)
+        {
+            try
+            {
+                await LoadPagesAsync(pdf);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+        }
+
+        private async Task LoadPagesAsync(PdfDocument pdf)
         {
             // This fixes an issue where loading an absurdly large PDF would take to much RAM
             // and eventually cause a crash
@@ -67,22 +85,26 @@ namespace Files.ViewModels.Previews
                 using var stream = new InMemoryRandomAccessStream();
                 await page.RenderToStreamAsync(stream);
 
+                var decoder = await BitmapDecoder.CreateAsync(stream);
+                var sw = await decoder.GetSoftwareBitmapAsync();
+
                 var src = new BitmapImage();
                 await src.SetSourceAsync(stream);
                 var pageData = new PageViewModel()
                 {
                     PageImage = src,
                     PageNumber = (int)i,
+                    PageImageSB = sw,
                 };
                 Pages.Add(pageData);
             }
             LoadingBarVisibility = Visibility.Collapsed;
         }
-
-        public struct PageViewModel
-        {
-            public int PageNumber { get; set; }
-            public BitmapImage PageImage { get; set; }
-        }
+    }
+    public struct PageViewModel
+    {
+        public int PageNumber { get; set; }
+        public BitmapImage PageImage { get; set; }
+        public SoftwareBitmap PageImageSB { get; set; }
     }
 }

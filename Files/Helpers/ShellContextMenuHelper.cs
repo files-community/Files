@@ -13,8 +13,10 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files.Helpers {
-    public static class ShellContextmenuHelper {
+namespace Files.Helpers
+{
+    public static class ShellContextmenuHelper
+    {
         public static List<ContextMenuFlyoutItemViewModel> SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu, NamedPipeAsAppServiceConnection connection, string workingDirectory, List<ListedItem> selectedItems)
         {
             bool IsItemSelected = selectedItems?.Count > 0;
@@ -26,7 +28,7 @@ namespace Files.Helpers {
 
             if (connection != null)
             {
-                var (status, response) = Task.Run(() => connection.SendMessageForResponseAsync(new ValueSet()
+                var task = Task.Run(() => connection.SendMessageForResponseAsync(new ValueSet()
                 {
                     { "Arguments", "LoadContextMenu" },
                     { "FilePath", IsItemSelected ?
@@ -34,14 +36,20 @@ namespace Files.Helpers {
                         workingDirectory},
                     { "ExtendedMenu", shiftPressed },
                     { "ShowOpenMenu", showOpenMenu }
-                })).Result;
-                if (status == AppServiceResponseStatus.Success
-                    && response.ContainsKey("Handle"))
+                }));
+                var completed = task.Wait(10000);
+
+                if (completed)
                 {
-                    var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
-                    if (contextMenu != null)
+                    var (status, response) = task.Result;
+                    if (status == AppServiceResponseStatus.Success
+                        && response.ContainsKey("Handle"))
                     {
-                        LoadMenuFlyoutItem(menuItemsList, contextMenu.Items, (string)response["Handle"], true, maxItems);
+                        var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
+                        if (contextMenu != null)
+                        {
+                            LoadMenuFlyoutItem(menuItemsList, contextMenu.Items, (string)response["Handle"], true, maxItems);
+                        }
                     }
                 }
             }
@@ -75,11 +83,12 @@ namespace Files.Helpers {
                         Tag = ((Win32ContextMenuItem)null, menuHandle),
                         Glyph = "\xE712",
                     };
-                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, false);
+                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, showIcons);
                     menuItemsListLocal.Insert(0, menuLayoutSubItem);
-                } else
+                }
+                else
                 {
-                    LoadMenuFlyoutItem(moreItem.Items, overflowItems, menuHandle, false);
+                    LoadMenuFlyoutItem(moreItem.Items, overflowItems, menuHandle, showIcons);
                 }
             }
             foreach (var menuFlyoutItem in menuItems
@@ -96,9 +105,9 @@ namespace Files.Helpers {
                 BitmapImage image = null;
                 if (showIcons)
                 {
-                    image = new BitmapImage();
                     if (!string.IsNullOrEmpty(menuFlyoutItem.IconBase64))
                     {
+                        image = new BitmapImage();
                         byte[] bitmapData = Convert.FromBase64String(menuFlyoutItem.IconBase64);
                         using var ms = new MemoryStream(bitmapData);
                         image.SetSourceAsync(ms.AsRandomAccessStream()).AsTask().Wait(10);
@@ -122,7 +131,7 @@ namespace Files.Helpers {
                         Text = menuFlyoutItem.Label.Replace("&", ""),
                         Tag = (menuFlyoutItem, menuHandle),
                     };
-                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, menuFlyoutItem.SubItems, menuHandle, false);
+                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, menuFlyoutItem.SubItems, menuHandle, showIcons);
                     menuItemsListLocal.Insert(0, menuLayoutSubItem);
                 }
                 else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))
@@ -166,7 +175,5 @@ namespace Files.Helpers {
                 return (null, null);
             }
         }
-
-
     }
 }

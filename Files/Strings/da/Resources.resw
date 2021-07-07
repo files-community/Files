@@ -12,29 +12,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Slet Emne(r)</value>
-  </data>
-  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>Annullér</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>Slet</value>
-  </data>
-  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Slet permanent</value>
-  </data>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
     <value>Åbn i ny fane</value>
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>Åbn i nyt vindue</value>
-  </data>
-  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>Ny fane</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>Nyt vindue</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>Mappe</value>
@@ -44,12 +26,6 @@
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Tekstdokument</value>
-  </data>
-  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>Kopiér placering</value>
-  </data>
-  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
-    <value>Indsæt</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>Drev</value>
@@ -65,9 +41,6 @@
   </data>
   <data name="sizeColumn.Header" xml:space="preserve">
     <value>Størrelse</value>
-  </data>
-  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>Åbn i Terminal...</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Oprettet:</value>
@@ -99,13 +72,13 @@
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Emnetype:</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Vælg alle</value>
   </data>
-  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Invertér valg</value>
   </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
     <value>Ryd markering</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
@@ -116,9 +89,6 @@
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Åbnet:</value>
-  </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Ejer:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Ryd alle emner</value>
@@ -138,17 +108,11 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Fjern dette emne</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Seneste emner</value>
-  </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Send Feedback</value>
-  </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Send udviklerne en problemrapport med detaljerede oplysninger</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Tredjepartslicenser</value>
@@ -159,7 +123,7 @@
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Akryl sidebjælke</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+  <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Datoformat</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
@@ -182,9 +146,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Eksperimentel</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>Indstillinger</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Om</value>
@@ -218,9 +179,6 @@
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Ved opstart</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Vis ejer i indstillinger</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Præferencer</value>
@@ -282,9 +240,6 @@
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5Hash:</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>Ny</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Mappe</value>
   </data>
@@ -329,9 +284,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Egenskaber</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>Hurtig kig</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Velkommen til Files!</value>
@@ -401,9 +353,6 @@
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Søg</value>
-  </data>
-  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Flere muligheder</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Egenskaber</value>
@@ -486,12 +435,6 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
-    <value>Layouttilstand</value>
-  </data>
-  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Valgmuligheder</value>
-  </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Skrivebeskyttet</value>
   </data>
@@ -548,9 +491,6 @@
   </data>
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>Åbn logplacering</value>
-  </data>
-  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ny fane (Ctrl + T)</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>valgt emne</value>
@@ -612,7 +552,7 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Kør som administrator</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Lær mere om datoformater</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
@@ -777,14 +717,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Bidragydere</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Se, hvem der har bidraget til Files</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Udgivelses noter</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Find ud af, hvad der er nyt i Files</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>Emnet er enten ugyldig eller utilgængelig. {0} Fejlmeddelelse: {0} {1}</value>
@@ -843,9 +777,6 @@
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Støt os</value>
   </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>Støt os på PayPal</value>
-  </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Vi kunne ikke oprette dette emne</value>
   </data>
@@ -855,38 +786,14 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Annullér</value>
   </data>
-  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>Er du sikker på, at du vil slette disse {0} emner?</value>
-  </data>
-  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>Er du sikker på, at du vil slette dette emne?</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Tilføj fane</value>
   </data>
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>Åbn fane</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptiv (anbefales)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Vælger den bedste multitasking-kontrol baseret på, hvordan appvinduet ændres. Når vinduet er lille, vil du bemærke, at den vandrette fanestribe er foldet sammen i en flyout på navigationsværktøjslinjen.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Vandret</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Skjuler altid den lodrette multitasking-flyout fra navigationsværktøjslinjen og viser den traditionelle vandrette tabstrip i appvinduet. Dette er velegnet til brugere, der altid har brug for at holde styr på alle åbne appinstanser.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitasking</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Lodret</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Skjuler den vandrette liste over appforekomster i en lodret flyout på navigationsværktøjslinjen, der er designet til brugere, der ønsker en ren app-interface med on-demand adgang til en multitasking-oplevelse.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitasking</value>
@@ -933,9 +840,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Gå en mappe op</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Lodret fane strimmel</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Redigér terminalapplikationer</value>
   </data>
@@ -954,7 +858,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
     <value>Flyt overløbselementer til en undermenu</value>
   </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
     <value>Fastgør papirkurven til sidebjælke</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1263,12 +1167,6 @@
   <data name="PropertyAddress" xml:space="preserve">
     <value>Adresse</value>
   </data>
-  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Flere muligheder</value>
-  </data>
-  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Valgmuligheder</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Status center</value>
   </data>
@@ -1292,21 +1190,6 @@
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>Flyt hertil</value>
-  </data>
-  <data name="SettingsWidgets.Content" xml:space="preserve">
-    <value>Widgets</value>
-  </data>
-  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
-    <value>Vis drev på startsiden</value>
-  </data>
-  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
-    <value>Vis biblioteksmapper på startsiden</value>
-  </data>
-  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
-    <value>Vis de seneste filer på startsiden</value>
-  </data>
-  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
-    <value>Widgets</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>Sikkert at fjerne hardware</value>
@@ -1347,23 +1230,8 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Status Center</value>
   </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>Licens</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>Licens</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>Website</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>Website</value>
-  </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Lær mere om datoformater</value>
-  </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>Drop here</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Søg</value>
@@ -1425,9 +1293,6 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Oprindelig sti</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>Cache filer og mapper for bedre ydeevne</value>
-  </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Tilføj</value>
   </data>
@@ -1455,20 +1320,14 @@
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Åbn i sekundærrude</value>
   </data>
-  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
-    <value>Ny rude</value>
-  </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>Åbn i sekundærrude</value>
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dobbeltrude</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Mapper</value>
-  </data>
-  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
-    <value>Aktivér animationer, når du åbner og lukker genvejsmenuen</value>
   </data>
   <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detaljeret visning</value>
@@ -1477,12 +1336,6 @@
     <value>Detaljeret visning</value>
   </data>
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>Visningsindstillinger</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Visningsindstillinger</value>
-  </data>
-  <data name="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Visningsindstillinger</value>
   </data>
   <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
@@ -1623,9 +1476,6 @@
   <data name="Browse" xml:space="preserve">
     <value>Søg</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Seneste placeringer</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Der er ikke noget eksempel.</value>
   </data>
@@ -1643,12 +1493,6 @@
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Biblioteker</value>
-  </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>Standard</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Farveskema</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Antal elementer</value>
@@ -1670,5 +1514,11 @@
   </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>administrator</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Valgmuligheder</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Valgmuligheder</value>
   </data>
 </root>

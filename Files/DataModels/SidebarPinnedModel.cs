@@ -1,5 +1,7 @@
 ﻿using Files.Common;
 using Files.Controllers;
+using Files.DataModels.NavigationControlItems;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
@@ -12,7 +14,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -22,6 +23,8 @@ namespace Files.DataModels
 {
     public class SidebarPinnedModel
     {
+        public static IList<IconFileInfo> IconResources = null;
+
         private SidebarPinnedController controller;
 
         private LocationItem favoriteSection, homeSection;
@@ -30,7 +33,7 @@ namespace Files.DataModels
         public SettingsViewModel AppSettings => App.AppSettings;
 
         [JsonIgnore]
-        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+        public MainViewModel MainViewModel => App.MainViewModel;
 
         [JsonProperty("items")]
         public List<string> FavoriteItems { get; set; } = new List<string>();
@@ -42,25 +45,6 @@ namespace Files.DataModels
 
         public SidebarPinnedModel()
         {
-            homeSection = new LocationItem()
-            {
-                Text = "SidebarHome".GetLocalized(),
-                Section = SectionType.Home,
-                Font = InteractionViewModel.FontName,
-                Glyph = "\uE80F",
-                IsDefaultLocation = true,
-                Path = "Home",
-                ChildItems = new ObservableCollection<INavigationControlItem>()
-            };
-            favoriteSection = new LocationItem()
-            {
-                Text = "SidebarFavorites".GetLocalized(),
-                Section = SectionType.Favorites,
-                SelectsOnInvoked = false,
-                Font = InteractionViewModel.FontName,
-                Glyph = "\uE734",
-                ChildItems = new ObservableCollection<INavigationControlItem>()
-            };
         }
 
         /// <summary>
@@ -108,8 +92,8 @@ namespace Files.DataModels
                     {
                         Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                         Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
-                        Glyph = "\uEF87",
                         IsDefaultLocation = true,
+                        Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.RecycleBin).Image),
                         Path = App.AppSettings.RecycleBinPath
                     };
                     // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
@@ -266,13 +250,26 @@ namespace Files.DataModels
                 int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
                 var locationItem = new LocationItem
                 {
-                    Font = InteractionViewModel.FontName,
+                    Font = MainViewModel.FontName,
                     Path = path,
                     Section = SectionType.Favorites,
-                    Glyph = GlyphHelper.GetItemIcon(path),
                     IsDefaultLocation = false,
                     Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };
+
+                if (res)
+                {
+                    using var thumbnail = await res.Result.GetThumbnailAsync(
+                        Windows.Storage.FileProperties.ThumbnailMode.ListView,
+                        24,
+                        Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+
+                    if (thumbnail != null)
+                    {
+                        locationItem.IconData = await thumbnail.ToByteArrayAsync();
+                        locationItem.Icon = await locationItem.IconData.ToBitmapAsync();
+                    }
+                }
 
                 if (!favoriteSection.ChildItems.Contains(locationItem))
                 {
@@ -307,6 +304,31 @@ namespace Files.DataModels
         public async Task AddAllItemsToSidebar()
         {
             await SidebarControl.SideBarItemsSemaphore.WaitAsync();
+
+            if (IconResources is null)
+            {
+                IconResources = (await SidebarViewModel.LoadSidebarIconResources())?.ToList();
+            }
+
+            homeSection = new LocationItem()
+            {
+                Text = "SidebarHome".GetLocalized(),
+                Section = SectionType.Home,
+                Font = MainViewModel.FontName,
+                IsDefaultLocation = true,
+                Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png")),
+                Path = "Home",
+                ChildItems = new ObservableCollection<INavigationControlItem>()
+            };
+            favoriteSection = new LocationItem()
+            {
+                Text = "SidebarFavorites".GetLocalized(),
+                Section = SectionType.Favorites,
+                SelectsOnInvoked = false,
+                Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.Shell32.QuickAccess).Image),
+                Font = MainViewModel.FontName,
+                ChildItems = new ObservableCollection<INavigationControlItem>()
+            };
             try
             {
                 SidebarControl.SideBarItems.BeginBulkOperation();

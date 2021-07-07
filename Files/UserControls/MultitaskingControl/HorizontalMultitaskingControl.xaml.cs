@@ -1,10 +1,10 @@
 ﻿using Files.Helpers;
-using Files.Interacts;
 using Files.ViewModels;
-using Files.Views;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -29,18 +29,12 @@ namespace Files.UserControls.MultitaskingControl
 
         private void HorizontalTabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
         {
-            switch (args.CollectionChange)
+            if (args.CollectionChange == Windows.Foundation.Collections.CollectionChange.ItemRemoved)
             {
-                case Windows.Foundation.Collections.CollectionChange.ItemRemoved:
-                    App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(HorizontalTabView.SelectedItem as TabItem);
-                    break;
-
-                case Windows.Foundation.Collections.CollectionChange.ItemInserted:
-                    App.InteractionViewModel.TabStripSelectedIndex = (int)args.Index;
-                    break;
+                App.MainViewModel.TabStripSelectedIndex = Items.IndexOf(HorizontalTabView.SelectedItem as TabItem);
             }
 
-            if (App.InteractionViewModel.TabStripSelectedIndex >= 0 && App.InteractionViewModel.TabStripSelectedIndex < Items.Count)
+            if (App.MainViewModel.TabStripSelectedIndex >= 0 && App.MainViewModel.TabStripSelectedIndex < Items.Count)
             {
                 CurrentSelectedAppInstance = GetCurrentSelectedTabInstance();
 
@@ -85,7 +79,7 @@ namespace Files.UserControls.MultitaskingControl
             tabHoverTimer.Stop();
             if (hoveredTabViewItem != null)
             {
-                HorizontalTabView.SelectedItem = hoveredTabViewItem;
+                App.MainViewModel.TabStripSelectedIndex = Items.IndexOf(hoveredTabViewItem.DataContext as TabItem);
             }
         }
 
@@ -186,14 +180,8 @@ namespace Files.UserControls.MultitaskingControl
 
         private void TabItemContextMenu_Opening(object sender, object e)
         {
-            if (MainPageViewModel.MultitaskingControl.Items.Count == 1)
-            {
-                MenuItemMoveTabToNewWindow.IsEnabled = false;
-            }
-            else
-            {
-                MenuItemMoveTabToNewWindow.IsEnabled = true;
-            }
+            MenuItemMoveTabToNewWindow.IsEnabled = Items.Count > 1;
+            MenuItemReopenClosedTab.IsEnabled = RecentlyClosedTabs.Any();
         }
 
         private void MenuItemCloseTabsToTheRight_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
@@ -209,5 +197,7 @@ namespace Files.UserControls.MultitaskingControl
                 MenuItemCloseTabsToTheRight.IsEnabled = true;
             }
         }
+
+        public override DependencyObject ContainerFromItem(ITabItem item) => HorizontalTabView.ContainerFromItem(item);
     }
 }

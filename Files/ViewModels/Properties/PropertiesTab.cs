@@ -1,5 +1,8 @@
-﻿using Files.Filesystem;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.Filesystem;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -7,7 +10,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.ViewModels.Properties
 {
-    public abstract class PropertiesTab : Page
+    public abstract class PropertiesTab : Page, IDisposable
     {
         public IShellPage AppInstance = null;
 
@@ -15,7 +18,7 @@ namespace Files.ViewModels.Properties
 
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
 
-        protected Microsoft.UI.Xaml.Controls.ProgressBar ItemMD5HashProgress = null;
+        protected IProgress<float> hashProgress;
 
         protected virtual void Properties_Loaded(object sender, RoutedEventArgs e)
         {
@@ -30,7 +33,7 @@ namespace Files.ViewModels.Properties
             var np = e.Parameter as Views.Properties.PropertyNavParam;
 
             AppInstance = np.AppInstanceArgument;
-            ViewModel = new SelectedItemsPropertiesViewModel(AppInstance.SlimContentPage);
+            ViewModel = new SelectedItemsPropertiesViewModel();
 
             if (np.navParameter is LibraryItem library)
             {
@@ -40,7 +43,7 @@ namespace Files.ViewModels.Properties
             {
                 if (item.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    BaseProperties = new FileProperties(ViewModel, np.tokenSource, Dispatcher, ItemMD5HashProgress, item, AppInstance);
+                    BaseProperties = new FileProperties(ViewModel, np.tokenSource, Dispatcher, hashProgress, item, AppInstance);
                 }
                 else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
@@ -68,5 +71,13 @@ namespace Files.ViewModels.Properties
 
             base.OnNavigatedFrom(e);
         }
+
+        /// <summary>
+        /// Tries to save changed properties to file.
+        /// </summary>
+        /// <returns>Returns true if properties have been saved successfully.</returns>
+        public abstract Task<bool> SaveChangesAsync(ListedItem item);
+
+        public abstract void Dispose();
     }
 }

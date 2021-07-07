@@ -1,5 +1,7 @@
 ﻿using Files.Common;
+using Files.DataModels.NavigationControlItems;
 using Files.Extensions;
+using Files.Helpers;
 using Files.UserControls;
 using Files.ViewModels;
 using Files.Views;
@@ -256,9 +258,9 @@ namespace Files.Filesystem
             try
             {
                 return storageItems.Any(storageItem =>
-               Path.GetPathRoot(storageItem.Path).Equals(
-                   Path.GetPathRoot(destinationPath),
-                   StringComparison.OrdinalIgnoreCase));
+                    Path.GetPathRoot(storageItem.Path).Equals(
+                        Path.GetPathRoot(destinationPath),
+                        StringComparison.OrdinalIgnoreCase));
             }
             catch
             {
@@ -270,9 +272,9 @@ namespace Files.Filesystem
         {
             try
             {
-                return storageItems.Any(storageItem =>
-                Directory.GetParent(storageItem.Path).FullName.Equals(
-                    destinationPath, StringComparison.OrdinalIgnoreCase));
+                return storageItems.All(storageItem =>
+                    Path.GetDirectoryName(storageItem.Path).Equals(
+                        destinationPath.TrimPath(), StringComparison.OrdinalIgnoreCase));
             }
             catch
             {

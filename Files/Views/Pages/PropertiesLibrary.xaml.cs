@@ -170,11 +170,7 @@ namespace Files.Views
             return isChanged;
         }
 
-        /// <summary>
-        /// Tries to save changed properties to file.
-        /// </summary>
-        /// <returns>Returns true if properties have been saved successfully.</returns>
-        public async Task<bool> SaveChangesAsync()
+        public override async Task<bool> SaveChangesAsync(ListedItem item)
         {
             if (BaseProperties is LibraryProperties props)
             {
@@ -225,6 +221,10 @@ namespace Files.Views
                 }
             }
             return false;
+        }
+
+        public override void Dispose()
+        {
         }
 
         public class LibraryFolder

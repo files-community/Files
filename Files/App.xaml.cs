@@ -1,20 +1,17 @@
 using Files.CommandLine;
+using Files.Common;
 using Files.Controllers;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
+using Files.Models.Settings;
 using Files.SettingsInterfaces;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
-using Newtonsoft.Json.Linq;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,7 +22,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -44,9 +40,9 @@ namespace Files
 
         public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
-        public static IBundlesSettings BundlesSettings = new BundlesSettingsViewModel();
+        public static IBundlesSettings BundlesSettings = new BundlesSettingsModel();
         public static SettingsViewModel AppSettings { get; private set; }
-        public static InteractionViewModel InteractionViewModel { get; private set; }
+        public static MainViewModel MainViewModel { get; private set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
@@ -55,8 +51,12 @@ namespace Files
         public static WSLDistroManager WSLDistroManager { get; private set; }
         public static LibraryManager LibraryManager { get; private set; }
         public static ExternalResourcesHelper ExternalResourcesHelper { get; private set; }
+        public static OptionalPackageManager OptionalPackageManager { get; private set; } = new OptionalPackageManager();
 
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        public static Logger Logger { get; private set; }
+        private static readonly UniversalLogWriter logWriter = new UniversalLogWriter();
+
+        public static StatusCenterViewModel StatusCenterViewModel { get; } = new StatusCenterViewModel();
 
         public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
 
@@ -69,19 +69,17 @@ namespace Files
 
         public App()
         {
+            // Initialize logger
+            Logger = new Logger(logWriter);
+
             UnhandledException += OnUnhandledException;
             TaskScheduler.UnobservedTaskException += OnUnobservedException;
-
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
-            Clipboard.ContentChanged += Clipboard_ContentChanged;
-            // Initialize NLog
-            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-            LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
-            AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
 
-            StartAppCenter();
+            //LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
+            AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
         }
 
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
@@ -92,9 +90,9 @@ namespace Files
             }
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
-            await ExternalResourcesHelper.LoadSelectedTheme();
+            await ExternalResourcesHelper.LoadSelectedSkin();
 
-            InteractionViewModel ??= new InteractionViewModel();
+            MainViewModel ??= new MainViewModel();
             SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
             LibraryManager ??= new LibraryManager();
             DrivesManager ??= new DrivesManager();
@@ -113,23 +111,6 @@ namespace Files
             });
         }
 
-        private async void StartAppCenter()
-        {
-            JObject obj;
-            try
-            {
-                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
-                var lines = await FileIO.ReadTextAsync(file);
-                obj = JObject.Parse(lines);
-            }
-            catch
-            {
-                return;
-            }
-
-            AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
-        }
-
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
         {
             DrivesManager?.ResumeDeviceWatcher();
@@ -146,6 +127,7 @@ namespace Files
         /// <param name="e">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
+            await logWriter.InitializeAsync("debug.log");
             //start tracking app usage
             SystemInformation.Instance.TrackAppUse(e);
 
@@ -208,39 +190,17 @@ namespace Files
             {
                 ShowErrorNotification = true;
                 ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
-                Clipboard_ContentChanged(null, null);
-            }
-        }
-
-        private void Clipboard_ContentChanged(object sender, object e)
-        {
-            if (App.InteractionViewModel == null)
-            {
-                return;
-            }
-
-            try
-            {
-                // Clipboard.GetContent() will throw UnauthorizedAccessException
-                // if the app window is not in the foreground and active
-                DataPackageView packageView = Clipboard.GetContent();
-                if (packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap))
+                if (MainViewModel != null)
                 {
-                    App.InteractionViewModel.IsPasteEnabled = true;
+                    MainViewModel.Clipboard_ContentChanged(null, null);
                 }
-                else
-                {
-                    App.InteractionViewModel.IsPasteEnabled = false;
-                }
-            }
-            catch
-            {
-                App.InteractionViewModel.IsPasteEnabled = false;
             }
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)
         {
+            await logWriter.InitializeAsync("debug.log");
+
             Logger.Info("App activated");
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
@@ -440,7 +400,46 @@ namespace Files
 
         private static void AppUnhandledException(Exception ex)
         {
-            Logger.Error(ex, ex.Message);
+            string formattedException = string.Empty;
+
+            formattedException += "--------- UNHANDLED EXCEPTION ---------";
+            if (ex != null)
+            {
+                formattedException += $"\n>>>> HRESULT: {ex.HResult}\n";
+                if (ex.Message != null)
+                {
+                    formattedException += "\n--- MESSAGE ---";
+                    formattedException += ex.Message;
+                }
+                if (ex.StackTrace != null)
+                {
+                    formattedException += "\n--- STACKTRACE ---";
+                    formattedException += ex.StackTrace;
+                }
+                if (ex.Source != null)
+                {
+                    formattedException += "\n--- SOURCE ---";
+                    formattedException += ex.Source;
+                }
+                if (ex.InnerException != null)
+                {
+                    formattedException += "\n--- INNER ---";
+                    formattedException += ex.InnerException;
+                }
+            }
+            else
+            {
+                formattedException += "\nException is null!\n";
+            }
+
+            formattedException += "---------------------------------------";
+
+            Debug.WriteLine(formattedException);
+
+            Debugger.Break(); // Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
+
+            SaveSessionTabs();
+            Logger.UnhandledError(ex, ex.Message);
             if (ShowErrorNotification)
             {
                 var toastContent = new ToastContent()
@@ -493,34 +492,5 @@ namespace Files
                 Application.Current.Exit();
             }
         }
-    }
-
-    public class WSLDistroItem : INavigationControlItem
-    {
-        public string Glyph { get; set; } = null;
-
-        public string Text { get; set; }
-
-        private string path;
-
-        public string Path
-        {
-            get => path;
-            set
-            {
-                path = value;
-                HoverDisplayText = Path.Contains("?") ? Text : Path;
-            }
-        }
-
-        public string HoverDisplayText { get; private set; }
-
-        public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
-
-        public Uri Logo { get; set; }
-
-        public SectionType Section { get; private set; }
-
-        public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
     }
 }

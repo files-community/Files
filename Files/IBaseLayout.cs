@@ -1,4 +1,6 @@
 ﻿using Files.Filesystem;
+using Files.Interacts;
+using Files.ViewModels;
 using System;
 using System.Collections.Generic;
 
@@ -10,33 +12,17 @@ namespace Files
 
         bool IsItemSelected { get; }
 
+        bool IsMiddleClickToScrollEnabled { get; set; }
+
         public List<ListedItem> SelectedItems { get; }
 
         public ListedItem SelectedItem { get; }
 
-        void SetItemOpacity(ListedItem item); // TODO: Add opactiy value here
+        ItemManipulationModel ItemManipulationModel { get; }
 
-        void ResetItemOpacity();
+        PreviewPaneViewModel PreviewPaneViewModel { get; }
 
-        void ClearSelection();
-
-        void SelectAllItems();
-
-        void InvertSelection();
-
-        void SetDragModeForItems();
-
-        void ScrollIntoView(ListedItem item);
-
-        void SetSelectedItemOnUi(ListedItem item);
-
-        void SetSelectedItemsOnUi(List<ListedItem> selectedItems);
-
-        void AddSelectedItemsOnUi(List<ListedItem> selectedItems);
-
-        void FocusSelectedItems();
-
-        void StartRenameItem();
-        void RefreshItems();
+        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
+        public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
     }
 }

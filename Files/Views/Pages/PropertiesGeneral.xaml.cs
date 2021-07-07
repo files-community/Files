@@ -3,7 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -16,19 +16,27 @@ namespace Files.Views
         public PropertiesGeneral()
         {
             this.InitializeComponent();
-            base.ItemMD5HashProgress = ItemMD5HashProgress;
+            base.hashProgress = new Progress<float>();
+
+            (base.hashProgress as Progress<float>).ProgressChanged += PropertiesGeneral_ProgressChanged;
         }
 
-        public async Task SaveChangesAsync(ListedItem item)
+        private void PropertiesGeneral_ProgressChanged(object sender, float e)
+        {
+            ItemMD5HashProgress.Value = (double)e;
+        }
+
+        public override async Task<bool> SaveChangesAsync(ListedItem item)
         {
             if (BaseProperties is DriveProperties driveProps)
             {
                 var drive = driveProps.Drive;
+                ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
-                    if (AppInstance.FilesystemViewModel != null)
+                    if (AppInstance.ServiceConnection != null && AppInstance.FilesystemViewModel != null)
                     {
-                        await AppInstance.ServiceConnection?.SendMessageAsync(new ValueSet()
+                        _ = await AppInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
                         {
                             { "Arguments", "SetVolumeLabel" },
                             { "drivename", drive.Path },
@@ -39,12 +47,14 @@ namespace Files.Views
                             await drive.UpdateLabelAsync();
                             await AppInstance.FilesystemViewModel?.SetWorkingDirectoryAsync(drive.Path);
                         });
+                        return true;
                     }
                 }
             }
             else if (BaseProperties is LibraryProperties libProps)
             {
                 var library = libProps.Library;
+                ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
                 var newName = ViewModel.ItemName;
                 if (!string.IsNullOrWhiteSpace(newName) && ViewModel.OriginalItemName != newName)
                 {
@@ -59,15 +69,17 @@ namespace Files.Views
                             {
                                 await AppInstance.FilesystemViewModel?.SetWorkingDirectoryAsync(newPath);
                             });
+                            return true;
                         }
                     }
                 }
             }
             else
             {
+                ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.RenameFileItemAsync(item,
+                    return await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.RenameFileItemAsync(item,
                           ViewModel.OriginalItemName,
                           ViewModel.ItemName,
                           AppInstance));
@@ -79,15 +91,25 @@ namespace Files.Views
                     // Handle each file independently
                     foreach (var fileOrFolder in combinedProps.List)
                     {
-                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden, AppInstance.SlimContentPage));
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
                     }
+                    return true;
                 }
                 else
                 {
                     // Handle the visibility attribute for a single file
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, AppInstance.SlimContentPage));
+                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
+
+                    return true;
                 }
             }
+
+            return false;
+        }
+
+        public override void Dispose()
+        {
+            (base.hashProgress as Progress<float>).ProgressChanged -= PropertiesGeneral_ProgressChanged;
         }
     }
 }

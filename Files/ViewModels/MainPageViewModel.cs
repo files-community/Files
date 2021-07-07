@@ -1,31 +1,34 @@
-﻿using Files.Helpers;
+﻿using Files.Common;
+using Files.Filesystem;
+using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
 using Files.Views;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Files.Common;
-using Windows.UI.Xaml;
-using System.Collections.Generic;
-using Files.Filesystem;
-using System.Collections.ObjectModel;
 
 namespace Files.ViewModels
 {
     public class MainPageViewModel : ObservableObject
     {
-        private bool isRestoringClosedTab = false; // Avoid reopening two tabs
-
-        public static IMultitaskingControl MultitaskingControl { get; set; }
+        public IMultitaskingControl MultitaskingControl { get; set; }
+        public List<IMultitaskingControl> MultitaskingControls { get; } = new List<IMultitaskingControl>();
 
         public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
 
@@ -37,8 +40,6 @@ namespace Files.ViewModels
             set => SetProperty(ref selectedTabItem, value);
         }
 
-        #region Commands
-
         public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 
         public ICommand OpenNewWindowAcceleratorCommand { get; private set; }
@@ -47,8 +48,6 @@ namespace Files.ViewModels
 
         public ICommand AddNewInstanceAcceleratorCommand { get; private set; }
 
-        #endregion
-
         public MainPageViewModel()
         {
             // Create commands
@@ -56,9 +55,9 @@ namespace Files.ViewModels
             OpenNewWindowAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
             CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
             AddNewInstanceAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
-        }
 
-        #region Command Implementation
+            StartAppCenter();
+        }
 
         private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
@@ -102,12 +101,40 @@ namespace Files.ViewModels
                     // Select the last tab
                     indexToSelect = AppInstances.Count - 1;
                     break;
+
+                case VirtualKey.Tab:
+                    bool shift = e.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
+
+                    if (!shift) // ctrl + tab, select next tab
+                    {
+                        if ((App.MainViewModel.TabStripSelectedIndex + 1) < AppInstances.Count)
+                        {
+                            indexToSelect = App.MainViewModel.TabStripSelectedIndex + 1;
+                        }
+                        else
+                        {
+                            indexToSelect = 0;
+                        }
+                    }
+                    else // ctrl + shift + tab, select previous tab
+                    {
+                        if ((App.MainViewModel.TabStripSelectedIndex - 1) >= 0)
+                        {
+                            indexToSelect = App.MainViewModel.TabStripSelectedIndex - 1;
+                        }
+                        else
+                        {
+                            indexToSelect = AppInstances.Count - 1;
+                        }
+                    }
+                    
+                    break;
             }
 
             // Only select the tab if it is in the list
             if (indexToSelect < AppInstances.Count)
             {
-                App.InteractionViewModel.TabStripSelectedIndex = indexToSelect;
+                App.MainViewModel.TabStripSelectedIndex = indexToSelect;
             }
             e.Handled = true;
         }
@@ -121,14 +148,14 @@ namespace Files.ViewModels
 
         private void CloseSelectedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs e)
         {
-            if (App.InteractionViewModel.TabStripSelectedIndex >= AppInstances.Count)
+            if (App.MainViewModel.TabStripSelectedIndex >= AppInstances.Count)
             {
                 TabItem tabItem = AppInstances[AppInstances.Count - 1];
                 MultitaskingControl?.CloseTab(tabItem);
             }
             else
             {
-                TabItem tabItem = AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
+                TabItem tabItem = AppInstances[App.MainViewModel.TabStripSelectedIndex];
                 MultitaskingControl?.CloseTab(tabItem);
             }
             e.Handled = true;
@@ -140,30 +167,19 @@ namespace Files.ViewModels
 
             if (!shift)
             {
-                await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+                await AddNewTabAsync();
             }
             else // ctrl + shift + t, restore recently closed tab
             {
-                if (!isRestoringClosedTab && MultitaskingControl.RecentlyClosedTabs.Any())
-                {
-                    isRestoringClosedTab = true;
-                    ITabItem lastTab = MultitaskingControl.RecentlyClosedTabs.Last();
-                    MultitaskingControl.RecentlyClosedTabs.Remove(lastTab);
-                    await AddNewTabByParam(lastTab.TabItemArguments.InitialPageType, lastTab.TabItemArguments.NavigationArg);
-                    isRestoringClosedTab = false;
-                }
+                ((BaseMultitaskingControl)MultitaskingControl).ReopenClosedTab(null, null);
             }
             e.Handled = true;
         }
 
-        #endregion
-
-        #region Public Helpers
-
         public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
         {
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.InteractionViewModel.FontName;
+            fontIconSource.FontFamily = App.MainViewModel.FontName;
 
             if (string.IsNullOrEmpty(path))
             {
@@ -213,7 +229,7 @@ namespace Files.ViewModels
         {
             string tabLocationHeader;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.InteractionViewModel.FontName;
+            fontIconSource.FontFamily = App.MainViewModel.FontName;
 
             if (currentPath == null || currentPath == "SidebarSettings/Text".GetLocalized())
             {
@@ -249,8 +265,6 @@ namespace Files.ViewModels
             }
             else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
             {
-                fontIconSource.Glyph = library.Glyph;
-
                 var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path);
                 switch (libName)
                 {
@@ -261,6 +275,7 @@ namespace Files.ViewModels
                         // Show localized name
                         tabLocationHeader = $"Sidebar{libName}".GetLocalized();
                         break;
+
                     default:
                         // Show original name
                         tabLocationHeader = library.Text;
@@ -421,18 +436,24 @@ namespace Files.ViewModels
                 updater.CheckForUpdatesAsync();
 
                 // Initial setting of SelectedTabItem
-                SelectedTabItem = AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
+                SelectedTabItem = AppInstances[App.MainViewModel.TabStripSelectedIndex];
             }
         }
 
         public static async Task AddNewTabAsync()
         {
             await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+            App.MainViewModel.TabStripSelectedIndex = AppInstances.Count - 1;
+        }
+
+        public async void AddNewTab()
+        {
+            await AddNewTabAsync();
         }
 
         public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
         {
-            await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+            await AddNewTabAsync();
         }
 
         public static async void DuplicateTabAtIndex(object sender, RoutedEventArgs e)
@@ -451,20 +472,10 @@ namespace Files.ViewModels
             }
         }
 
-        public static void CloseTabsToTheRight(object sender, RoutedEventArgs e)
-        {
-            MultitaskingTabsHelpers.CloseTabsToTheRight(((FrameworkElement)sender).DataContext as TabItem);
-        }
-
-        public static async void MoveTabToNewWindow(object sender, RoutedEventArgs e)
-        {
-            await MultitaskingTabsHelpers.MoveTabToNewWindow(((FrameworkElement)sender).DataContext as TabItem);
-        }
-
         public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
         {
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.InteractionViewModel.FontName;
+            fontIconSource.FontFamily = App.MainViewModel.FontName;
 
             TabItem tabItem = new TabItem()
             {
@@ -492,6 +503,21 @@ namespace Files.ViewModels
             await UpdateTabInfo(matchingTabItem, e.NavigationArg);
         }
 
-        #endregion
+        private async void StartAppCenter()
+        {
+            JObject obj;
+            try
+            {
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
+                var lines = await FileIO.ReadTextAsync(file);
+                obj = JObject.Parse(lines);
+            }
+            catch
+            {
+                return;
+            }
+
+            AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
+        }
     }
 }

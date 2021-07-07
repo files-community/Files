@@ -28,7 +28,6 @@ namespace Files.Filesystem.StorageEnumerators
             WIN32_FIND_DATA findData,
             NamedPipeAsAppServiceConnection connection,
             CancellationToken cancellationToken,
-            List<string> skipItems,
             int countLimit,
             Func<List<ListedItem>, Task> intermediateAction
         )
@@ -40,43 +39,28 @@ namespace Files.Filesystem.StorageEnumerators
 
             do
             {
-                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System || !App.AppSettings.AreSystemItemsHidden)
+                var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
+                var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+                if (!isHidden || (App.AppSettings.AreHiddenItemsVisible && (!isSystem || !App.AppSettings.AreSystemItemsHidden)))
                 {
-                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden || App.AppSettings.AreHiddenItemsVisible)
+                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
-                        if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+                        var file = await GetFile(findData, path, returnformat, connection, cancellationToken);
+                        if (file != null)
                         {
-                            var file = await GetFile(findData, path, returnformat, connection, cancellationToken);
-                            if (file != null)
-                            {
-                                if (skipItems?.Contains(file.ItemPath) ?? false)
-                                {
-                                    skipItems.Remove(file.ItemPath);
-                                }
-                                else
-                                {
-                                    tempList.Add(file);
-                                }
-                                ++count;
-                            }
+                            tempList.Add(file);
+                            ++count;
                         }
-                        else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                    }
+                    else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                    {
+                        if (findData.cFileName != "." && findData.cFileName != "..")
                         {
-                            if (findData.cFileName != "." && findData.cFileName != "..")
+                            var folder = await GetFolder(findData, path, returnformat, cancellationToken);
+                            if (folder != null)
                             {
-                                var folder = await GetFolder(findData, path, returnformat, cancellationToken);
-                                if (folder != null)
-                                {
-                                    if (skipItems?.Contains(folder.ItemPath) ?? false)
-                                    {
-                                        skipItems.Remove(folder.ItemPath);
-                                    }
-                                    else
-                                    {
-                                        tempList.Add(folder);
-                                    }
-                                    ++count;
-                                }
+                                tempList.Add(folder);
+                                ++count;
                             }
                         }
                     }
@@ -143,7 +127,7 @@ namespace Files.Filesystem.StorageEnumerators
 
             if (isHidden)
             {
-                opacity = 0.4;
+                opacity = Constants.UI.DimItemOpacity;
             }
 
             return new ListedItem(null, dateReturnFormat)
@@ -272,7 +256,7 @@ namespace Files.Filesystem.StorageEnumerators
 
                         if (isHidden)
                         {
-                            opacity = 0.4;
+                            opacity = Constants.UI.DimItemOpacity;
                         }
 
                         return new ShortcutItem(null, dateReturnFormat)
@@ -319,7 +303,7 @@ namespace Files.Filesystem.StorageEnumerators
 
                 if (isHidden)
                 {
-                    opacity = 0.4;
+                    opacity = Constants.UI.DimItemOpacity;
                 }
 
                 return new ListedItem(null, dateReturnFormat)

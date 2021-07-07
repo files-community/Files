@@ -3,13 +3,9 @@ using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Core;
@@ -20,13 +16,15 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views
 {
-    public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent, INotifyPropertyChanged
+    public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent
     {
         public bool IsLeftPaneActive => ActivePane == PaneLeft;
         public bool IsRightPaneActive => ActivePane == PaneRight;
+
         public event EventHandler<TabItemArguments> ContentChanged;
-        public event EventHandler ActivePaneChanged;
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         public SettingsViewModel AppSettings => App.AppSettings;
         public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
 
@@ -74,6 +72,8 @@ namespace Files.Views
         }
 
         private bool wasRightPaneVisible;
+
+        public bool IsMultiPaneActive => IsRightPaneVisible;
 
         public bool IsMultiPaneEnabled
         {
@@ -130,14 +130,12 @@ namespace Files.Views
                         ActivePane.IsCurrentInstance = isCurrentInstance;
                     }
                     NotifyPropertyChanged(nameof(ActivePane));
-                    ActivePaneChanged?.Invoke(this, EventArgs.Empty);
                     NotifyPropertyChanged(nameof(IsLeftPaneActive));
                     NotifyPropertyChanged(nameof(IsRightPaneActive));
                     NotifyPropertyChanged(nameof(FilesystemHelpers));
                 }
             }
         }
-
 
         private bool isRightPaneVisible;
 
@@ -155,6 +153,7 @@ namespace Files.Views
                     }
                     Pane_ContentChanged(null, null);
                     NotifyPropertyChanged(nameof(IsRightPaneVisible));
+                    NotifyPropertyChanged(nameof(IsMultiPaneActive));
                 }
             }
         }
@@ -186,16 +185,13 @@ namespace Files.Views
             this.ActivePane = PaneLeft;
             this.IsRightPaneVisible = IsMultiPaneEnabled && AppSettings.AlwaysOpenDualPaneInNewTab;
             App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
-            
+
             // TODO: fallback / error when failed to get NavigationViewCompactPaneLength value?
         }
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
-            if ((Window.Current.Content as Frame).CurrentSourcePageType != typeof(Settings))
-            {
-                windowIsCompact = Window.Current.Bounds.Width <= 750;
-            }
+            windowIsCompact = Window.Current.Bounds.Width <= 750;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -344,6 +340,12 @@ namespace Files.Views
             Window.Current.SizeChanged -= Current_SizeChanged;
             PaneLeft?.Dispose();
             PaneRight?.Dispose();
+        }
+
+        public void CloseActivePane()
+        {
+            // Can only close right pane atm
+            IsRightPaneVisible = false;
         }
     }
 
