@@ -126,20 +126,8 @@
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Formát data</value>
   </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>Vzhled aplikace</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Přizpůsobení</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>Zobrazit přípony známých typů souborů</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Zobrazit skryté soubory a složky</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Zobrazit skryté soubory a složky</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Soubory a složky</value>
@@ -606,9 +594,6 @@
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Nedávné</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>Jazyk aplikace</value>
-  </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Přesunout záložku sem</value>
   </data>
@@ -849,17 +834,8 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>Zobrazit ukázkové profily</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>Jazyk aplikace</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Aplikace Terminálu</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>Přesunout přetékající položky do podnabídky</value>
-  </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>Připněte koš na postranní panel</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Při mazání souborů nebo složek se zobrazí potvrzovací dialog</value>
@@ -1170,9 +1146,6 @@
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Stavové centrum</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Otevírejte položky jediným kliknutím</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Soubor</value>
   </data>
@@ -1254,9 +1227,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Podpořte nás na PayPalu</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>Zobrazit a řadit složky mezi soubory</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Detaily</value>
   </data>
@@ -1271,18 +1241,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Dostupné aktualizace</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Skrýt chráněné soubory operačního systému (doporučeno)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Skrýt chráněné soubory operačního systému (doporučeno)</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>Zobrazit neindexované položky při vyhledávání souborů a složek (vyhledávání může trvat déle)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>Povolit individuální předvolby pro jednotlivé adresáře</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Přizpůsobit kontextové menu</value>
@@ -1310,12 +1268,6 @@
   </data>
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Probíhající úkoly</value>
-  </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>Vždy otevírat nové karty v režimu dvou panelů</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>Povolit zobrazení dvou panelů</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Otevřít v novém panelu</value>

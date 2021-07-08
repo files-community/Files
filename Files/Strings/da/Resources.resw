@@ -126,20 +126,8 @@
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Datoformat</value>
   </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>App tema</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Udseende</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>Vis udvidelser til kendte filtyper</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Vis skjulte filer og mapper</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Vis skjulte filer og mapper</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Filer og Mapper</value>
@@ -606,9 +594,6 @@
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Seneste</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>App Sprog</value>
-  </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Flyt fane hertil</value>
   </data>
@@ -849,17 +834,8 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>Se eksempler på profiler</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>App Sprog</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Terminal applikationer</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>Flyt overløbselementer til en undermenu</value>
-  </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>Fastgør papirkurven til sidebjælke</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Vis en bekræftelsesdialogboks, når du sletter filer eller mapper</value>
@@ -1170,9 +1146,6 @@
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Status center</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Åbn emner med et enkelt klik</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Fil</value>
   </data>
@@ -1254,9 +1227,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Støt os på PayPal</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>List og sortér mapper sammen med filer</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Detaljer</value>
   </data>
@@ -1271,18 +1241,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Opdateringer tilgængelige</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Skjul beskyttede operativsystemfiler (anbefales)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Skjul beskyttede operativsystemfiler (anbefales)</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>Vis ikke-indekserede emner, når du søger efter filer og mapper (søgninger kan tage længere tid)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>Aktivér individuelle præferencer for individuelle mapper</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Tilpas kontekstmenuen med højreklik</value>
@@ -1310,12 +1268,6 @@
   </data>
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Igangværende opgaver</value>
-  </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>Åbn altid nye faner i dobbeltrude-tilstand</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>Aktivér visning af dobbeltrude</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Åbn i sekundærrude</value>
