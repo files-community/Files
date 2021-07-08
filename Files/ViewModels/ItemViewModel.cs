@@ -1367,11 +1367,7 @@ namespace Files.ViewModels
                 };
                 if (library == null)
                 {
-                    var extraProps = await basicProps.RetrievePropertiesAsync(new[] { "System.DateCreated" });
-                    if (DateTimeOffset.TryParse(extraProps["System.DateCreated"] as string, out var dateCreated))
-                    {
-                        currentFolder.ItemDateCreatedReal = dateCreated;
-                    }
+                    currentFolder.ItemDateCreatedReal = rootFolder.DateCreated;
                 }
                 CurrentFolder = currentFolder;
                 await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken);
