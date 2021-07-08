@@ -3316,11 +3316,11 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarEnterCompactOverlay.Label" translate="yes" xml:space="preserve">
           <source>Enter compact overlay</source>
-          <target state="needs-review-translation">Insira a sobreposição compacta</target>
+          <target state="translated">Insira a sobreposição compacta</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarExitCompactOverlay.Label" translate="yes" xml:space="preserve">
           <source>Exit compact overlay</source>
-          <target state="needs-review-translation">Remova a sobreposição compacta</target>
+          <target state="translated">Remova a sobreposição compacta</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSection.Header" translate="yes" xml:space="preserve">
           <source>Show cloud drives section on the sidebar</source>
