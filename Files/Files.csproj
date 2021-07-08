@@ -40,7 +40,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
   </PropertyGroup>
@@ -55,7 +55,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
@@ -68,7 +68,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
@@ -82,7 +82,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
@@ -96,7 +96,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
@@ -110,7 +110,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
@@ -123,7 +123,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
@@ -137,7 +137,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
@@ -163,6 +163,7 @@
     <Compile Include="Controllers\IJson.cs" />
     <Compile Include="Controllers\SidebarPinnedController.cs" />
     <Compile Include="Converters\BoolToSelectionMode.cs" />
+    <Compile Include="Converters\Converters.cs" />
     <Compile Include="Converters\DateTimeOffsetToString.cs" />
     <Compile Include="Converters\DoubleArrayToString.cs" />
     <Compile Include="Converters\DoubleToString.cs" />
@@ -332,6 +333,12 @@
     <Compile Include="UserControls\Selection\IgnorePreviousItemSelectionStrategy.cs" />
     <Compile Include="UserControls\Selection\InvertPreviousItemSelectionStrategy.cs" />
     <Compile Include="UserControls\Selection\ItemSelectionStrategy.cs" />
+    <Compile Include="UserControls\Settings\SettingsBlockControl.xaml.cs">
+      <DependentUpon>SettingsBlockControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Settings\SettingsDisplayControl.xaml.cs">
+      <DependentUpon>SettingsDisplayControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\StringEncodedImage.xaml.cs">
       <DependentUpon>StringEncodedImage.xaml</DependentUpon>
     </Compile>
@@ -1093,6 +1100,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ResourceDictionaries\RightAlignedToggleSwitchStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControls\ArrangementOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1196,6 +1207,14 @@
     <Page Include="UserControls\SearchBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Settings\SettingsBlockControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Settings\SettingsDisplayControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\SidebarControl.xaml">
       <SubType>Designer</SubType>
@@ -1398,7 +1417,7 @@
       <Version>7.0.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.6.0</Version>
+      <Version>2.6.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Win32.Registry">
       <Version>5.0.0</Version>

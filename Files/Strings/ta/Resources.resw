@@ -576,9 +576,6 @@
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>சமீபத்திய</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>பயன்பாட்டு மொழி</value>
-  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>நிலை</value>
   </data>
@@ -784,9 +781,6 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>மாதிரி சுயவிவரங்களைப் பார்</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>பயன்பாட்டு மொழி</value>
-  </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>எங்களை ஆதரவளி</value>
   </data>
@@ -797,23 +791,14 @@
     <value>Access Denied
 அணுகல் மறுக்கப்பட்டது</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>அறிந்த கோப்பு வகைகளுக்கு நீட்டிப்பைக் காண்பி</value>
-  </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Acrylic பக்கப்பட்டி</value>
   </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>தேதி வடிவம்</value>
   </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>பயன்பாட்டுக் கருப்பொருள்</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>செயல் மையம்</value>
-  </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Open items with a single click</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>இங்கே நகர்த்து</value>
@@ -826,12 +811,6 @@
   </data>
   <data name="FolderItemAutomation" xml:space="preserve">
     <value>கோப்புறை</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>மறைந்த கோப்புகள் மற்றும் கோப்புறைகளைக் காண்பி</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>மறைந்த கோப்புகள் மற்றும் கோப்புறைகளைக் காண்பி</value>
   </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>வெளியேற்று</value>
@@ -1033,12 +1012,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>புதுப்பித்தல்கள் கிடைக்கின்றன</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>பாதுகாத்த இயக்க முறைமை அமைப்பு கோப்புகள் மறை (பரிந்துரைத்தது)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>பாதுகாத்த இயக்க முறைமை அமைப்பு கோப்புகள் மறை (பரிந்துரைத்தது)</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>கோப்பு</value>
