@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 
@@ -11,9 +12,18 @@ namespace Files.ViewModels.SettingsViewModels
     public class AboutViewModel : ObservableObject
     {
         public RelayCommand OpenLogLocationCommand => new RelayCommand(() => SettingsViewModel.OpenLogLocation());
+        public RelayCommand CopyVersionInfoCommand => new RelayCommand(() => CopyVersionInfo());
 
         public RelayCommand<ItemClickEventArgs> ClickAboutFeedbackItemCommand =>
             new RelayCommand<ItemClickEventArgs>(ClickAboutFeedbackItem);
+
+        public void CopyVersionInfo()
+        {
+            DataPackage dataPackage = new DataPackage();
+            dataPackage.RequestedOperation = DataPackageOperation.Copy;
+            dataPackage.SetText(Version);
+            Clipboard.SetContent(dataPackage);
+        }
 
         public string Version
         {

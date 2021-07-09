@@ -105,9 +105,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>削除</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>フィードバックを送信</value>
   </data>

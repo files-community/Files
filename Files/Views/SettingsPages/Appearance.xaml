@@ -94,7 +94,6 @@
                     </Button>
                 </local:SettingsBlockControl>
 
-
                 <ToggleSwitch
                     x:Name="AcrylicSidebarSwitch"
                     x:Uid="SettingsAppearanceAcrylicSidebar"

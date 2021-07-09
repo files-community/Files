@@ -130,10 +130,6 @@
           <source>Remove this item</source>
           <target state="translated">இந்த உருப்படியை அகற்று</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutAppName.Text" translate="no" xml:space="preserve">
-          <source>Files</source>
-          <target state="final">Files</target>
-        </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit feedback</source>
           <target state="needs-review-translation">பின்னூட்டத்தைச் சமர்ப்பி</target>
@@ -3353,6 +3349,18 @@
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Title" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
           <target state="new">Enable individual preferences for individual directories</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutAppName.Title" translate="yes" xml:space="preserve">
+          <source>Files</source>
+          <target state="new">Files</target>
+        </trans-unit>
+        <trans-unit id="SettingsUsefulLinks.Title" translate="yes" xml:space="preserve">
+          <source>Useful links</source>
+          <target state="new">Useful links</target>
+        </trans-unit>
+        <trans-unit id="SettingCopyVersionInfo.Content" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="new">Copy</target>
         </trans-unit>
       </group>
     </body>

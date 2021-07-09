@@ -108,9 +108,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>إزالة هذا العنصر</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>الملفات</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>إرسال ملاحظات</value>
   </data>

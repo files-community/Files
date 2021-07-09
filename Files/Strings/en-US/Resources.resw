@@ -234,8 +234,14 @@
   <data name="RecentFilesHeader.Text" xml:space="preserve">
     <value>Recent Files</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
+  <data name="SettingsAboutAppName.Title" xml:space="preserve">
     <value>Files</value>
+  </data>
+  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
+    <value>Useful links</value>
+  </data>
+  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
+    <value>Copy</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Submit feedback</value>
@@ -624,7 +630,10 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
+  <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Open log location</value>
+  </data>
+  <data name="SettingsAboutOpenLogLocationButtonText.Text" xml:space="preserve">
     <value>Open log location</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">

@@ -111,9 +111,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Hapus item ini</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Kirim tanggapan</value>
   </data>

@@ -105,9 +105,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>הסר פריט זה</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>קבצים</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>שלח משוב</value>
   </data>
