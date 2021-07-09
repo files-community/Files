@@ -111,9 +111,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Noņemt šo vienumu</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Faili</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Iesniegt atsauksmes</value>
   </data>
@@ -482,9 +479,6 @@
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Vienuma nosaukums nevar saterēt sekojošos simbolus: \ / : * ? " &lt; &gt; |</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Atvērt datu žurnāla atrašanās vietu</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>vienums atlasīts</value>

@@ -108,9 +108,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>ଏହି ଆଇଟମ୍ ଅପସାରଣ କରନ୍ତୁ</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files UWP</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>ମତାମତ ଦାଖଲ କରନ୍ତୁ</value>
   </data>
@@ -461,9 +458,6 @@
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>ଆଇଟମ୍ ନାମ ନିମ୍ନଲିଖିତ ଅକ୍ଷର ଧାରଣ କରିବା ଉଚିତ୍ ନୁହେଁ: \ /: *? "&lt;&gt; |</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>ଲଗ୍ ଅବସ୍ଥାନ ଖୋଲ</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>ଆଇଟମ୍ ମନୋନୀତ</value>

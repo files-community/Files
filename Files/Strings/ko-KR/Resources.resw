@@ -42,9 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>이 항목 삭제</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>피드백 제출</value>
   </data>
@@ -443,9 +440,6 @@
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>파일 이름에는 다음 문자를 사용할 수 없습니다. \ / : * ? " &lt; &gt; |</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>로그 경로 열기</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>항목 선택함</value>

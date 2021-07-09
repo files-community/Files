@@ -42,9 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Supprimer cet élément</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Soumettre un commentaire</value>
   </data>
@@ -458,9 +455,6 @@
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Le nom ne doit pas contenir les caractères suivants : \ / : * ? " &lt; &gt; |</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Ouvrir l'emplacement des logs</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>élément sélectionné</value>

@@ -108,9 +108,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Elem eltávolítása</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Visszajelzés küldése</value>
   </data>
@@ -464,9 +461,6 @@
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>A név nem tartalmazhatja a következő karaktereket: \ / : * ? " &lt; &gt; |</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Naplózás helyének megnyitása</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>kijelölt elem</value>

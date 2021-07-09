@@ -134,11 +134,6 @@
           <source>Remove this item</source>
           <target state="translated">Odstranit tuto položku</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutAppName.Text" translate="yes" xml:space="preserve">
-          <source>Files</source>
-          <target state="needs-review-translation">Files</target>
-          <note from="MultilingualUpdate" priority="2">Resource is marked as 'Needs review' since the Source and target were the same value.</note>
-        </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit feedback</source>
           <target state="needs-review-translation">Odeslat zpětnou vazbu</target>
@@ -638,10 +633,6 @@
         <trans-unit id="RenameDialogSymbolsTip.Text" translate="yes" xml:space="preserve">
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
           <target state="translated">Název položky nesmí obsahovat následující znaky: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutOpenLogLocationButton.Content" translate="yes" xml:space="preserve">
-          <source>Open log location</source>
-          <target state="translated">Otevřít umístění logu</target>
         </trans-unit>
         <trans-unit id="ItemSelected.Text" translate="yes" xml:space="preserve">
           <source>item selected</source>
@@ -3369,6 +3360,22 @@
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Title" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
           <target state="new">Enable individual preferences for individual directories</target>
+        </trans-unit>
+        <trans-unit id="SettingsUsefulLinks.Title" translate="yes" xml:space="preserve">
+          <source>Useful links</source>
+          <target state="new">Useful links</target>
+        </trans-unit>
+        <trans-unit id="SettingCopyVersionInfo.Content" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="new">Copy</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutOpenLogLocationButtonText.Text" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
         </trans-unit>
       </group>
     </body>

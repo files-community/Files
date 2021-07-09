@@ -456,9 +456,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>பின்வரும் எழுத்துகுறிகளை உருப்படி பெயரில் பயன்படுத்தக் கூடாது: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>பதிவு கோப்பின் இருப்பிடத்தைத் திற</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>உருப்படி தேர்ந்தெடுக்கப்பட்டது</value>
   </data>

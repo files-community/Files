@@ -42,9 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>删除</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>提交問題</value>
   </data>
@@ -458,9 +455,6 @@
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>檔案名稱不能包含下列任何字元：\ / : * ? " &lt; &gt; |</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>打開日誌目錄</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>已選取的項目</value>

@@ -108,9 +108,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>इस वस्तु को निकालें</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files UWP</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>प्रतिक्रिया सबमिट करें</value>
   </data>
@@ -461,9 +458,6 @@
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>आइटम नाम में निम्नलिखित वर्ण नहीं होने चाहिए: \/:*? " &lt; &gt; |</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>लॉग स्थान खोलें</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>चयनित वस्तु</value>

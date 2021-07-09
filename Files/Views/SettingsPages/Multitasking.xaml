@@ -32,7 +32,8 @@
 
                 <TextBlock
                     x:Uid="SettingsTabCustomization"
-                    FontSize="16"
+                    FontSize="14"
+                    FontWeight="Medium"
                     Text="Tab customization" />
 
                 <local:SettingsBlockControl
@@ -49,7 +50,8 @@
                 <TextBlock
                     x:Uid="SettingsDualPane"
                     Padding="0,12,0,0"
-                    FontSize="16"
+                    FontSize="14"
+                    FontWeight="Medium"
                     Text="Dual pane" />
 
                 <local:SettingsBlockControl

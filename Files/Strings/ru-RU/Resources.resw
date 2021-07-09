@@ -42,9 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Убрать из списка</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Отправить отзыв</value>
   </data>
@@ -458,9 +455,6 @@
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Имя элемента не должно содержать следующих знаков: \ / : * ? " &lt; &gt; |</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Открыть расположение лог файла</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>элемент выбран</value>

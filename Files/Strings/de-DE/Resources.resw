@@ -42,9 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Datei aus Verlauf entfernen</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Feedback geben</value>
   </data>
@@ -458,9 +455,6 @@
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Der Dateiname darf folgende Zeichen nicht enthalten: \ / : * ? " &lt; &gt; |</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Logverzeichnis öffnen</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>Element ausgewählt</value>
