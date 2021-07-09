@@ -1,6 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -21,7 +22,7 @@ namespace Files.ViewModels.SettingsViewModels
         {
             DataPackage dataPackage = new DataPackage();
             dataPackage.RequestedOperation = DataPackageOperation.Copy;
-            dataPackage.SetText(Version);
+            dataPackage.SetText(Version + "\nOS Version: " + SystemInformation.Instance.OperatingSystemVersion);
             Clipboard.SetContent(dataPackage);
         }
 
