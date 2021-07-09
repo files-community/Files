@@ -474,9 +474,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Emnets navn må ikke indeholde følgende tegn: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Åbn logplacering</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>valgt emne</value>
   </data>

@@ -480,9 +480,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Vienuma nosaukums nevar saterēt sekojošos simbolus: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Atvērt datu žurnāla atrašanās vietu</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>vienums atlasīts</value>
   </data>

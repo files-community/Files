@@ -456,9 +456,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Il nome dell'elemento non deve contenere i seguenti caratteri: \ / : * ? "  |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Apri posizione dei log</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>elemento selezionato</value>
   </data>

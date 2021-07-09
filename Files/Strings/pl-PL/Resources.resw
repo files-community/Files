@@ -456,9 +456,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Nazwa elementu nie może zawierać tych znaków: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Otwórz lokalizację dziennika</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>zaznaczony element</value>
   </data>

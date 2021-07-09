@@ -459,9 +459,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>ଆଇଟମ୍ ନାମ ନିମ୍ନଲିଖିତ ଅକ୍ଷର ଧାରଣ କରିବା ଉଚିତ୍ ନୁହେଁ: \ /: *? "&lt;&gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>ଲଗ୍ ଅବସ୍ଥାନ ଖୋଲ</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>ଆଇଟମ୍ ମନୋନୀତ</value>
   </data>

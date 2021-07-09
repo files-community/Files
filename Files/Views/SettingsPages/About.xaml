@@ -37,8 +37,7 @@
                     Text="About" />
 
                 <local:SettingsBlockControl
-                    x:Uid="SettingsAboutAppName"
-                    Title="Files"
+                    Title="{Binding AppName}"
                     Width="352"
                     HorizontalAlignment="Left"
                     Description="{Binding Version}">
@@ -207,7 +206,8 @@
 
                 <TextBlock
                     x:Uid="SettingsAboutThirdPartyLicenses"
-                    FontSize="16" Padding="0,12,0,0"
+                    Padding="0,12,0,0"
+                    FontSize="16"
                     Text="Third party licenses">
                     <TextBlock.Transitions>
                         <TransitionCollection>

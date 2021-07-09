@@ -34,6 +34,14 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
+        public string AppName
+        {
+            get
+            {
+                return Package.Current.DisplayName;
+            }
+        }
+
         private async void ClickAboutFeedbackItem(ItemClickEventArgs e)
         {
             var clickedItem = (StackPanel)e.ClickedItem;

@@ -462,9 +462,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>A név nem tartalmazhatja a következő karaktereket: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Naplózás helyének megnyitása</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>kijelölt elem</value>
   </data>

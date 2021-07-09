@@ -474,9 +474,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Název položky nesmí obsahovat následující znaky: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Otevřít umístění logu</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>vybraná položka</value>
   </data>

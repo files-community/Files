@@ -486,9 +486,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Nama item tidak boleh mengandung karakter berikut: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Buka lokasi log</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>item dipilih</value>
   </data>

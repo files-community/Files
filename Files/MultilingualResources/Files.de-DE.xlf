@@ -600,10 +600,6 @@
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
           <target state="translated">Der Dateiname darf folgende Zeichen nicht enthalten: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutOpenLogLocationButton.Content" translate="yes" xml:space="preserve">
-          <source>Open log location</source>
-          <target state="translated">Logverzeichnis öffnen</target>
-        </trans-unit>
         <trans-unit id="ItemSelected.Text" translate="yes" xml:space="preserve">
           <source>item selected</source>
           <target state="translated">Element ausgewählt</target>
@@ -3333,10 +3329,6 @@
           <source>Enable individual preferences for individual directories</source>
           <target state="new">Enable individual preferences for individual directories</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutAppName.Title" translate="yes" xml:space="preserve">
-          <source>Files</source>
-          <target state="new">Files</target>
-        </trans-unit>
         <trans-unit id="SettingsUsefulLinks.Title" translate="yes" xml:space="preserve">
           <source>Useful links</source>
           <target state="new">Useful links</target>
@@ -3344,6 +3336,14 @@
         <trans-unit id="SettingCopyVersionInfo.Content" translate="yes" xml:space="preserve">
           <source>Copy</source>
           <target state="new">Copy</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutOpenLogLocationButtonText.Text" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
         </trans-unit>
       </group>
     </body>

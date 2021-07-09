@@ -471,9 +471,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>اسم الملف لا يجب ان يحتوي على: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>افتح موقع السجل</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>تم تحديد العنصر</value>
   </data>

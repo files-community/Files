@@ -234,9 +234,6 @@
   <data name="RecentFilesHeader.Text" xml:space="preserve">
     <value>Recent Files</value>
   </data>
-  <data name="SettingsAboutAppName.Title" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>Useful links</value>
   </data>
