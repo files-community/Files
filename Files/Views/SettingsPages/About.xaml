@@ -207,7 +207,8 @@
                 <TextBlock
                     x:Uid="SettingsAboutThirdPartyLicenses"
                     Padding="0,12,0,0"
-                    FontSize="16"
+                    FontSize="14"
+                    FontWeight="Medium"
                     Text="Third party licenses">
                     <TextBlock.Transitions>
                         <TransitionCollection>
