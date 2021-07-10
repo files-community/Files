@@ -227,7 +227,6 @@ namespace Files.ViewModels
             OnPropertyChanged(nameof(MinLength));
         }
 
-
         public void TryMultiplySize(double factor)
         {
             var newSize = Length.Value * factor;
