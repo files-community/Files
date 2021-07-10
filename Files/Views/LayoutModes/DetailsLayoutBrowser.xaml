@@ -310,7 +310,6 @@
                     <ListView.Header>
                         <Grid
                             x:Name="HeaderGrid"
-                            Width="{x:Bind ColumnsViewModel.TotalWidth, Mode=OneWay}"
                             Height="38"
                             Padding="0"
                             Background="{ThemeResource FileBrowserBackgroundBrush}"
@@ -538,7 +537,6 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
                             <Grid
-                                Width="{Binding ColumnsViewModel.TotalWidth, ElementName=PageRoot, Mode=OneWay}"
                                 HorizontalAlignment="Stretch"
                                 IsRightTapEnabled="True"
                                 Loaded="Grid_Loaded"
