@@ -258,9 +258,6 @@ namespace Files.Views.LayoutModes
                 ColumnsViewModel.StatusColumn.Show();
             }
 
-            //ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column1.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
-            //        + Column6.ActualWidth + Column7.ActualWidth + Column8.ActualWidth + Column9.ActualWidth + Column10.ActualWidth);
-
             UpdateSortIndicator();
         }
 
