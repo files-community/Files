@@ -7,6 +7,8 @@
     xmlns:converters1="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Files.Helpers"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
     xmlns:local3="using:Files.Filesystem.Cloud"
@@ -15,6 +17,11 @@
     xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
     x:Name="PageRoot"
     mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <icore:EventTriggerBehavior EventName="PointerPressed">
+            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
+        </icore:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
     <local:BaseLayout.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
         <converters:BoolToVisibilityConverter
@@ -1345,6 +1352,7 @@
                                                     x:Name="Picture"
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch"
+                                                    x:Phase="1"
                                                     Source="{x:Bind FileImage, Mode=OneWay}"
                                                     Stretch="Uniform"
                                                     Visibility="{x:Bind LoadFileIcon, Mode=OneWay}" />
@@ -1362,6 +1370,7 @@
                                                     MaxHeight="24"
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch"
+                                                    x:Phase="1"
                                                     Visibility="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
                                                     <FontIcon Glyph="&#xE7C3;" />
                                                 </Viewbox>
@@ -1372,6 +1381,7 @@
                                                     HorizontalAlignment="Left"
                                                     VerticalAlignment="Bottom"
                                                     x:Load="True"
+                                                    x:Phase="1"
                                                     Source="{x:Bind IconOverlay, Mode=OneWay}"
                                                     Stretch="Uniform" />
                                                 <Viewbox
@@ -1380,6 +1390,7 @@
                                                     MaxHeight="24"
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch"
+                                                    x:Phase="1"
                                                     Visibility="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}">
                                                     <FontIcon FontSize="20" Glyph="&#xE71B;" />
                                                 </Viewbox>
@@ -1387,6 +1398,7 @@
                                                     x:Name="ShortcutGlyphElement"
                                                     HorizontalAlignment="Left"
                                                     VerticalAlignment="Bottom"
+                                                    x:Phase="1"
                                                     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
                                                     BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
                                                     BorderThickness="1"

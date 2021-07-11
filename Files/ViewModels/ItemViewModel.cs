@@ -408,6 +408,7 @@ namespace Files.ViewModels
             }
             CancelExtendedPropertiesLoading();
             filesAndFolders.Clear();
+            FilesAndFolders.Clear();
         }
 
         public void CancelExtendedPropertiesLoading()
@@ -697,6 +698,176 @@ namespace Files.ViewModels
 
         List<(ListedItem item, uint size)> itemLoadQueue = new List<(ListedItem, uint)>();
 
+        public async void UnloadItemThumbnail(ListedItem item)
+        {
+            Action action = () =>
+            {
+                item.FileImage = null;
+                item.CustomIcon = null;
+                item.LoadFileIcon = false;
+                if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    item.LoadFolderGlyph = true;
+                }
+                else
+                {
+                    item.LoadUnknownTypeGlyph = true;
+                }
+            };
+            if (CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
+            {
+                action();
+            }
+            else
+            {
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(action);
+            }
+        }
+
+        public async Task LoadItemThumbnail(ListedItem item, uint thumbnailSize = 20, IStorageItem matchingStorageItem = null, bool forceReload = false)
+        {
+            if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File)
+            {
+                if (!forceReload && item.CustomIconData != null)
+                {
+                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                    {
+                        item.FileImage = await item.CustomIconData.ToBitmapAsync();
+                        item.LoadUnknownTypeGlyph = false;
+                        item.LoadWebShortcutGlyph = false;
+                        item.LoadFileIcon = true;
+                    }, Windows.System.DispatcherQueuePriority.Low);
+                }
+                else
+                {
+                    if (!item.IsShortcutItem && !item.IsHiddenItem && !item.ItemPath.StartsWith("ftp:"))
+                    {
+                        var matchingStorageFile = (StorageFile)matchingStorageItem ?? await GetFileFromPathAsync(item.ItemPath);
+                        if (matchingStorageFile != null)
+                        {
+                            using var Thumbnail = await matchingStorageFile.GetThumbnailAsync(ThumbnailMode.ListView, thumbnailSize, ThumbnailOptions.ResizeThumbnail);
+                            if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
+                            {
+                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                                {
+                                    item.CustomIconData = await Thumbnail.ToByteArrayAsync();
+                                    item.FileImage = await item.CustomIconData.ToBitmapAsync();
+                                    item.LoadUnknownTypeGlyph = false;
+                                    item.LoadWebShortcutGlyph = false;
+                                    item.LoadFileIcon = true;
+                                }, Windows.System.DispatcherQueuePriority.Low);
+                            }
+
+                            var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath);
+                            if (overlayInfo != null)
+                            {
+                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                                {
+                                    item.IconOverlay = await overlayInfo.ToBitmapAsync();
+                                }, Windows.System.DispatcherQueuePriority.Low);
+                            }
+                        }
+                    }
+                }
+
+                if (!item.LoadFileIcon)
+                {
+                    var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize);
+                    if (iconInfo.IconData != null)
+                    {
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                        {
+                            item.FileImage = await iconInfo.IconData.ToBitmapAsync();
+                            item.CustomIconData = iconInfo.IconData;
+                            item.LoadFileIcon = true;
+                            item.LoadUnknownTypeGlyph = false;
+                            item.LoadWebShortcutGlyph = false;
+                        }, Windows.System.DispatcherQueuePriority.Low);
+                    }
+
+                    if (iconInfo.OverlayData != null)
+                    {
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                        {
+                            item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
+                        }, Windows.System.DispatcherQueuePriority.Low);
+                    }
+                }
+            }
+            else
+            {
+                if (!forceReload && item.CustomIconData != null)
+                {
+                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                    {
+                        item.FileImage = await item.CustomIconData.ToBitmapAsync();
+                        item.LoadUnknownTypeGlyph = false;
+                        item.LoadWebShortcutGlyph = false;
+                        item.LoadFolderGlyph = false;
+                        item.LoadFileIcon = true;
+                    }, Windows.System.DispatcherQueuePriority.Low);
+                }
+                else
+                {
+                    if (!item.IsShortcutItem && !item.IsHiddenItem && !item.ItemPath.StartsWith("ftp:"))
+                    {
+                        var matchingStorageFolder = (StorageFolder)matchingStorageItem ?? await GetFolderFromPathAsync(item.ItemPath);
+                        if (matchingStorageFolder != null)
+                        {
+                            using var Thumbnail = await matchingStorageFolder.GetThumbnailAsync(ThumbnailMode.ListView, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached);
+                            if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
+                            {
+                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                                {
+                                    item.CustomIconData = await Thumbnail.ToByteArrayAsync();
+                                    item.FileImage = await item.CustomIconData.ToBitmapAsync();
+                                    item.LoadUnknownTypeGlyph = false;
+                                    item.LoadWebShortcutGlyph = false;
+                                    item.LoadFolderGlyph = false;
+                                    item.LoadFileIcon = true;
+                                }, Windows.System.DispatcherQueuePriority.Low);
+                            }
+
+                            var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath);
+                            if (overlayInfo != null)
+                            {
+                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                                {
+                                    item.IconOverlay = await overlayInfo.ToBitmapAsync();
+                                }, Windows.System.DispatcherQueuePriority.Low);
+                            }
+                        }
+                    }
+                }
+
+                if (!item.LoadFileIcon)
+                {
+                    var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize);
+
+                    if (iconInfo.IconData != null)
+                    {
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                        {
+                            item.FileImage = await iconInfo.IconData.ToBitmapAsync();
+                            item.CustomIconData = iconInfo.IconData;
+                            item.LoadFileIcon = true;
+                            item.LoadFolderGlyph = false;
+                            item.LoadUnknownTypeGlyph = false;
+                            item.LoadWebShortcutGlyph = false;
+                        }, Windows.System.DispatcherQueuePriority.Low);
+                    }
+
+                    if (iconInfo.OverlayData != null)
+                    {
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                        {
+                            item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
+                        }, Windows.System.DispatcherQueuePriority.Low);
+                    }
+                }
+            }
+        }
+
         // This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
         // for file inside the recycle bin (but not on the recycle bin folder itself)
         public async Task LoadExtendedItemProperties(ListedItem item, uint thumbnailSize = 20)
@@ -746,28 +917,7 @@ namespace Files.ViewModels
                             matchingStorageFile = await GetFileFromPathAsync(item.ItemPath);
                             if (matchingStorageFile != null)
                             {
-                                using var Thumbnail = await matchingStorageFile.GetThumbnailAsync(ThumbnailMode.ListView, thumbnailSize, ThumbnailOptions.ResizeThumbnail);
-                                if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
-                                {
-                                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                                    {
-                                        item.CustomIconData = await Thumbnail.ToByteArrayAsync();
-                                        item.FileImage = await item.CustomIconData.ToBitmapAsync();
-                                        item.LoadUnknownTypeGlyph = false;
-                                        item.LoadWebShortcutGlyph = false;
-                                        item.LoadFileIcon = true;
-                                    }, Windows.System.DispatcherQueuePriority.Low);
-                                }
-
-                                var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath);
-                                if (overlayInfo != null)
-                                {
-                                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                                    {
-                                        item.IconOverlay = await overlayInfo.ToBitmapAsync();
-                                    }, Windows.System.DispatcherQueuePriority.Low);
-                                }
-
+                                await LoadItemThumbnail(item, thumbnailSize, matchingStorageFile, true);
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
                                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                                 {
@@ -778,28 +928,9 @@ namespace Files.ViewModels
                                 wasSyncStatusLoaded = true;
                             }
                         }
-                        if (!item.LoadFileIcon)
+                        if (!wasSyncStatusLoaded)
                         {
-                            var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize);
-                            if (iconInfo.IconData != null)
-                            {
-                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                                {
-                                    item.FileImage = await iconInfo.IconData.ToBitmapAsync();
-                                    item.CustomIconData = iconInfo.IconData;
-                                    item.LoadFileIcon = true;
-                                    item.LoadUnknownTypeGlyph = false;
-                                    item.LoadWebShortcutGlyph = false;
-                                }, Windows.System.DispatcherQueuePriority.Low);
-                            }
-
-                            if (iconInfo.OverlayData != null)
-                            {
-                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                                {
-                                    item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
-                                }, Windows.System.DispatcherQueuePriority.Low);
-                            }
+                            await LoadItemThumbnail(item, thumbnailSize, null, true);
                         }
                     }
                     else
@@ -809,29 +940,7 @@ namespace Files.ViewModels
                             StorageFolder matchingStorageItem = await GetFolderFromPathAsync(item.ItemPath);
                             if (matchingStorageItem != null)
                             {
-                                using var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached);
-                                if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
-                                {
-                                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                                    {
-                                        item.CustomIconData = await Thumbnail.ToByteArrayAsync();
-                                        item.FileImage = await item.CustomIconData.ToBitmapAsync();
-                                        item.LoadUnknownTypeGlyph = false;
-                                        item.LoadWebShortcutGlyph = false;
-                                        item.LoadFolderGlyph = false;
-                                        item.LoadFileIcon = true;
-                                    }, Windows.System.DispatcherQueuePriority.Low);
-                                }
-
-                                var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath);
-                                if (overlayInfo != null)
-                                {
-                                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                                    {
-                                        item.IconOverlay = await overlayInfo.ToBitmapAsync();
-                                    }, Windows.System.DispatcherQueuePriority.Low);
-                                }
-
+                                await LoadItemThumbnail(item, thumbnailSize, matchingStorageFile, true);
                                 if (matchingStorageItem.DisplayName != item.ItemName && !matchingStorageItem.DisplayName.StartsWith("$R"))
                                 {
                                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
@@ -852,34 +961,13 @@ namespace Files.ViewModels
                                     item.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                                     item.ItemType = matchingStorageItem.DisplayType;
                                     item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
-                                    wasSyncStatusLoaded = true;
                                 }, Windows.System.DispatcherQueuePriority.Low);
+                                wasSyncStatusLoaded = true;
                             }
                         }
-                        if (!item.LoadFileIcon)
+                        if (!wasSyncStatusLoaded)
                         {
-                            var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize);
-
-                            if (iconInfo.IconData != null)
-                            {
-                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                                {
-                                    item.FileImage = await iconInfo.IconData.ToBitmapAsync();
-                                    item.CustomIconData = iconInfo.IconData;
-                                    item.LoadFileIcon = true;
-                                    item.LoadFolderGlyph = false;
-                                    item.LoadUnknownTypeGlyph = false;
-                                    item.LoadWebShortcutGlyph = false;
-                                }, Windows.System.DispatcherQueuePriority.Low);
-                            }
-
-                            if (iconInfo.OverlayData != null)
-                            {
-                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                                {
-                                    item.IconOverlay = await iconInfo.OverlayData.ToBitmapAsync();
-                                }, Windows.System.DispatcherQueuePriority.Low);
-                            }
+                            await LoadItemThumbnail(item, thumbnailSize, null, true);
                         }
                     }
 
@@ -1279,11 +1367,7 @@ namespace Files.ViewModels
                 };
                 if (library == null)
                 {
-                    var extraProps = await basicProps.RetrievePropertiesAsync(new[] { "System.DateCreated" });
-                    if (DateTimeOffset.TryParse(extraProps["System.DateCreated"] as string, out var dateCreated))
-                    {
-                        currentFolder.ItemDateCreatedReal = dateCreated;
-                    }
+                    currentFolder.ItemDateCreatedReal = rootFolder.DateCreated;
                 }
                 CurrentFolder = currentFolder;
                 await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken);

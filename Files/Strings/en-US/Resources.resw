@@ -234,8 +234,11 @@
   <data name="RecentFilesHeader.Text" xml:space="preserve">
     <value>Recent Files</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
+  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
+    <value>Useful links</value>
+  </data>
+  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
+    <value>Copy</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Submit feedback</value>
@@ -252,19 +255,16 @@
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Date format</value>
   </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>App theme</value>
+  <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
+    <value>Choose your color</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Appearance</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowFileExtensions.Title" xml:space="preserve">
     <value>Show extensions for known file types</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Show hidden files and folders</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
     <value>Show hidden files and folders</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
@@ -448,7 +448,7 @@
     <value>New tab</value>
   </data>
   <data name="SystemTheme" xml:space="preserve">
-    <value>Windows default</value>
+    <value>Default</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Light</value>
@@ -627,7 +627,10 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
+  <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Open log location</value>
+  </data>
+  <data name="SettingsAboutOpenLogLocationButtonText.Text" xml:space="preserve">
     <value>Open log location</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
@@ -746,9 +749,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Recent</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>App language</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Move tab here</value>
@@ -999,16 +999,16 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>View sample profiles</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>App language</value>
+  <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
+    <value>Language</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Terminal applications</value>
   </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
+  <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
     <value>Move overflow items into a sub menu</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
+  <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
     <value>Pin Recycle Bin to the sidebar</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
@@ -1329,7 +1329,7 @@
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Status center</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
+  <data name="SettingsOpenItemsWithOneclick.Title" xml:space="preserve">
     <value>Open items with a single click</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1422,7 +1422,7 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Support us on PayPal</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Title" xml:space="preserve">
     <value>List and sort directories alongside files</value>
   </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
@@ -1440,16 +1440,13 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Updates Available</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">
     <value>Hide protected operating system files (Recommended)</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Hide protected operating system files (Recommended)</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
+  <data name="SettingsSearchUnindexedItems.Title" xml:space="preserve">
     <value>Show unindexed items when searching for files and folders (searches may take longer)</value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
+  <data name="SettingsEnableLayoutPreferencesPerFolder.Title" xml:space="preserve">
     <value>Enable individual preferences for individual directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
@@ -1479,10 +1476,10 @@
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Ongoing Tasks</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
+  <data name="SettingsMultitaskingAlwaysOpenDualPane.Title" xml:space="preserve">
     <value>Always open new tabs in dual pane mode</value>
   </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
+  <data name="SettingsMultitaskingEnableDualPane.Title" xml:space="preserve">
     <value>Enable dual pane view</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -1788,14 +1785,14 @@
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
     <value>Open in new Pane</value>
   </data>
-  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
+  <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>Show library section on the sidebar</value>
   </data>
   <data name="DefaultSkin" xml:space="preserve">
     <value>Default</value>
   </data>
-  <data name="SettingsAppearanceCustomSkins.Header" xml:space="preserve">
-    <value>Custom skin</value>
+  <data name="SettingsAppearanceCustomSkins.Title" xml:space="preserve">
+    <value>Custom skins</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Item count</value>
@@ -2373,8 +2370,8 @@
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>Sidebar</value>
   </data>
-  <data name="SettingsVerticalTabFlyoutSwitch.Header" xml:space="preserve">
-    <value>Display vertical tab flyout on the title bar</value>
+  <data name="SettingsVerticalTabFlyoutSwitch.Title" xml:space="preserve">
+    <value>Display the vertical tab flyout on the title bar</value>
   </data>
   <data name="SettingsSkinsLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Learn more about custom skins</value>
@@ -2604,16 +2601,16 @@
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Uncompressed size</value>
   </data>
-  <data name="SettingsShowCloudDrivesSection.Header" xml:space="preserve">
+  <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
     <value>Show cloud drives section on the sidebar</value>
   </data>
-  <data name="SettingsShowDrivesSection.Header" xml:space="preserve">
+  <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
     <value>Show drives section on the sidebar</value>
   </data>
-  <data name="SettingsShowWslSection.Header" xml:space="preserve">
+  <data name="SettingsShowWslSection.Title" xml:space="preserve">
     <value>Show WSL section on the sidebar</value>
   </data>
-  <data name="SettingsShowNetworkDrivesSection.Header" xml:space="preserve">
+  <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
     <value>Show network drives section on the sidebar</value>
   </data>
   <data name="WSL" xml:space="preserve">

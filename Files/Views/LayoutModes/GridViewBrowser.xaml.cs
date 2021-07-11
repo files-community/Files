@@ -167,14 +167,6 @@ namespace Files.Views.LayoutModes
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            var selectorItems = new List<SelectorItem>();
-            DependencyObjectHelpers.FindChildren<SelectorItem>(selectorItems, FileList);
-            foreach (SelectorItem gvi in selectorItems)
-            {
-                base.UninitializeDrag(gvi);
-                gvi.PointerPressed -= FileListGridItem_PointerPressed;
-            }
-            selectorItems.Clear();
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
@@ -517,43 +509,6 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private async void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            if (args.InRecycleQueue)
-            {
-                UninitializeDrag(args.ItemContainer);
-                args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
-            }
-            else
-            {
-                switch (args.Phase)
-                {
-                    case 0:
-                        args.ItemContainer.DataContext = args.Item;
-                        InitializeDrag(args.ItemContainer);
-                        args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
-
-                        if (itemTemplateChanging) // This resizes the items after the item template has been changed and reloaded
-                        {
-                            itemTemplateChanging = false;
-                            Behaviors.StretchedGridViewItems.ResizeItems(FileList);
-                        }
-
-                        args.RegisterUpdateCallback(1, FileList_ContainerContentChanging);
-                        args.Handled = true;
-                        break;
-
-                    case 1:
-                        if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
-                        {
-                            item.ItemPropertiesInitialized = true;
-                            await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
-                        }
-                        break;
-                }
-            }
-        }
-
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             // Skip opening selected items if the double tap doesn't capture an item
@@ -585,6 +540,48 @@ namespace Files.Views.LayoutModes
                 item = VisualTreeHelper.GetParent(item);
             var itemContainer = item as GridViewItem;
             itemContainer.ContextFlyout = ItemContextMenuFlyout;
+        }
+
+        private void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            if (!args.InRecycleQueue)
+            {
+                // This resizes the items after the item template has been changed and reloaded
+                if (itemTemplateChanging)
+                {
+                    itemTemplateChanging = false;
+                    Behaviors.StretchedGridViewItems.ResizeItems(FileList);
+                }
+
+                InitializeDrag(args.ItemContainer);
+                if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
+                {
+                    args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
+
+                    args.RegisterUpdateCallback(3, async (s, c) =>
+                    {
+                        item.ItemPropertiesInitialized = true;
+                        await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
+                    });
+                }
+                else if (args.Item is ListedItem item1 && item1.ItemPropertiesInitialized && !item1.LoadFileIcon)
+                {
+                    args.RegisterUpdateCallback(3, async (s, c) =>
+                    {
+                        await ParentShellPageInstance.FilesystemViewModel.LoadItemThumbnail(item1, currentIconSize);
+                    });
+                }
+            }
+            else
+            {
+                UninitializeDrag(args.ItemContainer);
+                args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
+
+                if (args.Item is ListedItem item && item.ItemPropertiesInitialized && item.LoadFileIcon)
+                {
+                    ParentShellPageInstance.FilesystemViewModel.UnloadItemThumbnail(item);
+                }
+            }
         }
     }
 }

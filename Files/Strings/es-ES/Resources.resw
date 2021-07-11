@@ -42,9 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Quitar</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Enviar comentarios</value>
   </data>
@@ -459,9 +456,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>El nombre de archivo no puede contener ninguno de los siguientes caracteres: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Abrir ubicación del archivo de registro (log)</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>elemento seleccionado</value>
   </data>
@@ -578,9 +572,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Recientes</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>Idioma</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Estado</value>
@@ -807,9 +798,6 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>Ver perfiles personalizados</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>Idioma</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Aplicaciones de Terminal</value>
   </data>
@@ -822,14 +810,8 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Acceso Denegado</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>Mostrar la papelera de reciclaje en la barra lateral</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Mostrar cuadro de diálogo para confirmar eliminación</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>Mostrar extensiones de archivos conocidos</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Barra lateral acrílica</value>
@@ -837,14 +819,8 @@
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Formato de fecha</value>
   </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>Tema de la aplicación</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Centro de actividades</value>
-  </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Abrir elementos con un solo clic</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>Mover aquí</value>
@@ -863,12 +839,6 @@
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>Elemento de acceso directo</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Mostrar archivos y carpetas ocultos</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar archivos y carpetas ocultos</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>Es seguro quitar el hardware</value>
@@ -1227,9 +1197,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Apóyanos en PayPal</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>Listar y ordenar directorios junto con archivos</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Detalles</value>
   </data>
@@ -1245,12 +1212,6 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Actualizaciones disponibles</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Ocultar archivos protegidos del sistema operativo (Recomendado)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Ocultar archivos protegidos del sistema operativo (Recomendado)</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Archivo</value>
   </data>
@@ -1262,12 +1223,6 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>Nuevo archivo</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>Mostrar elementos no indizados al buscar archivos y carpetas (Las búsquedas pueden tardar más)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>Habilitar preferencias individuales para directorios individuales</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Ubicación original</value>
@@ -1293,12 +1248,6 @@
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Tareas en curso</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>Abrir siempre las nuevas pestañas en modo panel doble</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>Habilitar vista de panel doble</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Abrir en panel secundario</value>
   </data>
@@ -1307,9 +1256,6 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Panel Doble</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>Mover opciones adicionales a un sub menú</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personaliza el menú contextual</value>
@@ -1595,9 +1541,6 @@
   </data>
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumentos</value>
-  </data>
-  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
-    <value>Mostrar Bibliotecas en la barra lateral</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Bibliotecas</value>

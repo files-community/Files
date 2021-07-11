@@ -42,9 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Убрать из списка</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Отправить отзыв</value>
   </data>
@@ -459,9 +456,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Имя элемента не должно содержать следующих знаков: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Открыть расположение лог файла</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>элемент выбран</value>
   </data>
@@ -578,9 +572,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Недавние</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>Язык приложения</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Статус</value>
@@ -807,9 +798,6 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>Посмотреть образцы профилей</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>Язык приложения</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Терминал</value>
   </data>
@@ -822,14 +810,8 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Отказано в доступе</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>Закрепить Корзину в боковой панели</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Показать диалог при удалении файлов или папок</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>Показать расширения файла для известных типов файлов</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Боковая панель с эффектом акрила</value>
@@ -837,14 +819,8 @@
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Формат даты</value>
   </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>Тема</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Текущие операции</value>
-  </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Открывать одним щелчком</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Файл</value>
@@ -863,12 +839,6 @@
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>Диски</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Показывать скрытые файлы и папки</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Показывать скрытые файлы и папки</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>Оборудование может быть извлечено</value>
@@ -1200,9 +1170,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Поддержите нас через PayPal</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>Сортировать файлы и папки вместе</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Подробно</value>
   </data>
@@ -1218,12 +1185,6 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Доступны обновления</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Скрывать защищенные системные файлы (рекомендуется)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Скрывать защищенные системные файлы (рекомендуется)</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Файл</value>
   </data>
@@ -1235,12 +1196,6 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>Новый файл</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>Показывать неиндексированные элементы при поиске файлов и папок (поиск может занять больше времени)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>Включить индивидуальные настройки отображения для отдельных каталогов</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Исходный путь</value>
@@ -1266,12 +1221,6 @@
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Текущие операции</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>Всегда открывать новые вкладки в режиме двойной панели</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>Включить режим двойной панели</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Открыть на дополнительной панели</value>
   </data>
@@ -1280,9 +1229,6 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Двойная панель</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>Переносить не помещающиеся пункты в подменю</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Настройки контекстного меню</value>

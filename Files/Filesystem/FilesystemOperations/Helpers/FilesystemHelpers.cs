@@ -944,11 +944,6 @@ namespace Files.Filesystem
 
                 case FilesystemItemType.File:
 
-                    if (Path.HasExtension(source.Path) && !Path.HasExtension(newName))
-                    {
-                        newName += Path.GetExtension(source.Path);
-                    }
-
                     /* Only prompt user when extension has changed,
                        not when file name has changed */
                     if (Path.GetExtension(source.Path) != Path.GetExtension(newName))

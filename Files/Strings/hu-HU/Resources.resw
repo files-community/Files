@@ -108,9 +108,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Elem eltávolítása</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Visszajelzés küldése</value>
   </data>
@@ -126,14 +123,8 @@
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Dátumformátum</value>
   </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>Téma</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Megjelenés</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>Kiterjesztés megjelenítése ismert fájltípusoknál</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Fájlok és mappák</value>
@@ -471,9 +462,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>A név nem tartalmazhatja a következő karaktereket: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Naplózás helyének megnyitása</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>kijelölt elem</value>
   </data>
@@ -587,9 +575,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Előzmények</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>Alkalmazás nyelve</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Lap áthelyezése ide</value>
@@ -825,14 +810,8 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>Példa beeállítások</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>Alkalmazás nyelve</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Terminál alkalmazások</value>
-  </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>Lomtár kitűzése az oldalsávra</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Megerősítő üzenet fájlok vagy mappák törlésekor</value>
@@ -842,9 +821,6 @@
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Állapotközpont</value>
-  </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Elemek megnyitása egy kattintással</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>Áthelyezés ide</value>
@@ -863,12 +839,6 @@
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>Parancsikon elem</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Rejtett fájlok és mappák mutatása</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Rejtett fájlok és mappák mutatása</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>Eszköz kiadása</value>
@@ -1239,9 +1209,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Támogatás PayPal-on</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>Mappák rendszerezése a fájlokkal</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Részletek</value>
   </data>
@@ -1257,12 +1224,6 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Frissítés érhető el</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Az operációs rendszer védett fájljainak elrejtése (ajánlott)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Az operációs rendszer védett fájljainak elrejtése (ajánlott)</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Fájl</value>
   </data>
@@ -1274,9 +1235,6 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>Új fájl</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>Egyedi beállítások megjegyzése minden mappához</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Eredeti elérési út</value>
@@ -1302,12 +1260,6 @@
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Folyamatban lévő műveletek</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>Mindig osztott nézetben nyissa meg az új lapokat</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>Osztott nézet bekapcsolása</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Megnyitás a jobb oldali panelen</value>
   </data>
@@ -1316,12 +1268,6 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Osztott nézet</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>Nem indexelt elemek mutatása fájl és mappa keresésekor (hosszabb keresési idő)</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>Ki nem férő elemek almenübe helyezése</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Helyi menü testreszabása</value>
@@ -1607,9 +1553,6 @@
   </data>
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumentumok</value>
-  </data>
-  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
-    <value>Könyvtárak megjelenítése az oldalsávon</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Könyvtárak</value>
@@ -2238,14 +2181,8 @@
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>Oldalsáv</value>
   </data>
-  <data name="SettingsVerticalTabFlyoutSwitch.Header" xml:space="preserve">
-    <value>Lapok megjelenítése a címsoron</value>
-  </data>
   <data name="DefaultSkin" xml:space="preserve">
     <value>Alapértelmezett</value>
-  </data>
-  <data name="SettingsAppearanceCustomSkins.Header" xml:space="preserve">
-    <value>Alternatív kinézet</value>
   </data>
   <data name="SettingsAppearanceOpenSkinsFolderButton.Content" xml:space="preserve">
     <value>Kinézetek mappa megnyitása</value>
