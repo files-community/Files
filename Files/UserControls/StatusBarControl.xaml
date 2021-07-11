@@ -101,16 +101,13 @@
                             <FontIcon
                                 x:Name="StatusCenterFontIcon"
                                 FontSize="16"
-                                Glyph="&#xF16A;"
-                                RenderTransformOrigin="0.5, 0.5">
-                                <FontIcon.RenderTransform>
-                                    <RotateTransform />
-                                </FontIcon.RenderTransform>
-                            </FontIcon>
+                                Glyph="&#xF16A;" />
                             <muxc:ProgressRing
                                 x:Name="MedianOperationProgressRing"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
+                                Width="30"
+                                Height="30"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
                                 x:Load="{x:Bind StatusCenterViewModel.AnyOperationsOngoing, Mode=OneWay}"
                                 IsIndeterminate="False"
                                 Value="{x:Bind StatusCenterViewModel.MedianOperationProgressValue, Mode=OneWay}" />
