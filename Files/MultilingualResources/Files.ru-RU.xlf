@@ -52,13 +52,11 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit feedback</source>
-          <target state="needs-review-translation">Отправить отзыв</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Отправить отзыв</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
           <source>Third party licenses</source>
-          <target state="needs-review-translation">Сторонние лицензии</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Сторонние лицензии</target>
         </trans-unit>
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
@@ -354,18 +352,15 @@
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Back (Alt+Left Arrow)</source>
-          <target state="needs-review-translation">Назад (Alt + Стрелка влево)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Назад (Alt+Стрелка влево)</target>
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Forward (Alt+Right Arrow)</source>
-          <target state="needs-review-translation">Вперед (Alt + Стрелка вперед)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Вперед (Alt+Стрелка вперед)</target>
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Up (Alt+Up Arrow)</source>
-          <target state="needs-review-translation">Вверх (Alt + Стрелка вверх)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Вверх (Alt+Стрелка вверх)</target>
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Refresh (F5)</source>
@@ -373,8 +368,7 @@
         </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search (Ctrl+F)</source>
-          <target state="needs-review-translation">Поиск</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Поиск (Ctrl+F)</target>
         </trans-unit>
         <trans-unit id="SidebarDrives" translate="yes" xml:space="preserve">
           <source>Drives</source>
@@ -714,8 +708,7 @@
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} files, {1:#,##0} folders</source>
-          <target state="needs-review-translation">{0:#,##0} Файлов, {1:#,##0} Папок</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">{0:#,##0} Файлов, {1:#,##0} Папок</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
@@ -763,8 +756,7 @@
         </trans-unit>
         <trans-unit id="RecycleInProgress.Title" translate="yes" xml:space="preserve">
           <source>Moving files to the Recycle Bin</source>
-          <target state="needs-review-translation">Перемещение файлов в Корзину</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Перемещение файлов в Корзину</target>
         </trans-unit>
         <trans-unit id="JumpListRecentGroupHeader" translate="yes" xml:space="preserve">
           <source>Recent</source>
@@ -788,8 +780,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
           <source>When opening a folder in Files</source>
-          <target state="needs-review-translation">При открытии элемента из списка быстрого запуска</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">При открытии папки в Files</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
           <source>Always open a new instance</source>
@@ -901,8 +892,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
           <source>Release notes</source>
-          <target state="needs-review-translation">Заметки о выпуске</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Заметки о выпуске</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
           <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
@@ -1022,8 +1012,7 @@
         </trans-unit>
         <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
           <source>The application needs to be restarted in order to apply these settings, would you like to restart the app?</source>
-          <target state="needs-review-translation">Чтобы применить языковые настройки, необходимо перезапустить приложение. Вы хотите перезапустить приложение?</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Чтобы применить новые настройки, необходимо перезапустить приложение. Вы хотите перезапустить приложение?</target>
         </trans-unit>
         <trans-unit id="AddDialog.Title" translate="yes" xml:space="preserve">
           <source>Create a New Item</source>
@@ -1083,8 +1072,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
           <source>Terminal applications</source>
-          <target state="needs-review-translation">Терминал</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Терминал</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
           <source>Support us</source>
@@ -1192,8 +1180,7 @@
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlNewTab.Text" translate="yes" xml:space="preserve">
           <source>New tab</source>
-          <target state="needs-review-translation">Новая вкладка</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Новая вкладка</target>
         </trans-unit>
         <trans-unit id="NavSearchButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Search</source>
@@ -1385,7 +1372,7 @@
         </trans-unit>
         <trans-unit id="PropertyFrameCount" translate="yes" xml:space="preserve">
           <source>Frame Count</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Количество кадров</target>
+          <target state="translated" state-qualifier="tm-suggestion">Количество кадров</target>
         </trans-unit>
         <trans-unit id="PropertyProtectionType" translate="yes" xml:space="preserve">
           <source>Protection Type</source>
@@ -1405,7 +1392,7 @@
         </trans-unit>
         <trans-unit id="PropertySeriesName" translate="yes" xml:space="preserve">
           <source>Series Name</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Имя ряда</target>
+          <target state="translated">Имя серии</target>
         </trans-unit>
         <trans-unit id="PropertySeasonNumber" translate="yes" xml:space="preserve">
           <source>Season Number</source>
@@ -1525,7 +1512,7 @@
         </trans-unit>
         <trans-unit id="PropertyDatePrinted" translate="yes" xml:space="preserve">
           <source>Date Printed</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">[Date Printed]</target>
+          <target state="translated">Дата печати</target>
         </trans-unit>
         <trans-unit id="PropertyTotalEditingTime" translate="yes" xml:space="preserve">
           <source>Total Editing Time</source>
@@ -1761,8 +1748,7 @@
         </trans-unit>
         <trans-unit id="SettingsDualPane.Text" translate="yes" xml:space="preserve">
           <source>Dual pane</source>
-          <target state="needs-review-translation">Двойная панель</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Двойная панель</target>
         </trans-unit>
         <trans-unit id="SettingsContextMenuOverflowSwitch.Header" translate="yes" xml:space="preserve">
           <source>Move overflow items into a sub menu</source>
@@ -1778,28 +1764,23 @@
         </trans-unit>
         <trans-unit id="NavToolbarDetailsView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Details View (Ctrl+Shift+1)</source>
-          <target state="needs-review-translation">Таблица</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Таблица (Ctrl+Shift+1)</target>
         </trans-unit>
         <trans-unit id="NavToolbarGridViewLarge.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Grid View (Large) (Ctrl+Shift+5)</source>
-          <target state="needs-review-translation">Огромные значки</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Огромные значки (Ctrl+Shift+5)</target>
         </trans-unit>
         <trans-unit id="NavToolbarGridViewMedium.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Grid View (Medium) (Ctrl+Shift+4)</source>
-          <target state="needs-review-translation">Крупные значки</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Крупные значки (Ctrl+Shift+4)</target>
         </trans-unit>
         <trans-unit id="NavToolbarGridViewSmall.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Grid View (Small) (Ctrl+Shift+3)</source>
-          <target state="needs-review-translation">Обычные значки</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Обычные значки (Ctrl+Shift+3)</target>
         </trans-unit>
         <trans-unit id="NavToolbarTilesView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Tiles View (Ctrl+Shift+2)</source>
-          <target state="needs-review-translation">Плитка</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Плитка (Ctrl+Shift+2)</target>
         </trans-unit>
         <trans-unit id="NavToolbarDisplayOptions.Text" translate="yes" xml:space="preserve">
           <source>Display Options</source>
@@ -1843,13 +1824,11 @@
         </trans-unit>
         <trans-unit id="SettingsTabCustomization.Text" translate="yes" xml:space="preserve">
           <source>Tab customization</source>
-          <target state="needs-review-translation">Настройка вкладок</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Настройка вкладок</target>
         </trans-unit>
         <trans-unit id="SettingsWhenLaunchingFiles.Text" translate="yes" xml:space="preserve">
           <source>When launching Files</source>
-          <target state="needs-review-translation">При запуске Files</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">При запуске Files</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleConfirm.Content" translate="yes" xml:space="preserve">
           <source>Confirm</source>
@@ -1973,8 +1952,7 @@
         </trans-unit>
         <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Toggle the preview pane (Ctrl+P)</source>
-          <target state="needs-review-translation">Переключить панель предварительного просмотра (Ctrl + P)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Переключить панель предварительного просмотра (Ctrl+P)</target>
         </trans-unit>
         <trans-unit id="PropertyItemName" translate="yes" xml:space="preserve">
           <source>Item Name</source>
@@ -2138,387 +2116,387 @@
         </trans-unit>
         <trans-unit id="DetailsPanePreviewNotAvaliableText" translate="yes" xml:space="preserve">
           <source>No preview available</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Фрагмент недоступен</target>
+          <target state="translated">Предпросмотр недоступен</target>
         </trans-unit>
         <trans-unit id="PreviewPaneDetailsNotAvailableText" translate="yes" xml:space="preserve">
           <source>No details available</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Подробные сведения отсутствуют</target>
+          <target state="translated" state-qualifier="tm-suggestion">Подробные сведения отсутствуют</target>
         </trans-unit>
         <trans-unit id="NoItemSelected" translate="yes" xml:space="preserve">
           <source>No item selected</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Элементы не выбраны</target>
+          <target state="translated" state-qualifier="tm-suggestion">Элементы не выбраны</target>
         </trans-unit>
         <trans-unit id="PropertyItemTarget" translate="yes" xml:space="preserve">
           <source>Target</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">цель</target>
+          <target state="translated">Цель</target>
         </trans-unit>
         <trans-unit id="PropertyItemArguments" translate="yes" xml:space="preserve">
           <source>Arguments</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Аргументы:</target>
+          <target state="translated">Аргументы</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Header" translate="yes" xml:space="preserve">
           <source>Show library section on the sidebar</source>
-          <target state="new">Show library section on the sidebar</target>
+          <target state="translated">Закрепить Библиотеки в боковой панели</target>
         </trans-unit>
         <trans-unit id="SidebarLibraries" translate="yes" xml:space="preserve">
           <source>Libraries</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Библиотеки</target>
+          <target state="translated" state-qualifier="tm-suggestion">Библиотеки</target>
         </trans-unit>
         <trans-unit id="PropertyItemCount" translate="yes" xml:space="preserve">
           <source>Item count</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Число элементов</target>
+          <target state="translated" state-qualifier="tm-suggestion">Число элементов</target>
         </trans-unit>
         <trans-unit id="StatusDeletionFailed" translate="yes" xml:space="preserve">
           <source>Deletion Failed</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Не удалось удалить</target>
+          <target state="translated">Удаление не выполнено</target>
         </trans-unit>
         <trans-unit id="StatusUnknownError" translate="yes" xml:space="preserve">
           <source>An unknown error has occurred.</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Неизвестная ошибка.</target>
+          <target state="translated" state-qualifier="tm-suggestion">Неизвестная ошибка.</target>
         </trans-unit>
         <trans-unit id="StatusDeletionComplete" translate="yes" xml:space="preserve">
           <source>Deletion complete</source>
-          <target state="new">Deletion complete</target>
+          <target state="translated">Удаление завершено</target>
         </trans-unit>
         <trans-unit id="StatusOperationCompleted" translate="yes" xml:space="preserve">
           <source>The operation has completed.</source>
-          <target state="new">The operation has completed.</target>
+          <target state="translated">Операция завершена.</target>
         </trans-unit>
         <trans-unit id="StatusRecycleComplete" translate="yes" xml:space="preserve">
           <source>Recycle complete</source>
-          <target state="new">Recycle complete</target>
+          <target state="translated">Удаление в корзину завершено</target>
         </trans-unit>
         <trans-unit id="StatusMoveComplete" translate="yes" xml:space="preserve">
           <source>Move complete</source>
-          <target state="new">Move complete</target>
+          <target state="translated">Перемещение завершено</target>
         </trans-unit>
         <trans-unit id="StatusCopyComplete" translate="yes" xml:space="preserve">
           <source>Copy complete</source>
-          <target state="new">Copy complete</target>
+          <target state="translated">Копирование завершено</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.CloseButtonText" translate="yes" xml:space="preserve">
           <source>No</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Нет</target>
+          <target state="translated" state-qualifier="tm-suggestion">Нет</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Yes</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Да</target>
+          <target state="translated" state-qualifier="tm-suggestion">Да</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
-          <source>This action requires adminstrator rights</source>
-          <target state="new">This action requires adminstrator rights</target>
+          <source>This action requires administrator rights</source>
+          <target state="translated">Для этого действия требуются права администратора</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Content" translate="yes" xml:space="preserve">
           <source>Would you like to continue as administrator?</source>
-          <target state="new">Would you like to continue as administrator?</target>
+          <target state="translated">Хотели бы вы продолжить работу в качестве администратора?</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlCloseTabsToTheRight.Text" translate="yes" xml:space="preserve">
           <source>Close tabs to the right</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Закрыть вкладки справа</target>
+          <target state="translated" state-qualifier="tm-suggestion">Закрыть вкладки справа</target>
         </trans-unit>
         <trans-unit id="FullTrustStatusTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Administrator</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Администратор</target>
+          <target state="translated" state-qualifier="tm-suggestion">Администратор</target>
         </trans-unit>
         <trans-unit id="FullTrustStatusTeachingTip.Subtitle" translate="yes" xml:space="preserve">
           <source>Files is running as administrator</source>
-          <target state="new">Files is running as administrator</target>
+          <target state="translated">Files запущены от имени администратора</target>
         </trans-unit>
         <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
           <source>Pin to the Start Menu</source>
-          <target state="new">Pin to the Start Menu</target>
+          <target state="translated">Закрепить в меню Пуск</target>
         </trans-unit>
         <trans-unit id="UnpinItemFromStart.Text" translate="yes" xml:space="preserve">
           <source>Unpin from the Start Menu</source>
-          <target state="new">Unpin from the Start Menu</target>
+          <target state="translated">Открепить из меню Пуск</target>
         </trans-unit>
         <trans-unit id="NavToolbarColumnView.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Column View</source>
-          <target state="new">Column View</target>
+          <target state="translated">Столбец</target>
         </trans-unit>
         <trans-unit id="NavToolbarColumnView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Column View (Ctrl+Shift+6)</source>
-          <target state="new">Column View (Ctrl+Shift+6)</target>
+          <target state="translated">Столбец (Ctrl+Shift+6)</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutColumn.Text" translate="yes" xml:space="preserve">
           <source>Column View</source>
-          <target state="new">Column View</target>
+          <target state="translated">Столбец</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesFoldersAndLocationsCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</source>
-          <target state="new">{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</target>
+          <target state="translated">{0:#,##0} файлов, {1:#,##0} папок из {2:#,##0} локаций</target>
         </trans-unit>
         <trans-unit id="ItemTypeLibrary" translate="yes" xml:space="preserve">
           <source>Library</source>
-          <target state="new">Library</target>
+          <target state="translated">Библиотека</target>
         </trans-unit>
         <trans-unit id="LibraryItemAutomation" translate="yes" xml:space="preserve">
           <source>Library</source>
-          <target state="new">Library</target>
+          <target state="translated">Библиотека</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogTabLibrary.Content" translate="yes" xml:space="preserve">
           <source>Library</source>
-          <target state="new">Library</target>
+          <target state="translated">Библиотека</target>
         </trans-unit>
         <trans-unit id="LibraryLocations.Text" translate="yes" xml:space="preserve">
           <source>Locations:</source>
-          <target state="new">Locations:</target>
+          <target state="translated">Расположения:</target>
         </trans-unit>
         <trans-unit id="LibraryLocationsButtonAdd.Label" translate="yes" xml:space="preserve">
           <source>Add</source>
-          <target state="new">Add</target>
+          <target state="translated">Добавить</target>
         </trans-unit>
         <trans-unit id="LibraryLocationsButtonSetDefault.Label" translate="yes" xml:space="preserve">
           <source>Default</source>
-          <target state="new">Default</target>
+          <target state="translated">По умолчанию</target>
         </trans-unit>
         <trans-unit id="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Set as default save path</source>
-          <target state="new">Set as default save path</target>
+          <target state="translated">Установить как путь по умолчанию</target>
         </trans-unit>
         <trans-unit id="LibraryLocationsButtonRemove.Label" translate="yes" xml:space="preserve">
           <source>Remove</source>
-          <target state="new">Remove</target>
+          <target state="translated">Удалить</target>
         </trans-unit>
         <trans-unit id="LibraryNoLocations.Text" translate="yes" xml:space="preserve">
           <source>No locations</source>
-          <target state="new">No locations</target>
+          <target state="translated">Расположения отсутствуют</target>
         </trans-unit>
         <trans-unit id="ErrorInputEmpty" translate="yes" xml:space="preserve">
           <source>Input field cannot be empty!</source>
-          <target state="new">Input field cannot be empty!</target>
+          <target state="translated">Поле ввода не может быть пустым!</target>
         </trans-unit>
         <trans-unit id="ErrorNameInputRestrictedCharacters" translate="yes" xml:space="preserve">
           <source>The name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
-          <target state="new">The name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
+          <target state="translated">Имя не должно содержать следующие символы: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
         <trans-unit id="ErrorNameInputRestricted" translate="yes" xml:space="preserve">
           <source>Using this name is not allowed!</source>
-          <target state="new">Using this name is not allowed!</target>
+          <target state="translated">Использование этого имени запрещено!</target>
         </trans-unit>
         <trans-unit id="CreateLibraryErrorAlreadyExists" translate="yes" xml:space="preserve">
           <source>Library with the same name already exists!</source>
-          <target state="new">Library with the same name already exists!</target>
+          <target state="translated">Библиотека с таким названием уже существует!</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutDeleteLibrary.Text" translate="yes" xml:space="preserve">
           <source>Delete Library</source>
-          <target state="new">Delete Library</target>
+          <target state="translated">Удалить библиотеку</target>
         </trans-unit>
         <trans-unit id="DialogCreateLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Create</source>
-          <target state="new">Create</target>
+          <target state="translated">Создать</target>
         </trans-unit>
         <trans-unit id="DialogCancelButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated">Отмена</target>
         </trans-unit>
         <trans-unit id="DialogDeleteLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Delete</source>
-          <target state="new">Delete</target>
+          <target state="translated">Удалить</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Open Storage Sense</source>
-          <target state="new">Open Storage Sense</target>
+          <target state="translated">Открыть системные настройки Хранилища</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open Storage Sense</source>
-          <target state="new">Open Storage Sense</target>
+          <target state="translated">Открыть системные настройки Хранилища</target>
         </trans-unit>
         <trans-unit id="PropertyISO" translate="yes" xml:space="preserve">
           <source>ISO speed</source>
-          <target state="new">ISO speed</target>
+          <target state="translated">скорость ISO</target>
         </trans-unit>
         <trans-unit id="CopyItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Copy</source>
-          <target state="new">Copy</target>
+          <target state="translated">Копировать</target>
         </trans-unit>
         <trans-unit id="CopyItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated">Отмена</target>
         </trans-unit>
         <trans-unit id="CopyItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be copied</source>
-          <target state="new">{0} items will be copied</target>
+          <target state="translated">{0} элементов будет скопировано</target>
         </trans-unit>
         <trans-unit id="CopyItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Copy item(s)</source>
-          <target state="new">Copy item(s)</target>
+          <target state="translated">Копировать элемент(ы)</target>
         </trans-unit>
         <trans-unit id="DeleteItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Delete item(s)</source>
-          <target state="new">Delete item(s)</target>
+          <target state="translated">Удалить элемент(ы)</target>
         </trans-unit>
         <trans-unit id="MoveItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Move</source>
-          <target state="new">Move</target>
+          <target state="translated">Переместить</target>
         </trans-unit>
         <trans-unit id="MoveItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated">Отмена</target>
         </trans-unit>
         <trans-unit id="MoveItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be moved</source>
-          <target state="new">{0} items will be moved</target>
+          <target state="translated">{0} элементов будет перемещено</target>
         </trans-unit>
         <trans-unit id="MoveItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Move item(s)</source>
-          <target state="new">Move item(s)</target>
+          <target state="translated">Переместить элемент(ы)</target>
         </trans-unit>
         <trans-unit id="DeleteItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Delete</source>
-          <target state="new">Delete</target>
+          <target state="translated">Удалить</target>
         </trans-unit>
         <trans-unit id="DeleteItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated">Отмена</target>
         </trans-unit>
         <trans-unit id="DeleteItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be deleted</source>
-          <target state="new">{0} items will be deleted</target>
+          <target state="translated">{0} элементов будет удалено</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Continue</source>
-          <target state="new">Continue</target>
+          <target state="translated">Продолжить</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated">Отмена</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Conflicting file name(s)</source>
-          <target state="new">Conflicting file name(s)</target>
+          <target state="translated">Конфликтующие имена файла(ов)</target>
         </trans-unit>
         <trans-unit id="CopyItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
           <source>One item will be copied</source>
-          <target state="new">One item will be copied</target>
+          <target state="translated">Один элемент будет скопирован</target>
         </trans-unit>
         <trans-unit id="DeleteItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
           <source>One item will be deleted</source>
-          <target state="new">One item will be deleted</target>
+          <target state="translated">Один элемент будет удален</target>
         </trans-unit>
         <trans-unit id="MoveItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
           <source>One item will be moved</source>
-          <target state="new">One item will be moved</target>
+          <target state="translated">Один элемент будет перемещен</target>
         </trans-unit>
         <trans-unit id="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" translate="yes" xml:space="preserve">
           <source>Permanently delete</source>
-          <target state="new">Permanently delete</target>
+          <target state="translated">Удалить безвозвратно</target>
         </trans-unit>
         <trans-unit id="SearchUnindexedItemsLabel.Text" translate="yes" xml:space="preserve">
           <source>Didn't find what you're looking for?</source>
-          <target state="new">Didn't find what you're looking for?</target>
+          <target state="translated">Не нашли то, что искали?</target>
         </trans-unit>
         <trans-unit id="SearchUnindexedItemsButton.Content" translate="yes" xml:space="preserve">
           <source>Search unindexed items.</source>
-          <target state="new">Search unindexed items.</target>
+          <target state="translated">Искать неиндексированные элементы.</target>
         </trans-unit>
         <trans-unit id="NavToolbarWidgets.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Manage Widgets</source>
-          <target state="new">Manage Widgets</target>
+          <target state="translated">Управление виджетами</target>
         </trans-unit>
         <trans-unit id="NavToolbarWidgetsManager.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Manage widgets</source>
-          <target state="new">Manage widgets</target>
+          <target state="translated">Управление виджетами</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowBundlesWidget.Header" translate="yes" xml:space="preserve">
           <source>Show Bundles widget</source>
-          <target state="new">Show Bundles widget</target>
+          <target state="translated">Показывать виджет Коллекции папок</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowDrivesWidget.Header" translate="yes" xml:space="preserve">
           <source>Show Drives widget</source>
-          <target state="new">Show Drives widget</target>
+          <target state="translated">Показывать виджет Диски</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowRecentFilesWidget.Header" translate="yes" xml:space="preserve">
           <source>Show Recent Files widget</source>
-          <target state="new">Show Recent Files widget</target>
+          <target state="translated">Показывать виджет Последние файлы</target>
         </trans-unit>
         <trans-unit id="NavToolbarManageWidgetsFlyoutHeader.Text" translate="yes" xml:space="preserve">
           <source>Manage Widgets</source>
-          <target state="new">Manage Widgets</target>
+          <target state="translated">Управление виджетами</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFolderWidget.Header" translate="yes" xml:space="preserve">
           <source>Show Folders widget</source>
-          <target state="new">Show Folders widget</target>
+          <target state="translated">Показывать виджет Папки</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" translate="yes" xml:space="preserve">
           <source>There are {0} conflicting file names, and {1} outgoing item(s).</source>
-          <target state="new">There are {0} conflicting file names, and {1} outgoing item(s).</target>
+          <target state="translated">Конфликтующих имен файлов: {0}, не конфликтующих: {1}.</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" translate="yes" xml:space="preserve">
           <source>There is one conflicting file name, and {0} outgoing item(s).</source>
-          <target state="new">There is one conflicting file name, and {0} outgoing item(s).</target>
+          <target state="translated">Имеется одно конфликтующее имя файла и не конфликтующих: {0}.</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
-          <target state="new">Generate new name</target>
+          <target state="translated">Сгенерировать новое имя</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
-          <target state="new">Replace existing</target>
+          <target state="translated">Заменить существующий</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
           <source>Skip</source>
-          <target state="new">Skip</target>
+          <target state="translated">Пропустить</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
-          <target state="new">Generate new name</target>
+          <target state="translated">Сгенерировать новое имя</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
-          <target state="new">Replace existing</target>
+          <target state="translated">Заменить существующий</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionSkip.Text" translate="yes" xml:space="preserve">
           <source>Skip</source>
-          <target state="new">Skip</target>
+          <target state="translated">Пропустить</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
-          <target state="new">Generate new name</target>
+          <target state="translated">Сгенерировать новое имя</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
-          <target state="new">Replace existing</target>
+          <target state="translated">Заменить существующий</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionSkip" translate="yes" xml:space="preserve">
           <source>Skip</source>
-          <target state="new">Skip</target>
+          <target state="translated">Пропустить</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemDefaultOption.Content" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
-          <target state="new">Generate new name</target>
+          <target state="translated">Сгенерировать новое имя</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogUndoOption.Text" translate="yes" xml:space="preserve">
           <source>Undo</source>
-          <target state="new">Undo</target>
+          <target state="translated">Отменить</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" translate="yes" xml:space="preserve">
           <source>There are {0} conflicting file names.</source>
-          <target state="new">There are {0} conflicting file names.</target>
+          <target state="translated">Имеются {0} конфликтующих имен файлов.</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" translate="yes" xml:space="preserve">
           <source>There is one conflicting file name.</source>
-          <target state="new">There is one conflicting file name.</target>
+          <target state="translated">Есть одно конфликтующее имя файла.</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" translate="yes" xml:space="preserve">
           <source>Create folder with selection</source>
-          <target state="new">Create folder with selection</target>
+          <target state="translated">Создать папку из выделения</target>
         </trans-unit>
         <trans-unit id="ToolTipDescriptionName" translate="yes" xml:space="preserve">
           <source>Name:</source>
-          <target state="new">Name:</target>
+          <target state="translated">Имя:</target>
         </trans-unit>
         <trans-unit id="ToolTipDescriptionType" translate="yes" xml:space="preserve">
           <source>Type:</source>
-          <target state="new">Type:</target>
+          <target state="translated">Тип:</target>
         </trans-unit>
         <trans-unit id="ToolTipDescriptionDate" translate="yes" xml:space="preserve">
           <source>Date modified:</source>
-          <target state="new">Date modified:</target>
+          <target state="translated">Дата изменения:</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Header" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
-          <target state="new">Open folders in new tab</target>
+          <target state="translated">Открывать папки в новой вкладке</target>
         </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
@@ -2530,7 +2508,7 @@
         </trans-unit>
         <trans-unit id="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>File icon</source>
-          <target state="new">File icon</target>
+          <target state="translated">Значок файла</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowOriginalPath.Text" translate="yes" xml:space="preserve">
           <source>Original path column</source>
