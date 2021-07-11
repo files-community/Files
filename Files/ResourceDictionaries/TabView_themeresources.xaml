@@ -43,17 +43,10 @@
             <StaticResource x:Key="TabViewButtonBackgroundActiveTab" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewButtonForegroundActiveTab" ResourceKey="SystemControlBackgroundBaseMediumBrush" />
 
-            <StaticResource x:Key="TabViewBorderBrush" ResourceKey="CardStrokeColorDefault" />
+            <StaticResource x:Key="TabViewBorderBrush" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewItemBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
-            <LinearGradientBrush x:Key="TabViewSelectedItemBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,4">
-                <LinearGradientBrush.RelativeTransform>
-                    <ScaleTransform CenterY="0.5" ScaleY="-1" />
-                </LinearGradientBrush.RelativeTransform>
-                <LinearGradientBrush.GradientStops>
-                    <GradientStop Offset="1.0" Color="Transparent" />
-                    <GradientStop Offset="1.0" Color="{ThemeResource CardStrokeColorDefault}" />
-                </LinearGradientBrush.GradientStops>
-            </LinearGradientBrush>
+			<StaticResource x:Key="TabViewSelectedItemBorderBrush" ResourceKey="ControlElevationBorderBrush" />
+            
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">
@@ -97,18 +90,11 @@
             <StaticResource x:Key="TabViewButtonBackgroundActiveTab" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewButtonForegroundActiveTab" ResourceKey="SystemControlBackgroundBaseMediumBrush" />
 
-            <StaticResource x:Key="TabViewBorderBrush" ResourceKey="CardStrokeColorDefault" />
+			<StaticResource x:Key="TabViewBorderBrush" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewItemBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
-            <LinearGradientBrush x:Key="TabViewSelectedItemBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,4">
-                <LinearGradientBrush.RelativeTransform>
-                    <ScaleTransform CenterY="0.5" ScaleY="-1" />
-                </LinearGradientBrush.RelativeTransform>
-                <LinearGradientBrush.GradientStops>
-                    <GradientStop Offset="1.0" Color="Transparent" />
-                    <GradientStop Offset="1.0" Color="{ThemeResource CardStrokeColorDefault}" />
-                </LinearGradientBrush.GradientStops>
-            </LinearGradientBrush>
-        </ResourceDictionary>
+			<StaticResource x:Key="TabViewSelectedItemBorderBrush" ResourceKey="ControlElevationBorderBrush" />
+
+		</ResourceDictionary>
 
         <ResourceDictionary x:Key="HighContrast">
             <StaticResource x:Key="TabViewBackground" ResourceKey="SystemColorButtonFaceColor" />
@@ -151,18 +137,11 @@
             <StaticResource x:Key="TabViewButtonBackgroundActiveTab" ResourceKey="SystemColorWindowBrush" />
             <StaticResource x:Key="TabViewButtonForegroundActiveTab" ResourceKey="SystemColorWindowTextBrush" />
 
-            <StaticResource x:Key="TabViewBorderBrush" ResourceKey="CardStrokeColorDefault" />
+			<StaticResource x:Key="TabViewBorderBrush" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewItemBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
-            <LinearGradientBrush x:Key="TabViewSelectedItemBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,4">
-                <LinearGradientBrush.RelativeTransform>
-                    <ScaleTransform CenterY="0.5" ScaleY="-1" />
-                </LinearGradientBrush.RelativeTransform>
-                <LinearGradientBrush.GradientStops>
-                    <GradientStop Offset="1.0" Color="Transparent" />
-                    <GradientStop Offset="1.0" Color="{ThemeResource SystemColorHighlightColor}" />
-                </LinearGradientBrush.GradientStops>
-            </LinearGradientBrush>
-        </ResourceDictionary>
+			<StaticResource x:Key="TabViewSelectedItemBorderBrush" ResourceKey="SystemColorHighlightBrush" />
+
+		</ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
     <Thickness x:Key="TabViewHeaderPadding">4,8,4,0</Thickness>
@@ -203,7 +182,7 @@
 
     <Thickness x:Key="TabViewItemBorderThickness">1</Thickness>
 
-    <Thickness x:Key="TabViewSelectedItemBorderThickness">1,1,1,0</Thickness>
+    <Thickness x:Key="TabViewSelectedItemBorderThickness">1,1,1,1</Thickness>
 
     <Thickness x:Key="TabViewSelectedItemHeaderMargin">-1,0,-1,0</Thickness>
 </ResourceDictionary>

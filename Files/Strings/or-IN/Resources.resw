@@ -579,9 +579,6 @@
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>ସମ୍ପ୍ରତି</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>ଆପ୍ ଭାଷା</value>
-  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>ସ୍ଥିତି</value>
   </data>
@@ -885,12 +882,6 @@
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>ଡ୍ରାଇଭ୍‌ସମୂହ:</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>ଲୁକ୍କାୟିତ ଫାଇଲ୍ ଏବଂ ଫୋଲ୍ଡର୍‌ଗୁଡିକକୁ ଦେଖାନ୍ତୁ</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>ଲୁକ୍କାୟିତ ଫାଇଲ୍ ଏବଂ ଫୋଲ୍ଡର୍‌ଗୁଡିକକୁ ଦେଖାନ୍ତୁ</value>
-  </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>ବହିଷ୍କାର</value>
   </data>
@@ -941,12 +932,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>ଅଦ୍ୟତନଗୁଡିକ ଉପଲବ୍ଧ</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>ସୁରକ୍ଷିତ ଅପରେଟିଂ ସିଷ୍ଟମ୍ ଫାଇଲ୍‌ଗୁଡ଼ିକୁ (ଅନୁମୋଦିତ) ଲୁଚାନ୍ତୁ</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>ସୁରକ୍ଷିତ ଅପରେଟିଂ ସିଷ୍ଟମ୍ ଫାଇଲ୍‌ଗୁଡ଼ିକୁ (ଅନୁମୋଦିତ) ଲୁଚାନ୍ତୁ</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>ଫାଇଲ୍:</value>

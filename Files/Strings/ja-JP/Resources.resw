@@ -579,9 +579,6 @@
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>履歴</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>言語</value>
-  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>状態</value>
   </data>
@@ -807,9 +804,6 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>サンプルプロファイルを表示</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>言語</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>ターミナルアプリ</value>
   </data>
@@ -822,14 +816,8 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>アクセスが拒否されました</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>ごみ箱をサイドバーに固定</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>ファイルやフォルダを削除するときに確認ダイアログを表示</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>既知のファイルタイプの拡張子を表示</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>透明なサイドバー</value>
@@ -837,14 +825,8 @@
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>日付の書式</value>
   </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>テーマ</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>ステータス センター</value>
-  </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>シングル クリックでファイルを開く</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>ファイル</value>
@@ -863,12 +845,6 @@
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>ドライブ</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>隠されたファイルとフォルダを表示</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>隠されたファイルとフォルダを表示</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>安全なハードウェアの取り外し</value>
@@ -1230,9 +1206,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>PayPal で私たちを支援してください</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>ファイルとフォルダを一緒に並べ替える</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>詳細</value>
   </data>
@@ -1248,12 +1221,6 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>更新あり</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>保護されたオペレーティング システム ファイルを表示しない (推奨)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>保護されたオペレーティング システム ファイルを表示しない (推奨)</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>ファイル</value>
   </data>
@@ -1265,12 +1232,6 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>新しいファイル</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>検索時にインデックスされていないファイルを表示 (検索に時間がかかる恐れがあります)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>フォルダごとに設定を保存</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>元のパス:</value>
@@ -1296,12 +1257,6 @@
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>進行中の処理</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>新しいタブを常にデュアル ペイン表示で開く</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>デュアル ペイン表示を有効化</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>セカンダリ ペインで開く</value>
   </data>
@@ -1310,9 +1265,6 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>デュアル ペイン</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>右クリックメニューの一部をサブメニューに移動</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>右クリックメニューをカスタマイズ</value>
@@ -1598,9 +1550,6 @@
   </data>
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>引数</value>
-  </data>
-  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
-    <value>サイドバーにライブラリを表示</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>ライブラリ</value>

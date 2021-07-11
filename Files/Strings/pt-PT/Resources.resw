@@ -576,9 +576,6 @@
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
     <value>Sistema de ficheiros:</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>Idioma da Aplicação</value>
-  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Estado</value>
   </data>
@@ -807,9 +804,6 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>Ver perfis de amostra</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>Idioma da Aplicação</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Aplicações de Terminal</value>
   </data>
@@ -822,14 +816,8 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Acesso negado</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>Afixar a reciclagem na barra lateral</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Mostrar uma caixa de diálogo de confirmação ao apagar ficheiros ou pastas</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>Mostrar extensões para tipos de ficheiro conhecidos</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Barra lateral em acrílico</value>
@@ -837,14 +825,8 @@
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Formato da data</value>
   </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>Tema da aplicação</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Centro de Estado</value>
-  </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Abrir os itens com um único clique</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Ficheiro</value>
@@ -863,12 +845,6 @@
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>Unidades</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Mostrar ficheiros e pastas ocultas</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar ficheiros e pastas ocultas</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>Seguro para remover hardware</value>
@@ -1239,9 +1215,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Apoie-nos no PayPal</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>Listar e ordenar diretórios ao lado dos ficheiros</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Detalhes</value>
   </data>
@@ -1257,12 +1230,6 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Atualizações Disponíveis</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Ocultar ficheiros protegidos do sistema operativo (Recomendado)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Ocultar ficheiros protegidos do sistema operativo (Recomendado)</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Ficheiro</value>
   </data>
@@ -1274,12 +1241,6 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>Novo Ficheiro</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>Mostrar itens não indexados ao pesquisar ficheiros e pastas (as pesquisas podem demorar mais)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>Ativar preferências individuais para diretórios individuais</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Caminho Original</value>
@@ -1305,12 +1266,6 @@
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Tarefas em Execução</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>Abrir sempre novos separadores no modo de painel duplo</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>Ativar visualização de painel duplo</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Abrir no painel secundário</value>
   </data>
@@ -1319,9 +1274,6 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Painel Duplo</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>Mova sobra de itens para um submenu</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalize o menu de contexto (Botão Direito)</value>
@@ -1607,9 +1559,6 @@
   </data>
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumentos</value>
-  </data>
-  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
-    <value>Mostrar secção da biblioteca na barra lateral</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Bibliotecas</value>
@@ -2244,14 +2193,8 @@
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>Barra Lateral</value>
   </data>
-  <data name="SettingsVerticalTabFlyoutSwitch.Header" xml:space="preserve">
-    <value>Mostrar menu desdobrável do separador vertical na barra de titulo</value>
-  </data>
   <data name="DefaultSkin" xml:space="preserve">
     <value>Original</value>
-  </data>
-  <data name="SettingsAppearanceCustomSkins.Header" xml:space="preserve">
-    <value>Skin personalizada</value>
   </data>
   <data name="SettingsAppearanceOpenSkinsFolderButton.Content" xml:space="preserve">
     <value>Abrir pasta das skins</value>

@@ -129,20 +129,8 @@
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Format tanggal</value>
   </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>Tema aplikasi</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Tampilan</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>Tampilkan ekstensi untuk jenis file yang dikenal</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Tampilkan file dan folder tersembunyi</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Tampilkan file dan folder tersembunyi</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>File dan Folder</value>
@@ -621,9 +609,6 @@
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Terbaru</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>Bahasa aplikasi</value>
-  </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Pindahkan tab ke sini</value>
   </data>
@@ -867,17 +852,8 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>Lihat contoh profil</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>Bahasa aplikasi</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Aplikasi terminal</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>Pindahkan item luapan ke dalam sub menu</value>
-  </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>Sematkan keranjang sampah ke bilah sisi</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Tampilkan dialog konfirmasi saat menghapus file atau folder</value>
@@ -1197,9 +1173,6 @@
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Pusat status</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Buka item dengan satu klik</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>File</value>
   </data>
@@ -1287,9 +1260,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Dukung kami melalui PayPal</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>Buat daftar dan urutkan direktori di samping file</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Rincian</value>
   </data>
@@ -1304,19 +1274,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Pembaruan Tersedia</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Sembunyikan file sistem operasi terlindung (Disarankan)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Sembunyikan file sistem operasi terlindung (Disarankan)</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>Show unindexed items when searching for files and folders (searches may take longer)
-tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (pencarian mungkin membutuhkan waktu lebih lama)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>Aktifkan preferensi tersendiri untuk masing-masing direktori</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Kustomisasi menu konteks klik kanan</value>
@@ -1344,12 +1301,6 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
   </data>
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Tugas sedang berlangsung</value>
-  </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>Selalu buka tab baru pada mode panel ganda</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>Aktifkan tampilan panel ganda</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Buka di panel sekunder</value>
@@ -1647,9 +1598,6 @@ tampilkan item tidak terindeks ketika melakukan pencarian pada file dan folder (
   </data>
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumen</value>
-  </data>
-  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
-    <value>Tampilkan pustaka di bilah sisi</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Jumlah item</value>

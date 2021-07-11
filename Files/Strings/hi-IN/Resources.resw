@@ -579,9 +579,6 @@
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>हाल में</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>ऐप लैंग्वेज</value>
-  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>स्थिति</value>
   </data>
@@ -634,7 +631,7 @@
     <value>तर्क</value>
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
-    <value>गंतव्य</value>
+    <value>मंजिल:</value>
   </data>
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>कार्य निर्देशिका:</value>
@@ -726,9 +723,6 @@
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>आगे नेविगेट करें</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>ऐप भाषा</value>
-  </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>प्रवेश निषेध</value>
   </data>
@@ -746,12 +740,6 @@
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>ड्राइव:</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>छुपी हुई फ़ाइलें और फ़ोल्डर दिखाएँ</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>छुपी हुई फ़ाइलें और फ़ोल्डर दिखाएँ</value>
   </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>बाहर निकालें</value>
@@ -977,12 +965,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>अद्यतन उपलब्ध</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>रक्षित ऑपरेटिंग सिस्टम फ़ाइलें छुपाएँ (अनुशंसित)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>रक्षित ऑपरेटिंग सिस्टम फ़ाइलें छुपाएँ (अनुशंसित)</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>फ़ाइल</value>
