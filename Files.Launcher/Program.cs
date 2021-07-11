@@ -23,10 +23,10 @@ namespace FilesFullTrust
         private static readonly LogWriter logWriter = new LogWriter();
 
         [STAThread]
-        private static void Main(string[] args)
+        private static async Task Main(string[] args)
         {
             Logger = new Logger(logWriter);
-            logWriter.InitializeAsync("debug_fulltrust.log").Wait();
+            await logWriter.InitializeAsync("debug_fulltrust.log");
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
             if (HandleCommandLineArgs())

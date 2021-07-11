@@ -5,15 +5,10 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -76,7 +71,7 @@ namespace Files.ViewModels
             ProgressBannerPosted?.Invoke(this, postedBanner);
             return postedBanner;
         }
-        
+
         public PostedStatusBanner PostOperationBanner(string title, string message, float initialProgress, ReturnResult status, FileOperationType operation, CancellationTokenSource cancellationTokenSource)
         {
             StatusBanner banner = new StatusBanner(message, title, initialProgress, status, operation)
@@ -117,7 +112,7 @@ namespace Files.ViewModels
 
         public void UpdateMedianProgress()
         {
-            if(AnyOperationsOngoing)
+            if (AnyOperationsOngoing)
             {
                 MedianOperationProgressValue = StatusBannersSource.Where((item) => item.IsProgressing).Average(x => x.Progress);
             }
@@ -175,27 +170,23 @@ namespace Files.ViewModels
 
         private void ReportProgressToBanner(float value)
         {
-            if(CancellationToken.IsCancellationRequested) // file operation has been cancelled, so don't update the progress text
+            if (CancellationToken.IsCancellationRequested) // file operation has been cancelled, so don't update the progress text
             {
                 return;
             }
 
             if (value <= 100.0f)
             {
-                Banner.IsProgressing = true;
+                Banner.IsProgressing = value < 100.0f;
                 Banner.Progress = value;
                 Banner.FullTitle = $"{Banner.Title} ({value:0.00}%)";
                 statusCenterActions.UpdateBanner(Banner);
                 statusCenterActions.UpdateMedianProgress();
-                return;
             }
             else
             {
                 Debugger.Break(); // Argument out of range :(
             }
-
-            Banner.IsProgressing = false;
-            statusCenterActions.UpdateBanner(Banner);
         }
 
         private void ReportProgressToBanner(ReturnResult value)
@@ -435,7 +426,7 @@ namespace Files.ViewModels
 
         public void CancelOperation()
         {
-            if(CancelButtonVisible)
+            if (CancelButtonVisible)
             {
                 CancellationTokenSource.Cancel();
                 IsCancelled = true;

@@ -599,20 +599,16 @@ namespace Files.Filesystem
                 if (!permanently)
                 {
                     // Enumerate Recycle Bin
-                    List<ShellFileItem> items = await recycleBinHelpers.EnumerateRecycleBin();
-                    List<ShellFileItem> nameMatchItems = new List<ShellFileItem>();
+                    List<ShellFileItem> nameMatchItems, items = await recycleBinHelpers.EnumerateRecycleBin();
 
                     // Get name matching files
-                    if (items != null)
+                    if (Path.GetExtension(source.Path) == ".lnk" || Path.GetExtension(source.Path) == ".url") // We need to check if it is a shortcut file
                     {
-                        if (Path.GetExtension(source.Path) == ".lnk" || Path.GetExtension(source.Path) == ".url") // We need to check if it is a shortcut file
-                        {
-                            nameMatchItems = items.Where((item) => item.FilePath == Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileNameWithoutExtension(source.Path))).ToList();
-                        }
-                        else
-                        {
-                            nameMatchItems = items.Where((item) => item.FilePath == source.Path).ToList();
-                        }
+                        nameMatchItems = items.Where((item) => item.FilePath == Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileNameWithoutExtension(source.Path))).ToList();
+                    }
+                    else
+                    {
+                        nameMatchItems = items.Where((item) => item.FilePath == source.Path).ToList();
                     }
 
                     // Get newest file
