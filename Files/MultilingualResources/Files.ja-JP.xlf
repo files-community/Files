@@ -2125,8 +2125,9 @@
           <target state="translated">はい</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
-          <source>This action requires adminstrator rights</source>
-          <target state="translated">続行するには管理者権限が必要です</target>
+          <source>This action requires administrator rights</source>
+          <target state="needs-review-translation">続行するには管理者権限が必要です</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Content" translate="yes" xml:space="preserve">
           <source>Would you like to continue as administrator?</source>
