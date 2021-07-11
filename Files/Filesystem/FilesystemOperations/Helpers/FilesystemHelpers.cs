@@ -642,6 +642,7 @@ namespace Files.Filesystem
             }
             ReturnResult returnStatus = ReturnResult.InProgress;
 
+            source = source.Where(x => !recycleBinHelpers.IsPathUnderRecycleBin(x.Path)).ToList(); // Can't recycle items already in recyclebin
             returnStatus = await DeleteItemsAsync(source, showDialog, false, registerHistory);
 
             return returnStatus;
