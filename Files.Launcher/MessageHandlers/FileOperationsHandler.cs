@@ -206,7 +206,7 @@ namespace FilesFullTrust.MessageHandlers
                                 op.Options = ShellFileOperations.OperationFlags.Silent
                                           | ShellFileOperations.OperationFlags.NoErrorUI
                                           | ShellFileOperations.OperationFlags.EarlyFailure;
-                                op.Options |= !overwriteOnRename ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision : 0;
+                                op.Options |= !overwriteOnRename ? ShellFileOperations.OperationFlags.RenameOnCollision : 0;
 
                                 using var shi = new ShellItem(fileToRenamePath);
                                 op.QueueRenameOperation(shi, newName);
