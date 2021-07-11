@@ -6,6 +6,7 @@ using Files.Filesystem.Cloud;
 using Files.Filesystem.StorageEnumerators;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
@@ -36,7 +37,7 @@ using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.ViewModels
 {
-    public class ItemViewModel : INotifyPropertyChanged, IDisposable
+    public class ItemViewModel : ObservableObject, IDisposable
     {
         private readonly SemaphoreSlim enumFolderSemaphore = new SemaphoreSlim(1, 1);
         private readonly SemaphoreSlim loadExtendedPropsSemaphore = new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
@@ -58,9 +59,8 @@ namespace Files.ViewModels
         public CollectionViewSource viewSource;
         private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public event EventHandler DirectoryInfoUpdated;
+        public event EventHandler<List<ListedItem>> OnSelectionRequestedEvent;
 
         private IFileListCache fileListCache = FileListCacheController.GetInstance();
 
@@ -139,7 +139,7 @@ namespace Files.ViewModels
             }
 
             WorkingDirectory = value;
-            NotifyPropertyChanged(nameof(WorkingDirectory));
+            OnPropertyChanged(nameof(WorkingDirectory));
         }
 
         public async Task<FilesystemResult<StorageFolder>> GetFolderFromPathAsync(string value)
@@ -172,29 +172,29 @@ namespace Files.ViewModels
                 if (value != isFolderEmptyTextDisplayed)
                 {
                     isFolderEmptyTextDisplayed = value;
-                    NotifyPropertyChanged(nameof(IsFolderEmptyTextDisplayed));
+                    OnPropertyChanged(nameof(IsFolderEmptyTextDisplayed));
                 }
             }
         }
 
         public async void UpdateSortOptionStatus()
         {
-            NotifyPropertyChanged(nameof(IsSortedByName));
-            NotifyPropertyChanged(nameof(IsSortedByDate));
-            NotifyPropertyChanged(nameof(IsSortedByType));
-            NotifyPropertyChanged(nameof(IsSortedBySize));
-            NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
-            NotifyPropertyChanged(nameof(IsSortedByDateDeleted));
-            NotifyPropertyChanged(nameof(IsSortedByDateCreated));
-            NotifyPropertyChanged(nameof(IsSortedBySyncStatus));
+            OnPropertyChanged(nameof(IsSortedByName));
+            OnPropertyChanged(nameof(IsSortedByDate));
+            OnPropertyChanged(nameof(IsSortedByType));
+            OnPropertyChanged(nameof(IsSortedBySize));
+            OnPropertyChanged(nameof(IsSortedByOriginalPath));
+            OnPropertyChanged(nameof(IsSortedByDateDeleted));
+            OnPropertyChanged(nameof(IsSortedByDateCreated));
+            OnPropertyChanged(nameof(IsSortedBySyncStatus));
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
         }
 
         public async void UpdateSortDirectionStatus()
         {
-            NotifyPropertyChanged(nameof(IsSortedAscending));
-            NotifyPropertyChanged(nameof(IsSortedDescending));
+            OnPropertyChanged(nameof(IsSortedAscending));
+            OnPropertyChanged(nameof(IsSortedDescending));
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
         }
@@ -207,7 +207,7 @@ namespace Files.ViewModels
                 if (value)
                 {
                     folderSettings.DirectorySortOption = SortOption.Name;
-                    NotifyPropertyChanged(nameof(IsSortedByName));
+                    OnPropertyChanged(nameof(IsSortedByName));
                 }
             }
         }
@@ -220,7 +220,7 @@ namespace Files.ViewModels
                 if (value)
                 {
                     folderSettings.DirectorySortOption = SortOption.OriginalPath;
-                    NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
+                    OnPropertyChanged(nameof(IsSortedByOriginalPath));
                 }
             }
         }
@@ -233,7 +233,7 @@ namespace Files.ViewModels
                 if (value)
                 {
                     folderSettings.DirectorySortOption = SortOption.DateDeleted;
-                    NotifyPropertyChanged(nameof(IsSortedByDateDeleted));
+                    OnPropertyChanged(nameof(IsSortedByDateDeleted));
                 }
             }
         }
@@ -246,7 +246,7 @@ namespace Files.ViewModels
                 if (value)
                 {
                     folderSettings.DirectorySortOption = SortOption.DateModified;
-                    NotifyPropertyChanged(nameof(IsSortedByDate));
+                    OnPropertyChanged(nameof(IsSortedByDate));
                 }
             }
         }
@@ -259,7 +259,7 @@ namespace Files.ViewModels
                 if (value)
                 {
                     folderSettings.DirectorySortOption = SortOption.DateCreated;
-                    NotifyPropertyChanged(nameof(IsSortedByDateCreated));
+                    OnPropertyChanged(nameof(IsSortedByDateCreated));
                 }
             }
         }
@@ -272,7 +272,7 @@ namespace Files.ViewModels
                 if (value)
                 {
                     folderSettings.DirectorySortOption = SortOption.FileType;
-                    NotifyPropertyChanged(nameof(IsSortedByType));
+                    OnPropertyChanged(nameof(IsSortedByType));
                 }
             }
         }
@@ -285,7 +285,7 @@ namespace Files.ViewModels
                 if (value)
                 {
                     folderSettings.DirectorySortOption = SortOption.Size;
-                    NotifyPropertyChanged(nameof(IsSortedBySize));
+                    OnPropertyChanged(nameof(IsSortedBySize));
                 }
             }
         }
@@ -298,7 +298,7 @@ namespace Files.ViewModels
                 if (value)
                 {
                     folderSettings.DirectorySortOption = SortOption.SyncStatus;
-                    NotifyPropertyChanged(nameof(IsSortedBySyncStatus));
+                    OnPropertyChanged(nameof(IsSortedBySyncStatus));
                 }
             }
         }
@@ -309,8 +309,8 @@ namespace Files.ViewModels
             set
             {
                 folderSettings.DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
-                NotifyPropertyChanged(nameof(IsSortedAscending));
-                NotifyPropertyChanged(nameof(IsSortedDescending));
+                OnPropertyChanged(nameof(IsSortedAscending));
+                OnPropertyChanged(nameof(IsSortedDescending));
             }
         }
 
@@ -320,8 +320,8 @@ namespace Files.ViewModels
             set
             {
                 folderSettings.DirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
-                NotifyPropertyChanged(nameof(IsSortedAscending));
-                NotifyPropertyChanged(nameof(IsSortedDescending));
+                OnPropertyChanged(nameof(IsSortedAscending));
+                OnPropertyChanged(nameof(IsSortedDescending));
             }
         }
 
@@ -1117,6 +1117,16 @@ namespace Files.ViewModels
                 IsLoadingItems = false;
 
                 AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
+
+                // Find and select README file
+                foreach (var item in filesAndFolders)
+                {
+                    if (item.ItemName.Contains("readme", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        OnSelectionRequestedEvent?.Invoke(this, new List<ListedItem>() { item });
+                        break;
+                    }
+                }
             }
             finally
             {
@@ -1962,11 +1972,6 @@ namespace Files.ViewModels
             }
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
-        }
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public void Dispose()
