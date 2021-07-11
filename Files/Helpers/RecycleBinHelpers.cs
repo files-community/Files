@@ -50,30 +50,18 @@ namespace Files.Helpers
                 }
             }
 
-            return null;
+            return new List<ShellFileItem>();
         }
 
         public async Task<bool> IsRecycleBinItem(IStorageItem item)
         {
             List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
-
-            if (recycleBinItems == null)
-            {
-                return false;
-            }
-
             return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == item.Path);
         }
 
         public async Task<bool> IsRecycleBinItem(string path)
         {
             List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
-
-            if (recycleBinItems == null)
-            {
-                return false;
-            }
-
             return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == path);
         }
 
