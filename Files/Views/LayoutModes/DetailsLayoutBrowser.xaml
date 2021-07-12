@@ -101,7 +101,7 @@
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
-                                        <ContentPresenter Padding="{TemplateBinding Padding}" Content="{TemplateBinding Header}" />
+                                        <ContentPresenter Padding="8,0,8,8" Content="{TemplateBinding Header}" />
                                         <ScrollViewer
                                             x:Name="ScrollViewer"
                                             Grid.Row="1"
@@ -274,7 +274,7 @@
                 <ListView
                     x:Name="FileList"
                     Margin="0,4,0,0"
-                    Padding="8,0,8,8"
+                    Padding="8,0,8,12"
                     HorizontalAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
                     tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
@@ -296,9 +296,6 @@
                     SelectionChanged="FileList_SelectionChanged"
                     SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
                     Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
-                    <i:Interaction.Behaviors>
-                        <behaviors:StickyHeaderBehavior />
-                    </i:Interaction.Behaviors>
                     <ListView.ItemContainerTransitions>
                         <TransitionCollection>
                             <AddDeleteThemeTransition />
