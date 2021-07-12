@@ -15,6 +15,7 @@
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:uc="using:Files.UserControls"
     x:Name="PageRoot"
@@ -100,7 +101,7 @@
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
-                                        <ContentPresenter Content="{TemplateBinding Header}" />
+                                        <ContentPresenter Padding="{TemplateBinding Padding}" Content="{TemplateBinding Header}" />
                                         <ScrollViewer
                                             x:Name="ScrollViewer"
                                             Grid.Row="1"
@@ -232,7 +233,6 @@
         VerticalAlignment="Stretch"
         ContextFlyout="{x:Bind BaseContextMenuFlyout}"
         SizeChanged="RootGrid_SizeChanged">
-
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
                 <i:Interaction.Behaviors>
@@ -311,6 +311,7 @@
                         <Grid
                             x:Name="HeaderGrid"
                             Height="38"
+                            Margin="24,0,0,0"
                             Padding="0"
                             Background="{ThemeResource FileBrowserBackgroundBrush}"
                             BorderBrush="{ThemeResource SystemChromeHighColor}"
@@ -904,5 +905,19 @@
                 Stroke="{ThemeResource SystemAccentColorLight1}"
                 StrokeThickness="1" />
         </Canvas>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="MultiselectDisabled" />
+                <VisualState x:Name="MultiselectEnabled">
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay}" To="True" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderGrid.Margin" Value="56,0,0,0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </local:BaseLayout>
