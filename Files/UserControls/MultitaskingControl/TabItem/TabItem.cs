@@ -79,12 +79,12 @@ namespace Files.UserControls.MultitaskingControl
 
         public string Serialize() => JsonConvert.SerializeObject(this, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.Auto
+            TypeNameHandling = TypeNameHandling.None
         });
 
         public static TabItemArguments Deserialize(string obj) => JsonConvert.DeserializeObject<TabItemArguments>(obj, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.Auto
+            TypeNameHandling = TypeNameHandling.None
         });
     }
 }
