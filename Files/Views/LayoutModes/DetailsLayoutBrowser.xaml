@@ -308,7 +308,7 @@
                         <Grid
                             x:Name="HeaderGrid"
                             Height="38"
-                            Margin="24,0,0,0"
+                            Margin="20,0,0,0"
                             Padding="0"
                             Background="{ThemeResource FileBrowserBackgroundBrush}"
                             BorderBrush="{ThemeResource SystemChromeHighColor}"
@@ -911,7 +911,7 @@
                         <triggers:IsEqualStateTrigger Value="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay}" To="True" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HeaderGrid.Margin" Value="56,0,0,0" />
+                        <Setter Target="HeaderGrid.Margin" Value="52,0,0,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
