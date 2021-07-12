@@ -35,6 +35,7 @@
             <x:Boolean x:Key="False">False</x:Boolean>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
+                <ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
 
                 <ResourceDictionary>
                     <Style x:Key="NavigationButtonNormalStyle" TargetType="Button">
@@ -895,7 +896,10 @@
                             Modifiers="Menu,Control" />
                     </AppBarButton.KeyboardAccelerators>
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xEE49;" />
+                        <PathIcon
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Data="{StaticResource EnterCompactOverlay}" />
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton
@@ -906,7 +910,10 @@
                     Label="Exit compact overlay"
                     Visibility="{x:Bind IsCompactOverlay, Mode=OneWay}">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xEE47;" />
+                        <PathIcon
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Data="{StaticResource ExitCompactOverlay}" />
                     </AppBarButton.Icon>
                     <AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator

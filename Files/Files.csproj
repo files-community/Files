@@ -1092,6 +1092,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ResourceDictionaries\PathIcons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ResourceDictionaries\TabViewItem_shared.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
