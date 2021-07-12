@@ -308,7 +308,7 @@
                         <Grid
                             x:Name="HeaderGrid"
                             Height="38"
-                            Margin="26,0,0,0"
+                            Margin="16,0,0,0"
                             Padding="0"
                             Background="{ThemeResource FileBrowserBackgroundBrush}"
                             BorderBrush="{ThemeResource SystemChromeHighColor}"
@@ -620,7 +620,7 @@
                                 <Grid
                                     Grid.Column="1"
                                     Width="{Binding ColumnsViewModel.NameColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
-                                    Padding="8,0,0,0"
+                                    Padding="12,0,0,0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     Tapped="ItemNameGrid_Tapped">
@@ -911,7 +911,7 @@
                         <triggers:IsEqualStateTrigger Value="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay}" To="True" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HeaderGrid.Margin" Value="56,0,0,0" />
+                        <Setter Target="HeaderGrid.Margin" Value="44,0,0,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
