@@ -277,6 +277,10 @@ namespace Files.Views.LayoutModes
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
             ListViewItem listViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
             TextBox textBox = null;
+            if (listViewItem == null)
+            {
+                return;
+            }
             textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
             textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
             //textBlock = (listViewItem.ContentTemplateRoot as Border).FindDescendant("ItemName") as TextBlock;
@@ -614,7 +618,7 @@ namespace Files.Views.LayoutModes
                     //await pane.FilesystemViewModel.SetWorkingDirectoryAsync(item.ItemPath);
                     //pane.IsPageMainPane = false;
                     //pane.NavParams = item.ItemPath;
-
+                    
                     if (item.ContainsFilesOrFolders)
                     {
                         listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
@@ -627,7 +631,7 @@ namespace Files.Views.LayoutModes
                         //    NavPathParam = item.ItemPath,
                         //    AssociatedTabInstance = ParentShellPageInstance
                         //});
-
+                        
                         frame.Navigate(typeof(ColumnShellPage), new ColumnParam
                         {
                             Column = 1,
@@ -640,7 +644,7 @@ namespace Files.Views.LayoutModes
                 {
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
-            }
+            }            
         }
 
         private void ColumnShellPage_NotifyRoot(object sender, EventArgs e)
@@ -702,25 +706,12 @@ namespace Files.Views.LayoutModes
                     (sender as SelectorItem).IsSelected = true;
                 }
             }
-        }
-
-        private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
-        {
-            if (args.ItemContainer == null)
+            else if (e.GetCurrentPoint(sender as UIElement).Properties.IsMiddleButtonPressed)
             {
-                ListViewItem gvi = new ListViewItem();
-                args.ItemContainer = gvi;
-            }
-            args.ItemContainer.DataContext = args.Item;
-            InitializeDrag(args.ItemContainer);
-
-            if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
-            {
-                args.ItemContainer.PointerPressed += FileListListItem_PointerPressed;
-                args.ItemContainer.CanDrag = args.ItemContainer.IsSelected; // Update CanDrag
-
-                item.ItemPropertiesInitialized = true;
-                await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, 24);
+                if (!(sender as SelectorItem).IsSelected)
+                {
+                    (sender as SelectorItem).IsSelected = true;
+                }
             }
         }
 
@@ -733,6 +724,41 @@ namespace Files.Views.LayoutModes
                 item = VisualTreeHelper.GetParent(item);
             var itemContainer = item as ListViewItem;
             itemContainer.ContextFlyout = ItemContextMenuFlyout;
+        }
+
+        private void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            if (!args.InRecycleQueue)
+            {
+                InitializeDrag(args.ItemContainer);
+                if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
+                {
+                    args.ItemContainer.PointerPressed += FileListListItem_PointerPressed;
+
+                    args.RegisterUpdateCallback(3, async (s, c) =>
+                    {
+                        item.ItemPropertiesInitialized = true;
+                        await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, 24);
+                    });
+                }
+                else if (args.Item is ListedItem item1 && item1.ItemPropertiesInitialized && !item1.LoadFileIcon)
+                {
+                    args.RegisterUpdateCallback(3, async (s, c) =>
+                    {
+                        await ParentShellPageInstance.FilesystemViewModel.LoadItemThumbnail(item1, 24);
+                    });
+                }
+            }
+            else
+            {
+                UninitializeDrag(args.ItemContainer);
+                args.ItemContainer.PointerPressed -= FileListListItem_PointerPressed;
+
+                if (args.Item is ListedItem item && item.ItemPropertiesInitialized && item.LoadFileIcon)
+                {
+                    ParentShellPageInstance.FilesystemViewModel.UnloadItemThumbnail(item);
+                }
+            }
         }
     }
 }

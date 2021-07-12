@@ -325,8 +325,8 @@
                                     <Flyout x:Name="VerticalTabViewFlyout">
                                         <usercontrols:VerticalTabViewControl
                                             x:Name="VerticalTabs"
-                                            Width="275"
-                                            MaxHeight="300"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
                                             x:FieldModifier="public" />
                                     </Flyout>
                                 </Button.Flyout>

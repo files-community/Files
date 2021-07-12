@@ -33,6 +33,10 @@ namespace Files.Helpers
                 // Need to reinitialize AppService when app is resuming
                 Instance = BuildConnection(true);
                 ConnectionChanged?.Invoke(null, Instance);
+                if (App.MainViewModel != null)
+                {
+                    App.MainViewModel.IsFullTrustElevated = false;
+                }
             }
         }
 

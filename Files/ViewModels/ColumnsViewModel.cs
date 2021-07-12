@@ -97,11 +97,32 @@ namespace Files.ViewModels
             set => SetProperty(ref sizeColumn, value);
         }
 
-        private double totalWidth = 600;
-        public double TotalWidth
+        public double TotalWidth => IconColumn.Length.Value + NameColumn.Length.Value + StatusColumn.Length.Value + DateModifiedColumn.Length.Value + OriginalPathColumn.Length.Value 
+            + ItemTypeColumn.Length.Value + DateDeletedColumn.Length.Value + DateCreatedColumn.Length.Value + SizeColumn.Length.Value;
+
+        public void SetDesiredSize(double width)
         {
-            get => totalWidth;
-            set => SetProperty(ref totalWidth, value);
+            if(TotalWidth > width || TotalWidth < width) 
+            {
+                var proportion = width / TotalWidth;
+                SetColumnSizeProportionally(proportion);
+            }
+        }
+
+        /// <summary>
+        /// Multiplies every column's length by the given amount if it is within the size
+        /// </summary>
+        /// <param name="factor"></param>
+        private void SetColumnSizeProportionally(double factor)
+        {
+            NameColumn.TryMultiplySize(factor);
+            StatusColumn.TryMultiplySize(factor);
+            DateModifiedColumn.TryMultiplySize(factor);
+            OriginalPathColumn.TryMultiplySize(factor);
+            ItemTypeColumn.TryMultiplySize(factor);
+            DateDeletedColumn.TryMultiplySize(factor);
+            DateCreatedColumn.TryMultiplySize(factor);
+            SizeColumn.TryMultiplySize(factor);
         }
     }
 
@@ -204,6 +225,26 @@ namespace Files.ViewModels
             OnPropertyChanged(nameof(MaxLength));
             OnPropertyChanged(nameof(Visibility));
             OnPropertyChanged(nameof(MinLength));
+        }
+
+        public void TryMultiplySize(double factor)
+        {
+            var newSize = Length.Value * factor;
+            if(newSize == 0)
+            {
+                return;
+            }
+
+            double setLength = newSize;
+            if (newSize < MinLength)
+            {
+                setLength = MinLength;
+            } else if(newSize >= MaxLength)
+            {
+                setLength = MaxLength;
+            }
+
+            UserLength = new GridLength(setLength);
         }
     }
 }

@@ -15,6 +15,7 @@
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:uc="using:Files.UserControls"
     x:Name="PageRoot"
@@ -50,6 +51,88 @@
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="Width" Value="1" />
                 <Setter Property="Opacity" Value="0.8" />
+            </Style>
+            <Style TargetType="ListView">
+                <Setter Property="IsTabStop" Value="False" />
+                <Setter Property="TabNavigation" Value="Once" />
+                <Setter Property="IsSwipeEnabled" Value="True" />
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+                <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled" />
+                <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="True" />
+                <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
+                <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True" />
+                <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
+                <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+                <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
+                <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+                <Setter Property="ItemContainerTransitions">
+                    <Setter.Value>
+                        <TransitionCollection>
+                            <AddDeleteThemeTransition />
+                            <ContentThemeTransition />
+                            <ReorderThemeTransition />
+                            <EntranceThemeTransition IsStaggeringEnabled="False" />
+                        </TransitionCollection>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListView">
+                            <Border
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}">
+                                <ScrollViewer
+                                    HorizontalScrollBarVisibility="Auto"
+                                    HorizontalScrollMode="Auto"
+                                    VerticalScrollBarVisibility="Disabled"
+                                    VerticalScrollMode="Disabled">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <ContentPresenter Padding="8,0,8,8" Content="{TemplateBinding Header}" />
+                                        <ScrollViewer
+                                            x:Name="ScrollViewer"
+                                            Grid.Row="1"
+                                            AutomationProperties.AccessibilityView="Raw"
+                                            BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                            HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                            HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                            IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                            IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                            IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                                            IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                            IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                                            TabNavigation="{TemplateBinding TabNavigation}"
+                                            VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                            VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                            ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                            <ItemsPresenter
+                                                Padding="{TemplateBinding Padding}"
+                                                Footer="{TemplateBinding Footer}"
+                                                FooterTemplate="{TemplateBinding FooterTemplate}"
+                                                FooterTransitions="{TemplateBinding FooterTransitions}"
+                                                HeaderTemplate="{TemplateBinding HeaderTemplate}"
+                                                HeaderTransitions="{TemplateBinding HeaderTransitions}" />
+                                        </ScrollViewer>
+                                    </Grid>
+                                </ScrollViewer>
+                            </Border>
+
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
 
             <Style TargetType="ListViewHeaderItem">
@@ -150,7 +233,6 @@
         VerticalAlignment="Stretch"
         ContextFlyout="{x:Bind BaseContextMenuFlyout}"
         SizeChanged="RootGrid_SizeChanged">
-
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator Key="{x:Bind PlusKey}" Modifiers="Control">
                 <i:Interaction.Behaviors>
@@ -192,14 +274,14 @@
                 <ListView
                     x:Name="FileList"
                     Margin="0,4,0,0"
-                    Padding="8,0,8,8"
+                    Padding="8,0,8,12"
                     HorizontalAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
                     tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
                     x:FieldModifier="public"
                     AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                     CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                    ChoosingItemContainer="FileList_ChoosingItemContainer"
+                    ContainerContentChanging="FileList_ContainerContentChanging"
                     DoubleTapped="FileList_DoubleTapped"
                     DragItemsStarting="FileList_DragItemsStarting"
                     DragOver="ItemsLayout_DragOver"
@@ -214,9 +296,6 @@
                     SelectionChanged="FileList_SelectionChanged"
                     SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
                     Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
-                    <i:Interaction.Behaviors>
-                        <behaviors:StickyHeaderBehavior />
-                    </i:Interaction.Behaviors>
                     <ListView.ItemContainerTransitions>
                         <TransitionCollection>
                             <AddDeleteThemeTransition />
@@ -228,8 +307,8 @@
                     <ListView.Header>
                         <Grid
                             x:Name="HeaderGrid"
-                            Width="{x:Bind ColumnsViewModel.TotalWidth, Mode=OneWay}"
                             Height="38"
+                            Margin="16,0,0,0"
                             Padding="0"
                             Background="{ThemeResource FileBrowserHeaderBackgroundBrush}"
                             BorderBrush="{ThemeResource SystemChromeHighColor}"
@@ -456,7 +535,6 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
                             <Grid
-                                Width="{Binding ColumnsViewModel.TotalWidth, ElementName=PageRoot, Mode=OneWay}"
                                 HorizontalAlignment="Stretch"
                                 IsRightTapEnabled="True"
                                 Loaded="Grid_Loaded"
@@ -542,7 +620,7 @@
                                 <Grid
                                     Grid.Column="1"
                                     Width="{Binding ColumnsViewModel.NameColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
-                                    Padding="8,0,0,0"
+                                    Padding="12,0,0,0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     Tapped="ItemNameGrid_Tapped">
@@ -824,5 +902,19 @@
                 Stroke="{ThemeResource SystemAccentColorLight1}"
                 StrokeThickness="1" />
         </Canvas>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="MultiselectDisabled" />
+                <VisualState x:Name="MultiselectEnabled">
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay}" To="True" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderGrid.Margin" Value="44,0,0,0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </local:BaseLayout>

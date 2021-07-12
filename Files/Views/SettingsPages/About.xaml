@@ -5,9 +5,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+    </Page.Resources>
     <Page.DataContext>
         <settingsviewmodels:AboutViewModel />
     </Page.DataContext>
@@ -18,8 +22,7 @@
                 Margin="12,12,8,8"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Orientation="Vertical"
-                Spacing="20">
+                Spacing="4">
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />
@@ -28,151 +31,184 @@
 
                 <TextBlock
                     x:Uid="SettingsAboutTitle"
+                    Padding="0,0,0,12"
                     FontSize="20"
                     FontWeight="Medium"
                     Text="About" />
 
-                <StackPanel Orientation="Horizontal">
-                    <Image
-                        Width="60"
-                        Source="/Assets/Files Icon.png"
-                        Stretch="Uniform" />
-                    <StackPanel Padding="12,0,0,0" Orientation="Vertical">
-                        <TextBlock
-                            x:Uid="SettingsAboutAppName"
-                            FontSize="16"
-                            FontWeight="Medium"
-                            Text="Files" />
-                        <TextBlock
-                            x:Name="VersionNumber"
-                            Padding="0,4"
-                            FontSize="14"
-                            Opacity=".5"
-                            Text="{Binding Version}" />
-                    </StackPanel>
-                </StackPanel>
-
-                <ListView
-                    x:Name="FeedbackListView"
+                <local:SettingsBlockControl
+                    Title="{Binding AppName}"
+                    Width="352"
                     HorizontalAlignment="Left"
-                    IsItemClickEnabled="True"
-                    SelectionMode="None">
-                    <ListViewItem
-                        x:Name="FeedbackForm"
-                        x:Uid="SettingsAboutSubmitFeedbackListViewItem"
-                        Padding="8,2"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Stretch"
-                        AutomationProperties.Name="Send the developers an issue report with more information"
-                        IsEnabled="True">
-                        <StackPanel
-                            Padding="4"
-                            Orientation="Horizontal"
-                            Spacing="14"
-                            Tag="Feedback">
-                            <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xED15;" />
-                            <TextBlock x:Uid="SettingsAboutSubmitFeedback" Text="Submit feedback" />
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem
-                        x:Uid="SettingsAboutReleaseNotesListViewItem"
-                        Padding="8,2"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Stretch"
-                        AutomationProperties.Name="Find out what's new in Files"
-                        IsEnabled="True">
-                        <StackPanel
-                            Padding="4"
-                            Orientation="Horizontal"
-                            Spacing="14"
-                            Tag="ReleaseNotes">
-                            <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xF000;" />
-                            <TextBlock x:Uid="SettingsAboutReleaseNotes" Text="Release notes" />
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem
-                        x:Uid="SettingsAboutDocumentationListViewItem"
-                        Padding="8,2"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Stretch"
-                        AutomationProperties.Name="Visit the Files documentation website"
-                        IsEnabled="True">
-                        <StackPanel
-                            Padding="4"
-                            Orientation="Horizontal"
-                            Spacing="14"
-                            Tag="Documentation">
-                            <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE736;" />
-                            <TextBlock x:Uid="SettingsAboutDocumentation" Text="Documentation" />
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem
-                        x:Uid="SettingsAboutPrivacyPolicyListViewItem"
-                        Padding="8,2"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Stretch"
-                        AutomationProperties.Name="View Files privacy policy"
-                        IsEnabled="True">
-                        <StackPanel
-                            Padding="4"
-                            Orientation="Horizontal"
-                            Spacing="14"
-                            Tag="PrivacyPolicy">
-                            <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE72E;" />
-                            <TextBlock x:Uid="SettingsAboutPrivacyPolicy" Text="Privacy policy" />
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem
-                        x:Uid="SettingsAboutContributorsListViewItem"
-                        Padding="8,2"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Stretch"
-                        AutomationProperties.Name="See who contributed to Files"
-                        IsEnabled="True">
-                        <StackPanel
-                            Padding="4"
-                            Orientation="Horizontal"
-                            Spacing="14"
-                            Tag="Contributors">
-                            <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE716;" />
-                            <TextBlock x:Uid="SettingsAboutContributors" Text="Contributors" />
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem
-                        x:Uid="SettingsAboutSupportUsListViewItem"
-                        Padding="8,2"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Stretch"
-                        AutomationProperties.Name="Support us on PayPal"
-                        IsEnabled="True">
-                        <StackPanel
-                            Padding="4"
-                            Orientation="Horizontal"
-                            Spacing="14"
-                            Tag="SupportUs">
-                            <FontIcon
-                                FontFamily="{StaticResource CustomGlyph}"
-                                Foreground="{ThemeResource SystemAccentColor}"
-                                Glyph="&#xF119;" />
-                            <TextBlock x:Uid="SettingsAboutSupportUs" Text="Support us" />
-                        </StackPanel>
-                    </ListViewItem>
-                    <i:Interaction.Behaviors>
-                        <ic:EventTriggerBehavior EventName="ItemClick">
-                            <ic:InvokeCommandAction Command="{Binding ClickAboutFeedbackItemCommand}" />
-                        </ic:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
-                </ListView>
+                    Description="{Binding Version}">
+                    <local:SettingsBlockControl.Icon>
+                        <FontIcon Glyph="&#xE946;" />
+                    </local:SettingsBlockControl.Icon>
+                    <Button
+                        x:Name="CopyVersionInfo"
+                        x:Uid="SettingCopyVersionInfo"
+                        Command="{Binding CopyVersionInfoCommand}"
+                        Content="Copy" />
+                </local:SettingsBlockControl>
+
+                <local:SettingsBlockControl
+                    x:Uid="SettingsUsefulLinks"
+                    Title="Useful links"
+                    Width="352"
+                    HorizontalAlignment="Left">
+                    <local:SettingsBlockControl.Icon>
+                        <SymbolIcon Symbol="Link" />
+                    </local:SettingsBlockControl.Icon>
+                    <local:SettingsBlockControl.ExpandableContent>
+                        <GridView
+                            x:Name="FeedbackListView"
+                            Padding="8"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            IsItemClickEnabled="True"
+                            SelectionMode="None">
+                            <GridViewItem
+                                x:Name="FeedbackForm"
+                                x:Uid="SettingsAboutSubmitFeedbackListViewItem"
+                                Padding="8,2"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                AutomationProperties.Name="Send the developers an issue report with more information"
+                                IsEnabled="True">
+                                <StackPanel
+                                    Padding="4"
+                                    Orientation="Horizontal"
+                                    Spacing="14"
+                                    Tag="Feedback">
+                                    <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xED15;" />
+                                    <TextBlock x:Uid="SettingsAboutSubmitFeedback" Text="Submit feedback" />
+                                </StackPanel>
+                            </GridViewItem>
+                            <GridViewItem
+                                x:Uid="SettingsAboutReleaseNotesListViewItem"
+                                Padding="8,2"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                AutomationProperties.Name="Find out what's new in Files"
+                                IsEnabled="True">
+                                <StackPanel
+                                    Padding="4"
+                                    Orientation="Horizontal"
+                                    Spacing="14"
+                                    Tag="ReleaseNotes">
+                                    <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xF000;" />
+                                    <TextBlock x:Uid="SettingsAboutReleaseNotes" Text="Release notes" />
+                                </StackPanel>
+                            </GridViewItem>
+                            <GridViewItem
+                                x:Uid="SettingsAboutDocumentationListViewItem"
+                                Padding="8,2"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                AutomationProperties.Name="Visit the Files documentation website"
+                                IsEnabled="True">
+                                <StackPanel
+                                    Padding="4"
+                                    Orientation="Horizontal"
+                                    Spacing="14"
+                                    Tag="Documentation">
+                                    <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE736;" />
+                                    <TextBlock x:Uid="SettingsAboutDocumentation" Text="Documentation" />
+                                </StackPanel>
+                            </GridViewItem>
+                            <GridViewItem
+                                x:Uid="SettingsAboutPrivacyPolicyListViewItem"
+                                Padding="8,2"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                AutomationProperties.Name="View Files privacy policy"
+                                IsEnabled="True">
+                                <StackPanel
+                                    Padding="4"
+                                    Orientation="Horizontal"
+                                    Spacing="14"
+                                    Tag="PrivacyPolicy">
+                                    <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE72E;" />
+                                    <TextBlock x:Uid="SettingsAboutPrivacyPolicy" Text="Privacy policy" />
+                                </StackPanel>
+                            </GridViewItem>
+                            <GridViewItem
+                                x:Uid="SettingsAboutContributorsListViewItem"
+                                Padding="8,2"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                AutomationProperties.Name="See who contributed to Files"
+                                IsEnabled="True">
+                                <StackPanel
+                                    Padding="4"
+                                    Orientation="Horizontal"
+                                    Spacing="14"
+                                    Tag="Contributors">
+                                    <FontIcon Foreground="{ThemeResource SystemAccentColor}" Glyph="&#xE716;" />
+                                    <TextBlock x:Uid="SettingsAboutContributors" Text="Contributors" />
+                                </StackPanel>
+                            </GridViewItem>
+                            <GridViewItem
+                                x:Uid="SettingsAboutSupportUsListViewItem"
+                                Padding="8,2"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                AutomationProperties.Name="Support us on PayPal"
+                                IsEnabled="True">
+                                <StackPanel
+                                    Padding="4"
+                                    Orientation="Horizontal"
+                                    Spacing="14"
+                                    Tag="SupportUs">
+                                    <FontIcon
+                                        FontFamily="{StaticResource CustomGlyph}"
+                                        Foreground="{ThemeResource SystemAccentColor}"
+                                        Glyph="&#xF119;" />
+                                    <TextBlock x:Uid="SettingsAboutSupportUs" Text="Support us" />
+                                </StackPanel>
+                            </GridViewItem>
+                            <i:Interaction.Behaviors>
+                                <ic:EventTriggerBehavior EventName="ItemClick">
+                                    <ic:InvokeCommandAction Command="{Binding ClickAboutFeedbackItemCommand}" />
+                                </ic:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+                        </GridView>
+                    </local:SettingsBlockControl.ExpandableContent>
+                </local:SettingsBlockControl>
 
                 <Button
                     x:Name="OpenLogLocationButton"
                     x:Uid="SettingsAboutOpenLogLocationButton"
-                    Command="{Binding OpenLogLocationCommand}"
-                    Content="Open log location" />
+                    Width="352"
+                    Padding="20,16,20,16"
+                    AutomationProperties.Name="Open log location"
+                    Command="{Binding OpenLogLocationCommand}">
+                    <Button.Content>
+                        <Grid
+                            Width="352"
+                            HorizontalAlignment="Left"
+                            ColumnSpacing="16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <FontIcon
+                                Grid.Column="0"
+                                FontSize="20"
+                                Glyph="&#xE838;" />
+                            <TextBlock
+                                x:Uid="SettingsAboutOpenLogLocationButtonText"
+                                Grid.Column="1"
+                                Text="Open log location" />
+                        </Grid>
+                    </Button.Content>
+                </Button>
 
                 <TextBlock
                     x:Uid="SettingsAboutThirdPartyLicenses"
-                    FontSize="16"
+                    Padding="0,12,0,0"
+                    FontSize="14"
+                    FontWeight="Medium"
                     Text="Third party licenses">
                     <TextBlock.Transitions>
                         <TransitionCollection>

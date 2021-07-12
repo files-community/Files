@@ -571,6 +571,7 @@ namespace Files.Views
             FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
             FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
             FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+            FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
             OnNavigationParamsChanged();
             ServiceConnection = await AppServiceConnectionHelper.Instance;
             this.Loaded -= Page_Loaded;
@@ -579,6 +580,11 @@ namespace Files.Views
         private void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
         {
             InstanceViewModel.IsPageTypeCloudDrive = e.IsTypeCloudDrive;
+        }
+
+        private void FilesystemViewModel_OnSelectionRequestedEvent(object sender, List<ListedItem> e)
+        {
+            ContentPage.ItemManipulationModel.SetSelectedItems(e);
         }
 
         private void FilesystemViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
@@ -926,14 +932,21 @@ namespace Files.Views
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
 
-            if (FilesystemViewModel != null)    // Prevent weird case of this being null when many tabs are opened/closed quickly
+            if (FilesystemViewModel != null) // Prevent weird case of this being null when many tabs are opened/closed quickly
             {
                 FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
                 FilesystemViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
                 FilesystemViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
                 FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+                FilesystemViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
                 FilesystemViewModel.Dispose();
             }
+
+            if (ItemDisplayFrame.Content is IDisposable disposableContent)
+            {
+                disposableContent?.Dispose();
+            }
+
             AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
         }
 

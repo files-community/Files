@@ -439,7 +439,7 @@ namespace Files
             Debugger.Break(); // Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
 
             SaveSessionTabs();
-            Logger.Error(ex, formattedException);
+            Logger.UnhandledError(ex, ex.Message);
             if (ShowErrorNotification)
             {
                 var toastContent = new ToastContent()

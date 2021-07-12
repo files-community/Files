@@ -42,9 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Dit item verwijderen</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Feedback verzenden</value>
   </data>
@@ -459,9 +456,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>De itemnaam mag geen van de volgende tekens bevatten: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Logboeklocatie openen</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>item geselecteerd</value>
   </data>
@@ -578,9 +572,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Recent</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>Apptaal</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Status</value>
@@ -807,9 +798,6 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>Voorbeeldprofielen bekijken</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>Apptaal</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Terminaltoepassingen</value>
   </data>
@@ -822,23 +810,14 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Toegang geweigerd</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>Prullenbak vastmaken aan zijbalk</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Bevestigingsdialoogvenster weergeven bij het verwijderen van bestanden en mappen</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>Bestandsextensies weergeven voor bekende bestandstypen</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Acryleffect zijbalk</value>
   </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Datumnotatie</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>Appthema</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Beoordeling</value>
@@ -1122,9 +1101,6 @@
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Statuscentrum</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Items openen bij eenmaal klikken</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Bestand</value>
   </data>
@@ -1142,12 +1118,6 @@
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>Stations</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Verborgen bestanden en mappen weergeven</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Verborgen bestanden en mappen weergeven</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>Hardware kan veilig worden verwijderd</value>
@@ -1239,9 +1209,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Steun ons via PayPal</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>Mappen en bestanden gemengd weergeven</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Details</value>
   </data>
@@ -1257,12 +1224,6 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Updates beschikbaar</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Beveiligde besturingssysteembestanden verbergen (aanbevolen)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Beveiligde besturingssysteembestanden verbergen (aanbevolen)</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Bestand</value>
   </data>
@@ -1274,12 +1235,6 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>Nieuw bestand</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>Niet-geïndexeerde items tonen bij het zoeken naar bestanden en mappen (zoeken duurt mogelijk langer)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>Afzonderlijke voorkeuren voor mappen gebruiken</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Oorspronkelijk pad</value>
@@ -1305,12 +1260,6 @@
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Lopende taken</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>Nieuwe tabbladen altijd in tweezijdig paneel openen</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>Tweezijdige paneelweergave inschakelen</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>In secundair paneel openen</value>
   </data>
@@ -1319,9 +1268,6 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Tweezijdig paneel</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>Overlopende items weergeven in submenu</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Contextmenu aanpassen</value>
@@ -1607,9 +1553,6 @@
   </data>
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumenten</value>
-  </data>
-  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
-    <value>Bibliotheken weergeven in zijbalk</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Bibliotheken</value>
@@ -2244,14 +2187,8 @@
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>Zijbalk</value>
   </data>
-  <data name="SettingsVerticalTabFlyoutSwitch.Header" xml:space="preserve">
-    <value>Flyout verticale tabbladen weergeven in titelbalk</value>
-  </data>
   <data name="DefaultSkin" xml:space="preserve">
     <value>Standaard</value>
-  </data>
-  <data name="SettingsAppearanceCustomSkins.Header" xml:space="preserve">
-    <value>Aangepast uiterlijk</value>
   </data>
   <data name="SettingsAppearanceOpenSkinsFolderButton.Content" xml:space="preserve">
     <value>Uiterlijkenmap openen</value>

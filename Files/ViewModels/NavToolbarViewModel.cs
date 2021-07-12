@@ -638,9 +638,10 @@ namespace Files.ViewModels
                                     {
                                         var value = new ValueSet
                                         {
+                                            { "Arguments", "LaunchApp" },
                                             { "WorkingDirectory", workingDir },
                                             { "Application", terminal.Path },
-                                            { "Arguments", string.Format(terminal.Arguments, workingDir) }
+                                            { "Parameters", string.Format(terminal.Arguments, workingDir) }
                                         };
                                         await shellPage.ServiceConnection.SendMessageAsync(value);
                                     }
