@@ -62,7 +62,7 @@
                             <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="Transparent" />
                             <!--  File Browser Control  -->
                             <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
-                            <StaticResource x:Key="FileBrowserHeaderBackgroundBrush" ResourceKey="SolidBackgroundFillColorBaseBrush" />
+                            <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
                             <!--  Preview pane  -->
                             <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="#21000000" />
 
@@ -104,7 +104,8 @@
                             <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="Transparent" />
                             <!--  File Browser Control  -->
                             <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
-                            <StaticResource x:Key="FileBrowserHeaderBackgroundBrush" ResourceKey="SolidBackgroundFillColorBaseBrush" />
+                            <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
+
                             <!--  Preview pane  -->
                             <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="#31000000" />
 
