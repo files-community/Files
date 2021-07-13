@@ -88,7 +88,7 @@ namespace Files.ViewModels
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
 
-        public static async void OpenSkinsFolder() => await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.SkinFolder.Path);
+        public static async void OpenThemesFolder() => await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
 
         public static async void ReportIssueOnGitHub()
         {
@@ -555,11 +555,11 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets the user's current selected skin
         /// </summary>
-        public AppSkin SelectedSkin
+        public AppTheme SelectedTheme
         {
-            get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppSkin>(Get(System.Text.Json.JsonSerializer.Serialize(new AppSkin()
+            get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppTheme>(Get(System.Text.Json.JsonSerializer.Serialize(new AppTheme()
             {
-                Name = "DefaultSkin".GetLocalized()
+                Name = "DefaultTheme".GetLocalized()
             })));
             set => Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
         }

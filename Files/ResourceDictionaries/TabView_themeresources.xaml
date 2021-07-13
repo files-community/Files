@@ -45,8 +45,8 @@
 
             <StaticResource x:Key="TabViewBorderBrush" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewItemBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
-			<StaticResource x:Key="TabViewSelectedItemBorderBrush" ResourceKey="ControlElevationBorderBrush" />
-            
+            <StaticResource x:Key="TabViewSelectedItemBorderBrush" ResourceKey="ControlElevationBorderBrush" />
+
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">
@@ -90,11 +90,11 @@
             <StaticResource x:Key="TabViewButtonBackgroundActiveTab" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewButtonForegroundActiveTab" ResourceKey="SystemControlBackgroundBaseMediumBrush" />
 
-			<StaticResource x:Key="TabViewBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="TabViewBorderBrush" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewItemBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
-			<StaticResource x:Key="TabViewSelectedItemBorderBrush" ResourceKey="ControlElevationBorderBrush" />
+            <StaticResource x:Key="TabViewSelectedItemBorderBrush" ResourceKey="ControlElevationBorderBrush" />
 
-		</ResourceDictionary>
+        </ResourceDictionary>
 
         <ResourceDictionary x:Key="HighContrast">
             <StaticResource x:Key="TabViewBackground" ResourceKey="SystemColorButtonFaceColor" />
@@ -137,11 +137,11 @@
             <StaticResource x:Key="TabViewButtonBackgroundActiveTab" ResourceKey="SystemColorWindowBrush" />
             <StaticResource x:Key="TabViewButtonForegroundActiveTab" ResourceKey="SystemColorWindowTextBrush" />
 
-			<StaticResource x:Key="TabViewBorderBrush" ResourceKey="SystemControlTransparentBrush" />
+            <StaticResource x:Key="TabViewBorderBrush" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewItemBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
-			<StaticResource x:Key="TabViewSelectedItemBorderBrush" ResourceKey="SystemColorHighlightBrush" />
+            <StaticResource x:Key="TabViewSelectedItemBorderBrush" ResourceKey="SystemColorHighlightBrush" />
 
-		</ResourceDictionary>
+        </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
     <Thickness x:Key="TabViewHeaderPadding">4,8,4,0</Thickness>
