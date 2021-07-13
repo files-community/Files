@@ -249,9 +249,6 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>About</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Acrylic sidebar</value>
-  </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Date format</value>
   </data>

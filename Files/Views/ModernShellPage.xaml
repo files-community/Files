@@ -12,7 +12,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:Files.ViewModels"
     x:Name="RootPage"
-    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+    Background="{ThemeResource FileBrowserBackgroundBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
     mc:Ignorable="d">

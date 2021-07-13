@@ -72,7 +72,6 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(PinRecycleBinToSideBar)} {PinRecycleBinToSideBar}");
             Analytics.TrackEvent($"{nameof(ShowFileExtensions)} {ShowFileExtensions}");
             Analytics.TrackEvent($"{nameof(ShowConfirmDeleteDialog)} {ShowConfirmDeleteDialog}");
-            Analytics.TrackEvent($"{nameof(IsAcrylicDisabled)} {IsAcrylicDisabled}");
             Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutEnabled)} {IsVerticalTabFlyoutEnabled}");
             Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)} {IsDualPaneEnabled}");
             Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)} {AlwaysOpenDualPaneInNewTab}");
@@ -543,15 +542,6 @@ namespace Files.ViewModels
         #endregion Preferences
 
         #region Appearance
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not acrylic is enabled.
-        /// </summary>
-        public bool IsAcrylicDisabled
-        {
-            get => Get(false);
-            set => Set(value);
-        }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to move overflow menu items into a sub menu.

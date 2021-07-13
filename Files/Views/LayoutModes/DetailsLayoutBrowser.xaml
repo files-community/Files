@@ -310,7 +310,7 @@
                             Height="38"
                             Margin="16,0,0,0"
                             Padding="0"
-                            Background="{ThemeResource FileBrowserBackgroundBrush}"
+                            Background="{ThemeResource FileBrowserHeaderBackgroundBrush}"
                             BorderBrush="{ThemeResource SystemChromeHighColor}"
                             BorderThickness="0,0,0,1"
                             PointerPressed="Grid_PointerPressed">

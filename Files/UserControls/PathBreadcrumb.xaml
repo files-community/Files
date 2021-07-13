@@ -276,7 +276,7 @@
         VerticalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"
         VerticalContentAlignment="Stretch"
-        Background="Transparent"
+        Background="{ThemeResource NavigationToolbarBreadcrumbBackgroundBrush}"
         CanReorderItems="False"
         CornerRadius="{StaticResource ControlCornerRadius}"
         IsItemClickEnabled="True"

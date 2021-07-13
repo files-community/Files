@@ -94,12 +94,6 @@
                     </Button>
                 </local:SettingsBlockControl>
 
-                <ToggleSwitch
-                    x:Name="AcrylicSidebarSwitch"
-                    x:Uid="SettingsAppearanceAcrylicSidebar"
-                    Header="Acrylic sidebar"
-                    IsOn="{Binding IsAcrylicDisabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}" />
-
                 <TextBlock
                     x:Uid="SettingsContextMenu"
                     Padding="0,12,0,0"
