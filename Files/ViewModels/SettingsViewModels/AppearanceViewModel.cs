@@ -14,7 +14,7 @@ namespace Files.ViewModels.SettingsViewModels
     {
         private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
         private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
-        private AppTheme SelectedTheme = App.AppSettings.SelectedTheme;
+        private AppTheme selectedTheme = App.AppSettings.SelectedTheme;
         private bool showRestartControl = false;
         public AppearanceViewModel()
         {
@@ -60,16 +60,16 @@ namespace Files.ViewModels.SettingsViewModels
         {
             get
             {
-                return SelectedTheme;
+                return selectedTheme;
             }
             set
             {
-                if (SetProperty(ref SelectedTheme, value))
+                if (SetProperty(ref selectedTheme, value))
                 {
                     // Remove the old resource file and load the new file
-                    App.ExternalResourcesHelper.UpdateTheme(App.AppSettings.SelectedTheme, SelectedTheme);
+                    App.ExternalResourcesHelper.UpdateTheme(App.AppSettings.SelectedTheme, selectedTheme);
 
-                    App.AppSettings.SelectedTheme = SelectedTheme;
+                    App.AppSettings.SelectedTheme = selectedTheme;
 
                     // Force the application to use the correct resource file
                     UpdateTheme();
