@@ -108,9 +108,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Ta bort det här objektet</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Skicka feedback</value>
   </data>
@@ -120,26 +117,11 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Om</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Genomskinligt sidofält</value>
-  </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Datumformat</value>
   </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>Apptema</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Utseende</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>Visa filnamnstillägg för kända filtyper</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Visa dolda filer och mappar</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Visa dolda filer och mappar</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Filer och mappar</value>
@@ -281,9 +263,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Byt namn</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Fäst på sidofältet</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Egenskaper</value>
@@ -492,9 +471,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Filnamn kan inte innehålla något av följande tecken: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Öppna loggplats</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>objekt markerat</value>
   </data>
@@ -515,9 +491,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Flyttar filer till Papperskorgen</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Fäst mapp på sidofältet</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>Ja</value>
@@ -608,9 +581,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Senaste</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>Appspråk</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Flytta flik hit</value>
@@ -852,17 +822,8 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>Visa exempelprofiler</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>Appspråk</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Terminal-appar</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>Flytta överflödesobjekt till en undermeny</value>
-  </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>Fäst Papperskorgen på sidofältet</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Visa en bekräftelsedialog när du tar bort filer eller mappar</value>
@@ -1176,9 +1137,6 @@
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Statuscenter</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Öppna objekt med ett enda klick</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Fil</value>
   </data>
@@ -1260,9 +1218,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Stöd oss på PayPal</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>Visa och sortera mappar tillsammans med filer istället för avskilt</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Information</value>
   </data>
@@ -1277,18 +1232,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Uppdateringar är tillgängliga</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Dölj skyddade operativsystemfiler (rekommenderas)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Dölj skyddade operativsystemfiler (rekommenderas)</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>Visa oindexerade objekt när du söker efter filer och mappar (sökningar kan ta längre tid)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>Använd individuella inställningar för varje mapp</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Anpassa högerklicksmenyn</value>
@@ -1316,12 +1259,6 @@
   </data>
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Pågående åtgärder</value>
-  </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>Öppna alltid nya flikar med dubbla paneler</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>Aktivera vy med dubbla paneler</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Öppna i sekundär panel</value>

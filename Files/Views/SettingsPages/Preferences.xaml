@@ -5,9 +5,13 @@
     xmlns:UserControls="using:Files.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:datamodels="using:Files.DataModels"
+    xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+    </Page.Resources>
     <Page.DataContext>
         <settingsviewmodels:PreferencesViewModel />
     </Page.DataContext>
@@ -18,7 +22,7 @@
                 Margin="12,12,8,8"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Spacing="20">
+                Spacing="4">
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />
@@ -27,24 +31,31 @@
 
                 <TextBlock
                     x:Uid="SettingsPreferencesTitle"
+                    Padding="0,0,0,12"
                     FontSize="20"
                     FontWeight="Medium"
                     Text="Preferences" />
 
-                <ComboBox
-                    x:Name="ComboAppLanguage"
+                <local:SettingsBlockControl
                     x:Uid="SettingsPreferencesAppLanguage"
-                    Width="200"
-                    HorizontalAlignment="Left"
-                    Header="App language"
-                    ItemsSource="{Binding DefaultLanguages}"
-                    SelectedIndex="{Binding SelectedLanguageIndex, Mode=TwoWay}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="datamodels:DefaultLanguageModel">
-                            <TextBlock Text="{x:Bind Name}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+                    Title="Language"
+                    Width="352"
+                    HorizontalAlignment="Left">
+                    <local:SettingsBlockControl.Icon>
+                        <FontIcon Glyph="&#xF2B7;" />
+                    </local:SettingsBlockControl.Icon>
+                    <ComboBox
+                        Width="200"
+                        HorizontalAlignment="Left"
+                        ItemsSource="{Binding DefaultLanguages}"
+                        SelectedIndex="{Binding SelectedLanguageIndex, Mode=TwoWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="datamodels:DefaultLanguageModel">
+                                <TextBlock Text="{x:Bind Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </local:SettingsBlockControl>
 
                 <StackPanel
                     Width="Auto"

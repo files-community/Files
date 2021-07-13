@@ -205,6 +205,7 @@ namespace Files.Views.LayoutModes
                 }
             });
 
+            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 50);
             FilesystemViewModel_PageTypeUpdated(null, new PageTypeUpdatedEventArgs()
             {
                 IsTypeCloudDrive = InstanceViewModel.IsPageTypeCloudDrive,
@@ -256,9 +257,6 @@ namespace Files.Views.LayoutModes
             {
                 ColumnsViewModel.StatusColumn.Show();
             }
-
-            ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column1.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
-                    + Column6.ActualWidth + Column7.ActualWidth + Column8.ActualWidth + Column9.ActualWidth + Column10.ActualWidth);
 
             UpdateSortIndicator();
         }
@@ -653,13 +651,11 @@ namespace Files.Views.LayoutModes
             ColumnsViewModel.DateCreatedColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column8.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.SizeColumn.UserLength = new GridLength(Column9.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column1.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
-                    + Column6.ActualWidth + Column7.ActualWidth + Column8.ActualWidth + Column9.ActualWidth + Column10.ActualWidth);
         }
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UpdateColumnLayout();
+            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 50);
         }
 
         private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)

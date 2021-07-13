@@ -270,6 +270,14 @@ namespace Files.DataModels
                         locationItem.Icon = await locationItem.IconData.ToBitmapAsync();
                     }
                 }
+                else
+                {
+                    locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 24u);
+                    if (locationItem.IconData != null)
+                    {
+                        locationItem.Icon = await locationItem.IconData.ToBitmapAsync();
+                    }
+                }
 
                 if (!favoriteSection.ChildItems.Contains(locationItem))
                 {

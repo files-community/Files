@@ -46,10 +46,6 @@
           <source>Remove this item</source>
           <target state="translated">删除</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutAppName.Text" translate="yes" xml:space="preserve">
-          <source>Files</source>
-          <target state="translated">Files</target>
-        </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit feedback</source>
           <target state="translated">提交問題</target>
@@ -230,10 +226,6 @@
           <source>Rename</source>
           <target state="translated">重新命名</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutPinToSidebar.Text" translate="yes" xml:space="preserve">
-          <source>Pin to sidebar</source>
-          <target state="translated">固定到側邊欄</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutProperties.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">內容</target>
@@ -323,8 +315,9 @@
           <target state="translated">新索引標籤</target>
         </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
-          <source>Windows default</source>
-          <target state="translated">Windows 預設</target>
+          <source>Default</source>
+          <target state="needs-review-translation">Windows 預設</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
           <source>Light</source>
@@ -606,10 +599,6 @@
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
           <target state="translated">檔案名稱不能包含下列任何字元：\ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutOpenLogLocationButton.Content" translate="yes" xml:space="preserve">
-          <source>Open log location</source>
-          <target state="translated">打開日誌目錄</target>
-        </trans-unit>
         <trans-unit id="ItemSelected.Text" translate="yes" xml:space="preserve">
           <source>item selected</source>
           <target state="translated">已選取的項目</target>
@@ -622,29 +611,9 @@
           <source>Accessed:</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">存取時間:</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceAcrylicSidebar.Header" translate="yes" xml:space="preserve">
-          <source>Acrylic sidebar</source>
-          <target state="translated">壓克力樣式的側邊欄</target>
-        </trans-unit>
         <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">日期格式</target>
-        </trans-unit>
-        <trans-unit id="SettingsAppearanceTheme.Header" translate="yes" xml:space="preserve">
-          <source>App theme</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">App 佈景主題</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Header" translate="yes" xml:space="preserve">
-          <source>Show extensions for known file types</source>
-          <target state="translated">顯示已知檔案類型的副檔名</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
-          <source>Show hidden files and folders</source>
-          <target state="translated" state-qualifier="tm-suggestion">顯示所有檔案和資料夾</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Show hidden files and folders</source>
-          <target state="translated" state-qualifier="tm-suggestion">顯示所有檔案和資料夾</target>
         </trans-unit>
         <trans-unit id="ItemCount.Text" translate="yes" xml:space="preserve">
           <source>item</source>
@@ -666,10 +635,6 @@
           <source>Moving files to the Recycle Bin</source>
           <target state="needs-review-translation">正在將檔案丟進垃圾桶</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" translate="yes" xml:space="preserve">
-          <source>Pin directory to sidebar</source>
-          <target state="translated">釘選資料夾到側邊欄</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Yes</source>
@@ -791,10 +756,6 @@
         <trans-unit id="JumpListRecentGroupHeader" translate="yes" xml:space="preserve">
           <source>Recent</source>
           <target state="translated" state-qualifier="tm-suggestion">最近</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesAppLanguage.Text" translate="yes" xml:space="preserve">
-          <source>App language</source>
-          <target state="translated" state-qualifier="tm-suggestion">應用程式語言</target>
         </trans-unit>
         <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
           <source>Move tab here</source>
@@ -1109,17 +1070,9 @@
           <source>View sample profiles</source>
           <target state="translated">檢視設定檔範本</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesAppLanguage.Header" translate="yes" xml:space="preserve">
-          <source>App language</source>
-          <target state="translated" state-qualifier="tm-suggestion">應用程式語言</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
           <source>Terminal applications</source>
           <target state="translated">終端機應用程式</target>
-        </trans-unit>
-        <trans-unit id="SettingsRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to the sidebar</source>
-          <target state="translated">將資源回收桶釘選至側邊欄</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
@@ -1128,10 +1081,6 @@
         <trans-unit id="StatusCenter.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Status center</source>
           <target state="translated">狀態儀表板</target>
-        </trans-unit>
-        <trans-unit id="SettingsOpenItemsWithOneclick.Header" translate="yes" xml:space="preserve">
-          <source>Open items with a single click</source>
-          <target state="translated">一鍵開啟</target>
         </trans-unit>
         <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
           <source>File</source>
@@ -1650,10 +1599,6 @@
           <source>Support us on PayPal</source>
           <target state="translated">透過 PayPal 贊助我們</target>
         </trans-unit>
-        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Header" translate="yes" xml:space="preserve">
-          <source>List and sort directories alongside files</source>
-          <target state="translated">將資料夾跟著檔案一起列出及排序</target>
-        </trans-unit>
         <trans-unit id="PropertiesDialogTabDetails.Content" translate="yes" xml:space="preserve">
           <source>Details</source>
           <target state="translated" state-qualifier="tm-suggestion">詳細資料</target>
@@ -1674,14 +1619,6 @@
           <source>Updates Available</source>
           <target state="translated" state-qualifier="tm-suggestion">已有可用更新</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Header" translate="yes" xml:space="preserve">
-          <source>Hide protected operating system files (Recommended)</source>
-          <target state="translated">隱藏受保護的作業系統檔案 (建議選項)</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Hide protected operating system files (Recommended)</source>
-          <target state="translated">隱藏受保護的作業系統檔案 (建議選項)</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNewFile.Text" translate="yes" xml:space="preserve">
           <source>File</source>
           <target state="translated" state-qualifier="tm-suggestion">檔案</target>
@@ -1697,14 +1634,6 @@
         <trans-unit id="NewFile" translate="yes" xml:space="preserve">
           <source>New File</source>
           <target state="translated" state-qualifier="tm-suggestion">新檔案</target>
-        </trans-unit>
-        <trans-unit id="SettingsSearchUnindexedItems.Header" translate="yes" xml:space="preserve">
-          <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
-          <target state="translated">搜尋檔案及資料夾時，顯示未建立索引的部分 (可能會耗費時間)</target>
-        </trans-unit>
-        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Header" translate="yes" xml:space="preserve">
-          <source>Enable individual preferences for individual directories</source>
-          <target state="translated">為每個個別的資料夾使用個別的檢視模式設定</target>
         </trans-unit>
         <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
           <source>Original path</source>
@@ -1738,14 +1667,6 @@
           <source>Ongoing Tasks</source>
           <target state="translated">執行中的工作</target>
         </trans-unit>
-        <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Header" translate="yes" xml:space="preserve">
-          <source>Always open new tabs in dual pane mode</source>
-          <target state="translated">永遠在雙面板模式中開啟新索引標籤</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingEnableDualPane.Header" translate="yes" xml:space="preserve">
-          <source>Enable dual pane view</source>
-          <target state="translated">開啟雙面板模式</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
           <target state="translated">在第二面板中開啟</target>
@@ -1757,10 +1678,6 @@
         <trans-unit id="SettingsDualPane.Text" translate="yes" xml:space="preserve">
           <source>Dual pane</source>
           <target state="translated">雙面板</target>
-        </trans-unit>
-        <trans-unit id="SettingsContextMenuOverflowSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Move overflow items into a sub menu</source>
-          <target state="translated">將多餘溢出的項目移到子選單</target>
         </trans-unit>
         <trans-unit id="SettingsContextMenu.Text" translate="yes" xml:space="preserve">
           <source>Customize the right click context menu</source>
@@ -2148,10 +2065,6 @@
           <source>Arguments</source>
           <target state="translated">參數</target>
         </trans-unit>
-        <trans-unit id="SettingsShowLibrarySection.Header" translate="yes" xml:space="preserve">
-          <source>Show library section on the sidebar</source>
-          <target state="translated">在側邊欄顯示媒體櫃專區</target>
-        </trans-unit>
         <trans-unit id="SidebarLibraries" translate="yes" xml:space="preserve">
           <source>Libraries</source>
           <target state="translated" state-qualifier="tm-suggestion">媒體櫃</target>
@@ -2201,8 +2114,9 @@
           <target state="translated" state-qualifier="tm-suggestion">是</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
-          <source>This action requires adminstrator rights</source>
-          <target state="translated">此項作業需要系統管理員身分</target>
+          <source>This action requires administrator rights</source>
+          <target state="needs-review-translation">此項作業需要系統管理員身分</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Content" translate="yes" xml:space="preserve">
           <source>Would you like to continue as administrator?</source>
@@ -3000,35 +2914,27 @@
           <source>Sidebar</source>
           <target state="translated">側邊欄</target>
         </trans-unit>
-        <trans-unit id="SettingsVerticalTabFlyoutSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Display vertical tab flyout on the title bar</source>
-          <target state="new">Display vertical tab flyout on the title bar</target>
-        </trans-unit>
-        <trans-unit id="DefaultSkin" translate="yes" xml:space="preserve">
+        <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="translated">預設</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceCustomSkins.Header" translate="yes" xml:space="preserve">
-          <source>Custom skin</source>
-          <target state="translated">自訂 Skin</target>
-        </trans-unit>
-        <trans-unit id="SettingsAppearanceOpenSkinsFolderButton.Content" translate="yes" xml:space="preserve">
-          <source>Open skins folder</source>
+        <trans-unit id="SettingsAppearanceOpenThemesFolderButton.Content" translate="yes" xml:space="preserve">
+          <source>Open themes folder</source>
           <target state="translated">開啟 Skin 資料夾</target>
         </trans-unit>
-        <trans-unit id="SettingsSkinsLearnMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Learn more about custom skins</source>
+        <trans-unit id="SettingsThemesLearnMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Learn more about custom themes</source>
           <target state="translated">了解更多關於自訂 Skin 的資訊</target>
         </trans-unit>
-        <trans-unit id="SettingsSkinsLearnMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Learn more about custom skins</source>
+        <trans-unit id="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Learn more about custom themes</source>
           <target state="translated">了解更多關於自訂 Skin 的資訊</target>
         </trans-unit>
-        <trans-unit id="SettingsSkinsTeachingTipHeader.Text" translate="yes" xml:space="preserve">
-          <source>Custom skins provide a great way for you to personalize Files.</source>
-          <target state="new">Custom skins provide a great way for you to personalize Files.</target>
+        <trans-unit id="SettingsThemesTeachingTipHeader.Text" translate="yes" xml:space="preserve">
+          <source>Custom themes provide a great way for you to personalize Files.</source>
+          <target state="new">Custom themes provide a great way for you to personalize Files.</target>
         </trans-unit>
-        <trans-unit id="SettingsSkinsTeachingTipHyperlinkText.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsThemesTeachingTipHyperlinkText.Text" translate="yes" xml:space="preserve">
           <source>View documentation.</source>
           <target state="new">View documentation.</target>
         </trans-unit>
@@ -3340,22 +3246,6 @@
           <source>Exit compact overlay</source>
           <target state="new">Exit compact overlay</target>
         </trans-unit>
-        <trans-unit id="SettingsShowCloudDrivesSection.Header" translate="yes" xml:space="preserve">
-          <source>Show cloud drives section on the sidebar</source>
-          <target state="translated">在側邊欄顯示雲端硬碟欄位</target>
-        </trans-unit>
-        <trans-unit id="SettingsShowDrivesSection.Header" translate="yes" xml:space="preserve">
-          <source>Show drives section on the sidebar</source>
-          <target state="translated">在側邊欄顯示硬碟欄位</target>
-        </trans-unit>
-        <trans-unit id="SettingsShowWslSection.Header" translate="yes" xml:space="preserve">
-          <source>Show WSL section on the sidebar</source>
-          <target state="translated">在側邊欄顯示 WSL 欄位</target>
-        </trans-unit>
-        <trans-unit id="SettingsShowNetworkDrivesSection.Header" translate="yes" xml:space="preserve">
-          <source>Show network drives section on the sidebar</source>
-          <target state="translated">在側邊欄顯示網路磁碟機欄位</target>
-        </trans-unit>
         <trans-unit id="WSL" translate="yes" xml:space="preserve">
           <source>WSL</source>
           <target state="translated">WSL</target>
@@ -3363,6 +3253,106 @@
         <trans-unit id="SideBarHideSectionFromSideBar.Text" translate="yes" xml:space="preserve">
           <source>Hide {0} section</source>
           <target state="translated">隱藏 {0} 欄位</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Title" translate="yes" xml:space="preserve">
+          <source>Always open new tabs in dual pane mode</source>
+          <target state="new">Always open new tabs in dual pane mode</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingEnableDualPane.Title" translate="yes" xml:space="preserve">
+          <source>Enable dual pane view</source>
+          <target state="new">Enable dual pane view</target>
+        </trans-unit>
+        <trans-unit id="SettingsVerticalTabFlyoutSwitch.Title" translate="yes" xml:space="preserve">
+          <source>Display the vertical tab flyout on the title bar</source>
+          <target state="new">Display the vertical tab flyout on the title bar</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowCloudDrivesSection.Title" translate="yes" xml:space="preserve">
+          <source>Show cloud drives section on the sidebar</source>
+          <target state="new">Show cloud drives section on the sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowDrivesSection.Title" translate="yes" xml:space="preserve">
+          <source>Show drives section on the sidebar</source>
+          <target state="new">Show drives section on the sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowWslSection.Title" translate="yes" xml:space="preserve">
+          <source>Show WSL section on the sidebar</source>
+          <target state="new">Show WSL section on the sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
+          <source>Show network drives section on the sidebar</source>
+          <target state="new">Show network drives section on the sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsRecycleBinSwitch.Title" translate="yes" xml:space="preserve">
+          <source>Pin Recycle Bin to the sidebar</source>
+          <target state="new">Pin Recycle Bin to the sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
+          <source>Show library section on the sidebar</source>
+          <target state="new">Show library section on the sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceTheme.Title" translate="yes" xml:space="preserve">
+          <source>Choose your color</source>
+          <target state="new">Choose your color</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceCustomThemes.Title" translate="yes" xml:space="preserve">
+          <source>Custom themes</source>
+          <target state="new">Custom themes</target>
+        </trans-unit>
+        <trans-unit id="SettingsContextMenuOverflowSwitch.Title" translate="yes" xml:space="preserve">
+          <source>Move overflow items into a sub menu</source>
+          <target state="new">Move overflow items into a sub menu</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesAppLanguage.Title" translate="yes" xml:space="preserve">
+          <source>Language</source>
+          <target state="new">Language</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Title" translate="yes" xml:space="preserve">
+          <source>Show extensions for known file types</source>
+          <target state="new">Show extensions for known file types</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Title" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="new">Show hidden files and folders</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Title" translate="yes" xml:space="preserve">
+          <source>Hide protected operating system files (Recommended)</source>
+          <target state="new">Hide protected operating system files (Recommended)</target>
+        </trans-unit>
+        <trans-unit id="SettingsOpenItemsWithOneclick.Title" translate="yes" xml:space="preserve">
+          <source>Open items with a single click</source>
+          <target state="new">Open items with a single click</target>
+        </trans-unit>
+        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Title" translate="yes" xml:space="preserve">
+          <source>List and sort directories alongside files</source>
+          <target state="new">List and sort directories alongside files</target>
+        </trans-unit>
+        <trans-unit id="SettingsSearchUnindexedItems.Title" translate="yes" xml:space="preserve">
+          <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
+          <target state="new">Show unindexed items when searching for files and folders (searches may take longer)</target>
+        </trans-unit>
+        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Title" translate="yes" xml:space="preserve">
+          <source>Enable individual preferences for individual directories</source>
+          <target state="new">Enable individual preferences for individual directories</target>
+        </trans-unit>
+        <trans-unit id="SettingsUsefulLinks.Title" translate="yes" xml:space="preserve">
+          <source>Useful links</source>
+          <target state="new">Useful links</target>
+        </trans-unit>
+        <trans-unit id="SettingCopyVersionInfo.Content" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="new">Copy</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutOpenLogLocationButtonText.Text" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutPinToFavorites.Text" translate="yes" xml:space="preserve">
+          <source>Pin to Favorites</source>
+          <target state="new">Pin to Favorites</target>
         </trans-unit>
       </group>
     </body>

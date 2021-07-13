@@ -6,12 +6,18 @@
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Files.Helpers"
+    xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
     <Page.Resources>
-        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        </ResourceDictionary>
     </Page.Resources>
     <Page.DataContext>
         <settingsviewmodels:AppearanceViewModel />
@@ -21,8 +27,9 @@
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel
                 Margin="12,12,8,8"
-                Orientation="Vertical"
-                Spacing="24">
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Spacing="4">
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />
@@ -31,91 +38,100 @@
 
                 <TextBlock
                     x:Uid="SettingsAppearanceTitle"
+                    Padding="0,0,0,12"
                     FontSize="20"
                     FontWeight="Medium"
                     Text="Appearance" />
 
-                <muxc:RadioButtons
-                    x:Name="ThemeChooser"
+                <local:SettingsBlockControl
                     x:Uid="SettingsAppearanceTheme"
-                    Header="App theme"
-                    ItemsSource="{Binding Themes}"
-                    SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}" />
-
-                <StackPanel
-                    Width="Auto"
-                    Orientation="Horizontal"
-                    Spacing="8">
+                    Title="Choose your color"
+                    Width="352"
+                    HorizontalAlignment="Left">
+                    <local:SettingsBlockControl.Icon>
+                        <FontIcon Glyph="&#xE790;" />
+                    </local:SettingsBlockControl.Icon>
                     <ComboBox
-                        x:Name="CustomSkinsChooser"
-                        x:Uid="SettingsAppearanceCustomSkins"
-                        Width="Auto"
-                        MinWidth="200"
-                        MaxWidth="250"
-                        Header="Color scheme"
-                        ItemsSource="{Binding CustomSkins}"
-                        SelectedItem="{Binding SelectedSkin, Mode=TwoWay}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate x:DataType="helpers:AppSkin">
-                                <Grid>
-                                    <TextBlock Text="{x:Bind Name}" />
-                                </Grid>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+                        x:Name="ThemeChooser"
+                        ItemsSource="{Binding Themes}"
+                        SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}" />
+                </local:SettingsBlockControl>
 
+                <local:SettingsBlockControl
+                    x:Uid="SettingsAppearanceCustomThemes"
+                    Title="Custom themes"
+                    Width="352"
+                    HorizontalAlignment="Left">
+                    <local:SettingsBlockControl.Icon>
+                        <FontIcon Glyph="&#xE771;" />
+                    </local:SettingsBlockControl.Icon>
+                    <local:SettingsBlockControl.ExpandableContent>
+                        <ComboBox
+                            x:Name="CustomThemesChooser"
+                            ItemsSource="{Binding CustomThemes}"
+                            SelectedItem="{Binding SelectedTheme, Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="helpers:AppTheme">
+                                    <Grid>
+                                        <TextBlock Text="{x:Bind Name}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </local:SettingsBlockControl.ExpandableContent>
                     <Button
-                        x:Name="SkinsLearnMoreButton"
-                        x:Uid="SettingsSkinsLearnMoreButton"
+                        x:Name="ThemesLearnMoreButton"
+                        x:Uid="SettingsThemesLearnMoreButton"
                         Height="32"
                         Padding="8,4,8,4"
                         VerticalAlignment="Bottom"
-                        AutomationProperties.Name="Learn more about custom skins"
+                        AutomationProperties.Name="Learn more about custom themes"
                         Background="Transparent"
                         BorderBrush="Transparent"
-                        Click="SkinsLearnMoreButton_Click"
-                        ToolTipService.ToolTip="Learn more about custom skins">
+                        Click="ThemesLearnMoreButton_Click"
+                        ToolTipService.ToolTip="Learn more about custom themes">
                         <FontIcon FontSize="14" Glyph="&#xE946;" />
                     </Button>
-                </StackPanel>
-
-                <ToggleSwitch
-                    x:Name="AcrylicSidebarSwitch"
-                    x:Uid="SettingsAppearanceAcrylicSidebar"
-                    Header="Acrylic sidebar"
-                    IsOn="{Binding IsAcrylicDisabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}" />
+                </local:SettingsBlockControl>
 
                 <TextBlock
                     x:Uid="SettingsContextMenu"
-                    FontSize="16"
+                    Padding="0,12,0,0"
+                    FontSize="14"
+                    FontWeight="Medium"
                     Text="Customize the right click context menu" />
 
-                <ToggleSwitch
-                    x:Name="ContextMenuToggleSwitch"
+                <local:SettingsBlockControl
                     x:Uid="SettingsContextMenuOverflowSwitch"
-                    Header="Move overflow items into a sub menu"
-                    IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}" />
+                    Title="Move overflow items into a sub menu"
+                    Width="352"
+                    HorizontalAlignment="Left">
+                    <local:SettingsBlockControl.Icon>
+                        <FontIcon Glyph="&#xE10C;" />
+                    </local:SettingsBlockControl.Icon>
+                    <ToggleSwitch IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                </local:SettingsBlockControl>
             </StackPanel>
         </ScrollViewer>
 
         <muxc:TeachingTip
-            x:Name="SkinsTeachingTip"
+            x:Name="ThemesTeachingTip"
             IsLightDismissEnabled="True"
             PreferredPlacement="BottomLeft"
-            Target="{x:Bind SkinsLearnMoreButton}">
+            Target="{x:Bind ThemesLearnMoreButton}">
             <StackPanel Spacing="12">
                 <TextBlock TextWrapping="Wrap">
-                    <Run x:Uid="SettingsSkinsTeachingTipHeader" Text="Custom skins provide a great way for you to personalize Files." />
-                    <Hyperlink NavigateUri="https://files-community.github.io/docs/#/articles/custom-skins">
-                        <Run x:Uid="SettingsSkinsTeachingTipHyperlinkText" Text="View documentation." />
+                    <Run x:Uid="SettingsThemesTeachingTipHeader" Text="Custom themes provide a great way for you to personalize Files." />
+                    <Hyperlink NavigateUri="https://files-community.github.io/docs/#/articles/custom-themes">
+                        <Run x:Uid="SettingsThemesTeachingTipHyperlinkText" Text="View documentation." />
                     </Hyperlink>
                 </TextBlock>
 
                 <Button
-                    x:Name="OpenSkinsFolderButton"
-                    x:Uid="SettingsAppearanceOpenSkinsFolderButton"
-                    Click="OpenSkinsFolderButton_Click"
-                    Content="Open skins folder" />
+                    x:Name="OpenThemesFolderButton"
+                    x:Uid="SettingsAppearanceOpenThemesFolderButton"
+                    Click="OpenThemesFolderButton_Click"
+                    Content="Open themes folder" />
             </StackPanel>
         </muxc:TeachingTip>
     </Grid>

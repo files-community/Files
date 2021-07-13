@@ -111,9 +111,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Noņemt šo vienumu</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Faili</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Iesniegt atsauksmes</value>
   </data>
@@ -123,26 +120,11 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Par</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Akrila sānu josla</value>
-  </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Datuma formāts</value>
   </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>Lietotnes motīvs</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Izskats</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>Rādīt zināmus failu paplašinājumus</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Rādīt slēptos failus un mapes</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Rādīt slēptos failus un mapes</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Faili un mapes</value>
@@ -284,9 +266,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Pārdēvēt</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Piespraust sānu joslā</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Rekvizīti</value>
@@ -495,9 +474,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Vienuma nosaukums nevar saterēt sekojošos simbolus: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Atvērt datu žurnāla atrašanās vietu</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>vienums atlasīts</value>
   </data>
@@ -518,9 +494,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Failu pārvietošana uz Atkritni</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Piespraust mapi sānu joslā</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>Jā</value>
@@ -611,9 +584,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Nesenie</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>Lietotnes valoda</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Pārvietot cilni šeit</value>
@@ -855,17 +825,8 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>Skatīt profilu piemērus</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>Lietotnes valoda</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Komandu uzvednes lietotnes</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>Pārvietot pārpildītos vienumus apakšizvēlnē</value>
-  </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>Piespraust Atkritni sānu joslā</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Rādīt piekrišanas izvēlni, kad tiek dzēsti faili vai mapes</value>
@@ -1179,9 +1140,6 @@
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Statusa centrs</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Atvērt vienumus ar vienu klikšķi</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Fails</value>
   </data>
@@ -1263,9 +1221,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Atbalstiet mūs PayPal</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>Parādiet un kārtojiet mapes kopā ar failiem</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Detaļas</value>
   </data>
@@ -1280,18 +1235,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Pieejami atjauninājumi</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Paslēpt aizsargātos operētājsistēmas failus (ieteicams)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Paslēpt aizsargātos operētājsistēmas failus (ieteicams)</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>Meklējot parādīt neindeksētos vienumus (meklēšana var būt ilgāka)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>Iespējot atsevišķus iestatījumus katrai mapei</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Pielāgot labā klikšķa izvēlni</value>
@@ -1319,12 +1262,6 @@
   </data>
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Notiekošās darbības</value>
-  </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>Vienmēr atvērt jaunas cilnes dubultajā paneļu režīmā</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>Iespējot dubulto paneļu skatu</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Atvērt otrajā panelī</value>
@@ -1610,9 +1547,6 @@
   </data>
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumenti</value>
-  </data>
-  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
-    <value>Rādīt bibliotēku sadaļu sānu joslā</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Vienumu skaits</value>
@@ -2243,8 +2177,5 @@
   </data>
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>Sānu josla</value>
-  </data>
-  <data name="SettingsVerticalTabFlyoutSwitch.Header" xml:space="preserve">
-    <value>Rādīt vertikālo ciļņu izlecošo logu virsraksta joslā</value>
   </data>
 </root>

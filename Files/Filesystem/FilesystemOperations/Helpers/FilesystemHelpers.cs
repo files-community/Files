@@ -104,12 +104,10 @@ namespace Files.Filesystem
             PostedStatusBanner banner = null;
             var returnStatus = ReturnResult.InProgress;
 
-            var pathsUnderRecycleBin = GetPathsUnderRecycleBin(source);
+            var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => recycleBinHelpers.IsPathUnderRecycleBin(path));
 
             if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
-                var deleteFromRecycleBin = pathsUnderRecycleBin.Count > 0;
-
                 List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
 
                 for (int i = 0; i < source.Count(); i++)
@@ -249,11 +247,6 @@ namespace Files.Filesystem
             }
 
             return returnStatus;
-        }
-
-        private ISet<string> GetPathsUnderRecycleBin(IEnumerable<IStorageItemWithPath> source)
-        {
-            return source.Select(item => item.Path).Where(path => recycleBinHelpers.IsPathUnderRecycleBin(path)).ToHashSet();
         }
 
         public async Task<ReturnResult> DeleteItemAsync(IStorageItemWithPath source, bool showDialog, bool permanently, bool registerHistory)
@@ -649,6 +642,7 @@ namespace Files.Filesystem
             }
             ReturnResult returnStatus = ReturnResult.InProgress;
 
+            source = source.Where(x => !recycleBinHelpers.IsPathUnderRecycleBin(x.Path)).ToList(); // Can't recycle items already in recyclebin
             returnStatus = await DeleteItemsAsync(source, showDialog, false, registerHistory);
 
             return returnStatus;
@@ -683,9 +677,19 @@ namespace Files.Filesystem
                 ReturnResult returnStatus = ReturnResult.InProgress;
 
                 var destinations = new List<string>();
+                List<ShellFileItem> binItems = null;
                 foreach (IStorageItem item in source)
                 {
-                    destinations.Add(Path.Combine(destination, item.Name));
+                    if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
+                    {
+                        binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+                        var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
+                        destinations.Add(Path.Combine(destination, matchingItem?.FileName ?? item.Name));
+                    }
+                    else
+                    {
+                        destinations.Add(Path.Combine(destination, item.Name));
+                    }
                 }
 
                 returnStatus = await CopyItemsAsync(source, destinations, showDialog, registerHistory);
@@ -897,9 +901,19 @@ namespace Files.Filesystem
             ReturnResult returnStatus = ReturnResult.InProgress;
 
             var destinations = new List<string>();
+            List<ShellFileItem> binItems = null;
             foreach (IStorageItem item in source)
             {
-                destinations.Add(Path.Combine(destination, item.Name));
+                if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
+                {
+                    binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+                    var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
+                    destinations.Add(Path.Combine(destination, matchingItem?.FileName ?? item.Name));
+                }
+                else
+                {
+                    destinations.Add(Path.Combine(destination, item.Name));
+                }
             }
 
             returnStatus = await MoveItemsAsync(source, destinations, showDialog, registerHistory);
@@ -943,11 +957,6 @@ namespace Files.Filesystem
                     break;
 
                 case FilesystemItemType.File:
-
-                    if (Path.HasExtension(source.Path) && !Path.HasExtension(newName))
-                    {
-                        newName += Path.GetExtension(source.Path);
-                    }
 
                     /* Only prompt user when extension has changed,
                        not when file name has changed */

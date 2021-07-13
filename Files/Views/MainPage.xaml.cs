@@ -476,6 +476,7 @@ namespace Files.Views
             else
             {
                 NavToolbar.IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+                view.TryResizeView(new Windows.Foundation.Size(400, 350));
             }
         }
 
