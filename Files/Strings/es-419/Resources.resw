@@ -204,6 +204,9 @@
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>Desanclar de la barra lateral</value>
   </data>
+  <data name="SidebarVideos" xml:space="preserve">
+    <value>Videos</value>
+  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Ordenar por</value>
   </data>
@@ -2182,10 +2185,10 @@
     <value>Ver documentación.</value>
   </data>
   <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Control flotante de pestaña vertical</value>
+    <value>Botón de pestaña vertical</value>
   </data>
   <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Control flotante de pestaña vertical</value>
+    <value>Botón de pestaña vertical</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
     <value>Nueva pestaña (Ctrl+T)</value>
@@ -2254,8 +2257,7 @@
     <value>Tipo</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>No tiene permisos para ver las propiedades de seguridad de este objeto. Puede intentar tomar posesión de este objeto.
-</value>
+    <value>No tiene permisos para ver las propiedades de seguridad de este objeto. Puede intentar tomar posesión de este objeto.</value>
   </data>
   <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
     <value>Especial</value>
