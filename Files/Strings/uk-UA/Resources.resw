@@ -213,9 +213,6 @@
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Перейменувати</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Закріпити в бічній панелі</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Властивості</value>
   </data>
@@ -467,9 +464,6 @@
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>елементів</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Закріпити в бічній панелі</value>
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Відкрито:</value>
@@ -812,9 +806,6 @@
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Показувати діалогове вікно підтвердження під час видалення файлів або папок</value>
-  </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Бокова панель з ефектом акрила</value>
   </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Формат дати</value>

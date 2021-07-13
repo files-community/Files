@@ -117,9 +117,6 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>حول التطبيق</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Acrylic الشريط الجانبي</value>
-  </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>تنسيق التاريخ</value>
   </data>
@@ -263,9 +260,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>إعادة تسمية</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>تثبيت في الشريط الجانبي</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>خصائص</value>
@@ -491,9 +485,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>نقل الى سلة المهملات</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>تثبيت دليل التطبيقات الى الشريط الجانبي</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>نعم</value>

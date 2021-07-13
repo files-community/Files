@@ -177,9 +177,6 @@
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>이름 바꾸기</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>사이드바에 고정</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>속성</value>
   </data>
@@ -453,9 +450,6 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>항목</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>사이드바에 폴더 고정</value>
-  </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>액세스한 날짜:</value>
   </data>
@@ -662,9 +656,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
     <value>자세히</value>
-  </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>사이드바 아크릴 효과</value>
   </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>날짜 형식</value>

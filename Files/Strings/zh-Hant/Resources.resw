@@ -177,9 +177,6 @@
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>重新命名</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>固定到側邊欄</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>內容</value>
   </data>
@@ -465,9 +462,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>存取時間:</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>壓克力樣式的側邊欄</value>
-  </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>日期格式</value>
   </data>
@@ -485,9 +479,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>正在將檔案丟進垃圾桶</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>釘選資料夾到側邊欄</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>是</value>

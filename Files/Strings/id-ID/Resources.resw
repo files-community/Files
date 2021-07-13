@@ -120,9 +120,6 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Tentang</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Bilah samping akrilik</value>
-  </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Format tanggal</value>
   </data>
@@ -269,9 +266,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Ubah nama</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Sematkan ke bilah sisi</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Properti</value>
@@ -506,9 +500,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Pindahkan file ke keranjang sampah</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Sematkan direktori ke bilah sisi</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>Ya</value>

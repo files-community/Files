@@ -183,9 +183,6 @@
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Переименовать</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Закрепить в боковой панели</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Свойства</value>
   </data>
@@ -467,9 +464,6 @@
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>элементов</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Закрепить в боковой панели</value>
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Открыт:</value>
@@ -812,9 +806,6 @@
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Показать диалог при удалении файлов или папок</value>
-  </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Боковая панель с эффектом акрила</value>
   </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Формат даты</value>
@@ -1915,7 +1906,7 @@
     <value>Политика конфиденциальности</value>
   </data>
   <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Посотреть политику конфиденциальности Files </value>
+    <value>Посмотреть политику конфиденциальности Files </value>
   </data>
   <data name="RenameFileDialogTitle" xml:space="preserve">
     <value>Переименовать</value>
