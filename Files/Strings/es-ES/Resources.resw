@@ -2178,22 +2178,22 @@
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>Barra lateral</value>
   </data>
-  <data name="DefaultSkin" xml:space="preserve">
+  <data name="DefaultTheme" xml:space="preserve">
     <value>Predeterminada</value>
   </data>
-  <data name="SettingsAppearanceOpenSkinsFolderButton.Content" xml:space="preserve">
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Abrir carpeta de máscaras</value>
   </data>
-  <data name="SettingsSkinsLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Más información acerca de las máscaras personalizadas</value>
   </data>
-  <data name="SettingsSkinsLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Más información acerca de las máscaras personalizadas</value>
   </data>
-  <data name="SettingsSkinsTeachingTipHeader.Text" xml:space="preserve">
+  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
     <value>Las máscaras personalizadas sirven para poner Files a tu gusto.</value>
   </data>
-  <data name="SettingsSkinsTeachingTipHyperlinkText.Text" xml:space="preserve">
+  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Consultar documentación.</value>
   </data>
   <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
@@ -2463,7 +2463,7 @@
   <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
     <value>Elegir el color</value>
   </data>
-  <data name="SettingsAppearanceCustomSkins.Title" xml:space="preserve">
+  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
     <value>Máscaras personalizadas</value>
   </data>
   <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">

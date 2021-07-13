@@ -2064,16 +2064,16 @@
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>側邊欄</value>
   </data>
-  <data name="DefaultSkin" xml:space="preserve">
+  <data name="DefaultTheme" xml:space="preserve">
     <value>預設</value>
   </data>
-  <data name="SettingsAppearanceOpenSkinsFolderButton.Content" xml:space="preserve">
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>開啟 Skin 資料夾</value>
   </data>
-  <data name="SettingsSkinsLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>了解更多關於自訂 Skin 的資訊</value>
   </data>
-  <data name="SettingsSkinsLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>了解更多關於自訂 Skin 的資訊</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">

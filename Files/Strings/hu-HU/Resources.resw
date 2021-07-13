@@ -2172,22 +2172,22 @@
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>Oldalsáv</value>
   </data>
-  <data name="DefaultSkin" xml:space="preserve">
+  <data name="DefaultTheme" xml:space="preserve">
     <value>Alapértelmezett</value>
   </data>
-  <data name="SettingsAppearanceOpenSkinsFolderButton.Content" xml:space="preserve">
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Kinézetek mappa megnyitása</value>
   </data>
-  <data name="SettingsSkinsLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Tudjon meg többet az alternatív kinézetekről</value>
   </data>
-  <data name="SettingsSkinsLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tudjon meg többet az alternatív kinézetekről</value>
   </data>
-  <data name="SettingsSkinsTeachingTipHeader.Text" xml:space="preserve">
+  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
     <value>Az alternatív kinézetek remek lehetőséget nyújtanak a Files személyre szabására.</value>
   </data>
-  <data name="SettingsSkinsTeachingTipHyperlinkText.Text" xml:space="preserve">
+  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Dokumentáció megtekintése.</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">

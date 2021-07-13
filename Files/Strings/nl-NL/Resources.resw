@@ -2178,22 +2178,22 @@
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>Zijbalk</value>
   </data>
-  <data name="DefaultSkin" xml:space="preserve">
+  <data name="DefaultTheme" xml:space="preserve">
     <value>Standaard</value>
   </data>
-  <data name="SettingsAppearanceOpenSkinsFolderButton.Content" xml:space="preserve">
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Uiterlijkenmap openen</value>
   </data>
-  <data name="SettingsSkinsLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Meer informatie over aangepaste uiterlijken</value>
   </data>
-  <data name="SettingsSkinsLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Meer informatie over aangepaste uiterlijken</value>
   </data>
-  <data name="SettingsSkinsTeachingTipHeader.Text" xml:space="preserve">
+  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
     <value>Aangepaste uiterlijken zijn geweldig om Files te personaliseren.</value>
   </data>
-  <data name="SettingsSkinsTeachingTipHyperlinkText.Text" xml:space="preserve">
+  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Documentatie weergeven.</value>
   </data>
 </root>

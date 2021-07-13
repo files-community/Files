@@ -2914,27 +2914,27 @@
           <source>Sidebar</source>
           <target state="new">Sidebar</target>
         </trans-unit>
-        <trans-unit id="DefaultSkin" translate="yes" xml:space="preserve">
+        <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="new">Default</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceOpenSkinsFolderButton.Content" translate="yes" xml:space="preserve">
-          <source>Open skins folder</source>
-          <target state="new">Open skins folder</target>
+        <trans-unit id="SettingsAppearanceOpenThemesFolderButton.Content" translate="yes" xml:space="preserve">
+          <source>Open themes folder</source>
+          <target state="new">Open themes folder</target>
         </trans-unit>
-        <trans-unit id="SettingsSkinsLearnMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Learn more about custom skins</source>
-          <target state="new">Learn more about custom skins</target>
+        <trans-unit id="SettingsThemesLearnMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Learn more about custom themes</source>
+          <target state="new">Learn more about custom themes</target>
         </trans-unit>
-        <trans-unit id="SettingsSkinsLearnMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Learn more about custom skins</source>
-          <target state="new">Learn more about custom skins</target>
+        <trans-unit id="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Learn more about custom themes</source>
+          <target state="new">Learn more about custom themes</target>
         </trans-unit>
-        <trans-unit id="SettingsSkinsTeachingTipHeader.Text" translate="yes" xml:space="preserve">
-          <source>Custom skins provide a great way for you to personalize Files.</source>
-          <target state="new">Custom skins provide a great way for you to personalize Files.</target>
+        <trans-unit id="SettingsThemesTeachingTipHeader.Text" translate="yes" xml:space="preserve">
+          <source>Custom themes provide a great way for you to personalize Files.</source>
+          <target state="new">Custom themes provide a great way for you to personalize Files.</target>
         </trans-unit>
-        <trans-unit id="SettingsSkinsTeachingTipHyperlinkText.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsThemesTeachingTipHyperlinkText.Text" translate="yes" xml:space="preserve">
           <source>View documentation.</source>
           <target state="new">View documentation.</target>
         </trans-unit>
@@ -3294,9 +3294,9 @@
           <source>Choose your color</source>
           <target state="new">Choose your color</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceCustomSkins.Title" translate="yes" xml:space="preserve">
-          <source>Custom skins</source>
-          <target state="new">Custom skins</target>
+        <trans-unit id="SettingsAppearanceCustomThemes.Title" translate="yes" xml:space="preserve">
+          <source>Custom themes</source>
+          <target state="new">Custom themes</target>
         </trans-unit>
         <trans-unit id="SettingsContextMenuOverflowSwitch.Title" translate="yes" xml:space="preserve">
           <source>Move overflow items into a sub menu</source>
