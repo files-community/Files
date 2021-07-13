@@ -258,9 +258,6 @@
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Mudar o nome</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Afixar na barra lateral</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Propriedades</value>
   </data>
@@ -479,9 +476,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>A mover ficheiros para a Reciclagem</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Afixar diretório na barra lateral</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>Sim</value>
@@ -812,9 +806,6 @@
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Mostrar uma caixa de diálogo de confirmação ao apagar ficheiros ou pastas</value>
-  </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Barra lateral em acrílico</value>
   </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Formato da data</value>
@@ -2187,22 +2178,22 @@
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>Barra Lateral</value>
   </data>
-  <data name="DefaultSkin" xml:space="preserve">
+  <data name="DefaultTheme" xml:space="preserve">
     <value>Original</value>
   </data>
-  <data name="SettingsAppearanceOpenSkinsFolderButton.Content" xml:space="preserve">
-    <value>Abrir pasta das skins</value>
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
+    <value>Abrir pasta das themes</value>
   </data>
-  <data name="SettingsSkinsLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Aprenda mais sobre skins personalizadas</value>
+  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Aprenda mais sobre themes personalizadas</value>
   </data>
-  <data name="SettingsSkinsLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Aprenda mais sobre skins personalizadas</value>
+  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Aprenda mais sobre themes personalizadas</value>
   </data>
-  <data name="SettingsSkinsTeachingTipHeader.Text" xml:space="preserve">
-    <value>As skins personalizadas é uma ótima forma de personalizar o Files.</value>
+  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
+    <value>As themes personalizadas é uma ótima forma de personalizar o Files.</value>
   </data>
-  <data name="SettingsSkinsTeachingTipHyperlinkText.Text" xml:space="preserve">
+  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Ver documentação.</value>
   </data>
   <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">

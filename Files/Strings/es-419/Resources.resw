@@ -135,9 +135,6 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Acerca de Files</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Barra lateral acrílica</value>
-  </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Formato de fecha</value>
   </data>
@@ -284,9 +281,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Renombrar</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Anclar a la barra lateral</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Propiedades</value>
@@ -518,9 +512,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Moviendo archivos a la papelera de reciclaje</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Anclar directorio a la barra lateral</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>Sí</value>

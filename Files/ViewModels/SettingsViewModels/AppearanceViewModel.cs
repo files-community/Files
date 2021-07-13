@@ -13,9 +13,8 @@ namespace Files.ViewModels.SettingsViewModels
     public class AppearanceViewModel : ObservableObject
     {
         private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
-        private bool isAcrylicDisabled = App.AppSettings.IsAcrylicDisabled;
         private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
-        private AppSkin selectedSkin = App.AppSettings.SelectedSkin;
+        private AppTheme selectedTheme = App.AppSettings.SelectedTheme;
         private bool showRestartControl = false;
         public AppearanceViewModel()
         {
@@ -28,7 +27,7 @@ namespace Files.ViewModels.SettingsViewModels
         }
 
         public List<string> Themes { get; set; }
-        public List<AppSkin> CustomSkins => App.ExternalResourcesHelper.Skins;
+        public List<AppTheme> CustomThemes => App.ExternalResourcesHelper.Themes;
 
         public int SelectedThemeIndex
         {
@@ -38,21 +37,6 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref selectedThemeIndex, value))
                 {
                     ThemeHelper.RootTheme = (ElementTheme)value;
-                }
-            }
-        }
-
-        public bool IsAcrylicDisabled
-        {
-            get
-            {
-                return isAcrylicDisabled;
-            }
-            set
-            {
-                if (SetProperty(ref isAcrylicDisabled, value))
-                {
-                    App.AppSettings.IsAcrylicDisabled = value;
                 }
             }
         }
@@ -72,20 +56,20 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public AppSkin SelectedSkin
+        public AppTheme SelectedTheme
         {
             get
             {
-                return selectedSkin;
+                return selectedTheme;
             }
             set
             {
-                if (SetProperty(ref selectedSkin, value))
+                if (SetProperty(ref selectedTheme, value))
                 {
                     // Remove the old resource file and load the new file
-                    App.ExternalResourcesHelper.UpdateSkin(App.AppSettings.SelectedSkin, selectedSkin);
+                    App.ExternalResourcesHelper.UpdateTheme(App.AppSettings.SelectedTheme, selectedTheme);
 
-                    App.AppSettings.SelectedSkin = selectedSkin;
+                    App.AppSettings.SelectedTheme = selectedTheme;
 
                     // Force the application to use the correct resource file
                     UpdateTheme();

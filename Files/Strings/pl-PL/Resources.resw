@@ -177,9 +177,6 @@
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Zmień nazwę</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Przypnij do paska bocznego</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Właściwości</value>
   </data>
@@ -467,9 +464,6 @@
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>elementy</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Przypnij katalog do paska bocznego</value>
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Ostatnio używany:</value>
@@ -812,9 +806,6 @@
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Pokazuj okno potwierdzenia podczas usuwania plików lub folderów</value>
-  </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Akrylowe tło paska bocznego</value>
   </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Format daty</value>

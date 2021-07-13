@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -249,9 +249,6 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>About</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Acrylic sidebar</value>
-  </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Date format</value>
   </data>
@@ -411,8 +408,8 @@
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Rename</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Pin to sidebar</value>
+  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+    <value>Pin to Favorites</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Properties</value>
@@ -653,9 +650,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Moving files to the Recycle Bin</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Pin directory to sidebar</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>Yes</value>
@@ -1788,11 +1782,11 @@
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>Show library section on the sidebar</value>
   </data>
-  <data name="DefaultSkin" xml:space="preserve">
+  <data name="DefaultTheme" xml:space="preserve">
     <value>Default</value>
   </data>
-  <data name="SettingsAppearanceCustomSkins.Title" xml:space="preserve">
-    <value>Custom skins</value>
+  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+    <value>Custom themes</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Item count</value>
@@ -1831,7 +1825,7 @@
     <value>Yes</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
-    <value>This action requires adminstrator rights</value>
+    <value>This action requires administrator rights</value>
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>Would you like to continue as administrator?</value>
@@ -2010,8 +2004,8 @@
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
     <value>Manage Widgets</value>
   </data>
-  <data name="SettingsAppearanceOpenSkinsFolderButton.Content" xml:space="preserve">
-    <value>Open skins folder</value>
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
+    <value>Open themes folder</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
     <value>Generate new name</value>
@@ -2373,16 +2367,16 @@
   <data name="SettingsVerticalTabFlyoutSwitch.Title" xml:space="preserve">
     <value>Display the vertical tab flyout on the title bar</value>
   </data>
-  <data name="SettingsSkinsLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Learn more about custom skins</value>
+  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Learn more about custom themes</value>
   </data>
-  <data name="SettingsSkinsLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Learn more about custom skins</value>
+  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Learn more about custom themes</value>
   </data>
-  <data name="SettingsSkinsTeachingTipHeader.Text" xml:space="preserve">
-    <value>Custom skins provide a great way for you to personalize Files.</value>
+  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
+    <value>Custom themes provide a great way for you to personalize Files.</value>
   </data>
-  <data name="SettingsSkinsTeachingTipHyperlinkText.Text" xml:space="preserve">
+  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>View documentation.</value>
   </data>
   <data name="DecompressArchiveDialog.Title" xml:space="preserve">

@@ -258,9 +258,6 @@
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>ନାମ ପରିବର୍ତ୍ତନ କର</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>ସାଇଡବାରରେ ପିନ୍ କର</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>ଗୁଣଧର୍ମ</value>
   </data>
@@ -479,9 +476,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>ଫାଇଲଗୁଡ଼ିକୁ ରିସାଇକ୍ଲବିନ୍ କୁ ଘୁଞ୍ଚାଇବା</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>ଡିରେକ୍ଟୋରୀ କୁ ସାଇଡବାରରେ ପିନ୍ କର</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>ଠିକ୍ ଅଛି</value>

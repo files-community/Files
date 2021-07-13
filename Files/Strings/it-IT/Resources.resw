@@ -237,9 +237,6 @@
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Rinomina</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Fissa sulla barra laterale</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Proprietà</value>
   </data>
@@ -467,9 +464,6 @@
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>elementi</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Fissa la cartella sulla barra laterale</value>
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Ultimo accesso:</value>
@@ -812,9 +806,6 @@
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Chiedi conferma prima di eliminare file e cartelle</value>
-  </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Barra laterale acrilica</value>
   </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Formato data</value>
@@ -2187,22 +2178,22 @@
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>Barra laterale</value>
   </data>
-  <data name="DefaultSkin" xml:space="preserve">
+  <data name="DefaultTheme" xml:space="preserve">
     <value>Default</value>
   </data>
-  <data name="SettingsAppearanceOpenSkinsFolderButton.Content" xml:space="preserve">
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Apri cartella temi</value>
   </data>
-  <data name="SettingsSkinsLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Scopri di più sui temi personalizzati</value>
   </data>
-  <data name="SettingsSkinsLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Scopri di più sui temi personalizzati</value>
   </data>
-  <data name="SettingsSkinsTeachingTipHeader.Text" xml:space="preserve">
+  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
     <value>Puoi personalizzare l'aspetto di Files con i temi.</value>
   </data>
-  <data name="SettingsSkinsTeachingTipHyperlinkText.Text" xml:space="preserve">
+  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Guarda la documentazione.</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">

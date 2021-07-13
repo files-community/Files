@@ -177,9 +177,6 @@
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Umbenennen</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>An Seitenleiste anheften</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Eigenschaften</value>
   </data>
@@ -467,9 +464,6 @@
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>Elemente</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Verzeichnis an Seitenleiste anheften</value>
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Letzter Zugriff:</value>
@@ -812,9 +806,6 @@
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Dialog zur Bestätigung des Löschvorgangs anzeigen</value>
-  </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Acrylic-Effekt für die Seitenleiste</value>
   </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Datumsformat</value>
@@ -2133,22 +2124,22 @@
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>Seitenleiste</value>
   </data>
-  <data name="DefaultSkin" xml:space="preserve">
+  <data name="DefaultTheme" xml:space="preserve">
     <value>Standard</value>
   </data>
-  <data name="SettingsAppearanceOpenSkinsFolderButton.Content" xml:space="preserve">
-    <value>Skins-Ordner öffnen</value>
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
+    <value>Themes-Ordner öffnen</value>
   </data>
-  <data name="SettingsSkinsLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Mehr über benutzerdefinierte Skins erfahren</value>
+  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Mehr über benutzerdefinierte Themes erfahren</value>
   </data>
-  <data name="SettingsSkinsLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Mehr über benutzerdefinierte Skins erfahren</value>
+  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Mehr über benutzerdefinierte Themes erfahren</value>
   </data>
-  <data name="SettingsSkinsTeachingTipHeader.Text" xml:space="preserve">
-    <value>Benutzerdefinierte Skins sind ein hervoragender Weg Files zu personalisieren.</value>
+  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
+    <value>Benutzerdefinierte Themes sind ein hervoragender Weg Files zu personalisieren.</value>
   </data>
-  <data name="SettingsSkinsTeachingTipHyperlinkText.Text" xml:space="preserve">
+  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Dokumentation anzeigen.</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">

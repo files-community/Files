@@ -72,7 +72,6 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(PinRecycleBinToSideBar)} {PinRecycleBinToSideBar}");
             Analytics.TrackEvent($"{nameof(ShowFileExtensions)} {ShowFileExtensions}");
             Analytics.TrackEvent($"{nameof(ShowConfirmDeleteDialog)} {ShowConfirmDeleteDialog}");
-            Analytics.TrackEvent($"{nameof(IsAcrylicDisabled)} {IsAcrylicDisabled}");
             Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutEnabled)} {IsVerticalTabFlyoutEnabled}");
             Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)} {IsDualPaneEnabled}");
             Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)} {AlwaysOpenDualPaneInNewTab}");
@@ -89,7 +88,7 @@ namespace Files.ViewModels
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
 
-        public static async void OpenSkinsFolder() => await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.SkinFolder.Path);
+        public static async void OpenThemesFolder() => await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
 
         public static async void ReportIssueOnGitHub()
         {
@@ -545,15 +544,6 @@ namespace Files.ViewModels
         #region Appearance
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not acrylic is enabled.
-        /// </summary>
-        public bool IsAcrylicDisabled
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating whether or not to move overflow menu items into a sub menu.
         /// </summary>
         public bool MoveOverflowMenuItemsToSubMenu
@@ -565,11 +555,11 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets the user's current selected skin
         /// </summary>
-        public AppSkin SelectedSkin
+        public AppTheme SelectedTheme
         {
-            get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppSkin>(Get(System.Text.Json.JsonSerializer.Serialize(new AppSkin()
+            get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppTheme>(Get(System.Text.Json.JsonSerializer.Serialize(new AppTheme()
             {
-                Name = "DefaultSkin".GetLocalized()
+                Name = "DefaultTheme".GetLocalized()
             })));
             set => Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
         }

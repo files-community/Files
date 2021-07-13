@@ -58,8 +58,8 @@
                 </local:SettingsBlockControl>
 
                 <local:SettingsBlockControl
-                    x:Uid="SettingsAppearanceCustomSkins"
-                    Title="Custom skins"
+                    x:Uid="SettingsAppearanceCustomThemes"
+                    Title="Custom themes"
                     Width="352"
                     HorizontalAlignment="Left">
                     <local:SettingsBlockControl.Icon>
@@ -67,11 +67,11 @@
                     </local:SettingsBlockControl.Icon>
                     <local:SettingsBlockControl.ExpandableContent>
                         <ComboBox
-                            x:Name="CustomSkinsChooser"
-                            ItemsSource="{Binding CustomSkins}"
-                            SelectedItem="{Binding SelectedSkin, Mode=TwoWay}">
+                            x:Name="CustomThemesChooser"
+                            ItemsSource="{Binding CustomThemes}"
+                            SelectedItem="{Binding SelectedTheme, Mode=TwoWay}">
                             <ComboBox.ItemTemplate>
-                                <DataTemplate x:DataType="helpers:AppSkin">
+                                <DataTemplate x:DataType="helpers:AppTheme">
                                     <Grid>
                                         <TextBlock Text="{x:Bind Name}" />
                                     </Grid>
@@ -80,25 +80,19 @@
                         </ComboBox>
                     </local:SettingsBlockControl.ExpandableContent>
                     <Button
-                        x:Name="SkinsLearnMoreButton"
-                        x:Uid="SettingsSkinsLearnMoreButton"
+                        x:Name="ThemesLearnMoreButton"
+                        x:Uid="SettingsThemesLearnMoreButton"
                         Height="32"
                         Padding="8,4,8,4"
                         VerticalAlignment="Bottom"
-                        AutomationProperties.Name="Learn more about custom skins"
+                        AutomationProperties.Name="Learn more about custom themes"
                         Background="Transparent"
                         BorderBrush="Transparent"
-                        Click="SkinsLearnMoreButton_Click"
-                        ToolTipService.ToolTip="Learn more about custom skins">
+                        Click="ThemesLearnMoreButton_Click"
+                        ToolTipService.ToolTip="Learn more about custom themes">
                         <FontIcon FontSize="14" Glyph="&#xE946;" />
                     </Button>
                 </local:SettingsBlockControl>
-
-                <ToggleSwitch
-                    x:Name="AcrylicSidebarSwitch"
-                    x:Uid="SettingsAppearanceAcrylicSidebar"
-                    Header="Acrylic sidebar"
-                    IsOn="{Binding IsAcrylicDisabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}" />
 
                 <TextBlock
                     x:Uid="SettingsContextMenu"
@@ -121,23 +115,23 @@
         </ScrollViewer>
 
         <muxc:TeachingTip
-            x:Name="SkinsTeachingTip"
+            x:Name="ThemesTeachingTip"
             IsLightDismissEnabled="True"
             PreferredPlacement="BottomLeft"
-            Target="{x:Bind SkinsLearnMoreButton}">
+            Target="{x:Bind ThemesLearnMoreButton}">
             <StackPanel Spacing="12">
                 <TextBlock TextWrapping="Wrap">
-                    <Run x:Uid="SettingsSkinsTeachingTipHeader" Text="Custom skins provide a great way for you to personalize Files." />
-                    <Hyperlink NavigateUri="https://files-community.github.io/docs/#/articles/custom-skins">
-                        <Run x:Uid="SettingsSkinsTeachingTipHyperlinkText" Text="View documentation." />
+                    <Run x:Uid="SettingsThemesTeachingTipHeader" Text="Custom themes provide a great way for you to personalize Files." />
+                    <Hyperlink NavigateUri="https://files-community.github.io/docs/#/articles/custom-themes">
+                        <Run x:Uid="SettingsThemesTeachingTipHyperlinkText" Text="View documentation." />
                     </Hyperlink>
                 </TextBlock>
 
                 <Button
-                    x:Name="OpenSkinsFolderButton"
-                    x:Uid="SettingsAppearanceOpenSkinsFolderButton"
-                    Click="OpenSkinsFolderButton_Click"
-                    Content="Open skins folder" />
+                    x:Name="OpenThemesFolderButton"
+                    x:Uid="SettingsAppearanceOpenThemesFolderButton"
+                    Click="OpenThemesFolderButton_Click"
+                    Content="Open themes folder" />
             </StackPanel>
         </muxc:TeachingTip>
     </Grid>

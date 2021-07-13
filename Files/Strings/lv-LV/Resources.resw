@@ -120,9 +120,6 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Par</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Akrila sānu josla</value>
-  </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Datuma formāts</value>
   </data>
@@ -269,9 +266,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Pārdēvēt</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Piespraust sānu joslā</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Rekvizīti</value>
@@ -500,9 +494,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Failu pārvietošana uz Atkritni</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Piespraust mapi sānu joslā</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>Jā</value>

@@ -12,15 +12,15 @@ namespace Files.SettingsPages
             InitializeComponent();
         }
 
-        private void SkinsLearnMoreButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void ThemesLearnMoreButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            SkinsTeachingTip.IsOpen = true;
+            ThemesTeachingTip.IsOpen = true;
         }
 
-        private void OpenSkinsFolderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void OpenThemesFolderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             this.FindAscendant<SettingsDialog>()?.Hide();
-            SettingsViewModel.OpenSkinsFolder();
+            SettingsViewModel.OpenThemesFolder();
         }
     }
 }
