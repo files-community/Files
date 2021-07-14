@@ -45,7 +45,7 @@
                         <FontIcon Glyph="&#xF2B7;" />
                     </local:SettingsBlockControl.Icon>
                     <ComboBox
-                        Width="200"
+                        Width="230"
                         HorizontalAlignment="Left"
                         ItemsSource="{Binding DefaultLanguages}"
                         SelectedIndex="{Binding SelectedLanguageIndex, Mode=TwoWay}">
