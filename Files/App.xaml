@@ -28,7 +28,6 @@
             <FontFamily x:Key="ColoredIconFontFamily">/Assets/Custom Glyphs/Colored-Icons.ttf#Untitled1</FontFamily>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" ControlsResourcesVersion="Version2" />
-                <ResourceDictionary Source="/ResourceDictionaries/ColoredIconPaths.xaml" />
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Light">

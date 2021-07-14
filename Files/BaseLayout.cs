@@ -583,7 +583,10 @@ namespace Files
                     index++;
                 }
 
-                overflowItem.Visibility = Visibility.Visible;
+                if(overflowItemFlyout.Items.Count > 0)
+                {
+                    overflowItem.Visibility = Visibility.Visible;
+                }
             }
         }
 
