@@ -174,11 +174,21 @@ namespace Files.Helpers.ContextFlyouts
                 var fontFamily = App.Current.Resources[item.GlyphFontFamilyName] as FontFamily;
                 icon.FontFamily = fontFamily;
             }
-            MenuFlyout ctxFlyout = null;
-            if (item.Items.Count > 0)
+
+            Windows.UI.Xaml.Controls.Primitives.FlyoutBase ctxFlyout = null;
+            if (item.Items.Count > 0 || item.ID == "ItemOverflow")
             {
-                ctxFlyout = new MenuFlyout();
-                GetMenuFlyoutItemsFromModel(item.Items).ForEach(i => ctxFlyout.Items.Add(i));
+                if(item.FlyoutType == FlyoutType.CommandBarFlyout)
+                {
+                    var cmdBarFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
+                    GetAppBarButtonsFromModelIgnorePrimary(item.Items).ForEach(i => cmdBarFlyout.SecondaryCommands.Add(i));
+                    ctxFlyout = cmdBarFlyout;
+                } else
+                {
+                    var menuFlyout = new MenuFlyout();
+                    GetMenuFlyoutItemsFromModel(item.Items).ForEach(i => menuFlyout.Items.Add(i));
+                    ctxFlyout = menuFlyout;
+                }
             }
 
             UIElement content = null;
@@ -191,6 +201,13 @@ namespace Files.Helpers.ContextFlyouts
             } else if(item.ColoredIcon.IsValid)
             {
                 content = item.ColoredIcon.ToColoredIcon();
+            } else if(item.ShowLoadingIndicator)
+            {
+                content = new Microsoft.UI.Xaml.Controls.ProgressRing()
+                {
+                    IsIndeterminate = true,
+                    IsActive = true,
+                };
             }
 
             if (item.ItemType == ItemType.Toggle)
@@ -204,7 +221,8 @@ namespace Files.Helpers.ContextFlyouts
                     IsChecked = item.IsChecked,
                     Content = content,
                     LabelPosition = item.CollapseLabel ? CommandBarLabelPosition.Collapsed : CommandBarLabelPosition.Default,
-                    IsEnabled = item.IsEnabled
+                    IsEnabled = item.IsEnabled,
+                    Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible,
                 };
 
                 if (icon != null)
@@ -228,7 +246,8 @@ namespace Files.Helpers.ContextFlyouts
                     Flyout = ctxFlyout,
                     LabelPosition = item.CollapseLabel ? CommandBarLabelPosition.Collapsed : CommandBarLabelPosition.Default,
                     Content = content,
-                    IsEnabled = item.IsEnabled
+                    IsEnabled = item.IsEnabled,
+                    Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible,
                 };
 
                 if (icon != null)

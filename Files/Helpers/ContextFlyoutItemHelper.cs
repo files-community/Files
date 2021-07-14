@@ -40,6 +40,18 @@ namespace Files.Helpers
             return menuItemsList;
         }
 
+        public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, string workingDir, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, bool showOpenMenu, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel)
+        {
+            var menuItemsList = GetBaseItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel);
+            menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, removeOverflowMenu: false);
+            return menuItemsList;
+        }
+
+        public static async Task<List<ContextMenuFlyoutItemViewModel>> GetItemContextShellCommandsAsync(NamedPipeAsAppServiceConnection connection, CurrentInstanceViewModel currentInstanceViewModel, string workingDir, List<ListedItem> selectedItems, bool showOpenMenu)
+        {
+            return await ShellContextmenuHelper.GetShellContextmenuAsync(showOpenMenu: showOpenMenu, connection: connection, workingDirectory: workingDir, selectedItems: selectedItems);
+        }
+
         public static List<ContextMenuFlyoutItemViewModel> GetToolbarContextCommands(NamedPipeAsAppServiceConnection connection, CurrentInstanceViewModel currentInstanceViewModel, string workingDir, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, bool showOpenMenu, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel)
         {
             var menuItemsList = GetNavItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel);
@@ -63,7 +75,7 @@ namespace Files.Helpers
             return menuItemsList;
         }
 
-        public static List<ContextMenuFlyoutItemViewModel> Filter(List<ContextMenuFlyoutItemViewModel> items, List<ListedItem> selectedItems, bool shiftPressed, CurrentInstanceViewModel currentInstanceViewModel)
+        public static List<ContextMenuFlyoutItemViewModel> Filter(List<ContextMenuFlyoutItemViewModel> items, List<ListedItem> selectedItems, bool shiftPressed, CurrentInstanceViewModel currentInstanceViewModel, bool removeOverflowMenu = true)
         {
             items = items.Where(x => Check(item: x, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, shiftPressed: shiftPressed)).ToList();
             items.ForEach(x => x.Items = x.Items.Where(y => Check(item: y, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, shiftPressed: shiftPressed)).ToList());
@@ -86,7 +98,7 @@ namespace Files.Helpers
                 }
 
                 // remove the overflow if it has no child items
-                if (overflow.Items.Count == 0)
+                if (overflow.Items.Count == 0 && removeOverflowMenu)
                 {
                     items.Remove(overflow);
                 }
@@ -902,7 +914,10 @@ namespace Files.Helpers
                 {
                     Text = "ContextMenuMoreItemsLabel".GetLocalized(),
                     Glyph = "\xE712",
-                    ID = "ItemOverflow"
+                    ID = "ItemOverflow",
+                    Tag = "ItemOverflow",
+                    FlyoutType = FlyoutType.MenuFlyout,
+                    IsHidden = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {

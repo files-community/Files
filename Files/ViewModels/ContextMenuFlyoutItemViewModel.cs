@@ -54,6 +54,12 @@ namespace Files.ViewModels
         public bool CollapseLabel { get; set; }
 
         public ColoredIconModel ColoredIcon { get; set; }
+
+        public FlyoutType FlyoutType { get; set; } = FlyoutType.MenuFlyout;
+
+        public bool ShowLoadingIndicator { get; set; }
+
+        public bool IsHidden { get; set; }
     }
 
     public enum ItemType
@@ -61,6 +67,12 @@ namespace Files.ViewModels
         Item,
         Separator,
         Toggle,
+    }
+
+    public enum FlyoutType
+    {
+        MenuFlyout,
+        CommandBarFlyout
     }
 
     public struct ColoredIconModel

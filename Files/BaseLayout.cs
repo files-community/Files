@@ -53,7 +53,10 @@ namespace Files
         public MainViewModel MainViewModel => App.MainViewModel;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
-        public Microsoft.UI.Xaml.Controls.CommandBarFlyout ItemContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
+        public Microsoft.UI.Xaml.Controls.CommandBarFlyout ItemContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout()
+        {
+            AlwaysExpanded = true,
+        };
         public MenuFlyout BaseContextMenuFlyout { get; set; } = new MenuFlyout();
 
         public BaseLayoutCommandsViewModel CommandsViewModel { get; protected set; }
@@ -541,16 +544,47 @@ namespace Files
             }
         }
 
+        private CancellationTokenSource shellContextMenuItemCancellationToken;
+
         private void LoadMenuItemsAsync()
         {
+            shellContextMenuItemCancellationToken?.Cancel();
+            shellContextMenuItemCancellationToken = new CancellationTokenSource();
             SelectedItemsPropertiesViewModel.CheckFileExtension(SelectedItem?.FileExtension);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var items = ContextFlyoutItemHelper.GetItemContextCommands(connection: Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
+            var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
             ItemContextMenuFlyout.PrimaryCommands.Clear();
             ItemContextMenuFlyout.SecondaryCommands.Clear();
             var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
             primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
+
+            LoadShellItemsAsync(shellContextMenuItemCancellationToken.Token);
+        }
+
+        private async void LoadShellItemsAsync(CancellationToken cancellationToken)
+        {
+            var res = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, showOpenMenu: false);
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
+            var items = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(res);
+            var overflowItem = ItemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && appBarButton.Tag as string == "ItemOverflow") as AppBarButton;
+            if(overflowItem is not null)
+            {
+                var overflowItemFlyout = overflowItem.Flyout as MenuFlyout;
+                var index = 0;
+
+                foreach (var i in items)
+                {
+                    overflowItemFlyout.Items.Insert(index, i);
+                    index++;
+                }
+
+                overflowItem.Visibility = Visibility.Visible;
+            }
         }
 
         private void LoadToolbarContextItemsAsync()
