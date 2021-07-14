@@ -47,7 +47,7 @@
         <muxc:NavigationView
             x:Name="SettingsPane"
             Grid.Column="0"
-            Width="180"
+            Width="190"
             Margin="12,12,0,12"
             IsBackButtonVisible="Collapsed"
             IsBackEnabled="False"
@@ -55,7 +55,7 @@
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
             IsTitleBarAutoPaddingEnabled="False"
-            OpenPaneLength="180"
+            OpenPaneLength="190"
             PaneDisplayMode="Left"
             SelectionChanged="SettingsPane_SelectionChanged">
 
