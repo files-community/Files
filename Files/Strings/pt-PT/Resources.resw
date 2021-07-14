@@ -28,7 +28,7 @@
     <value>Documento de Texto</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
-    <value>Dispositivos e Unidades</value>
+    <value>Unidades</value>
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nome</value>
@@ -2420,5 +2420,86 @@
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Tamanho descomprimido</value>
+  </data>
+  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+    <value>Entrar modo sobreposição compacta</value>
+  </data>
+  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+    <value>Sair modo sobreposição compacta</value>
+  </data>
+  <data name="WSL" xml:space="preserve">
+    <value>WSL</value>
+  </data>
+  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
+    <value>Ocultar secção {0}</value>
+  </data>
+  <data name="SettingsMultitaskingAlwaysOpenDualPane.Title" xml:space="preserve">
+    <value>Abrir sempre novos separadores no modo painel duplo</value>
+  </data>
+  <data name="SettingsMultitaskingEnableDualPane.Title" xml:space="preserve">
+    <value>Ligar vista painel duplo</value>
+  </data>
+  <data name="SettingsVerticalTabFlyoutSwitch.Title" xml:space="preserve">
+    <value>Mostrar menu vertical desdobrável na barra de título </value>
+  </data>
+  <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
+    <value>Mostrar secção unidade de nuvem na barra lateral</value>
+  </data>
+  <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
+    <value>Mostrar secção unidades na barra lateral</value>
+  </data>
+  <data name="SettingsShowWslSection.Title" xml:space="preserve">
+    <value>Mostrar secção WSL na barra lateral</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
+    <value>Mostrar secção unidades de rede na barra lateral</value>
+  </data>
+  <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
+    <value>Afixar Reciclagem na barra lateral</value>
+  </data>
+  <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
+    <value>Mostrar secção biblioteca na barra lateral</value>
+  </data>
+  <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
+    <value>Escolha a sua cor</value>
+  </data>
+  <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
+    <value>Mover sobra de itens para um submenu</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowFileExtensions.Title" xml:space="preserve">
+    <value>Mostrar extensões para tipos de ficheiros conhecidos</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+    <value>Mostrar ficheiros e pastas ocultas</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">
+    <value>Ocultar ficheiros protegidos do sistema operativo (Recomendado)</value>
+  </data>
+  <data name="SettingsOpenItemsWithOneclick.Title" xml:space="preserve">
+    <value>Abrir itens com um clique único</value>
+  </data>
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Title" xml:space="preserve">
+    <value>Listar e ordenar diretórios ao lado dos ficheiros</value>
+  </data>
+  <data name="SettingsSearchUnindexedItems.Title" xml:space="preserve">
+    <value>Mostrar itens não indexados ao pesquisar ficheiros e pastas (as pesquisas podem demorar mais)</value>
+  </data>
+  <data name="SettingsEnableLayoutPreferencesPerFolder.Title" xml:space="preserve">
+    <value>Ligar preferências individuais para diretórios individuais</value>
+  </data>
+  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
+    <value>Links úteis</value>
+  </data>
+  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
+    <value>Copiar</value>
+  </data>
+  <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Abrir localização do log</value>
+  </data>
+  <data name="SettingsAboutOpenLogLocationButtonText.Text" xml:space="preserve">
+    <value>Abrir localização do log</value>
   </data>
 </root>
