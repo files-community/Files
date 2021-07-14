@@ -71,6 +71,7 @@
                                 x:Name="FeedbackForm"
                                 x:Uid="SettingsAboutSubmitFeedbackListViewItem"
                                 Padding="8,2"
+                                Width="200"
                                 HorizontalAlignment="Stretch"
                                 HorizontalContentAlignment="Stretch"
                                 AutomationProperties.Name="Send the developers an issue report with more information"
