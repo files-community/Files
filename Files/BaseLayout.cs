@@ -580,13 +580,16 @@ namespace Files
             if(overflowItem is not null)
             {
                 var overflowItemFlyout = overflowItem.Flyout as MenuFlyout;
-                var index = 0;
+                var index = ItemContextMenuFlyout.SecondaryCommands.Count - 2;
 
                 foreach (var i in items)
                 {
-                    ItemContextMenuFlyout.SecondaryCommands.Add(i);
+                    index++;
+                    ItemContextMenuFlyout.SecondaryCommands.Insert(index, i);
                 }
-                
+
+                index = 0;
+
                 if(overflowItemFlyout.Items.Count > 0)
                 {
                     overflowItemFlyout.Items.Insert(0, new MenuFlyoutSeparator());
