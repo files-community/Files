@@ -549,7 +549,6 @@ namespace Files.Views.LayoutModes
                 if (itemTemplateChanging)
                 {
                     itemTemplateChanging = false;
-                    Behaviors.StretchedGridViewItems.ResizeItems(FileList);
                 }
 
                 InitializeDrag(args.ItemContainer);
