@@ -484,14 +484,15 @@
 
             <uc:SearchBox
                 x:Name="SearchRegion"
-                Grid.Column="1"
+                Grid.Column="2"
+                Width="240"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 Canvas.ZIndex="100"
                 CornerRadius="{StaticResource ControlCornerRadius}"
+                IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 LostFocus="SearchRegion_LostFocus"
-                SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.IsSearchBoxVisible, Mode=OneWay}">
+                SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}">
                 <uc:SearchBox.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Escape" Invoked="SearchBox_Escaped" />
                 </uc:SearchBox.KeyboardAccelerators>
@@ -509,7 +510,8 @@
                 Click="SearchButton_Click"
                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Search (Ctrl+F)">
+                ToolTipService.ToolTip="Search (Ctrl+F)"
+                Visibility="Collapsed">
                 <FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator
@@ -579,10 +581,13 @@
             <AppBarButton
                 x:Name="SelectionOptions"
                 x:Uid="NavToolbarSelectionOptions"
+                Width="Auto"
+                MinWidth="40"
                 x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 AccessKey="S"
                 AutomationProperties.Name="Selection options"
                 Label="Select"
+                LabelPosition="Collapsed"
                 ToolTipService.ToolTip="Selection options">
                 <AppBarButton.Icon>
                     <FontIcon
@@ -640,10 +645,13 @@
             <AppBarButton
                 x:Name="ArrangementOptions"
                 x:Uid="NavToolbarSortOptionsButton"
+                Width="Auto"
+                MinWidth="40"
                 x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 AccessKey="A"
                 AutomationProperties.Name="Sort"
                 Label="Sort"
+                LabelPosition="Collapsed"
                 ToolTipService.ToolTip="Sort">
                 <!--<AppBarButton.Icon>
                     <FontIcon
@@ -673,10 +681,13 @@
             <AppBarButton
                 x:Name="LayoutOptionsButton"
                 x:Uid="NavToolbarLayoutOptionsButton"
+                Width="Auto"
+                MinWidth="40"
                 x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 AccessKey="L"
                 AutomationProperties.Name="Layout"
                 Label="Layout"
+                LabelPosition="Collapsed"
                 ToolTipService.ToolTip="Layout">
                 <AppBarButton.Icon>
                     <FontIcon
@@ -817,11 +828,14 @@
             <AppBarToggleButton
                 x:Name="PreviewPane"
                 x:Uid="PreviewPaneToggle"
+                Width="Auto"
+                MinWidth="40"
                 AccessKey="P"
                 AutomationProperties.Name="Toggle preview pane"
                 IsChecked="{x:Bind AppSettings.PreviewPaneEnabled, Mode=TwoWay}"
                 IsEnabled="{x:Bind ShowPreviewPaneButton, Mode=OneWay}"
                 Label="Preview"
+                LabelPosition="Collapsed"
                 ToolTipService.ToolTip="Toggle the preview pane (Ctrl+P)"
                 Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
                 <AppBarToggleButton.Icon>
