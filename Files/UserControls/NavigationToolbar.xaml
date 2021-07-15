@@ -348,6 +348,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <StackPanel
@@ -519,6 +520,19 @@
                         IsEnabled="False"
                         Modifiers="Control" />
                 </Button.KeyboardAccelerators>
+            </Button>
+
+            <Button
+                x:Name="SettingsButton"
+                x:Uid="NavSettingsButton"
+                Grid.Column="3"
+                Width="36"
+                Height="32"
+                AutomationProperties.Name="Settings"
+                Background="Transparent"
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Settings">
+                <FontIcon FontSize="14" Glyph="&#xE115;" />
             </Button>
         </Grid>
 
