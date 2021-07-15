@@ -912,15 +912,6 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "ContextMenuMoreItemsLabel".GetLocalized(),
-                    Glyph = "\xE712",
-                    ID = "ItemOverflow",
-                    Tag = "ItemOverflow",
-                    FlyoutType = FlyoutType.MenuFlyout,
-                    IsHidden = true,
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
                     ItemType = ItemType.Separator,
                     ShowInRecycleBin = true,
                 },
@@ -1105,7 +1096,21 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutProperties/Text".GetLocalized(),
                     Glyph = "\uE946",
                     Command = commandsViewModel.ShowPropertiesCommand,
-                }
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    ItemType = ItemType.Separator,
+                    Tag = "OverflowSeparator",
+                    IsHidden = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "ContextMenuMoreItemsLabel".GetLocalized(),
+                    Glyph = "\xE712",
+                    ID = "ItemOverflow",
+                    Tag = "ItemOverflow",
+                    IsHidden = true,
+                },
             };
         }
 

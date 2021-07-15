@@ -152,7 +152,11 @@ namespace Files.Helpers.ContextFlyouts
         {
             return item.ItemType switch
             {
-                ItemType.Separator => new AppBarSeparator(),
+                ItemType.Separator => new AppBarSeparator()
+                {
+                    Tag = item.Tag,
+                    Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible,
+                },
                 _ => GetCommandBarButton(item),
             };
         }
@@ -175,20 +179,11 @@ namespace Files.Helpers.ContextFlyouts
                 icon.FontFamily = fontFamily;
             }
 
-            Windows.UI.Xaml.Controls.Primitives.FlyoutBase ctxFlyout = null;
+            MenuFlyout ctxFlyout = null;
             if (item.Items.Count > 0 || item.ID == "ItemOverflow")
             {
-                if(item.FlyoutType == FlyoutType.CommandBarFlyout)
-                {
-                    var cmdBarFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
-                    GetAppBarButtonsFromModelIgnorePrimary(item.Items).ForEach(i => cmdBarFlyout.SecondaryCommands.Add(i));
-                    ctxFlyout = cmdBarFlyout;
-                } else
-                {
-                    var menuFlyout = new MenuFlyout();
-                    GetMenuFlyoutItemsFromModel(item.Items).ForEach(i => menuFlyout.Items.Add(i));
-                    ctxFlyout = menuFlyout;
-                }
+                ctxFlyout = new MenuFlyout();
+                GetMenuFlyoutItemsFromModel(item.Items).ForEach(i => ctxFlyout.Items.Add(i));
             }
 
             UIElement content = null;
