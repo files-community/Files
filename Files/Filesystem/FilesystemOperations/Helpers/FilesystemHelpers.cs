@@ -67,7 +67,7 @@ namespace Files.Filesystem
         {
             this.associatedInstance = associatedInstance;
             this.cancellationToken = cancellationToken;
-            this.filesystemOperations = new FilesystemOperations(this.associatedInstance);
+            this.filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
             this.recycleBinHelpers = new RecycleBinHelpers(this.associatedInstance);
         }
 
@@ -90,6 +90,7 @@ namespace Files.Filesystem
                 App.HistoryWrapper.AddHistory(result.Item1);
             }
 
+            await Task.Yield();
             return (returnCode.ToStatus(), result.Item2);
         }
 
@@ -101,15 +102,12 @@ namespace Files.Filesystem
         {
             var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
             PostedStatusBanner banner = null;
-            int itemsDeleted = 0;
             var returnStatus = ReturnResult.InProgress;
 
-            var pathsUnderRecycleBin = GetPathsUnderRecycleBin(source);
+            var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => recycleBinHelpers.IsPathUnderRecycleBin(path));
 
             if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
-                var deleteFromRecycleBin = pathsUnderRecycleBin.Count > 0;
-
                 List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
 
                 for (int i = 0; i < source.Count(); i++)
@@ -165,46 +163,17 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            IStorageHistory history;
-            var rawStorageHistory = new List<IStorageHistory>();
-
             bool originalPermanently = permanently;
-            float progress;
 
-            for (int i = 0; i < source.Count(); i++)
+            IStorageHistory history = await filesystemOperations.DeleteItemsAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
+            ((IProgress<float>)banner.Progress).Report(100.0f);
+            await Task.Yield();
+
+            if (!permanently && registerHistory)
             {
-                if (token.IsCancellationRequested)
-                {
-                    break;
-                }
-
-                if (pathsUnderRecycleBin.Contains(source.ElementAt(i).Path))
-                {
-                    permanently = true;
-                }
-                else
-                {
-                    permanently = originalPermanently;
-                }
-
-                rawStorageHistory.Add(await filesystemOperations.DeleteAsync(source.ElementAt(i), null, banner.ErrorCode, permanently, token));
-                progress = ((float)i / (float)source.Count()) * 100.0f;
-                ((IProgress<float>)banner.Progress).Report(progress);
-                itemsDeleted++;
+                App.HistoryWrapper.AddHistory(history);
             }
-
-            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
-            {
-                history = new StorageHistory(
-                    rawStorageHistory[0].OperationType,
-                    rawStorageHistory.SelectMany((item) => item.Source).ToList(),
-                    rawStorageHistory.SelectMany((item) => item.Destination).ToList());
-
-                if (!permanently && registerHistory)
-                {
-                    App.HistoryWrapper.AddHistory(history);
-                }
-            }
+            var itemsDeleted = history?.Source.Count() ?? 0;
 
             banner.Remove();
             sw.Stop();
@@ -280,11 +249,6 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        private ISet<string> GetPathsUnderRecycleBin(IEnumerable<IStorageItemWithPath> source)
-        {
-            return source.Select(item => item.Path).Where(path => recycleBinHelpers.IsPathUnderRecycleBin(path)).ToHashSet();
-        }
-
         public async Task<ReturnResult> DeleteItemAsync(IStorageItemWithPath source, bool showDialog, bool permanently, bool registerHistory)
         {
             PostedStatusBanner banner;
@@ -348,6 +312,7 @@ namespace Files.Filesystem
 
             IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
             ((IProgress<float>)banner.Progress).Report(100.0f);
+            await Task.Yield();
 
             if (!permanently && registerHistory)
             {
@@ -428,6 +393,7 @@ namespace Files.Filesystem
 
             IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
             ((IProgress<float>)banner.Progress).Report(100.0f);
+            await Task.Yield();
 
             if (!permanently && registerHistory)
             {
@@ -457,6 +423,7 @@ namespace Files.Filesystem
                 App.HistoryWrapper.AddHistory(history);
             }
 
+            await Task.Yield();
             return returnCode.ToStatus();
         }
 
@@ -552,48 +519,17 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            IStorageHistory history;
-            List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
-
             itemManipulationModel.ClearSelection();
-            var itemsCopied = 0;
-            float progress;
-            for (int i = 0; i < source.Count(); i++)
+
+            IStorageHistory history = await filesystemOperations.CopyItemsAsync(source, destination, collisions, banner.Progress, banner.ErrorCode, token);
+            ((IProgress<float>)banner.Progress).Report(100.0f);
+            await Task.Yield();
+
+            if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
             {
-                if (token.IsCancellationRequested)
-                {
-                    break;
-                }
-
-                if (collisions.ElementAt(i) != FileNameConflictResolveOptionType.Skip)
-                {
-                    rawStorageHistory.Add(await filesystemOperations.CopyAsync(
-                        source.ElementAt(i),
-                        destination.ElementAt(i),
-                        collisions.ElementAt(i).Convert(),
-                        null,
-                        banner.ErrorCode,
-                        token));
-
-                    itemsCopied++;
-                }
-
-                progress = i / (float)source.Count() * 100.0f;
-                ((IProgress<float>)banner.Progress).Report(progress);
+                App.HistoryWrapper.AddHistory(history);
             }
-
-            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
-            {
-                history = new StorageHistory(
-                    rawStorageHistory[0].OperationType,
-                    rawStorageHistory.SelectMany((item) => item.Source).ToList(),
-                    rawStorageHistory.SelectMany((item) => item.Destination).ToList());
-
-                if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
-                {
-                    App.HistoryWrapper.AddHistory(history);
-                }
-            }
+            var itemsCopied = history?.Source.Count() ?? 0;
 
             banner.Remove();
             sw.Stop();
@@ -652,6 +588,7 @@ namespace Files.Filesystem
             {
                 history = await filesystemOperations.CopyAsync(source, destination, collisions.First().Convert(), banner.Progress, banner.ErrorCode, cancellationToken);
                 ((IProgress<float>)banner.Progress).Report(100.0f);
+                await Task.Yield();
             }
             else
             {
@@ -705,6 +642,7 @@ namespace Files.Filesystem
             }
             ReturnResult returnStatus = ReturnResult.InProgress;
 
+            source = source.Where(x => !recycleBinHelpers.IsPathUnderRecycleBin(x.Path)).ToList(); // Can't recycle items already in recyclebin
             returnStatus = await DeleteItemsAsync(source, showDialog, false, registerHistory);
 
             return returnStatus;
@@ -726,7 +664,6 @@ namespace Files.Filesystem
                         var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet() {
                             { "Arguments", "FileOperation" },
                             { "fileop", "DragDrop" },
-                            { "droptext", "DragDropWindowText".GetLocalized() },
                             { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
                         return (status == AppServiceResponseStatus.Success && response.Get("Success", false)) ? ReturnResult.Success : ReturnResult.Failed;
                     }
@@ -740,9 +677,19 @@ namespace Files.Filesystem
                 ReturnResult returnStatus = ReturnResult.InProgress;
 
                 var destinations = new List<string>();
+                List<ShellFileItem> binItems = null;
                 foreach (IStorageItem item in source)
                 {
-                    destinations.Add(Path.Combine(destination, item.Name));
+                    if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
+                    {
+                        binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+                        var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
+                        destinations.Add(Path.Combine(destination, matchingItem?.FileName ?? item.Name));
+                    }
+                    else
+                    {
+                        destinations.Add(Path.Combine(destination, item.Name));
+                    }
                 }
 
                 returnStatus = await CopyItemsAsync(source, destinations, showDialog, registerHistory);
@@ -823,47 +770,17 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            IStorageHistory history;
-            var rawStorageHistory = new List<IStorageHistory>();
-            int itemsMoved = 0;
-
             itemManipulationModel.ClearSelection();
-            float progress;
-            for (int i = 0; i < source.Count(); i++)
+
+            IStorageHistory history = await filesystemOperations.MoveItemsAsync(source, destination, collisions, banner.Progress, banner.ErrorCode, token);
+            ((IProgress<float>)banner.Progress).Report(100.0f);
+            await Task.Yield();
+
+            if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
             {
-                if (token.IsCancellationRequested)
-                {
-                    break;
-                }
-
-                if (collisions.ElementAt(i) != FileNameConflictResolveOptionType.Skip)
-                {
-                    rawStorageHistory.Add(await filesystemOperations.MoveAsync(
-                        source.ElementAt(i),
-                        destination.ElementAt(i),
-                        collisions.ElementAt(i).Convert(),
-                        null,
-                        banner.ErrorCode,
-                        token));
-                    itemsMoved++;
-                }
-
-                progress = i / (float)source.Count() * 100.0f;
-                ((IProgress<float>)banner.Progress).Report(progress);
+                App.HistoryWrapper.AddHistory(history);
             }
-
-            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
-            {
-                history = new StorageHistory(
-                    rawStorageHistory[0].OperationType,
-                    rawStorageHistory.SelectMany((item) => item.Source).ToList(),
-                    rawStorageHistory.SelectMany((item) => item.Destination).ToList());
-
-                if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
-                {
-                    App.HistoryWrapper.AddHistory(history);
-                }
-            }
+            int itemsMoved = history?.Source.Count() ?? 0;
 
             banner.Remove();
             sw.Stop();
@@ -929,6 +846,7 @@ namespace Files.Filesystem
             {
                 history = await filesystemOperations.MoveAsync(source, destination, collisions.First().Convert(), banner.Progress, banner.ErrorCode, cancellationToken);
                 ((IProgress<float>)banner.Progress).Report(100.0f);
+                await Task.Yield();
             }
             else
             {
@@ -983,9 +901,19 @@ namespace Files.Filesystem
             ReturnResult returnStatus = ReturnResult.InProgress;
 
             var destinations = new List<string>();
+            List<ShellFileItem> binItems = null;
             foreach (IStorageItem item in source)
             {
-                destinations.Add(Path.Combine(destination, item.Name));
+                if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
+                {
+                    binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+                    var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
+                    destinations.Add(Path.Combine(destination, matchingItem?.FileName ?? item.Name));
+                }
+                else
+                {
+                    destinations.Add(Path.Combine(destination, item.Name));
+                }
             }
 
             returnStatus = await MoveItemsAsync(source, destinations, showDialog, registerHistory);
@@ -1010,6 +938,7 @@ namespace Files.Filesystem
                 App.HistoryWrapper.AddHistory(history);
             }
 
+            await Task.Yield();
             return returnCode.ToStatus();
         }
 
@@ -1028,11 +957,6 @@ namespace Files.Filesystem
                     break;
 
                 case FilesystemItemType.File:
-
-                    if (Path.HasExtension(source.Path) && !Path.HasExtension(newName))
-                    {
-                        newName += Path.GetExtension(source.Path);
-                    }
 
                     /* Only prompt user when extension has changed,
                        not when file name has changed */
@@ -1061,6 +985,7 @@ namespace Files.Filesystem
                 App.HistoryWrapper.AddHistory(history);
             }
 
+            await Task.Yield();
             return returnCode.ToStatus();
         }
 

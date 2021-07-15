@@ -10,7 +10,10 @@
     d:DesignWidth="400"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <Style x:Name="HeaderButtonStyle" TargetType="Button">
+        <Style
+            x:Name="HeaderButtonStyle"
+            BasedOn="{StaticResource DefaultButtonStyle}"
+            TargetType="Button">
             <Setter Property="CornerRadius" Value="0" />
             <Setter Property="BorderBrush" Value="Transparent" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />

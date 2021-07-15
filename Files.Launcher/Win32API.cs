@@ -11,6 +11,7 @@ using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,7 +21,7 @@ using Windows.System;
 
 namespace FilesFullTrust
 {
-    internal partial class Win32API
+    internal class Win32API
     {
         public static Task<T> StartSTATask<T>(Func<T> func)
         {
@@ -31,6 +32,36 @@ namespace FilesFullTrust
                 try
                 {
                     tcs.SetResult(func());
+                }
+                catch (Exception ex)
+                {
+                    tcs.SetResult(default);
+                    Program.Logger.Info(ex, ex.Message);
+                    //tcs.SetException(e);
+                }
+                finally
+                {
+                    Ole32.OleUninitialize();
+                }
+            })
+            {
+                IsBackground = true,
+                Priority = ThreadPriority.Normal
+            };
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            return tcs.Task;
+        }
+
+        public static Task<T> StartSTATask<T>(Func<Task<T>> func)
+        {
+            var tcs = new TaskCompletionSource<T>();
+            Thread thread = new Thread(async () =>
+            {
+                Ole32.OleInitialize();
+                try
+                {
+                    tcs.SetResult(await func());
                 }
                 catch (Exception ex)
                 {
@@ -252,7 +283,7 @@ namespace FilesFullTrust
             RunPowershellCommand($"-command \"Mount-DiskImage -ImagePath '{vhdPath}'\"", true);
         }
 
-        private static Bitmap GetBitmapFromHBitmap(HBITMAP hBitmap)
+        public static Bitmap GetBitmapFromHBitmap(HBITMAP hBitmap)
         {
             try
             {
@@ -372,6 +403,49 @@ namespace FilesFullTrust
                     }
                 }
             });
+        }
+
+        public static string GenerateUniquePath(string path)
+        {
+            string uniquePath = path;
+
+            if (File.Exists(path))
+            {
+                string nameWithoutExt = Path.GetFileNameWithoutExtension(path);
+                string extension = Path.GetExtension(path);
+                string directory = Path.GetDirectoryName(path);
+
+                for (ushort count = 1; File.Exists(uniquePath); count++)
+                {
+                    if (Regex.IsMatch(nameWithoutExt, @".*\(\d+\)"))
+                    {
+                        uniquePath = Path.Combine(directory, $"{nameWithoutExt.Substring(0, nameWithoutExt.LastIndexOf("(", StringComparison.InvariantCultureIgnoreCase))}({count}){extension}");
+                    }
+                    else
+                    {
+                        uniquePath = Path.Combine(directory, $"{nameWithoutExt} ({count}){extension}");
+                    }
+                }
+            }
+            else if (Directory.Exists(path))
+            {
+                string directory = Path.GetDirectoryName(path);
+                string Name = Path.GetFileName(path);
+
+                for (ushort Count = 1; Directory.Exists(uniquePath); Count++)
+                {
+                    if (Regex.IsMatch(Name, @".*\(\d+\)"))
+                    {
+                        uniquePath = Path.Combine(directory, $"{Name.Substring(0, Name.LastIndexOf("(", StringComparison.InvariantCultureIgnoreCase))}({Count})");
+                    }
+                    else
+                    {
+                        uniquePath = Path.Combine(directory, $"{Name} ({Count})");
+                    }
+                }
+            }
+
+            return uniquePath;
         }
 
         public class Win32Window : IWin32Window

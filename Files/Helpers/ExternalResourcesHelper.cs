@@ -12,82 +12,72 @@ namespace Files.Helpers
 {
     public class ExternalResourcesHelper
     {
-        public List<AppSkin> Skins = new List<AppSkin>()
+        public List<AppTheme> Themes = new List<AppTheme>()
         {
-            new AppSkin
+            new AppTheme
             {
-                Name = "DefaultSkin".GetLocalized(),
+                Name = "DefaultTheme".GetLocalized(),
             },
         };
 
-        public StorageFolder SkinFolder { get; set; }
-        public StorageFolder OptionalPackageSkinFolder { get; set; }
+        public StorageFolder ThemeFolder { get; set; }
+        public StorageFolder OptionalPackageThemesFolder { get; set; }
 
-        public string CurrentSkinResources { get; set; }
+        public string CurrentThemeResources { get; set; }
 
-        public async Task LoadSelectedSkin()
+        public async Task LoadSelectedTheme()
         {
-            if (App.OptionalPackageManager.TryGetOptionalPackage(Constants.OptionalPackages.SkinsOptionalPackagesName, out var package))
+            if (App.OptionalPackageManager.TryGetOptionalPackage(Constants.OptionalPackages.ThemesOptionalPackagesName, out var package))
             {
                 Debug.WriteLine(package.InstalledLocation.Path);
-                OptionalPackageSkinFolder = package.InstalledLocation;
+                OptionalPackageThemesFolder = package.InstalledLocation;
             }
 
-            try
-            {
-                // ToDo this is for backwards compatability, remove after a couple updates
-                var themeFolder = await StorageFolder.GetFolderFromPathAsync(ApplicationData.Current.LocalFolder.Path + "\\Themes");
-                await themeFolder.RenameAsync("Skins", NameCollisionOption.FailIfExists);
-            }
-            catch (Exception)
-            {
-            }
+            ThemeFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
 
-            SkinFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Skins", CreationCollisionOption.OpenIfExists);
-
-            // This is used to migrate to the new skin setting
+            // This is used to migrate to the new theme setting
             // It can be removed in a future update
-            if (ApplicationData.Current.LocalSettings.Values.TryGetValue("PathToSkinFile", out var path))
+            if (ApplicationData.Current.LocalSettings.Values.TryGetValue("PathToThemeFile", out var path))
             {
                 var pathStr = path as string;
-                App.AppSettings.SelectedSkin = new AppSkin()
+                App.AppSettings.SelectedTheme = new AppTheme()
                 {
                     Name = pathStr.Replace(".xaml", ""),
                     Path = pathStr,
                 };
-                ApplicationData.Current.LocalSettings.Values.Remove("PathToSkinFile");
+                ApplicationData.Current.LocalSettings.Values.Remove("PathToThemeFile");
             }
 
-            if (App.AppSettings.SelectedSkin.Path != null)
+            if (App.AppSettings.SelectedTheme.Path != null)
             {
-                await TryLoadSkinAsync(App.AppSettings.SelectedSkin);
+                await TryLoadThemeAsync(App.AppSettings.SelectedTheme);
             }
 
-            LoadOtherSkinsAsync();
+            LoadOtherThemesAsync();
         }
 
-        private async void LoadOtherSkinsAsync()
+        private async void LoadOtherThemesAsync()
         {
             try
             {
-                await AddSkinsAsync(SkinFolder);
+                await AddThemesAsync(ThemeFolder);
 
-                if (OptionalPackageSkinFolder != null)
+                if (OptionalPackageThemesFolder != null)
                 {
-                    await AddSkinsAsync(OptionalPackageSkinFolder, true);
+                    await AddThemesAsync(OptionalPackageThemesFolder, true);
                 }
             }
             catch (Exception)
             {
-                Debug.WriteLine($"Error loading skins");
+                Debug.WriteLine($"Error loading themes");
             }
         }
 
-        private async Task AddSkinsAsync(StorageFolder folder, bool isOptionalPackage = false)
+        private async Task AddThemesAsync(StorageFolder folder, bool isOptionalPackage = false)
         {
             foreach (var file in (await folder.GetFilesAsync()).Where(x => x.FileType == ".xaml"))
             {
-                Skins.Add(new AppSkin()
+                Themes.Add(new AppTheme()
                 {
                     Name = file.Name.Replace(".xaml", ""),
                     Path = file.Name,
@@ -96,16 +86,16 @@ namespace Files.Helpers
             }
         }
 
-        public async Task<bool> TryLoadSkinAsync(AppSkin skin)
+        public async Task<bool> TryLoadThemeAsync(AppTheme theme)
         {
             try
             {
                 StorageFile file;
-                if (skin.IsFromOptionalPackage)
+                if (theme.IsFromOptionalPackage)
                 {
-                    if (OptionalPackageSkinFolder != null)
+                    if (OptionalPackageThemesFolder != null)
                     {
-                        file = await OptionalPackageSkinFolder.GetFileAsync(skin.Path);
+                        file = await OptionalPackageThemesFolder.GetFileAsync(theme.Path);
                     }
                     else
                     {
@@ -114,11 +104,11 @@ namespace Files.Helpers
                 }
                 else
                 {
-                    file = await SkinFolder.GetFileAsync(skin.Path);
+                    file = await ThemeFolder.GetFileAsync(theme.Path);
                 }
-                CurrentSkinResources = await FileIO.ReadTextAsync(file);
-                var xaml = XamlReader.Load(CurrentSkinResources) as ResourceDictionary;
-                xaml.Add("CustomSkinID", skin.Key);
+                CurrentThemeResources = await FileIO.ReadTextAsync(file);
+                var xaml = XamlReader.Load(CurrentThemeResources) as ResourceDictionary;
+                xaml.Add("CustomThemeID", theme.Key);
                 App.Current.Resources.MergedDictionaries.Add(xaml);
 
                 return true;
@@ -129,24 +119,24 @@ namespace Files.Helpers
             }
         }
 
-        public async void UpdateSkin(AppSkin OldSkin, AppSkin NewSkin)
+        public async void UpdateTheme(AppTheme OldTheme, AppTheme NewTheme)
         {
-            if (OldSkin.Path != null)
+            if (OldTheme.Path != null)
             {
-                RemoveSkin(OldSkin);
+                RemoveTheme(OldTheme);
             }
 
-            if (NewSkin.Path != null)
+            if (NewTheme.Path != null)
             {
-                await TryLoadSkinAsync(NewSkin);
+                await TryLoadThemeAsync(NewTheme);
             }
         }
 
-        public bool RemoveSkin(AppSkin skin)
+        public bool RemoveTheme(AppTheme theme)
         {
             try
             {
-                App.Current.Resources.MergedDictionaries.Remove(App.Current.Resources.MergedDictionaries.FirstOrDefault(x => x.TryGetValue("CustomSkinID", out var key) && (key as string) == skin.Key));
+                App.Current.Resources.MergedDictionaries.Remove(App.Current.Resources.MergedDictionaries.FirstOrDefault(x => x.TryGetValue("CustomThemeID", out var key) && (key as string) == theme.Key));
                 return true;
             }
             catch (Exception)
@@ -156,7 +146,7 @@ namespace Files.Helpers
         }
     }
 
-    public struct AppSkin
+    public struct AppTheme
     {
         public string Name { get; set; }
         public string Path { get; set; }

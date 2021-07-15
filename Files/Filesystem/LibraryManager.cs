@@ -201,8 +201,8 @@ namespace Files.Filesystem
                             Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.Libraries).Image),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
-                        var index = 1; // After favorites section
-                        SidebarControl.SideBarItems.Insert(index, librarySection);
+                        var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0); // After favorites section
+                        SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), librarySection);
                     }
                 }
                 finally

@@ -36,14 +36,7 @@ namespace Files.ViewModels
         public ListedItem SelectedItem
         {
             get => selectedItem;
-            set
-            {
-                if (SetProperty(ref selectedItem, value))
-                {
-                    SelectedItem?.FileDetails?.Clear();
-                    UpdateSelectedItemPreview();
-                }
-            }
+            set => SetProperty(ref selectedItem, value);
         }
 
 
@@ -248,6 +241,8 @@ namespace Files.ViewModels
             loadCancellationTokenSource?.Cancel();
             if (SelectedItem != null && IsItemSelected)
             {
+                SelectedItem?.FileDetails?.Clear();
+
                 try
                 {
                     PreviewPaneState = PreviewPaneStates.LoadingPreview;

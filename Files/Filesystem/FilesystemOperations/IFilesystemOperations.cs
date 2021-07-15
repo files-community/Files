@@ -1,6 +1,7 @@
 ﻿using Files.Enums;
 using Files.Filesystem.FilesystemHistory;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -76,6 +77,26 @@ namespace Files.Filesystem
                                         CancellationToken cancellationToken);
 
         /// <summary>
+        /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
+        /// </summary>
+        Task<IStorageHistory> CopyItemsAsync(IEnumerable<IStorageItem> source,
+                                            IEnumerable<string> destination, 
+                                            IEnumerable<FileNameConflictResolveOptionType> collisions, 
+                                            IProgress<float> progress, 
+                                            IProgress<FileSystemStatusCode> errorCode, 
+                                            CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
+        /// </summary>
+        Task<IStorageHistory> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, 
+                                            IEnumerable<string> destination,
+                                            IEnumerable<FileNameConflictResolveOptionType> collisions, 
+                                            IProgress<float> progress, 
+                                            IProgress<FileSystemStatusCode> errorCode, 
+                                            CancellationToken cancellationToken);
+
+        /// <summary>
         /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
         /// </summary>
         /// <param name="source">The source item to be moved</param>
@@ -118,6 +139,26 @@ namespace Files.Filesystem
                                         IProgress<float> progress,
                                         IProgress<FileSystemStatusCode> errorCode,
                                         CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
+        /// </summary>
+        Task<IStorageHistory> MoveItemsAsync(IEnumerable<IStorageItem> source,
+                                            IEnumerable<string> destination,
+                                            IEnumerable<FileNameConflictResolveOptionType> collisions,
+                                            IProgress<float> progress,
+                                            IProgress<FileSystemStatusCode> errorCode,
+                                            CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
+        /// </summary>
+        Task<IStorageHistory> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source,
+                                            IEnumerable<string> destination,
+                                            IEnumerable<FileNameConflictResolveOptionType> collisions,
+                                            IProgress<float> progress,
+                                            IProgress<FileSystemStatusCode> errorCode,
+                                            CancellationToken cancellationToken);
 
         /// <summary>
         /// Deletes <paramref name="source"/>
@@ -167,6 +208,24 @@ namespace Files.Filesystem
                                           IProgress<FileSystemStatusCode> errorCode,
                                           bool permanently,
                                           CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Deletes provided <paramref name="source"/>
+        /// </summary>
+        Task<IStorageHistory> DeleteItemsAsync(IEnumerable<IStorageItem> source, 
+                                            IProgress<float> progress, 
+                                            IProgress<FileSystemStatusCode> errorCode, 
+                                            bool permanently, 
+                                            CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Deletes provided <paramref name="source"/>
+        /// </summary>
+        Task<IStorageHistory> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, 
+                                            IProgress<float> progress, 
+                                            IProgress<FileSystemStatusCode> errorCode, 
+                                            bool permanently, 
+                                            CancellationToken cancellationToken);
 
         /// <summary>
         /// Renames <paramref name="source"/> with <paramref name="newName"/>
