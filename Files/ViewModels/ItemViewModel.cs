@@ -14,7 +14,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -39,10 +38,10 @@ namespace Files.ViewModels
 {
     public class ItemViewModel : ObservableObject, IDisposable
     {
-        private readonly SemaphoreSlim enumFolderSemaphore = new SemaphoreSlim(1, 1);
-        private readonly SemaphoreSlim loadExtendedPropsSemaphore = new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
-        private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
-        private readonly ManualResetEventSlim operationEvent = new ManualResetEventSlim();
+        private readonly SemaphoreSlim enumFolderSemaphore, loadExtendedPropsSemaphore;
+        private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
+        private readonly ConcurrentDictionary<string, CancellationTokenSource> itemLoadQueue;
+        private readonly ManualResetEventSlim operationEvent, itemLoadEvent;
         private IntPtr hWatchDir;
         private IAsyncAction aWatcherAction;
 
@@ -330,9 +329,15 @@ namespace Files.ViewModels
             folderSettings = folderSettingsViewModel;
             filesAndFolders = new List<ListedItem>();
             FilesAndFolders = new BulkConcurrentObservableCollection<ListedItem>();
+            operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
+            itemLoadQueue = new ConcurrentDictionary<string, CancellationTokenSource>();
             addFilesCTS = new CancellationTokenSource();
             semaphoreCTS = new CancellationTokenSource();
             loadPropsCTS = new CancellationTokenSource();
+            operationEvent = new ManualResetEventSlim();
+            itemLoadEvent = new ManualResetEventSlim();
+            enumFolderSemaphore = new SemaphoreSlim(1, 1);
+            loadExtendedPropsSemaphore = new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
@@ -415,6 +420,14 @@ namespace Files.ViewModels
         {
             loadPropsCTS.Cancel();
             loadPropsCTS = new CancellationTokenSource();
+        }
+
+        public void CancelExtendedPropertiesLoadingForItem(ListedItem item)
+        {
+            if (itemLoadQueue.TryRemove(item.ItemPath, out var queued))
+            {
+                queued.Cancel(); // Cancel pending operation for this item
+            }
         }
 
         public async Task ApplySingleFileChangeAsync(ListedItem item)
@@ -696,35 +709,7 @@ namespace Files.ViewModels
             }
         }
 
-        List<(ListedItem item, uint size)> itemLoadQueue = new List<(ListedItem, uint)>();
-
-        public async void UnloadItemThumbnail(ListedItem item)
-        {
-            Action action = () =>
-            {
-                item.FileImage = null;
-                item.CustomIcon = null;
-                item.LoadFileIcon = false;
-                if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    item.LoadFolderGlyph = true;
-                }
-                else
-                {
-                    item.LoadUnknownTypeGlyph = true;
-                }
-            };
-            if (CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
-            {
-                action();
-            }
-            else
-            {
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(action);
-            }
-        }
-
-        public async Task LoadItemThumbnail(ListedItem item, uint thumbnailSize = 20, IStorageItem matchingStorageItem = null, bool forceReload = false)
+        private async Task LoadItemThumbnail(ListedItem item, uint thumbnailSize = 20, IStorageItem matchingStorageItem = null, bool forceReload = false)
         {
             if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File)
             {
@@ -872,23 +857,35 @@ namespace Files.ViewModels
         // for file inside the recycle bin (but not on the recycle bin folder itself)
         public async Task LoadExtendedItemProperties(ListedItem item, uint thumbnailSize = 20)
         {
-            // Don't load extended item properties while enumeration is in progress to improve enumeration speed
-            if (IsLoadingItems)
+            if (item == null)
             {
-                itemLoadQueue.Add((item, thumbnailSize));
                 return;
             }
 
+            try
+            {
+                using var innerCTS = new CancellationTokenSource();
+                using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(innerCTS.Token, loadPropsCTS.Token);
+                CancelExtendedPropertiesLoadingForItem(item);
+                itemLoadQueue[item.ItemPath] = innerCTS;
+                await loadExtendedPropsSemaphore.WaitAsync(linkedCts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+            finally
+            {
+                itemLoadQueue.TryRemove(item.ItemPath, out _);
+            }
+
+            item.ItemPropertiesInitialized = true;
+
             await Task.Run(async () =>
             {
-                if (item == null)
-                {
-                    return;
-                }
-
                 try
                 {
-                    await loadExtendedPropsSemaphore.WaitAsync(loadPropsCTS.Token);
+                    itemLoadEvent.Wait(loadPropsCTS.Token);
                 }
                 catch (OperationCanceledException)
                 {
@@ -1089,6 +1086,7 @@ namespace Files.ViewModels
                 semaphoreCTS = new CancellationTokenSource();
 
                 IsLoadingItems = true;
+                itemLoadEvent.Reset();
 
                 filesAndFolders.Clear();
                 FilesAndFolders.Clear();
@@ -1131,13 +1129,7 @@ namespace Files.ViewModels
             finally
             {
                 enumFolderSemaphore.Release();
-
-                // Load items in the queue after enumeration has completed to improve enumeration speed
-                foreach (var item in itemLoadQueue)
-                {
-                    _ = LoadExtendedItemProperties(item.item, item.size);
-                }
-                itemLoadQueue.Clear();
+                itemLoadEvent.Set();
             }
 
             postLoadCallback?.Invoke();
