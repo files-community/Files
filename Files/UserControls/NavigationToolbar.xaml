@@ -674,11 +674,7 @@
                         Glyph="&#xE174;" />
                 </AppBarButton.Icon>-->
                 <AppBarButton.Content>
-                    <uc:ColoredIcon
-                        Width="24"
-                        Height="24"
-                        BaseLayerGlyph="&#xF029;"
-                        OverlayLayerGlyph="&#xF02A;" />
+                    <uc:ColoredIcon BaseLayerGlyph="&#xF029;" OverlayLayerGlyph="&#xF02A;" />
                 </AppBarButton.Content>
                 <AppBarButton.Flyout>
                     <Flyout>
