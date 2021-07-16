@@ -20,9 +20,6 @@ namespace Files.UserControls
 {
     public sealed partial class NavigationToolbar : UserControl
     {
-        // TODO: Remove this MainPage reference when we work on new Vertical Tabs control in MainPage
-        private MainPage mainPage => ((Window.Current.Content as Frame).Content as MainPage);
-
         public NavToolbarViewModel ViewModel
         {
             get => (NavToolbarViewModel)GetValue(ViewModelProperty);

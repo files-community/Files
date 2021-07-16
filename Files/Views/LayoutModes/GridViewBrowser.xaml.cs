@@ -216,7 +216,6 @@ namespace Files.Views.LayoutModes
         private void SetItemMinWidth()
         {
             NotifyPropertyChanged(nameof(GridViewItemMinWidth));
-            Behaviors.StretchedGridViewItems.ResizeItems(FileList);
         }
 
         private bool itemTemplateChanging = false;
@@ -508,7 +507,7 @@ namespace Files.Views.LayoutModes
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
         }
-
+        
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             // Skip opening selected items if the double tap doesn't capture an item
@@ -550,7 +549,6 @@ namespace Files.Views.LayoutModes
                 if (itemTemplateChanging)
                 {
                     itemTemplateChanging = false;
-                    Behaviors.StretchedGridViewItems.ResizeItems(FileList);
                 }
 
                 InitializeDrag(args.ItemContainer);

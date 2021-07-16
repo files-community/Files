@@ -16,7 +16,11 @@ namespace Files.Extensions
             }
             else if (isDetailed && returnFormat != "g" && elapsed.TotalDays < 7)
             {
-                return d.ToLocalTime().ToString(returnFormat) + " (" + GetFriendlyDateFromFormat(d, returnFormat) + ")";
+                return d.ToLocalTime().ToString(returnFormat) + " " + d.ToLocalTime().ToString("t") + " (" + GetFriendlyDateFromFormat(d, returnFormat) + ")";
+            }
+            else if (isDetailed && returnFormat != "g")
+            {
+                return d.ToLocalTime().ToString(returnFormat) + " " + d.ToLocalTime().ToString("t");
             }
             else if (elapsed.TotalDays >= 7 || returnFormat == "g")
             {
