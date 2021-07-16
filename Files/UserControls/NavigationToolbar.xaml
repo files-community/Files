@@ -893,21 +893,6 @@
                     </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
                 <AppBarButton
-                    x:Name="NavToolbarNewTab"
-                    x:Uid="NavigationToolbarNewTab"
-                    Command="{x:Bind ViewModel.AddNewTabToMultitaskingControlCommand, Mode=OneWay}"
-                    Label="New tab">
-                    <AppBarButton.Icon>
-                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
-                    </AppBarButton.Icon>
-                    <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator
-                            Key="T"
-                            IsEnabled="False"
-                            Modifiers="Control" />
-                    </AppBarButton.KeyboardAccelerators>
-                </AppBarButton>
-                <AppBarButton
                     x:Name="NavToolbarNewWindow"
                     x:Uid="NavigationToolbarNewWindow"
                     Command="{x:Bind ViewModel.OpenNewWindowCommand, Mode=OneWay}"
