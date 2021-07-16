@@ -40,7 +40,7 @@ namespace Files.ViewModels
     {
         private readonly SemaphoreSlim enumFolderSemaphore, loadExtendedPropsSemaphore;
         private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
-        private readonly ConcurrentDictionary<string, CancellationTokenSource> itemLoadQueue;
+        private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
         private readonly ManualResetEventSlim operationEvent, itemLoadEvent;
         private IntPtr hWatchDir;
         private IAsyncAction aWatcherAction;
@@ -330,7 +330,7 @@ namespace Files.ViewModels
             filesAndFolders = new List<ListedItem>();
             FilesAndFolders = new BulkConcurrentObservableCollection<ListedItem>();
             operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
-            itemLoadQueue = new ConcurrentDictionary<string, CancellationTokenSource>();
+            itemLoadQueue = new ConcurrentDictionary<string, bool>();
             addFilesCTS = new CancellationTokenSource();
             semaphoreCTS = new CancellationTokenSource();
             loadPropsCTS = new CancellationTokenSource();
@@ -424,10 +424,7 @@ namespace Files.ViewModels
 
         public void CancelExtendedPropertiesLoadingForItem(ListedItem item)
         {
-            if (itemLoadQueue.TryRemove(item.ItemPath, out var queued))
-            {
-                queued.Cancel(); // Cancel pending operation for this item
-            }
+            itemLoadQueue.TryUpdate(item.ItemPath, true, false);
         }
 
         public async Task ApplySingleFileChangeAsync(ListedItem item)
@@ -864,11 +861,13 @@ namespace Files.ViewModels
 
             try
             {
-                using var innerCTS = new CancellationTokenSource();
-                using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(innerCTS.Token, loadPropsCTS.Token);
-                CancelExtendedPropertiesLoadingForItem(item);
-                itemLoadQueue[item.ItemPath] = innerCTS;
-                await loadExtendedPropsSemaphore.WaitAsync(linkedCts.Token);
+                itemLoadQueue[item.ItemPath] = false;
+                await loadExtendedPropsSemaphore.WaitAsync(loadPropsCTS.Token);
+                if (itemLoadQueue.TryGetValue(item.ItemPath, out var canceled) && canceled)
+                {
+                    loadExtendedPropsSemaphore.Release();
+                    return;
+                }
             }
             catch (OperationCanceledException)
             {
@@ -973,7 +972,7 @@ namespace Files.ViewModels
                         groupImage = await GetItemTypeGroupIcon(item, matchingStorageFile);
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
                 finally
