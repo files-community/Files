@@ -112,9 +112,20 @@ namespace Files.Filesystem
             {
                 List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
 
+                List<ShellFileItem> binItems = null;
                 for (int i = 0; i < source.Count(); i++)
                 {
-                    incomingItems.Add(new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, null));
+                    var srcPath = source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path;
+                    if (recycleBinHelpers.IsPathUnderRecycleBin(srcPath))
+                    {
+                        binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+                        var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == srcPath); // Get original file name
+                        incomingItems.Add(new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, srcPath, null, matchingItem?.FileName));
+                    }
+                    else
+                    {
+                        incomingItems.Add(new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, srcPath, null));
+                    }
                 }
 
                 FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
@@ -284,10 +295,19 @@ namespace Files.Filesystem
 
             if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
-                List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>
+                List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
+
+                var srcPath = source.Path ?? source.Item.Path;
+                if (recycleBinHelpers.IsPathUnderRecycleBin(srcPath))
                 {
-                    new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.Path ?? source.Item.Path, null)
-                };
+                    var binItems = await recycleBinHelpers.EnumerateRecycleBin();
+                    var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == srcPath); // Get original file name
+                    incomingItems.Add(new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, srcPath, null, matchingItem?.FileName));
+                }
+                else
+                {
+                    incomingItems.Add(new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, srcPath, null));
+                }
 
                 FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     FilesystemOperationType.Delete,
