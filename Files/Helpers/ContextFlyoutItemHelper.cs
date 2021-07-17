@@ -631,7 +631,11 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutCopyLocation/Text".GetLocalized(),
-                    Glyph = "\uE167",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u002F",
+                        OverlayLayerGlyph = "\u0030"
+                    },
                     CollapseLabel = true,
                     Command = commandsViewModel.CopyPathOfSelectedItemCommand,
                     SingleItemOnly = true,
@@ -661,10 +665,14 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutDelete/Text".GetLocalized(),
-                    Glyph = "\uE74D",
+                    //Glyph = "\uE74D",
                     Command = commandsViewModel.DeleteItemCommand,
                     ShowInRecycleBin = true,
-
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0035",
+                        OverlayLayerGlyph = "\u0036"
+                    },
                     CollapseLabel = true,
                     KeyboardAccelerator = new KeyboardAccelerator
                     {
@@ -686,14 +694,22 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutSetAs/Text".GetLocalized(),
-                    Glyph = "\uE91B",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u002D",
+                        OverlayLayerGlyph = "\u002E"
+                    },
                     ShowItem = selectedItemsPropertiesViewModel.IsSelectedItemImage,
                     Items = new List<ContextMenuFlyoutItemViewModel>()
                     {
                         new ContextMenuFlyoutItemViewModel()
                         {
                             Text = "BaseLayoutItemContextFlyoutSetAsDesktopBackground/Text".GetLocalized(),
-                            Glyph = "\uE91B",
+                            ColoredIcon = new ColoredIconModel()
+                            {
+                                BaseLayerGlyph = "\u002D",
+                                OverlayLayerGlyph = "\u002E"
+                            },
                             Command = commandsViewModel.SetAsDesktopBackgroundItemCommand,
                         },
                         new ContextMenuFlyoutItemViewModel()
@@ -795,7 +811,11 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutCreateFolderWithSelection/Text".GetLocalized(),
-                    Glyph = "\uE1DA",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0033",
+                        OverlayLayerGlyph = "\u0034"
+                    },
                     Command = commandsViewModel.CreateFolderWithSelection,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -830,7 +850,11 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutCreateFolderWithSelection/Text".GetLocalized(),
-                    Glyph = "\uE1DA",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0033",
+                        OverlayLayerGlyph = "\u0034"
+                    },
                     Command = commandsViewModel.CreateFolderWithSelection,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -948,7 +972,11 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutCopyLocation/Text".GetLocalized(),
-                    Glyph = "\uE167",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u002F",
+                        OverlayLayerGlyph = "\u0030"
+                    },
                     Command = commandsViewModel.CopyPathOfSelectedItemCommand,
                     SingleItemOnly = true,
                     IsPrimary = true,
@@ -986,7 +1014,12 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutDelete/Text".GetLocalized(),
-                    Glyph = "\uE74D",
+                    //Glyph = "\uE74D",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0035",
+                        OverlayLayerGlyph = "\u0036"
+                    },
                     Command = commandsViewModel.DeleteItemCommand,
                     ShowInRecycleBin = true,
                     IsPrimary = true,
@@ -1094,7 +1127,12 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutProperties/Text".GetLocalized(),
-                    Glyph = "\uE946",
+                    //Glyph = "\uE946",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0031",
+                        OverlayLayerGlyph = "\u0032"
+                    },
                     Command = commandsViewModel.ShowPropertiesCommand,
                 },
                 new ContextMenuFlyoutItemViewModel()

@@ -950,9 +950,9 @@
                     Command="{x:Bind ViewModel.CopyPathOfWorkingDirectoryCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
                     Label="Copy location">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE167;" />
-                    </AppBarButton.Icon>
+                    <AppBarButton.Content>
+                        <uc:ColoredIcon BaseLayerGlyph="&#x002F;" OverlayLayerGlyph="&#x0030;" />
+                    </AppBarButton.Content>
                 </AppBarButton>
                 <AppBarSeparator x:Name="SeparatorBar" x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                 <AppBarButton
@@ -974,9 +974,6 @@
                     Command="{x:Bind ViewModel.PasteItemsFromClipboardCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.InstanceViewModel.CanPasteInPage, local1:App.MainViewModel.IsPasteEnabled), Mode=OneWay}"
                     Label="Paste">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE77F;" />
-                    </AppBarButton.Icon>
                     <AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator
                             Key="V"

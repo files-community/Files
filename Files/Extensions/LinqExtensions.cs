@@ -52,6 +52,11 @@ namespace Files.Extensions
 
         public static List<T> RemoveFrom<T>(this List<T> list, int index)
         {
+            if(list.Count == 0)
+            {
+                return list;
+            }
+
             var res = new List<T>(list);
             var end = res.Count - index;
             if(end >= res.Count)
