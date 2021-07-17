@@ -201,7 +201,6 @@ namespace Files.Views.LayoutModes
                 listedItem.ItemPropertiesInitialized = false;
                 if (FileList.ContainerFromItem(listedItem) != null)
                 {
-                    listedItem.ItemPropertiesInitialized = true;
                     await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, 24);
                 }
             }
@@ -367,7 +366,7 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.SetSelectedItem(objectPressed);
         }
 
-        private void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
@@ -391,7 +390,7 @@ namespace Files.Views.LayoutModes
                 {
                     if (App.MainViewModel.IsQuickLookEnabled)
                     {
-                        QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
+                        await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
                     e.Handled = true;
                 }
@@ -560,21 +559,14 @@ namespace Files.Views.LayoutModes
             if (!args.InRecycleQueue)
             {
                 InitializeDrag(args.ItemContainer);
+                args.ItemContainer.PointerPressed -= FileListListItem_PointerPressed;
+                args.ItemContainer.PointerPressed += FileListListItem_PointerPressed;
+
                 if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
                 {
-                    args.ItemContainer.PointerPressed += FileListListItem_PointerPressed;
-
                     args.RegisterUpdateCallback(3, async (s, c) =>
                     {
-                        item.ItemPropertiesInitialized = true;
                         await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, 24);
-                    });
-                }
-                else if (args.Item is ListedItem item1 && item1.ItemPropertiesInitialized && !item1.LoadFileIcon)
-                {
-                    args.RegisterUpdateCallback(3, async (s, c) =>
-                    {
-                        await ParentShellPageInstance.FilesystemViewModel.LoadItemThumbnail(item1, 24);
                     });
                 }
             }
@@ -582,10 +574,9 @@ namespace Files.Views.LayoutModes
             {
                 UninitializeDrag(args.ItemContainer);
                 args.ItemContainer.PointerPressed -= FileListListItem_PointerPressed;
-
-                if (args.Item is ListedItem item && item.ItemPropertiesInitialized && item.LoadFileIcon)
+                if (args.Item is ListedItem item)
                 {
-                    ParentShellPageInstance.FilesystemViewModel.UnloadItemThumbnail(item);
+                    ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(item);
                 }
             }
         }

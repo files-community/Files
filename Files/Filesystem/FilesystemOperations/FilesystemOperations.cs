@@ -43,7 +43,7 @@ namespace Files.Filesystem
         public FilesystemOperations(IShellPage associatedInstance)
         {
             this.associatedInstance = associatedInstance;
-            recycleBinHelpers = new RecycleBinHelpers(this.associatedInstance);
+            recycleBinHelpers = new RecycleBinHelpers();
         }
 
         #endregion Constructor
@@ -587,7 +587,7 @@ namespace Files.Filesystem
                 // Recycle bin also stores a file starting with $I for each item
                 string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I"));
                 await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
-                    .OnSuccess(t => t.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
+                    .OnSuccess(iFile => iFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
             }
             errorCode?.Report(fsResult);
             progress?.Report(100.0f);
@@ -809,7 +809,7 @@ namespace Files.Filesystem
                 // Recycle bin also stores a file starting with $I for each item
                 string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I"));
                 await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
-                    .OnSuccess(iFile => iFile.DeleteAsync().AsTask());
+                    .OnSuccess(iFile => iFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
             }
 
             errorCode?.Report(fsResult);
@@ -907,8 +907,6 @@ namespace Files.Filesystem
 
         public void Dispose()
         {
-            recycleBinHelpers?.Dispose();
-
             recycleBinHelpers = null;
             associatedInstance = null;
         }

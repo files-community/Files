@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
@@ -40,7 +41,7 @@ namespace Files
     {
         private readonly DispatcherTimer jumpTimer;
 
-        protected NamedPipeAsAppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
+        protected Task<NamedPipeAsAppServiceConnection> Connection => AppServiceConnectionHelper.Instance;
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
@@ -252,7 +253,7 @@ namespace Files
                         }
                     }
 
-                    LoadToolbarContextItemsAsync();
+                    _ = LoadToolbarContextItemsAsync();
 
                     NotifyPropertyChanged(nameof(SelectedItems));
                     //ItemManipulationModel.SetDragModeForItems();
@@ -529,12 +530,12 @@ namespace Files
             }
         }
 
-        public void BaseContextFlyout_Opening(object sender, object e)
+        public async void BaseContextFlyout_Opening(object sender, object e)
         {
             try
             {
                 var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-                var items = ContextFlyoutItemHelper.GetBaseContextCommands(connection: Connection, currentInstanceViewModel: InstanceViewModel, itemViewModel: ParentShellPageInstance.FilesystemViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, false);
+                var items = ContextFlyoutItemHelper.GetBaseContextCommands(connection: await Connection, currentInstanceViewModel: InstanceViewModel, itemViewModel: ParentShellPageInstance.FilesystemViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, false);
                 BaseContextMenuFlyout.Items.Clear();
                 ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(items).ForEach(i => BaseContextMenuFlyout.Items.Add(i));
             }
@@ -564,7 +565,7 @@ namespace Files
 
         private async void LoadShellItemsAsync(CancellationToken cancellationToken, bool shiftPressed)
         {
-            var resOverflow = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, showOpenMenu: false);
+            var resOverflow = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, showOpenMenu: false);
             var res = resOverflow.RemoveFrom((!App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4) - 1);
             resOverflow = resOverflow.Except(res).ToList();
 
@@ -609,7 +610,7 @@ namespace Files
             }
         }
 
-        private void LoadToolbarContextItemsAsync()
+        private async Task LoadToolbarContextItemsAsync()
         {
             SelectionContextItems = new List<ContextMenuFlyoutItemViewModel>();
             if(SelectedItems is null || !SelectedItems.Any())
@@ -620,7 +621,7 @@ namespace Files
             try
             {
                 SelectedItemsPropertiesViewModel.CheckFileExtension(SelectedItem?.FileExtension);
-                SelectionContextItems = ContextFlyoutItemHelper.GetToolbarContextCommands(connection: Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: false, showOpenMenu: false);
+                SelectionContextItems = ContextFlyoutItemHelper.GetToolbarContextCommands(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: false, showOpenMenu: false);
             }
             catch (Exception e)
             {
