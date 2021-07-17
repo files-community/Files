@@ -33,16 +33,16 @@ namespace Files.Helpers
 
         private static List<ContextMenuFlyoutItemViewModel> cachedNewItemItems;
 
-        public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommands(NamedPipeAsAppServiceConnection connection, CurrentInstanceViewModel currentInstanceViewModel, string workingDir, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, bool showOpenMenu, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel)
+        public static async Task<List<ContextMenuFlyoutItemViewModel>> GetItemContextCommands(NamedPipeAsAppServiceConnection connection, CurrentInstanceViewModel currentInstanceViewModel, string workingDir, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, bool showOpenMenu, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel)
         {
-            var menuItemsList = ShellContextmenuHelper.SetShellContextmenu(GetBaseItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel), shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, connection: connection, workingDirectory: workingDir, selectedItems: selectedItems);
+            var menuItemsList = await ShellContextmenuHelper.SetShellContextmenu(GetBaseItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel), shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, connection: connection, workingDirectory: workingDir, selectedItems: selectedItems);
             menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems);
             return menuItemsList;
         }
 
-        public static List<ContextMenuFlyoutItemViewModel> GetBaseContextCommands(NamedPipeAsAppServiceConnection connection, CurrentInstanceViewModel currentInstanceViewModel, ItemViewModel itemViewModel, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, bool showOpenMenu)
+        public static async Task<List<ContextMenuFlyoutItemViewModel>> GetBaseContextCommands(NamedPipeAsAppServiceConnection connection, CurrentInstanceViewModel currentInstanceViewModel, ItemViewModel itemViewModel, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, bool showOpenMenu)
         {
-            var menuItemsList = ShellContextmenuHelper.SetShellContextmenu(GetBaseLayoutMenuItems(currentInstanceViewModel, itemViewModel, commandsViewModel), shiftPressed, showOpenMenu, connection, itemViewModel.WorkingDirectory, new List<ListedItem>());
+            var menuItemsList = await ShellContextmenuHelper.SetShellContextmenu(GetBaseLayoutMenuItems(currentInstanceViewModel, itemViewModel, commandsViewModel), shiftPressed, showOpenMenu, connection, itemViewModel.WorkingDirectory, new List<ListedItem>());
             menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: new List<ListedItem>());
             return menuItemsList;
         }
