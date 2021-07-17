@@ -12,8 +12,7 @@
         </trans-unit>
         <trans-unit id="SideBarOpenInNewWindow.Text" translate="yes" xml:space="preserve">
           <source>Open in new window</source>
-          <target state="translated">გახსენით ახალ ფანჯარაში
-</target>
+          <target state="translated">გახსენით ახალ ფანჯარაში</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewTab.Label" translate="yes" xml:space="preserve">
           <source>New tab</source>
@@ -33,8 +32,7 @@
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewTextDocument.Text" translate="yes" xml:space="preserve">
           <source>Text Document</source>
-          <target state="translated">ტექსტური დოკუმენტი
-</target>
+          <target state="translated">ტექსტური დოკუმენტი</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
           <source>Copy location</source>
