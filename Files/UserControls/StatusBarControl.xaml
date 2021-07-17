@@ -73,7 +73,7 @@
             <Button
                 x:Name="FullTrustStatus"
                 Width="36"
-                Height="32"
+                Height="36"
                 x:Load="{x:Bind MainViewModel.IsFullTrustElevated, Mode=OneWay}"
                 AccessKey="M"
                 Background="Transparent"
@@ -88,7 +88,7 @@
                     x:Name="StatusCenter"
                     x:Uid="StatusCenter"
                     Width="36"
-                    Height="32"
+                    Height="36"
                     Padding="0"
                     AccessKey="T"
                     AutomationProperties.Name="Status center"
