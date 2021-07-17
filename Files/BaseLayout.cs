@@ -524,10 +524,10 @@ namespace Files
         {
             try
             {
+                var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+                var items = ContextFlyoutItemHelper.GetBaseContextCommands(connection: await Connection, currentInstanceViewModel: InstanceViewModel, itemViewModel: ParentShellPageInstance.FilesystemViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, false);
                 BaseContextMenuFlyout.PrimaryCommands.Clear();
                 BaseContextMenuFlyout.SecondaryCommands.Clear();
-                var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-                var items = await ContextFlyoutItemHelper.GetBaseContextCommands(connection: await Connection, currentInstanceViewModel: InstanceViewModel, itemViewModel: ParentShellPageInstance.FilesystemViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, false);
                 var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
                 primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
                 secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
@@ -541,10 +541,10 @@ namespace Files
         private async void LoadMenuItemsAsync()
         {
             SelectedItemsPropertiesViewModel.CheckFileExtension(SelectedItem?.FileExtension);
+            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var items = ContextFlyoutItemHelper.GetItemContextCommands(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
             ItemContextMenuFlyout.PrimaryCommands.Clear();
             ItemContextMenuFlyout.SecondaryCommands.Clear();
-            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var items = await ContextFlyoutItemHelper.GetItemContextCommands(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
             var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
             primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));

@@ -17,7 +17,7 @@ namespace Files.Helpers
 {
     public static class ShellContextmenuHelper
     {
-        public static async Task<List<ContextMenuFlyoutItemViewModel>> SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu, NamedPipeAsAppServiceConnection connection, string workingDirectory, List<ListedItem> selectedItems)
+        public static List<ContextMenuFlyoutItemViewModel> SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu, NamedPipeAsAppServiceConnection connection, string workingDirectory, List<ListedItem> selectedItems)
         {
             bool IsItemSelected = selectedItems?.Count > 0;
 
@@ -28,7 +28,7 @@ namespace Files.Helpers
 
             if (connection != null)
             {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                var task = Task.Run(() => connection.SendMessageForResponseAsync(new ValueSet()
                 {
                     { "Arguments", "LoadContextMenu" },
                     { "FilePath", IsItemSelected ?
@@ -36,15 +36,20 @@ namespace Files.Helpers
                         workingDirectory},
                     { "ExtendedMenu", shiftPressed },
                     { "ShowOpenMenu", showOpenMenu }
-                }).WithTimeoutAsync(TimeSpan.FromSeconds(10));
+                }));
+                var completed = task.Wait(10000);
 
-                if (status == AppServiceResponseStatus.Success
-                    && response.ContainsKey("Handle"))
+                if (completed)
                 {
-                    var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
-                    if (contextMenu != null)
+                    var (status, response) = task.Result;
+                    if (status == AppServiceResponseStatus.Success
+                        && response.ContainsKey("Handle"))
                     {
-                        LoadMenuFlyoutItem(menuItemsList, contextMenu.Items, (string)response["Handle"], true, maxItems);
+                        var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
+                        if (contextMenu != null)
+                        {
+                            LoadMenuFlyoutItem(menuItemsList, contextMenu.Items, (string)response["Handle"], true, maxItems);
+                        }
                     }
                 }
             }
