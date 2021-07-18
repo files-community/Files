@@ -64,7 +64,7 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
           <source>Files and Folders</source>
-          <target state="translated">Dateien und Ordner</target>
+          <target state="translated">Dateien & Ordner</target>
         </trans-unit>
         <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
           <source>About</source>
@@ -76,7 +76,7 @@
         </trans-unit>
         <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
           <source>Files and Folders</source>
-          <target state="translated">Dateien und Ordner</target>
+          <target state="translated">Dateien & Ordner</target>
         </trans-unit>
         <trans-unit id="SettingsNavOnStartup.Content" translate="yes" xml:space="preserve">
           <source>On Startup</source>
