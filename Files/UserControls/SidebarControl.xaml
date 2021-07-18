@@ -14,7 +14,8 @@
     HorizontalAlignment="Stretch"
     d:DesignHeight="768"
     d:DesignWidth="200"
-    CompactModeThresholdWidth="750"
+    CompactModeThresholdWidth="641"
+    ExpandedModeThresholdWidth="641"
     IsBackButtonVisible="Collapsed"
     IsPaneToggleButtonVisible="False"
     IsSettingsVisible="True"
@@ -228,6 +229,7 @@
                                 <!--  I exist to make a nice looking background for both the tab strip without interfering with the drag area grid  -->
                                 <Border
                                     x:Name="TitlebarBackgroundBorder"
+                                    Grid.Column="0"
                                     Grid.ColumnSpan="2"
                                     VerticalAlignment="Stretch"
                                     Background="{ThemeResource TitlebarContentBackgroundBrush}"
@@ -239,7 +241,8 @@
                                 <!--  Pane Content Area  -->
                                 <Grid
                                     x:Name="PaneRoot"
-                                    Grid.Row="1"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
                                     Grid.ColumnSpan="2"
                                     Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.OpenPaneLength}"
                                     HorizontalAlignment="Left"
@@ -279,7 +282,8 @@
                                 <!--  This allows the user to resize the pane  -->
                                 <Grid
                                     x:Name="ResizeElementBorder"
-                                    Grid.Row="1"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
                                     Grid.Column="{Binding ElementName=PaneRoot, Path=(Grid.Column), Mode=OneWay}"
                                     Width="8"
                                     HorizontalAlignment="Right"
@@ -309,7 +313,7 @@
                                     x:Name="DragArea"
                                     Grid.ColumnSpan="2"
                                     Height="50"
-                                    Margin="0,0,0,0"
+                                    Margin="32,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Top"
                                     Background="Transparent"
@@ -822,7 +826,6 @@
                                         <VisualState x:Name="Closed" />
 
                                         <VisualState x:Name="ClosedCompactLeft">
-
                                             <Storyboard>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnDefinition1" Storyboard.TargetProperty="Width">
                                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CompactPaneGridLength, FallbackValue=0}" />
@@ -842,6 +845,17 @@
                                                     To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.NegativeOpenPaneLengthMinusCompactLength}"
                                                     Duration="0:0:0" />
                                             </Storyboard>
+                                            <VisualState.Setters>
+                                                <Setter Target="PaneRoot.(Grid.Row)" Value="1" />
+                                                <Setter Target="ResizeElementBorder.(Grid.Row)" Value="1" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="TabContentBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TabContentBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="DragArea.Margin" Value="0,0,0,0" />
+                                            </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="ClosedCompactRight">
 
@@ -870,6 +884,18 @@
                                                     To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.OpenPaneLengthMinusCompactLength}"
                                                     Duration="0:0:0" />
                                             </Storyboard>
+
+                                            <VisualState.Setters>
+                                                <Setter Target="PaneRoot.(Grid.Row)" Value="1" />
+                                                <Setter Target="ResizeElementBorder.(Grid.Row)" Value="1" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="TabContentBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TabContentBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="DragArea.Margin" Value="0,0,0,0" />
+                                            </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="OpenOverlayLeft">
                                             <Storyboard>
@@ -913,12 +939,22 @@
                                             <VisualState.Setters>
                                                 <Setter Target="PaneRoot.Visibility" Value="Visible" />
                                                 <Setter Target="HCPaneBorder.Visibility" Value="Visible" />
-                                                <Setter Target="ContentRoot.Grid.ColumnSpan" Value="1" />
-                                                <Setter Target="ContentRoot.Grid.Column" Value="1" />
-                                                <Setter Target="PaneRoot.Grid.ColumnSpan" Value="1" />
+                                                <Setter Target="ContentRoot.(Grid.ColumnSpan)" Value="1" />
+                                                <Setter Target="ContentRoot.(Grid.Column)" Value="1" />
+                                                <Setter Target="PaneRoot.(Grid.ColumnSpan)" Value="1" />
                                                 <Setter Target="PaneTransform.TranslateX" Value="0" />
                                                 <Setter Target="ContentTransform.TranslateX" Value="0" />
                                                 <Setter Target="PaneClipRectangleTransform.TranslateX" Value="0" />
+
+                                                <Setter Target="PaneRoot.(Grid.Row)" Value="1" />
+                                                <Setter Target="ResizeElementBorder.(Grid.Row)" Value="1" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="TabContentBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TabContentBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="DragArea.Margin" Value="0,0,0,0" />
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="OpenInlineRight">
@@ -949,6 +985,18 @@
                                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
+
+                                            <VisualState.Setters>
+                                                <Setter Target="PaneRoot.(Grid.Row)" Value="1" />
+                                                <Setter Target="ResizeElementBorder.(Grid.Row)" Value="1" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="TabContentBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TabContentBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="DragArea.Margin" Value="0,0,0,0" />
+                                            </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="OpenCompactOverlayLeft">
 
