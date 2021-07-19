@@ -253,8 +253,6 @@ namespace Files
                         }
                     }
 
-                    _ = LoadToolbarContextItemsAsync();
-
                     NotifyPropertyChanged(nameof(SelectedItems));
                     //ItemManipulationModel.SetDragModeForItems();
                 }
@@ -609,29 +607,6 @@ namespace Files
                 }
             }
         }
-
-        private async Task LoadToolbarContextItemsAsync()
-        {
-            SelectionContextItems = new List<ContextMenuFlyoutItemViewModel>();
-            if(SelectedItems is null || !SelectedItems.Any())
-            {
-                ContextItemsChanged?.Invoke(this, new ContextItemsChangedEventArgs(SelectionContextItems));
-                return;
-            }
-            try
-            {
-                SelectedItemsPropertiesViewModel.CheckFileExtension(SelectedItem?.FileExtension);
-                SelectionContextItems = ContextFlyoutItemHelper.GetToolbarContextCommands(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: false, showOpenMenu: false);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-            }
-
-            ContextItemsChanged?.Invoke(this, new ContextItemsChangedEventArgs(SelectionContextItems));
-        }
-
-        public List<ContextMenuFlyoutItemViewModel> SelectionContextItems { get; private set; } = new List<ContextMenuFlyoutItemViewModel>();
 
         protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {

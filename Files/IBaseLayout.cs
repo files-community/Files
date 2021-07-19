@@ -26,9 +26,5 @@ namespace Files
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
-
-        public event TypedEventHandler<IBaseLayout, ContextItemsChangedEventArgs> ContextItemsChanged;
-
-        public List<ContextMenuFlyoutItemViewModel> SelectionContextItems { get; }
     }
 }

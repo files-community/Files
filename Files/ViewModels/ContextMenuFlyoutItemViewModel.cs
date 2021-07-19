@@ -65,6 +65,7 @@ namespace Files.ViewModels
         Item,
         Separator,
         Toggle,
+        SplitButton,
     }
 
     public struct ColoredIconModel

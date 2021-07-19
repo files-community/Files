@@ -341,9 +341,7 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="4"
                     HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch"
-                    SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
-                    ShowPreviewPaneButton="{x:Bind IsPreviewPaneDisabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
+                    HorizontalContentAlignment="Stretch" />
             </Grid>
         </controls:SidebarControl.TabContent>
 
@@ -369,6 +367,13 @@
                     Width="0"
                     MaxWidth="400" />
             </Grid.ColumnDefinitions>
+
+            <controls:InnerNavigationToolbar
+                x:Name="InnerNavigationToolbar"
+                Grid.ColumnSpan="3"
+                x:Load="False"
+                SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
+                ShowPreviewPaneButton="{x:Bind IsPreviewPaneDisabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
 
             <ContentPresenter
                 Grid.Row="1"

@@ -149,7 +149,7 @@ namespace Files.Views
 
         private void PaneHolder_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments?.NavigationArg.ToString());
+            SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane?.TabItemArguments?.NavigationArg?.ToString());
             UpdateStatusBarProperties();
             UpdatePreviewPaneProperties();
             UpdateNavToolbarProperties();
@@ -168,24 +168,14 @@ namespace Files.Views
         {
             if (NavToolbar != null)
             {
-                if(SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage != null)
-                {
-                    SidebarAdaptiveViewModel.PaneHolder.ActivePane.SlimContentPage.ContextItemsChanged -= SlimContentPage_ContextItemsChanged;
-                    SidebarAdaptiveViewModel.PaneHolder.ActivePane.SlimContentPage.ContextItemsChanged += SlimContentPage_ContextItemsChanged;
-                    NavToolbar.SetCommandBarContextItems(SidebarAdaptiveViewModel.PaneHolder.ActivePane.SlimContentPage.SelectionContextItems);
-                }
-
                 NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.NavToolbarViewModel;
-                NavToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
-                NavToolbar.IsMultiPaneActive = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
             }
-        }
 
-        private void SlimContentPage_ContextItemsChanged(IBaseLayout sender, Events.ContextItemsChangedEventArgs args)
-        {
-            if(sender == SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage && sender != null)
+            if(InnerNavigationToolbar != null)
             {
-                NavToolbar.SetCommandBarContextItems(args.Items);
+                InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.NavToolbarViewModel;
+                InnerNavigationToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
+                InnerNavigationToolbar.IsMultiPaneActive = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
             }
         }
 
@@ -335,6 +325,7 @@ namespace Files.Views
         {
             // Defers the status bar loading until after the page has loaded to improve startup perf
             FindName(nameof(StatusBarControl));
+            FindName(nameof(InnerNavigationToolbar));
         }
 
         private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs e)
@@ -471,11 +462,11 @@ namespace Files.Views
 
             if (!isCompact)
             {
-                NavToolbar.IsCompactOverlay = !await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+                InnerNavigationToolbar.IsCompactOverlay = !await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
             }
             else
             {
-                NavToolbar.IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+                InnerNavigationToolbar.IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
                 view.TryResizeView(new Windows.Foundation.Size(400, 350));
             }
         }

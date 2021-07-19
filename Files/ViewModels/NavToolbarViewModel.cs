@@ -28,6 +28,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using static Files.UserControls.INavigationToolbar;
 using SearchBox = Files.UserControls.SearchBox;
+using Files.Interacts;
 
 namespace Files.ViewModels
 {
@@ -490,7 +491,6 @@ namespace Files.ViewModels
             SearchBox.SuggestionChosen -= SearchRegion_SuggestionChosen;
             SearchBox.Escaped -= SearchRegion_Escaped;
         }
-
         public ICommand SelectAllContentPageItemsCommand { get; set; }
 
         public ICommand InvertContentPageSelctionCommand { get; set; }
@@ -512,6 +512,8 @@ namespace Files.ViewModels
         public ICommand CreateNewFileCommand { get; set; }
 
         public ICommand CreateNewFolderCommand { get; set; }
+
+        public ICommand CopyCommand { get; set; }
 
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {
