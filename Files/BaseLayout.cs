@@ -83,8 +83,6 @@ namespace Files
             }
         }
 
-        public event TypedEventHandler<IBaseLayout, ContextItemsChangedEventArgs> ContextItemsChanged;
-
         protected NavigationToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<NavigationToolbar>();
 
         private CollectionViewSource collectionViewSource = new CollectionViewSource()
@@ -256,6 +254,8 @@ namespace Files
                     NotifyPropertyChanged(nameof(SelectedItems));
                     //ItemManipulationModel.SetDragModeForItems();
                 }
+
+                ParentShellPageInstance.NavToolbarViewModel.SelectedItems = value;
             }
         }
 

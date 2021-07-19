@@ -43,14 +43,20 @@
             x:Name="ContextCommandBar"
             Grid.Column="0"
             HorizontalAlignment="Left"
+            VerticalAlignment="Stretch"
             x:Load="False"
             DefaultLabelPosition="Right"
             Loaded="ContextCommandBar_Loaded">
+            <CommandBar.Resources>
+                <ResourceDictionary>
+                    <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
+                    <SolidColorBrush x:Key="CommandBarBorderBrushOpen" Color="Transparent" />
+                </ResourceDictionary>
+            </CommandBar.Resources>
             <CommandBar.PrimaryCommands>
                 <AppBarButton
                     x:Name="NewEmptySpaceAppBarButton"
                     x:Uid="BaseLayoutContextFlyoutNew"
-                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                     IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
                     Label="New">
                     <AppBarButton.KeyboardAccelerators>
@@ -91,7 +97,8 @@
                 <AppBarButton
                     x:Name="PasteButton"
                     x:Uid="NavigationToolbarPaste"
-                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                    Width="Auto"
+                    MinWidth="40"
                     Command="{x:Bind ViewModel.PasteItemsFromClipboardCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.InstanceViewModel.CanPasteInPage, local1:App.MainViewModel.IsPasteEnabled), Mode=OneWay}"
                     Label="Paste"
@@ -106,11 +113,23 @@
                     <local:ColoredIcon BaseLayerGlyph="&#x0023;" OverlayLayerGlyph="&#x0024;" />
                 </AppBarButton>
                 <AppBarButton
+                    x:Uid="NavigationToolbarCopy"
+                    Width="Auto"
+                    MinWidth="40"
+                    Command="{x:Bind ViewModel.CopyCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay}"
+                    Label="Copy"
+                    LabelPosition="Collapsed"
+                    ToolTipService.ToolTip="Copy">
+                    <local:ColoredIcon BaseLayerGlyph="&#x0021;" OverlayLayerGlyph="&#x0022;" />
+                </AppBarButton>
+                <AppBarButton
                     x:Name="CopyPathButton"
                     x:Uid="NavigationToolbarCopyPath"
-                    x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                    Command="{x:Bind ViewModel.CopyPathOfWorkingDirectoryCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
+                    Width="Auto"
+                    MinWidth="40"
+                    Command="{x:Bind ViewModel.CopyPathCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopyPath, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
                     Label="Copy location"
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutCopyLocation/Text')}">

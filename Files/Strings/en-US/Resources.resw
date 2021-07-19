@@ -2616,4 +2616,10 @@
   <data name="NavSettingsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
+    <value>Copy</value>
+  </data>
 </root>

@@ -499,7 +499,7 @@ namespace Files.ViewModels
 
         public ICommand PasteItemsFromClipboardCommand { get; set; }
 
-        public ICommand CopyPathOfWorkingDirectoryCommand { get; set; }
+        public ICommand CopyPathCommand { get; set; }
 
         public ICommand OpenNewWindowCommand { get; set; }
 
@@ -758,5 +758,21 @@ namespace Files.ViewModels
             }
         }
 
+        List<ListedItem> selectedItems;
+        public List<ListedItem> SelectedItems
+        {
+            get => selectedItems;
+            set
+            {
+                if(SetProperty(ref selectedItems, value))
+                {
+                    OnPropertyChanged(nameof(CanCopy));
+                    OnPropertyChanged(nameof(CanCopyPath));
+                }
+            }
+        }
+
+        public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
+        public bool CanCopyPath => SelectedItems is null || SelectedItems.Count == 0 || (SelectedItems is not null && SelectedItems.Count == 1);
     }
 }
