@@ -166,6 +166,7 @@
                             <Color x:Key="LayerFillColorDefault">#11000000</Color>
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
+                    <x:Double x:Key="SettingsBlockControlDefaultWidth">385</x:Double>
                     <LinearGradientBrush x:Key="ControlElevationBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,3">
                         <LinearGradientBrush.RelativeTransform>
                             <ScaleTransform CenterY="0.5" ScaleY="-1" />

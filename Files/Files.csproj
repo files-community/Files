@@ -339,6 +339,9 @@
     <Compile Include="UserControls\Settings\SettingsDisplayControl.xaml.cs">
       <DependentUpon>SettingsDisplayControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Settings\ThemeSampleDisplayControl.xaml.cs">
+      <DependentUpon>ThemeSampleDisplayControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\StringEncodedImage.xaml.cs">
       <DependentUpon>StringEncodedImage.xaml</DependentUpon>
     </Compile>
@@ -1219,6 +1222,10 @@
     <Page Include="UserControls\Settings\SettingsDisplayControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Settings\ThemeSampleDisplayControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\SidebarControl.xaml">
       <SubType>Designer</SubType>
