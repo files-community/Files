@@ -32,7 +32,7 @@ namespace Files.DataModels.NavigationControlItems
             set
             {
                 path = value;
-                HoverDisplayText = Path.Contains("?") || Path.ToLower().StartsWith("shell:") || Path.ToLower().EndsWith(ShellLibraryItem.EXTENSION) || Path == "Home" ? Text : Path;
+                HoverDisplayText = Path.Contains("?") || Path.ToLower().StartsWith("shell:") || Path.ToLower().EndsWith(ShellLibraryItem.EXTENSION) || Path == "Home".GetLocalized() ? Text : Path;
             }
         }
 
