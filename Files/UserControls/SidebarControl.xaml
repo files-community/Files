@@ -27,29 +27,6 @@
     mc:Ignorable="d">
     <muxc:NavigationView.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light">
-                    <AcrylicBrush
-                        x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="{ThemeResource SidebarTintLuminosityOpacity}"
-                        AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
-                        BackgroundSource="HostBackdrop"
-                        FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
-                        TintColor="{ThemeResource SolidBackgroundAcrylic}"
-                        TintOpacity="{ThemeResource SidebarTintOpacity}" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="Dark">
-                    <AcrylicBrush
-                        x:Key="NavigationViewExpandedPaneBackground"
-                        Windows10version1903:TintLuminosityOpacity="{ThemeResource SidebarTintLuminosityOpacity}"
-                        AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
-                        BackgroundSource="HostBackdrop"
-                        FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"
-                        TintColor="{ThemeResource SolidBackgroundAcrylic}"
-                        TintOpacity="{ThemeResource SidebarTintOpacity}" />
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
-
             <DataTemplate x:Key="LocationNavItem" x:DataType="navigationcontrolitems:LocationItem">
                 <muxc:NavigationViewItem
                     AllowDrop="True"
@@ -243,10 +220,29 @@
                                     <ColumnDefinition x:Name="ColumnDefinition2" Width="*" />
                                 </Grid.ColumnDefinitions>
 
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <!--  I exist to make a nice looking background for both the tab strip without interfering with the drag area grid  -->
+                                <Border
+                                    x:Name="TitlebarBackgroundBorder"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="{Binding ElementName=ContentRoot, Path=(Grid.Column), Mode=OneWay}"
+                                    Grid.ColumnSpan="{Binding ElementName=ContentRoot, Path=(Grid.ColumnSpan), Mode=OneWay}"
+                                    VerticalAlignment="Stretch"
+                                    Background="{ThemeResource TitlebarContentBackgroundBrush}"
+                                    BorderBrush="{ThemeResource NavigationViewContentGridBorderBrush}"
+                                    BorderThickness="{ThemeResource NavigationViewContentGridBorderThickness}"
+                                    CornerRadius="8,0,0,0"
+                                    IsHitTestVisible="False"
+                                    RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}" />
 
                                 <!--  Pane Content Area  -->
                                 <Grid
                                     x:Name="PaneRoot"
+                                    Grid.RowSpan="3"
                                     Grid.ColumnSpan="2"
                                     Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.OpenPaneLength}"
                                     HorizontalAlignment="Left"
@@ -286,6 +282,7 @@
                                 <!--  This allows the user to resize the pane  -->
                                 <Grid
                                     x:Name="ResizeElementBorder"
+                                    Grid.RowSpan="3"
                                     Grid.Column="{Binding ElementName=PaneRoot, Path=(Grid.Column), Mode=OneWay}"
                                     Width="8"
                                     HorizontalAlignment="Right"
@@ -334,8 +331,8 @@
                                 <!--  Content Area  -->
                                 <Grid
                                     x:Name="ContentRoot"
-                                    Grid.ColumnSpan="2"
-                                    Margin="0,50,0,0">
+                                    Grid.Row="2"
+                                    Grid.ColumnSpan="2">
                                     <Grid.RenderTransform>
                                         <CompositeTransform x:Name="ContentTransform" />
                                     </Grid.RenderTransform>
@@ -826,7 +823,11 @@
                                                 </Storyboard>
                                             </VisualTransition>
                                         </VisualStateGroup.Transitions>
-                                        <VisualState x:Name="Closed" />
+                                        <VisualState x:Name="Closed">
+                                            <VisualState.Setters>
+                                                <Setter Target="TitlebarBackgroundBorder.CornerRadius" Value="0" />
+                                            </VisualState.Setters>
+                                        </VisualState>
                                         <VisualState x:Name="ClosedCompactLeft">
 
                                             <Storyboard>

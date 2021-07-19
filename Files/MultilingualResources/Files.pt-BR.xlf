@@ -134,10 +134,6 @@
           <source>Remove this item</source>
           <target state="translated">Remover este item</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutAppName.Text" translate="yes" xml:space="preserve">
-          <source>Files</source>
-          <target state="translated">Files</target>
-        </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit feedback</source>
           <target state="translated">Submeter feedback</target>
@@ -338,10 +334,6 @@
           <source>Rename</source>
           <target state="translated">Renomear</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutPinToSidebar.Text" translate="yes" xml:space="preserve">
-          <source>Pin to sidebar</source>
-          <target state="translated">Fixar na barra lateral</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutProperties.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">Propriedades</target>
@@ -387,8 +379,8 @@
           <target state="translated">Nova guia</target>
         </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
-          <source>Windows default</source>
-          <target state="translated">Padrão do Windows</target>
+          <source>Default</source>
+          <target state="translated">Padrão</target>
         </trans-unit>
         <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
           <source>Light</source>
@@ -606,10 +598,6 @@
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
           <target state="translated">O nome do item não deve conter os seguintes caracteres: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutOpenLogLocationButton.Content" translate="yes" xml:space="preserve">
-          <source>Open log location</source>
-          <target state="translated">Abrir local do log</target>
-        </trans-unit>
         <trans-unit id="ItemSelected.Text" translate="yes" xml:space="preserve">
           <source>item selected</source>
           <target state="translated">item selecionado</target>
@@ -637,10 +625,6 @@
         <trans-unit id="RecycleInProgress.Title" translate="yes" xml:space="preserve">
           <source>Moving files to the Recycle Bin</source>
           <target state="translated">Movendo arquivos para a lixeira</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" translate="yes" xml:space="preserve">
-          <source>Pin directory to sidebar</source>
-          <target state="translated">Fixar diretório na barra lateral</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Yes</source>
@@ -757,10 +741,6 @@
         <trans-unit id="PropertiesDriveFileSystem.Text" translate="yes" xml:space="preserve">
           <source>File system:</source>
           <target state="translated">Sistema de arquivo:</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesAppLanguage.Text" translate="yes" xml:space="preserve">
-          <source>App language</source>
-          <target state="translated">Idioma do aplicativo</target>
         </trans-unit>
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
           <source>Status</source>
@@ -1066,10 +1046,6 @@
           <source>View sample profiles</source>
           <target state="translated">Ver perfis de amostra</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesAppLanguage.Header" translate="yes" xml:space="preserve">
-          <source>App language</source>
-          <target state="translated">Idioma do aplicativo</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
           <source>Terminal applications</source>
           <target state="translated">Aplicativos de Terminal</target>
@@ -1086,37 +1062,17 @@
           <source>Access Denied</source>
           <target state="translated">Acesso Negado</target>
         </trans-unit>
-        <trans-unit id="SettingsRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to the sidebar</source>
-          <target state="translated">Fixar a lixeira na barra lateral</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
           <target state="translated">Mostra um diálogo de confirmação ao excluir arquivos ou pastas</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Header" translate="yes" xml:space="preserve">
-          <source>Show extensions for known file types</source>
-          <target state="translated">Mostrar extensões para tipos de arquivo conhecidos</target>
-        </trans-unit>
-        <trans-unit id="SettingsAppearanceAcrylicSidebar.Header" translate="yes" xml:space="preserve">
-          <source>Acrylic sidebar</source>
-          <target state="translated">Barra lateral em acrílico</target>
         </trans-unit>
         <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">Formato de data</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceTheme.Header" translate="yes" xml:space="preserve">
-          <source>App theme</source>
-          <target state="translated">Tema do aplicativo</target>
-        </trans-unit>
         <trans-unit id="StatusCenter.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Status center</source>
           <target state="translated">Centro de status</target>
-        </trans-unit>
-        <trans-unit id="SettingsOpenItemsWithOneclick.Header" translate="yes" xml:space="preserve">
-          <source>Open items with a single click</source>
-          <target state="translated">Abrir itens com um único clique</target>
         </trans-unit>
         <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
           <source>File</source>
@@ -1141,14 +1097,6 @@
         <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
           <source>Drives</source>
           <target state="translated">Unidades</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
-          <source>Show hidden files and folders</source>
-          <target state="translated">Mostrar arquivos e pastas ocultos</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Show hidden files and folders</source>
-          <target state="translated">Mostrar arquivos e pastas ocultos</target>
         </trans-unit>
         <trans-unit id="EjectNotificationHeader" translate="yes" xml:space="preserve">
           <source>Safe to remove hardware</source>
@@ -1642,10 +1590,6 @@
           <source>Support us on PayPal</source>
           <target state="translated">Apoie-nos no PayPal</target>
         </trans-unit>
-        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Header" translate="yes" xml:space="preserve">
-          <source>List and sort directories alongside files</source>
-          <target state="translated">Listar e classificar diretórios ao lado dos arquivos</target>
-        </trans-unit>
         <trans-unit id="PropertiesDialogTabDetails.Content" translate="yes" xml:space="preserve">
           <source>Details</source>
           <target state="translated">Detalhes</target>
@@ -1666,14 +1610,6 @@
           <source>Updates Available</source>
           <target state="translated">Atualizações Disponíveis</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Header" translate="yes" xml:space="preserve">
-          <source>Hide protected operating system files (Recommended)</source>
-          <target state="translated">Ocultar arquivos protegidos do sistema operacional (Recomendado)</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Hide protected operating system files (Recommended)</source>
-          <target state="translated">Ocultar arquivos protegidos do sistema operacional (Recomendado)</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNewFile.Text" translate="yes" xml:space="preserve">
           <source>File</source>
           <target state="translated">Arquivo</target>
@@ -1689,14 +1625,6 @@
         <trans-unit id="NewFile" translate="yes" xml:space="preserve">
           <source>New File</source>
           <target state="translated">Novo Arquivo</target>
-        </trans-unit>
-        <trans-unit id="SettingsSearchUnindexedItems.Header" translate="yes" xml:space="preserve">
-          <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
-          <target state="translated">Mostrar itens não indexados ao pesquisar arquivos e pastas (as pesquisas podem demorar mais)</target>
-        </trans-unit>
-        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Header" translate="yes" xml:space="preserve">
-          <source>Enable individual preferences for individual directories</source>
-          <target state="translated">Ativar preferências individuais para diretórios individuais</target>
         </trans-unit>
         <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
           <source>Original path</source>
@@ -1730,14 +1658,6 @@
           <source>Ongoing Tasks</source>
           <target state="translated">Tarefas em Andamento</target>
         </trans-unit>
-        <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Header" translate="yes" xml:space="preserve">
-          <source>Always open new tabs in dual pane mode</source>
-          <target state="translated">Abrir sempre novas guias no modo de painel duplo</target>
-        </trans-unit>
-        <trans-unit id="SettingsMultitaskingEnableDualPane.Header" translate="yes" xml:space="preserve">
-          <source>Enable dual pane view</source>
-          <target state="translated">Ativar visualização de painel duplo</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
           <target state="translated">Abrir no painel secundário</target>
@@ -1749,10 +1669,6 @@
         <trans-unit id="SettingsDualPane.Text" translate="yes" xml:space="preserve">
           <source>Dual pane</source>
           <target state="translated">Painel Duplo</target>
-        </trans-unit>
-        <trans-unit id="SettingsContextMenuOverflowSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Move overflow items into a sub menu</source>
-          <target state="translated">Mova sobra de itens para um submenu</target>
         </trans-unit>
         <trans-unit id="SettingsContextMenu.Text" translate="yes" xml:space="preserve">
           <source>Customize the right click context menu</source>
@@ -2142,10 +2058,6 @@
           <source>Libraries</source>
           <target state="translated">Bibliotecas</target>
         </trans-unit>
-        <trans-unit id="SettingsShowLibrarySection.Header" translate="yes" xml:space="preserve">
-          <source>Show library section on the sidebar</source>
-          <target state="translated">Mostrar secção da biblioteca na barra lateral</target>
-        </trans-unit>
         <trans-unit id="PropertyItemCount" translate="yes" xml:space="preserve">
           <source>Item count</source>
           <target state="translated">Contagem de itens</target>
@@ -2191,8 +2103,9 @@
           <target state="translated">Sim</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
-          <source>This action requires adminstrator rights</source>
-          <target state="translated">Esta ação requer direitos de administrador</target>
+          <source>This action requires administrator rights</source>
+          <target state="needs-review-translation">Esta ação requer direitos de administrador</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Content" translate="yes" xml:space="preserve">
           <source>Would you like to continue as administrator?</source>
@@ -2982,35 +2895,27 @@
           <source>Sidebar</source>
           <target state="translated">Barra lateral</target>
         </trans-unit>
-        <trans-unit id="SettingsVerticalTabFlyoutSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Display vertical tab flyout on the title bar</source>
-          <target state="translated">Mostrar o flyout vertical da guia na barra de título</target>
-        </trans-unit>
-        <trans-unit id="DefaultSkin" translate="yes" xml:space="preserve">
+        <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="translated">Padrão</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceCustomSkins.Header" translate="yes" xml:space="preserve">
-          <source>Custom skin</source>
-          <target state="translated">Skin personalizada</target>
+        <trans-unit id="SettingsAppearanceOpenThemesFolderButton.Content" translate="yes" xml:space="preserve">
+          <source>Open themes folder</source>
+          <target state="translated">Abrir pasta de themes</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceOpenSkinsFolderButton.Content" translate="yes" xml:space="preserve">
-          <source>Open skins folder</source>
-          <target state="translated">Abrir pasta de skins</target>
+        <trans-unit id="SettingsThemesLearnMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Learn more about custom themes</source>
+          <target state="translated">Saiba mais sobre themes personalizadas</target>
         </trans-unit>
-        <trans-unit id="SettingsSkinsLearnMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Learn more about custom skins</source>
-          <target state="translated">Saiba mais sobre skins personalizadas</target>
+        <trans-unit id="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Learn more about custom themes</source>
+          <target state="translated">Saiba mais sobre themes personalizadas</target>
         </trans-unit>
-        <trans-unit id="SettingsSkinsLearnMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Learn more about custom skins</source>
-          <target state="translated">Saiba mais sobre skins personalizadas</target>
+        <trans-unit id="SettingsThemesTeachingTipHeader.Text" translate="yes" xml:space="preserve">
+          <source>Custom themes provide a great way for you to personalize Files.</source>
+          <target state="translated">Themes personalizadas proporcionam uma ótima maneira de personalizar o Files.</target>
         </trans-unit>
-        <trans-unit id="SettingsSkinsTeachingTipHeader.Text" translate="yes" xml:space="preserve">
-          <source>Custom skins provide a great way for you to personalize Files.</source>
-          <target state="translated">Skins personalizadas proporcionam uma ótima maneira de personalizar o Files.</target>
-        </trans-unit>
-        <trans-unit id="SettingsSkinsTeachingTipHyperlinkText.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsThemesTeachingTipHyperlinkText.Text" translate="yes" xml:space="preserve">
           <source>View documentation.</source>
           <target state="translated">Ver a documentação.</target>
         </trans-unit>
@@ -3316,35 +3221,119 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarEnterCompactOverlay.Label" translate="yes" xml:space="preserve">
           <source>Enter compact overlay</source>
-          <target state="new">Enter compact overlay</target>
+          <target state="translated">Insira a sobreposição compacta</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarExitCompactOverlay.Label" translate="yes" xml:space="preserve">
           <source>Exit compact overlay</source>
-          <target state="new">Exit compact overlay</target>
-        </trans-unit>
-        <trans-unit id="SettingsShowCloudDrivesSection.Header" translate="yes" xml:space="preserve">
-          <source>Show cloud drives section on the sidebar</source>
-          <target state="new">Show cloud drives section on the sidebar</target>
-        </trans-unit>
-        <trans-unit id="SettingsShowDrivesSection.Header" translate="yes" xml:space="preserve">
-          <source>Show drives section on the sidebar</source>
-          <target state="new">Show drives section on the sidebar</target>
-        </trans-unit>
-        <trans-unit id="SettingsShowWslSection.Header" translate="yes" xml:space="preserve">
-          <source>Show WSL section on the sidebar</source>
-          <target state="new">Show WSL section on the sidebar</target>
-        </trans-unit>
-        <trans-unit id="SettingsShowNetworkDrivesSection.Header" translate="yes" xml:space="preserve">
-          <source>Show network drives section on the sidebar</source>
-          <target state="new">Show network drives section on the sidebar</target>
+          <target state="translated">Remova a sobreposição compacta</target>
         </trans-unit>
         <trans-unit id="WSL" translate="yes" xml:space="preserve">
           <source>WSL</source>
-          <target state="new">WSL</target>
+          <target state="translated">WSL</target>
         </trans-unit>
         <trans-unit id="SideBarHideSectionFromSideBar.Text" translate="yes" xml:space="preserve">
           <source>Hide {0} section</source>
-          <target state="new">Hide {0} section</target>
+          <target state="translated">Esconder {0} seção</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Title" translate="yes" xml:space="preserve">
+          <source>Always open new tabs in dual pane mode</source>
+          <target state="translated">Sempre abra novas guias no modo de painel duplo</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingEnableDualPane.Title" translate="yes" xml:space="preserve">
+          <source>Enable dual pane view</source>
+          <target state="translated">Ativar visualização de painel duplo</target>
+        </trans-unit>
+        <trans-unit id="SettingsVerticalTabFlyoutSwitch.Title" translate="yes" xml:space="preserve">
+          <source>Display the vertical tab flyout on the title bar</source>
+          <target state="translated">Exibe o menu da guia vertical na barra de título</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowCloudDrivesSection.Title" translate="yes" xml:space="preserve">
+          <source>Show cloud drives section on the sidebar</source>
+          <target state="translated">Mostrar seção de drives em nuvem na barra lateral</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowDrivesSection.Title" translate="yes" xml:space="preserve">
+          <source>Show drives section on the sidebar</source>
+          <target state="translated">Mostrar seção de drives na barra lateral</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowWslSection.Title" translate="yes" xml:space="preserve">
+          <source>Show WSL section on the sidebar</source>
+          <target state="translated">Mostrar seção WSL na barra lateral</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
+          <source>Show network drives section on the sidebar</source>
+          <target state="translated">Mostrar seção de drives de rede na barra lateral</target>
+        </trans-unit>
+        <trans-unit id="SettingsRecycleBinSwitch.Title" translate="yes" xml:space="preserve">
+          <source>Pin Recycle Bin to the sidebar</source>
+          <target state="translated">Fixar Lixeira na barra lateral</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
+          <source>Show library section on the sidebar</source>
+          <target state="translated">Mostrar seção da biblioteca na barra lateral</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceTheme.Title" translate="yes" xml:space="preserve">
+          <source>Choose your color</source>
+          <target state="translated">Escolha a sua cor</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceCustomThemes.Title" translate="yes" xml:space="preserve">
+          <source>Custom themes</source>
+          <target state="translated">Visuais personalizados</target>
+        </trans-unit>
+        <trans-unit id="SettingsContextMenuOverflowSwitch.Title" translate="yes" xml:space="preserve">
+          <source>Move overflow items into a sub menu</source>
+          <target state="translated">Mova os itens restantes para um submenu</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesAppLanguage.Title" translate="yes" xml:space="preserve">
+          <source>Language</source>
+          <target state="translated">Idioma</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Title" translate="yes" xml:space="preserve">
+          <source>Show extensions for known file types</source>
+          <target state="translated">Mostrar extensões para tipos de arquivo conhecidos</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Title" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="translated">Mostrar arquivos e pastas ocultas</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Title" translate="yes" xml:space="preserve">
+          <source>Hide protected operating system files (Recommended)</source>
+          <target state="translated">Ocultar arquivos protegidos do sistema operacional (Recomendado)</target>
+        </trans-unit>
+        <trans-unit id="SettingsOpenItemsWithOneclick.Title" translate="yes" xml:space="preserve">
+          <source>Open items with a single click</source>
+          <target state="translated">Abra os itens com um único clique</target>
+        </trans-unit>
+        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Title" translate="yes" xml:space="preserve">
+          <source>List and sort directories alongside files</source>
+          <target state="translated">Listar e classificar diretórios ao lado dos arquivos</target>
+        </trans-unit>
+        <trans-unit id="SettingsSearchUnindexedItems.Title" translate="yes" xml:space="preserve">
+          <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
+          <target state="translated">Mostrar itens não indexados ao pesquisar arquivos e pastas (as pesquisas podem demorar mais)</target>
+        </trans-unit>
+        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Title" translate="yes" xml:space="preserve">
+          <source>Enable individual preferences for individual directories</source>
+          <target state="translated">Habilite preferências individuais para diretórios individuais</target>
+        </trans-unit>
+        <trans-unit id="SettingsUsefulLinks.Title" translate="yes" xml:space="preserve">
+          <source>Useful links</source>
+          <target state="new">Useful links</target>
+        </trans-unit>
+        <trans-unit id="SettingCopyVersionInfo.Content" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="new">Copy</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutOpenLogLocationButtonText.Text" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutPinToFavorites.Text" translate="yes" xml:space="preserve">
+          <source>Pin to Favorites</source>
+          <target state="new">Pin to Favorites</target>
         </trans-unit>
       </group>
     </body>

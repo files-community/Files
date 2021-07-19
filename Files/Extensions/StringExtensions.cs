@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using Microsoft.Toolkit.Uwp;
+﻿using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,7 +28,7 @@ namespace Files.Extensions
         /// results in satisfying .EndsWith(ending).
         /// </summary>
         /// <example>"hel".WithEnding("llo") returns "hello", which is the result of "hel" + "lo".</example>
-        public static string WithEnding([CanBeNull] this string str, string ending)
+        public static string WithEnding(this string str, string ending)
         {
             if (str == null)
             {
@@ -57,7 +56,7 @@ namespace Files.Extensions
         /// <param name="value">The string to retrieve the substring from.</param>
         /// <param name="length">The number of characters to retrieve.</param>
         /// <returns>The substring.</returns>
-        public static string Right([NotNull] this string value, int length)
+        public static string Right(this string value, int length)
         {
             if (value == null)
             {

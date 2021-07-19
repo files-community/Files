@@ -255,9 +255,6 @@
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>மறுபெயரிடு</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>பக்கப்பட்டியில் பொருத்து</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>பண்புகள்</value>
   </data>
@@ -456,9 +453,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>பின்வரும் எழுத்துகுறிகளை உருப்படி பெயரில் பயன்படுத்தக் கூடாது: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>பதிவு கோப்பின் இருப்பிடத்தைத் திற</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>உருப்படி தேர்ந்தெடுக்கப்பட்டது</value>
   </data>
@@ -470,9 +464,6 @@
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>உருப்படிகள்</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>பக்கப்பட்டியில் கோப்புறையைப் பொருத்துக</value>
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>அணுகியது:</value>
@@ -575,9 +566,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>சமீபத்திய</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>பயன்பாட்டு மொழி</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>நிலை</value>
@@ -784,9 +772,6 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>மாதிரி சுயவிவரங்களைப் பார்</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>பயன்பாட்டு மொழி</value>
-  </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>எங்களை ஆதரவளி</value>
   </data>
@@ -797,23 +782,11 @@
     <value>Access Denied
 அணுகல் மறுக்கப்பட்டது</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>அறிந்த கோப்பு வகைகளுக்கு நீட்டிப்பைக் காண்பி</value>
-  </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Acrylic பக்கப்பட்டி</value>
-  </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>தேதி வடிவம்</value>
   </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>பயன்பாட்டுக் கருப்பொருள்</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>செயல் மையம்</value>
-  </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Open items with a single click</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>இங்கே நகர்த்து</value>
@@ -826,12 +799,6 @@
   </data>
   <data name="FolderItemAutomation" xml:space="preserve">
     <value>கோப்புறை</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>மறைந்த கோப்புகள் மற்றும் கோப்புறைகளைக் காண்பி</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>மறைந்த கோப்புகள் மற்றும் கோப்புறைகளைக் காண்பி</value>
   </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>வெளியேற்று</value>
@@ -1033,12 +1000,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>புதுப்பித்தல்கள் கிடைக்கின்றன</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>பாதுகாத்த இயக்க முறைமை அமைப்பு கோப்புகள் மறை (பரிந்துரைத்தது)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>பாதுகாத்த இயக்க முறைமை அமைப்பு கோப்புகள் மறை (பரிந்துரைத்தது)</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>கோப்பு</value>

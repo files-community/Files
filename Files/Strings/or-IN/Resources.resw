@@ -108,9 +108,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>ଏହି ଆଇଟମ୍ ଅପସାରଣ କରନ୍ତୁ</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files UWP</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>ମତାମତ ଦାଖଲ କରନ୍ତୁ</value>
   </data>
@@ -260,9 +257,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>ନାମ ପରିବର୍ତ୍ତନ କର</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>ସାଇଡବାରରେ ପିନ୍ କର</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>ଗୁଣଧର୍ମ</value>
@@ -462,9 +456,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>ଆଇଟମ୍ ନାମ ନିମ୍ନଲିଖିତ ଅକ୍ଷର ଧାରଣ କରିବା ଉଚିତ୍ ନୁହେଁ: \ /: *? "&lt;&gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>ଲଗ୍ ଅବସ୍ଥାନ ଖୋଲ</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>ଆଇଟମ୍ ମନୋନୀତ</value>
   </data>
@@ -485,9 +476,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>ଫାଇଲଗୁଡ଼ିକୁ ରିସାଇକ୍ଲବିନ୍ କୁ ଘୁଞ୍ଚାଇବା</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>ଡିରେକ୍ଟୋରୀ କୁ ସାଇଡବାରରେ ପିନ୍ କର</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>ଠିକ୍ ଅଛି</value>
@@ -578,9 +566,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>ସମ୍ପ୍ରତି</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>ଆପ୍ ଭାଷା</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>ସ୍ଥିତି</value>
@@ -885,12 +870,6 @@
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>ଡ୍ରାଇଭ୍‌ସମୂହ:</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>ଲୁକ୍କାୟିତ ଫାଇଲ୍ ଏବଂ ଫୋଲ୍ଡର୍‌ଗୁଡିକକୁ ଦେଖାନ୍ତୁ</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>ଲୁକ୍କାୟିତ ଫାଇଲ୍ ଏବଂ ଫୋଲ୍ଡର୍‌ଗୁଡିକକୁ ଦେଖାନ୍ତୁ</value>
-  </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>ବହିଷ୍କାର</value>
   </data>
@@ -941,12 +920,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>ଅଦ୍ୟତନଗୁଡିକ ଉପଲବ୍ଧ</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>ସୁରକ୍ଷିତ ଅପରେଟିଂ ସିଷ୍ଟମ୍ ଫାଇଲ୍‌ଗୁଡ଼ିକୁ (ଅନୁମୋଦିତ) ଲୁଚାନ୍ତୁ</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>ସୁରକ୍ଷିତ ଅପରେଟିଂ ସିଷ୍ଟମ୍ ଫାଇଲ୍‌ଗୁଡ଼ିକୁ (ଅନୁମୋଦିତ) ଲୁଚାନ୍ତୁ</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>ଫାଇଲ୍:</value>

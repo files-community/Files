@@ -205,6 +205,7 @@ namespace Files.Views.LayoutModes
                 }
             });
 
+            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 50);
             FilesystemViewModel_PageTypeUpdated(null, new PageTypeUpdatedEventArgs()
             {
                 IsTypeCloudDrive = InstanceViewModel.IsPageTypeCloudDrive,
@@ -256,9 +257,6 @@ namespace Files.Views.LayoutModes
             {
                 ColumnsViewModel.StatusColumn.Show();
             }
-
-            ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column1.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
-                    + Column6.ActualWidth + Column7.ActualWidth + Column8.ActualWidth + Column9.ActualWidth + Column10.ActualWidth);
 
             UpdateSortIndicator();
         }
@@ -408,7 +406,7 @@ namespace Files.Views.LayoutModes
             IsRenamingItem = false;
         }
 
-        private void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
@@ -432,7 +430,7 @@ namespace Files.Views.LayoutModes
                 {
                     if (MainViewModel.IsQuickLookEnabled)
                     {
-                        QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
+                        await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
                     e.Handled = true;
                 }
@@ -524,7 +522,6 @@ namespace Files.Views.LayoutModes
                 listedItem.ItemPropertiesInitialized = false;
                 if (FileList.ContainerFromItem(listedItem) != null)
                 {
-                    listedItem.ItemPropertiesInitialized = true;
                     await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
                 }
             }
@@ -653,13 +650,11 @@ namespace Files.Views.LayoutModes
             ColumnsViewModel.DateCreatedColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column8.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.SizeColumn.UserLength = new GridLength(Column9.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column1.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
-                    + Column6.ActualWidth + Column7.ActualWidth + Column8.ActualWidth + Column9.ActualWidth + Column10.ActualWidth);
         }
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UpdateColumnLayout();
+            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 50);
         }
 
         private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
@@ -677,21 +672,14 @@ namespace Files.Views.LayoutModes
             if (!args.InRecycleQueue)
             {
                 InitializeDrag(args.ItemContainer);
+                args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
+                args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
+
                 if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
                 {
-                    args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
-
                     args.RegisterUpdateCallback(3, async (s, c) =>
                     {
-                        item.ItemPropertiesInitialized = true;
                         await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
-                    });
-                }
-                else if (args.Item is ListedItem item1 && item1.ItemPropertiesInitialized && !item1.LoadFileIcon)
-                {
-                    args.RegisterUpdateCallback(3, async (s, c) =>
-                    {
-                        await ParentShellPageInstance.FilesystemViewModel.LoadItemThumbnail(item1, currentIconSize);
                     });
                 }
             }
@@ -699,10 +687,9 @@ namespace Files.Views.LayoutModes
             {
                 UninitializeDrag(args.ItemContainer);
                 args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
-
-                if (args.Item is ListedItem item && item.ItemPropertiesInitialized && item.LoadFileIcon)
+                if (args.Item is ListedItem item)
                 {
-                    ParentShellPageInstance.FilesystemViewModel.UnloadItemThumbnail(item);
+                    ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(item);
                 }
             }
         }

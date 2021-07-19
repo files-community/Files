@@ -162,9 +162,9 @@ namespace Files.ViewModels
             App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
         }
 
-        public void EmptyRecycleBin(RoutedEventArgs e)
+        public async void EmptyRecycleBin(RoutedEventArgs e)
         {
-            RecycleBinHelpers.EmptyRecycleBin(PaneHolder.ActivePane);
+            await RecycleBinHelpers.S_EmptyRecycleBin();
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -196,13 +196,13 @@ namespace Files.ViewModels
             TabControlMargin = SidebarDisplayMode switch
             {
                 // This prevents the pane toggle button from overlapping the tab control in minimal mode
-                NavigationViewDisplayMode.Minimal => new Thickness(44, 0, 0, 0),
-                _ => new Thickness(0, 0, 0, 0),
+                NavigationViewDisplayMode.Minimal => new GridLength(44, GridUnitType.Pixel),
+                _ => new GridLength(0, GridUnitType.Pixel),
             };
         }
 
-        private Thickness tabControlMargin;
-        public Thickness TabControlMargin
+        private GridLength tabControlMargin;
+        public GridLength TabControlMargin
         {
             get => tabControlMargin;
             set => SetProperty(ref tabControlMargin, value);

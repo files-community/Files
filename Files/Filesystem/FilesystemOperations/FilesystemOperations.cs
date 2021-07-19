@@ -43,7 +43,7 @@ namespace Files.Filesystem
         public FilesystemOperations(IShellPage associatedInstance)
         {
             this.associatedInstance = associatedInstance;
-            recycleBinHelpers = new RecycleBinHelpers(this.associatedInstance);
+            recycleBinHelpers = new RecycleBinHelpers();
         }
 
         #endregion Constructor
@@ -587,7 +587,7 @@ namespace Files.Filesystem
                 // Recycle bin also stores a file starting with $I for each item
                 string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I"));
                 await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
-                    .OnSuccess(t => t.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
+                    .OnSuccess(iFile => iFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
             }
             errorCode?.Report(fsResult);
             progress?.Report(100.0f);
@@ -599,20 +599,16 @@ namespace Files.Filesystem
                 if (!permanently)
                 {
                     // Enumerate Recycle Bin
-                    List<ShellFileItem> items = await recycleBinHelpers.EnumerateRecycleBin();
-                    List<ShellFileItem> nameMatchItems = new List<ShellFileItem>();
+                    List<ShellFileItem> nameMatchItems, items = await recycleBinHelpers.EnumerateRecycleBin();
 
                     // Get name matching files
-                    if (items != null)
+                    if (Path.GetExtension(source.Path) == ".lnk" || Path.GetExtension(source.Path) == ".url") // We need to check if it is a shortcut file
                     {
-                        if (Path.GetExtension(source.Path) == ".lnk" || Path.GetExtension(source.Path) == ".url") // We need to check if it is a shortcut file
-                        {
-                            nameMatchItems = items.Where((item) => item.FilePath == Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileNameWithoutExtension(source.Path))).ToList();
-                        }
-                        else
-                        {
-                            nameMatchItems = items.Where((item) => item.FilePath == source.Path).ToList();
-                        }
+                        nameMatchItems = items.Where((item) => item.FilePath == Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileNameWithoutExtension(source.Path))).ToList();
+                    }
+                    else
+                    {
+                        nameMatchItems = items.Where((item) => item.FilePath == source.Path).ToList();
                     }
 
                     // Get newest file
@@ -813,7 +809,7 @@ namespace Files.Filesystem
                 // Recycle bin also stores a file starting with $I for each item
                 string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I"));
                 await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
-                    .OnSuccess(iFile => iFile.DeleteAsync().AsTask());
+                    .OnSuccess(iFile => iFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
             }
 
             errorCode?.Report(fsResult);
@@ -911,8 +907,6 @@ namespace Files.Filesystem
 
         public void Dispose()
         {
-            recycleBinHelpers?.Dispose();
-
             recycleBinHelpers = null;
             associatedInstance = null;
         }

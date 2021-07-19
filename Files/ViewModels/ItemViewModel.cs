@@ -6,6 +6,7 @@ using Files.Filesystem.Cloud;
 using Files.Filesystem.StorageEnumerators;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
@@ -13,7 +14,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -36,12 +36,12 @@ using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.ViewModels
 {
-    public class ItemViewModel : INotifyPropertyChanged, IDisposable
+    public class ItemViewModel : ObservableObject, IDisposable
     {
-        private readonly SemaphoreSlim enumFolderSemaphore = new SemaphoreSlim(1, 1);
-        private readonly SemaphoreSlim loadExtendedPropsSemaphore = new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
-        private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
-        private readonly ManualResetEventSlim operationEvent = new ManualResetEventSlim();
+        private readonly SemaphoreSlim enumFolderSemaphore, loadExtendedPropsSemaphore;
+        private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
+        private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
+        private readonly ManualResetEventSlim operationEvent, itemLoadEvent;
         private IntPtr hWatchDir;
         private IAsyncAction aWatcherAction;
 
@@ -58,9 +58,8 @@ namespace Files.ViewModels
         public CollectionViewSource viewSource;
         private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public event EventHandler DirectoryInfoUpdated;
+        public event EventHandler<List<ListedItem>> OnSelectionRequestedEvent;
 
         private IFileListCache fileListCache = FileListCacheController.GetInstance();
 
@@ -139,7 +138,7 @@ namespace Files.ViewModels
             }
 
             WorkingDirectory = value;
-            NotifyPropertyChanged(nameof(WorkingDirectory));
+            OnPropertyChanged(nameof(WorkingDirectory));
         }
 
         public async Task<FilesystemResult<StorageFolder>> GetFolderFromPathAsync(string value)
@@ -172,29 +171,29 @@ namespace Files.ViewModels
                 if (value != isFolderEmptyTextDisplayed)
                 {
                     isFolderEmptyTextDisplayed = value;
-                    NotifyPropertyChanged(nameof(IsFolderEmptyTextDisplayed));
+                    OnPropertyChanged(nameof(IsFolderEmptyTextDisplayed));
                 }
             }
         }
 
         public async void UpdateSortOptionStatus()
         {
-            NotifyPropertyChanged(nameof(IsSortedByName));
-            NotifyPropertyChanged(nameof(IsSortedByDate));
-            NotifyPropertyChanged(nameof(IsSortedByType));
-            NotifyPropertyChanged(nameof(IsSortedBySize));
-            NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
-            NotifyPropertyChanged(nameof(IsSortedByDateDeleted));
-            NotifyPropertyChanged(nameof(IsSortedByDateCreated));
-            NotifyPropertyChanged(nameof(IsSortedBySyncStatus));
+            OnPropertyChanged(nameof(IsSortedByName));
+            OnPropertyChanged(nameof(IsSortedByDate));
+            OnPropertyChanged(nameof(IsSortedByType));
+            OnPropertyChanged(nameof(IsSortedBySize));
+            OnPropertyChanged(nameof(IsSortedByOriginalPath));
+            OnPropertyChanged(nameof(IsSortedByDateDeleted));
+            OnPropertyChanged(nameof(IsSortedByDateCreated));
+            OnPropertyChanged(nameof(IsSortedBySyncStatus));
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
         }
 
         public async void UpdateSortDirectionStatus()
         {
-            NotifyPropertyChanged(nameof(IsSortedAscending));
-            NotifyPropertyChanged(nameof(IsSortedDescending));
+            OnPropertyChanged(nameof(IsSortedAscending));
+            OnPropertyChanged(nameof(IsSortedDescending));
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
         }
@@ -207,7 +206,7 @@ namespace Files.ViewModels
                 if (value)
                 {
                     folderSettings.DirectorySortOption = SortOption.Name;
-                    NotifyPropertyChanged(nameof(IsSortedByName));
+                    OnPropertyChanged(nameof(IsSortedByName));
                 }
             }
         }
@@ -220,7 +219,7 @@ namespace Files.ViewModels
                 if (value)
                 {
                     folderSettings.DirectorySortOption = SortOption.OriginalPath;
-                    NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
+                    OnPropertyChanged(nameof(IsSortedByOriginalPath));
                 }
             }
         }
@@ -233,7 +232,7 @@ namespace Files.ViewModels
                 if (value)
                 {
                     folderSettings.DirectorySortOption = SortOption.DateDeleted;
-                    NotifyPropertyChanged(nameof(IsSortedByDateDeleted));
+                    OnPropertyChanged(nameof(IsSortedByDateDeleted));
                 }
             }
         }
@@ -246,7 +245,7 @@ namespace Files.ViewModels
                 if (value)
                 {
                     folderSettings.DirectorySortOption = SortOption.DateModified;
-                    NotifyPropertyChanged(nameof(IsSortedByDate));
+                    OnPropertyChanged(nameof(IsSortedByDate));
                 }
             }
         }
@@ -259,7 +258,7 @@ namespace Files.ViewModels
                 if (value)
                 {
                     folderSettings.DirectorySortOption = SortOption.DateCreated;
-                    NotifyPropertyChanged(nameof(IsSortedByDateCreated));
+                    OnPropertyChanged(nameof(IsSortedByDateCreated));
                 }
             }
         }
@@ -272,7 +271,7 @@ namespace Files.ViewModels
                 if (value)
                 {
                     folderSettings.DirectorySortOption = SortOption.FileType;
-                    NotifyPropertyChanged(nameof(IsSortedByType));
+                    OnPropertyChanged(nameof(IsSortedByType));
                 }
             }
         }
@@ -285,7 +284,7 @@ namespace Files.ViewModels
                 if (value)
                 {
                     folderSettings.DirectorySortOption = SortOption.Size;
-                    NotifyPropertyChanged(nameof(IsSortedBySize));
+                    OnPropertyChanged(nameof(IsSortedBySize));
                 }
             }
         }
@@ -298,7 +297,7 @@ namespace Files.ViewModels
                 if (value)
                 {
                     folderSettings.DirectorySortOption = SortOption.SyncStatus;
-                    NotifyPropertyChanged(nameof(IsSortedBySyncStatus));
+                    OnPropertyChanged(nameof(IsSortedBySyncStatus));
                 }
             }
         }
@@ -309,8 +308,8 @@ namespace Files.ViewModels
             set
             {
                 folderSettings.DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
-                NotifyPropertyChanged(nameof(IsSortedAscending));
-                NotifyPropertyChanged(nameof(IsSortedDescending));
+                OnPropertyChanged(nameof(IsSortedAscending));
+                OnPropertyChanged(nameof(IsSortedDescending));
             }
         }
 
@@ -320,8 +319,8 @@ namespace Files.ViewModels
             set
             {
                 folderSettings.DirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
-                NotifyPropertyChanged(nameof(IsSortedAscending));
-                NotifyPropertyChanged(nameof(IsSortedDescending));
+                OnPropertyChanged(nameof(IsSortedAscending));
+                OnPropertyChanged(nameof(IsSortedDescending));
             }
         }
 
@@ -330,9 +329,15 @@ namespace Files.ViewModels
             folderSettings = folderSettingsViewModel;
             filesAndFolders = new List<ListedItem>();
             FilesAndFolders = new BulkConcurrentObservableCollection<ListedItem>();
+            operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
+            itemLoadQueue = new ConcurrentDictionary<string, bool>();
             addFilesCTS = new CancellationTokenSource();
             semaphoreCTS = new CancellationTokenSource();
             loadPropsCTS = new CancellationTokenSource();
+            operationEvent = new ManualResetEventSlim();
+            itemLoadEvent = new ManualResetEventSlim();
+            enumFolderSemaphore = new SemaphoreSlim(1, 1);
+            loadExtendedPropsSemaphore = new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
@@ -415,6 +420,11 @@ namespace Files.ViewModels
         {
             loadPropsCTS.Cancel();
             loadPropsCTS = new CancellationTokenSource();
+        }
+
+        public void CancelExtendedPropertiesLoadingForItem(ListedItem item)
+        {
+            itemLoadQueue.TryUpdate(item.ItemPath, true, false);
         }
 
         public async Task ApplySingleFileChangeAsync(ListedItem item)
@@ -696,35 +706,7 @@ namespace Files.ViewModels
             }
         }
 
-        List<(ListedItem item, uint size)> itemLoadQueue = new List<(ListedItem, uint)>();
-
-        public async void UnloadItemThumbnail(ListedItem item)
-        {
-            Action action = () =>
-            {
-                item.FileImage = null;
-                item.CustomIcon = null;
-                item.LoadFileIcon = false;
-                if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    item.LoadFolderGlyph = true;
-                }
-                else
-                {
-                    item.LoadUnknownTypeGlyph = true;
-                }
-            };
-            if (CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
-            {
-                action();
-            }
-            else
-            {
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(action);
-            }
-        }
-
-        public async Task LoadItemThumbnail(ListedItem item, uint thumbnailSize = 20, IStorageItem matchingStorageItem = null, bool forceReload = false)
+        private async Task LoadItemThumbnail(ListedItem item, uint thumbnailSize = 20, IStorageItem matchingStorageItem = null, bool forceReload = false)
         {
             if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File)
             {
@@ -872,23 +854,37 @@ namespace Files.ViewModels
         // for file inside the recycle bin (but not on the recycle bin folder itself)
         public async Task LoadExtendedItemProperties(ListedItem item, uint thumbnailSize = 20)
         {
-            // Don't load extended item properties while enumeration is in progress to improve enumeration speed
-            if (IsLoadingItems)
+            if (item == null)
             {
-                itemLoadQueue.Add((item, thumbnailSize));
                 return;
             }
 
-            await Task.Run(async () =>
+            try
             {
-                if (item == null)
+                itemLoadQueue[item.ItemPath] = false;
+                await loadExtendedPropsSemaphore.WaitAsync(loadPropsCTS.Token);
+                if (itemLoadQueue.TryGetValue(item.ItemPath, out var canceled) && canceled)
                 {
+                    loadExtendedPropsSemaphore.Release();
                     return;
                 }
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+            finally
+            {
+                itemLoadQueue.TryRemove(item.ItemPath, out _);
+            }
 
+            item.ItemPropertiesInitialized = true;
+
+            await Task.Run(async () =>
+            {
                 try
                 {
-                    await loadExtendedPropsSemaphore.WaitAsync(loadPropsCTS.Token);
+                    itemLoadEvent.Wait(loadPropsCTS.Token);
                 }
                 catch (OperationCanceledException)
                 {
@@ -976,7 +972,7 @@ namespace Files.ViewModels
                         groupImage = await GetItemTypeGroupIcon(item, matchingStorageFile);
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
                 finally
@@ -1089,6 +1085,7 @@ namespace Files.ViewModels
                 semaphoreCTS = new CancellationTokenSource();
 
                 IsLoadingItems = true;
+                itemLoadEvent.Reset();
 
                 filesAndFolders.Clear();
                 FilesAndFolders.Clear();
@@ -1117,17 +1114,22 @@ namespace Files.ViewModels
                 IsLoadingItems = false;
 
                 AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
+
+                // Find and select README file
+                foreach (var item in filesAndFolders)
+                {
+                    if (item.ItemName.Contains("readme", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        OnSelectionRequestedEvent?.Invoke(this, new List<ListedItem>() { item });
+                        break;
+                    }
+                }
             }
             finally
             {
+                DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty); // Make sure item count is updated
                 enumFolderSemaphore.Release();
-
-                // Load items in the queue after enumeration has completed to improve enumeration speed
-                foreach (var item in itemLoadQueue)
-                {
-                    _ = LoadExtendedItemProperties(item.item, item.size);
-                }
-                itemLoadQueue.Clear();
+                itemLoadEvent.Set();
             }
 
             postLoadCallback?.Invoke();
@@ -1367,11 +1369,7 @@ namespace Files.ViewModels
                 };
                 if (library == null)
                 {
-                    var extraProps = await basicProps.RetrievePropertiesAsync(new[] { "System.DateCreated" });
-                    if (DateTimeOffset.TryParse(extraProps["System.DateCreated"] as string, out var dateCreated))
-                    {
-                        currentFolder.ItemDateCreatedReal = dateCreated;
-                    }
+                    currentFolder.ItemDateCreatedReal = rootFolder.DateCreated;
                 }
                 CurrentFolder = currentFolder;
                 await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken);
@@ -1966,11 +1964,6 @@ namespace Files.ViewModels
             }
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
-        }
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public void Dispose()

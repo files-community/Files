@@ -31,7 +31,6 @@ namespace Files.Views
         private static ApplicationViewTitleBar TitleBar;
 
         private object navParameterItem;
-        private IShellPage AppInstance;
 
         public string DialogTitle => string.Format("SecurityAdvancedPermissionsTitle".GetLocalized(), ViewModel.Item.ItemName);
 
@@ -52,16 +51,15 @@ namespace Files.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             var args = e.Parameter as PropertiesPageNavigationArguments;
-            AppInstance = args.AppInstanceArgument;
             navParameterItem = args.Item;
 
             if (args.Item is ListedItem listedItem)
             {
-                ViewModel = new SecurityProperties(listedItem, AppInstance);
+                ViewModel = new SecurityProperties(listedItem);
             }
             else if (args.Item is DriveItem driveitem)
             {
-                ViewModel = new SecurityProperties(driveitem, AppInstance);
+                ViewModel = new SecurityProperties(driveitem);
             }
 
             base.OnNavigatedTo(e);
@@ -171,7 +169,7 @@ namespace Files.Views
             // I was unable to get this to work any other way
             try
             {
-                var xaml = XamlReader.Load(App.ExternalResourcesHelper.CurrentSkinResources) as ResourceDictionary;
+                var xaml = XamlReader.Load(App.ExternalResourcesHelper.CurrentThemeResources) as ResourceDictionary;
                 App.Current.Resources.MergedDictionaries.Add(xaml);
             }
             catch (Exception)
@@ -182,7 +180,6 @@ namespace Files.Views
         public class PropertiesPageNavigationArguments
         {
             public object Item { get; set; }
-            public IShellPage AppInstanceArgument { get; set; }
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -148,7 +148,7 @@ namespace Files.Views
 
         private void PaneHolder_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments.NavigationArg.ToString());
+            SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments?.NavigationArg.ToString());
             UpdateStatusBarProperties();
             UpdatePreviewPaneProperties();
             UpdateNavToolbarProperties();
@@ -460,6 +460,7 @@ namespace Files.Views
             else
             {
                 NavToolbar.IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+                view.TryResizeView(new Windows.Foundation.Size(400, 350));
             }
         }
 

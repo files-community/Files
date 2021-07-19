@@ -108,9 +108,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Fjern dette emne</value>
   </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Send feedback</value>
   </data>
@@ -120,26 +117,11 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Om</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Akryl sidebjælke</value>
-  </data>
   <data name="SettingsDateFormat.Header" xml:space="preserve">
     <value>Datoformat</value>
   </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>App tema</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Udseende</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>Vis udvidelser til kendte filtyper</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Vis skjulte filer og mapper</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Vis skjulte filer og mapper</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Filer og Mapper</value>
@@ -278,9 +260,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Omdøb</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Fastgør til sidebjælke</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Egenskaber</value>
@@ -489,9 +468,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Emnets navn må ikke indeholde følgende tegn: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Åbn logplacering</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>valgt emne</value>
   </data>
@@ -512,9 +488,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Flytter filer til papirkurven</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Fastgør mappe til sidebjælke</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>Ja</value>
@@ -605,9 +578,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Seneste</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>App Sprog</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Flyt fane hertil</value>
@@ -849,17 +819,8 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>Se eksempler på profiler</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>App Sprog</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Terminal applikationer</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>Flyt overløbselementer til en undermenu</value>
-  </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>Fastgør papirkurven til sidebjælke</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Vis en bekræftelsesdialogboks, når du sletter filer eller mapper</value>
@@ -1170,9 +1131,6 @@
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Status center</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Åbn emner med et enkelt klik</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Fil</value>
   </data>
@@ -1254,9 +1212,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Støt os på PayPal</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>List og sortér mapper sammen med filer</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Detaljer</value>
   </data>
@@ -1271,18 +1226,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Opdateringer tilgængelige</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Skjul beskyttede operativsystemfiler (anbefales)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Skjul beskyttede operativsystemfiler (anbefales)</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>Vis ikke-indekserede emner, når du søger efter filer og mapper (søgninger kan tage længere tid)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>Aktivér individuelle præferencer for individuelle mapper</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Tilpas kontekstmenuen med højreklik</value>
@@ -1310,12 +1253,6 @@
   </data>
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Igangværende opgaver</value>
-  </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>Åbn altid nye faner i dobbeltrude-tilstand</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>Aktivér visning af dobbeltrude</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Åbn i sekundærrude</value>
@@ -1607,9 +1544,6 @@
   </data>
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumenter</value>
-  </data>
-  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
-    <value>Vis bibliotekssektion i sidebjælken</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Biblioteker</value>

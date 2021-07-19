@@ -42,6 +42,8 @@ namespace Files.Filesystem
 
         private readonly CancellationToken cancellationToken;
 
+        private Task<NamedPipeAsAppServiceConnection> ServiceConnection => AppServiceConnectionHelper.Instance;
+
         private StatusCenterViewModel statusCenterViewModel => App.StatusCenterViewModel;
 
         #region Helpers Members
@@ -68,7 +70,7 @@ namespace Files.Filesystem
             this.associatedInstance = associatedInstance;
             this.cancellationToken = cancellationToken;
             this.filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
-            this.recycleBinHelpers = new RecycleBinHelpers(this.associatedInstance);
+            this.recycleBinHelpers = new RecycleBinHelpers();
         }
 
         #endregion Constructor
@@ -104,12 +106,10 @@ namespace Files.Filesystem
             PostedStatusBanner banner = null;
             var returnStatus = ReturnResult.InProgress;
 
-            var pathsUnderRecycleBin = GetPathsUnderRecycleBin(source);
+            var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => recycleBinHelpers.IsPathUnderRecycleBin(path));
 
             if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
-                var deleteFromRecycleBin = pathsUnderRecycleBin.Count > 0;
-
                 List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
 
                 for (int i = 0; i < source.Count(); i++)
@@ -249,11 +249,6 @@ namespace Files.Filesystem
             }
 
             return returnStatus;
-        }
-
-        private ISet<string> GetPathsUnderRecycleBin(IEnumerable<IStorageItemWithPath> source)
-        {
-            return source.Select(item => item.Path).Where(path => recycleBinHelpers.IsPathUnderRecycleBin(path)).ToHashSet();
         }
 
         public async Task<ReturnResult> DeleteItemAsync(IStorageItemWithPath source, bool showDialog, bool permanently, bool registerHistory)
@@ -649,6 +644,7 @@ namespace Files.Filesystem
             }
             ReturnResult returnStatus = ReturnResult.InProgress;
 
+            source = source.Where(x => !recycleBinHelpers.IsPathUnderRecycleBin(x.Path)).ToList(); // Can't recycle items already in recyclebin
             returnStatus = await DeleteItemsAsync(source, showDialog, false, registerHistory);
 
             return returnStatus;
@@ -665,9 +661,10 @@ namespace Files.Filesystem
                 }
                 catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
                 {
-                    if (associatedInstance.ServiceConnection != null)
+                    var connection = await ServiceConnection;
+                    if (connection != null)
                     {
-                        var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet() {
+                        var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet() {
                             { "Arguments", "FileOperation" },
                             { "fileop", "DragDrop" },
                             { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
@@ -683,9 +680,19 @@ namespace Files.Filesystem
                 ReturnResult returnStatus = ReturnResult.InProgress;
 
                 var destinations = new List<string>();
+                List<ShellFileItem> binItems = null;
                 foreach (IStorageItem item in source)
                 {
-                    destinations.Add(Path.Combine(destination, item.Name));
+                    if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
+                    {
+                        binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+                        var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
+                        destinations.Add(Path.Combine(destination, matchingItem?.FileName ?? item.Name));
+                    }
+                    else
+                    {
+                        destinations.Add(Path.Combine(destination, item.Name));
+                    }
                 }
 
                 returnStatus = await CopyItemsAsync(source, destinations, showDialog, registerHistory);
@@ -897,9 +904,19 @@ namespace Files.Filesystem
             ReturnResult returnStatus = ReturnResult.InProgress;
 
             var destinations = new List<string>();
+            List<ShellFileItem> binItems = null;
             foreach (IStorageItem item in source)
             {
-                destinations.Add(Path.Combine(destination, item.Name));
+                if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
+                {
+                    binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
+                    var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
+                    destinations.Add(Path.Combine(destination, matchingItem?.FileName ?? item.Name));
+                }
+                else
+                {
+                    destinations.Add(Path.Combine(destination, item.Name));
+                }
             }
 
             returnStatus = await MoveItemsAsync(source, destinations, showDialog, registerHistory);
@@ -943,11 +960,6 @@ namespace Files.Filesystem
                     break;
 
                 case FilesystemItemType.File:
-
-                    if (Path.HasExtension(source.Path) && !Path.HasExtension(newName))
-                    {
-                        newName += Path.GetExtension(source.Path);
-                    }
 
                     /* Only prompt user when extension has changed,
                        not when file name has changed */
@@ -1180,17 +1192,17 @@ namespace Files.Filesystem
             return false;
         }
 
-        public async Task OpenShellCommandInExplorerAsync(string shellCommand, NamedPipeAsAppServiceConnection serviceConnection)
+        public async Task OpenShellCommandInExplorerAsync(string shellCommand, NamedPipeAsAppServiceConnection connection)
         {
             Debug.WriteLine("Launching shell command in FullTrustProcess");
-            if (serviceConnection != null)
+            if (connection != null)
             {
                 ValueSet value = new ValueSet()
                 {
                     { "ShellCommand", shellCommand },
                     { "Arguments", "ShellCommand" }
                 };
-                await serviceConnection.SendMessageAsync(value);
+                await connection.SendMessageAsync(value);
             }
         }
 
@@ -1201,7 +1213,6 @@ namespace Files.Filesystem
         public void Dispose()
         {
             filesystemOperations?.Dispose();
-            recycleBinHelpers?.Dispose();
 
             associatedInstance = null;
             filesystemOperations = null;

@@ -182,8 +182,6 @@ namespace Files.Views
             SystemNavigationManager.GetForCurrentView().BackRequested += ColumnShellPage_BackRequested;
 
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
-
-            AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
         }
 
         void InitToolbarCommands()
@@ -196,7 +194,7 @@ namespace Files.Views
             NavToolbarViewModel.OpenNewWindowCommand = new RelayCommand(NavigationHelpers.LaunchNewWindow);
             NavToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized()));
             NavToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
-            NavToolbarViewModel.OpenDirectoryInDefaultTerminalCommand = new RelayCommand(() => NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory, this));
+            NavToolbarViewModel.OpenDirectoryInDefaultTerminalCommand = new RelayCommand(async () => await NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory));
             NavToolbarViewModel.AddNewTabToMultitaskingControlCommand = new RelayCommand(async () => await MainPageViewModel.AddNewTabAsync());
             NavToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, x, this));
             NavToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, this));
@@ -391,9 +389,9 @@ namespace Files.Views
             });
         }
 
-        private void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
+        private async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
         {
-            NavToolbarViewModel.CheckPathInput(e.QueryText, NavToolbarViewModel.PathComponents[NavToolbarViewModel.PathComponents.Count - 1].Path, this);
+            await NavToolbarViewModel.CheckPathInput(e.QueryText, NavToolbarViewModel.PathComponents[NavToolbarViewModel.PathComponents.Count - 1].Path, this);
         }
 
         private void NavigationToolbar_EditModeEnabled(object sender, EventArgs e)
@@ -494,8 +492,6 @@ namespace Files.Views
         public static readonly DependencyProperty NavParamsProperty =
             DependencyProperty.Register("NavParams", typeof(string), typeof(ColumnShellPage), new PropertyMetadata(null));
 
-        public NamedPipeAsAppServiceConnection ServiceConnection { get; private set; }
-
         private TabItemArguments tabItemArguments;
 
         public TabItemArguments TabItemArguments
@@ -535,21 +531,26 @@ namespace Files.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
             FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
             FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
             FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+            FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
             OnNavigationParamsChanged();
-            ServiceConnection = await AppServiceConnectionHelper.Instance;
             this.Loaded -= Page_Loaded;
         }
 
         private void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
         {
             InstanceViewModel.IsPageTypeCloudDrive = e.IsTypeCloudDrive;
+        }
+
+        private void FilesystemViewModel_OnSelectionRequestedEvent(object sender, List<ListedItem> e)
+        {
+            ContentPage.ItemManipulationModel.SetSelectedItems(e);
         }
 
         private void FilesystemViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
@@ -649,7 +650,7 @@ namespace Files.Views
                 case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
                     if (!NavToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem)
                     {
-                        UIFilesystemHelpers.CopyItem(this);
+                        await UIFilesystemHelpers.CopyItem(this);
                     }
 
                     break;
@@ -695,7 +696,7 @@ namespace Files.Views
                     {
                         if (App.MainViewModel.IsQuickLookEnabled)
                         {
-                            QuickLookHelpers.ToggleQuickLook(this);
+                            await QuickLookHelpers.ToggleQuickLook(this);
                         }
                     }
                     break;
@@ -794,14 +795,9 @@ namespace Files.Views
                 FilesystemViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
                 FilesystemViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
                 FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+                FilesystemViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
                 FilesystemViewModel.Dispose();
             }
-            AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
-        }
-
-        private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<NamedPipeAsAppServiceConnection> e)
-        {
-            ServiceConnection = await e;
         }
 
         private void FilesystemViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)

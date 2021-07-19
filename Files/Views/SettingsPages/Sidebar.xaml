@@ -5,9 +5,13 @@
     xmlns:UserControls="using:Files.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:datamodels="using:Files.DataModels"
+    xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+    </Page.Resources>
     <Page.DataContext>
         <settingsviewmodels:SidebarViewModel />
     </Page.DataContext>
@@ -18,7 +22,7 @@
                 Margin="12,12,8,8"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Spacing="20">
+                Spacing="4">
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />
@@ -27,44 +31,76 @@
 
                 <TextBlock
                     x:Uid="SettingsSidebarTitle"
+                    Padding="0,0,0,12"
                     FontSize="20"
                     FontWeight="Medium"
                     Text="Sidebar" />
 
-                <ToggleSwitch
+                <local:SettingsBlockControl
                     x:Uid="SettingsRecycleBinSwitch"
-                    Header="Pin Recycle Bin to the sidebar"
-                    IsOn="{Binding PinRecycleBinToSideBar, Mode=TwoWay}" />
+                    Title="Pin Recycle Bin to the favorites section"
+                    Width="352"
+                    HorizontalAlignment="Left">
+                    <local:SettingsBlockControl.Icon>
+                        <SymbolIcon Symbol="Pin" />
+                    </local:SettingsBlockControl.Icon>
+                    <ToggleSwitch IsOn="{Binding PinRecycleBinToSideBar, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                </local:SettingsBlockControl>
 
-                <ToggleSwitch
-                    x:Name="ShowLibrarySection"
+                <local:SettingsBlockControl
                     x:Uid="SettingsShowLibrarySection"
-                    Header="Show library section on the sidebar"
-                    IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" />
+                    Title="Show library section"
+                    Width="352"
+                    HorizontalAlignment="Left">
+                    <local:SettingsBlockControl.Icon>
+                        <SymbolIcon Symbol="Library" />
+                    </local:SettingsBlockControl.Icon>
+                    <ToggleSwitch IsOn="{Binding ShowLibrarySection, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                </local:SettingsBlockControl>
 
-                <ToggleSwitch
-                    x:Name="ShowDrivesSection"
+                <local:SettingsBlockControl
                     x:Uid="SettingsShowDrivesSection"
-                    Header="Show drives section on the sidebar"
-                    IsOn="{Binding ShowDrivesSection, Mode=TwoWay}" />
+                    Title="Show drives section"
+                    Width="352"
+                    HorizontalAlignment="Left">
+                    <local:SettingsBlockControl.Icon>
+                        <FontIcon Glyph="&#xEDA2;" />
+                    </local:SettingsBlockControl.Icon>
+                    <ToggleSwitch IsOn="{Binding ShowDrivesSection, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                </local:SettingsBlockControl>
 
-                <ToggleSwitch
-                    x:Name="ShowCloudDrivesSection"
+                <local:SettingsBlockControl
                     x:Uid="SettingsShowCloudDrivesSection"
-                    Header="Show cloud drives section on the sidebar"
-                    IsOn="{Binding ShowCloudDrivesSection, Mode=TwoWay}" />
+                    Title="Show cloud drives section"
+                    Width="352"
+                    HorizontalAlignment="Left">
+                    <local:SettingsBlockControl.Icon>
+                        <FontIcon Glyph="&#xE753;" />
+                    </local:SettingsBlockControl.Icon>
+                    <ToggleSwitch IsOn="{Binding ShowCloudDrivesSection, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                </local:SettingsBlockControl>
 
-                <ToggleSwitch
-                    x:Name="ShowNetworkDrivesSection"
+                <local:SettingsBlockControl
                     x:Uid="SettingsShowNetworkDrivesSection"
-                    Header="Show network drives section on the sidebar"
-                    IsOn="{Binding ShowNetworkDrivesSection, Mode=TwoWay}" />
+                    Title="Show network section"
+                    Width="352"
+                    HorizontalAlignment="Left">
+                    <local:SettingsBlockControl.Icon>
+                        <FontIcon Glyph="&#xE968;" />
+                    </local:SettingsBlockControl.Icon>
+                    <ToggleSwitch IsOn="{Binding ShowNetworkDrivesSection, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                </local:SettingsBlockControl>
 
-                <ToggleSwitch
-                    x:Name="ShowWslSection"
+                <local:SettingsBlockControl
                     x:Uid="SettingsShowWslSection"
-                    Header="Show WSL section on the sidebar"
-                    IsOn="{Binding ShowWslSection, Mode=TwoWay}" />
+                    Title="Show WSL section"
+                    Width="352"
+                    HorizontalAlignment="Left">
+                    <local:SettingsBlockControl.Icon>
+                        <FontIcon Glyph="&#xEC7A;" />
+                    </local:SettingsBlockControl.Icon>
+                    <ToggleSwitch IsOn="{Binding ShowWslSection, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                </local:SettingsBlockControl>
             </StackPanel>
         </ScrollViewer>
     </Grid>
