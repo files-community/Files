@@ -58,7 +58,7 @@ namespace Files
         {
             AlwaysExpanded = true,
         };
-        public MenuFlyout BaseContextMenuFlyout { get; set; } = new MenuFlyout();
+        public Microsoft.UI.Xaml.Controls.CommandBarFlyout BaseContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
 
         public BaseLayoutCommandsViewModel CommandsViewModel { get; protected set; }
 
@@ -534,8 +534,11 @@ namespace Files
             {
                 var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
                 var items = ContextFlyoutItemHelper.GetBaseContextCommands(connection: await Connection, currentInstanceViewModel: InstanceViewModel, itemViewModel: ParentShellPageInstance.FilesystemViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, false);
-                BaseContextMenuFlyout.Items.Clear();
-                ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(items).ForEach(i => BaseContextMenuFlyout.Items.Add(i));
+                BaseContextMenuFlyout.PrimaryCommands.Clear();
+                BaseContextMenuFlyout.SecondaryCommands.Clear();
+                var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
+                primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
+                secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
             }
             catch (Exception error)
             {
