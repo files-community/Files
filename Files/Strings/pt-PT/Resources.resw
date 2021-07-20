@@ -2182,16 +2182,16 @@
     <value>Original</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Abrir pasta das themes</value>
+    <value>Abrir pasta dos temas</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Aprenda mais sobre themes personalizadas</value>
+    <value>Saiba mais sobre temas personalizados</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Aprenda mais sobre themes personalizadas</value>
+    <value>Saiba mais sobre temas personalizados</value>
   </data>
   <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>As themes personalizadas é uma ótima forma de personalizar o Files.</value>
+    <value>Temas personalizados é uma ótima forma de personalizar o Files.</value>
   </data>
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Ver documentação.</value>
@@ -2422,10 +2422,10 @@
     <value>Tamanho descomprimido</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
-    <value>Entrar modo sobreposição compacta</value>
+    <value>Entrar no modo sobreposição compacta</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
-    <value>Sair modo sobreposição compacta</value>
+    <value>Sair do modo sobreposição compacta</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
@@ -2462,6 +2462,9 @@
   </data>
   <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
     <value>Escolha a sua cor</value>
+  </data>
+  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+    <value>Temas personalizados</value>
   </data>
   <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
     <value>Mover sobra de itens para um submenu</value>
@@ -2501,5 +2504,8 @@
   </data>
   <data name="SettingsAboutOpenLogLocationButtonText.Text" xml:space="preserve">
     <value>Abrir localização do log</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+    <value>Afixar nos Favoritos</value>
   </data>
 </root>
