@@ -2802,11 +2802,11 @@
         </trans-unit>
         <trans-unit id="StatusCenterDismissBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Dismiss</source>
-          <target state="new">Dismiss</target>
+          <target state="translated">Ignorer</target>
         </trans-unit>
         <trans-unit id="StatusCenterDismissBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Dismiss</source>
-          <target state="new">Dismiss</target>
+          <target state="translated">Ignorer</target>
         </trans-unit>
         <trans-unit id="StatusCenterCancelBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Cancel</source>
@@ -3046,7 +3046,7 @@
         </trans-unit>
         <trans-unit id="SecuritySpecialLabel.Text" translate="yes" xml:space="preserve">
           <source>Special</source>
-          <target state="new">Special</target>
+          <target state="translated">Autorisations spéciales</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedAccessLabel.Text" translate="yes" xml:space="preserve">
           <source>Access</source>
@@ -3054,7 +3054,7 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedAppliesToLabel.Text" translate="yes" xml:space="preserve">
           <source>Applies to</source>
-          <target state="new">Applies to</target>
+          <target state="translated">S'applique à</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedEntityLabel.Text" translate="yes" xml:space="preserve">
           <source>Entity</source>
@@ -3098,7 +3098,7 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedSpecialLabel.Text" translate="yes" xml:space="preserve">
           <source>Special</source>
-          <target state="new">Special</target>
+          <target state="translated">Autorisations spéciales</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedFolderFiles.Text" translate="yes" xml:space="preserve">
           <source>This folder and files</source>
@@ -3266,7 +3266,7 @@
         </trans-unit>
         <trans-unit id="DecompressArchiveDialogBrowseFolder.Content" translate="yes" xml:space="preserve">
           <source>Browse</source>
-          <target state="new">Browse</target>
+          <target state="translated">Parcourir</target>
         </trans-unit>
         <trans-unit id="DecompressArchiveDialogOpenDestinationWhenComplete.Content" translate="yes" xml:space="preserve">
           <source>Open destination folder when complete</source>
@@ -3314,7 +3314,7 @@
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Title" translate="yes" xml:space="preserve">
           <source>Always open new tabs in dual pane mode</source>
-          <target state="new">Always open new tabs in dual pane mode</target>
+          <target state="translated">Toujours ouvrir les nouveaux onglets en mode double panneau</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingEnableDualPane.Title" translate="yes" xml:space="preserve">
           <source>Enable dual pane view</source>
@@ -3362,19 +3362,19 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Title" translate="yes" xml:space="preserve">
           <source>Language</source>
-          <target state="new">Language</target>
+          <target state="translated">Langue</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Title" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
-          <target state="new">Show extensions for known file types</target>
+          <target state="translated">Afficher les extensions des fichiers dont le type est conny</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Title" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
-          <target state="new">Show hidden files and folders</target>
+          <target state="translated">Afficher les fichiers et les dossiers cachés</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Title" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
-          <target state="new">Hide protected operating system files (Recommended)</target>
+          <target state="translated">Masquer les fichiers protégés du système (Recommandé)</target>
         </trans-unit>
         <trans-unit id="SettingsOpenItemsWithOneclick.Title" translate="yes" xml:space="preserve">
           <source>Open items with a single click</source>
@@ -3394,23 +3394,23 @@
         </trans-unit>
         <trans-unit id="SettingsUsefulLinks.Title" translate="yes" xml:space="preserve">
           <source>Useful links</source>
-          <target state="new">Useful links</target>
+          <target state="translated">Liens utiles</target>
         </trans-unit>
         <trans-unit id="SettingCopyVersionInfo.Content" translate="yes" xml:space="preserve">
           <source>Copy</source>
-          <target state="new">Copy</target>
+          <target state="translated">Copier</target>
         </trans-unit>
         <trans-unit id="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="new">Open log location</target>
+          <target state="translated">Ouvrir l'emplacement des logs</target>
         </trans-unit>
         <trans-unit id="SettingsAboutOpenLogLocationButtonText.Text" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="new">Open log location</target>
+          <target state="translated">Ouvrir l'emplacement des logs</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutPinToFavorites.Text" translate="yes" xml:space="preserve">
           <source>Pin to Favorites</source>
-          <target state="new">Pin to Favorites</target>
+          <target state="translated">Épingler aux Favoris</target>
         </trans-unit>
       </group>
     </body>
