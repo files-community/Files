@@ -2616,4 +2616,7 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
+    <value>New tab</value>
+  </data>
 </root>
