@@ -50,7 +50,10 @@ namespace Files.SettingsPages
                 {
                     var listViewItemPresenter = VisualTreeHelper.GetChild(container, 0);
                     var item = VisualTreeHelper.GetChild(listViewItemPresenter, 0) as ThemeSampleDisplayControl;
-                    await item.ReevaluateThemeResourceBinding();
+                    if(item !=  null)
+                    {
+                        await item.ReevaluateThemeResourceBinding();
+                    }
                 }
             }
         }
