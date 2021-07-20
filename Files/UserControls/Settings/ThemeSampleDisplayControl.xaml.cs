@@ -1,22 +1,7 @@
 ﻿using Files.Helpers;
-using Files.ViewModels.SettingsViewModels;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Files.UserControls.Settings
 {
@@ -49,50 +34,16 @@ namespace Files.UserControls.Settings
 
         public async Task<bool> ReevaluateThemeResourceBinding()
         {
-            //var fallBackDictionaryWinUI = Resources.MergedDictionaries[0].ThemeDictionaries[ThemeHelper.RootTheme.ToString()] as ResourceDictionary;
-            // var fallBackDictionaryFiles = Resources.MergedDictionaries[1].ThemeDictionaries[ThemeHelper.RootTheme.ToString()] as ResourceDictionary;
-            if (RootGrid != null)
+            if(SampleTheme.Path != null)
             {
-                if(SampleTheme.Path != null)
+                var resources = await App.ExternalResourcesHelper.TryLoadResourceDictionary(SampleTheme);
+                if(resources != null)
                 {
-                    var resources = await App.ExternalResourcesHelper.TryLoadResourceDictionary(SampleTheme);
-                    if(resources != null)
-                    {
-                        Resources.MergedDictionaries.Add(resources);
-                        RequestedTheme = ElementTheme.Dark;
-                        RequestedTheme = ElementTheme.Light;
-                        RequestedTheme = ThemeHelper.RootTheme;
-                    }
+                    Resources.MergedDictionaries.Add(resources);
+                    RequestedTheme = ElementTheme.Dark;
+                    RequestedTheme = ElementTheme.Light;
+                    RequestedTheme = ThemeHelper.RootTheme;
                 }
-                //try
-                //{
-                //    dictionary = TryGetCorrectThemeResourceDictionary(resources, ThemeHelper.RootTheme);
-                //}
-                //var dictionary = SampleTheme.LoadedResources;
-                //if (SampleTheme.LoadedResources == null)
-                //{
-                //    if (SampleTheme.Path != null)
-                //    {
-                //        catch (Exception) { }
-                //    }
-                //}
-                //else
-                //{
-                //    try
-                //    {
-                //        Resources.MergedDictionaries.Add(SampleTheme.LoadedResources);
-                //        dictionary = TryGetCorrectThemeResourceDictionary(SampleTheme.LoadedResources, ThemeHelper.RootTheme);
-                //    }
-                //    catch (Exception) { }
-                //}
-
-                //try
-                //{
-                //    LeftSidePanel.Background = TryGetResource("SolidBackgroundFillColorSecondaryBrush", dictionary, null);
-                //    TopNavigationPanel.Background = TryGetResource("SolidBackgroundFillColorSecondaryBrush", dictionary, null);
-                //    SelectedTabMockUp.Fill = TryGetResource("TabViewItemHeaderBackgroundSelected", dictionary, null);
-                //}
-                //catch (Exception) { }
             }
             return true;
         }

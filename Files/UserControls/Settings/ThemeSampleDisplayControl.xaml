@@ -8,71 +8,77 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
-    
-    <Grid x:Name="RootGrid" Padding="10" Width="120px" Height="120px">
+
+    <Grid Width="120px" Height="120px" Padding="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="20px"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="25px"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <Grid CornerRadius="4" BorderThickness="1" 
+            BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20px"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25px"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <Grid x:Name="LeftSidePanel" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="{ThemeResource PaneHolderPageBackgroundBrush}">
-            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            <Grid x:Name="LeftSidePanel" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="{ThemeResource PaneHolderPageBackgroundBrush}">
+                <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 Fill="{ThemeResource SolidBackgroundFillColorSecondaryBrush}"/>
-            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 Fill="{ThemeResource HorizontalTabControlBackgroundBrush}"/>
-            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 Fill="{ThemeResource PaneHolderPageBackgroundBrush}"/>
-            
-            <Rectangle Height="3px" Width="14px" Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+
+                <Rectangle Height="3px" Width="14px" Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}"
                 VerticalAlignment="Top" HorizontalAlignment="Left" Margin="6,6,0,0" RadiusX="1" RadiusY="1"/>
-        </Grid>
-        <Grid x:Name="TopNavigationPanel" Grid.Column="1">
-            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            </Grid>
+            <Grid x:Name="TopNavigationPanel" Grid.Column="1">
+                <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 Fill="{ThemeResource NavigationToolbarBackgroundBrush}"/>
-            <Rectangle x:Name="SelectedTabMockUp" Height="8px" Width="30px" Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
+                <Rectangle x:Name="SelectedTabMockUp" Height="8px" Width="30px" Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
                 Margin="4,4,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" RadiusX="2" RadiusY="2"/>
-        </Grid>
-        <Grid Grid.Column="1" Grid.Row="1" >
-            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="1" >
+                <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 Fill="{ThemeResource ControlFillColorTertiaryBrush}"/>
-            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 Fill="{ThemeResource FileBrowserBackgroundBrush}"/>
 
-            <Grid HorizontalAlignment="Stretch" Margin="6,6,20,0" VerticalAlignment="Top" Height="30">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="5px"/>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition Height="5px"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="5px"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Rectangle RadiusX="4" RadiusY="4" Width="20" Height="20" Grid.RowSpan="4"
+                <Grid HorizontalAlignment="Stretch" Margin="6,6,20,0" VerticalAlignment="Top" Height="30">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="5px"/>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition Height="5px"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="5px"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle RadiusX="4" RadiusY="4" Width="20" Height="20" Grid.RowSpan="4"
                     Fill="{ThemeResource SystemControlHighlightAltBaseMediumBrush}"/>
-                <Rectangle RadiusX="2" RadiusY="2" HorizontalAlignment="Stretch"
+                    <Rectangle RadiusX="2" RadiusY="2" HorizontalAlignment="Stretch"
                     Height="4" Grid.Column="2" Grid.Row="1"
                     Fill="{ThemeResource SystemControlHighlightAltBaseMediumHighBrush}"/>
-                <Rectangle RadiusX="2" RadiusY="2" HorizontalAlignment="Stretch"
+                    <Rectangle RadiusX="2" RadiusY="2" HorizontalAlignment="Stretch"
                     Height="3" Grid.Column="2" Grid.Row="2" Margin="0,0,5,0"
                     Fill="{ThemeResource SystemAccentColor}"/>
-            </Grid>
+                </Grid>
 
-            <Border Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Opacity="0.1"
+                <Border Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Opacity="0.1"
                 Background="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"/>
-            <Border Width="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Opacity="0.1"
+                <Border Width="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Opacity="0.1"
                 Margin="0,1,0,0" Background="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"/>
+            </Grid>
         </Grid>
-
-        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" FontSize="12"
+        <TextBlock Grid.Row="1" FontSize="12"
             Foreground="{ThemeResource SystemControlBackgroundBaseHighBrush}"
             Text="{x:Bind SampleTheme.Name, Mode=OneWay}"/>
     </Grid>
+    
 </UserControl>

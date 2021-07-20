@@ -16,6 +16,18 @@ namespace Files.SettingsPages
         public Appearance()
         {
             InitializeComponent();
+            Loaded += Appearance_Loaded;
+        }
+
+        private void Appearance_Loaded(object sender, RoutedEventArgs e)
+        {
+            for (int i = 0; i < ViewModel.CustomThemes.Count; i++)
+            {
+                if(ViewModel.CustomThemes[i].Path == ViewModel.SelectedTheme.Path)
+                {
+                    AppThemeSelectionGridView.SelectedIndex = i;
+                }
+            }
         }
 
         private void ThemesLearnMoreButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)

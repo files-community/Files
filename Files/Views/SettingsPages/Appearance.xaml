@@ -148,6 +148,7 @@
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
+            <StaticResource x:Key="GridViewItemBackgroundSelected" ResourceKey="SystemAccentColor"/>
             <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
         </ResourceDictionary>
     </Page.Resources>
