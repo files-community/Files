@@ -325,7 +325,7 @@ namespace Files.DataModels
                 Font = MainViewModel.FontName,
                 IsDefaultLocation = true,
                 Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png")),
-                Path = "Home",
+                Path = "Home".GetLocalized(),
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
             favoriteSection = new LocationItem()

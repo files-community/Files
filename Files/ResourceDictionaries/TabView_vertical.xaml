@@ -85,7 +85,10 @@
                                                 FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                                 FontSize="12"
                                                 Glyph="&#xE710;" />
-                                            <TextBlock VerticalAlignment="Center" Text="New tab" />
+                                            <TextBlock 
+                                                VerticalAlignment="Center" 
+                                                x:Uid="TabViewVerticalNewTab"
+                                                Text="New tab" />
                                         </StackPanel>
                                     </Button.Content>
                                 </Button>
