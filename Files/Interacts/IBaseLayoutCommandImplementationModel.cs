@@ -23,7 +23,7 @@ namespace Files.Interacts
 
         void SidebarUnpinItem(RoutedEventArgs e);
 
-        void UnpinDirectoryFromSidebar(RoutedEventArgs e);
+        void UnpinDirectoryFromFavorites(RoutedEventArgs e);
 
         void OpenItem(RoutedEventArgs e);
 
@@ -65,7 +65,7 @@ namespace Files.Interacts
 
         void ShareItem(RoutedEventArgs e);
 
-        void PinDirectoryToSidebar(RoutedEventArgs e);
+        void PinDirectoryToFavorites(RoutedEventArgs e);
 
         void ItemPointerPressed(PointerRoutedEventArgs e);
 

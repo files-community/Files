@@ -408,14 +408,14 @@ namespace Files.Helpers
                 {
                     Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized(),
                     Glyph = "\uE840",
-                    Command = commandsViewModel.PinDirectoryToSidebarCommand,
+                    Command = commandsViewModel.PinDirectoryToFavoritesCommand,
                     ShowItem =!itemViewModel.CurrentFolder.IsPinned
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutContextFlyoutUnpinDirectoryFromSidebar/Text".GetLocalized(),
+                    Text = "BaseLayoutContextFlyoutUnpinFromFavorites/Text".GetLocalized(),
                     Glyph = "\uE77A",
-                    Command = commandsViewModel.UnpinDirectoryFromSidebarCommand,
+                    Command = commandsViewModel.UnpinDirectoryFromFavoritesCommand,
                     ShowItem =itemViewModel.CurrentFolder.IsPinned
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -697,7 +697,7 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutContextFlyoutUnpinDirectoryFromSidebar/Text".GetLocalized(),
+                    Text = "BaseLayoutContextFlyoutUnpinFromFavorites/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = commandsViewModel.SidebarUnpinItemCommand,
                     ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsPinned),
