@@ -69,7 +69,7 @@
                             <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
 
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="#113A3A3A" />
-                            <SolidColorBrush x:Key="NavigationViewContentBackground" Color="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" />
+                            <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
@@ -111,7 +111,7 @@
                             <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
 
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="#3C3A3A3A" />
-                            <SolidColorBrush x:Key="NavigationViewContentBackground" Color="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" />
+                            <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{StaticResource SystemColorWindowColor}" />
