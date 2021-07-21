@@ -423,7 +423,7 @@ namespace Files.Views
 
         public bool LoadPreviewPane => App.AppSettings.PreviewPaneEnabled && !IsPreviewPaneDisabled;
 
-        public bool IsPreviewPaneDisabled => !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane.InstanceViewModel.IsPageTypeNotHome ?? false) || (SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false) // hide the preview pane when on home page unless multi pane is in use
+        public bool IsPreviewPaneDisabled => (!(SidebarAdaptiveViewModel.PaneHolder?.ActivePane.InstanceViewModel.IsPageTypeNotHome ?? false) && !(SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false)) // hide the preview pane when on home page unless multi pane is in use
             || Window.Current.Bounds.Width <= 450 || Window.Current.Bounds.Height <= 400; // Disable the preview pane for small windows as it won't function properly
 
         private void LoadPreviewPaneChanged()
