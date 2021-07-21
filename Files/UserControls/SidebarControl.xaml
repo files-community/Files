@@ -163,10 +163,10 @@
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
                         x:Name="UnpinItem"
-                        x:Uid="SideBarUnpinFromSideBar"
+                        x:Uid="SideBarUnpinFromFavorites"
                         x:Load="{x:Bind ShowUnpinItem, Mode=OneWay}"
                         Click="{x:Bind UnpinItem_Click}"
-                        Text="Unpin from Sidebar">
+                        Text="Unpin from Favorites">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE77A;" />
                         </MenuFlyoutItem.Icon>

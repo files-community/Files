@@ -126,7 +126,7 @@ namespace Files.UserControls
         private bool showUnpinItem;
 
         /// <summary>
-        /// Binding property for the MenuFlyoutItem SideBarUnpinFromSideBar
+        /// Binding property for the MenuFlyoutItem SideBarUnpinFromFavorites
         /// </summary>
         public bool ShowUnpinItem
         {

@@ -155,7 +155,7 @@ namespace Files.Interacts
             NavigationHelpers.OpenSelectedItems(associatedInstance, false);
         }
 
-        public virtual void UnpinDirectoryFromSidebar(RoutedEventArgs e)
+        public virtual void UnpinDirectoryFromFavorites(RoutedEventArgs e)
         {
             App.SidebarPinnedController.Model.RemoveItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
         }
@@ -402,7 +402,7 @@ namespace Files.Interacts
             }
         }
 
-        public virtual void PinDirectoryToSidebar(RoutedEventArgs e)
+        public virtual void PinDirectoryToFavorites(RoutedEventArgs e)
         {
             App.SidebarPinnedController.Model.AddItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
         }
