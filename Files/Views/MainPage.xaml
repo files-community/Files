@@ -351,6 +351,8 @@
 
         <Grid
             x:Name="RootGrid"
+            BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+            BorderThickness="1,0,0,0"
             PreviewKeyDown="RootGrid_PreviewKeyDown"
             SizeChanged="RootGrid_SizeChanged">
             <Grid.RowDefinitions>
