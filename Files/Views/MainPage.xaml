@@ -28,12 +28,20 @@
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
+
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
+
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
                     <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+                    <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 
