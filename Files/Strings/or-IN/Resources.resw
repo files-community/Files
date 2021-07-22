@@ -183,9 +183,6 @@
   <data name="SidebarPictures" xml:space="preserve">
     <value>ଛବିଗୁଡିକ</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>ସାଇଡ୍ ବାର୍ ରୁ ଅନ୍ପିନ୍ କରନ୍ତୁ</value>
-  </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>ଚଳଚ୍ଚିତ୍ରଗୁଡିକ</value>
   </data>

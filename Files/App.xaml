@@ -167,6 +167,7 @@
                             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="#0F000000" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
+                    <x:Double x:Key="SettingsBlockControlDefaultWidth">384</x:Double>
                     <LinearGradientBrush x:Key="ControlElevationBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,3">
                         <LinearGradientBrush.RelativeTransform>
                             <ScaleTransform CenterY="0.5" ScaleY="-1" />

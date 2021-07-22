@@ -37,8 +37,14 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref selectedThemeIndex, value))
                 {
                     ThemeHelper.RootTheme = (ElementTheme)value;
+                    OnPropertyChanged(nameof(SelectedElementTheme));
                 }
             }
+        }
+
+        public ElementTheme SelectedElementTheme
+        {
+            get => (ElementTheme)selectedThemeIndex;
         }
 
         public bool MoveOverflowMenuItemsToSubMenu
@@ -66,13 +72,16 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref selectedTheme, value))
                 {
-                    // Remove the old resource file and load the new file
-                    App.ExternalResourcesHelper.UpdateTheme(App.AppSettings.SelectedTheme, selectedTheme);
+                    if(selectedTheme != null)
+                    {
+                        // Remove the old resource file and load the new file
+                        App.ExternalResourcesHelper.UpdateTheme(App.AppSettings.SelectedTheme, selectedTheme);
 
-                    App.AppSettings.SelectedTheme = selectedTheme;
+                        App.AppSettings.SelectedTheme = selectedTheme;
 
-                    // Force the application to use the correct resource file
-                    UpdateTheme();
+                        // Force the application to use the correct resource file
+                        UpdateTheme();
+                    }
                 }
             }
         }

@@ -183,9 +183,6 @@
   <data name="SidebarPictures" xml:space="preserve">
     <value>Imagens</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Desafixar da barra lateral</value>
-  </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Vídeos</value>
   </data>
@@ -1416,9 +1413,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Unidades de Nuvem</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>Desafixar diretório da barra lateral</value>
-  </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Unidades de Rede</value>
   </data>
@@ -2102,9 +2096,6 @@
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>Falha ao eliminar {0} itens de {1}</value>
-  </data>
-  <data name="NavigationToolbarNewTab.Label" xml:space="preserve">
-    <value>Novo separador</value>
   </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nova janela</value>

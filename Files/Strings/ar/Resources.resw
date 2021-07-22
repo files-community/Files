@@ -183,9 +183,6 @@
   <data name="SidebarPictures" xml:space="preserve">
     <value>صور</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>عدم التقيض من الشريط الجانبي</value>
-  </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>مقاطع الفيديو</value>
   </data>

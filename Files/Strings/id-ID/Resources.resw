@@ -186,9 +186,6 @@
   <data name="SidebarPictures" xml:space="preserve">
     <value>Gambar</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Batalkan semat dari bilah sisi</value>
-  </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Video</value>
   </data>
@@ -1463,9 +1460,6 @@
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Nama Item</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>Batalkan semat direktori dari bilah sisi</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Drive jaringan</value>

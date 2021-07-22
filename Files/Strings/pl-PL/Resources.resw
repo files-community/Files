@@ -90,9 +90,6 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Opcje</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Odepnij od paska bocznego</value>
-  </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Pulpit</value>
   </data>
@@ -1409,9 +1406,6 @@
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Dyski w chmurze</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>Odepnij katalog od paska bocznego</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Sieciowa</value>

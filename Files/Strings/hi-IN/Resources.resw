@@ -183,9 +183,6 @@
   <data name="SidebarPictures" xml:space="preserve">
     <value>तस्वीरें</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>साइडबार से अनपिन</value>
-  </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>चलचित्र</value>
   </data>

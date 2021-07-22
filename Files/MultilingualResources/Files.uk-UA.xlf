@@ -184,10 +184,6 @@
           <source>Pictures</source>
           <target state="translated">Зображення</target>
         </trans-unit>
-        <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
-          <source>Unpin from sidebar</source>
-          <target state="translated">Відкріпити від бічної панелі</target>
-        </trans-unit>
         <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
           <source>Videos</source>
           <target state="translated">Відео</target>
@@ -1901,10 +1897,6 @@
           <source>Cloud Drives</source>
           <target state="translated">Хмарні диски</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
-          <source>Unpin directory from sidebar</source>
-          <target state="translated">Відкріпити папку від бічної панелі</target>
-        </trans-unit>
         <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
           <source>Network drives</source>
           <target state="translated">Мережні диски</target>
@@ -2817,10 +2809,6 @@
           <source>Failed to delete {0} items from {1}</source>
           <target state="new">Failed to delete {0} items from {1}</target>
         </trans-unit>
-        <trans-unit id="NavigationToolbarNewTab.Label" translate="yes" xml:space="preserve">
-          <source>New tab</source>
-          <target state="new">New tab</target>
-        </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.Label" translate="yes" xml:space="preserve">
           <source>New window</source>
           <target state="new">New window</target>
@@ -3286,8 +3274,8 @@
           <target state="new">Show network drives section on the sidebar</target>
         </trans-unit>
         <trans-unit id="SettingsRecycleBinSwitch.Title" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to the sidebar</source>
-          <target state="new">Pin Recycle Bin to the sidebar</target>
+          <source>Pin Recycle Bin to Favorites</source>
+          <target state="new">Pin Recycle Bin to Favorites</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
           <source>Show library section on the sidebar</source>
@@ -3356,6 +3344,30 @@
         <trans-unit id="BaseLayoutItemContextFlyoutPinToFavorites.Text" translate="yes" xml:space="preserve">
           <source>Pin to Favorites</source>
           <target state="new">Pin to Favorites</target>
+        </trans-unit>
+        <trans-unit id="SideBarUnpinFromFavorites.Text" translate="yes" xml:space="preserve">
+          <source>Unpin from Favorites</source>
+          <target state="new">Unpin from Favorites</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutUnpinFromFavorites.Text" translate="yes" xml:space="preserve">
+          <source>Unpin from Favorites</source>
+          <target state="new">Unpin from Favorites</target>
+        </trans-unit>
+        <trans-unit id="NavSettingsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="new">Settings</target>
+        </trans-unit>
+        <trans-unit id="NavSettingsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="new">Settings</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarCopy.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="new">Copy</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarCopy.Label" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="new">Copy</target>
         </trans-unit>
       </group>
     </body>

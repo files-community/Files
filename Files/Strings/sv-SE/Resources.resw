@@ -183,9 +183,6 @@
   <data name="SidebarPictures" xml:space="preserve">
     <value>Bilder</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Lossa från sidofältet</value>
-  </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Filmer</value>
   </data>
@@ -1418,9 +1415,6 @@
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Filnamn</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>Lossa mapp från sidofältet</value>
   </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Filinformation</value>
