@@ -108,23 +108,9 @@ namespace Files.Helpers
             return (long)properties.Size;
         }
 
-        public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItemWithPath item, IShellPage associatedInstance = null)
+        public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItem item, IShellPage associatedInstance = null)
         {
-            var returnedItem = new FilesystemResult<IStorageItem>(null, FileSystemStatusCode.Generic);
-            if (!string.IsNullOrEmpty(item.Path))
-            {
-                returnedItem = (item.ItemType == FilesystemItemType.File) ?
-                    ToType<IStorageItem, StorageFile>(associatedInstance != null ?
-                        await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.Path) :
-                        await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path))) :
-                    ToType<IStorageItem, StorageFolder>(associatedInstance != null ?
-                        await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.Path) :
-                        await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path)));
-            }
-            if (returnedItem.Result == null && item.Item != null)
-            {
-                returnedItem = new FilesystemResult<IStorageItem>(item.Item, FileSystemStatusCode.Success);
-            }
+            var returnedItem = new FilesystemResult<IStorageItem>(item, FileSystemStatusCode.Success);
             return returnedItem;
         }
 
