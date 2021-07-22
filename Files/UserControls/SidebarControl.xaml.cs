@@ -767,10 +767,14 @@ namespace Files.UserControls
 
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
         {
-            var settings = (Microsoft.UI.Xaml.Controls.NavigationViewItem)this.SettingsItem;
-            settings.SelectsOnInvoked = false;
-
             (this.FindDescendant("TabContentBorder") as Border).Child = TabContent;
+
+            DisplayModeChanged += SidebarControl_DisplayModeChanged;
+        }
+
+        private void SidebarControl_DisplayModeChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewDisplayModeChangedEventArgs args)
+        {
+            IsPaneToggleButtonVisible = args.DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Minimal;
         }
 
         private void Border_KeyDown(object sender, KeyRoutedEventArgs e)

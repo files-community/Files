@@ -204,6 +204,7 @@
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
+    <Compile Include="Events\ContextItemsChangedEventArgs.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\FileIconInfoExtensions.cs" />
@@ -263,11 +264,17 @@
     <Compile Include="UserControls\ArrangementOptions.xaml.cs">
       <DependentUpon>ArrangementOptions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ColoredIcon.xaml.cs">
+      <DependentUpon>ColoredIcon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\DataGridHeader.xaml.cs">
       <DependentUpon>DataGridHeader.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\FilePreviews\CodePreview.xaml.cs">
       <DependentUpon>CodePreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\InnerNavigationToolbar.xaml.cs">
+      <DependentUpon>InnerNavigationToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\PathBreadcrumb.xaml.cs">
       <DependentUpon>PathBreadcrumb.xaml</DependentUpon>
@@ -1009,6 +1016,9 @@
     </Content>
     <Content Include="Assets\AnimatedVisuals\LottiePulseStatusCenter.json" />
     <Content Include="Resources\MiddleClickScrolling-CursorType.res" />
+    <Content Include="Assets\Custom Glyphs\Colored-Icons.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -1115,11 +1125,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\ColoredIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\DataGridHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\FilePreviews\CodePreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\InnerNavigationToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

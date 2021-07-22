@@ -14,10 +14,11 @@
     HorizontalAlignment="Stretch"
     d:DesignHeight="768"
     d:DesignWidth="200"
-    CompactModeThresholdWidth="750"
+    CompactModeThresholdWidth="641"
+    ExpandedModeThresholdWidth="641"
     IsBackButtonVisible="Collapsed"
-    IsPaneToggleButtonVisible="True"
-    IsSettingsVisible="True"
+    IsPaneToggleButtonVisible="False"
+    IsSettingsVisible="False"
     IsTitleBarAutoPaddingEnabled="False"
     ItemInvoked="Sidebar_ItemInvoked"
     MenuItemsSource="{x:Bind local:SidebarControl.SideBarItems, Mode=OneWay}"
@@ -210,7 +211,7 @@
                 <Setter Property="OpenPaneLength" Value="{ThemeResource SplitViewOpenPaneThemeLength}" />
                 <Setter Property="CompactPaneLength" Value="{ThemeResource SplitViewCompactPaneThemeLength}" />
                 <Setter Property="PaneBackground" Value="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" />
-                <Setter Property="CornerRadius" Value="0" />
+                <Setter Property="CornerRadius" Value="{ThemeResource SplitViewPaneRootCornerRadius}" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="SplitView">
@@ -228,28 +229,27 @@
                                 <!--  I exist to make a nice looking background for both the tab strip without interfering with the drag area grid  -->
                                 <Border
                                     x:Name="TitlebarBackgroundBorder"
-                                    Grid.RowSpan="2"
-                                    Grid.Column="{Binding ElementName=ContentRoot, Path=(Grid.Column), Mode=OneWay}"
-                                    Grid.ColumnSpan="{Binding ElementName=ContentRoot, Path=(Grid.ColumnSpan), Mode=OneWay}"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
                                     VerticalAlignment="Stretch"
                                     Background="{ThemeResource TitlebarContentBackgroundBrush}"
                                     BorderBrush="{ThemeResource NavigationViewContentGridBorderBrush}"
                                     BorderThickness="{ThemeResource NavigationViewContentGridBorderThickness}"
-                                    CornerRadius="8,0,0,0"
-                                    IsHitTestVisible="False"
-                                    RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}" />
+                                    CornerRadius="0,0,0,0"
+                                    IsHitTestVisible="False" />
 
                                 <!--  Pane Content Area  -->
                                 <Grid
                                     x:Name="PaneRoot"
-                                    Grid.RowSpan="3"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
                                     Grid.ColumnSpan="2"
                                     Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.OpenPaneLength}"
                                     HorizontalAlignment="Left"
+                                    contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
                                     Background="{TemplateBinding PaneBackground}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
-                                    CornerRadius="0"
                                     Visibility="Collapsed">
 
                                     <contract7Present:Grid.BackgroundTransition>
@@ -282,7 +282,8 @@
                                 <!--  This allows the user to resize the pane  -->
                                 <Grid
                                     x:Name="ResizeElementBorder"
-                                    Grid.RowSpan="3"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
                                     Grid.Column="{Binding ElementName=PaneRoot, Path=(Grid.Column), Mode=OneWay}"
                                     Width="8"
                                     HorizontalAlignment="Right"
@@ -312,7 +313,7 @@
                                     x:Name="DragArea"
                                     Grid.ColumnSpan="2"
                                     Height="50"
-                                    Margin="38,0,0,0"
+                                    Margin="32,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Top"
                                     Background="Transparent"
@@ -322,11 +323,10 @@
                                 <!--  This is a special spot just for tabs so that the title bar DragArea can function properly  -->
                                 <Border
                                     x:Name="TabContentBorder"
-                                    Grid.Column="{Binding ElementName=ContentRoot, Path=(Grid.Column), Mode=OneWay}"
-                                    Grid.ColumnSpan="{Binding ElementName=ContentRoot, Path=(Grid.ColumnSpan), Mode=OneWay}"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
                                     VerticalAlignment="Top"
-                                    Canvas.ZIndex="2"
-                                    RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}" />
+                                    Canvas.ZIndex="2" />
 
                                 <!--  Content Area  -->
                                 <Grid
@@ -823,13 +823,9 @@
                                                 </Storyboard>
                                             </VisualTransition>
                                         </VisualStateGroup.Transitions>
-                                        <VisualState x:Name="Closed">
-                                            <VisualState.Setters>
-                                                <Setter Target="TitlebarBackgroundBorder.CornerRadius" Value="0" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="ClosedCompactLeft">
+                                        <VisualState x:Name="Closed" />
 
+                                        <VisualState x:Name="ClosedCompactLeft">
                                             <Storyboard>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ColumnDefinition1" Storyboard.TargetProperty="Width">
                                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.CompactPaneGridLength, FallbackValue=0}" />
@@ -849,6 +845,17 @@
                                                     To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.NegativeOpenPaneLengthMinusCompactLength}"
                                                     Duration="0:0:0" />
                                             </Storyboard>
+                                            <VisualState.Setters>
+                                                <Setter Target="PaneRoot.(Grid.Row)" Value="1" />
+                                                <Setter Target="ResizeElementBorder.(Grid.Row)" Value="1" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="TabContentBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TabContentBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="DragArea.Margin" Value="0,0,0,0" />
+                                            </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="ClosedCompactRight">
 
@@ -877,6 +884,18 @@
                                                     To="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.OpenPaneLengthMinusCompactLength}"
                                                     Duration="0:0:0" />
                                             </Storyboard>
+
+                                            <VisualState.Setters>
+                                                <Setter Target="PaneRoot.(Grid.Row)" Value="1" />
+                                                <Setter Target="ResizeElementBorder.(Grid.Row)" Value="1" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="TabContentBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TabContentBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="DragArea.Margin" Value="0,0,0,0" />
+                                            </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="OpenOverlayLeft">
                                             <Storyboard>
@@ -920,12 +939,22 @@
                                             <VisualState.Setters>
                                                 <Setter Target="PaneRoot.Visibility" Value="Visible" />
                                                 <Setter Target="HCPaneBorder.Visibility" Value="Visible" />
-                                                <Setter Target="ContentRoot.Grid.ColumnSpan" Value="1" />
-                                                <Setter Target="ContentRoot.Grid.Column" Value="1" />
-                                                <Setter Target="PaneRoot.Grid.ColumnSpan" Value="1" />
+                                                <Setter Target="ContentRoot.(Grid.ColumnSpan)" Value="1" />
+                                                <Setter Target="ContentRoot.(Grid.Column)" Value="1" />
+                                                <Setter Target="PaneRoot.(Grid.ColumnSpan)" Value="1" />
                                                 <Setter Target="PaneTransform.TranslateX" Value="0" />
                                                 <Setter Target="ContentTransform.TranslateX" Value="0" />
                                                 <Setter Target="PaneClipRectangleTransform.TranslateX" Value="0" />
+
+                                                <Setter Target="PaneRoot.(Grid.Row)" Value="1" />
+                                                <Setter Target="ResizeElementBorder.(Grid.Row)" Value="1" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="TabContentBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TabContentBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="DragArea.Margin" Value="0,0,0,0" />
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="OpenInlineRight">
@@ -956,6 +985,18 @@
                                                     <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
+
+                                            <VisualState.Setters>
+                                                <Setter Target="PaneRoot.(Grid.Row)" Value="1" />
+                                                <Setter Target="ResizeElementBorder.(Grid.Row)" Value="1" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="TabContentBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TabContentBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
+                                                <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
+                                                <Setter Target="DragArea.Margin" Value="0,0,0,0" />
+                                            </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="OpenCompactOverlayLeft">
 
@@ -1064,16 +1105,6 @@
             </Style>
         </ResourceDictionary>
     </muxc:NavigationView.Resources>
-
-    <muxc:NavigationView.PaneHeader>
-        <TextBlock
-            x:Uid="SidebarHeader"
-            Margin="10,6"
-            VerticalAlignment="Center"
-            FontSize="16"
-            FontWeight="SemiBold"
-            Text="Files" />
-    </muxc:NavigationView.PaneHeader>
 
     <muxc:NavigationView.MenuItemTemplateSelector>
         <local:NavItemDataTemplateSelector
