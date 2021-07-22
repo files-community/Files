@@ -788,19 +788,25 @@ namespace Files.UserControls
                 step = 5;
             }
 
-            if (e.Key == VirtualKey.Left)
+            if (e.Key == VirtualKey.Space || e.Key == VirtualKey.Enter)
             {
-                SetSize(-step);
-                e.Handled = true;
-            }
-            else if (e.Key == VirtualKey.Right)
-            {
-                SetSize(step);
-                e.Handled = true;
+                IsPaneOpen = !IsPaneOpen;
+                return;
             }
 
-            // if the user focuses the resizer and attempts to resize while the pane is closed, open it
-            if (!IsPaneOpen && DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right))
+            if (IsPaneOpen)
+            {
+                if (e.Key == VirtualKey.Left)
+                {
+                    SetSize(-step, true);
+                    e.Handled = true;
+                }
+                else if (e.Key == VirtualKey.Right)
+                {
+                    SetSize(step, true);
+                    e.Handled = true;
+                }
+            } else if(e.Key == VirtualKey.Right)
             {
                 IsPaneOpen = true;
             }
@@ -832,7 +838,7 @@ namespace Files.UserControls
             }
         }
 
-        private void SetSize(double val)
+        private void SetSize(double val, bool closeImmediatleyOnOversize = false)
         {
             if (IsPaneOpen)
             {
@@ -844,7 +850,7 @@ namespace Files.UserControls
 
                 if (newSize < Constants.UI.MinimumSidebarWidth) // if the new size is below the minimum, check whether to toggle the pane
                 {
-                    if (Constants.UI.MinimumSidebarWidth + val <= CompactPaneLength) // collapse the sidebar
+                    if (Constants.UI.MinimumSidebarWidth + val <= CompactPaneLength || closeImmediatleyOnOversize) // collapse the sidebar
                     {
                         IsPaneOpen = false;
                     }
@@ -852,7 +858,7 @@ namespace Files.UserControls
             }
             else
             {
-                if (val >= Constants.UI.MinimumSidebarWidth - CompactPaneLength)
+                if (val >= Constants.UI.MinimumSidebarWidth - CompactPaneLength || closeImmediatleyOnOversize)
                 {
                     OpenPaneLength = Constants.UI.MinimumSidebarWidth + (val + CompactPaneLength - Constants.UI.MinimumSidebarWidth); // set open sidebar length to minimum value to keep it smooth
                     IsPaneOpen = true;
