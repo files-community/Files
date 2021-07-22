@@ -159,6 +159,7 @@
                 AccessKey="W"
                 AutomationProperties.Name="Manage widgets"
                 Label="Widgets"
+                LabelPosition="Collapsed"
                 ToolTipService.ToolTip="Manage Widgets">
                 <AppBarButton.Icon>
                     <FontIcon FontSize="10" Glyph="&#xF246;" />
