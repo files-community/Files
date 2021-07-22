@@ -21,59 +21,75 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="25px"/>
+                <ColumnDefinition Width="35px"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid x:Name="LeftSidePanel" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="{ThemeResource PaneHolderPageBackgroundBrush}">
-                <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                Fill="{ThemeResource SolidBackgroundFillColorSecondaryBrush}"/>
-                <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                Fill="{ThemeResource HorizontalTabControlBackgroundBrush}"/>
-                <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                Fill="{ThemeResource PaneHolderPageBackgroundBrush}"/>
+            <Grid x:Name="LeftSidePanel" Grid.ColumnSpan="2" Grid.Row="1" Background="{ThemeResource PaneHolderPageBackgroundBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
 
-                <Rectangle Height="3px" Width="14px" Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}"
-                VerticalAlignment="Top" HorizontalAlignment="Left" Margin="6,6,0,0" RadiusX="1" RadiusY="1"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="4" Grid.ColumnSpan="4"
+                    Fill="{ThemeResource SolidBackgroundFillColorSecondaryBrush}"/>
+                <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="4" Grid.ColumnSpan="4"
+                    Fill="{ThemeResource HorizontalTabControlBackgroundBrush}"/>
+                <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="4" Grid.ColumnSpan="4"
+                    Fill="{ThemeResource PaneHolderPageBackgroundBrush}"/>
+
+                <Rectangle Grid.Row="0" Grid.Column="1"
+                    Fill="{ThemeResource SystemAccentColor}" RadiusX="2" RadiusY="2" Height="6" Width="6"/>
+                <Rectangle Grid.Row="0" Grid.Column="2"
+                    Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" RadiusX="1" RadiusY="1" Height="2" Width="15"/>
+
+                <Rectangle Grid.Row="1" Grid.Column="1"
+                    Fill="{ThemeResource SystemAccentColor}" RadiusX="2" RadiusY="2" Height="6" Width="6"/>
+                <Rectangle Grid.Row="1" Grid.Column="2"
+                    Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" RadiusX="1" RadiusY="1" Height="2" Width="15"/>
+                
+                <Rectangle Grid.Row="3" Grid.Column="1"
+                    Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" RadiusX="2" RadiusY="2" Height="6" Width="6"/>
+                <Rectangle Grid.Row="3" Grid.Column="2"
+                    Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" RadiusX="1" RadiusY="1" Height="2" Width="15"/>
             </Grid>
-            <Grid x:Name="TopNavigationPanel" Grid.Column="1">
+            
+            <Grid x:Name="TopNavigationPanel" Grid.ColumnSpan="2">
                 <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                Fill="{ThemeResource NavigationToolbarBackgroundBrush}"/>
-                <Rectangle x:Name="SelectedTabMockUp" Height="8px" Width="30px" Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
-                Margin="4,4,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" RadiusX="2" RadiusY="2"/>
+                    Fill="{ThemeResource NavigationToolbarBackgroundBrush}"/>
+
+                <StackPanel Spacing="6" HorizontalAlignment="Left" Margin="0,0,0,4"
+                    VerticalAlignment="Stretch" Orientation="Horizontal">
+                    <Rectangle Height="3px" Width="14px" Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                        VerticalAlignment="Center" Margin="6,0,0,0" RadiusX="1" RadiusY="1"/>
+                    <Rectangle x:Name="SelectedTabMockUp" Height="8px" Width="30px" Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
+                        Margin="4,0,0,0" VerticalAlignment="Center" RadiusX="2" RadiusY="2"/>
+                </StackPanel>
             </Grid>
+            
             <Grid Grid.Column="1" Grid.Row="1" >
                 <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                Fill="{ThemeResource ControlFillColorTertiaryBrush}"/>
+                    Fill="{ThemeResource ControlFillColorTertiaryBrush}"/>
                 <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                Fill="{ThemeResource FileBrowserBackgroundBrush}"/>
+                    Fill="{ThemeResource FileBrowserBackgroundBrush}"/>
 
-                <Grid HorizontalAlignment="Stretch" Margin="6,6,20,0" VerticalAlignment="Top" Height="30">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="5px"/>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition Height="5px"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="5px"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Rectangle RadiusX="4" RadiusY="4" Width="20" Height="20" Grid.RowSpan="4"
-                    Fill="{ThemeResource SystemControlHighlightAltBaseMediumBrush}"/>
-                    <Rectangle RadiusX="2" RadiusY="2" HorizontalAlignment="Stretch"
-                    Height="4" Grid.Column="2" Grid.Row="1"
-                    Fill="{ThemeResource SystemControlHighlightAltBaseMediumHighBrush}"/>
-                    <Rectangle RadiusX="2" RadiusY="2" HorizontalAlignment="Stretch"
-                    Height="3" Grid.Column="2" Grid.Row="2" Margin="0,0,5,0"
-                    Fill="{ThemeResource SystemAccentColor}"/>
-                </Grid>
+                <StackPanel HorizontalAlignment="Stretch" Margin="6,6,20,0" VerticalAlignment="Top" Height="30" Spacing="6">
+                    <Rectangle RadiusX="4" RadiusY="4" Width="20" Height="20" Fill="{ThemeResource SystemAccentColor}"/>
+                    <Rectangle RadiusX="2" RadiusY="2" HorizontalAlignment="Stretch" Margin="5,0"
+                        Height="4" Fill="{ThemeResource SystemControlHighlightAltBaseMediumHighBrush}"/>
+                </StackPanel>
 
-                <Border Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Opacity="0.1"
-                Background="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"/>
-                <Border Width="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Opacity="0.1"
-                Margin="0,1,0,0" Background="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"/>
+                <Border Width="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Opacity="0.6" 
+                    Margin="-0.5,6,0,6" Background="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"/>
             </Grid>
         </Grid>
         <TextBlock Grid.Row="1" FontSize="12"
