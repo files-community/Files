@@ -21,7 +21,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="35px"/>
+                <ColumnDefinition Width="36px"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
@@ -34,7 +34,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3"/>
+                    <ColumnDefinition Width="4"/>
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="20"/>
                     <ColumnDefinition Width="*"/>
@@ -50,12 +50,12 @@
                 <Rectangle Grid.Row="0" Grid.Column="1"
                     Fill="{ThemeResource SystemAccentColor}" RadiusX="2" RadiusY="2" Height="6" Width="6"/>
                 <Rectangle Grid.Row="0" Grid.Column="2"
-                    Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" RadiusX="1" RadiusY="1" Height="2" Width="15"/>
+                    Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" RadiusX="1" RadiusY="1" Height="2" Width="16"/>
 
                 <Rectangle Grid.Row="1" Grid.Column="1"
                     Fill="{ThemeResource SystemAccentColor}" RadiusX="2" RadiusY="2" Height="6" Width="6"/>
                 <Rectangle Grid.Row="1" Grid.Column="2"
-                    Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" RadiusX="1" RadiusY="1" Height="2" Width="15"/>
+                    Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" RadiusX="1" RadiusY="1" Height="2" Width="16"/>
                 
                 <Rectangle Grid.Row="3" Grid.Column="1"
                     Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" RadiusX="2" RadiusY="2" Height="6" Width="6"/>
