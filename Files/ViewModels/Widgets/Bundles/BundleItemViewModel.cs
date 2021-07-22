@@ -1,19 +1,15 @@
 ﻿using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.SettingsInterfaces;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -21,12 +17,6 @@ namespace Files.ViewModels.Widgets.Bundles
 {
     public class BundleItemViewModel : ObservableObject, IDisposable
     {
-        #region Singleton
-
-        private IBundlesSettings BundlesSettings => App.BundlesSettings;
-
-        #endregion Singleton
-
         #region Actions
 
         public Action<string, FilesystemItemType, bool, bool, IEnumerable<string>> OpenPath { get; set; }
@@ -52,7 +42,7 @@ namespace Files.ViewModels.Widgets.Bundles
             {
                 string fileName = System.IO.Path.GetFileName(this.Path);
 
-                if (fileName.EndsWith(".lnk"))
+                if (fileName.EndsWith(".lnk") || fileName.EndsWith(".url"))
                 {
                     fileName = fileName.Remove(fileName.Length - 4);
                 }
@@ -78,14 +68,14 @@ namespace Files.ViewModels.Widgets.Bundles
             UriSource = new Uri("ms-appx:///Assets/FolderIcon.svg"),
         };
 
-        public Visibility OpenInNewTabVisibility
+        public bool OpenInNewTabLoad
         {
-            get => TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
+            get => TargetType == FilesystemItemType.Directory;
         }
 
-        public Visibility OpenInNewPaneVisibility
+        public bool OpenInNewPaneLoad
         {
-            get => App.AppSettings.IsDualPaneEnabled && TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
+            get => App.AppSettings.IsDualPaneEnabled && TargetType == FilesystemItemType.Directory;
         }
 
         #endregion Public Properties
@@ -149,7 +139,7 @@ namespace Files.ViewModels.Widgets.Bundles
             {
                 try
                 {
-                    if (Path.EndsWith(".lnk"))
+                    if (Path.EndsWith(".lnk") || Path.EndsWith(".url"))
                     {
                         byte[] iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, 24u);
                         Icon = iconData != null ? await iconData.ToBitmapAsync() : null;
@@ -189,11 +179,11 @@ namespace Files.ViewModels.Widgets.Bundles
 
         public void RemoveItem()
         {
-            if (BundlesSettings.SavedBundles.ContainsKey(ParentBundleName))
+            if (App.BundlesSettings.SavedBundles.ContainsKey(ParentBundleName))
             {
-                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles;
+                Dictionary<string, List<string>> allBundles = App.BundlesSettings.SavedBundles;
                 allBundles[ParentBundleName].Remove(Path);
-                BundlesSettings.SavedBundles = allBundles;
+                App.BundlesSettings.SavedBundles = allBundles;
                 NotifyItemRemoved(this);
             }
         }
@@ -204,12 +194,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
         public void Dispose()
         {
-            Path = null;
             Icon = null;
-
-            OpenInNewTabCommand = null;
-            OpenItemLocationCommand = null;
-            RemoveItemCommand = null;
 
             OpenPath = null;
             OpenPathInNewPane = null;
