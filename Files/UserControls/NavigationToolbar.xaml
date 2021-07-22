@@ -526,7 +526,7 @@
                         x:Name="StatusCenter"
                         x:Uid="StatusCenter"
                         Width="36"
-                        Height="36"
+                        Height="32"
                         Padding="0"
                         AccessKey="T"
                         AutomationProperties.Name="Status center"
