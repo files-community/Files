@@ -783,7 +783,6 @@
                                             <TextBlock
                                                 Margin="4,0,0,0"
                                                 VerticalAlignment="Center"
-                                                Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
                                                 Style="{StaticResource BodyTextBlockStyle}"
                                                 Text="{x:Bind Model.CountText, Mode=OneWay}"
                                                 Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
@@ -791,14 +790,12 @@
                                             <TextBlock
                                                 VerticalAlignment="Center"
                                                 FontSize="14"
-                                                Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
                                                 Style="{StaticResource SubheaderTextBlockStyle}"
                                                 Text="{x:Bind Model.Subtext, Mode=OneWay}"
                                                 Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                                         </StackPanel>
                                         <TextBlock
                                             Margin="0,2,0,0"
-                                            Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
                                             Style="{StaticResource BodyTextBlockStyle}"
                                             Text="{x:Bind Model.CountText, Mode=OneWay}"
                                             Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />

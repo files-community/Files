@@ -67,7 +67,7 @@
 
                             <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
 
-                            <SolidColorBrush x:Key="SidebarContentBackgroundBrush" Color="#113A3A3A" />
+                            <SolidColorBrush x:Key="SidebarContentBackgroundBrush" Color="#213A3A3A" />
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
                         </ResourceDictionary>
@@ -109,7 +109,7 @@
 
                             <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
 
-                            <SolidColorBrush x:Key="SidebarContentBackgroundBrush" Color="#1C3A3A3A" />
+                            <SolidColorBrush x:Key="SidebarContentBackgroundBrush" Color="#2C3A3A3A" />
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
                         </ResourceDictionary>
