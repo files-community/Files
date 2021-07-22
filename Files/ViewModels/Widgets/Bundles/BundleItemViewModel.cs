@@ -1,7 +1,6 @@
 ﻿using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.SettingsInterfaces;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -11,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -70,14 +68,14 @@ namespace Files.ViewModels.Widgets.Bundles
             UriSource = new Uri("ms-appx:///Assets/FolderIcon.svg"),
         };
 
-        public Visibility OpenInNewTabVisibility
+        public bool OpenInNewTabLoad
         {
-            get => TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
+            get => TargetType == FilesystemItemType.Directory;
         }
 
-        public Visibility OpenInNewPaneVisibility
+        public bool OpenInNewPaneLoad
         {
-            get => App.AppSettings.IsDualPaneEnabled && TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
+            get => App.AppSettings.IsDualPaneEnabled && TargetType == FilesystemItemType.Directory;
         }
 
         #endregion Public Properties

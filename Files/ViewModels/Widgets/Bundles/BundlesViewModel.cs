@@ -308,7 +308,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
                     if (bundle.Contents.Count == 0)
                     {
-                        bundle.NoBundleContentsTextVisibility = Visibility.Visible;
+                        bundle.NoBundleContentsTextLoad = true;
                     }
                 }
             }

@@ -325,19 +325,21 @@
                                                 <Border.ContextFlyout>
                                                     <MenuFlyout>
                                                         <MenuFlyoutItem
+                                                            x:Name="OpenInNewTab"
                                                             x:Uid="BundleItemFlyouOpenInNewTabMenuItem"
+                                                            x:Load="{x:Bind OpenInNewTabLoad, Mode=OneWay}"
                                                             Command="{x:Bind OpenInNewTabCommand}"
-                                                            Text="Open in new tab"
-                                                            Visibility="{x:Bind OpenInNewTabVisibility, Mode=OneWay}">
+                                                            Text="Open in new tab">
                                                             <MenuFlyoutItem.Icon>
                                                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
                                                             </MenuFlyoutItem.Icon>
                                                         </MenuFlyoutItem>
                                                         <MenuFlyoutItem
+                                                            x:Name="OpenInNewPane"
                                                             x:Uid="BundlesOpenInNewPane"
+                                                            x:Load="{x:Bind OpenInNewPaneLoad, Mode=OneWay}"
                                                             Command="{x:Bind OpenInNewPaneCommand}"
-                                                            Text="Open in new Pane"
-                                                            Visibility="{x:Bind OpenInNewPaneVisibility, Mode=OneWay}">
+                                                            Text="Open in new Pane">
                                                             <MenuFlyoutItem.Icon>
                                                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
                                                             </MenuFlyoutItem.Icon>
@@ -373,11 +375,12 @@
 
                             <!--  No Bundle contents text info  -->
                             <Grid
+                                x:Name="NoContentsInformation"
                                 Grid.Row="2"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                RowSpacing="5"
-                                Visibility="{x:Bind NoBundleContentsTextVisibility, Mode=OneWay}">
+                                x:Load="{x:Bind NoBundleContentsTextLoad, Mode=OneWay}"
+                                RowSpacing="5">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />

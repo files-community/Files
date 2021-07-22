@@ -69,12 +69,12 @@ namespace Files.ViewModels.Widgets.Bundles
             set => SetProperty(ref bundleName, value);
         }
 
-        private Visibility noBundleContentsTextVisibility;
+        private bool noBundleContentsTextLoad;
 
-        public Visibility NoBundleContentsTextVisibility
+        public bool NoBundleContentsTextLoad
         {
-            get => noBundleContentsTextVisibility;
-            set => SetProperty(ref noBundleContentsTextVisibility, value);
+            get => noBundleContentsTextLoad;
+            set => SetProperty(ref noBundleContentsTextLoad, value);
         }
 
         private bool isAddItemOptionEnabled;
@@ -401,7 +401,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
             if (Contents.Count == 0)
             {
-                NoBundleContentsTextVisibility = Visibility.Visible;
+                NoBundleContentsTextLoad = true;
             }
         }
 
@@ -488,7 +488,7 @@ namespace Files.ViewModels.Widgets.Bundles
                 itemAddedInternally = true;
                 Contents.Add(bundleItem);
                 itemAddedInternally = false;
-                NoBundleContentsTextVisibility = Visibility.Collapsed;
+                NoBundleContentsTextLoad = false;
                 await bundleItem.UpdateIcon();
                 return true;
             }
@@ -518,7 +518,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
             if (Contents.Count > 0)
             {
-                NoBundleContentsTextVisibility = Visibility.Collapsed;
+                NoBundleContentsTextLoad = false;
             }
 
             return this;
