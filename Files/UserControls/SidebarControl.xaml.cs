@@ -808,7 +808,8 @@ namespace Files.UserControls
                 }
             } else if(e.Key == VirtualKey.Right)
             {
-                IsPaneOpen = true;
+                IsPaneOpen = !IsPaneOpen;
+                return;
             }
 
             App.AppSettings.SidebarWidth = new GridLength(OpenPaneLength);
