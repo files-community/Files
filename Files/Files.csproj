@@ -43,6 +43,7 @@
     <LangVersion>9.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
+    <UseAppLocalCoreFramework>true</UseAppLocalCoreFramework>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -70,6 +71,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <LangVersion>9.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseAppLocalCoreFramework>true</UseAppLocalCoreFramework>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>bin\ARM\Release\</OutputPath>
@@ -98,6 +100,7 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <LangVersion>9.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseAppLocalCoreFramework>true</UseAppLocalCoreFramework>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
     <OutputPath>bin\ARM64\Release\</OutputPath>
@@ -125,6 +128,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <LangVersion>9.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseAppLocalCoreFramework>true</UseAppLocalCoreFramework>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>

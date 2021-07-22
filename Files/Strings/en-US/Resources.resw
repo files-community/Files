@@ -321,8 +321,8 @@
   <data name="SidebarPictures" xml:space="preserve">
     <value>Pictures</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Unpin from sidebar</value>
+  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
+    <value>Unpin from Favorites</value>
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Videos</value>
@@ -1000,7 +1000,7 @@
     <value>Move overflow items into a sub menu</value>
   </data>
   <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
-    <value>Pin Recycle Bin to the sidebar</value>
+    <value>Pin Recycle Bin to Favorites</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Show a confirmation dialog when deleting files or folders</value>
@@ -1653,8 +1653,8 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Item Name</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>Unpin directory from sidebar</value>
+  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
+    <value>Unpin from Favorites</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Network drives</value>
