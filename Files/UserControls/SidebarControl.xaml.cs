@@ -781,6 +781,8 @@ namespace Files.UserControls
         {
             var step = 1;
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+            originalSize = IsPaneOpen ? AppSettings.SidebarWidth.Value : CompactPaneLength;
+
             if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
             {
                 step = 5;
