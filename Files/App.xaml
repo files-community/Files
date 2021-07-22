@@ -63,8 +63,7 @@
                             <!--  Preview pane  -->
                             <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="#213A3A3A" />
 
-                            <contract13Present:SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
-                            <contract13NotPresent:StaticResource x:Key="RootBackgroundBrush" ResourceKey="ApplicationPageBackgroundThemeBrush" />
+                            <SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
 
                             <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
 
@@ -106,8 +105,7 @@
                             <!--  Preview pane  -->
                             <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="#3C3A3A3A" />
 
-                            <contract13Present:SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
-                            <contract13NotPresent:StaticResource x:Key="RootBackgroundBrush" ResourceKey="ApplicationPageBackgroundThemeBrush" />
+                            <SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
 
                             <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
 
@@ -158,8 +156,7 @@
                             <!--  Preview pane  -->
                             <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorQuarternary}" />
 
-                            <contract13Present:SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
-                            <contract13NotPresent:StaticResource x:Key="RootBackgroundBrush" ResourceKey="ApplicationPageBackgroundThemeBrush" />
+                            <SolidColorBrush x:Key="RootBackgroundBrush" Color="Transparent" />
 
                             <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
 
