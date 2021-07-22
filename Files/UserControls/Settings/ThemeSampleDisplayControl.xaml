@@ -60,7 +60,7 @@
                 <Rectangle Grid.Row="3" Grid.Column="1"
                     Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" RadiusX="2" RadiusY="2" Height="6" Width="6"/>
                 <Rectangle Grid.Row="3" Grid.Column="2"
-                    Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" RadiusX="1" RadiusY="1" Height="2" Width="15"/>
+                    Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" RadiusX="1" RadiusY="1" Height="2" Width="16"/>
             </Grid>
             
             <Grid x:Name="TopNavigationPanel" Grid.ColumnSpan="2">
