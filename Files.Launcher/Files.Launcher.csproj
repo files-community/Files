@@ -167,7 +167,7 @@
       <Version>3.0.7</Version>
     </PackageReference>
     <PackageReference Include="Vanara.PInvoke.Mpr">
-      <Version>3.3.10</Version>
+      <Version>3.3.11</Version>
     </PackageReference>
     <PackageReference Include="Vanara.Windows.Shell">
       <Version>3.3.10</Version>
