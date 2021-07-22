@@ -577,7 +577,7 @@ namespace Files
                 return;
             }
 
-            AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
+            AddShellItemsToMenu(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
         }
 
         private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenuFlyout, bool shiftPressed)
