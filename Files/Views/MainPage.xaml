@@ -249,7 +249,11 @@
         Loaded="SidebarControl_Loaded"
         SelectedSidebarItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}">
         <controls:SidebarControl.TabContent>
-            <Grid x:Name="RightMarginGrid" VerticalAlignment="Top">
+            <Grid
+                x:Name="RightMarginGrid"
+                VerticalAlignment="Top"
+                BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+                BorderThickness="0,0,0,1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50" />
                     <RowDefinition Height="Auto" />
