@@ -544,7 +544,13 @@ namespace Files
                 primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
                 secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
 
-                await LoadShellBaseItemsAsync(shellContextMenuItemCancellationToken.Token, shiftPressed);
+                var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false);
+                if (shellContextMenuItemCancellationToken.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
             }
             catch (Exception error)
             {
@@ -565,73 +571,22 @@ namespace Files
             primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 
-            await LoadShellItemsAsync(shellContextMenuItemCancellationToken.Token, shiftPressed);
-        }
-
-        private async Task LoadShellBaseItemsAsync(CancellationToken cancellationToken, bool shiftPressed)
-        {
-            var resOverflow = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false);
-            var res = resOverflow.RemoveFrom((!App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4) - 1);
-            resOverflow = resOverflow.Except(res).ToList();
-
-            if (cancellationToken.IsCancellationRequested)
+            var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, shiftPressed: shiftPressed, showOpenMenu: false); ;
+            if (shellContextMenuItemCancellationToken.IsCancellationRequested)
             {
                 return;
             }
 
-            var items2 = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(resOverflow);
-            var items = ItemModelListToContextFlyoutHelper.GetAppBarButtonsFromModelIgnorePrimary(res);
-
-            var overflowItem = BaseContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
-            if (overflowItem is not null)
-            {
-                var overflowItemFlyout = overflowItem.Flyout as MenuFlyout;
-                var index = BaseContextMenuFlyout.SecondaryCommands.Count - 2;
-
-                foreach (var i in items)
-                {
-                    index++;
-                    BaseContextMenuFlyout.SecondaryCommands.Insert(index, i);
-                }
-
-                index = 0;
-
-                if (overflowItemFlyout.Items.Count > 0)
-                {
-                    overflowItemFlyout.Items.Insert(0, new MenuFlyoutSeparator());
-                }
-
-                foreach (var i in items2)
-                {
-                    overflowItemFlyout.Items.Insert(index, i);
-                    index++;
-                }
-
-                if (overflowItemFlyout.Items.Count > 0)
-                {
-                    (BaseContextMenuFlyout.SecondaryCommands.First(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator).Visibility = Visibility.Visible;
-                    overflowItem.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    BaseContextMenuFlyout.SecondaryCommands.Remove(overflowItem);
-                }
-            }
+            AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
         }
 
-        private async Task LoadShellItemsAsync(CancellationToken cancellationToken, bool shiftPressed)
+        private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenuFlyout, bool shiftPressed)
         {
-            var resOverflow = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, shiftPressed: shiftPressed, showOpenMenu: false);
-            var res = resOverflow.RemoveFrom((!App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4) - 1);
-            resOverflow = resOverflow.Except(res).ToList();
+            var mainShellMenuItems = shellMenuItems.RemoveFrom((!App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4) - 1);
+            var overflowShellMenuItems = shellMenuItems.Except(mainShellMenuItems).ToList();
 
-            if (cancellationToken.IsCancellationRequested)
-            {
-                return;
-            }
-
-            var items2 = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(resOverflow);
-            var items = ItemModelListToContextFlyoutHelper.GetAppBarButtonsFromModelIgnorePrimary(res);
+            var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
+            var mainItems = ItemModelListToContextFlyoutHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
 
             var overflowItem = ItemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
             if (overflowItem is not null)
@@ -639,7 +594,7 @@ namespace Files
                 var overflowItemFlyout = overflowItem.Flyout as MenuFlyout;
                 var index = ItemContextMenuFlyout.SecondaryCommands.Count - 2;
 
-                foreach (var i in items)
+                foreach (var i in mainItems)
                 {
                     index++;
                     ItemContextMenuFlyout.SecondaryCommands.Insert(index, i);
@@ -652,7 +607,7 @@ namespace Files
                     overflowItemFlyout.Items.Insert(0, new MenuFlyoutSeparator());
                 }
 
-                foreach (var i in items2)
+                foreach (var i in overflowItems)
                 {
                     overflowItemFlyout.Items.Insert(index, i);
                     index++;
