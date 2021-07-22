@@ -121,18 +121,18 @@
                 TextWrapping="WrapWholeWords"
                 Visibility="Visible" />
 
-            <ListView
-                x:Name="FileDetailsList"
+            <ScrollViewer
+                x:Name="FileDetailsScrollViewer"
                 x:Uid="PreviewPaneFileDetails"
                 AutomationProperties.Name="File Details"
-                ItemsSource="{x:Bind Model.SelectedItem.FileDetails, Mode=OneWay}"
-                SelectionMode="None"
-                Visibility="Collapsed">
-                <ListView.Header>
+                Visibility="Visible">
+                <StackPanel Orientation="Vertical">
                     <StackPanel
-                        Margin="8,8,8,12"
+                        x:Name="DetailsListHeader"
+                        Margin="8,8,8,0"
                         Orientation="Vertical"
-                        Spacing="5">
+                        Spacing="5"
+                        Visibility="Collapsed">
                         <TextBlock
                             FontSize="20"
                             FontWeight="Bold"
@@ -150,57 +150,49 @@
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </StackPanel>
-                </ListView.Header>
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="properties:FileProperty">
-                        <Grid
-                            Padding="0,0,0,8"
-                            HorizontalAlignment="Stretch"
-                            AutomationProperties.Name="{x:Bind Name, Mode=OneWay}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
+                    <muxc:ItemsRepeater
+                        x:Name="FileDetailsRepeater"
+                        Margin="8"
+                        ItemsSource="{x:Bind Model.SelectedItem.FileDetails, Mode=OneWay}"
+                        Visibility="Collapsed">
+                        <muxc:ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="properties:FileProperty">
+                                <Grid
+                                    Padding="0,0,0,8"
+                                    HorizontalAlignment="Stretch"
+                                    AutomationProperties.Name="{x:Bind Name, Mode=OneWay}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
 
-                            <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                HorizontalAlignment="Stretch"
-                                FontSize="14"
-                                Style="{StaticResource HeaderTextBlockStyle}"
-                                Text="{x:Bind Name, Mode=OneWay}" />
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Stretch"
+                                        FontSize="14"
+                                        Style="{StaticResource HeaderTextBlockStyle}"
+                                        Text="{x:Bind Name, Mode=OneWay}" />
 
-                            <TextBlock
-                                x:Name="PropertyValueTemplateTextBox"
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                HorizontalAlignment="Stretch"
-                                IsTextSelectionEnabled="True"
-                                Text="{x:Bind ValueText, Mode=TwoWay}"
-                                TextWrapping="Wrap" />
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-                <ListView.GroupStyle>
-                    <GroupStyle>
-                        <GroupStyle.HeaderTemplate>
-                            <DataTemplate x:DataType="properties:FilePropertySection">
-                                <Grid />
+                                    <TextBlock
+                                        x:Name="PropertyValueTemplateTextBox"
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Stretch"
+                                        IsTextSelectionEnabled="True"
+                                        Text="{x:Bind ValueText, Mode=TwoWay}"
+                                        TextWrapping="Wrap" />
+                                </Grid>
                             </DataTemplate>
-                        </GroupStyle.HeaderTemplate>
-                    </GroupStyle>
-                </ListView.GroupStyle>
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ItemsStackPanel AreStickyGroupHeadersEnabled="False" />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-            </ListView>
+                        </muxc:ItemsRepeater.ItemTemplate>
+                        <!--<muxc:ItemsRepeater.cont>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </muxc:ItemsRepeater.cont>-->
+                    </muxc:ItemsRepeater>
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
 
         <VisualStateManager.VisualStateGroups>
@@ -259,7 +251,8 @@
                         <Setter Target="PreviewErrorText.Visibility" Value="Visible" />
                         <Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedText('DetailsPanePreviewNotAvaliableText')}" />
                         <Setter Target="DetailsErrorText.Visibility" Value="Collapsed" />
-                        <Setter Target="FileDetailsList.Visibility" Value="Visible" />
+                        <Setter Target="FileDetailsRepeater.Visibility" Value="Visible" />
+                        <Setter Target="DetailsListHeader.Visibility" Value="Visible" />
                         <Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
@@ -273,7 +266,7 @@
                         <Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedText('DetailsPanePreviewNotAvaliableText')}" />
                         <Setter Target="DetailsErrorText.Visibility" Value="Visible" />
                         <Setter Target="DetailsErrorText.Text" Value="{x:Bind GetLocalizedText('PreviewPaneDetailsNotAvailableText')}" />
-                        <Setter Target="FileDetailsList.Visibility" Value="Visible" />
+                        <Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
                         <Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
@@ -285,8 +278,9 @@
                     <VisualState.Setters>
                         <Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
                         <Setter Target="DetailsErrorText.Visibility" Value="Collapsed" />
-                        <Setter Target="FileDetailsList.Visibility" Value="Visible" />
+                        <Setter Target="FileDetailsRepeater.Visibility" Value="Visible" />
                         <Setter Target="PreviewControlPresenter.Visibility" Value="Visible" />
+                        <Setter Target="DetailsListHeader.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -297,7 +291,8 @@
                     <VisualState.Setters>
                         <Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
                         <Setter Target="DetailsErrorText.Visibility" Value="Collapsed" />
-                        <Setter Target="FileDetailsList.Visibility" Value="Visible" />
+                        <Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
+                        <Setter Target="DetailsListHeader.Visibility" Value="Visible" />
                         <Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
                         <Setter Target="PreviewLoadingIndicator.Visibility" Value="Visible" />
                     </VisualState.Setters>

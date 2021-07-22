@@ -183,9 +183,6 @@
   <data name="SidebarPictures" xml:space="preserve">
     <value>Imagens</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Desafixar da barra lateral</value>
-  </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Vídeos</value>
   </data>
@@ -1416,9 +1413,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Unidades de Nuvem</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>Desafixar diretório da barra lateral</value>
-  </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Unidades de Rede</value>
   </data>
@@ -2103,9 +2097,6 @@
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>Falha ao eliminar {0} itens de {1}</value>
   </data>
-  <data name="NavigationToolbarNewTab.Label" xml:space="preserve">
-    <value>Novo separador</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nova janela</value>
   </data>
@@ -2182,16 +2173,16 @@
     <value>Original</value>
   </data>
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
-    <value>Abrir pasta das themes</value>
+    <value>Abrir pasta dos temas</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Aprenda mais sobre themes personalizadas</value>
+    <value>Saiba mais sobre temas personalizados</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Aprenda mais sobre themes personalizadas</value>
+    <value>Saiba mais sobre temas personalizados</value>
   </data>
   <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
-    <value>As themes personalizadas é uma ótima forma de personalizar o Files.</value>
+    <value>Temas personalizados é uma ótima forma de personalizar o Files.</value>
   </data>
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Ver documentação.</value>
@@ -2422,10 +2413,10 @@
     <value>Tamanho descomprimido</value>
   </data>
   <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
-    <value>Entrar modo sobreposição compacta</value>
+    <value>Entrar no modo sobreposição compacta</value>
   </data>
   <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
-    <value>Sair modo sobreposição compacta</value>
+    <value>Sair do modo sobreposição compacta</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
@@ -2462,6 +2453,9 @@
   </data>
   <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
     <value>Escolha a sua cor</value>
+  </data>
+  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+    <value>Temas personalizados</value>
   </data>
   <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
     <value>Mover sobra de itens para um submenu</value>
@@ -2501,5 +2495,8 @@
   </data>
   <data name="SettingsAboutOpenLogLocationButtonText.Text" xml:space="preserve">
     <value>Abrir localização do log</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+    <value>Afixar nos Favoritos</value>
   </data>
 </root>

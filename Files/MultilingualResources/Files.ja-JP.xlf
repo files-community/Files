@@ -230,10 +230,6 @@
           <source>Pictures</source>
           <target state="translated">ピクチャ</target>
         </trans-unit>
-        <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
-          <source>Unpin from sidebar</source>
-          <target state="translated">サイドバーから固定解除</target>
-        </trans-unit>
         <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
           <source>Videos</source>
           <target state="translated">ビデオ</target>
@@ -1892,10 +1888,6 @@
           <source>Cloud Drives</source>
           <target state="translated">クラウド ドライブ</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
-          <source>Unpin directory from sidebar</source>
-          <target state="translated">サイドバーからフォルダを固定解除</target>
-        </trans-unit>
         <trans-unit id="SidebarNetworkDrives" translate="yes" xml:space="preserve">
           <source>Network drives</source>
           <target state="translated">ネットワーク ドライブ</target>
@@ -2113,9 +2105,8 @@
           <target state="translated">はい</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
-          <source>This action requires administrator rights</source>
-          <target state="needs-review-translation">続行するには管理者権限が必要です</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <source>This action requires adminstrator rights</source>
+          <target state="translated">続行するには管理者権限が必要です</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Content" translate="yes" xml:space="preserve">
           <source>Would you like to continue as administrator?</source>
@@ -2637,27 +2628,27 @@
         </trans-unit>
         <trans-unit id="StatusMovingItemsDetails_Singular" translate="yes" xml:space="preserve">
           <source>Moving {0} item from {1} to {2}</source>
-          <target state="translated">{0} ファイル {1} から {2} へ移動中</target>
+          <target state="translated">{0} ファイルを {1} から {2} へ移動中</target>
         </trans-unit>
         <trans-unit id="StatusMovingItemsDetails_Plural" translate="yes" xml:space="preserve">
           <source>Moving {0} items from {1} to {2}</source>
-          <target state="translated">{0} ファイル {1} から {2} へ移動中</target>
+          <target state="translated">{0} ファイルを {1} から {2} へ移動中</target>
         </trans-unit>
         <trans-unit id="StatusMovedItemsDetails_Singular" translate="yes" xml:space="preserve">
           <source>Successfully moved {0} item from {1} to {2}</source>
-          <target state="translated">{0} ファイル {1} から {2} へ移動しました</target>
+          <target state="translated">{0} ファイルを {1} から {2} へ移動しました</target>
         </trans-unit>
         <trans-unit id="StatusMovedItemsDetails_Plural" translate="yes" xml:space="preserve">
           <source>Successfully moved {0} items from {1} to {2}</source>
-          <target state="translated">{0} ファイル {1} から {2} へ移動しました</target>
+          <target state="translated">{0} ファイルを {1} から {2} へ移動しました</target>
         </trans-unit>
         <trans-unit id="StatusMoveFailedDetails_Singular" translate="yes" xml:space="preserve">
           <source>Failed to move {0} item from {1} to {2}</source>
-          <target state="translated">{0} ファイル {1} から {2} へ移動に失敗しました</target>
+          <target state="translated">{0} ファイルを {1} から {2} へ移動に失敗しました</target>
         </trans-unit>
         <trans-unit id="StatusMoveFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to move {0} items from {1} to {2}</source>
-          <target state="translated">{0} ファイル {1} から {2} へ移動に失敗しました</target>
+          <target state="translated">{0} ファイルを {1} から {2} へ移動に失敗しました</target>
         </trans-unit>
         <trans-unit id="StatusCopyCanceledDetails_Singular" translate="yes" xml:space="preserve">
           <source>Copying {0} item to {1} was canceled</source>
@@ -2673,19 +2664,19 @@
         </trans-unit>
         <trans-unit id="StatusCopyingItemsDetails_Singular" translate="yes" xml:space="preserve">
           <source>Copying {0} item to {1}</source>
-          <target state="translated">{0} ファイル {1} へコピー中</target>
+          <target state="translated">{0} ファイルを {1} へコピー中</target>
         </trans-unit>
         <trans-unit id="StatusCopyingItemsDetails_Plural" translate="yes" xml:space="preserve">
           <source>Copying {0} items to {1}</source>
-          <target state="translated">{0} ファイル {1} へコピー中</target>
+          <target state="translated">{0} ファイルを {1} へコピー中</target>
         </trans-unit>
         <trans-unit id="StatusCopiedItemsDetails_Singular" translate="yes" xml:space="preserve">
           <source>Successfully copied {0} item to {1}</source>
-          <target state="translated">{0} ファイル {1} へコピーしました</target>
+          <target state="translated">{0} ファイルを {1} へコピーしました</target>
         </trans-unit>
         <trans-unit id="StatusCopiedItemsDetails_Plural" translate="yes" xml:space="preserve">
           <source>Successfully copied {0} items to {1}</source>
-          <target state="translated">{0} ファイル {1} へコピーしました</target>
+          <target state="translated">{0} ファイルを {1} へコピーしました</target>
         </trans-unit>
         <trans-unit id="StatusDeleteCanceledDetails_Singular" translate="yes" xml:space="preserve">
           <source>Deleting {0} item from {1} was canceled</source>
@@ -2701,23 +2692,23 @@
         </trans-unit>
         <trans-unit id="StatusDeletingItemsDetails_Singular" translate="yes" xml:space="preserve">
           <source>Deleting {0} item from {1}</source>
-          <target state="translated">{0} ファイル {1} から削除中</target>
+          <target state="translated">{0} ファイルを {1} から削除中</target>
         </trans-unit>
         <trans-unit id="StatusDeletingItemsDetails_Plural" translate="yes" xml:space="preserve">
           <source>Deleting {0} items from {1}</source>
-          <target state="translated">{0} ファイル {1} から削除中</target>
+          <target state="translated">{0} ファイルを {1} から削除中</target>
         </trans-unit>
         <trans-unit id="StatusDeletedItemsDetails_Singular" translate="yes" xml:space="preserve">
           <source>Successfully deleted {0} item from {1}</source>
-          <target state="translated">{0} ファイル {1} から削除しました</target>
+          <target state="translated">{0} ファイルを {1} から削除しました</target>
         </trans-unit>
         <trans-unit id="StatusDeletedItemsDetails_Plural" translate="yes" xml:space="preserve">
           <source>Successfully deleted {0} items from {1}</source>
-          <target state="translated">{0} ファイル {1} から削除しました</target>
+          <target state="translated">{0} ファイルを {1} から削除しました</target>
         </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Singular" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} item from {1}</source>
-          <target state="translated">{0} ファイル {1} から削除に失敗しました</target>
+          <target state="translated">{0} ファイルを {1} から削除に失敗しました</target>
         </trans-unit>
         <trans-unit id="TheRecycleBin" translate="yes" xml:space="preserve">
           <source>the Recycle Bin</source>
@@ -2761,63 +2752,59 @@
         </trans-unit>
         <trans-unit id="NavToolbarWidgets.Label" translate="yes" xml:space="preserve">
           <source>Widgets</source>
-          <target state="new">Widgets</target>
+          <target state="translated">ウィジェット</target>
         </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.Label" translate="yes" xml:space="preserve">
           <source>Select</source>
-          <target state="new">Select</target>
+          <target state="translated">選択</target>
         </trans-unit>
         <trans-unit id="NavToolbarLayoutOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Layout</source>
-          <target state="new">Layout</target>
+          <target state="translated">レイアウト</target>
         </trans-unit>
         <trans-unit id="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Layout</source>
-          <target state="new">Layout</target>
+          <target state="translated">レイアウト</target>
         </trans-unit>
         <trans-unit id="NavToolbarLayoutOptionsButton.Label" translate="yes" xml:space="preserve">
           <source>Layout</source>
-          <target state="new">Layout</target>
+          <target state="translated">レイアウト</target>
         </trans-unit>
         <trans-unit id="PreviewPaneToggle.Label" translate="yes" xml:space="preserve">
           <source>Preview</source>
-          <target state="new">Preview</target>
+          <target state="translated">プレビュー</target>
         </trans-unit>
         <trans-unit id="NavToolbarSortOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Sort</source>
-          <target state="new">Sort</target>
+          <target state="translated">並べ替え</target>
         </trans-unit>
         <trans-unit id="NavToolbarSortOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Sort</source>
-          <target state="new">Sort</target>
+          <target state="translated">並べ替え</target>
         </trans-unit>
         <trans-unit id="NavToolbarSortOptionsButton.Label" translate="yes" xml:space="preserve">
           <source>Sort</source>
-          <target state="new">Sort</target>
+          <target state="translated">並べ替え</target>
         </trans-unit>
         <trans-unit id="NavToolbarLayout.Text" translate="yes" xml:space="preserve">
           <source>Layout</source>
-          <target state="new">Layout</target>
+          <target state="translated">レイアウト</target>
         </trans-unit>
         <trans-unit id="SettingsDialogCloseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Close</source>
-          <target state="new">Close</target>
+          <target state="translated">閉じる</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
           <source>Sync status</source>
-          <target state="new">Sync status</target>
+          <target state="translated">同期状態</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOption_SyncStatus.Content" translate="yes" xml:space="preserve">
           <source>Sync status</source>
-          <target state="new">Sync status</target>
+          <target state="translated">同期状態</target>
         </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
-          <target state="new">Failed to delete {0} items from {1}</target>
-        </trans-unit>
-        <trans-unit id="NavigationToolbarNewTab.Label" translate="yes" xml:space="preserve">
-          <source>New tab</source>
-          <target state="new">New tab</target>
+          <target state="translated">{0} ファイルを {1} から削除に失敗しました</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.Label" translate="yes" xml:space="preserve">
           <source>New window</source>
@@ -3284,8 +3271,8 @@
           <target state="new">Show network drives section on the sidebar</target>
         </trans-unit>
         <trans-unit id="SettingsRecycleBinSwitch.Title" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to the sidebar</source>
-          <target state="new">Pin Recycle Bin to the sidebar</target>
+          <source>Pin Recycle Bin to Favorites</source>
+          <target state="new">Pin Recycle Bin to Favorites</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
           <source>Show library section on the sidebar</source>
@@ -3354,6 +3341,30 @@
         <trans-unit id="BaseLayoutItemContextFlyoutPinToFavorites.Text" translate="yes" xml:space="preserve">
           <source>Pin to Favorites</source>
           <target state="new">Pin to Favorites</target>
+        </trans-unit>
+        <trans-unit id="SideBarUnpinFromFavorites.Text" translate="yes" xml:space="preserve">
+          <source>Unpin from Favorites</source>
+          <target state="new">Unpin from Favorites</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutUnpinFromFavorites.Text" translate="yes" xml:space="preserve">
+          <source>Unpin from Favorites</source>
+          <target state="new">Unpin from Favorites</target>
+        </trans-unit>
+        <trans-unit id="NavSettingsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="new">Settings</target>
+        </trans-unit>
+        <trans-unit id="NavSettingsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="new">Settings</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarCopy.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="new">Copy</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarCopy.Label" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="new">Copy</target>
         </trans-unit>
       </group>
     </body>

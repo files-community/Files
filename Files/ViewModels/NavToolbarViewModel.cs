@@ -28,6 +28,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using static Files.UserControls.INavigationToolbar;
 using SearchBox = Files.UserControls.SearchBox;
+using Files.Interacts;
 
 namespace Files.ViewModels
 {
@@ -490,7 +491,6 @@ namespace Files.ViewModels
             SearchBox.SuggestionChosen -= SearchRegion_SuggestionChosen;
             SearchBox.Escaped -= SearchRegion_Escaped;
         }
-
         public ICommand SelectAllContentPageItemsCommand { get; set; }
 
         public ICommand InvertContentPageSelctionCommand { get; set; }
@@ -499,7 +499,7 @@ namespace Files.ViewModels
 
         public ICommand PasteItemsFromClipboardCommand { get; set; }
 
-        public ICommand CopyPathOfWorkingDirectoryCommand { get; set; }
+        public ICommand CopyPathCommand { get; set; }
 
         public ICommand OpenNewWindowCommand { get; set; }
 
@@ -509,11 +509,11 @@ namespace Files.ViewModels
 
         public ICommand OpenDirectoryInDefaultTerminalCommand { get; set; }
 
-        public ICommand AddNewTabToMultitaskingControlCommand { get; set; }
-
         public ICommand CreateNewFileCommand { get; set; }
 
         public ICommand CreateNewFolderCommand { get; set; }
+
+        public ICommand CopyCommand { get; set; }
 
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {
@@ -758,5 +758,21 @@ namespace Files.ViewModels
             }
         }
 
+        List<ListedItem> selectedItems;
+        public List<ListedItem> SelectedItems
+        {
+            get => selectedItems;
+            set
+            {
+                if(SetProperty(ref selectedItems, value))
+                {
+                    OnPropertyChanged(nameof(CanCopy));
+                    OnPropertyChanged(nameof(CanCopyPath));
+                }
+            }
+        }
+
+        public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
+        public bool CanCopyPath => SelectedItems is null || SelectedItems.Count == 0 || (SelectedItems is not null && SelectedItems.Count == 1);
     }
 }

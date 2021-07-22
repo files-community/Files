@@ -28,12 +28,20 @@
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
+
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
+
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
                     <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+                    <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+                    <Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 
@@ -249,7 +257,11 @@
         Loaded="SidebarControl_Loaded"
         SelectedSidebarItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}">
         <controls:SidebarControl.TabContent>
-            <Grid x:Name="RightMarginGrid" VerticalAlignment="Top">
+            <Grid
+                x:Name="RightMarginGrid"
+                VerticalAlignment="Top"
+                BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+                BorderThickness="0,0,0,1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50" />
                     <RowDefinition Height="Auto" />
@@ -342,8 +354,10 @@
                     Grid.ColumnSpan="4"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
-                    SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
-                    ShowPreviewPaneButton="{x:Bind IsPreviewPaneDisabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
+                    SettingsButtonCommand="{x:Bind MainViewModel.OpenSettingsCommand}"
+                    ShowSearchBox="True"
+                    ShowStatusCenter="True"
+                    StatusCenterViewModel="{x:Bind StatusCenterViewModel}" />
             </Grid>
         </controls:SidebarControl.TabContent>
 
@@ -359,7 +373,7 @@
                     x:Name="PreviewPaneRow"
                     Height="0"
                     MaxHeight="250" />
-                <RowDefinition Height="40" />
+                <RowDefinition Height="32" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*" />
@@ -369,6 +383,13 @@
                     Width="0"
                     MaxWidth="400" />
             </Grid.ColumnDefinitions>
+
+            <controls:InnerNavigationToolbar
+                x:Name="InnerNavigationToolbar"
+                Grid.ColumnSpan="3"
+                x:Load="False"
+                SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
+                ShowPreviewPaneButton="{x:Bind IsPreviewPaneDisabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
 
             <ContentPresenter
                 Grid.Row="1"
@@ -408,9 +429,7 @@
                 Grid.Row="4"
                 Grid.ColumnSpan="3"
                 x:Load="False"
-                ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePane.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                ShowStatusCenter="True"
-                StatusCenterViewModel="{x:Bind StatusCenterViewModel}" />
+                ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePane.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
         </Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="MultitaskingControlStates">
@@ -431,6 +450,21 @@
                         <Setter Target="VerticalTabStripInvokeButton.Width" Value="36" />
                         <Setter Target="HorizontalMultitaskingControlAddButton.Visibility" Value="Collapsed" />
                         <Setter Target="VerticalTabStripInvokeButtonIcon.FontSize" Value="16" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="750" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="NavToolbar.ShowSearchBox" Value="False" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

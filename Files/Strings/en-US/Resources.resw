@@ -123,9 +123,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>Open in new window</value>
   </data>
-  <data name="NavigationToolbarNewTab.Label" xml:space="preserve">
-    <value>New tab</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>New window</value>
   </data>
@@ -324,8 +321,8 @@
   <data name="SidebarPictures" xml:space="preserve">
     <value>Pictures</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Unpin from sidebar</value>
+  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
+    <value>Unpin from Favorites</value>
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Videos</value>
@@ -1003,7 +1000,7 @@
     <value>Move overflow items into a sub menu</value>
   </data>
   <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
-    <value>Pin Recycle Bin to the sidebar</value>
+    <value>Pin Recycle Bin to Favorites</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Show a confirmation dialog when deleting files or folders</value>
@@ -1656,8 +1653,8 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Item Name</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>Unpin directory from sidebar</value>
+  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
+    <value>Unpin from Favorites</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Network drives</value>
@@ -2564,7 +2561,7 @@
   </data>
   <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
     <value>Exit compact overlay</value>
-</data>
+  </data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>File description</value>
   </data>
@@ -2612,5 +2609,17 @@
   </data>
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
     <value>Hide {0} section</value>
+  </data>
+  <data name="NavSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="NavSettingsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
+    <value>Copy</value>
   </data>
 </root>
