@@ -308,18 +308,6 @@
                                         UseSystemFocusVisuals="True" />
                                 </Grid>
 
-                                <!--  This defines the drag area for the title bar  -->
-                                <Grid
-                                    x:Name="DragArea"
-                                    Grid.ColumnSpan="2"
-                                    Height="50"
-                                    Margin="32,0,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Top"
-                                    Background="Transparent"
-                                    Canvas.ZIndex="1"
-                                    Loaded="DragArea_Loaded" />
-
                                 <!--  This is a special spot just for tabs so that the title bar DragArea can function properly  -->
                                 <Border
                                     x:Name="TabContentBorder"

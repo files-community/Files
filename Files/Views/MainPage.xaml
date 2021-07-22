@@ -271,6 +271,18 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition x:Name="RightPaddingColumn" Width="0" />
                 </Grid.ColumnDefinitions>
+
+                <!--  This defines the drag area for the title bar  -->
+                <Grid
+                    x:Name="DragArea"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Height="50"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    Background="Transparent"
+                    Loaded="DragArea_Loaded" />
+
                 <usercontrols:HorizontalMultitaskingControl
                     x:Name="horizontalMultitaskingControl"
                     Grid.Column="1"
