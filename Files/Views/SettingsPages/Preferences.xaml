@@ -39,7 +39,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsPreferencesAppLanguage"
                     Title="Language"
-                    Width="352"
+                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
                     HorizontalAlignment="Left">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xF2B7;" />

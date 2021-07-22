@@ -183,9 +183,6 @@
   <data name="SidebarPictures" xml:space="preserve">
     <value>Obrázky</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Odepnout z postranního panelu</value>
-  </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Videa</value>
   </data>

@@ -183,9 +183,6 @@
   <data name="SidebarPictures" xml:space="preserve">
     <value>Billeder</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Frigør fra sidebjælke</value>
-  </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Videoer</value>
   </data>
@@ -1415,9 +1412,6 @@
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Cloud drev</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>Frigør mappe fra sidebjælke</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Netværksdrev</value>

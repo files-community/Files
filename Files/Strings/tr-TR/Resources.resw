@@ -90,9 +90,6 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Ayarlar</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Yan çubuktan kaldır</value>
-  </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Masaüstü</value>
   </data>
@@ -1415,9 +1412,6 @@
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Bulut Sürücüleri</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>Klasörü yan çubuktan kaldır</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Ağ sürücüleri</value>

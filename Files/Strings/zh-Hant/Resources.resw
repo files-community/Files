@@ -90,9 +90,6 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>個人化</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>從側邊欄取消釘選</value>
-  </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>桌面</value>
   </data>
@@ -1386,9 +1383,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>雲端硬碟</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>從側邊欄取消釘選資料夾</value>
-  </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>網路磁碟機</value>
   </data>
@@ -2009,9 +2003,6 @@
   </data>
   <data name="NavToolbarArrangementOption_SyncStatus.Content" xml:space="preserve">
     <value>同步狀態</value>
-  </data>
-  <data name="NavigationToolbarNewTab.Label" xml:space="preserve">
-    <value>新分頁</value>
   </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>新視窗</value>
