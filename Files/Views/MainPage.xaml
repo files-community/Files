@@ -342,6 +342,7 @@
                     Grid.ColumnSpan="4"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
+                    SettingsButtonCommand="{x:Bind MainViewModel.OpenSettingsCommand}"
                     ShowSearchBox="True"
                     ShowStatusCenter="True"
                     StatusCenterViewModel="{x:Bind StatusCenterViewModel}" />

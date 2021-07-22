@@ -573,6 +573,7 @@
                     Height="32"
                     AutomationProperties.Name="Settings"
                     Background="Transparent"
+                    Command="{x:Bind SettingsButtonCommand, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
                     ToolTipService.ToolTip="Settings">
                     <FontIcon FontSize="14" Glyph="&#xE115;" />
