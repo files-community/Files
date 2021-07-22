@@ -767,9 +767,6 @@ namespace Files.UserControls
 
         private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
         {
-            var settings = (Microsoft.UI.Xaml.Controls.NavigationViewItem)this.SettingsItem;
-            settings.SelectsOnInvoked = false;
-
             (this.FindDescendant("TabContentBorder") as Border).Child = TabContent;
 
             DisplayModeChanged += SidebarControl_DisplayModeChanged;
