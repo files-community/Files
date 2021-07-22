@@ -473,7 +473,8 @@ namespace Files.Helpers
                     Text = "ContextMenuMoreItemsLabel".GetLocalized(),
                     Glyph = "\xE712",
                     ID = "ItemOverflow",
-                    Tag = "ItemOverflow"
+                    Tag = "ItemOverflow",
+                    IsHidden = true,
                 },
             };
         }
