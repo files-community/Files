@@ -446,6 +446,7 @@
                     x:Uid="NavigationToolbarNewPane"
                     x:Load="{x:Bind converters:MultiBooleanConverter.AndNotConvert(ShowMultiPaneControls, IsMultiPaneActive), Mode=OneWay}"
                     Command="{x:Bind ViewModel.OpenNewPaneCommand, Mode=OneWay}"
+                    KeyboardAcceleratorTextOverride="Alt+Shift++"
                     Label="New pane">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
@@ -462,6 +463,7 @@
                     x:Uid="NavigationToolbarClosePane"
                     x:Load="{x:Bind IsMultiPaneActive, Mode=OneWay}"
                     Command="{x:Bind ViewModel.ClosePaneCommand, Mode=OneWay}"
+                    KeyboardAcceleratorTextOverride="Ctrl+Shift+W"
                     Label="Close pane">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE89F;" />
@@ -477,6 +479,7 @@
                     x:Name="NavToolbarNewWindow"
                     x:Uid="NavigationToolbarNewWindow"
                     Command="{x:Bind ViewModel.OpenNewWindowCommand, Mode=OneWay}"
+                    KeyboardAcceleratorTextOverride="Ctrl+N"
                     Label="New window">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE737;" />
@@ -493,6 +496,7 @@
                     x:Uid="NavigationToolbarEnterCompactOverlay"
                     Command="{x:Bind SetCompactOverlayCommand}"
                     CommandParameter="{StaticResource True}"
+                    KeyboardAcceleratorTextOverride="Ctrl+Alt+Up"
                     Label="Enter compact overlay"
                     Visibility="{x:Bind IsCompactOverlay, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
                     <AppBarButton.KeyboardAccelerators>
@@ -513,6 +517,7 @@
                     x:Uid="NavigationToolbarExitCompactOverlay"
                     Command="{x:Bind SetCompactOverlayCommand}"
                     CommandParameter="{StaticResource False}"
+                    KeyboardAcceleratorTextOverride="Ctrl+Alt+Down"
                     Label="Exit compact overlay"
                     Visibility="{x:Bind IsCompactOverlay, Mode=OneWay}">
                     <AppBarButton.Icon>
