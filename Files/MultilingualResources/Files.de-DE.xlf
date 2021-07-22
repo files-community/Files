@@ -3276,11 +3276,11 @@
         </trans-unit>
         <trans-unit id="SettingsAppearanceTheme.Title" translate="yes" xml:space="preserve">
           <source>Choose your color</source>
-          <target state="new">Choose your color</target>
+          <target state="new">Farbe auswählen</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceCustomThemes.Title" translate="yes" xml:space="preserve">
           <source>Custom themes</source>
-          <target state="new">Custom themes</target>
+          <target state="new">Themes</target>
         </trans-unit>
         <trans-unit id="SettingsContextMenuOverflowSwitch.Title" translate="yes" xml:space="preserve">
           <source>Move overflow items into a sub menu</source>
@@ -3288,55 +3288,55 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Title" translate="yes" xml:space="preserve">
           <source>Language</source>
-          <target state="new">Language</target>
+          <target state="new">Sprache</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Title" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
-          <target state="new">Show extensions for known file types</target>
+          <target state="new">Dateitypen in Namen anzeigen</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Title" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
-          <target state="new">Show hidden files and folders</target>
+          <target state="new">Versteckte Dateien und Ordner anzeigen</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Title" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
-          <target state="new">Hide protected operating system files (Recommended)</target>
+          <target state="new">Geschützte Systemdateien ausblenden (Empfohlen)</target>
         </trans-unit>
         <trans-unit id="SettingsOpenItemsWithOneclick.Title" translate="yes" xml:space="preserve">
           <source>Open items with a single click</source>
-          <target state="new">Open items with a single click</target>
+          <target state="new">Öffnen durch einfachen Klick</target>
         </trans-unit>
         <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Title" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
-          <target state="new">List and sort directories alongside files</target>
+          <target state="new">Verzeichnisse und Dateien zusammen mit auflisten und sortieren</target>
         </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems.Title" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
-          <target state="new">Show unindexed items when searching for files and folders (searches may take longer)</target>
+          <target state="new">Nicht indizierte Dateien und Ordner in der Suche anzeigen (Suchen wird langsamer)</target>
         </trans-unit>
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Title" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
-          <target state="new">Enable individual preferences for individual directories</target>
+          <target state="new">Individuelle Einstellungen für einzelne Verzeichnisse aktivieren</target>
         </trans-unit>
         <trans-unit id="SettingsUsefulLinks.Title" translate="yes" xml:space="preserve">
           <source>Useful links</source>
-          <target state="new">Useful links</target>
+          <target state="new">Nützliche Links</target>
         </trans-unit>
         <trans-unit id="SettingCopyVersionInfo.Content" translate="yes" xml:space="preserve">
           <source>Copy</source>
-          <target state="new">Copy</target>
+          <target state="new">Kopieren</target>
         </trans-unit>
         <trans-unit id="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="new">Open log location</target>
+          <target state="new">Log-Ordner öffnen</target>
         </trans-unit>
         <trans-unit id="SettingsAboutOpenLogLocationButtonText.Text" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="new">Open log location</target>
+          <target state="new">Log-Ordner öffnen</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutPinToFavorites.Text" translate="yes" xml:space="preserve">
           <source>Pin to Favorites</source>
-          <target state="new">Pin to Favorites</target>
+          <target state="new">Zu Favoriten hinzufügen</target>
         </trans-unit>
       </group>
     </body>
