@@ -56,7 +56,7 @@
 
         <StackPanel
             Grid.Column="1"
-            Padding="0,0,4,0"
+            Padding="0,0,2,0"
             HorizontalAlignment="Right"
             Orientation="Horizontal"
             Spacing="4">
@@ -65,7 +65,7 @@
                 x:Name="FullTrustStatus"
                 Width="32"
                 Height="32"
-                x:Load="True"
+                x:Load="{x:Bind MainViewModel.IsFullTrustElevated, Mode=OneWay}"
                 AccessKey="M"
                 Background="Transparent"
                 Click="FullTrustStatus_Click"
