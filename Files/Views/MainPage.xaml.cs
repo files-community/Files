@@ -255,18 +255,9 @@ namespace Files.Views
             }
         }
 
-        private async void SidebarControl_SidebarItemInvoked(object sender, SidebarItemInvokedEventArgs e)
+        private void SidebarControl_SidebarItemInvoked(object sender, SidebarItemInvokedEventArgs e)
         {
             var invokedItemContainer = e.InvokedItemContainer;
-
-            // All items must have DataContext except Settings item
-            if (invokedItemContainer.DataContext is MainPageViewModel)
-            {
-                SettingsDialog settingsDialog = new SettingsDialog();
-                _ = await settingsDialog.ShowAsync();
-
-                return;
-            }
 
             string navigationPath; // path to navigate
             Type sourcePageType = null; // type of page to navigate

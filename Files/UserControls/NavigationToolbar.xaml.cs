@@ -137,6 +137,15 @@ namespace Files.UserControls
         public static readonly DependencyProperty ShowSearchBoxProperty =
             DependencyProperty.Register(nameof(ShowSearchBox), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
 
+
+        public static readonly DependencyProperty SettingsButtonCommandProperty = DependencyProperty.Register(nameof(SettingsButtonCommand), typeof(ICommand), typeof(NavigationToolbar), new PropertyMetadata(null));
+
+        public ICommand SettingsButtonCommand
+        {
+            get => (ICommand)GetValue(SettingsButtonCommandProperty);
+            set => SetValue(SettingsButtonCommandProperty, value);
+        }
+
         public StatusCenterViewModel StatusCenterViewModel { get; set; }
 
         private void StatusCenterActions_ProgressBannerPosted(object sender, PostedStatusBanner e)

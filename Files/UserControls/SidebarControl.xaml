@@ -18,7 +18,7 @@
     ExpandedModeThresholdWidth="641"
     IsBackButtonVisible="Collapsed"
     IsPaneToggleButtonVisible="False"
-    IsSettingsVisible="True"
+    IsSettingsVisible="False"
     IsTitleBarAutoPaddingEnabled="False"
     ItemInvoked="Sidebar_ItemInvoked"
     MenuItemsSource="{x:Bind local:SidebarControl.SideBarItems, Mode=OneWay}"
