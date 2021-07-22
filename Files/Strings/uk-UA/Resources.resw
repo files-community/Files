@@ -144,9 +144,6 @@
   <data name="SidebarPictures" xml:space="preserve">
     <value>Зображення</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Відкріпити від бічної панелі</value>
-  </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Відео</value>
   </data>
@@ -1370,9 +1367,6 @@
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Хмарні диски</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>Відкріпити папку від бічної панелі</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Мережні диски</value>

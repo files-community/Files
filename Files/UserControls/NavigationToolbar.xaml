@@ -442,7 +442,7 @@
                 x:Load="{x:Bind ViewModel.ManualEntryBoxLoaded, Mode=OneWay}"
                 Background="Transparent"
                 BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
-                BorderThickness="0"
+                BorderThickness="{ThemeResource TextControlBorderThemeThickness}"
                 CornerRadius="{StaticResource ControlCornerRadius}"
                 DisplayMemberPath="ItemName"
                 FocusDisengaged="VisiblePath_LostFocus"
@@ -526,7 +526,7 @@
                         x:Name="StatusCenter"
                         x:Uid="StatusCenter"
                         Width="36"
-                        Height="32"
+                        Height="36"
                         Padding="0"
                         AccessKey="T"
                         AutomationProperties.Name="Status center"
@@ -538,12 +538,12 @@
                             <Grid>
                                 <FontIcon
                                     x:Name="StatusCenterFontIcon"
-                                    FontSize="14"
+                                    FontSize="16"
                                     Glyph="&#xF16A;" />
                                 <muxc:ProgressRing
                                     x:Name="MedianOperationProgressRing"
-                                    Width="24"
-                                    Height="24"
+                                    Width="28"
+                                    Height="28"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     x:Load="{x:Bind StatusCenterViewModel.AnyOperationsOngoing, Mode=OneWay}"
