@@ -64,8 +64,8 @@ namespace Files.UserControls
 
         private void NavigationToolbar_Loading(FrameworkElement sender, object args)
         {
+            StatusCenterViewModel.ProgressBannerPosted += StatusCenterActions_ProgressBannerPosted;
         }
-
 
         private void VisiblePath_Loaded(object sender, RoutedEventArgs e)
         {
@@ -136,5 +136,38 @@ namespace Files.UserControls
         // Using a DependencyProperty as the backing store for CollapseSearchBox.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowSearchBoxProperty =
             DependencyProperty.Register(nameof(ShowSearchBox), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+
+        public StatusCenterViewModel StatusCenterViewModel { get; set; }
+
+        private void StatusCenterActions_ProgressBannerPosted(object sender, PostedStatusBanner e)
+        {
+            if (AppSettings.ShowStatusCenterTeachingTip)
+            {
+                StatusCenterTeachingTip.IsOpen = true;
+                StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                AppSettings.ShowStatusCenterTeachingTip = false;
+            }
+            else
+            {
+                StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                StatusCenterTeachingTip.IsOpen = false;
+            }
+        }
+
+        public bool ShowStatusCenter
+        {
+            get => (bool)GetValue(ShowStatusCenterProperty);
+            set => SetValue(ShowStatusCenterProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for ShowStatusCenter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShowStatusCenterProperty =
+            DependencyProperty.Register(nameof(ShowStatusCenter), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+
+
+        private void FullTrustStatus_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            FullTrustStatusTeachingTip.IsOpen = true;
+        }
     }
 }

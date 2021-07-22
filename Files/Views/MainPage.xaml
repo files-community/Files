@@ -342,7 +342,9 @@
                     Grid.ColumnSpan="4"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
-                    ShowSearchBox="False" />
+                    ShowSearchBox="True"
+                    ShowStatusCenter="True"
+                    StatusCenterViewModel="{x:Bind StatusCenterViewModel}" />
             </Grid>
         </controls:SidebarControl.TabContent>
 
@@ -358,7 +360,7 @@
                     x:Name="PreviewPaneRow"
                     Height="0"
                     MaxHeight="250" />
-                <RowDefinition Height="40" />
+                <RowDefinition Height="32" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*" />
@@ -414,9 +416,7 @@
                 Grid.Row="4"
                 Grid.ColumnSpan="3"
                 x:Load="False"
-                ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePane.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                ShowStatusCenter="True"
-                StatusCenterViewModel="{x:Bind StatusCenterViewModel}" />
+                ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePane.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
         </Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="MultitaskingControlStates">

@@ -14,8 +14,6 @@ namespace Files.UserControls
 
         public MainViewModel MainViewModel => App.MainViewModel;
 
-        public StatusCenterViewModel StatusCenterViewModel { get; set; }
-
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel
         {
             get => (DirectoryPropertiesViewModel)GetValue(DirectoryPropertiesViewModelProperty);
@@ -36,8 +34,6 @@ namespace Files.UserControls
         public static readonly DependencyProperty SelectedItemsPropertiesViewModelProperty =
             DependencyProperty.Register(nameof(SelectedItemsPropertiesViewModel), typeof(SelectedItemsPropertiesViewModel), typeof(StatusBarControl), new PropertyMetadata(null));
 
-
-
         public bool ShowInfoText
         {
             get => (bool)GetValue(ShowInfoTextProperty);
@@ -48,47 +44,9 @@ namespace Files.UserControls
         public static readonly DependencyProperty ShowInfoTextProperty =
             DependencyProperty.Register(nameof(ShowInfoText), typeof(bool), typeof(StatusBarControl), new PropertyMetadata(null));
 
-
-
-
-        private bool showStatusCenter;
-
-        public bool ShowStatusCenter
-        {
-            get => showStatusCenter;
-            set
-            {
-                if (value != showStatusCenter)
-                {
-                    showStatusCenter = value;
-                    NotifyPropertyChanged(nameof(ShowStatusCenter));
-                }
-            }
-        }
-
         public StatusBarControl()
         {
             this.InitializeComponent();
-        }
-
-        private void StatusCenterActions_ProgressBannerPosted(object sender, PostedStatusBanner e)
-        {
-            if (AppSettings.ShowStatusCenterTeachingTip)
-            {
-                StatusCenterTeachingTip.IsOpen = true;
-                StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                AppSettings.ShowStatusCenterTeachingTip = false;
-            }
-            else
-            {
-                StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                StatusCenterTeachingTip.IsOpen = false;
-            }
-        }
-
-        private void FullTrustStatus_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            FullTrustStatusTeachingTip.IsOpen = true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -96,11 +54,6 @@ namespace Files.UserControls
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void UserControl_Loading(Windows.UI.Xaml.FrameworkElement sender, object args)
-        {
-            StatusCenterViewModel.ProgressBannerPosted += StatusCenterActions_ProgressBannerPosted;
         }
     }
 }

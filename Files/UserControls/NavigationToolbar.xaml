@@ -13,6 +13,7 @@
     xmlns:local="using:Files.UserControls.MultitaskingControl"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:uc="using:Files.UserControls"
     xmlns:xh="using:Files.Helpers.XamlHelpers"
@@ -520,6 +521,63 @@
                     </Button.KeyboardAccelerators>
                 </Button>
 
+                <Grid x:Name="StatusCenterGrid" Visibility="{x:Bind ShowStatusCenter, Mode=OneWay}">
+                    <Button
+                        x:Name="StatusCenter"
+                        x:Uid="StatusCenter"
+                        Width="36"
+                        Height="36"
+                        Padding="0"
+                        AccessKey="T"
+                        AutomationProperties.Name="Status center"
+                        Background="Transparent"
+                        Style="{StaticResource ToolBarButtonStyle}"
+                        ToolTipService.ToolTip="Ongoing Tasks"
+                        Visibility="Visible">
+                        <Button.Content>
+                            <Grid>
+                                <FontIcon
+                                    x:Name="StatusCenterFontIcon"
+                                    FontSize="16"
+                                    Glyph="&#xF16A;" />
+                                <muxc:ProgressRing
+                                    x:Name="MedianOperationProgressRing"
+                                    Width="28"
+                                    Height="28"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    x:Load="{x:Bind StatusCenterViewModel.AnyOperationsOngoing, Mode=OneWay}"
+                                    IsIndeterminate="False"
+                                    Value="{x:Bind StatusCenterViewModel.MedianOperationProgressValue, Mode=OneWay}" />
+                            </Grid>
+                        </Button.Content>
+                        <Button.Flyout>
+                            <Flyout x:Uid="StatusCenterFlyout" AutomationProperties.Name="Ongoing tasks flyout">
+                                <uc:StatusCenter
+                                    x:Name="OngoingTasksControl"
+                                    Width="300"
+                                    MinHeight="300"
+                                    MaxHeight="400"
+                                    x:FieldModifier="public"
+                                    IsTabStop="True"
+                                    StatusCenterViewModel="{x:Bind StatusCenterViewModel}" />
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                    <Button
+                        x:Name="FullTrustStatus"
+                        Width="36"
+                        Height="36"
+                        x:Load="{x:Bind MainViewModel.IsFullTrustElevated, Mode=OneWay}"
+                        AccessKey="M"
+                        Background="Transparent"
+                        Click="FullTrustStatus_Click"
+                        FontSize="16"
+                        Style="{StaticResource ToolBarButtonStyle}">
+                        <FontIcon FontSize="16" Glyph="&#xEA18;" />
+                    </Button>
+                </Grid>
+
                 <Button
                     x:Name="SettingsButton"
                     x:Uid="NavSettingsButton"
@@ -532,6 +590,22 @@
                     <FontIcon FontSize="14" Glyph="&#xE115;" />
                 </Button>
             </StackPanel>
+
+            <muxc:TeachingTip
+                x:Name="StatusCenterTeachingTip"
+                x:Uid="StatusCenterTeachingTip"
+                Title="Status Center"
+                Subtitle="Check the status of file operations here"
+                Target="{x:Bind StatusCenter}"
+                Visibility="Collapsed" />
+
+            <muxc:TeachingTip
+                x:Name="FullTrustStatusTeachingTip"
+                x:Uid="FullTrustStatusTeachingTip"
+                Title="Administrator"
+                Subtitle="Files is running as administrator"
+                Target="{x:Bind FullTrustStatus}"
+                Visibility="Collapsed" />
         </Grid>
 
         <VisualStateManager.VisualStateGroups>
