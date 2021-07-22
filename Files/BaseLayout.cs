@@ -588,16 +588,16 @@ namespace Files
             var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
             var mainItems = ItemModelListToContextFlyoutHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
 
-            var overflowItem = ItemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
+            var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
             if (overflowItem is not null)
             {
                 var overflowItemFlyout = overflowItem.Flyout as MenuFlyout;
-                var index = ItemContextMenuFlyout.SecondaryCommands.Count - 2;
+                var index = contextMenuFlyout.SecondaryCommands.Count - 2;
 
                 foreach (var i in mainItems)
                 {
                     index++;
-                    ItemContextMenuFlyout.SecondaryCommands.Insert(index, i);
+                    contextMenuFlyout.SecondaryCommands.Insert(index, i);
                 }
 
                 index = 0;
@@ -615,12 +615,12 @@ namespace Files
 
                 if (overflowItemFlyout.Items.Count > 0)
                 {
-                    (ItemContextMenuFlyout.SecondaryCommands.First(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator).Visibility = Visibility.Visible;
+                    (contextMenuFlyout.SecondaryCommands.First(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator).Visibility = Visibility.Visible;
                     overflowItem.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    ItemContextMenuFlyout.SecondaryCommands.Remove(overflowItem);
+                    contextMenuFlyout.SecondaryCommands.Remove(overflowItem);
                 }
             }
         }
