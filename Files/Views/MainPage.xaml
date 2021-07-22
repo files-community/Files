@@ -341,7 +341,8 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="4"
                     HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch" />
+                    HorizontalContentAlignment="Stretch"
+                    ShowSearchBox="False" />
             </Grid>
         </controls:SidebarControl.TabContent>
 
@@ -436,6 +437,21 @@
                         <Setter Target="VerticalTabStripInvokeButton.Width" Value="36" />
                         <Setter Target="HorizontalMultitaskingControlAddButton.Visibility" Value="Collapsed" />
                         <Setter Target="VerticalTabStripInvokeButtonIcon.FontSize" Value="16" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="750" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="NavToolbar.ShowSearchBox" Value="False" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

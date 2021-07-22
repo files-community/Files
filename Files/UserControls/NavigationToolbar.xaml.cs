@@ -127,5 +127,14 @@ namespace Files.UserControls
         {
 
         }
+        public bool ShowSearchBox
+        {
+            get { return (bool)GetValue(ShowSearchBoxProperty); }
+            set { SetValue(ShowSearchBoxProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CollapseSearchBox.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShowSearchBoxProperty =
+            DependencyProperty.Register(nameof(ShowSearchBox), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
     }
 }

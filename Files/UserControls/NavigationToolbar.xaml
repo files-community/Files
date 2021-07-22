@@ -13,6 +13,7 @@
     xmlns:local="using:Files.UserControls.MultitaskingControl"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:uc="using:Files.UserControls"
     xmlns:xh="using:Files.Helpers.XamlHelpers"
     x:Name="NavToolbar"
@@ -28,6 +29,7 @@
                 x:Key="NegatedBoolToVisibilityConverter"
                 FalseValue="Visible"
                 TrueValue="Collapsed" />
+
             <converters:IntToGroupOption x:Key="IntToGroupOption" />
             <converters:IntToSortOption x:Key="IntToSortOption" />
             <converters:IntToSortDirection x:Key="IntToSortDirection" />
@@ -338,7 +340,6 @@
         Background="{ThemeResource NavigationToolbarBackgroundBrush}"
         ColumnSpacing="0"
         CornerRadius="{StaticResource NavToolbarCornerRadius}">
-
         <Grid Padding="8,0,8,8" ColumnSpacing="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -489,47 +490,69 @@
                 CornerRadius="{StaticResource ControlCornerRadius}"
                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 LostFocus="SearchRegion_LostFocus"
-                SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}">
+                SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}"
+                Visibility="{x:Bind converters:MultiBooleanConverter.OrConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
                 <uc:SearchBox.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Escape" Invoked="SearchBox_Escaped" />
                 </uc:SearchBox.KeyboardAccelerators>
             </uc:SearchBox>
 
-            <Button
-                x:Name="SearchButton"
-                x:Uid="NavSearchButton"
-                Grid.Column="2"
-                Width="36"
-                Height="32"
-                AccessKey="I"
-                AutomationProperties.Name="Search"
-                Background="Transparent"
-                Click="SearchButton_Click"
-                IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Search (Ctrl+F)"
-                Visibility="Collapsed">
-                <FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator
-                        Key="F"
-                        IsEnabled="False"
-                        Modifiers="Control" />
-                </Button.KeyboardAccelerators>
-            </Button>
+            <StackPanel Grid.Column="3" Orientation="Horizontal">
+                <Button
+                    x:Name="SearchButton"
+                    x:Uid="NavSearchButton"
+                    Width="36"
+                    Height="32"
+                    AccessKey="I"
+                    AutomationProperties.Name="Search"
+                    Background="Transparent"
+                    Click="SearchButton_Click"
+                    IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="Search (Ctrl+F)"
+                    Visibility="Collapsed">
+                    <FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator
+                            Key="F"
+                            IsEnabled="False"
+                            Modifiers="Control" />
+                    </Button.KeyboardAccelerators>
+                </Button>
 
-            <Button
-                x:Name="SettingsButton"
-                x:Uid="NavSettingsButton"
-                Grid.Column="3"
-                Width="36"
-                Height="32"
-                AutomationProperties.Name="Settings"
-                Background="Transparent"
-                Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Settings">
-                <FontIcon FontSize="14" Glyph="&#xE115;" />
-            </Button>
+                <Button
+                    x:Name="SettingsButton"
+                    x:Uid="NavSettingsButton"
+                    Width="36"
+                    Height="32"
+                    AutomationProperties.Name="Settings"
+                    Background="Transparent"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="Settings">
+                    <FontIcon FontSize="14" Glyph="&#xE115;" />
+                </Button>
+            </StackPanel>
         </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="SearchBoxAlwaysShown">
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind ShowSearchBox, Mode=OneWay}" To="True" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+
+                <VisualState x:Name="SearchBoxCollapse">
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind ShowSearchBox, Mode=OneWay}" To="False" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SearchButton.Visibility" Value="Visible" />
+                        <Setter Target="SearchRegion.(Grid.Column)" Value="1" />
+                        <Setter Target="SearchRegion.Width" Value="NaN" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>
