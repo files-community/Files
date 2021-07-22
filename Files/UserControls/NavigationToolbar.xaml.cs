@@ -163,11 +163,5 @@ namespace Files.UserControls
         // Using a DependencyProperty as the backing store for ShowStatusCenter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowStatusCenterProperty =
             DependencyProperty.Register(nameof(ShowStatusCenter), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
-
-
-        private void FullTrustStatus_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            FullTrustStatusTeachingTip.IsOpen = true;
-        }
     }
 }

@@ -34,6 +34,14 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
+        <muxc:TeachingTip
+            x:Name="FullTrustStatusTeachingTip"
+            x:Uid="FullTrustStatusTeachingTip"
+            Title="Administrator"
+            Subtitle="Files is running as administrator"
+            Target="{x:Bind FullTrustStatus}"
+            Visibility="Collapsed" />
+
         <StackPanel
             x:Name="SelectionDirectoryInformationPanel"
             Margin="8,0"
@@ -44,6 +52,27 @@
             <TextBlock Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
             <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
             <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Column="1"
+            Padding="0,0,4,0"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal"
+            Spacing="4">
+
+            <Button
+                x:Name="FullTrustStatus"
+                Width="32"
+                Height="32"
+                x:Load="True"
+                AccessKey="M"
+                Background="Transparent"
+                Click="FullTrustStatus_Click"
+                FontSize="16"
+                Style="{StaticResource ToolBarButtonStyle}">
+                <FontIcon FontSize="14" Glyph="&#xEA18;" />
+            </Button>
         </StackPanel>
     </Grid>
 </UserControl>

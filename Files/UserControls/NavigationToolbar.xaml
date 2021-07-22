@@ -564,18 +564,6 @@
                             </Flyout>
                         </Button.Flyout>
                     </Button>
-                    <Button
-                        x:Name="FullTrustStatus"
-                        Width="36"
-                        Height="36"
-                        x:Load="{x:Bind MainViewModel.IsFullTrustElevated, Mode=OneWay}"
-                        AccessKey="M"
-                        Background="Transparent"
-                        Click="FullTrustStatus_Click"
-                        FontSize="16"
-                        Style="{StaticResource ToolBarButtonStyle}">
-                        <FontIcon FontSize="16" Glyph="&#xEA18;" />
-                    </Button>
                 </Grid>
 
                 <Button
@@ -597,14 +585,6 @@
                 Title="Status Center"
                 Subtitle="Check the status of file operations here"
                 Target="{x:Bind StatusCenter}"
-                Visibility="Collapsed" />
-
-            <muxc:TeachingTip
-                x:Name="FullTrustStatusTeachingTip"
-                x:Uid="FullTrustStatusTeachingTip"
-                Title="Administrator"
-                Subtitle="Files is running as administrator"
-                Target="{x:Bind FullTrustStatus}"
                 Visibility="Collapsed" />
         </Grid>
 
