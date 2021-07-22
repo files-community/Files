@@ -1,6 +1,7 @@
 ﻿using Files.Enums;
 using Files.Extensions;
 using System.Collections.Generic;
+using Windows.Storage;
 
 namespace Files.Filesystem.FilesystemHistory
 {
@@ -10,22 +11,22 @@ namespace Files.Filesystem.FilesystemHistory
 
         public FileOperationType OperationType { get; private set; }
 
-        public IEnumerable<IStorageItemWithPath> Source { get; private set; }
+        public IEnumerable<IStorageItem> Source { get; private set; }
 
-        public IEnumerable<IStorageItemWithPath> Destination { get; private set; }
+        public IEnumerable<IStorageItem> Destination { get; private set; }
 
         #endregion Public Properties
 
         #region Constructor
 
-        public StorageHistory(FileOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<IStorageItemWithPath> destination)
+        public StorageHistory(FileOperationType operationType, IEnumerable<IStorageItem> source, IEnumerable<IStorageItem> destination)
         {
             OperationType = operationType;
             Source = source;
             Destination = destination;
         }
 
-        public StorageHistory(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath destination)
+        public StorageHistory(FileOperationType operationType, IStorageItem source, IStorageItem destination)
         {
             OperationType = operationType;
             Source = source.CreateEnumerable();
@@ -43,14 +44,14 @@ namespace Files.Filesystem.FilesystemHistory
             Destination = newHistory.Destination;
         }
 
-        public void Modify(FileOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<IStorageItemWithPath> destination)
+        public void Modify(FileOperationType operationType, IEnumerable<IStorageItem> source, IEnumerable<IStorageItem> destination)
         {
             OperationType = operationType;
             Source = source;
             Destination = destination;
         }
 
-        public void Modify(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath destination)
+        public void Modify(FileOperationType operationType, IStorageItem source, IStorageItem destination)
         {
             OperationType = operationType;
             Source = source.CreateEnumerable();
