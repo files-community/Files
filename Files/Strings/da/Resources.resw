@@ -183,9 +183,6 @@
   <data name="SidebarPictures" xml:space="preserve">
     <value>Billeder</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Frigør fra sidebjælke</value>
-  </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Videoer</value>
   </data>

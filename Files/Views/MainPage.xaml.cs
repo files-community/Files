@@ -127,6 +127,7 @@ namespace Files.Views
                     paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
                 UpdateStatusBarProperties();
                 UpdatePreviewPaneProperties();
+                UpdateNavToolbarProperties();
             }
         }
 
@@ -148,7 +149,7 @@ namespace Files.Views
 
         private void PaneHolder_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments?.NavigationArg.ToString());
+            SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane?.TabItemArguments?.NavigationArg?.ToString());
             UpdateStatusBarProperties();
             UpdatePreviewPaneProperties();
             UpdateNavToolbarProperties();
@@ -168,8 +169,13 @@ namespace Files.Views
             if (NavToolbar != null)
             {
                 NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.NavToolbarViewModel;
-                NavToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
-                NavToolbar.IsMultiPaneActive = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
+            }
+
+            if(InnerNavigationToolbar != null)
+            {
+                InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.NavToolbarViewModel;
+                InnerNavigationToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
+                InnerNavigationToolbar.IsMultiPaneActive = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
             }
         }
 
@@ -249,18 +255,9 @@ namespace Files.Views
             }
         }
 
-        private async void SidebarControl_SidebarItemInvoked(object sender, SidebarItemInvokedEventArgs e)
+        private void SidebarControl_SidebarItemInvoked(object sender, SidebarItemInvokedEventArgs e)
         {
             var invokedItemContainer = e.InvokedItemContainer;
-
-            // All items must have DataContext except Settings item
-            if (invokedItemContainer.DataContext is MainPageViewModel)
-            {
-                SettingsDialog settingsDialog = new SettingsDialog();
-                _ = await settingsDialog.ShowAsync();
-
-                return;
-            }
 
             string navigationPath; // path to navigate
             Type sourcePageType = null; // type of page to navigate
@@ -319,6 +316,7 @@ namespace Files.Views
         {
             // Defers the status bar loading until after the page has loaded to improve startup perf
             FindName(nameof(StatusBarControl));
+            FindName(nameof(InnerNavigationToolbar));
         }
 
         private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs e)
@@ -423,8 +421,8 @@ namespace Files.Views
 
         public bool LoadPreviewPane => App.AppSettings.PreviewPaneEnabled && !IsPreviewPaneDisabled;
 
-        public bool IsPreviewPaneDisabled => (SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false) || !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane.InstanceViewModel.IsPageTypeNotHome ?? false) // hide the preview pane if on the home page and multipane is disabled
-            || (Window.Current.Bounds.Width <= 450 || Window.Current.Bounds.Height <= 400); // Disable the preview pane for small windows as it won't function properly
+        public bool IsPreviewPaneDisabled => (!(SidebarAdaptiveViewModel.PaneHolder?.ActivePane.InstanceViewModel.IsPageTypeNotHome ?? false) && !(SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false)) // hide the preview pane when on home page unless multi pane is in use
+            || Window.Current.Bounds.Width <= 450 || Window.Current.Bounds.Height <= 400; // Disable the preview pane for small windows as it won't function properly
 
         private void LoadPreviewPaneChanged()
         {
@@ -437,7 +435,7 @@ namespace Files.Views
         {
             UpdatePreviewPaneProperties();
             UpdatePositioning();
-            PreviewPane.Model.UpdateSelectedItemPreview();
+            PreviewPane?.Model?.UpdateSelectedItemPreview();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -455,11 +453,11 @@ namespace Files.Views
 
             if (!isCompact)
             {
-                NavToolbar.IsCompactOverlay = !await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+                InnerNavigationToolbar.IsCompactOverlay = !await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
             }
             else
             {
-                NavToolbar.IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+                InnerNavigationToolbar.IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
                 view.TryResizeView(new Windows.Foundation.Size(400, 350));
             }
         }

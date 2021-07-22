@@ -180,9 +180,6 @@
   <data name="SidebarPictures" xml:space="preserve">
     <value>ピクチャ</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>サイドバーから固定解除</value>
-  </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>ビデオ</value>
   </data>
@@ -1406,9 +1403,6 @@
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>クラウド ドライブ</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>サイドバーからフォルダを固定解除</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>ネットワーク ドライブ</value>

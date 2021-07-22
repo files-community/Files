@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -122,9 +122,6 @@
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>Open in new window</value>
-  </data>
-  <data name="NavigationToolbarNewTab.Label" xml:space="preserve">
-    <value>New tab</value>
   </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>New window</value>
@@ -324,8 +321,8 @@
   <data name="SidebarPictures" xml:space="preserve">
     <value>Pictures</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Unpin from sidebar</value>
+  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
+    <value>Unpin from Favorites</value>
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Videos</value>
@@ -1003,7 +1000,7 @@
     <value>Move overflow items into a sub menu</value>
   </data>
   <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
-    <value>Pin Recycle Bin to the sidebar</value>
+    <value>Pin Recycle Bin to Favorites</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Show a confirmation dialog when deleting files or folders</value>
@@ -1656,8 +1653,8 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Item Name</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>Unpin directory from sidebar</value>
+  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
+    <value>Unpin from Favorites</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Network drives</value>
@@ -2613,6 +2610,18 @@
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
     <value>Hide {0} section</value>
   </data>
+	<data name="NavSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="NavSettingsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
+    <value>Copy</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
@@ -2669,5 +2678,4 @@
   </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
-  </data>
 </root>

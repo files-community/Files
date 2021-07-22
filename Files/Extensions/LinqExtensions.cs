@@ -42,5 +42,30 @@ namespace Files.Extensions
             }
             list.Insert(index, item);
         }
+
+        /// <summary>
+        /// Removes all elements from the specified index to the end of the list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="index"></param>
+
+        public static List<T> RemoveFrom<T>(this List<T> list, int index)
+        {
+            if(list.Count == 0)
+            {
+                return list;
+            }
+
+            var res = new List<T>(list);
+            var end = res.Count - index;
+            if(end >= res.Count)
+            {
+                end = res.Count - 1;
+            }
+
+            res.RemoveRange(index, end);
+            return res;
+        }
     }
 }

@@ -90,9 +90,6 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>환경 설정</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>사이드바 고정 해제</value>
-  </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>바탕 화면</value>
   </data>
@@ -1418,9 +1415,6 @@
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>이름</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>사이드바에서 폴더 고정 해제</value>
   </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
     <value>파일 자세한 정보</value>

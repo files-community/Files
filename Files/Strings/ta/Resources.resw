@@ -180,9 +180,6 @@
   <data name="SidebarPictures" xml:space="preserve">
     <value>புகைப்படங்கள்</value>
   </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>பக்கப்பட்டியிலிருந்து விடுவி</value>
-  </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>காணொளிகள்</value>
   </data>
