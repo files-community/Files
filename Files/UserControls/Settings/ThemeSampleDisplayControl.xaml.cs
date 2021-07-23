@@ -13,7 +13,7 @@ namespace Files.UserControls.Settings
             set
             {
                 SetValue(SampleThemeProperty, value);
-                ReevaluateThemeResourceBinding();
+                _ = ReevaluateThemeResourceBinding();
             }
         }
 
@@ -29,15 +29,15 @@ namespace Files.UserControls.Settings
 
         private void ThemeSampleDisplayControl_Loaded(object sender, RoutedEventArgs e)
         {
-            ReevaluateThemeResourceBinding();
+            _ = ReevaluateThemeResourceBinding();
         }
 
         public async Task<bool> ReevaluateThemeResourceBinding()
         {
-            if(SampleTheme.Path != null)
+            if (SampleTheme.Path != null)
             {
                 var resources = await App.ExternalResourcesHelper.TryLoadResourceDictionary(SampleTheme);
-                if(resources != null)
+                if (resources != null)
                 {
                     Resources.MergedDictionaries.Add(resources);
                     RequestedTheme = ElementTheme.Dark;

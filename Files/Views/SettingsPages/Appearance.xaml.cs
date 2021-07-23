@@ -1,5 +1,6 @@
 ﻿using Files.Dialogs;
 using Files.Helpers;
+using Files.Helpers.XamlHelpers;
 using Files.UserControls.Settings;
 using Files.ViewModels;
 using Files.ViewModels.SettingsViewModels;
@@ -23,7 +24,7 @@ namespace Files.SettingsPages
         {
             for (int i = 0; i < ViewModel.CustomThemes.Count; i++)
             {
-                if(ViewModel.CustomThemes[i].Path == ViewModel.SelectedTheme.Path)
+                if (ViewModel.CustomThemes[i].Path == ViewModel.SelectedTheme.Path)
                 {
                     AppThemeSelectionGridView.SelectedIndex = i;
                 }
@@ -43,16 +44,18 @@ namespace Files.SettingsPages
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == nameof(ViewModel.SelectedElementTheme))
+            if (e.PropertyName == nameof(ViewModel.SelectedElementTheme))
             {
-                var containers = AppThemeSelectionGridView.ItemsPanelRoot.Children;
-                foreach(var container in containers)
+                foreach (var theme in ViewModel.CustomThemes)
                 {
-                    var listViewItemPresenter = VisualTreeHelper.GetChild(container, 0);
-                    var item = VisualTreeHelper.GetChild(listViewItemPresenter, 0) as ThemeSampleDisplayControl;
-                    if(item !=  null)
+                    var container = AppThemeSelectionGridView.ContainerFromItem(theme);
+                    if (container != null)
                     {
-                        await item.ReevaluateThemeResourceBinding();
+                        var item = DependencyObjectHelpers.FindChild<ThemeSampleDisplayControl>(container);
+                        if (item != null)
+                        {
+                            await item.ReevaluateThemeResourceBinding();
+                        }
                     }
                 }
             }
