@@ -842,7 +842,6 @@
                                                 <Setter Target="TabContentBorder.(Grid.ColumnSpan)" Value="2" />
                                                 <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
                                                 <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
-                                                <Setter Target="DragArea.Margin" Value="0,0,0,0" />
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="ClosedCompactRight">
@@ -882,7 +881,6 @@
                                                 <Setter Target="TabContentBorder.(Grid.ColumnSpan)" Value="2" />
                                                 <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
                                                 <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
-                                                <Setter Target="DragArea.Margin" Value="0,0,0,0" />
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="OpenOverlayLeft">
@@ -942,7 +940,6 @@
                                                 <Setter Target="TabContentBorder.(Grid.ColumnSpan)" Value="2" />
                                                 <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
                                                 <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
-                                                <Setter Target="DragArea.Margin" Value="0,0,0,0" />
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="OpenInlineRight">
@@ -983,7 +980,6 @@
                                                 <Setter Target="TabContentBorder.(Grid.ColumnSpan)" Value="2" />
                                                 <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
                                                 <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
-                                                <Setter Target="DragArea.Margin" Value="0,0,0,0" />
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="OpenCompactOverlayLeft">
