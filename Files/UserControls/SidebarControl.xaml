@@ -238,6 +238,15 @@
                                     CornerRadius="0,0,0,0"
                                     IsHitTestVisible="False" />
 
+                                <Border
+                                    x:Name="ContentBackgroundBorder"
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="2"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Background="{ThemeResource SidebarContentBackgroundBrush}"
+                                    IsHitTestVisible="False" />
+
                                 <!--  Pane Content Area  -->
                                 <Grid
                                     x:Name="PaneRoot"

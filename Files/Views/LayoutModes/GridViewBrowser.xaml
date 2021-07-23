@@ -477,8 +477,8 @@
                     x:FieldModifier="public"
                     AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                     CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                    DesiredWidth="{x:Bind GridViewItemMinWidth, Mode=OneWay}"
                     ContainerContentChanging="FileList_ContainerContentChanging"
+                    DesiredWidth="{x:Bind GridViewItemMinWidth, Mode=OneWay}"
                     DoubleTapped="FileList_DoubleTapped"
                     DragItemsStarting="FileList_DragItemsStarting"
                     DragOver="ItemsLayout_DragOver"
@@ -510,7 +510,6 @@
                                             <TextBlock
                                                 Margin="4,0,0,0"
                                                 VerticalAlignment="Center"
-                                                Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
                                                 Style="{StaticResource BodyTextBlockStyle}"
                                                 Text="{x:Bind Model.CountText, Mode=OneWay}"
                                                 Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
@@ -518,14 +517,12 @@
                                             <TextBlock
                                                 VerticalAlignment="Center"
                                                 FontSize="14"
-                                                Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
                                                 Style="{StaticResource SubheaderTextBlockStyle}"
                                                 Text="{x:Bind Model.Subtext, Mode=OneWay}"
                                                 Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                                         </StackPanel>
                                         <TextBlock
                                             Margin="0,2,0,0"
-                                            Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
                                             Style="{StaticResource BodyTextBlockStyle}"
                                             Text="{x:Bind Model.CountText, Mode=OneWay}"
                                             Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />

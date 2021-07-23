@@ -575,7 +575,8 @@
                     Background="Transparent"
                     Command="{x:Bind SettingsButtonCommand, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Settings">
+                    ToolTipService.ToolTip="Settings"
+                    Visibility="{x:Bind ShowSettingsButton, Mode=OneWay}">
                     <FontIcon FontSize="14" Glyph="&#xE115;" />
                 </Button>
             </StackPanel>

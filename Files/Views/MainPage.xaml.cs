@@ -453,12 +453,26 @@ namespace Files.Views
 
             if (!isCompact)
             {
-                InnerNavigationToolbar.IsCompactOverlay = !await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+                IsCompactOverlay = !await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
             }
             else
             {
-                InnerNavigationToolbar.IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+                IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
                 view.TryResizeView(new Windows.Foundation.Size(400, 350));
+            }
+        }
+
+        private bool isCompactOverlay;
+        public bool IsCompactOverlay
+        {
+            get => isCompactOverlay;
+            set
+            {
+                if(value != isCompactOverlay)
+                {
+                    isCompactOverlay = value;
+                    NotifyPropertyChanged(nameof(IsCompactOverlay));
+                }
             }
         }
 
