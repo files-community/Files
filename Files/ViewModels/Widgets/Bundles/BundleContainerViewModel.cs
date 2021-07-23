@@ -141,6 +141,7 @@ namespace Files.ViewModels.Widgets.Bundles
             if (folder != null)
             {
                 await AddItemFromPath(folder.Path, FilesystemItemType.Directory);
+                SaveBundle();
             }
         }
 
@@ -154,6 +155,7 @@ namespace Files.ViewModels.Widgets.Bundles
             if (file != null)
             {
                 await AddItemFromPath(file.Path, FilesystemItemType.File);
+                SaveBundle();
             }
         }
 
