@@ -715,13 +715,14 @@ namespace Files.Views.LayoutModes
             {
                 case 2: // file name column
                     {
-                        var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(x => x.Name == "ItemName");
-                        var maxWidth = tbs.Select(tb =>
+                        var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(x => x.Name == "ItemName").Take(5);
+                        var widthPerLetter = tbs.Select(tb =>
                         {
                             tb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-                            return tb.DesiredSize.Width;
-                        }).Max();
-                        ColumnsViewModel.NameColumn.UserLength = new GridLength(maxWidth + 30, GridUnitType.Pixel);
+                            return tb.DesiredSize.Width / tb.Text.Length;
+                        }).Average();
+                        var maxLength = FileList.Items.Cast<ListedItem>().Select(x => x.ItemName.Length).Max();
+                        ColumnsViewModel.NameColumn.UserLength = new GridLength(maxLength * widthPerLetter + 30, GridUnitType.Pixel);
                         break;
                     }
             }
