@@ -137,7 +137,23 @@ namespace Files.Views.LayoutModes
 
         private void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
         {
-            FileList.Focus(FocusState.Programmatic);
+            if (FileList.ContainerFromIndex(0) is ListViewItem item)
+            {
+                _ = FocusManager.TryFocusAsync(item, FocusState.Programmatic);
+            }
+            else
+            {
+                FileList.ContainerContentChanging += FileList_FocusItem0;
+            }
+        }
+
+        private void FileList_FocusItem0(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            if (!args.InRecycleQueue && args.ItemIndex == 0)
+            {
+                _ = FocusManager.TryFocusAsync(args.ItemContainer, FocusState.Programmatic);
+                FileList.ContainerContentChanging -= FileList_FocusItem0;
+            }
         }
 
         protected override void UnhookEvents()
@@ -265,6 +281,7 @@ namespace Files.Views.LayoutModes
             FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
             FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
             ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+            FileList.ContainerContentChanging -= FileList_FocusItem0;
         }
 
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
