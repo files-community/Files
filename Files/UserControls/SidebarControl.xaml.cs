@@ -781,26 +781,35 @@ namespace Files.UserControls
         {
             var step = 1;
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+            originalSize = IsPaneOpen ? AppSettings.SidebarWidth.Value : CompactPaneLength;
+
             if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
             {
                 step = 5;
             }
 
-            if (e.Key == VirtualKey.Left)
+            if (e.Key == VirtualKey.Space || e.Key == VirtualKey.Enter)
             {
-                SetSize(-step);
-                e.Handled = true;
-            }
-            else if (e.Key == VirtualKey.Right)
-            {
-                SetSize(step);
-                e.Handled = true;
+                IsPaneOpen = !IsPaneOpen;
+                return;
             }
 
-            // if the user focuses the resizer and attempts to resize while the pane is closed, open it
-            if (!IsPaneOpen && DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right))
+            if (IsPaneOpen)
             {
-                IsPaneOpen = true;
+                if (e.Key == VirtualKey.Left)
+                {
+                    SetSize(-step, true);
+                    e.Handled = true;
+                }
+                else if (e.Key == VirtualKey.Right)
+                {
+                    SetSize(step, true);
+                    e.Handled = true;
+                }
+            } else if(e.Key == VirtualKey.Right)
+            {
+                IsPaneOpen = !IsPaneOpen;
+                return;
             }
 
             App.AppSettings.SidebarWidth = new GridLength(OpenPaneLength);
@@ -830,7 +839,7 @@ namespace Files.UserControls
             }
         }
 
-        private void SetSize(double val)
+        private void SetSize(double val, bool closeImmediatleyOnOversize = false)
         {
             if (IsPaneOpen)
             {
@@ -842,7 +851,7 @@ namespace Files.UserControls
 
                 if (newSize < Constants.UI.MinimumSidebarWidth) // if the new size is below the minimum, check whether to toggle the pane
                 {
-                    if (Constants.UI.MinimumSidebarWidth + val <= CompactPaneLength) // collapse the sidebar
+                    if (Constants.UI.MinimumSidebarWidth + val <= CompactPaneLength || closeImmediatleyOnOversize) // collapse the sidebar
                     {
                         IsPaneOpen = false;
                     }
@@ -850,7 +859,7 @@ namespace Files.UserControls
             }
             else
             {
-                if (val >= Constants.UI.MinimumSidebarWidth - CompactPaneLength)
+                if (val >= Constants.UI.MinimumSidebarWidth - CompactPaneLength || closeImmediatleyOnOversize)
                 {
                     OpenPaneLength = Constants.UI.MinimumSidebarWidth + (val + CompactPaneLength - Constants.UI.MinimumSidebarWidth); // set open sidebar length to minimum value to keep it smooth
                     IsPaneOpen = true;
@@ -879,11 +888,6 @@ namespace Files.UserControls
         {
             var item = (sender as MenuFlyoutItem).DataContext;
             SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(item));
-        }
-
-        private void DragArea_Loaded(object sender, RoutedEventArgs e)
-        {
-            Window.Current.SetTitleBar(sender as Grid);
         }
 
         private void ResizeElementBorder_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)

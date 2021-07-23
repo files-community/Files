@@ -2631,4 +2631,16 @@
   <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
     <value>Add item...</value>
   </data>
+  <data name="ConsentDialogTitle" xml:space="preserve">
+    <value>Updates available</value>
+  </data>
+  <data name="ConsentDialogContent" xml:space="preserve">
+    <value>Updates are ready to install</value>
+  </data>
+  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>Update</value>
+  </data>
 </root>

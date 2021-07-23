@@ -103,6 +103,12 @@ namespace Files.Views
                 ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
         }
+
+        private void DragArea_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window.Current.SetTitleBar(sender as Grid);
+        }
+
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
             RightPaddingColumn.Width = new GridLength(sender.SystemOverlayRightInset);
@@ -453,12 +459,26 @@ namespace Files.Views
 
             if (!isCompact)
             {
-                InnerNavigationToolbar.IsCompactOverlay = !await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+                IsCompactOverlay = !await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
             }
             else
             {
-                InnerNavigationToolbar.IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+                IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
                 view.TryResizeView(new Windows.Foundation.Size(400, 350));
+            }
+        }
+
+        private bool isCompactOverlay;
+        public bool IsCompactOverlay
+        {
+            get => isCompactOverlay;
+            set
+            {
+                if(value != isCompactOverlay)
+                {
+                    isCompactOverlay = value;
+                    NotifyPropertyChanged(nameof(IsCompactOverlay));
+                }
             }
         }
 
