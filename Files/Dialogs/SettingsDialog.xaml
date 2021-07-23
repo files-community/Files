@@ -109,7 +109,7 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavFilesAndFolders"
                     AccessKey="F"
-                    Content="Files and Folders"
+                    Content="Files &amp; Folders"
                     Tag="5">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8B7;" />
