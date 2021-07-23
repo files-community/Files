@@ -9,12 +9,8 @@ using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
@@ -210,7 +206,7 @@ namespace Files.Views.LayoutModes
                 IsTypeCloudDrive = InstanceViewModel.IsPageTypeCloudDrive,
                 IsTypeRecycleBin = InstanceViewModel.IsPageTypeRecycleBin
             });
-            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 50);
+            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 80);
         }
 
         private void FolderSettings_SortOptionPreferenceUpdated(object sender, EventArgs e)
@@ -654,7 +650,7 @@ namespace Files.Views.LayoutModes
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 50);
+            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 80);
         }
 
         private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
