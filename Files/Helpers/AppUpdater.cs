@@ -20,23 +20,23 @@ namespace Files.Helpers
         {
             try
             {
-                //if (context == null)
-                //{
-                //    context = await Task.Run(() => StoreContext.GetDefault());
-                //}
+                if (context == null)
+                {
+                    context = await Task.Run(() => StoreContext.GetDefault());
+                }
 
-                //var updateList = await context.GetAppAndOptionalStorePackageUpdatesAsync();
+                var updateList = await context.GetAppAndOptionalStorePackageUpdatesAsync();
 
-                //if (mandatoryOnly)
-                //{
-                //    updateList = updateList.Where(e => e.Mandatory).ToList();
-                //}
+                if (mandatoryOnly)
+                {
+                    updateList = updateList.Where(e => e.Mandatory).ToList();
+                }
 
-                if (true)
+                if (updateList.Count > 0)
                 {
                     if (await DownloadUpdatesConsent())
                     {
-                        //await DownloadUpdates(updateList);
+                        await DownloadUpdates(updateList);
                     }
                 }
             }
