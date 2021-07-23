@@ -172,5 +172,15 @@ namespace Files.UserControls
         // Using a DependencyProperty as the backing store for ShowStatusCenter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowStatusCenterProperty =
             DependencyProperty.Register(nameof(ShowStatusCenter), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+
+        public bool ShowSettingsButton
+        {
+            get => (bool)GetValue(dp: ShowSettingsButtonProperty);
+            set => SetValue(ShowSettingsButtonProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for ShowSettingsButton.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShowSettingsButtonProperty =
+            DependencyProperty.Register(nameof(ShowSettingsButton), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
     }
 }

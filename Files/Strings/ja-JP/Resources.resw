@@ -1954,22 +1954,22 @@
     <value>{0} ファイルの {1} から {2} への移動が {3} ファイル移動後にキャンセルされました</value>
   </data>
   <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>{0} ファイル {1} から {2} へ移動中</value>
+    <value>{0} ファイルを {1} から {2} へ移動中</value>
   </data>
   <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>{0} ファイル {1} から {2} へ移動中</value>
+    <value>{0} ファイルを {1} から {2} へ移動中</value>
   </data>
   <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>{0} ファイル {1} から {2} へ移動しました</value>
+    <value>{0} ファイルを {1} から {2} へ移動しました</value>
   </data>
   <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>{0} ファイル {1} から {2} へ移動しました</value>
+    <value>{0} ファイルを {1} から {2} へ移動しました</value>
   </data>
   <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>{0} ファイル {1} から {2} へ移動に失敗しました</value>
+    <value>{0} ファイルを {1} から {2} へ移動に失敗しました</value>
   </data>
   <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>{0} ファイル {1} から {2} へ移動に失敗しました</value>
+    <value>{0} ファイルを {1} から {2} へ移動に失敗しました</value>
   </data>
   <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
     <value>{0} ファイルの {1} へのコピーがキャンセルされました</value>
@@ -1981,16 +1981,16 @@
     <value>{1} への {0} ファイルのコピーが {2} ファイルコピー後にキャンセルされました</value>
   </data>
   <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
-    <value>{0} ファイル {1} へコピー中</value>
+    <value>{0} ファイルを {1} へコピー中</value>
   </data>
   <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
-    <value>{0} ファイル {1} へコピー中</value>
+    <value>{0} ファイルを {1} へコピー中</value>
   </data>
   <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
-    <value>{0} ファイル {1} へコピーしました</value>
+    <value>{0} ファイルを {1} へコピーしました</value>
   </data>
   <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
-    <value>{0} ファイル {1} へコピーしました</value>
+    <value>{0} ファイルを {1} へコピーしました</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
     <value>{1} の {0} ファイルの削除がキャンセルされました</value>
@@ -2002,19 +2002,19 @@
     <value>{1} の {0} ファイルの削除が {3} ファイル削除後にキャンセルされました</value>
   </data>
   <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
-    <value>{0} ファイル {1} から削除中</value>
+    <value>{0} ファイルを {1} から削除中</value>
   </data>
   <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
-    <value>{0} ファイル {1} から削除中</value>
+    <value>{0} ファイルを {1} から削除中</value>
   </data>
   <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
-    <value>{0} ファイル {1} から削除しました</value>
+    <value>{0} ファイルを {1} から削除しました</value>
   </data>
   <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
-    <value>{0} ファイル {1} から削除しました</value>
+    <value>{0} ファイルを {1} から削除しました</value>
   </data>
   <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>{0} ファイル {1} から削除に失敗しました</value>
+    <value>{0} ファイルを {1} から削除に失敗しました</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>ごみ箱</value>
@@ -2045,5 +2045,47 @@
   </data>
   <data name="StatusCenterCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>キャンセル</value>
+  </data>
+  <data name="NavToolbarWidgets.Label" xml:space="preserve">
+    <value>ウィジェット</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
+    <value>選択</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>レイアウト</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>レイアウト</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
+    <value>レイアウト</value>
+  </data>
+  <data name="PreviewPaneToggle.Label" xml:space="preserve">
+    <value>プレビュー</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>並べ替え</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>並べ替え</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
+    <value>並べ替え</value>
+  </data>
+  <data name="NavToolbarLayout.Text" xml:space="preserve">
+    <value>レイアウト</value>
+  </data>
+  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
+    <value>同期状態</value>
+  </data>
+  <data name="NavToolbarArrangementOption_SyncStatus.Content" xml:space="preserve">
+    <value>同期状態</value>
+  </data>
+  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
+    <value>{0} ファイルを {1} から削除に失敗しました</value>
   </data>
 </root>

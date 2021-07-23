@@ -12,7 +12,7 @@
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="ColoredIconOverlayForeground" Color="{StaticResource SystemAccentColorDark2}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayForeground" Color="{StaticResource SystemAccentColorDark1}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="ColoredIconOverlayForeground" Color="{StaticResource SystemAccentColorLight2}" />

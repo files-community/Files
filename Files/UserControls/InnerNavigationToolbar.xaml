@@ -155,10 +155,13 @@
             <AppBarButton
                 x:Name="WidgetsManager"
                 x:Uid="NavToolbarWidgets"
+                Width="Auto"
+                MinWidth="40"
                 x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                 AccessKey="W"
                 AutomationProperties.Name="Manage widgets"
                 Label="Widgets"
+                LabelPosition="Collapsed"
                 ToolTipService.ToolTip="Manage Widgets">
                 <AppBarButton.Icon>
                     <FontIcon FontSize="10" Glyph="&#xF246;" />

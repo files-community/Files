@@ -58,7 +58,7 @@ namespace Files.Extensions
             }
 
             var res = new List<T>(list);
-            index = Math.Min(index, list.Count - 1);
+            index = Math.Min(index, list.Count);
             var end = res.Count - index;
             res.RemoveRange(index, end);
             return res;

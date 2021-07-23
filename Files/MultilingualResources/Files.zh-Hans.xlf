@@ -3366,6 +3366,22 @@
           <source>Copy</source>
           <target state="new">Copy</target>
         </trans-unit>
+        <trans-unit id="ConsentDialogTitle" translate="yes" xml:space="preserve">
+          <source>Updates available</source>
+          <target state="new">Updates available</target>
+        </trans-unit>
+        <trans-unit id="ConsentDialogContent" translate="yes" xml:space="preserve">
+          <source>Updates are ready to install</source>
+          <target state="new">Updates are ready to install</target>
+        </trans-unit>
+        <trans-unit id="ConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+          <source>Close</source>
+          <target state="new">Close</target>
+        </trans-unit>
+        <trans-unit id="ConsentDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Update</source>
+          <target state="new">Update</target>
+        </trans-unit>
       </group>
     </body>
   </file>
