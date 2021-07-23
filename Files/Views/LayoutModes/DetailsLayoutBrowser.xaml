@@ -333,6 +333,7 @@
 
                             <controls:GridSplitter
                                 Grid.Column="3"
+                                DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
                                 Style="{StaticResource HeaderGridSplitterStyle}" />
@@ -348,6 +349,7 @@
 
                             <controls:GridSplitter
                                 Grid.Column="5"
+                                DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
                                 Style="{StaticResource HeaderGridSplitterStyle}"
@@ -364,6 +366,7 @@
 
                             <controls:GridSplitter
                                 Grid.Column="7"
+                                DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
                                 Style="{StaticResource HeaderGridSplitterStyle}"
@@ -380,6 +383,7 @@
 
                             <controls:GridSplitter
                                 Grid.Column="9"
+                                DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
                                 Style="{StaticResource HeaderGridSplitterStyle}"
@@ -396,6 +400,7 @@
 
                             <controls:GridSplitter
                                 Grid.Column="11"
+                                DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
                                 Style="{StaticResource HeaderGridSplitterStyle}"
@@ -412,6 +417,7 @@
 
                             <controls:GridSplitter
                                 Grid.Column="13"
+                                DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
                                 Style="{StaticResource HeaderGridSplitterStyle}"
@@ -428,6 +434,7 @@
 
                             <controls:GridSplitter
                                 Grid.Column="15"
+                                DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
                                 Style="{StaticResource HeaderGridSplitterStyle}"
@@ -444,6 +451,7 @@
 
                             <controls:GridSplitter
                                 Grid.Column="17"
+                                DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
                                 Style="{StaticResource HeaderGridSplitterStyle}"

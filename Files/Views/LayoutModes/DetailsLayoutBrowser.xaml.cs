@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -705,6 +706,26 @@ namespace Files.Views.LayoutModes
                     ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(item);
                 }
             }
+        }
+
+        private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            var columnToResize = Grid.GetColumn(sender as Microsoft.Toolkit.Uwp.UI.Controls.GridSplitter) - 1;
+            switch (columnToResize)
+            {
+                case 2: // file name column
+                    {
+                        var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot, x => x.Name == "ItemName");
+                        var maxWidth = tbs.Select(tb =>
+                        {
+                            tb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                            return tb.DesiredSize.Width;
+                        }).Max();
+                        ColumnsViewModel.NameColumn.UserLength = new GridLength(maxWidth + 30, GridUnitType.Pixel);
+                        break;
+                    }
+            }
+            e.Handled = true;
         }
     }
 }
