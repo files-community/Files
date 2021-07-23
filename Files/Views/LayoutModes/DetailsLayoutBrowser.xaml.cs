@@ -205,12 +205,12 @@ namespace Files.Views.LayoutModes
                 }
             });
 
-            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 50);
             FilesystemViewModel_PageTypeUpdated(null, new PageTypeUpdatedEventArgs()
             {
                 IsTypeCloudDrive = InstanceViewModel.IsPageTypeCloudDrive,
                 IsTypeRecycleBin = InstanceViewModel.IsPageTypeRecycleBin
             });
+            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 50);
         }
 
         private void FolderSettings_SortOptionPreferenceUpdated(object sender, EventArgs e)
