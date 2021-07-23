@@ -103,6 +103,12 @@ namespace Files.Views
                 ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
         }
+
+        private void DragArea_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window.Current.SetTitleBar(sender as Grid);
+        }
+
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
             RightPaddingColumn.Width = new GridLength(sender.SystemOverlayRightInset);

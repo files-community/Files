@@ -890,11 +890,6 @@ namespace Files.UserControls
             SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(item));
         }
 
-        private void DragArea_Loaded(object sender, RoutedEventArgs e)
-        {
-            Window.Current.SetTitleBar(sender as Grid);
-        }
-
         private void ResizeElementBorder_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
             if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)

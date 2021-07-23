@@ -317,18 +317,6 @@
                                         UseSystemFocusVisuals="True" />
                                 </Grid>
 
-                                <!--  This defines the drag area for the title bar  -->
-                                <Grid
-                                    x:Name="DragArea"
-                                    Grid.ColumnSpan="2"
-                                    Height="50"
-                                    Margin="32,0,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Top"
-                                    Background="Transparent"
-                                    Canvas.ZIndex="1"
-                                    Loaded="DragArea_Loaded" />
-
                                 <!--  This is a special spot just for tabs so that the title bar DragArea can function properly  -->
                                 <Border
                                     x:Name="TabContentBorder"
@@ -863,7 +851,6 @@
                                                 <Setter Target="TabContentBorder.(Grid.ColumnSpan)" Value="2" />
                                                 <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
                                                 <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
-                                                <Setter Target="DragArea.Margin" Value="0,0,0,0" />
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="ClosedCompactRight">
@@ -903,7 +890,6 @@
                                                 <Setter Target="TabContentBorder.(Grid.ColumnSpan)" Value="2" />
                                                 <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
                                                 <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
-                                                <Setter Target="DragArea.Margin" Value="0,0,0,0" />
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="OpenOverlayLeft">
@@ -963,7 +949,6 @@
                                                 <Setter Target="TabContentBorder.(Grid.ColumnSpan)" Value="2" />
                                                 <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
                                                 <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
-                                                <Setter Target="DragArea.Margin" Value="0,0,0,0" />
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="OpenInlineRight">
@@ -1004,7 +989,6 @@
                                                 <Setter Target="TabContentBorder.(Grid.ColumnSpan)" Value="2" />
                                                 <Setter Target="TitlebarBackgroundBorder.(Grid.Column)" Value="0" />
                                                 <Setter Target="TitlebarBackgroundBorder.(Grid.ColumnSpan)" Value="2" />
-                                                <Setter Target="DragArea.Margin" Value="0,0,0,0" />
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="OpenCompactOverlayLeft">
