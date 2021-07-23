@@ -2622,6 +2622,18 @@
   <data name="NavigationToolbarCopy.Label" xml:space="preserve">
     <value>Copy</value>
   </data>
+	<data name="ConsentDialogTitle" xml:space="preserve">
+    <value>Updates available</value>
+  </data>
+  <data name="ConsentDialogContent" xml:space="preserve">
+    <value>Updates are ready to install</value>
+  </data>
+  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>Update</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>

@@ -17,7 +17,7 @@ namespace Files.Helpers
 {
     public static class ShellContextmenuHelper
     {
-        public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, NamedPipeAsAppServiceConnection connection, string workingDirectory, List<ListedItem> selectedItems)
+        public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, NamedPipeAsAppServiceConnection connection, string workingDirectory, List<ListedItem> selectedItems)
         {
             bool IsItemSelected = selectedItems?.Count > 0;
 
@@ -25,16 +25,15 @@ namespace Files.Helpers
 
             if (connection != null)
             {
-                var (status, response) = await Task.Run(async () =>
-                    await connection.SendMessageForResponseAsync(new ValueSet()
-                    {
-                        { "Arguments", "LoadContextMenu" },
-                        { "FilePath", IsItemSelected ?
-                            string.Join('|', selectedItems.Select(x => x.ItemPath)) :
-                            workingDirectory},
-                        { "ExtendedMenu", true },
-                        { "ShowOpenMenu", showOpenMenu }
-                }));
+                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                {
+                    { "Arguments", "LoadContextMenu" },
+                    { "FilePath", IsItemSelected ?
+                        string.Join('|', selectedItems.Select(x => x.ItemPath)) :
+                        workingDirectory},
+                    { "ExtendedMenu", shiftPressed },
+                    { "ShowOpenMenu", showOpenMenu }
+                });
 
                 if (status == AppServiceResponseStatus.Success
                     && response.ContainsKey("Handle"))
@@ -45,50 +44,6 @@ namespace Files.Helpers
                         LoadMenuFlyoutItem(menuItemsList, contextMenu.Items, (string)response["Handle"], true);
                     }
                 }
-            }
-
-            return menuItemsList;
-        }
-        public static List<ContextMenuFlyoutItemViewModel> SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu, NamedPipeAsAppServiceConnection connection, string workingDirectory, List<ListedItem> selectedItems, bool overflowItems = true)
-        {
-            bool IsItemSelected = selectedItems?.Count > 0;
-
-            var menuItemsList = new List<ContextMenuFlyoutItemViewModel>(baseItems);
-
-            var currentBaseLayoutItemCount = baseItems.Count;
-            var maxItems = !overflowItems || !App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
-
-            if (connection != null)
-            {
-                var task = Task.Run(() => connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "LoadContextMenu" },
-                    { "FilePath", IsItemSelected ?
-                        string.Join('|', selectedItems.Select(x => x.ItemPath)) :
-                        workingDirectory},
-                    { "ExtendedMenu", shiftPressed },
-                    { "ShowOpenMenu", showOpenMenu }
-                }));
-                var completed = task.Wait(10000);
-
-                if (completed)
-                {
-                    var (status, response) = task.Result;
-                    if (status == AppServiceResponseStatus.Success
-                        && response.ContainsKey("Handle"))
-                    {
-                        var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
-                        if (contextMenu != null)
-                        {
-                            LoadMenuFlyoutItem(menuItemsList, contextMenu.Items, (string)response["Handle"], true, maxItems);
-                        }
-                    }
-                }
-            }
-            var totalFlyoutItems = baseItems.Count - currentBaseLayoutItemCount;
-            if (totalFlyoutItems > 0 && !(baseItems[totalFlyoutItems].ItemType == ItemType.Separator))
-            {
-                menuItemsList.Insert(totalFlyoutItems, new ContextMenuFlyoutItemViewModel() { ItemType = ItemType.Separator });
             }
 
             return menuItemsList;

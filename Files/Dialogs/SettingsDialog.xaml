@@ -13,7 +13,7 @@
     mc:Ignorable="d">
     <ContentDialog.Resources>
         <ResourceDictionary>
-            <x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
+            <x:Double x:Key="ContentDialogMaxWidth">1300</x:Double>
             <Thickness x:Key="ContentDialogPadding">0</Thickness>
             <SolidColorBrush x:Key="ContentDialogTopOverlay" Color="Transparent" />
             <ResourceDictionary.ThemeDictionaries>
@@ -147,7 +147,7 @@
             HorizontalScrollMode="Disabled"
             VerticalScrollBarVisibility="Auto"
             VerticalScrollMode="Enabled">
-            <Frame x:Name="SettingsContentFrame" Width="380" />
+            <Frame x:Name="SettingsContentFrame" Width="410" />
         </ScrollViewer>
 
         <Button
@@ -164,5 +164,25 @@
             ToolTipService.ToolTip="Close">
             <FontIcon FontSize="12" Glyph="&#xE8BB;" />
         </Button>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641.0" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="SettingsPane.DisplayMode" Value="LeftCompact" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </ContentDialog>
