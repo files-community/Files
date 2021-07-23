@@ -715,7 +715,7 @@ namespace Files.Views.LayoutModes
             {
                 case 2: // file name column
                     {
-                        var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot, x => x.Name == "ItemName");
+                        var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(x => x.Name == "ItemName");
                         var maxWidth = tbs.Select(tb =>
                         {
                             tb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));

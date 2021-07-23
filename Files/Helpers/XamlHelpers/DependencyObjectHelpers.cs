@@ -69,27 +69,6 @@ namespace Files.Helpers.XamlHelpers
             }
         }
 
-        public static IEnumerable<T> FindChildren<T>(DependencyObject startNode, Func<T, bool> predicate) where T : DependencyObject
-        {
-            int count = VisualTreeHelper.GetChildrenCount(startNode);
-            for (int i = 0; i < count; i++)
-            {
-                DependencyObject current = VisualTreeHelper.GetChild(startNode, i);
-                if (current.GetType().Equals(typeof(T)) || (current.GetType().GetTypeInfo().IsSubclassOf(typeof(T))))
-                {
-                    T asType = (T)current;
-                    if (predicate(asType))
-                    {
-                        yield return asType;
-                    }
-                }
-                foreach(var item in FindChildren<T>(current, predicate))
-                {
-                    yield return item;
-                }
-            }
-        }
-
         public static T FindParent<T>(DependencyObject child) where T : DependencyObject
         {
             T parent = null;
