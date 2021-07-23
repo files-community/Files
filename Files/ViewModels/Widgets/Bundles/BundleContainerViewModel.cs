@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -68,12 +69,19 @@ namespace Files.ViewModels.Widgets.Bundles
             set => SetProperty(ref bundleName, value);
         }
 
-        private Visibility noBundleContentsTextVisibility;
+        private bool noBundleContentsTextLoad;
 
-        public Visibility NoBundleContentsTextVisibility
+        public bool NoBundleContentsTextLoad
         {
-            get => noBundleContentsTextVisibility;
-            set => SetProperty(ref noBundleContentsTextVisibility, value);
+            get => noBundleContentsTextLoad;
+            set => SetProperty(ref noBundleContentsTextLoad, value);
+        }
+
+        private bool isAddItemOptionEnabled;
+        public bool IsAddItemOptionEnabled
+        {
+            get => isAddItemOptionEnabled;
+            set => SetProperty(ref isAddItemOptionEnabled, value);
         }
 
         #endregion Public Properties
@@ -92,30 +100,64 @@ namespace Files.ViewModels.Widgets.Bundles
 
         public ICommand DragItemsStartingCommand { get; private set; }
 
+        public ICommand AddFileCommand { get; private set; }
+
+        public ICommand AddFolderCommand { get; private set; }
+
         #endregion Commands
 
         #region Constructor
 
         public BundleContainerViewModel()
         {
-            // Create commands
-            RemoveBundleCommand = new RelayCommand(RemoveBundle);
-            RenameBundleCommand = new RelayCommand(RenameBundle);
-            DragOverCommand = new RelayCommand<DragEventArgs>(DragOver);
-            DropCommand = new RelayCommand<DragEventArgs>(Drop);
-
             internalCollectionCount = Contents.Count;
             Contents.CollectionChanged += Contents_CollectionChanged;
+
+            // Create commands
+            RemoveBundleCommand = new RelayCommand(RemoveBundle);
+            RenameBundleCommand = new AsyncRelayCommand(RenameBundle);
+            DragOverCommand = new RelayCommand<DragEventArgs>(DragOver);
+            DropCommand = new AsyncRelayCommand<DragEventArgs>(Drop);
+            DragItemsStartingCommand = new RelayCommand<DragItemsStartingEventArgs>(DragItemsStarting);
             OpenItemCommand = new RelayCommand<ItemClickEventArgs>((e) =>
             {
                 (e.ClickedItem as BundleItemViewModel).OpenItem();
             });
-            DragItemsStartingCommand = new RelayCommand<DragItemsStartingEventArgs>(DragItemsStarting);
+            AddFileCommand = new AsyncRelayCommand(AddFile);
+            AddFolderCommand = new AsyncRelayCommand(AddFolder);
         }
 
         #endregion Constructor
 
         #region Command Implementation
+
+        private async Task AddFolder()
+        {
+            FolderPicker folderPicker = new FolderPicker();
+            folderPicker.FileTypeFilter.Add("*");
+
+            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+
+            if (folder != null)
+            {
+                await AddItemFromPath(folder.Path, FilesystemItemType.Directory);
+                SaveBundle();
+            }
+        }
+
+        private async Task AddFile()
+        {
+            FileOpenPicker filePicker = new FileOpenPicker();
+            filePicker.FileTypeFilter.Add("*");
+
+            StorageFile file = await filePicker.PickSingleFileAsync();
+
+            if (file != null)
+            {
+                await AddItemFromPath(file.Path, FilesystemItemType.File);
+                SaveBundle();
+            }
+        }
 
         private void RemoveBundle()
         {
@@ -128,7 +170,7 @@ namespace Files.ViewModels.Widgets.Bundles
             }
         }
 
-        private async void RenameBundle()
+        private async Task RenameBundle()
         {
             TextBox inputText = new TextBox()
             {
@@ -255,10 +297,11 @@ namespace Files.ViewModels.Widgets.Bundles
             {
                 e.AcceptedOperation = DataPackageOperation.None;
             }
+
             e.Handled = true;
         }
 
-        private async void Drop(DragEventArgs e)
+        private async Task Drop(DragEventArgs e)
         {
             var deferral = e?.GetDeferral();
             try
@@ -269,22 +312,9 @@ namespace Files.ViewModels.Widgets.Bundles
                 {
                     IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
 
-                    foreach (IStorageItem item in items)
+                    if (await AddItemsFromPath(items.ToDictionary((item) => item.Path, (item) => item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File)))
                     {
-                        if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
-                        {
-                            if (!Contents.Any((i) => i.Path == item.Path)) // Don't add existing items!
-                            {
-                                await AddBundleItem(new BundleItemViewModel(item.Path, item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File)
-                                {
-                                    ParentBundleName = BundleName,
-                                    NotifyItemRemoved = NotifyItemRemovedHandle,
-                                    OpenPath = OpenPath,
-                                    OpenPathInNewPane = OpenPathInNewPane,
-                                });
-                                itemsAdded = true;
-                            }
-                        }
+                        itemsAdded = true;
                     }
                 }
                 else if (e.DataView.Contains(StandardDataFormats.Text))
@@ -315,21 +345,12 @@ namespace Files.ViewModels.Widgets.Bundles
 
                     IStorageItem item = await StorageItemHelpers.ToStorageItem<IStorageItem>(itemPath);
 
-                    if (item != null || itemPath.EndsWith(".lnk"))
+                    if (item != null || (itemPath.EndsWith(".lnk") || itemPath.EndsWith(".url")))
                     {
-                        if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
+                        if (await AddItemFromPath(itemPath,
+                            itemPath.EndsWith(".lnk") || itemPath.EndsWith(".url") ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File)))
                         {
-                            if (!Contents.Any((i) => i.Path == itemPath)) // Don't add existing items!
-                            {
-                                await AddBundleItem(new BundleItemViewModel(itemPath, itemPath.EndsWith(".lnk") ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File))
-                                {
-                                    ParentBundleName = BundleName,
-                                    NotifyItemRemoved = NotifyItemRemovedHandle,
-                                    OpenPath = OpenPath,
-                                    OpenPathInNewPane = OpenPathInNewPane,
-                                });
-                                itemsAdded = true;
-                            }
+                            itemsAdded = true;
                         }
                     }
 
@@ -382,7 +403,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
             if (Contents.Count == 0)
             {
-                NoBundleContentsTextVisibility = Visibility.Visible;
+                NoBundleContentsTextLoad = true;
             }
         }
 
@@ -394,6 +415,8 @@ namespace Files.ViewModels.Widgets.Bundles
             }
 
             internalCollectionCount = Contents.Count;
+
+            UpdateAddItemOption();
         }
 
         #endregion Handlers
@@ -415,33 +438,89 @@ namespace Files.ViewModels.Widgets.Bundles
             return false;
         }
 
+        private async Task<bool> AddItemFromPath(string path, FilesystemItemType itemType)
+        {
+            // Make sure we don't exceed maximum amount && make sure we don't make duplicates
+            if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle && !Contents.Any((item) => item.Path == path))
+            {
+                return await AddBundleItem(new BundleItemViewModel(path, itemType)
+                {
+                    ParentBundleName = BundleName,
+                    NotifyItemRemoved = NotifyItemRemovedHandle,
+                    OpenPath = OpenPath,
+                    OpenPathInNewPane = OpenPathInNewPane,
+                });
+            }
+
+            return false;
+        }
+
+        private async Task<bool> AddItemsFromPath(IDictionary<string, FilesystemItemType> paths)
+        {
+            return await AddBundleItems(paths.Select((item) => new BundleItemViewModel(item.Key, item.Value)
+            {
+                ParentBundleName = BundleName,
+                NotifyItemRemoved = NotifyItemRemovedHandle,
+                OpenPath = OpenPath,
+                OpenPathInNewPane = OpenPathInNewPane
+            }));
+        }
+
+        private void UpdateAddItemOption()
+        {
+            if (Contents.Count >= Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
+            {
+                IsAddItemOptionEnabled = false;
+            }
+            else
+            {
+                IsAddItemOptionEnabled = true;
+            }
+        }
+
         #endregion Private Helpers
 
         #region Public Helpers
 
-        public async Task AddBundleItem(BundleItemViewModel bundleItem)
+        public async Task<bool> AddBundleItem(BundleItemViewModel bundleItem)
         {
-            if (bundleItem != null)
+            // Make sure we don't exceed maximum amount && make sure we don't make duplicates
+            if (bundleItem != null && Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle && !Contents.Any((item) => item.Path == bundleItem.Path))
             {
                 itemAddedInternally = true;
                 Contents.Add(bundleItem);
                 itemAddedInternally = false;
-                NoBundleContentsTextVisibility = Visibility.Collapsed;
+                NoBundleContentsTextLoad = false;
                 await bundleItem.UpdateIcon();
+                return true;
             }
+
+            return false;
         }
 
-        public BundleContainerViewModel SetBundleItems(List<BundleItemViewModel> items)
+        public async Task<bool> AddBundleItems(IEnumerable<BundleItemViewModel> bundleItems)
         {
-            Contents.CollectionChanged -= Contents_CollectionChanged;
+            List<Task<bool>> taskDelegates = new List<Task<bool>>();
 
-            Contents = new ObservableCollection<BundleItemViewModel>(items);
-            internalCollectionCount = Contents.Count;
-            Contents.CollectionChanged += Contents_CollectionChanged;
+            foreach (var item in bundleItems)
+            {
+                taskDelegates.Add(AddBundleItem(item));
+            }
+
+            IEnumerable<bool> result = await Task.WhenAll(taskDelegates);
+
+            return result.Any((item) => item);
+        }
+
+        public async Task<BundleContainerViewModel> SetBundleItems(IEnumerable<BundleItemViewModel> items)
+        {
+            Contents.Clear();
+
+            await AddBundleItems(items);
 
             if (Contents.Count > 0)
             {
-                NoBundleContentsTextVisibility = Visibility.Collapsed;
+                NoBundleContentsTextLoad = false;
             }
 
             return this;
@@ -475,21 +554,12 @@ namespace Files.ViewModels.Widgets.Bundles
                 item?.Dispose();
             }
 
-            BundleName = null;
             NotifyBundleItemRemoved = null;
             NotifyItemRemoved = null;
-            RemoveBundleCommand = null;
-            RenameBundleCommand = null;
-            DragOverCommand = null;
-            DropCommand = null;
-            OpenItemCommand = null;
-            DragItemsStartingCommand = null;
-
             OpenPath = null;
             OpenPathInNewPane = null;
 
             Contents.CollectionChanged -= Contents_CollectionChanged;
-            Contents = null;
         }
 
         #endregion IDisposable

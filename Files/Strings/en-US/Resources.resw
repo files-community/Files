@@ -2622,6 +2622,15 @@
   <data name="NavigationToolbarCopy.Label" xml:space="preserve">
     <value>Copy</value>
   </data>
+  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+    <value>Add file</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
+    <value>Add folder</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
+    <value>Add item...</value>
+  </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Updates available</value>
   </data>
