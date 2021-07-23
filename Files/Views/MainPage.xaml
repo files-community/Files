@@ -368,6 +368,7 @@
                     HorizontalContentAlignment="Stretch"
                     SettingsButtonCommand="{x:Bind MainViewModel.OpenSettingsCommand}"
                     ShowSearchBox="True"
+                    ShowSettingsButton="{x:Bind IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                     ShowStatusCenter="True"
                     StatusCenterViewModel="{x:Bind StatusCenterViewModel}" />
             </Grid>
@@ -400,6 +401,7 @@
                 x:Name="InnerNavigationToolbar"
                 Grid.ColumnSpan="3"
                 x:Load="False"
+                IsCompactOverlay="{x:Bind IsCompactOverlay, Mode=OneWay}"
                 SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
                 ShowPreviewPaneButton="{x:Bind IsPreviewPaneDisabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
 
