@@ -3349,19 +3349,19 @@
         </trans-unit>
         <trans-unit id="ConsentDialogTitle" translate="yes" xml:space="preserve">
           <source>Updates available</source>
-          <target state="new">Updates available</target>
+          <target state="translated">Atualizações disponiveis</target>
         </trans-unit>
         <trans-unit id="ConsentDialogContent" translate="yes" xml:space="preserve">
           <source>Updates are ready to install</source>
-          <target state="new">Updates are ready to install</target>
+          <target state="translated">Atualizações prontas para instalar</target>
         </trans-unit>
         <trans-unit id="ConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>Close</source>
-          <target state="new">Close</target>
+          <target state="translated">Fechar</target>
         </trans-unit>
         <trans-unit id="ConsentDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Update</source>
-          <target state="new">Update</target>
+          <target state="translated">Atualizar</target>
         </trans-unit>
       </group>
     </body>
