@@ -710,6 +710,11 @@ namespace Files.Views.LayoutModes
 
         private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
+            if (!FileList.Items.Any())
+            {
+                return;
+            }
+
             var columnToResize = Grid.GetColumn(sender as Microsoft.Toolkit.Uwp.UI.Controls.GridSplitter) - 1;
             switch (columnToResize)
             {
