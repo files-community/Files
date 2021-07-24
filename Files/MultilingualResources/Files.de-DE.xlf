@@ -1766,11 +1766,11 @@
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
-          <target state="translated">Gruppenname eingeben</target>
+          <target state="translated">Sammlungsname eingeben</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleNameInput.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
-          <target state="translated">Gruppenname eingeben</target>
+          <target state="translated">Sammlungsname eingeben</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetRenameBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
@@ -1810,15 +1810,15 @@
         </trans-unit>
         <trans-unit id="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Export Bundles</source>
-          <target state="translated">Gruppen exportieren</target>
+          <target state="translated">Sammlung exportieren</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Import Bundles</source>
-          <target state="translated">Gruppen importieren</target>
+          <target state="translated">Sammlung importieren</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetCreateBundleItem.Text" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
-          <target state="translated">Gruppe erstellen</target>
+          <target state="translated">Sammlung erstellen</target>
         </trans-unit>
         <trans-unit id="BundleItemFlyouOpenInNewTabMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
@@ -1838,7 +1838,7 @@
         </trans-unit>
         <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
           <source>Bundles</source>
-          <target state="translated">Gruppen</target>
+          <target state="translated">Sammlungen</target>
         </trans-unit>
         <trans-unit id="BundleNoContentsTextBlock.Text" translate="yes" xml:space="preserve">
           <source>Drag and drop any file or folder here to quickly access it</source>
@@ -1850,15 +1850,15 @@
         </trans-unit>
         <trans-unit id="BundlesWidgetCreateBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
-          <target state="translated">Gruppenname eingeben</target>
+          <target state="translated">Sammlungname eingeben</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
-          <target state="translated">Gruppe erstellen</target>
+          <target state="translated">Sammlung erstellen</target>
         </trans-unit>
         <trans-unit id="BundleOptionsFlyoutRenameBundleMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Rename Bundle</source>
-          <target state="translated">Gruppe umbenennen</target>
+          <target state="translated">Sammlung umbenennen</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>More options...</source>
@@ -1866,7 +1866,7 @@
         </trans-unit>
         <trans-unit id="BundlesWidgetCreateBundleDialogTitleText" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
-          <target state="translated">Gruppe erstellen</target>
+          <target state="translated">Sammlung erstellen</target>
         </trans-unit>
         <trans-unit id="PropertyItemName" translate="yes" xml:space="preserve">
           <source>Item Name</source>
@@ -2010,7 +2010,7 @@
         </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More bundles options</source>
-          <target state="translated">Mehr Gruppenoptionen</target>
+          <target state="translated">Mehr Sammlungsoptionen</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More drives options</source>
