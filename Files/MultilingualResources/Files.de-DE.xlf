@@ -2608,35 +2608,35 @@
         </trans-unit>
         <trans-unit id="StatusMoveCanceledDetails_Plural2" translate="yes" xml:space="preserve">
           <source>Moving {0} items from {1} to {2} was canceled after moving {3} item</source>
-          <target state="new">Moving {0} items from {1} to {2} was canceled after moving {3} item</target>
+          <target state="translated">Das Verschieben von {0} Objekten von {1} nach {2} wurde abgebrochen nachdem {3} Objekte verschoben wurden</target>
         </trans-unit>
         <trans-unit id="StatusMovingItemsDetails_Singular" translate="yes" xml:space="preserve">
           <source>Moving {0} item from {1} to {2}</source>
-          <target state="new">Moving {0} item from {1} to {2}</target>
+          <target state="translated">{0} wird von {1} nach {2} verschoben</target>
         </trans-unit>
         <trans-unit id="StatusMovingItemsDetails_Plural" translate="yes" xml:space="preserve">
           <source>Moving {0} items from {1} to {2}</source>
-          <target state="new">Moving {0} items from {1} to {2}</target>
+          <target state="translated">{0} Objekte werden von {1} nach {2} verschoben</target>
         </trans-unit>
         <trans-unit id="StatusMovedItemsDetails_Singular" translate="yes" xml:space="preserve">
           <source>Successfully moved {0} item from {1} to {2}</source>
-          <target state="new">Successfully moved {0} item from {1} to {2}</target>
+          <target state="translated">{0} erfolgreich von {1} nach {2} verschoben</target>
         </trans-unit>
         <trans-unit id="StatusMovedItemsDetails_Plural" translate="yes" xml:space="preserve">
           <source>Successfully moved {0} items from {1} to {2}</source>
-          <target state="new">Successfully moved {0} items from {1} to {2}</target>
+          <target state="translated">{0} Objekte erfolgreich von {1} nach {2} verschoben</target>
         </trans-unit>
         <trans-unit id="StatusMoveFailedDetails_Singular" translate="yes" xml:space="preserve">
           <source>Failed to move {0} item from {1} to {2}</source>
-          <target state="new">Failed to move {0} item from {1} to {2}</target>
+          <target state="translated">Das Verschieben von {0} von {1} nach {2} ist fehlgeschlagen</target>
         </trans-unit>
         <trans-unit id="StatusMoveFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to move {0} items from {1} to {2}</source>
-          <target state="new">Failed to move {0} items from {1} to {2}</target>
+          <target state="translated">Das Verschieben von {0} Objekten von {1} nach {2} ist fehlgeschlagen</target>
         </trans-unit>
         <trans-unit id="StatusCopyCanceledDetails_Singular" translate="yes" xml:space="preserve">
           <source>Copying {0} item to {1} was canceled</source>
-          <target state="new">Copying {0} item to {1} was canceled</target>
+          <target state="translated">Das Kopieren von {0} nach {1} wurde abgebrochen</target>
         </trans-unit>
         <trans-unit id="StatusCopyCanceledDetails_Plural" translate="yes" xml:space="preserve">
           <source>Copying {0} items to {1} was canceled after copying {2} items</source>
@@ -2788,7 +2788,7 @@
         </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
-          <target state="new">Das Löschen von {0} Objekten aus {1} is fehlgeschlagen</target>
+          <target state=translated>Das Löschen von {0} Objekten aus {1} is fehlgeschlagen</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.Label" translate="yes" xml:space="preserve">
           <source>New window</source>
@@ -3008,7 +3008,7 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedCannotReadProperties.Text" translate="yes" xml:space="preserve">
           <source>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</source>
-          <target state="new">You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</target>
+          <target state="translated">Du hast keine Berechtigung die Sicherheitseingenschaften dieses Objektes anzuschauen. Du kannst versuchen Besitzer dieses Objektes zu werden</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedSpecialLabel.Text" translate="yes" xml:space="preserve">
           <source>Special</source>
@@ -3044,7 +3044,7 @@
         </trans-unit>
         <trans-unit id="SecurityAppendDataLabel.Text" translate="yes" xml:space="preserve">
           <source>Append data</source>
-          <target state="new">Append data</target>
+          <target state="translated">Daten hinzufügen</target>
         </trans-unit>
         <trans-unit id="SecurityChangePermissionsLabel.Text" translate="yes" xml:space="preserve">
           <source>Change permission</source>
