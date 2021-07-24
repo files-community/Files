@@ -141,7 +141,9 @@ namespace Files.Filesystem
                         .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                         .ThenBy(o => o.Text))
                         {
-                            drive.Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.Folder).Image);
+                            var resource = SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.Folder);
+                            drive.Icon = UIHelpers.GetImageForIconOrNull(resource.Image);
+                            drive.IconData = resource.IconDataBytes;
                             if (!section.ChildItems.Contains(drive))
                             {
                                 section.ChildItems.Add(drive);
