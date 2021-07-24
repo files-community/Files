@@ -747,7 +747,7 @@ namespace Files.Views.LayoutModes
                     7 => ColumnsViewModel.ItemTypeColumn,
                     _ => ColumnsViewModel.SizeColumn
                 };
-                column.UserLength = new GridLength(colunmSizeToFit + 30, GridUnitType.Pixel);
+                column.UserLength = new GridLength(Math.Min(colunmSizeToFit + 30, column.NormalMaxLength), GridUnitType.Pixel);
             }
 
             ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
