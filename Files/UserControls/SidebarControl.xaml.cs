@@ -414,6 +414,7 @@ namespace Files.UserControls
             ShowUnpinItem = false;
             ShowEmptyRecycleBin = false;
             ShowProperties = true;
+            ShowHideSection = false;
 
             RightClickedItem = item;
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
@@ -431,7 +432,8 @@ namespace Files.UserControls
             ShowEjectDevice = false;
             ShowUnpinItem = false;
             ShowEmptyRecycleBin = false;
-            ShowProperties = true;
+            ShowProperties = false;
+            ShowHideSection = false;
 
             RightClickedItem = item;
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
