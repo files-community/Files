@@ -3393,6 +3393,70 @@
           <source>Add item...</source>
           <target state="new">Add item...</target>
         </trans-unit>
+        <trans-unit id="Home" translate="yes" xml:space="preserve">
+          <source>Home</source>
+          <target state="new">Home</target>
+        </trans-unit>
+        <trans-unit id="TabViewVerticalNewTab.Text" translate="yes" xml:space="preserve">
+          <source>New tab</source>
+          <target state="new">New tab</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+A</source>
+          <target state="new">Ctrl+A</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Alt+Shift++</source>
+          <target state="new">Alt+Shift++</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+Shift+W</source>
+          <target state="new">Ctrl+Shift+W</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+N</source>
+          <target state="new">Ctrl+N</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+Alt+Up</source>
+          <target state="new">Ctrl+Alt+Up</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+Alt+Down</source>
+          <target state="new">Ctrl+Alt+Down</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+Shift+1</source>
+          <target state="new">Ctrl+Shift+1</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutTilesView.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+Shift+2</source>
+          <target state="new">Ctrl+Shift+2</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutGridViewSmall.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+Shift+3</source>
+          <target state="new">Ctrl+Shift+3</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutGridViewMedium.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+Shift+4</source>
+          <target state="new">Ctrl+Shift+4</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutGridViewLarge.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+Shift+5</source>
+          <target state="new">Ctrl+Shift+5</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+Shift+6</source>
+          <target state="new">Ctrl+Shift+6</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+T</source>
+          <target state="new">Ctrl+T</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+Shift+T</source>
+          <target state="new">Ctrl+Shift+T</target>
+        </trans-unit>
       </group>
     </body>
   </file>
