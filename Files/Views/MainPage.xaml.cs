@@ -239,12 +239,12 @@ namespace Files.Views
             {
                 await FilePropertiesHelpers.OpenPropertiesWindowAsync(new LibraryItem(library), SidebarAdaptiveViewModel.PaneHolder.ActivePane);
             }
-            else if (e.InvokedItemDataContext is LocationItem)
+            else if (e.InvokedItemDataContext is LocationItem locationItem)
             {
                 ListedItem listedItem = new ListedItem(null)
                 {
-                    ItemPath = (e.InvokedItemDataContext as LocationItem).Path,
-                    ItemName = (e.InvokedItemDataContext as LocationItem).Text,
+                    ItemPath = locationItem.Path,
+                    ItemName = locationItem.Text,
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemType = "FileFolderListItem".GetLocalized(),
                     LoadFolderGlyph = true
