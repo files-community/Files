@@ -104,7 +104,7 @@ namespace Files.ViewModels
 
             if (string.IsNullOrEmpty(value))
             {
-                //SidebarSelectedItem = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
+                //SidebarSelectedItem = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalized()));
                 return;
             }
 
@@ -125,7 +125,7 @@ namespace Files.ViewModels
             {
                 if (value == "NewTab".GetLocalized())
                 {
-                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
+                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalized()));
                 }
             }
 

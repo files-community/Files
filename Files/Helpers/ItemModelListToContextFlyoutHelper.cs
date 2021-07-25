@@ -103,7 +103,7 @@ namespace Files.Helpers.ContextFlyouts
                 }
                 return item;
             }
-            MenuFlyoutItemBase flyoutItem;
+            MenuFlyoutItem flyoutItem;
 
             if (i.ItemType == ItemType.Toggle)
             {
@@ -145,6 +145,11 @@ namespace Files.Helpers.ContextFlyouts
             }
             flyoutItem.IsEnabled = i.IsEnabled;
 
+            if (i.KeyboardAcceleratorTextOverride != null)
+            {
+                flyoutItem.KeyboardAcceleratorTextOverride = i.KeyboardAcceleratorTextOverride;
+            }
+            
             return flyoutItem;
         }
 
