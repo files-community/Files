@@ -128,7 +128,7 @@ namespace Files.ViewModels
                 workingRoot = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(value));
             }
 
-            if (value == "Home" || value == "NewTab".GetLocalized())
+            if (value == "Home".GetLocalized() || value == "NewTab".GetLocalized())
             {
                 currentStorageFolder = null;
             }

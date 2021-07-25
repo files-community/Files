@@ -22,6 +22,7 @@
                         <MenuFlyoutItem
                             x:Uid="HorizontalMultitaskingControlNewTab"
                             Click="{x:Bind vm:MainPageViewModel.AddNewTabAtIndex}"
+                            KeyboardAcceleratorTextOverride="Ctrl+T"
                             Text="New tab">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
@@ -60,6 +61,7 @@
                             x:Name="MenuItemReopenClosedTab"
                             x:Uid="HorizontalMultitaskingControlReopenClosedTab"
                             Click="ReopenClosedTab"
+                            KeyboardAcceleratorTextOverride="Ctrl+Shift+T"
                             Text="Reopen closed tab">
                             <MenuFlyoutItem.KeyboardAccelerators>
                                 <KeyboardAccelerator
