@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -705,6 +706,66 @@ namespace Files.Views.LayoutModes
                     ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(item);
                 }
             }
+        }
+
+        private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            var columnToResize = (Grid.GetColumn(sender as Microsoft.Toolkit.Uwp.UI.Controls.GridSplitter) - 1) / 2;
+            ResizeColumnToFit(columnToResize);
+            e.Handled = true;
+        }
+
+        private void ResizeColumnToFit(int columnToResize)
+        {
+            if (!FileList.Items.Any())
+            {
+                return;
+            }
+
+            var maxItemLength = columnToResize switch
+            {
+                1 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemName?.Length ?? 0).Max(), // file name column
+                2 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemOriginalPath?.Length ?? 0).Max(), // original path column
+                3 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
+                4 => 20, // cloud status column
+                5 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
+                6 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
+                7 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
+                _ => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
+            };
+            var colunmSizeToFit = columnToResize == 4 ? maxItemLength : MeasureTextColumn(columnToResize, 5, maxItemLength);
+            if (colunmSizeToFit > 0)
+            {
+                var column = columnToResize switch
+                {
+                    1 => ColumnsViewModel.NameColumn,
+                    2 => ColumnsViewModel.OriginalPathColumn,
+                    3 => ColumnsViewModel.DateDeletedColumn,
+                    4 => ColumnsViewModel.StatusColumn,
+                    5 => ColumnsViewModel.DateModifiedColumn,
+                    6 => ColumnsViewModel.DateCreatedColumn,
+                    7 => ColumnsViewModel.ItemTypeColumn,
+                    _ => ColumnsViewModel.SizeColumn
+                };
+                column.UserLength = new GridLength(Math.Min(colunmSizeToFit + 30, column.NormalMaxLength), GridUnitType.Pixel);
+            }
+
+            ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
+        }
+
+        private double MeasureTextColumn(int columnIndex, int measureItems, int maxItemLength)
+        {
+            var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(x => Grid.GetColumn(x.Parent as Grid) == columnIndex);
+            var widthPerLetter = tbs.Where(tb => !string.IsNullOrEmpty(tb.Text)).Take(measureItems).Select(tb =>
+            {
+                tb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                return tb.DesiredSize.Width / Math.Max(1, tb.Text.Length);
+            });
+            if (!widthPerLetter.Any())
+            {
+                return 0;
+            }
+            return widthPerLetter.Average() * maxItemLength;
         }
     }
 }
