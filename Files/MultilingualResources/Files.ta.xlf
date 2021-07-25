@@ -149,9 +149,10 @@
           <target state="translated">தோற்றம்</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
-          <source>Files and Folders</source>
-          <target state="translated">கோப்புகள் &amp; கோப்புறைகள்</target>
+          <source>Files &amp; Folders</source>
+          <target state="needs-review-translation">கோப்புகள் &amp; கோப்புறைகள்</target>
           <note from="MultilingualEditor" annotates="source" priority="4">Replaced and (மற்றும்) with the &amp; symbol to fit the text on the screen</note>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
@@ -170,9 +171,10 @@
           <target state="translated">சோதனை</target>
         </trans-unit>
         <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
-          <source>Files and Folders</source>
-          <target state="translated">கோப்புகள் &amp; கோப்புறைகள்</target>
+          <source>Files &amp; Folders</source>
+          <target state="needs-review-translation">கோப்புகள் &amp; கோப்புறைகள்</target>
           <note from="MultilingualEditor" annotates="source" priority="4">Replaced and (மற்றும்) with the &amp;amp; symbol to fit the text on the screen</note>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsNavOnStartup.Content" translate="yes" xml:space="preserve">
           <source>On Startup</source>

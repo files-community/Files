@@ -153,8 +153,9 @@
           <target state="translated" state-qualifier="tm-suggestion">מראה</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
-          <source>Files and Folders</source>
-          <target state="translated" state-qualifier="tm-suggestion">קבצים ותיקיות</target>
+          <source>Files &amp; Folders</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">קבצים ותיקיות</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
@@ -173,8 +174,9 @@
           <target state="translated">תכונות ניסיוניות</target>
         </trans-unit>
         <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
-          <source>Files and Folders</source>
-          <target state="translated" state-qualifier="tm-suggestion">קבצים ותיקיות</target>
+          <source>Files &amp; Folders</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">קבצים ותיקיות</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsNavOnStartup.Content" translate="yes" xml:space="preserve">
           <source>On Startup</source>
