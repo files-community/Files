@@ -571,6 +571,7 @@
                     x:Uid="NavSettingsButton"
                     Width="36"
                     Height="32"
+                    AccessKey="E"
                     AutomationProperties.Name="Settings"
                     Background="Transparent"
                     Command="{x:Bind SettingsButtonCommand, Mode=OneWay}"
