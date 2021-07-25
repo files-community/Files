@@ -13,6 +13,7 @@ namespace Files.ViewModels
         public object CommandParameter { get; set; }
         public string Glyph { get; set; }
         public string GlyphFontFamilyName { get; set; }
+        public string KeyboardAcceleratorTextOverride { get; set; }
         public string Text { get; set; }
         public object Tag { get; set; }
         public ItemType ItemType { get; set; }

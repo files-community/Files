@@ -364,7 +364,7 @@ namespace Files.UserControls
                 ShowHideSection = false;
                 ShowEjectDevice = false;
 
-                if (string.Equals(item.Path, "Home", StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(item.Path, "Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
                     ShowProperties = false;
                 }

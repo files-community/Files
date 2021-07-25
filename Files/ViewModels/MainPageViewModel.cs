@@ -236,7 +236,7 @@ namespace Files.ViewModels
                 tabLocationHeader = "SidebarSettings/Text".GetLocalized();
                 fontIconSource.Glyph = "\xE713";
             }
-            else if (currentPath == null || currentPath == "NewTab".GetLocalized() || currentPath == "Home")
+            else if (currentPath == null || currentPath == "NewTab".GetLocalized() || currentPath == "Home".GetLocalized())
             {
                 tabLocationHeader = "NewTab".GetLocalized();
                 fontIconSource.Glyph = "\xE8A1";

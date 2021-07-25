@@ -278,7 +278,7 @@ namespace Files.Views
                         {
                             navigationPath = invokedItemContainer.Tag?.ToString();
                         }
-                        else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
+                        else if (ItemPath.Equals("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase)) // Home item
                         {
                             if (ItemPath.Equals(SidebarAdaptiveViewModel.SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
                             {
