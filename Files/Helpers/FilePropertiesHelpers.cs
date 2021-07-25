@@ -74,10 +74,6 @@ namespace Files.Helpers
                     newView.Title = "PropertiesTitle".GetLocalized();
                     newView.PersistedStateId = "Properties";
                     newView.SetPreferredMinSize(new Size(400, 500));
-                    newView.Consolidated += delegate
-                    {
-                        Window.Current.Close();
-                    };
 
                     bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newView.Id);
                     if (viewShown && newView != null)
