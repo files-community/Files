@@ -3383,6 +3383,18 @@
           <source>Update</source>
           <target state="new">Update</target>
         </trans-unit>
+        <trans-unit id="BundleOptionsFlyoutAddFileMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Add file</source>
+          <target state="new">Add file</target>
+        </trans-unit>
+        <trans-unit id="BundleOptionsFlyoutAddFolderMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Add folder</source>
+          <target state="new">Add folder</target>
+        </trans-unit>
+        <trans-unit id="BundleOptionsFlyoutAddItemMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Add item...</source>
+          <target state="new">Add item...</target>
+        </trans-unit>
       </group>
     </body>
   </file>

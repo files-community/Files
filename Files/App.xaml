@@ -67,7 +67,7 @@
 
                             <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
 
-                            <SolidColorBrush x:Key="SidebarContentBackgroundBrush" Color="#213A3A3A" />
+                            <StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="LayerFillColorDefaultBrush" />
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
                         </ResourceDictionary>
@@ -109,7 +109,7 @@
 
                             <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
 
-                            <SolidColorBrush x:Key="SidebarContentBackgroundBrush" Color="#2C3A3A3A" />
+                            <StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="LayerFillColorDefaultBrush" />
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
                         </ResourceDictionary>
@@ -160,10 +160,8 @@
 
                             <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
 
+                            <StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="LayerFillColorDefaultBrush" />
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />
-                            <SolidColorBrush x:Key="SidebarContentBackgroundBrush" Color="#2C3A3A3A" />
-
-                            <Color x:Key="LayerFillColorDefault">#11000000</Color>
                             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="#0F000000" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
