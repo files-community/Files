@@ -541,6 +541,10 @@ namespace Files
                 BaseContextMenuFlyout.PrimaryCommands.Clear();
                 BaseContextMenuFlyout.SecondaryCommands.Clear();
                 var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
+                primaryElements.Where(i => i is AppBarButton).ForEach(i =>
+                {
+                    (i as AppBarButton).Click += new RoutedEventHandler((s, e) => BaseContextMenuFlyout.Hide());  // Workaround for WinUI (#5508)
+                });
                 primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
                 secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
 
@@ -568,6 +572,10 @@ namespace Files
             ItemContextMenuFlyout.PrimaryCommands.Clear();
             ItemContextMenuFlyout.SecondaryCommands.Clear();
             var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
+            primaryElements.Where(i => i is AppBarButton).ForEach(i =>
+            {
+                (i as AppBarButton).Click += new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide()); // Workaround for WinUI (#5508)
+            });
             primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 
