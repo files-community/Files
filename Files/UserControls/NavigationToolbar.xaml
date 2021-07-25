@@ -463,7 +463,7 @@
             <Grid
                 x:Name="ClickablePath"
                 Grid.Column="1"
-                MinHeight="32"
+                MinHeight="33"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 extensions:FrameworkElementExtensions.Cursor="Hand"
