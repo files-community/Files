@@ -88,8 +88,7 @@ namespace Files.ViewModels.Properties
                         }
                         else
                         {
-                            var folderUri = new Uri($"files-uwp:?folder={Path.GetDirectoryName(ViewModel.ShortcutItemPath)}");
-                            await Windows.System.Launcher.LaunchUriAsync(folderUri);
+                            await NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath));
                         }
                     }, () =>
                     {
