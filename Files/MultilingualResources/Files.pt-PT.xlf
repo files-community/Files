@@ -56,7 +56,7 @@
         </trans-unit>
         <trans-unit id="PropertiesItemPath.Text" translate="yes" xml:space="preserve">
           <source>Path:</source>
-          <target state="translated">Caminho:</target>
+          <target state="translated">Localização:</target>
         </trans-unit>
         <trans-unit id="PropertiesItemSize.Text" translate="yes" xml:space="preserve">
           <source>Size:</source>
@@ -116,7 +116,7 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarVisiblePath.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter a path</source>
-          <target state="translated">Insira um caminho</target>
+          <target state="translated">Insira uma localização</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarSearchReigon.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Search</source>
@@ -968,7 +968,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation.Text" translate="yes" xml:space="preserve">
           <source>Copy location</source>
-          <target state="translated">Copiar caminho</target>
+          <target state="translated">Copiar localização</target>
         </trans-unit>
         <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
           <source>Add tab</source>
@@ -1364,7 +1364,7 @@
         </trans-unit>
         <trans-unit id="PropertyThumbnailLargePath" translate="yes" xml:space="preserve">
           <source>Thumbnail Large Path</source>
-          <target state="translated">Caminho da Miniatura Grande</target>
+          <target state="translated">Localização da Miniatura Grande</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailLargeUri" translate="yes" xml:space="preserve">
           <source>Thumbnail Large Uri</source>
@@ -1372,7 +1372,7 @@
         </trans-unit>
         <trans-unit id="PropertyThumbnailSmallPath" translate="yes" xml:space="preserve">
           <source>Thumbnail Small Path</source>
-          <target state="translated">Caminho da Miniatura Pequena</target>
+          <target state="translated">Localização da Miniatura Pequena</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailSmallUri" translate="yes" xml:space="preserve">
           <source>Thumbnail Small Uri</source>
@@ -1624,11 +1624,11 @@
         </trans-unit>
         <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
           <source>Original path</source>
-          <target state="translated">Caminho Original</target>
+          <target state="translated">Localização original</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByOriginalPath.Text" translate="yes" xml:space="preserve">
           <source>Original path</source>
-          <target state="translated">Caminho Original</target>
+          <target state="translated">Localização original</target>
         </trans-unit>
         <trans-unit id="AppBarButtonAdd.Label" translate="yes" xml:space="preserve">
           <source>Add</source>
@@ -1728,11 +1728,11 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted.Text" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
-          <target state="translated">Data de eliminação</target>
+          <target state="translated">Data da eliminação</target>
         </trans-unit>
         <trans-unit id="dateDeletedColumn.Header" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
-          <target state="translated">Data de eliminação</target>
+          <target state="translated">Data da eliminação</target>
         </trans-unit>
         <trans-unit id="SettingsTabCustomization.Text" translate="yes" xml:space="preserve">
           <source>Tab customization</source>
@@ -1860,7 +1860,7 @@
         </trans-unit>
         <trans-unit id="PropertyItemPathDisplay" translate="yes" xml:space="preserve">
           <source>Item Path</source>
-          <target state="translated">Caminho do Item</target>
+          <target state="translated">Localização do Item</target>
         </trans-unit>
         <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Toggle the preview pane (Ctrl+P)</source>
@@ -2156,7 +2156,7 @@
         </trans-unit>
         <trans-unit id="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Set as default save path</source>
-          <target state="translated">Definar como caminho padrão para guardar</target>
+          <target state="translated">Definar como localização padrão para guardar</target>
         </trans-unit>
         <trans-unit id="LibraryLocationsButtonRemove.Label" translate="yes" xml:space="preserve">
           <source>Remove</source>
@@ -2416,7 +2416,7 @@
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowOriginalPath.Text" translate="yes" xml:space="preserve">
           <source>Original path column</source>
-          <target state="translated">Coluna caminho original</target>
+          <target state="translated">Coluna localização original</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowItemType.Text" translate="yes" xml:space="preserve">
           <source>Item type column</source>
@@ -2428,7 +2428,7 @@
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowDateDeleted.Text" translate="yes" xml:space="preserve">
           <source>Date deleted column</source>
-          <target state="translated">Coluna Data de eliminação</target>
+          <target state="translated">Coluna data da eliminação</target>
         </trans-unit>
         <trans-unit id="ResizeElementKeyboardControl.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Sidebar resizer</source>
@@ -2472,7 +2472,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOption_DateDeleted.Content" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
-          <target state="translated">Data de eliminação</target>
+          <target state="translated">Data da eliminação</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOption_OriginalFolder.Content" translate="yes" xml:space="preserve">
           <source>Original folder</source>
@@ -3365,79 +3365,79 @@
         </trans-unit>
         <trans-unit id="BundleOptionsFlyoutAddFileMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Add file</source>
-          <target state="new">Add file</target>
+          <target state="translated">Adicionar ficheiro</target>
         </trans-unit>
         <trans-unit id="BundleOptionsFlyoutAddFolderMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Add folder</source>
-          <target state="new">Add folder</target>
+          <target state="translated">Adicionar pasta</target>
         </trans-unit>
         <trans-unit id="BundleOptionsFlyoutAddItemMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Add item...</source>
-          <target state="new">Add item...</target>
+          <target state="translated">Adicionar item...</target>
         </trans-unit>
         <trans-unit id="Home" translate="yes" xml:space="preserve">
           <source>Home</source>
-          <target state="new">Home</target>
+          <target state="translated">Página Inicial</target>
         </trans-unit>
         <trans-unit id="TabViewVerticalNewTab.Text" translate="yes" xml:space="preserve">
           <source>New tab</source>
-          <target state="new">New tab</target>
+          <target state="translated">Novo separador</target>
         </trans-unit>
         <trans-unit id="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+A</source>
-          <target state="new">Ctrl+A</target>
+          <target state="translated">Ctrl+A</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Alt+Shift++</source>
-          <target state="new">Alt+Shift++</target>
+          <target state="translated">Alt+Shift++</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+W</source>
-          <target state="new">Ctrl+Shift+W</target>
+          <target state="translated">Ctrl+Shift+W</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+N</source>
-          <target state="new">Ctrl+N</target>
+          <target state="translated">Ctrl+N</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Alt+Up</source>
-          <target state="new">Ctrl+Alt+Up</target>
+          <target state="translated">Ctrl+Alt+Up</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Alt+Down</source>
-          <target state="new">Ctrl+Alt+Down</target>
+          <target state="translated">Ctrl+Alt+Down</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+1</source>
-          <target state="new">Ctrl+Shift+1</target>
+          <target state="translated">Ctrl+Shift+1</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutTilesView.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+2</source>
-          <target state="new">Ctrl+Shift+2</target>
+          <target state="translated">Ctrl+Shift+2</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutGridViewSmall.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+3</source>
-          <target state="new">Ctrl+Shift+3</target>
+          <target state="translated">Ctrl+Shift+3</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutGridViewMedium.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+4</source>
-          <target state="new">Ctrl+Shift+4</target>
+          <target state="translated">Ctrl+Shift+4</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutGridViewLarge.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+5</source>
-          <target state="new">Ctrl+Shift+5</target>
+          <target state="translated">Ctrl+Shift+5</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+6</source>
-          <target state="new">Ctrl+Shift+6</target>
+          <target state="translated">Ctrl+Shift+6</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+T</source>
-          <target state="new">Ctrl+T</target>
+          <target state="translated">Ctrl+T</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+T</source>
-          <target state="new">Ctrl+Shift+T</target>
+          <target state="translated">Ctrl+Shift+T</target>
         </trans-unit>
       </group>
     </body>
