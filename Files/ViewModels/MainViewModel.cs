@@ -146,7 +146,7 @@ namespace Files.ViewModels
 
         public static async void OpenSettings()
         {
-            if (!UIHelpers.IsAnyContentDialogOpen())
+            if (UIHelpers.IsAnyContentDialogOpen())
             {
                 SettingsDialog settingsDialog = new SettingsDialog();
                 _ = await settingsDialog.ShowAsync();
