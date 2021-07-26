@@ -323,6 +323,10 @@ namespace Files.Views
             // Defers the status bar loading until after the page has loaded to improve startup perf
             FindName(nameof(StatusBarControl));
             FindName(nameof(InnerNavigationToolbar));
+            FindName(nameof(horizontalMultitaskingControl));
+            FindName(nameof(NavToolbar));
+
+            _ = App.LoadOtherStuffAsync();
         }
 
         private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs e)
@@ -489,6 +493,11 @@ namespace Files.Views
             {
                 Focus(FocusState.Keyboard);
             }
+        }
+
+        private void NavToolbar_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdateNavToolbarProperties();
         }
     }
 }

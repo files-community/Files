@@ -11,7 +11,6 @@
     xmlns:xh="using:Files.Helpers.XamlHelpers"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    Loaded="UserControl_Loaded"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -44,7 +43,6 @@
             Grid.Column="0"
             HorizontalAlignment="Left"
             VerticalAlignment="Stretch"
-            x:Load="False"
             DefaultLabelPosition="Right"
             Loaded="ContextCommandBar_Loaded">
             <CommandBar.Resources>
@@ -186,7 +184,6 @@
             Grid.Column="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
-            x:Load="False"
             DefaultLabelPosition="Right">
             <CommandBar.Resources>
                 <ResourceDictionary>

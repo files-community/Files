@@ -77,9 +77,6 @@ namespace Files
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
-
-            //LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
-            AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
         }
 
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
@@ -91,14 +88,19 @@ namespace Files
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
-
             MainViewModel ??= new MainViewModel();
-            SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
             LibraryManager ??= new LibraryManager();
             DrivesManager ??= new DrivesManager();
             NetworkDrivesManager ??= new NetworkDrivesManager();
             CloudDrivesManager ??= new CloudDrivesManager();
             WSLDistroManager ??= new WSLDistroManager();
+        }
+
+        public static async Task LoadOtherStuffAsync()
+        {
+            SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
+            ExternalResourcesHelper.LoadOtherThemesAsync();
+            AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
 
             // Start off a list of tasks we need to run before we can continue startup
             _ = Task.Factory.StartNew(async () =>
