@@ -580,7 +580,7 @@
         </trans-unit>
         <trans-unit id="FolderNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>Did you delete this folder?</source>
-          <target state="translated">Διαγράψατε αυτόν τον φάκελο;</target>
+          <target state="translated">Διαγράψατε αυτόν τον φάκελο?</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you're trying to delete is currently being used by an another application.</source>
@@ -724,7 +724,7 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to permanently delete all these items?</source>
-          <target state="translated">Είστε σίγουροι ότι θέλετε να διαγράψετε οριστικά όλα αυτά τα στοιχεία;</target>
+          <target state="translated">Είστε σίγουροι ότι θέλετε να διαγράψετε οριστικά όλα αυτά τα στοιχεία?</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
@@ -1056,7 +1056,7 @@
         </trans-unit>
         <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
           <source>The application needs to be restarted in order to apply these settings, would you like to restart the app?</source>
-          <target state="translated">Η εφαρμογή πρέπει να επανεκκινηθεί για να εφαρμοστούν αυτές οι ρυθμίσεις, θα θέλατε να επανεκκινήσετε την εφαρμογή;</target>
+          <target state="translated">Η εφαρμογή πρέπει να επανεκκινηθεί για να εφαρμοστούν αυτές οι ρυθμίσεις, θα θέλατε να επανεκκινήσετε την εφαρμογή?</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
           <source>Support us</source>
@@ -2124,7 +2124,7 @@
         </trans-unit>
         <trans-unit id="RenameFileDialog.Text" translate="yes" xml:space="preserve">
           <source>If you change a file extension, the file might become unusable. Are you sure you want to change it?</source>
-          <target state="translated">Εάν αλλάξετε μια επέκταση αρχείου, το αρχείο ενδέχεται να καταστεί άχρηστο. Είστε σίγουρος ότι θέλετε να την αλλάξετε;</target>
+          <target state="translated">Εάν αλλάξετε μια επέκταση αρχείου, το αρχείο ενδέχεται να καταστεί άχρηστο. Είστε σίγουρος ότι θέλετε να την αλλάξετε?</target>
         </trans-unit>
         <trans-unit id="DriveTypeCDRom" translate="yes" xml:space="preserve">
           <source>CD ROM Drive</source>
