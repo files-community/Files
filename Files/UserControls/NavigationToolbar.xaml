@@ -572,6 +572,7 @@
                     Width="36"
                     Height="32"
                     AutomationProperties.Name="Settings"
+                    AccessKey="I"
                     Background="Transparent"
                     Command="{x:Bind SettingsButtonCommand, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"

@@ -167,7 +167,7 @@
                     <FontIcon FontSize="10" Glyph="&#xF246;" />
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
-                    <Flyout Placement="Bottom">
+                    <Flyout Placement="Bottom" ShouldConstrainToRootBounds="False">
                         <StackPanel Spacing="12">
                             <TextBlock
                                 x:Uid="NavToolbarManageWidgetsFlyoutHeader"
@@ -271,7 +271,7 @@
                     <local:ColoredIcon BaseLayerGlyph="&#xF029;" OverlayLayerGlyph="&#xF02A;" />
                 </AppBarButton.Content>
                 <AppBarButton.Flyout>
-                    <Flyout>
+                    <Flyout ShouldConstrainToRootBounds="False">
                         <local:ArrangementOptions
                             x:Name="ArrangementOptionsFlyoutContent"
                             IsPageTypeCloudDrive="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
@@ -297,7 +297,7 @@
                     <FontIcon FontSize="10" Glyph="&#xE152;" />
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
-                    <Flyout Placement="Bottom">
+                    <Flyout Placement="Bottom" ShouldConstrainToRootBounds="False">
                         <StackPanel Spacing="12">
                             <TextBlock
                                 x:Uid="NavToolbarLayout"

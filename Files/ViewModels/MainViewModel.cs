@@ -1,4 +1,5 @@
 ﻿using Files.Dialogs;
+using Files.Helpers;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -145,8 +146,11 @@ namespace Files.ViewModels
 
         public static async void OpenSettings()
         {
-            SettingsDialog settingsDialog = new SettingsDialog();
-            _ = await settingsDialog.ShowAsync();
+            if (!UIHelpers.IsAnyContentDialogOpen())
+            {
+                SettingsDialog settingsDialog = new SettingsDialog();
+                _ = await settingsDialog.ShowAsync();
+            }           
         }
     }
 }
