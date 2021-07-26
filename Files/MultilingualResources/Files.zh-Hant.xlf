@@ -2602,7 +2602,7 @@
         </trans-unit>
         <trans-unit id="StatusMoveCanceledDetails_Singular" translate="yes" xml:space="preserve">
           <source>Moving {0} item from {1} to {2} was canceled</source>
-          <target state="final">已取消 - 將 {0} 個項目從 {1} 移至 {2}</target>
+          <target state="final">已取消將 {0} 個項目從 {1} 移至 {2}</target>
         </trans-unit>
         <trans-unit id="StatusMoveCanceledDetails_Plural" translate="yes" xml:space="preserve">
           <source>Moving {0} items from {1} to {2} was canceled after moving {3} items</source>
@@ -2638,7 +2638,7 @@
         </trans-unit>
         <trans-unit id="StatusCopyCanceledDetails_Singular" translate="yes" xml:space="preserve">
           <source>Copying {0} item to {1} was canceled</source>
-          <target state="final">已取消 - 將 {0} 個項目複製到 {1}</target>
+          <target state="final">已取消將 {0} 個項目複製到 {1}</target>
         </trans-unit>
         <trans-unit id="StatusCopyCanceledDetails_Plural" translate="yes" xml:space="preserve">
           <source>Copying {0} items to {1} was canceled after copying {2} items</source>
@@ -2666,7 +2666,7 @@
         </trans-unit>
         <trans-unit id="StatusDeleteCanceledDetails_Singular" translate="yes" xml:space="preserve">
           <source>Deleting {0} item from {1} was canceled</source>
-          <target state="final">已取消 - 從 {1} 刪除 {0} 個項目</target>
+          <target state="final">已取消從 {1} 刪除 {0} 個項目</target>
         </trans-unit>
         <trans-unit id="StatusDeleteCanceledDetails_Plural" translate="yes" xml:space="preserve">
           <source>Deleting {0} items from {1} was canceled after deleting {3} items</source>
@@ -2714,7 +2714,7 @@
         </trans-unit>
         <trans-unit id="StatusRecycleCancelled" translate="yes" xml:space="preserve">
           <source>Recycle cancelled</source>
-          <target state="final">已取消 - 丟入資源回收桶</target>
+          <target state="final">已取消丟入資源回收桶</target>
         </trans-unit>
         <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
           <source>canceling</source>
