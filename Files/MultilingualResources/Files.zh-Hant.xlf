@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
   <file datatype="xml" source-language="en-US" target-language="zh-Hant" original="FILES/STRINGS/EN-US/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
     <header>
@@ -325,12 +325,10 @@
         <trans-unit id="ApplicationTimeStye" translate="yes" xml:space="preserve">
           <source>Application</source>
           <target state="final">應用程式</target>
-
         </trans-unit>
         <trans-unit id="SystemTimeStye" translate="yes" xml:space="preserve">
           <source>System</source>
           <target state="final">系統</target>
-
         </trans-unit>
         <trans-unit id="NewFolder" translate="yes" xml:space="preserve">
           <source>New Folder</source>
@@ -1298,7 +1296,7 @@
         </trans-unit>
         <trans-unit id="PropertyDiscNumber" translate="yes" xml:space="preserve">
           <source>Disc Number</source>
-          <target state="needs-review-translation">Disc Number</target>
+          <target state="final">唱片編號</target>
         </trans-unit>
         <trans-unit id="PropertyGenre" translate="yes" xml:space="preserve">
           <source>Genre</source>
@@ -1362,19 +1360,19 @@
         </trans-unit>
         <trans-unit id="PropertyThumbnailLargePath" translate="yes" xml:space="preserve">
           <source>Thumbnail Large Path</source>
-          <target state="needs-review-translation">Thumbnail Large Path</target>
+          <target state="final">大縮略圖位置</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailLargeUri" translate="yes" xml:space="preserve">
           <source>Thumbnail Large Uri</source>
-          <target state="needs-review-translation">Thumbnail Large Uri</target>
+          <target state="final">大縮略圖連結</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailSmallPath" translate="yes" xml:space="preserve">
           <source>Thumbnail Small Path</source>
-          <target state="needs-review-translation">小縮略圖位置</target>
+          <target state="final">小縮略圖位置</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailSmallUri" translate="yes" xml:space="preserve">
           <source>Thumbnail Small Uri</source>
-          <target state="needs-review-translation">Thumbnail Small Uri</target>
+          <target state="final">小縮略圖位置</target>
         </trans-unit>
         <trans-unit id="PropertyUserWebUrl" translate="yes" xml:space="preserve">
           <source>User Web Url</source>
@@ -1619,7 +1617,6 @@
         <trans-unit id="AddDialogListFileSubHeader" translate="yes" xml:space="preserve">
           <source>Creates an empty file</source>
           <target state="final">新增空白檔案</target>
-
         </trans-unit>
         <trans-unit id="NewFile" translate="yes" xml:space="preserve">
           <source>New File</source>
@@ -1867,7 +1864,7 @@
         </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>More options...</source>
-          <target state="needs-review-translation">更多選項...</target>
+          <target state="final">更多選項...</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetCreateBundleDialogTitleText" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
@@ -2011,7 +2008,7 @@
         </trans-unit>
         <trans-unit id="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More bundles options</source>
-          <target state="needs-review-translation">更多快速存取選項</target>
+          <target state="final">更多快速存取選項</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More drives options</source>
@@ -2031,7 +2028,7 @@
         </trans-unit>
         <trans-unit id="PreviewPaneDetailsNotAvailableText" translate="yes" xml:space="preserve">
           <source>No details available</source>
-          <target state="needs-review-translation">無法查看詳細資料</target>
+          <target state="final">無法查看詳細資料</target>
         </trans-unit>
         <trans-unit id="NoItemSelected" translate="yes" xml:space="preserve">
           <source>No item selected</source>
@@ -2112,12 +2109,10 @@
         <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
           <source>Pin to the Start Menu</source>
           <target state="final">釘選至開始功能表</target>
-
         </trans-unit>
         <trans-unit id="UnpinItemFromStart.Text" translate="yes" xml:space="preserve">
           <source>Unpin from the Start Menu</source>
           <target state="final">從開始功能表取消釘選</target>
-
         </trans-unit>
         <trans-unit id="NavToolbarColumnView.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Column View</source>
@@ -2517,11 +2512,11 @@
         </trans-unit>
         <trans-unit id="ItemSizeText_Medium" translate="yes" xml:space="preserve">
           <source>Medium</source>
-          <target state="needs-review-translation">中</target>
+          <target state="final">中</target>
         </trans-unit>
         <trans-unit id="ItemSizeText_Small" translate="yes" xml:space="preserve">
           <source>Small</source>
-          <target state="needs-review-translation">小</target>
+          <target state="final">小</target>
         </trans-unit>
         <trans-unit id="ItemSizeText_Tiny" translate="yes" xml:space="preserve">
           <source>Tiny</source>
@@ -2561,7 +2556,7 @@
         </trans-unit>
         <trans-unit id="ItemTimeText_Before" translate="yes" xml:space="preserve">
           <source>Before {0}</source>
-          <target state="needs-review-translation">{0} 前</target>
+          <target state="final">{0} 前</target>
         </trans-unit>
         <trans-unit id="GroupItemsCount_Singular" translate="yes" xml:space="preserve">
           <source>{0} item</source>
@@ -2590,7 +2585,6 @@
         <trans-unit id="StatusDeletionCancelled" translate="yes" xml:space="preserve">
           <source>Deletion cancelled</source>
           <target state="final">已取消刪除</target>
-
         </trans-unit>
         <trans-unit id="StatusMoveCanceled" translate="yes" xml:space="preserve">
           <source>Move canceled</source>
@@ -2599,7 +2593,6 @@
         <trans-unit id="StatusCopyCanceled" translate="yes" xml:space="preserve">
           <source>Copy canceled</source>
           <target state="final">已取消複製</target>
-
         </trans-unit>
         <trans-unit id="StatusMoveCanceledDetails_Singular" translate="yes" xml:space="preserve">
           <source>Moving {0} item from {1} to {2} was canceled</source>
@@ -2743,7 +2736,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.Label" translate="yes" xml:space="preserve">
           <source>Select</source>
-          <target state="needs-review-translation">選擇</target>
+          <target state="final">選擇</target>
         </trans-unit>
         <trans-unit id="NavToolbarLayoutOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Layout</source>
@@ -2839,7 +2832,7 @@
         </trans-unit>
         <trans-unit id="SecurityListDirectoryLabel.Text" translate="yes" xml:space="preserve">
           <source>List directory contents</source>
-          <target state="needs-review-translation">列出目錄內容</target>
+          <target state="final">列出目錄內容</target>
           <note from="MultilingualEditor" annotates="source" priority="4">暫譯，Need more context.</note>
         </trans-unit>
         <trans-unit id="SecurityModifyLabel.Text" translate="yes" xml:space="preserve">
@@ -2952,7 +2945,7 @@
         </trans-unit>
         <trans-unit id="BundlesOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in new Pane</source>
-          <target state="needs-review-translation">在副畫面中開啟</target>
+          <target state="final">在副畫面中開啟</target>
         </trans-unit>
         <trans-unit id="PropertyFileOwner" translate="yes" xml:space="preserve">
           <source>Owner</source>
@@ -2972,7 +2965,7 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedAppliesToLabel.Text" translate="yes" xml:space="preserve">
           <source>Applies to</source>
-          <target state="needs-review-translation">適用於</target>
+          <target state="final">適用於</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedEntityLabel.Text" translate="yes" xml:space="preserve">
           <source>Entity</source>
@@ -3012,7 +3005,7 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedCannotReadProperties.Text" translate="yes" xml:space="preserve">
           <source>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</source>
-          <target state="needs-review-translation">You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</target>
+          <target state="final">您沒有權限查看此項目的安全性設定。您可以嘗試獲取此物件的所有權。</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedSpecialLabel.Text" translate="yes" xml:space="preserve">
           <source>Special</source>
@@ -3132,7 +3125,7 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Replace all child object permissions entries with inheritable permission entries from this object</source>
-          <target state="needs-review-translation">Replace all child object permissions entries with inheritable permission entries from this object</target>
+          <target state="translated">Replace all child object permissions entries with inheritable permission entries from this object</target>
         </trans-unit>
         <trans-unit id="CreateBundleBtn.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
@@ -3292,7 +3285,7 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Title" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
-          <target state="final">隱藏受保護的作業系統檔案（推薦開啟）</target>
+          <target state="final">隱藏受保護的作業系統檔案（建議開啟）</target>
         </trans-unit>
         <trans-unit id="SettingsOpenItemsWithOneclick.Title" translate="yes" xml:space="preserve">
           <source>Open items with a single click</source>
@@ -3300,16 +3293,16 @@
         </trans-unit>
         <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Title" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
-          <target state="needs-review-translation">將檔案與資料夾視為同一項目進行排序</target>
+          <target state="final">將檔案與資料夾視為同一項目進行排序</target>
           <note from="MultilingualEditor" annotates="source" priority="4">這好難翻哦 XD，希望會有更好的翻譯</note>
         </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems.Title" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
-          <target state="final">搜尋檔案或資料夾時不使用索引（可能因此花費較長的時間搜尋）</target>
+          <target state="final">搜尋檔案或資料夾時一併顯示未被索引的項目（可能會延長搜尋時間）</target>
         </trans-unit>
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Title" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
-          <target state="needs-review-translation">Enable individual preferences for individual directories</target>
+          <target state="translated">Enable individual preferences for individual directories</target>
         </trans-unit>
         <trans-unit id="SettingsUsefulLinks.Title" translate="yes" xml:space="preserve">
           <source>Useful links</source>
@@ -3361,7 +3354,7 @@
         </trans-unit>
         <trans-unit id="ConsentDialogContent" translate="yes" xml:space="preserve">
           <source>Updates are ready to install</source>
-          <target state="final">已準備進行最新版本的更新</target>
+          <target state="final">已準備好安裝更新</target>
         </trans-unit>
         <trans-unit id="ConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>Close</source>
