@@ -676,7 +676,7 @@
         </trans-unit>
         <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
-          <target state="final">了解 詳寫/簡寫 的差別</target>
+          <target state="final">了解更多關於日期格式</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Unlock</source>
@@ -1560,7 +1560,7 @@
         </trans-unit>
         <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
-          <target state="final">了解 詳寫/簡寫 的差別</target>
+          <target state="final">了解更多關於日期格式</target>
         </trans-unit>
         <trans-unit id="SearchPagePathBoxOverrideText" translate="yes" xml:space="preserve">
           <source>Search results in</source>
