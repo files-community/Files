@@ -137,6 +137,48 @@
                         <local:ColoredIcon BaseLayerGlyph="&#x002F;" OverlayLayerGlyph="&#x0030;" />
                     </AppBarButton.Content>
                 </AppBarButton>
+                <AppBarButton
+                    x:Name="RenameButton"
+                    x:Uid="NavigationToolbarRename"
+                    Width="Auto"
+                    MinWidth="40"
+                    Command="{x:Bind ViewModel.Rename, Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanRename, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
+                    Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutRename/Text')}"
+                    LabelPosition="Collapsed"
+                    ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutRename/Text')}">
+                    <AppBarButton.Content>
+                        <local:ColoredIcon BaseLayerGlyph="&#x0027;" OverlayLayerGlyph="&#x0028;" />
+                    </AppBarButton.Content>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="ShareButton"
+                    x:Uid="NavigationToolbarShare"
+                    Width="Auto"
+                    MinWidth="40"
+                    Command="{x:Bind ViewModel.Share, Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanShare, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
+                    Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutShare/Text')}"
+                    LabelPosition="Collapsed"
+                    ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutShare/Text')}">
+                    <AppBarButton.Content>
+                        <local:ColoredIcon BaseLayerGlyph="&#x0025;" OverlayLayerGlyph="&#x0026;" />
+                    </AppBarButton.Content>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="DeleteButton"
+                    x:Uid="NavigationToolbarDelete"
+                    Width="Auto"
+                    MinWidth="40"
+                    Command="{x:Bind ViewModel.DeleteCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
+                    Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutDelete/Text')}"
+                    LabelPosition="Collapsed"
+                    ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutDelete/Text')}">
+                    <AppBarButton.Content>
+                        <local:ColoredIcon BaseLayerGlyph="&#x0035;" OverlayLayerGlyph="&#x0036;" />
+                    </AppBarButton.Content>
+                </AppBarButton>
             </CommandBar.PrimaryCommands>
         </CommandBar>
         <CommandBar
