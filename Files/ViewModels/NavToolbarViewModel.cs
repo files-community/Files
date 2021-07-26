@@ -613,6 +613,10 @@ namespace Files.ViewModels
                         var pathToNavigate = resFolder.Result?.Path ?? currentInput;
                         shellPage.NavigateToPath(pathToNavigate);
                     }
+                    else if (FtpHelpers.IsFtpPath(currentInput))
+                    {
+                        shellPage.NavigateToPath(currentInput);
+                    }
                     else // Not a folder or inaccessible
                     {
                         var resFile = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(currentInput, item));

@@ -3,6 +3,7 @@ using Files.Extensions;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
 using Files.ViewModels.Properties;
+using FluentFTP;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
@@ -355,6 +356,26 @@ namespace Files.Filesystem
         public string ItemOriginalFolder => Path.IsPathRooted(ItemOriginalPath) ? Path.GetDirectoryName(ItemOriginalPath) : ItemOriginalPath;
 
         public string ItemOriginalFolderName => Path.GetFileName(ItemOriginalFolder);
+    }
+
+    public class FtpItem : ListedItem
+    {
+        public FtpItem(FtpListItem item, string folder)
+        {
+            var isFile = item.Type == FtpFileSystemObjectType.File;
+            ItemDateCreatedReal = item.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawCreated;
+            ItemDateModifiedReal = item.RawModified < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawModified;
+            ItemName = item.Name;
+            ItemPath = Path.Combine(folder, item.Name);
+            ItemPropertiesInitialized = true;
+            PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
+            ItemType = "FTP entry";
+            LoadFolderGlyph = !isFile;
+            LoadFileIcon = isFile;
+            LoadUnknownTypeGlyph = false;
+            FileSizeBytes = item.Size;
+            ContainsFilesOrFolders = !isFile;
+        }
     }
 
     public class ShortcutItem : ListedItem
