@@ -91,7 +91,7 @@
                         </MenuFlyout>
                     </AppBarButton.Flyout>
 
-                    <local:ColoredIcon BaseLayerGlyph="&#x0033;" OverlayLayerGlyph="&#x0034;" />
+                    <local:ColoredIcon BaseLayerGlyph="&#x0037;" OverlayLayerGlyph="&#x0038;" Margin="0,1,0,-1"/>
                 </AppBarButton>
                 <AppBarSeparator />
                 <AppBarButton
