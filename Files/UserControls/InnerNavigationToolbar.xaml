@@ -248,9 +248,6 @@
                 Label="Select"
                 LabelPosition="Collapsed"
                 ToolTipService.ToolTip="Selection options">
-                <AppBarButton.Icon>
-                    <FontIcon FontSize="10" Glyph="&#xE762;" />
-                </AppBarButton.Icon>
                 <AppBarButton.Flyout>
                     <MenuFlyout Placement="Bottom">
                         <ToggleMenuFlyoutItem
@@ -297,6 +294,8 @@
                         </MenuFlyoutItem>
                     </MenuFlyout>
                 </AppBarButton.Flyout>
+
+                <local:ColoredIcon BaseLayerGlyph="&#xF02B;" OverlayLayerGlyph="&#xF02C;" />
             </AppBarButton>
             <AppBarButton
                 x:Name="ArrangementOptions"
