@@ -352,8 +352,6 @@ namespace Files.DataModels
             };
             try
             {
-                SidebarControl.SideBarItems.BeginBulkOperation();
-
                 if (homeSection != null)
                 {
                     AddItemToSidebarAsync(homeSection);
@@ -367,10 +365,10 @@ namespace Files.DataModels
 
                 if (!SidebarControl.SideBarItems.Contains(favoriteSection))
                 {
+                    SidebarControl.SideBarItems.BeginBulkOperation();
                     SidebarControl.SideBarItems.Add(favoriteSection);
+                    SidebarControl.SideBarItems.EndBulkOperation();
                 }
-
-                SidebarControl.SideBarItems.EndBulkOperation();
             }
             finally
             {

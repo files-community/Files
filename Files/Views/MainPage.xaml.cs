@@ -129,7 +129,7 @@ namespace Files.Views
             if (SidebarAdaptiveViewModel.PaneHolder != null)
             {
                 var paneArgs = e.NavigationArg as PaneNavigationArguments;
-                SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ? 
+                SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
                     paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
                 UpdateStatusBarProperties();
                 UpdatePreviewPaneProperties();
@@ -177,7 +177,7 @@ namespace Files.Views
                 NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.NavToolbarViewModel;
             }
 
-            if(InnerNavigationToolbar != null)
+            if (InnerNavigationToolbar != null)
             {
                 InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.NavToolbarViewModel;
                 InnerNavigationToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
@@ -188,7 +188,7 @@ namespace Files.Views
         private void UpdatePreviewPaneProperties()
         {
             LoadPreviewPaneChanged();
-            if(PreviewPane != null)
+            if (PreviewPane != null)
             {
                 PreviewPane.Model = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage?.PreviewPaneViewModel;
             }
@@ -478,7 +478,7 @@ namespace Files.Views
             get => isCompactOverlay;
             set
             {
-                if(value != isCompactOverlay)
+                if (value != isCompactOverlay)
                 {
                     isCompactOverlay = value;
                     NotifyPropertyChanged(nameof(IsCompactOverlay));
@@ -489,7 +489,7 @@ namespace Files.Views
         private void RootGrid_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             // prevents the arrow key events from navigating the list instead of switching compact overlay
-            if(EnterCompactOverlayKeyboardAccelerator.CheckIsPressed() || ExitCompactOverlayKeyboardAccelerator.CheckIsPressed())
+            if (EnterCompactOverlayKeyboardAccelerator.CheckIsPressed() || ExitCompactOverlayKeyboardAccelerator.CheckIsPressed())
             {
                 Focus(FocusState.Keyboard);
             }
