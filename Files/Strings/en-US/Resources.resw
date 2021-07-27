@@ -2691,4 +2691,13 @@
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
   </data>
+  <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
+    <value>The archive extraction completed successfully.</value>
+  </data>
+  <data name="ExtractingArchiveText" xml:space="preserve">
+    <value>Extracting archive</value>
+  </data>
+  <data name="ExtractingCompleteText" xml:space="preserve">
+    <value>Extracting complete!</value>
+  </data>
 </root>
