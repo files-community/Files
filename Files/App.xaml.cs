@@ -100,17 +100,18 @@ namespace Files
         {
             SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
             ExternalResourcesHelper.LoadOtherThemesAsync();
-            AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
 
             // Start off a list of tasks we need to run before we can continue startup
             _ = Task.Factory.StartNew(async () =>
             {
-                await LibraryManager.EnumerateLibrariesAsync();
                 await DrivesManager.EnumerateDrivesAsync();
                 await CloudDrivesManager.EnumerateDrivesAsync();
+                await LibraryManager.EnumerateLibrariesAsync();
                 await NetworkDrivesManager.EnumerateDrivesAsync();
                 await WSLDistroManager.EnumerateDrivesAsync();
             });
+
+            AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
