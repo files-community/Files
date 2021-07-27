@@ -86,16 +86,18 @@ namespace Files
             NetworkDrivesManager ??= new NetworkDrivesManager();
             CloudDrivesManager ??= new CloudDrivesManager();
             WSLDistroManager ??= new WSLDistroManager();
+            SidebarPinnedController ??= new SidebarPinnedController();
         }
 
         public static async Task LoadOtherStuffAsync()
         {
-            SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
+            SidebarPinnedController ??= new SidebarPinnedController();
             ExternalResourcesHelper.LoadOtherThemesAsync();
 
             // Start off a list of tasks we need to run before we can continue startup
             _ = Task.Factory.StartNew(async () =>
             {
+                await SidebarPinnedController.InitializeAsync();
                 await DrivesManager.EnumerateDrivesAsync();
                 await CloudDrivesManager.EnumerateDrivesAsync();
                 await LibraryManager.EnumerateLibrariesAsync();

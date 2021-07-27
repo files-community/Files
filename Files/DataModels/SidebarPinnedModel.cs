@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -91,7 +92,7 @@ namespace Files.DataModels
                     var recycleBinItem = new LocationItem
                     {
                         Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
-                        Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
+                        Font = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => Application.Current.Resources["RecycleBinIcons"] as FontFamily),
                         IsDefaultLocation = true,
                         Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.RecycleBin).Image),
                         Path = App.AppSettings.RecycleBinPath
@@ -100,7 +101,7 @@ namespace Files.DataModels
                     // TODO: the very first time the app is launched localized name not available
                     if (!favoriteSection.ChildItems.Any(x => x.Path == App.AppSettings.RecycleBinPath))
                     {
-                        favoriteSection.ChildItems.Add(recycleBinItem);
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => favoriteSection.ChildItems.Add(recycleBinItem));
                     }
                 }
                 else
@@ -109,7 +110,7 @@ namespace Files.DataModels
                     {
                         if (item is LocationItem && item.Path == App.AppSettings.RecycleBinPath)
                         {
-                            favoriteSection.ChildItems.Remove(item);
+                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => favoriteSection.ChildItems.Remove(item));
                         }
                     }
                 }
@@ -266,20 +267,26 @@ namespace Files.DataModels
 
                     if (thumbnail != null)
                     {
-                        locationItem.IconData = await thumbnail.ToByteArrayAsync();
-                        locationItem.Icon = await locationItem.IconData.ToBitmapAsync();
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                        {
+                            locationItem.IconData = await thumbnail.ToByteArrayAsync();
+                            locationItem.Icon = await locationItem.IconData.ToBitmapAsync();
+                        });
                     }
                     else
                     {
                         using var thumbnailFallback = await res.Result.GetThumbnailAsync(
-                        Windows.Storage.FileProperties.ThumbnailMode.SingleItem,
-                        24,
-                        Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+                            Windows.Storage.FileProperties.ThumbnailMode.SingleItem,
+                            24,
+                            Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
 
                         if (thumbnailFallback != null)
                         {
-                            locationItem.IconData = await thumbnailFallback.ToByteArrayAsync();
-                            locationItem.Icon = await locationItem.IconData.ToBitmapAsync();
+                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                            {
+                                locationItem.IconData = await thumbnailFallback.ToByteArrayAsync();
+                                locationItem.Icon = await locationItem.IconData.ToBitmapAsync();
+                            });
                         }
                     }
                 }
@@ -288,7 +295,8 @@ namespace Files.DataModels
                     locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 24u);
                     if (locationItem.IconData != null)
                     {
-                        locationItem.Icon = await locationItem.IconData.ToBitmapAsync();
+
+                        locationItem.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
                     }
                 }
 
@@ -337,7 +345,7 @@ namespace Files.DataModels
                 Section = SectionType.Home,
                 Font = MainViewModel.FontName,
                 IsDefaultLocation = true,
-                Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png")),
+                Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"))),
                 Path = "Home".GetLocalized(),
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
@@ -370,7 +378,7 @@ namespace Files.DataModels
                     SidebarControl.SideBarItems.Add(favoriteSection);
                 }
 
-                SidebarControl.SideBarItems.EndBulkOperation();
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => SidebarControl.SideBarItems.EndBulkOperation());
             }
             finally
             {
