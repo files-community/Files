@@ -9,7 +9,7 @@
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xh="using:Files.Helpers.XamlHelpers"
-    d:DesignHeight="300"
+    d:DesignHeight="40"
     d:DesignWidth="400"
     Loaded="UserControl_Loaded"
     mc:Ignorable="d">
@@ -91,9 +91,23 @@
                         </MenuFlyout>
                     </AppBarButton.Flyout>
 
-                    <local:ColoredIcon BaseLayerGlyph="&#x0037;" OverlayLayerGlyph="&#x0038;" Margin="0,1,0,-1"/>
+                    <local:ColoredIcon
+                        Margin="0,1,0,-1"
+                        BaseLayerGlyph="&#x0037;"
+                        OverlayLayerGlyph="&#x0038;" />
                 </AppBarButton>
                 <AppBarSeparator />
+                <AppBarButton
+                    x:Uid="NavigationToolbarCopy"
+                    Width="Auto"
+                    MinWidth="40"
+                    Command="{x:Bind ViewModel.CopyCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay}"
+                    Label="Copy"
+                    LabelPosition="Collapsed"
+                    ToolTipService.ToolTip="Copy">
+                    <local:ColoredIcon BaseLayerGlyph="&#x0021;" OverlayLayerGlyph="&#x0022;" />
+                </AppBarButton>
                 <AppBarButton
                     x:Name="PasteButton"
                     x:Uid="NavigationToolbarPaste"
@@ -111,17 +125,6 @@
                             Modifiers="Control" />
                     </AppBarButton.KeyboardAccelerators>
                     <local:ColoredIcon BaseLayerGlyph="&#x0023;" OverlayLayerGlyph="&#x0024;" />
-                </AppBarButton>
-                <AppBarButton
-                    x:Uid="NavigationToolbarCopy"
-                    Width="Auto"
-                    MinWidth="40"
-                    Command="{x:Bind ViewModel.CopyCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay}"
-                    Label="Copy"
-                    LabelPosition="Collapsed"
-                    ToolTipService.ToolTip="Copy">
-                    <local:ColoredIcon BaseLayerGlyph="&#x0021;" OverlayLayerGlyph="&#x0022;" />
                 </AppBarButton>
                 <AppBarButton
                     x:Name="CopyPathButton"
