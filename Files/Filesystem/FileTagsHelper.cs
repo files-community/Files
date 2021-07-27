@@ -32,8 +32,8 @@ namespace Files.Filesystem
 
         public static string ReadFileTag(string filePath)
         {
-            IntPtr hStream = NativeDirectoryChangesHelper.CreateFileFromApp($"{filePath}:files",
-                NativeDirectoryChangesHelper.GENERIC_READ, 0, IntPtr.Zero, NativeDirectoryChangesHelper.OPEN_EXISTING, (uint)NativeDirectoryChangesHelper.File_Attributes.BackupSemantics, IntPtr.Zero);
+            IntPtr hStream = NativeFileOperationsHelper.CreateFileFromApp($"{filePath}:files",
+                NativeFileOperationsHelper.GENERIC_READ, 0, IntPtr.Zero, NativeFileOperationsHelper.OPEN_EXISTING, (uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics, IntPtr.Zero);
             if (hStream.ToInt64() == -1) return null;
             byte[] buff = new byte[4096];
             int dwBytesRead;
@@ -42,11 +42,11 @@ namespace Files.Filesystem
             {
                 fixed (byte* pBuff = buff)
                 {
-                    NativeDirectoryChangesHelper.ReadFile(hStream, pBuff, 4096 - 1, &dwBytesRead, IntPtr.Zero);
+                    NativeFileOperationsHelper.ReadFile(hStream, pBuff, 4096 - 1, &dwBytesRead, IntPtr.Zero);
                     str = Encoding.UTF8.GetString(pBuff, dwBytesRead);
                 }
             }
-            NativeDirectoryChangesHelper.CloseHandle(hStream);
+            NativeFileOperationsHelper.CloseHandle(hStream);
             return str;
         }
 
@@ -54,12 +54,12 @@ namespace Files.Filesystem
         {
             if (tag == null)
             {
-                NativeDirectoryChangesHelper.DeleteFileFromApp($"{filePath}:files");
+                NativeFileOperationsHelper.DeleteFileFromApp($"{filePath}:files");
             }
             else
             {
-                IntPtr hStream = NativeDirectoryChangesHelper.CreateFileFromApp($"{filePath}:files",
-                    NativeDirectoryChangesHelper.GENERIC_WRITE, 0, IntPtr.Zero, NativeDirectoryChangesHelper.CREATE_ALWAYS, (uint)NativeDirectoryChangesHelper.File_Attributes.BackupSemantics, IntPtr.Zero);
+                IntPtr hStream = NativeFileOperationsHelper.CreateFileFromApp($"{filePath}:files",
+                    NativeFileOperationsHelper.GENERIC_WRITE, 0, IntPtr.Zero, NativeFileOperationsHelper.CREATE_ALWAYS, (uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics, IntPtr.Zero);
                 if (hStream.ToInt64() == -1) return;
                 byte[] buff = Encoding.UTF8.GetBytes(tag);
                 int dwBytesWritten;
@@ -67,10 +67,10 @@ namespace Files.Filesystem
                 {
                     fixed (byte* pBuff = buff)
                     {
-                        NativeDirectoryChangesHelper.WriteFile(hStream, pBuff, buff.Length, &dwBytesWritten, IntPtr.Zero);
+                        NativeFileOperationsHelper.WriteFile(hStream, pBuff, buff.Length, &dwBytesWritten, IntPtr.Zero);
                     }
                 }
-                NativeDirectoryChangesHelper.CloseHandle(hStream);
+                NativeFileOperationsHelper.CloseHandle(hStream);
             }
         }
 

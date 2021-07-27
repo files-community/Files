@@ -10,6 +10,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -696,6 +697,14 @@ namespace Files.ViewModels
         {
             get => (GroupOption)Get((byte)GroupOption.None);
             set => Set((byte)value);
+        }
+
+        private List<FileTag> _FileTagList = new List<FileTag>()
+            { new FileTag("Blue", "#0072BD"), new FileTag("Orange", "#D95319"), new FileTag("Yellow", "#EDB120"), new FileTag("Green", "#77AC30"), new FileTag("Azure", "#4DBEEE") };
+
+        public IList<FileTag> FileTagList
+        {
+            get => _FileTagList;
         }
 
         #region ReadAndSaveSettings

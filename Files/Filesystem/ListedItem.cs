@@ -111,6 +111,8 @@ namespace Files.Filesystem
             get => App.AppSettings.FileTagList.SingleOrDefault(x => x.Tag == FileTag);
         }
 
+        private Uri customIconSource;
+
         public Uri CustomIconSource
         {
             get => customIconSource;

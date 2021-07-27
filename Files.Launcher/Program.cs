@@ -12,6 +12,8 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
+using Vanara.Windows.Shell;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 
@@ -58,6 +60,9 @@ namespace FilesFullTrust
                 // Initialize device watcher
                 deviceWatcher = new DeviceWatcher(connection);
                 deviceWatcher.Start();
+
+                // Update tags db
+                UpdateTagsDb();
 
                 // Wait until the connection gets closed
                 appServiceExit.WaitOne();
