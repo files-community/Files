@@ -515,6 +515,12 @@ namespace Files.ViewModels
 
         public ICommand CopyCommand { get; set; }
 
+        public ICommand DeleteCommand { get; set; }
+        
+        public ICommand Rename { get; set; }
+
+        public ICommand Share { get; set; }
+
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {
             var nextPathItemTitle = PathComponents[PathComponents.IndexOf(pathItem) + 1].Title;
@@ -768,11 +774,15 @@ namespace Files.ViewModels
                 {
                     OnPropertyChanged(nameof(CanCopy));
                     OnPropertyChanged(nameof(CanCopyPath));
+                    OnPropertyChanged(nameof(CanShare));
+                    OnPropertyChanged(nameof(CanRename));
                 }
             }
         }
 
         public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
         public bool CanCopyPath => SelectedItems is null || SelectedItems.Count == 0 || (SelectedItems is not null && SelectedItems.Count == 1);
+        public bool CanShare => SelectedItems is not null && SelectedItems.Any() && !SelectedItems.All(x => x.IsShortcutItem);
+        public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
     }
 }

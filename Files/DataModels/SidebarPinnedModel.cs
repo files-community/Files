@@ -269,6 +269,19 @@ namespace Files.DataModels
                         locationItem.IconData = await thumbnail.ToByteArrayAsync();
                         locationItem.Icon = await locationItem.IconData.ToBitmapAsync();
                     }
+                    else
+                    {
+                        using var thumbnailFallback = await res.Result.GetThumbnailAsync(
+                        Windows.Storage.FileProperties.ThumbnailMode.SingleItem,
+                        24,
+                        Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+
+                        if (thumbnailFallback != null)
+                        {
+                            locationItem.IconData = await thumbnailFallback.ToByteArrayAsync();
+                            locationItem.Icon = await locationItem.IconData.ToBitmapAsync();
+                        }
+                    }
                 }
                 else
                 {

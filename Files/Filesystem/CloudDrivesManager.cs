@@ -58,6 +58,7 @@ namespace Files.Filesystem
                 var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24);
                 if (iconData != null)
                 {
+                    cloudProviderItem.IconData = iconData;
                     await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
                     {
                         cloudProviderItem.Icon = await iconData.ToBitmapAsync();

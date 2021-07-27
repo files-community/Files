@@ -71,7 +71,6 @@ namespace Files.Views
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 // Set window size in the loaded event to prevent flickering
-                ApplicationView.GetForCurrentView().Consolidated += Properties_Consolidated;
                 TitleBar = ApplicationView.GetForCurrentView().TitleBar;
                 TitleBar.ButtonBackgroundColor = Colors.Transparent;
                 TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
@@ -82,12 +81,6 @@ namespace Files.Views
             }
 
             ViewModel.GetFilePermissions();
-        }
-
-        private void Properties_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
-        {
-            App.AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
-            ApplicationView.GetForCurrentView().Consolidated -= Properties_Consolidated;
         }
 
         private void Properties_Unloaded(object sender, RoutedEventArgs e)

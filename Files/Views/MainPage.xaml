@@ -346,7 +346,7 @@
                                         Glyph="&#xF5ED;" />
                                 </Button.Content>
                                 <Button.Flyout>
-                                    <Flyout x:Name="VerticalTabViewFlyout">
+                                    <Flyout x:Name="VerticalTabViewFlyout" ShouldConstrainToRootBounds="False" Placement="Bottom">
                                         <usercontrols:VerticalTabViewControl
                                             x:Name="VerticalTabs"
                                             HorizontalAlignment="Stretch"

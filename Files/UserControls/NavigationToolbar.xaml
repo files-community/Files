@@ -463,7 +463,7 @@
             <Grid
                 x:Name="ClickablePath"
                 Grid.Column="1"
-                MinHeight="32"
+                MinHeight="33"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 extensions:FrameworkElementExtensions.Cursor="Hand"
@@ -572,6 +572,7 @@
                     Width="36"
                     Height="32"
                     AutomationProperties.Name="Settings"
+                    AccessKey="I"
                     Background="Transparent"
                     Command="{x:Bind SettingsButtonCommand, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
