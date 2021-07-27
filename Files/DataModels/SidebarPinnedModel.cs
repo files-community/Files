@@ -360,8 +360,6 @@ namespace Files.DataModels
             };
             try
             {
-                SidebarControl.SideBarItems.BeginBulkOperation();
-
                 if (homeSection != null)
                 {
                     AddItemToSidebarAsync(homeSection);
@@ -375,7 +373,9 @@ namespace Files.DataModels
 
                 if (!SidebarControl.SideBarItems.Contains(favoriteSection))
                 {
+                    SidebarControl.SideBarItems.BeginBulkOperation();
                     SidebarControl.SideBarItems.Add(favoriteSection);
+                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => SidebarControl.SideBarItems.EndBulkOperation());
                 }
 
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => SidebarControl.SideBarItems.EndBulkOperation());

@@ -80,6 +80,7 @@ namespace Files
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
+
             MainViewModel ??= new MainViewModel();
             LibraryManager ??= new LibraryManager();
             DrivesManager ??= new DrivesManager();
@@ -91,19 +92,22 @@ namespace Files
 
         public static async Task LoadOtherStuffAsync()
         {
-            SidebarPinnedController ??= new SidebarPinnedController();
             ExternalResourcesHelper.LoadOtherThemesAsync();
 
             // Start off a list of tasks we need to run before we can continue startup
-            _ = Task.Factory.StartNew(async () =>
+            _ = Task.Run(async () =>
             {
-                await SidebarPinnedController.InitializeAsync();
-                await DrivesManager.EnumerateDrivesAsync();
-                await CloudDrivesManager.EnumerateDrivesAsync();
-                await LibraryManager.EnumerateLibrariesAsync();
-                await NetworkDrivesManager.EnumerateDrivesAsync();
-                await WSLDistroManager.EnumerateDrivesAsync();
+                await Task.WhenAll(
+                   SidebarPinnedController.InitializeAsync(),
+                   DrivesManager.EnumerateDrivesAsync(),
+                   CloudDrivesManager.EnumerateDrivesAsync(),
+                   LibraryManager.EnumerateLibrariesAsync(),
+                   NetworkDrivesManager.EnumerateDrivesAsync(),
+                   WSLDistroManager.EnumerateDrivesAsync()
+                );
             });
+
+            ExternalResourcesHelper.LoadOtherThemesAsync();
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)

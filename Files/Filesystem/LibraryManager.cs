@@ -202,7 +202,9 @@ namespace Files.Filesystem
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0); // After favorites section
+                        SidebarControl.SideBarItems.BeginBulkOperation();
                         SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), librarySection);
+                        SidebarControl.SideBarItems.EndBulkOperation();
                     }
                 }
                 finally
