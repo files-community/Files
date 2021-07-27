@@ -77,21 +77,6 @@ namespace Files.ViewModels
                 return;
             }
 
-            foreach (var extension in AppData.FilePreviewExtensionManager.Extensions)
-            {
-                if (extension.FileExtensions.Contains(SelectedItem.FileExtension))
-                {
-                    var extControl = await LoadPreviewControlFromExtension(SelectedItem, extension);
-                    if (!token.IsCancellationRequested && extControl != null)
-                    {
-                        PreviewPaneContent = extControl;
-                    }
-
-                    PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
-                    return;
-                }
-            }
-
             var control = await GetBuiltInPreviewControlAsync(SelectedItem, downloadItem);
 
             if (token.IsCancellationRequested)
