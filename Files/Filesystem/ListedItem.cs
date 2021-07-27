@@ -1,4 +1,5 @@
-﻿using Files.Enums;
+﻿using Common;
+using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
@@ -9,6 +10,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -85,7 +87,29 @@ namespace Files.Filesystem
             }
         }
 
-        private Uri customIconSource;
+        public ulong? FileFRN { get; set; }
+
+        private string _FileTag;
+
+        public string FileTag
+        {
+            get => _FileTag;
+            set
+            {
+                if (value != _FileTag)
+                {
+                    FileTagsHelper.DbInstance.SetTag(ItemPath, FileFRN, value);
+                    FileTagsHelper.WriteFileTag(ItemPath, value);
+                }
+                SetProperty(ref _FileTag, value);
+                OnPropertyChanged(nameof(FileTagUI));
+            }
+        }
+
+        public FileTag FileTagUI
+        {
+            get => App.AppSettings.FileTagList.SingleOrDefault(x => x.Tag == FileTag);
+        }
 
         public Uri CustomIconSource
         {

@@ -63,6 +63,28 @@ namespace Files.Helpers
             public fixed char FileName[1];
         }
 
+        [DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
+        CallingConvention = CallingConvention.StdCall,
+        SetLastError = true)]
+        public unsafe static extern bool ReadFile(
+            IntPtr hFile,
+            byte* lpBuffer,
+            int nBufferLength,
+            int* lpBytesReturned,
+            IntPtr lpOverlapped
+        );
+
+        [DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
+        CallingConvention = CallingConvention.StdCall,
+        SetLastError = true)]
+        public unsafe static extern bool WriteFile(
+            IntPtr hFile,
+            byte* lpBuffer,
+            int nBufferLength,
+            int* lpBytesWritten,
+            IntPtr lpOverlapped
+        );
+
         [DllImport("api-ms-win-core-file-l2-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public unsafe static extern bool ReadDirectoryChangesW(IntPtr hDirectory, byte* lpBuffer,
             int nBufferLength, bool bWatchSubtree, int dwNotifyFilter, int*
