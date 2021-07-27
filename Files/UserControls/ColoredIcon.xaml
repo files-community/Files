@@ -14,11 +14,11 @@
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="ColoredIconOverlayForeground" Color="{StaticResource SystemAccentColorDark1}" />
-                    <SolidColorBrush x:Key="ColoredIconOverlayForegroundDisabled" Color="{StaticResource SystemAccentColorLight1}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayForegroundDisabled" Color="{StaticResource SystemAccentColorLight2}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="ColoredIconOverlayForeground" Color="{StaticResource SystemAccentColorLight1}" />
-                    <SolidColorBrush x:Key="ColoredIconOverlayForegroundDisabled" Color="{StaticResource SystemAccentColorDark1}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayForegroundDisabled" Color="{StaticResource SystemAccentColorDark2}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
                     <SolidColorBrush x:Key="ColoredIconOverlayForeground" Color="{StaticResource SystemAccentColor}" />
