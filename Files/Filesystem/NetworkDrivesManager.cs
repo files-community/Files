@@ -144,8 +144,8 @@ namespace Files.Filesystem
                         .ThenBy(o => o.Text))
                         {
                             var resource = SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.Folder);
-                            drive.Icon = UIHelpers.GetImageForIconOrNull(resource.Image);
-                            drive.IconData = resource.IconDataBytes;
+                            drive.Icon = UIHelpers.GetImageForIconOrNull(resource?.Image);
+                            drive.IconData = resource?.IconDataBytes;
                             if (!section.ChildItems.Contains(drive))
                             {
                                 section.ChildItems.Add(drive);
