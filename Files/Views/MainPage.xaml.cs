@@ -122,6 +122,10 @@ namespace Files.Views
                 ViewModel.MultitaskingControls.Add(horizontalMultitaskingControl);
                 ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
+            if (AppSettings.IsVerticalTabFlyoutEnabled)
+            {
+                FindName(nameof(VerticalTabStripInvokeButton));
+            }
         }
 
         public void TabItemContent_ContentChanged(object sender, TabItemArguments e)
