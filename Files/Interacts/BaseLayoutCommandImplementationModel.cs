@@ -313,8 +313,9 @@ namespace Files.Interacts
             {
                 if (SlimContentPage != null)
                 {
+                    var path = SlimContentPage.SelectedItem != null ? SlimContentPage.SelectedItem.ItemPath : associatedInstance.FilesystemViewModel.WorkingDirectory;
                     DataPackage data = new DataPackage();
-                    data.SetText(SlimContentPage.SelectedItem.ItemPath);
+                    data.SetText(path);
                     Clipboard.SetContent(data);
                     Clipboard.Flush();
                 }
