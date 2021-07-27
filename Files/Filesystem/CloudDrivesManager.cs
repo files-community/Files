@@ -55,16 +55,6 @@ namespace Files.Filesystem
                     Type = DriveType.CloudDrive,
                 };
 
-                var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24);
-                if (iconData != null)
-                {
-                    cloudProviderItem.IconData = iconData;
-                    await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
-                    {
-                        cloudProviderItem.Icon = await iconData.ToBitmapAsync();
-                    });
-                }
-
                 lock (drivesList)
                 {
                     if (!drivesList.Any(x => x.Path == cloudProviderItem.Path))
@@ -75,6 +65,7 @@ namespace Files.Filesystem
             }
 
             await RefreshUI();
+            _ = LoadImagesAsync();
         }
 
         private async Task RefreshUI()
@@ -90,6 +81,25 @@ namespace Files.Filesystem
                 // Defer because UI-thread is not ready yet (and DriveItem requires it?)
                 CoreApplication.MainView.Activated += RefreshUI;
             }
+        }
+
+        private async Task LoadImagesAsync()
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                foreach (DriveItem drive in Drives.ToList())
+                {
+                    var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(drive.Path, 24);
+                    if (iconData != null)
+                    {
+                        drive.IconData = iconData;
+                        await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
+                        {
+                            drive.Icon = await iconData.ToBitmapAsync();
+                        });
+                    }
+                }
+            });
         }
 
         private async void RefreshUI(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)

@@ -18,7 +18,14 @@ namespace Files.DataModels.NavigationControlItems
 {
     public class DriveItem : ObservableObject, INavigationControlItem
     {
-        public BitmapImage Icon { get; set; }
+
+        private BitmapImage icon;
+        public BitmapImage Icon
+        {
+            get => icon;
+            set => SetProperty(ref icon, value);
+        }
+
         public Uri IconSource { get; set; }
         public byte[] IconData { get; set; }
 
@@ -140,7 +147,11 @@ namespace Files.DataModels.NavigationControlItems
         {
             var item = new DriveItem();
 
-            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () => await item.SetBitmapImage(imageStream));
+            if(imageStream is not null)
+            {
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () => await item.SetBitmapImage(imageStream));
+            }
+
             item.Text = root.DisplayName;
             item.Type = type;
             item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
@@ -213,6 +224,8 @@ namespace Files.DataModels.NavigationControlItems
             }
             return result;
         }
+
+        public Action SetIcon { get; set; }
     }
 
     public enum DriveType

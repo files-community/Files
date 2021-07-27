@@ -105,9 +105,9 @@ namespace Files
             // Start off a list of tasks we need to run before we can continue startup
             _ = Task.Factory.StartNew(async () =>
             {
-                await LibraryManager.EnumerateLibrariesAsync();
                 await DrivesManager.EnumerateDrivesAsync();
                 await CloudDrivesManager.EnumerateDrivesAsync();
+                await LibraryManager.EnumerateLibrariesAsync();
                 await NetworkDrivesManager.EnumerateDrivesAsync();
                 await WSLDistroManager.EnumerateDrivesAsync();
             });
