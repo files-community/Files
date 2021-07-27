@@ -59,14 +59,6 @@ namespace Files
         public static StatusCenterViewModel StatusCenterViewModel { get; } = new StatusCenterViewModel();
 
         public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
-
-        public static class AppData
-        {
-            // Get the extensions that are available for this host.
-            // Extensions that declare the same contract string as the host will be recognized.
-            internal static ExtensionManager FilePreviewExtensionManager { get; set; } = new ExtensionManager("com.files.filepreview");
-        }
-
         public App()
         {
             // Initialize logger
@@ -110,8 +102,6 @@ namespace Files
                 await NetworkDrivesManager.EnumerateDrivesAsync();
                 await WSLDistroManager.EnumerateDrivesAsync();
             });
-
-            AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
