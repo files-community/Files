@@ -58,6 +58,7 @@
                     x:Name="NewEmptySpaceAppBarButton"
                     x:Uid="BaseLayoutContextFlyoutNew"
                     IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
+                    KeyboardAcceleratorTextOverride="Ctrl+Shift+N"
                     Label="New">
                     <AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator

@@ -2694,6 +2694,9 @@
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>The archive extraction completed successfully.</value>
   </data>
+  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+N</value>
+  </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
     <value>Extracting archive</value>
   </data>
