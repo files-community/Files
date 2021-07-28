@@ -3328,7 +3328,7 @@
         </trans-unit>
         <trans-unit id="SideBarUnpinFromFavorites.Text" translate="yes" xml:space="preserve">
           <source>Unpin from Favorites</source>
-          <target state="translated">Levétel a kedvencek közűl</target>
+          <target state="translated">Levétel a kedvencek közül</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutUnpinFromFavorites.Text" translate="yes" xml:space="preserve">
           <source>Unpin from Favorites</source>
