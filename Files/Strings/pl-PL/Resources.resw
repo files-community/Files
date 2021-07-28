@@ -786,9 +786,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Odmowa dostępu</value>
   </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>Pokazuj okno potwierdzenia podczas usuwania plików lub folderów</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Centrum statusu</value>
   </data>

@@ -996,7 +996,7 @@
   <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
     <value>Pin Recycle Bin to Favorites</value>
   </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
+  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>Show a confirmation dialog when deleting files or folders</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">

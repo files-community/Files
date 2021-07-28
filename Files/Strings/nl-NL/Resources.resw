@@ -786,9 +786,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Toegang geweigerd</value>
   </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>Bevestigingsdialoogvenster weergeven bij het verwijderen van bestanden en mappen</value>
-  </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Beoordeling</value>
   </data>

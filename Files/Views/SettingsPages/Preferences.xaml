@@ -117,11 +117,16 @@
                         SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
                 </local:SettingsBlockControl>
 
-                <ToggleSwitch
-                    x:Name="ShowConfirmDeleteDialogSwitch"
-                    x:Uid="SettingsPreferencesShowConfirmDeleteDialogSwitch"
-                    Header="Show a confirmation dialog when deleting files or folders"
-                    IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}" />
+                <local:SettingsBlockControl
+                    x:Uid="SettingsPreferencesShowConfirmDeleteDialog"
+                    Title="Show a confirmation dialog when deleting files or folders"
+                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
+                    HorizontalAlignment="Left">
+                    <local:SettingsBlockControl.Icon>
+                        <FontIcon Glyph="&#xE107;" />
+                    </local:SettingsBlockControl.Icon>
+                    <ToggleSwitch x:Name="ShowConfirmDeleteDialogSwitch" IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}" />
+                </local:SettingsBlockControl>
 
                 <ToggleSwitch
                     x:Name="OpenFoldersNewTab"

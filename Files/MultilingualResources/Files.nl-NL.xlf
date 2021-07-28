@@ -1040,10 +1040,6 @@
           <source>Access Denied</source>
           <target state="translated">Toegang geweigerd</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">Bevestigingsdialoogvenster weergeven bij het verwijderen van bestanden en mappen</target>
-        </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
           <source>Rating</source>
           <target state="translated" state-qualifier="tm-suggestion">Beoordeling</target>
@@ -3439,6 +3435,10 @@
         <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="new">Date format</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
+          <source>Show a confirmation dialog when deleting files or folders</source>
+          <target state="new">Show a confirmation dialog when deleting files or folders</target>
         </trans-unit>
       </group>
     </body>

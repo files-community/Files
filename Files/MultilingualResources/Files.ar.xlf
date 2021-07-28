@@ -1076,10 +1076,6 @@
           <source>Edit terminal applications</source>
           <target state="translated">تعديل التطبيقات الطرفية</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">إظهار مربع حوار التأكيد عند حذف الملفات أو المجلدات</target>
-        </trans-unit>
         <trans-unit id="PropertySaveErrorMessage.Text" translate="yes" xml:space="preserve">
           <source>There was an issue saving some properties.</source>
           <target state="translated">كانت هناك مشكلة في حفظ بعض الخصائص</target>
@@ -3460,6 +3456,10 @@
         <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="new">Date format</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
+          <source>Show a confirmation dialog when deleting files or folders</source>
+          <target state="new">Show a confirmation dialog when deleting files or folders</target>
         </trans-unit>
       </group>
     </body>
