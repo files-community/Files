@@ -775,6 +775,9 @@ namespace Files.Views.LayoutModes
         }
 
         public IBaseLayout LastColumnBrowser => IsLastColumnBase ? this : ((ColumnHost.ActiveBlades.Last().Content as Frame).Content as ColumnShellPage).SlimContentPage as ColumnViewBase;
+
+        public IShellPage LastColumnShellPage => IsLastColumnBase ? ParentShellPageInstance : ((ColumnHost.ActiveBlades.Last().Content as Frame).Content as ColumnShellPage);
+
         public bool IsLastColumnBase => ColumnHost.ActiveBlades.Count == 1;
     }
 }

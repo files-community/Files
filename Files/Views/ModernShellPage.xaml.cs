@@ -204,9 +204,9 @@ namespace Files.Views
             NavToolbarViewModel.OpenNewWindowCommand = new RelayCommand(NavigationHelpers.LaunchNewWindow);
             NavToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized()));
             NavToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
-            NavToolbarViewModel.OpenDirectoryInDefaultTerminalCommand = new RelayCommand(async () => await NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory));
-            NavToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, x, this));
-            NavToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, this));
+            NavToolbarViewModel.OpenDirectoryInDefaultTerminalCommand = new RelayCommand(async () => await NavigationHelpers.OpenDirectoryInTerminal(GetActiveShellPage().FilesystemViewModel.WorkingDirectory));
+            NavToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, x, GetActiveShellPage()));
+            NavToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, GetActiveShellPage()));
             NavToolbarViewModel.CopyCommand = new RelayCommand(() => GetActiveLayout().CommandsViewModel.CopyItemCommand.Execute(null));
             NavToolbarViewModel.Rename = new RelayCommand(() => GetActiveLayout()?.CommandsViewModel.RenameItemCommand.Execute(null));
             NavToolbarViewModel.Share = new RelayCommand(() => GetActiveLayout()?.CommandsViewModel.ShareItemCommand.Execute(null));
@@ -1134,6 +1134,22 @@ namespace Files.Views
             }
 
             return SlimContentPage;
+        }
+
+        /// <summary>
+        /// workaround that allows retrieving the current column shell page if the layout is in column view or self otherwise
+        /// </summary>
+        private IShellPage GetActiveShellPage()
+        {
+            if (IsColumnView)
+            {
+                if(!(SlimContentPage as ColumnViewBrowser)?.IsLastColumnBase ?? false) 
+                {
+                    return (SlimContentPage as ColumnViewBrowser)?.LastColumnShellPage;
+                }
+            }
+
+            return this;
         }
     }
 
