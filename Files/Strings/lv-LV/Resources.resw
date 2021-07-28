@@ -120,9 +120,6 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Par</value>
   </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>Datuma formāts</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Izskats</value>
   </data>
@@ -345,9 +342,6 @@
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Rekvizīti</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Apskatīt profilu piemērus</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Šajā mapē jau pastāv vienums ar šādu nosaukumu.</value>
   </data>
@@ -527,9 +521,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Palaist kā administratoram</value>
-  </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Uzzināt vairāk par datumu formātiem</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Atbloķēt</value>
@@ -818,18 +809,6 @@
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mainīt komandu uzvednes lietotnes</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Skatīt profilu piemērus</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Komandu uzvednes lietotnes</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>Rādīt piekrišanas izvēlni, kad tiek dzēsti faili vai mapes</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Komandu uzvednes lietotnes</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Bija problēma, saglabājot rekvizītus.</value>
@@ -1193,9 +1172,6 @@
   </data>
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Statusa centrs</value>
-  </data>
-  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>Uzzināt vairāk par datumu formātiem</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Meklēt</value>
@@ -1805,9 +1781,6 @@
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Modificēšanas datums:</value>
-  </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>Atvērt mapes jaunā cilnē</value>
   </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Atlases opcijas</value>
