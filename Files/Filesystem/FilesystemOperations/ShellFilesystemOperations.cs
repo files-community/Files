@@ -83,8 +83,8 @@ namespace Files.Filesystem
 
             var sourceReplace = source.Where((src, index) => collisions.ElementAt(index) == FileNameConflictResolveOptionType.ReplaceExisting);
             var destinationReplace = destination.Where((src, index) => collisions.ElementAt(index) == FileNameConflictResolveOptionType.ReplaceExisting);
-            var sourceRename = source.Where((src, index) => collisions.ElementAt(index) == FileNameConflictResolveOptionType.GenerateNewName);
-            var destinationRename = destination.Where((src, index) => collisions.ElementAt(index) == FileNameConflictResolveOptionType.GenerateNewName);
+            var sourceRename = source.Where((src, index) => collisions.ElementAt(index) != FileNameConflictResolveOptionType.ReplaceExisting);
+            var destinationRename = destination.Where((src, index) => collisions.ElementAt(index) != FileNameConflictResolveOptionType.ReplaceExisting);
 
             var result = (FilesystemResult)true;
             var copiedItems = new List<string>();
@@ -308,8 +308,8 @@ namespace Files.Filesystem
 
             var sourceReplace = source.Where((src, index) => collisions.ElementAt(index) == FileNameConflictResolveOptionType.ReplaceExisting);
             var destinationReplace = destination.Where((src, index) => collisions.ElementAt(index) == FileNameConflictResolveOptionType.ReplaceExisting);
-            var sourceRename = source.Where((src, index) => collisions.ElementAt(index) == FileNameConflictResolveOptionType.GenerateNewName);
-            var destinationRename = destination.Where((src, index) => collisions.ElementAt(index) == FileNameConflictResolveOptionType.GenerateNewName);
+            var sourceRename = source.Where((src, index) => collisions.ElementAt(index) != FileNameConflictResolveOptionType.ReplaceExisting);
+            var destinationRename = destination.Where((src, index) => collisions.ElementAt(index) != FileNameConflictResolveOptionType.ReplaceExisting);
 
             var result = (FilesystemResult)true;
             var movedItems = new List<string>();
