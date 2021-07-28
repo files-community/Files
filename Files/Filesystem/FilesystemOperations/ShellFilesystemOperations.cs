@@ -126,6 +126,19 @@ namespace Files.Filesystem
                 connection.RequestReceived -= handler;
             }
 
+            // Updated tag for successfully copied items
+            var copiedZip = source.Zip(destination, (src, dest) => new { src, dest }).Where(x => copiedSources.Contains(x.src.Path));
+            copiedZip.ForEach(x =>
+            {
+                var tag = FileTagsHelper.DbInstance.GetTag(x.src.Path);
+                FileTagsHelper.DbInstance.SetTag(x.dest, null, tag); // copy tag to new files
+            });
+            copiedZip.Where(x => x.src.ItemType == FilesystemItemType.Directory).ForEach(x =>
+            {
+                var tags = FileTagsHelper.DbInstance.GetAllUnderPath(x.src.Path); // copy tag for items contained in the folder
+                tags.ForEach(t => FileTagsHelper.DbInstance.SetTag(t.FilePath.Replace(x.src.Path, x.dest), null, t.Tag));
+            });
+
             if (result)
             {
                 progress?.Report(100.0f);
@@ -140,8 +153,8 @@ namespace Files.Filesystem
             else
             {
                 // Retry failed operations
-                var copiedZip = source.Zip(destination, (src, dest) => new { src, dest }).Zip(collisions, (z1, coll) => new { z1.src, z1.dest, coll }).Where(x => !copiedSources.Contains(x.src.Path));
-                return await filesystemOperations.CopyItemsAsync(copiedZip.Select(x => x.src), copiedZip.Select(x => x.dest), copiedZip.Select(x => x.coll), progress, errorCode, cancellationToken);
+                var copiedFailedZip = source.Zip(destination, (src, dest) => new { src, dest }).Zip(collisions, (z1, coll) => new { z1.src, z1.dest, coll }).Where(x => !copiedSources.Contains(x.src.Path));
+                return await filesystemOperations.CopyItemsAsync(copiedFailedZip.Select(x => x.src), copiedFailedZip.Select(x => x.dest), copiedFailedZip.Select(x => x.coll), progress, errorCode, cancellationToken);
             }
         }
 
@@ -195,6 +208,8 @@ namespace Files.Filesystem
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
             connection.RequestReceived += handler;
 
+            var deletedItems = new List<string>();
+            var recycledItems = new List<string>();
             var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
             {
                 { "Arguments", "FileOperation" },
@@ -205,17 +220,30 @@ namespace Files.Filesystem
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
+            deletedItems.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("DeletedItems", "")) ?? Enumerable.Empty<string>());
+            recycledItems.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("RecycledItems", "")) ?? Enumerable.Empty<string>());
 
             if (connection != null)
             {
                 connection.RequestReceived -= handler;
             }
 
+            // Updated tag for successfully deleted items
+            if (recycledItems.Count() == deletedItems.Count())
+            {
+                var recycledZip = source.Where(x => deletedItems.Contains(x.Path)).Zip(recycledItems, (src, dest) => new { src, dest });
+                recycledZip.ForEach(x => FileTagsHelper.DbInstance.UpdateTag(x.src.Path, null, x.dest)); // move tag to files in bin
+                recycledZip.Where(x => x.src.ItemType == FilesystemItemType.Directory).ForEach(x =>
+                {
+                    var tags = FileTagsHelper.DbInstance.GetAllUnderPath(x.src.Path); // move tag for items contained in the folder
+                    tags.ForEach(t => FileTagsHelper.DbInstance.UpdateTag(t.FilePath, null, t.FilePath.Replace(x.src.Path, x.dest)));
+                });
+            }
+            deletedItems.ForEach(x => FileTagsHelper.DbInstance.SetTag(x, null, null)); // remove tag from deleted files
+
             if (result)
             {
                 progress?.Report(100.0f);
-                var deletedItems = JsonConvert.DeserializeObject<IEnumerable<string>>(response["DeletedItems"] as string);
-                var recycledItems = JsonConvert.DeserializeObject<IEnumerable<string>>(response["RecycledItems"] as string);
                 errorCode?.Report(FileSystemStatusCode.Success);
                 if (deletedItems != null)
                 {
@@ -323,6 +351,15 @@ namespace Files.Filesystem
                 connection.RequestReceived -= handler;
             }
 
+            // Updated tag for successfully moved items
+            var movedZip = source.Zip(destination, (src, dest) => new { src, dest }).Where(x => movedSources.Contains(x.src.Path));
+            movedZip.ForEach(x => FileTagsHelper.DbInstance.UpdateTag(x.src.Path, null, x.dest)); // move tag to new files
+            movedZip.Where(x => x.src.ItemType == FilesystemItemType.Directory).ForEach(x =>
+            {
+                var tags = FileTagsHelper.DbInstance.GetAllUnderPath(x.src.Path); // move tag for items contained in the folder
+                tags.ForEach(t => FileTagsHelper.DbInstance.UpdateTag(t.FilePath, null, t.FilePath.Replace(x.src.Path, x.dest)));
+            });
+
             if (result)
             {
                 progress?.Report(100.0f);
@@ -337,8 +374,8 @@ namespace Files.Filesystem
             else
             {
                 // Retry failed operations
-                var movedZip = source.Zip(destination, (src, dest) => new { src, dest }).Zip(collisions, (z1, coll) => new { z1.src, z1.dest, coll }).Where(x => !movedSources.Contains(x.src.Path));
-                return await filesystemOperations.MoveItemsAsync(movedZip.Select(x => x.src), movedZip.Select(x => x.dest), movedZip.Select(x => x.coll), progress, errorCode, cancellationToken);
+                var movedFailedZip = source.Zip(destination, (src, dest) => new { src, dest }).Zip(collisions, (z1, coll) => new { z1.src, z1.dest, coll }).Where(x => !movedSources.Contains(x.src.Path));
+                return await filesystemOperations.MoveItemsAsync(movedFailedZip.Select(x => x.src), movedFailedZip.Select(x => x.dest), movedFailedZip.Select(x => x.coll), progress, errorCode, cancellationToken);
             }
         }
 
@@ -356,6 +393,7 @@ namespace Files.Filesystem
                 return await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
             }
 
+            var renamedItems = new List<string>();
             var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
             {
                 { "Arguments", "FileOperation" },
@@ -367,10 +405,21 @@ namespace Files.Filesystem
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
+            renamedItems.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("RenamedItems", "")) ?? Enumerable.Empty<string>());
+
+            // Updated tag for successfully renamed items
+            if (result && renamedItems.Count == 1)
+            {
+                FileTagsHelper.DbInstance.UpdateTag(source.Path, null, renamedItems.Single()); // move tag to new files
+                if (source.ItemType == FilesystemItemType.Directory)
+                {
+                    var tags = FileTagsHelper.DbInstance.GetAllUnderPath(source.Path); // move tag for items contained in the folder
+                    tags.ForEach(t => FileTagsHelper.DbInstance.UpdateTag(t.FilePath, null, t.FilePath.Replace(source.Path, renamedItems.Single())));
+                }
+            }
 
             if (result)
             {
-                var renamedItems = JsonConvert.DeserializeObject<IEnumerable<string>>(response["RenamedItems"] as string);
                 errorCode?.Report(FileSystemStatusCode.Success);
                 if (collision != NameCollisionOption.ReplaceExisting && renamedItems != null && renamedItems.Count() == 1)
                 {
@@ -401,6 +450,7 @@ namespace Files.Filesystem
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
             connection.RequestReceived += handler;
 
+            var movedItems = new List<string>();
             var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
             {
                 { "Arguments", "FileOperation" },
@@ -412,16 +462,27 @@ namespace Files.Filesystem
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
+            movedItems.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("MovedItems", "")) ?? Enumerable.Empty<string>());
 
             if (connection != null)
             {
                 connection.RequestReceived -= handler;
             }
 
+            // Updated tag for successfully restored items
+            if (result && movedItems.Count == 1)
+            {
+                FileTagsHelper.DbInstance.UpdateTag(source.Path, null, movedItems.Single()); // move tag to new files
+                if (source.ItemType == FilesystemItemType.Directory)
+                {
+                    var tags = FileTagsHelper.DbInstance.GetAllUnderPath(source.Path); // move tag for items contained in the folder
+                    tags.ForEach(t => FileTagsHelper.DbInstance.UpdateTag(t.FilePath, null, t.FilePath.Replace(source.Path, movedItems.Single())));
+                }
+            }
+
             if (result)
             {
                 progress?.Report(100.0f);
-                var movedItems = JsonConvert.DeserializeObject<IEnumerable<string>>(response["MovedItems"] as string);
                 errorCode?.Report(FileSystemStatusCode.Success);
                 if (movedItems != null && movedItems.Count() == 1)
                 {

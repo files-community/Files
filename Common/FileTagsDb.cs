@@ -139,6 +139,12 @@ namespace Common
             return col.FindAll();
         }
 
+        public IEnumerable<TaggedFile> GetAllUnderPath(string folderPath)
+        {
+            var col = db.GetCollection<TaggedFile>("taggedfiles");
+            return col.Find(x => x.FilePath.StartsWith(folderPath, StringComparison.OrdinalIgnoreCase));
+        }
+
         public void Dispose()
         {
             db.Dispose();
