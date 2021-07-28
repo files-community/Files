@@ -33,6 +33,10 @@
             x:Key="NegatedBoolToVisibilityConverter"
             FalseValue="Visible"
             TrueValue="Collapsed" />
+        <converters:EmptyObjectToObjectConverter
+            x:Key="EmptyObjectToObjectConverter"
+            EmptyValue="Collapsed"
+            NotEmptyValue="Visible" />
 
         <converters:BoolToVisibilityConverter
             x:Key="BoolToVisibilityConverter"
@@ -141,6 +145,7 @@
                     HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <FontIcon
@@ -153,9 +158,17 @@
                         FontSize="18"
                         Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
                         Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
+                    <Ellipse
+                        Grid.Column="1"
+                        Width="12"
+                        Height="12"
+                        Margin="0,0,5,0"
+                        x:Phase="2"
+                        Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
+                        Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                     <TextBlock
                         x:Name="ItemName"
-                        Grid.Column="1"
+                        Grid.Column="2"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Text="{x:Bind ItemName, Mode=OneWay}"
@@ -199,15 +212,27 @@
                     <ColumnDefinition Width="90" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <FontIcon
-                    x:Name="CloudDriveSyncStatusGlyph"
-                    Grid.Column="0"
-                    Width="20"
+                <StackPanel
                     Margin="10,0,0,0"
-                    x:Phase="2"
-                    Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
-                    Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
-                    Visibility="{Binding InstanceViewModel.IsPageTypeCloudDrive, ElementName=PageRoot, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <Ellipse
+                        Width="12"
+                        Height="12"
+                        Margin="0,4,0,4"
+                        x:Phase="2"
+                        Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
+                        Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
+                    <FontIcon
+                        x:Name="CloudDriveSyncStatusGlyph"
+                        Grid.Column="0"
+                        Width="20"
+                        Margin="10,0,0,0"
+                        x:Phase="2"
+                        Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
+                        Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+                        Visibility="{Binding InstanceViewModel.IsPageTypeCloudDrive, ElementName=PageRoot, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </StackPanel>
                 <Grid
                     Grid.Column="1"
                     Height="Auto"

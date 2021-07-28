@@ -548,6 +548,8 @@ namespace Files
                 primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
                 secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
 
+                AddFileTagsItemToMenu(BaseContextMenuFlyout);
+
                 var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false);
                 if (shellContextMenuItemCancellationToken.IsCancellationRequested)
                 {
@@ -579,6 +581,8 @@ namespace Files
             primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 
+            AddFileTagsItemToMenu(ItemContextMenuFlyout);
+
             var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, shiftPressed: shiftPressed, showOpenMenu: false);
             if (shellContextMenuItemCancellationToken.IsCancellationRequested)
             {
@@ -586,6 +590,27 @@ namespace Files
             }
 
             AddShellItemsToMenu(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
+        }
+
+        private void AddFileTagsItemToMenu(Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenu)
+        {
+            var fileTagMenuFlyout = new MenuFlyoutItemFileTag()
+            {
+                ItemsSource = AppSettings.FileTagList
+            };
+            fileTagMenuFlyout.SelectedItem = GetFileTag(SelectedItems);
+            fileTagMenuFlyout.RegisterPropertyChangedCallback(MenuFlyoutItemFileTag.SelectedItemProperty, new DependencyPropertyChangedCallback((s, e) =>
+            {
+                SetFileTag(s.GetValue(e) as FileTag);
+            }));
+            var overflowSeparator = contextMenu.SecondaryCommands.FirstOrDefault(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator;
+            var index = contextMenu.SecondaryCommands.IndexOf(overflowSeparator);
+            index = index >= 0 ? index : contextMenu.SecondaryCommands.Count;
+            contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
+            contextMenu.SecondaryCommands.Insert(index + 1, new AppBarElementContainer()
+            {
+                Content = fileTagMenuFlyout
+            });
         }
 
         private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenuFlyout, bool shiftPressed)

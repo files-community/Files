@@ -40,6 +40,10 @@
                 x:Key="NegatedBoolToVisibilityConverter"
                 FalseValue="Visible"
                 TrueValue="Collapsed" />
+            <converters:EmptyObjectToObjectConverter
+                x:Key="EmptyObjectToObjectConverter"
+                EmptyValue="Collapsed"
+                NotEmptyValue="Visible" />
 
             <converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -480,7 +484,7 @@
                                 <Grid
                                     x:Uid="FileBrowserThumbnailIconColumnGrid"
                                     Grid.Column="0"
-                                    Width="24"
+                                    Width="48"
                                     Height="Auto"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
@@ -488,8 +492,21 @@
                                     Opacity="{x:Bind Opacity, Mode=OneWay}"
                                     TabFocusNavigation="Local"
                                     Tag="ItemImage">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="24" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse
+                                        Grid.Column="0"
+                                        Width="12"
+                                        Height="12"
+                                        Margin="4,0,8,0"
+                                        x:Phase="2"
+                                        Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
+                                        Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                                     <Image
                                         x:Name="Picture"
+                                        Grid.Column="1"
                                         Width="20"
                                         Height="20"
                                         HorizontalAlignment="Center"
@@ -500,6 +517,7 @@
                                         Stretch="Uniform" />
                                     <FontIcon
                                         x:Name="FolderGlyphIcon"
+                                        Grid.Column="1"
                                         Width="20"
                                         Height="20"
                                         HorizontalAlignment="Center"
@@ -509,16 +527,19 @@
                                         Glyph="&#xF12B;" />
                                     <FontIcon
                                         x:Name="TypeUnknownGlyph"
+                                        Grid.Column="1"
                                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                                         x:Phase="1"
                                         Glyph="&#xE7C3;" />
                                     <FontIcon
                                         x:Name="WebShortcutGlyph"
+                                        Grid.Column="1"
                                         x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"
                                         x:Phase="1"
                                         Glyph="&#xE71B;" />
                                     <Image
                                         x:Name="IconOverlay"
+                                        Grid.Column="1"
                                         Width="16"
                                         Height="16"
                                         HorizontalAlignment="Left"
@@ -529,6 +550,7 @@
                                         Stretch="Uniform" />
                                     <Border
                                         x:Name="ShortcutGlyphElement"
+                                        Grid.Column="1"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Bottom"
                                         x:Load="{x:Bind IsShortcutItem}"

@@ -1,17 +1,14 @@
 ﻿using Files.Filesystem;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 
 // Il modello di elemento Controllo utente è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Files.UserControls
 {
-    public sealed partial class MenuFlyoutItemFileTag : MenuFlyoutItem
+    public sealed partial class MenuFlyoutItemFileTag : UserControl
     {
         public FileTag SelectedItem
         {
