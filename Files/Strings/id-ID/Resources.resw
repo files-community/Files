@@ -1740,9 +1740,6 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO speed</value>
   </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>Buka folder di tab baru</value>
-  </data>
   <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
     <value>Tampilkan widget Bundel</value>
   </data>

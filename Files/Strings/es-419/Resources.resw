@@ -1743,9 +1743,6 @@
   <data name="PropertyISO" xml:space="preserve">
     <value>Velocidad ISO</value>
   </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>Abrir carpetas en una nueva pestaña</value>
-  </data>
   <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
     <value>Mostrar contenedores</value>
   </data>

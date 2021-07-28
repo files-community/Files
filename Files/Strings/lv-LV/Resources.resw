@@ -1782,9 +1782,6 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Modificēšanas datums:</value>
   </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>Atvērt mapes jaunā cilnē</value>
-  </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Atlases opcijas</value>
   </data>
