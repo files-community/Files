@@ -501,9 +501,6 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>ごみ箱に移動</value>
   </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>日付形式の詳細</value>
-  </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>ロック解除</value>
   </data>
@@ -791,9 +788,6 @@
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>ファイルやフォルダを削除するときに確認ダイアログを表示</value>
-  </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>日付の書式</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>ステータス センター</value>
@@ -1154,9 +1148,6 @@
   </data>
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>ステータス センター</value>
-  </data>
-  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>日付書式について知る</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>次の検索結果を表示:</value>

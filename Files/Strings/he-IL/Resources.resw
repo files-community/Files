@@ -672,9 +672,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>הגישה נדחתה</value>
   </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>תבנית תאריך.</value>
-  </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>דירוג</value>
   </data>

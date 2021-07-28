@@ -477,9 +477,6 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
   </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>날짜 형식 자세히 알아보기</value>
-  </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>잠금 해제</value>
   </data>
@@ -647,9 +644,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
     <value>자세히</value>
-  </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>날짜 형식</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>파일</value>
@@ -1178,9 +1172,6 @@
   </data>
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>작업 현황</value>
-  </data>
-  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>날짜 형식 자세히 알아보기</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>검색</value>

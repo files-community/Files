@@ -504,9 +504,6 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>प्रशासक के रूप में भागो</value>
   </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>तारीख प्रारूपों के बारे में अधिक जानें</value>
-  </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>अनवरोधित</value>
   </data>
@@ -704,9 +701,6 @@
   </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>प्रवेश निषेध</value>
-  </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>दिनांक स्वरूप</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>फ़ाइल</value>

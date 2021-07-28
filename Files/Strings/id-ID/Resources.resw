@@ -120,9 +120,6 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Tentang</value>
   </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>Format tanggal</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Tampilan</value>
   </data>
@@ -530,9 +527,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Jalankan sebagai administrator</value>
-  </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Pelajari tentang format tanggal</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Buka kunci</value>
@@ -1205,9 +1199,6 @@
   </data>
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Pusat Status</value>
-  </data>
-  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>Pelajari tentang format tanggal</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Cari</value>
