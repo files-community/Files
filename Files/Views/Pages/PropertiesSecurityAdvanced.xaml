@@ -155,7 +155,7 @@
                 x:Name="ListView"
                 Grid.Row="2"
                 x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
-                Background="{ThemeResource SolidBackgroundAcrylic}"
+                Background="{ThemeResource ControlFillColorDefaultBrush}"
                 BorderBrush="Gray"
                 BorderThickness="1"
                 CornerRadius="4"

@@ -65,7 +65,7 @@
                 x:Name="ListView"
                 Height="124"
                 x:Load="{x:Bind SecurityProperties.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
-                Background="{ThemeResource SolidBackgroundAcrylic}"
+                Background="{ThemeResource ControlFillColorDefaultBrush}"
                 BorderBrush="Gray"
                 BorderThickness="1"
                 CornerRadius="4"
