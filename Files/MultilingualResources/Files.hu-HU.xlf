@@ -3356,7 +3356,7 @@
         </trans-unit>
         <trans-unit id="ConsentDialogContent" translate="yes" xml:space="preserve">
           <source>Updates are ready to install</source>
-          <target state="translated">Frissítések elérhetőek a telepítésre</target>
+          <target state="translated">Frissítések érhetők el telepítésre</target>
         </trans-unit>
         <trans-unit id="ConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>Close</source>
