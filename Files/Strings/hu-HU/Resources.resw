@@ -117,9 +117,6 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Névjegy</value>
   </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>Dátumformátum</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Megjelenés</value>
   </data>
@@ -333,9 +330,6 @@
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Tulajdonságok</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Példa beállítások</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Ezzel a névvel már létezik elem ebben a mappában.</value>
   </data>
@@ -509,9 +503,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Futtatás rendszergazdaként</value>
-  </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tudjon meg többet a dátumformátumokról</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Feloldás</value>
@@ -794,18 +785,6 @@
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>Terminál alkalmazások módosítása</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Példa beeállítások</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Terminál alkalmazások</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>Megerősítő üzenet fájlok vagy mappák törlésekor</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Terminál alkalmazások</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Állapotközpont</value>
@@ -1175,9 +1154,6 @@
   </data>
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Állapotközpont</value>
-  </data>
-  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>Tudjon meg többet a dátumformátumokról</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Keresés eredménye itt:</value>
@@ -1799,9 +1775,6 @@
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Módosítás dátuma:</value>
-  </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>Mappák megnyitása új lapon</value>
   </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Kijelölési lehetőségek</value>

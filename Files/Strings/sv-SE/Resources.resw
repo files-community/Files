@@ -117,9 +117,6 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Om</value>
   </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>Datumformat</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Utseende</value>
   </data>
@@ -342,9 +339,6 @@
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Egenskaper</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Visa exempelprofiler</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Det finns redan ett objekt med samma namn på den här platsen.</value>
   </data>
@@ -524,9 +518,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Kör som administratör</value>
-  </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Läs mer om datumformat</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Lås upp</value>
@@ -815,18 +806,6 @@
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>Redigera terminal-appar</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Visa exempelprofiler</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Terminal-appar</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>Visa en bekräftelsedialog när du tar bort filer eller mappar</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Terminal-appar</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Det uppstod problem med att spara vissa egenskaper.</value>
@@ -1190,9 +1169,6 @@
   </data>
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Statuscenter</value>
-  </data>
-  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>Läs mer om datumformat</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Sök</value>
