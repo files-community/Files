@@ -141,9 +141,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>All'avvio</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Applicazione per la riga di comando (terminal)</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferenze</value>
   </data>
@@ -329,9 +326,6 @@
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Esperimenti</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vedi profili di esempio</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Un elemento con questo nome esiste già in questa cartella.</value>
@@ -785,12 +779,6 @@
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>Modifica le app terminale</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra profili di esempio</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Applicazioni Terminale</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Supportaci</value>

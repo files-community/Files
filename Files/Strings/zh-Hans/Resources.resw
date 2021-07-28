@@ -84,9 +84,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>启动时</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>终端</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>个性化</value>
   </data>
@@ -329,9 +326,6 @@
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>实验性</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>默认值</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>目标目录已存在同名文件。</value>
@@ -785,12 +779,6 @@
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>编辑终端应用</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>查看示例配置文件</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>终端应用</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>支持我们</value>

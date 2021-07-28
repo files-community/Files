@@ -120,9 +120,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>При запуску</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Стандартний термінал</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Налаштування</value>
   </data>
@@ -329,9 +326,6 @@
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Експериментально</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Переглянути приклади профілів</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Елемент з цим іменем вже існує в цій папці.</value>
@@ -785,12 +779,6 @@
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>Змінити профілі терміналів</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Переглянути зразки профілів</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Стандартний термінал</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Підтримайте нас</value>

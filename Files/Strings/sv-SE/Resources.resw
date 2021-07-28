@@ -342,9 +342,6 @@
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Egenskaper</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Visa exempelprofiler</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Det finns redan ett objekt med samma namn på den här platsen.</value>
   </data>
@@ -816,17 +813,8 @@
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>Redigera terminal-appar</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Visa exempelprofiler</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Terminal-appar</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Visa en bekräftelsedialog när du tar bort filer eller mappar</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Terminal-appar</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Det uppstod problem med att spara vissa egenskaper.</value>

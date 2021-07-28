@@ -156,9 +156,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>起動時</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>ターミナル</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>個人用設定</value>
   </data>
@@ -329,9 +326,6 @@
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>プロパティ</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>サンプルプロファイルを表示</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>同じ名前のファイルがこのフォルダにすでに存在します。</value>
@@ -785,12 +779,6 @@
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>ターミナルアプリを編集</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>サンプルプロファイルを表示</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>ターミナルアプリ</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>支援する</value>

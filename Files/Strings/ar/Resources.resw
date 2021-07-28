@@ -339,9 +339,6 @@
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>خصائص</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>اظهر عينة من الملف</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>يوجد عنصر بهذا الاسم في دليل الملفات</value>
   </data>
@@ -810,17 +807,8 @@
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>تعديل التطبيقات الطرفية</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>عرض نماذج لمحات</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>تطبيقات المحطة الطرفية</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>إظهار مربع حوار التأكيد عند حذف الملفات أو المجلدات</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>تطبيقات المحطة الطرفية</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>كانت هناك مشكلة في حفظ بعض الخصائص</value>

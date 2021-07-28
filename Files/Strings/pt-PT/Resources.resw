@@ -159,9 +159,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>No Arranque</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Aplicações de Terminal</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferências</value>
   </data>
@@ -332,9 +329,6 @@
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Propriedades</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ver perfis de amostra</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Um item com esse nome já existe neste diretório.</value>
@@ -785,12 +779,6 @@
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>Editar aplicações de terminal</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Ver perfis de amostra</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Aplicações de Terminal</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Apoie-nos</value>

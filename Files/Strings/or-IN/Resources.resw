@@ -159,9 +159,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>ଆରମ୍ଭ ରେ</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>ଟର୍ମିନାଲ୍ ଆପ୍ଲିକେସନଗୁଡ଼ିକ</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>ପସନ୍ଦ</value>
   </data>
@@ -332,9 +329,6 @@
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>ଗୁଣଧର୍ମ</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ନମୁନା ପ୍ରୋଫାଇଲ୍ ଦେଖନ୍ତୁ</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>ଏହି ନାମ ସହିତ ଏକ ଆଇଟମ୍ ଏହି ଡିରେକ୍ଟୋରୀରେ ପୂର୍ବରୁ ବିଦ୍ୟମାନ ଅଛି |</value>
