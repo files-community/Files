@@ -1,0 +1,267 @@
+/********** Common **********/
+body{
+  overflow:hidden;
+}
+h2 {
+  font-size: 2.8rem !important;
+  font-weight: 700;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+.jumbotron {
+  margin-bottom: 0 !important;
+}
+
+@media (min-width: 576px)
+{
+  .jumbotron{
+    padding: 6rem 2rem;
+  }
+}
+
+@media (max-width: 576px)
+{
+  .jumbotron{
+    padding: 0rem 2rem 6rem 2rem;
+  }
+}
+
+.cta {
+  border-radius: 22px !important;
+  padding: 12px 30px !important;
+  font-weight: 700;
+  transition: 0.3s ease-in-out !important;
+}
+
+.cta:hover {
+  text-decoration: none;
+  transform: translateY(-5px);
+}
+
+.cta-lightblue {
+  background: #1ba1e2;
+  color: #192440;
+}
+
+.cta-lightblue:hover {
+  background: #00d2ff;
+}
+
+.cta-darkblue {
+  background: #192440;
+  color: #ffffff;
+}
+
+.cta-darkblue:hover {
+  color: #ffffff;
+  background: #121a2e;
+}
+
+.cta-white {
+  color: #202020;
+  background-color: white;
+  border-color: white;
+}
+
+.cta-white:hover {
+  color: #000000;
+  background: #d3d3d3;
+  border-color: #d3d3d3;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.cta-white-outline {
+  color: white;
+  background: rgba(0, 0, 0, 0.1);
+  border-color: white;
+}
+
+.cta-white-outline:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+/***** Parallax effect *****/
+.parallax {
+  perspective: 1px;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.parallax-layer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.parallax-content-layer {
+  transform: translateZ(0);
+  background:white;
+  transform-style: preserve-3d;
+  box-shadow: rgb(0 0 0 / 30%) 0px 0px 20px 10px;
+}
+
+.parallax-background-image {
+  transform: translateZ(-1.5px) scale(3);
+  transform-origin: center;
+  height: 100vh;
+}
+
+.parallax-background-image > .image-receiver{
+  min-height: 700px;
+  min-width: 100%;
+  position: relative;
+  background-image: url("../img/banner-bg.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+#banner{
+  transform: translateZ(-0.3px) scale(1.3);
+  transform-origin: bottom;
+  background-color: transparent;
+}
+
+/********** Banner **********/
+#banner {
+  background-size: cover;
+}
+
+#banner header {
+  overflow: hidden;
+}
+
+#banner header img {
+  max-width: 80px;
+}
+
+/********** Information **********/
+.info img {
+  width: 100%;
+  max-width: 480px;
+}
+
+#info {
+  background: linear-gradient(168deg, #ffffff calc(50% - 1px), #1ba1e2 50%);
+}
+
+/********** Copyright **********/
+#copyright {
+  background: #192440;
+  padding: 2rem 3rem;
+}
+
+#social-media .icons-container{
+  display:inline-flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#copyright #social-media a {
+  width: 40px;
+  height: 40px;
+  border-radius: 99%;
+  background: #ffffff;
+  transition: 0.4s ease;
+  margin-left: 6px;
+}
+
+#copyright #social-media a i {
+  color: #192440;
+  font-size: 1.2rem;
+  line-height: 40px;
+}
+
+#copyright #social-media a:hover {
+  background: #5bc8ff;
+}
+
+#copyright #social-media a.icon-paypal{
+  background-image: url("../img/icons/PayPal.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px;
+}
+
+/********** Translation toast **********/
+.translation-toast {
+  --close-button-padding: 5px;
+  position: absolute;
+  z-index: 10;
+  background: hsl(0, 0%, 100%);
+  box-shadow: 0px 2px 9px hsl(0deg 0% 0% / 14%);
+  border-radius: 6px;
+  border: 1px solid hsl(0, 0%, 80%);
+  text-align: center;
+  padding: 10px;
+  max-width: 50%;
+}
+
+.translation-toast.toast-hidden{
+  visibility: collapse;
+}
+
+.translation-toast.bottom {
+  --toast-padding: 30px;
+  bottom: var(--toast-padding);
+  left: var(--toast-padding);
+  right: var(--toast-padding);
+  margin: auto;
+}
+
+.translation-toast.top-right {
+  --toast-padding: 30px;
+  top: var(--toast-padding);
+  right: var(--toast-padding);
+  margin: auto;
+}
+
+.translation-toast>p {
+  margin: 0 10px 0 0;
+  font-size: 20px;
+}
+
+.translation-toast>button {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  height: 30px;
+  width: 30px;
+  border-radius: 100%;
+  background: white;
+  border: 1px solid hsl(0, 0%, 80%);
+  padding-left: var(--close-button-padding);
+  padding-right: var(--close-button-padding);
+  padding-bottom: var(--close-button-padding);
+}
+
+.translation-toast>button:hover {
+  background: whitesmoke;
+}
+
+.translation-toast>button>svg {
+  margin-top: -1px;
+  width: calc(100% - var(--close-button-padding));
+  height: calc(100% - var(--close-button-padding));
+}
+
+/********** RWD **********/
+@media (max-width: 575px) {
+  #banner h1 {
+    font-size: 2rem;
+  }
+}
