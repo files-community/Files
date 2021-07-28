@@ -7,10 +7,15 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
+    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
     <Page.Resources>
-        <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+                <ResourceDictionary Source="/ResourceDictionaries/TransparentMarkdownTextBlock.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Page.Resources>
     <Page.DataContext>
         <settingsviewmodels:AboutViewModel />
@@ -176,6 +181,21 @@
                     </local:SettingsBlockControl.ExpandableContent>
                 </local:SettingsBlockControl>
 
+                <local:SettingsBlockControl
+                    x:Uid="SettingsPrivacy"
+                    Title="Privacy policy"
+                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
+                    HorizontalAlignment="Left"
+                    Loaded="SettingsBlockControl_Loaded">
+                    <local:SettingsBlockControl.Icon>
+                        <FontIcon Glyph="&#xEA18;" />
+                    </local:SettingsBlockControl.Icon>
+
+                    <local:SettingsBlockControl.ExpandableContent>
+                        <controls:MarkdownTextBlock x:Name="PrivacyTextBlock" Margin="4" />
+                    </local:SettingsBlockControl.ExpandableContent>
+                </local:SettingsBlockControl>
+
                 <Button
                     x:Name="OpenLogLocationButton"
                     x:Uid="SettingsAboutOpenLogLocationButton"
@@ -221,6 +241,11 @@
                     AutomationProperties.Name="QuickLook"
                     Content="QuickLook"
                     NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt" />
+                
+                <HyperlinkButton
+                    AutomationProperties.Name="Fluent UI System Icons"
+                    Content="Fluent UI System Icons"
+                    NavigateUri="https://github.com/microsoft/fluentui-system-icons/blob/master/LICENSE" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
