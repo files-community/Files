@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Devices.Geolocation;
 using Windows.Foundation.Collections;
 using Windows.Security.Cryptography;
@@ -88,7 +89,8 @@ namespace Files.ViewModels.Properties
                         }
                         else
                         {
-                            await NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath));
+                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(
+                                () => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath)));
                         }
                     }, () =>
                     {

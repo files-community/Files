@@ -290,6 +290,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Stretch"
                     x:FieldModifier="public"
+                    x:Load="False"
                     Loaded="HorizontalMultitaskingControl_Loaded"
                     TabStripVisibility="Visible"
                     Visibility="Visible">
@@ -346,7 +347,10 @@
                                         Glyph="&#xF5ED;" />
                                 </Button.Content>
                                 <Button.Flyout>
-                                    <Flyout x:Name="VerticalTabViewFlyout" ShouldConstrainToRootBounds="False" Placement="Bottom">
+                                    <Flyout
+                                        x:Name="VerticalTabViewFlyout"
+                                        Placement="Bottom"
+                                        ShouldConstrainToRootBounds="False">
                                         <usercontrols:VerticalTabViewControl
                                             x:Name="VerticalTabs"
                                             HorizontalAlignment="Stretch"
@@ -366,6 +370,8 @@
                     Grid.ColumnSpan="4"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
+                    x:Load="False"
+                    Loaded="NavToolbar_Loaded"
                     SettingsButtonCommand="{x:Bind MainViewModel.OpenSettingsCommand}"
                     ShowSearchBox="True"
                     ShowSettingsButton="{x:Bind IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
@@ -402,6 +408,7 @@
                 Grid.ColumnSpan="3"
                 x:Load="False"
                 IsCompactOverlay="{x:Bind IsCompactOverlay, Mode=OneWay}"
+                Loaded="NavToolbar_Loaded"
                 SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
                 ShowPreviewPaneButton="{x:Bind IsPreviewPaneDisabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
 

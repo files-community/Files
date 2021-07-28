@@ -102,7 +102,7 @@ namespace Files.Filesystem
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
-                copiedItems.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response["CopiedItems"] as string));
+                copiedItems.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("CopiedItems", "")) ?? Enumerable.Empty<string>());
                 copiedSources.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("CopiedSources", "")) ?? Enumerable.Empty<string>());
             }
             if (sourceReplace.Any())
@@ -327,7 +327,7 @@ namespace Files.Filesystem
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
-                movedItems.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response["MovedItems"] as string));
+                movedItems.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("MovedItems", "")) ?? Enumerable.Empty<string>());
                 movedSources.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("MovedSources", "")) ?? Enumerable.Empty<string>());
             }
             if (sourceReplace.Any())

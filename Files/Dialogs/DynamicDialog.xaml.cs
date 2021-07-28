@@ -37,5 +37,25 @@ namespace Files.Dialogs
         }
 
         #endregion IDisposable
+
+        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            ViewModel.PrimaryButtonCommand.Execute(args);
+        }
+
+        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            ViewModel.SecondaryButtonCommand.Execute(args);
+        }
+
+        private void ContentDialog_CloseButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            ViewModel.CloseButtonCommand.Execute(args);
+        }
+
+        private void ContentDialog_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            ViewModel.KeyDownCommand.Execute(e);
+        }
     }
 }
