@@ -100,6 +100,13 @@ namespace Files.Views.LayoutModes
 
         private void ItemManipulationModel_InvertSelectionInvoked(object sender, EventArgs e)
         {
+            if (IsLastColumnBase)
+            {
+                var c = ColumnHost.ActiveBlades.Last();
+                ((c.Content as Frame).Content as ColumnShellPage).NavToolbarViewModel.InvertContentPageSelctionCommand.Execute(null);
+                return;
+            }
+
             if (SelectedItems.Count < GetAllItems().Cast<ListedItem>().Count() / 2)
             {
                 var oldSelectedItems = SelectedItems.ToList();
@@ -119,12 +126,27 @@ namespace Files.Views.LayoutModes
 
         private void ItemManipulationModel_ClearSelectionInvoked(object sender, EventArgs e)
         {
-            FileList.SelectedItems.Clear();
+            if (IsLastColumnBase)
+            {
+                FileList.SelectedItems.Clear();
+            }
+            else
+            {
+                var c = ColumnHost.ActiveBlades.Last();
+                ((c.Content as Frame).Content as ColumnShellPage).NavToolbarViewModel.ClearContentPageSelectionCommand.Execute(null);
+            }
         }
 
         private void ItemManipulationModel_SelectAllItemsInvoked(object sender, EventArgs e)
         {
-            FileList.SelectAll();
+            if (IsLastColumnBase)
+            {
+                FileList.SelectAll();
+            } else
+            {
+                var c = ColumnHost.ActiveBlades.Last();
+                ((c.Content as Frame).Content as ColumnShellPage).NavToolbarViewModel.SelectAllContentPageItemsCommand.Execute(null);
+            }
         }
 
         private void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
@@ -751,5 +773,8 @@ namespace Files.Views.LayoutModes
                 }
             }
         }
+
+        public IBaseLayout LastColumnBrowser => IsLastColumnBase ? this : ((ColumnHost.ActiveBlades.Last().Content as Frame).Content as ColumnShellPage).SlimContentPage as ColumnViewBase;
+        public bool IsLastColumnBase => ColumnHost.ActiveBlades.Count == 1;
     }
 }
