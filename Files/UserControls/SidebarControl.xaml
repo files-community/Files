@@ -302,6 +302,7 @@
                                     ManipulationMode="TranslateX"
                                     ManipulationStarted="ResizeElementBorder_ManipulationStarted"
                                     PointerCanceled="Border_PointerExited"
+                                    DoubleTapped="ResizeElementBorder_DoubleTapped"
                                     PointerEntered="Border_PointerEntered"
                                     PointerExited="Border_PointerExited"
                                     RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}"
