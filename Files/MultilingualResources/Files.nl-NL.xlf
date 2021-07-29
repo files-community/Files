@@ -102,10 +102,6 @@
           <source>On Startup</source>
           <target state="translated">Bij het opstarten</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
-          <source>Terminal Applications</source>
-          <target state="translated">Terminaltoepassingen</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
           <source>Preferences</source>
           <target state="translated">Voorkeuren</target>
@@ -431,10 +427,6 @@
           <source>Experimental</source>
           <target state="translated" state-qualifier="tm-suggestion">Experimenteel</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>View sample profiles</source>
-          <target state="translated">Voorbeeldprofielen weergeven</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogContent" translate="yes" xml:space="preserve">
           <source>An item with this name already exists in this directory.</source>
           <target state="translated">Een item met deze naam bestaat al in deze map.</target>
@@ -667,10 +659,6 @@
         <trans-unit id="RecycleInProgress.Title" translate="yes" xml:space="preserve">
           <source>Moving files to the Recycle Bin</source>
           <target state="translated">Bestanden verplaatsen naar prullenbak</target>
-        </trans-unit>
-        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Learn more about date formats</source>
-          <target state="translated">Meer informatie over datumnotaties</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Unlock</source>
@@ -1040,14 +1028,6 @@
           <source>Edit terminal applications</source>
           <target state="translated">Terminaltoepassingen bewerken</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>View sample profiles</source>
-          <target state="translated">Voorbeeldprofielen bekijken</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
-          <source>Terminal applications</source>
-          <target state="translated">Terminaltoepassingen</target>
-        </trans-unit>
         <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
           <source>Support us</source>
           <target state="translated">Steun ons</target>
@@ -1059,14 +1039,6 @@
         <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
           <target state="translated">Toegang geweigerd</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">Bevestigingsdialoogvenster weergeven bij het verwijderen van bestanden en mappen</target>
-        </trans-unit>
-        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
-          <source>Date format</source>
-          <target state="translated" state-qualifier="tm-suggestion">Datumnotatie</target>
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
           <source>Rating</source>
@@ -1559,10 +1531,6 @@
         <trans-unit id="StatusCenterTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Status Center</source>
           <target state="translated">Statuscentrum</target>
-        </trans-unit>
-        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Learn more about date formats</source>
-          <target state="translated">Meer informatie over datumnotaties</target>
         </trans-unit>
         <trans-unit id="SearchPagePathBoxOverrideText" translate="yes" xml:space="preserve">
           <source>Search results in</source>
@@ -2399,10 +2367,6 @@
         <trans-unit id="ToolTipDescriptionDate" translate="yes" xml:space="preserve">
           <source>Date modified:</source>
           <target state="translated">Gewijzigd op:</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Header" translate="yes" xml:space="preserve">
-          <source>Open folders in new tab</source>
-          <target state="translated">Mappen in nieuw tabblad openen</target>
         </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
@@ -3439,6 +3403,42 @@
         <trans-unit id="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+T</source>
           <target state="translated">Ctrl+Shift+T</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTerminalApplications.Title" translate="yes" xml:space="preserve">
+          <source>Terminal applications</source>
+          <target state="new">Terminal applications</target>
+        </trans-unit>
+        <trans-unit id="ArchiveExtractionCompletedSuccessfullyText" translate="yes" xml:space="preserve">
+          <source>The archive extraction completed successfully.</source>
+          <target state="new">The archive extraction completed successfully.</target>
+        </trans-unit>
+        <trans-unit id="ExtractingArchiveText" translate="yes" xml:space="preserve">
+          <source>Extracting archive</source>
+          <target state="new">Extracting archive</target>
+        </trans-unit>
+        <trans-unit id="ExtractingCompleteText" translate="yes" xml:space="preserve">
+          <source>Extracting complete!</source>
+          <target state="new">Extracting complete!</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+Shift+N</source>
+          <target state="new">Ctrl+Shift+N</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesEditTerminalApplicationsExpander.Title" translate="yes" xml:space="preserve">
+          <source>Edit terminal applications</source>
+          <target state="new">Edit terminal applications</target>
+        </trans-unit>
+        <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
+          <source>Date format</source>
+          <target state="new">Date format</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
+          <source>Show a confirmation dialog when deleting files or folders</source>
+          <target state="new">Show a confirmation dialog when deleting files or folders</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Title" translate="yes" xml:space="preserve">
+          <source>Open folders in new tab</source>
+          <target state="new">Open folders in new tab</target>
         </trans-unit>
       </group>
     </body>
