@@ -103,6 +103,12 @@ namespace Files.Views
                 ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
         }
+
+        private void DragArea_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window.Current.SetTitleBar(sender as Grid);
+        }
+
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
             RightPaddingColumn.Width = new GridLength(sender.SystemOverlayRightInset);
@@ -116,6 +122,10 @@ namespace Files.Views
                 ViewModel.MultitaskingControls.Add(horizontalMultitaskingControl);
                 ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
+            if (AppSettings.IsVerticalTabFlyoutEnabled)
+            {
+                FindName(nameof(VerticalTabStripInvokeButton));
+            }
         }
 
         public void TabItemContent_ContentChanged(object sender, TabItemArguments e)
@@ -123,10 +133,11 @@ namespace Files.Views
             if (SidebarAdaptiveViewModel.PaneHolder != null)
             {
                 var paneArgs = e.NavigationArg as PaneNavigationArguments;
-                SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ? 
+                SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
                     paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
                 UpdateStatusBarProperties();
                 UpdatePreviewPaneProperties();
+                UpdateNavToolbarProperties();
             }
         }
 
@@ -148,7 +159,7 @@ namespace Files.Views
 
         private void PaneHolder_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane.TabItemArguments?.NavigationArg.ToString());
+            SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane?.TabItemArguments?.NavigationArg?.ToString());
             UpdateStatusBarProperties();
             UpdatePreviewPaneProperties();
             UpdateNavToolbarProperties();
@@ -168,15 +179,20 @@ namespace Files.Views
             if (NavToolbar != null)
             {
                 NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.NavToolbarViewModel;
-                NavToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
-                NavToolbar.IsMultiPaneActive = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
+            }
+
+            if (InnerNavigationToolbar != null)
+            {
+                InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.NavToolbarViewModel;
+                InnerNavigationToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
+                InnerNavigationToolbar.IsMultiPaneActive = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
             }
         }
 
         private void UpdatePreviewPaneProperties()
         {
             LoadPreviewPaneChanged();
-            if(PreviewPane != null)
+            if (PreviewPane != null)
             {
                 PreviewPane.Model = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage?.PreviewPaneViewModel;
             }
@@ -227,12 +243,12 @@ namespace Files.Views
             {
                 await FilePropertiesHelpers.OpenPropertiesWindowAsync(new LibraryItem(library), SidebarAdaptiveViewModel.PaneHolder.ActivePane);
             }
-            else if (e.InvokedItemDataContext is LocationItem)
+            else if (e.InvokedItemDataContext is LocationItem locationItem)
             {
                 ListedItem listedItem = new ListedItem(null)
                 {
-                    ItemPath = (e.InvokedItemDataContext as LocationItem).Path,
-                    ItemName = (e.InvokedItemDataContext as LocationItem).Text,
+                    ItemPath = locationItem.Path,
+                    ItemName = locationItem.Text,
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemType = "FileFolderListItem".GetLocalized(),
                     LoadFolderGlyph = true
@@ -249,18 +265,9 @@ namespace Files.Views
             }
         }
 
-        private async void SidebarControl_SidebarItemInvoked(object sender, SidebarItemInvokedEventArgs e)
+        private void SidebarControl_SidebarItemInvoked(object sender, SidebarItemInvokedEventArgs e)
         {
             var invokedItemContainer = e.InvokedItemContainer;
-
-            // All items must have DataContext except Settings item
-            if (invokedItemContainer.DataContext is MainPageViewModel)
-            {
-                SettingsDialog settingsDialog = new SettingsDialog();
-                _ = await settingsDialog.ShowAsync();
-
-                return;
-            }
 
             string navigationPath; // path to navigate
             Type sourcePageType = null; // type of page to navigate
@@ -275,7 +282,7 @@ namespace Files.Views
                         {
                             navigationPath = invokedItemContainer.Tag?.ToString();
                         }
-                        else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
+                        else if (ItemPath.Equals("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase)) // Home item
                         {
                             if (ItemPath.Equals(SidebarAdaptiveViewModel.SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
                             {
@@ -319,6 +326,11 @@ namespace Files.Views
         {
             // Defers the status bar loading until after the page has loaded to improve startup perf
             FindName(nameof(StatusBarControl));
+            FindName(nameof(InnerNavigationToolbar));
+            FindName(nameof(horizontalMultitaskingControl));
+            FindName(nameof(NavToolbar));
+
+            _ = App.LoadOtherStuffAsync();
         }
 
         private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs e)
@@ -423,8 +435,8 @@ namespace Files.Views
 
         public bool LoadPreviewPane => App.AppSettings.PreviewPaneEnabled && !IsPreviewPaneDisabled;
 
-        public bool IsPreviewPaneDisabled => (SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false) || !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane.InstanceViewModel.IsPageTypeNotHome ?? false) // hide the preview pane if on the home page and multipane is disabled
-            || (Window.Current.Bounds.Width <= 450 || Window.Current.Bounds.Height <= 400); // Disable the preview pane for small windows as it won't function properly
+        public bool IsPreviewPaneDisabled => (!(SidebarAdaptiveViewModel.PaneHolder?.ActivePane.InstanceViewModel.IsPageTypeNotHome ?? false) && !(SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false)) // hide the preview pane when on home page unless multi pane is in use
+            || Window.Current.Bounds.Width <= 450 || Window.Current.Bounds.Height <= 400; // Disable the preview pane for small windows as it won't function properly
 
         private void LoadPreviewPaneChanged()
         {
@@ -437,7 +449,7 @@ namespace Files.Views
         {
             UpdatePreviewPaneProperties();
             UpdatePositioning();
-            PreviewPane.Model.UpdateSelectedItemPreview();
+            PreviewPane?.Model?.UpdateSelectedItemPreview();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -455,22 +467,41 @@ namespace Files.Views
 
             if (!isCompact)
             {
-                NavToolbar.IsCompactOverlay = !await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
+                IsCompactOverlay = !await view.TryEnterViewModeAsync(ApplicationViewMode.Default);
             }
             else
             {
-                NavToolbar.IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+                IsCompactOverlay = await view.TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
                 view.TryResizeView(new Windows.Foundation.Size(400, 350));
+            }
+        }
+
+        private bool isCompactOverlay;
+        public bool IsCompactOverlay
+        {
+            get => isCompactOverlay;
+            set
+            {
+                if (value != isCompactOverlay)
+                {
+                    isCompactOverlay = value;
+                    NotifyPropertyChanged(nameof(IsCompactOverlay));
+                }
             }
         }
 
         private void RootGrid_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             // prevents the arrow key events from navigating the list instead of switching compact overlay
-            if(EnterCompactOverlayKeyboardAccelerator.CheckIsPressed() || ExitCompactOverlayKeyboardAccelerator.CheckIsPressed())
+            if (EnterCompactOverlayKeyboardAccelerator.CheckIsPressed() || ExitCompactOverlayKeyboardAccelerator.CheckIsPressed())
             {
                 Focus(FocusState.Keyboard);
             }
+        }
+
+        private void NavToolbar_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdateNavToolbarProperties();
         }
     }
 }

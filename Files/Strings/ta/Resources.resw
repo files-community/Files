@@ -156,9 +156,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>தொடக்கத்தில்</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>முனைய பயன்பாடுகள்</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>விருப்பங்கள்</value>
   </data>
@@ -179,9 +176,6 @@
   </data>
   <data name="SidebarPictures" xml:space="preserve">
     <value>புகைப்படங்கள்</value>
-  </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>பக்கப்பட்டியிலிருந்து விடுவி</value>
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>காணொளிகள்</value>
@@ -332,9 +326,6 @@
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>பண்புகள்</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>மாதிரி சுயவிவரங்களைக் காண்க</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>இந்தக் கோப்புறையில் இப்பெயருடன் ஏற்கனவே ஒரு உருப்படி உள்ளது.</value>
@@ -509,9 +500,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>கோப்புகளை மறுசுழற்சிக் கூடைக்கு நகர்த்துதல்</value>
-  </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>தேதி வடிவமைப்புகளைப் பற்றி மேலும் அறிக</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>பூட்டுநீக்கு</value>
@@ -769,9 +757,6 @@
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Edit terminal applications</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>மாதிரி சுயவிவரங்களைப் பார்</value>
-  </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>எங்களை ஆதரவளி</value>
   </data>
@@ -781,9 +766,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Access Denied
 அணுகல் மறுக்கப்பட்டது</value>
-  </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>தேதி வடிவம்</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>செயல் மையம்</value>

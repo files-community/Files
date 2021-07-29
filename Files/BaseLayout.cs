@@ -1,4 +1,5 @@
 ﻿using Files.EventArguments;
+using Files.Events;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
@@ -20,6 +21,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -52,8 +54,11 @@ namespace Files
         public MainViewModel MainViewModel => App.MainViewModel;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
-        public Microsoft.UI.Xaml.Controls.CommandBarFlyout ItemContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
-        public MenuFlyout BaseContextMenuFlyout { get; set; } = new MenuFlyout();
+        public Microsoft.UI.Xaml.Controls.CommandBarFlyout ItemContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout()
+        {
+            AlwaysExpanded = true,
+        };
+        public Microsoft.UI.Xaml.Controls.CommandBarFlyout BaseContextMenuFlyout { get; set; } = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
 
         public BaseLayoutCommandsViewModel CommandsViewModel { get; protected set; }
 
@@ -179,9 +184,10 @@ namespace Files
             }
             internal set
             {
-                if (value != selectedItems)
+                //if (!(value?.All(x => selectedItems?.Contains(x) ?? false) ?? value == selectedItems)) // check if the new list is different then the old one
+                if (value != selectedItems) // check if the new list is different then the old one
                 {
-                    if(value?.FirstOrDefault() != selectedItems?.FirstOrDefault())
+                    if (value?.FirstOrDefault() != selectedItems?.FirstOrDefault())
                     {
                         // update preview pane properties
                         if (value?.Count == 1)
@@ -246,8 +252,10 @@ namespace Files
                     }
 
                     NotifyPropertyChanged(nameof(SelectedItems));
-                    ItemManipulationModel.SetDragModeForItems();
+                    //ItemManipulationModel.SetDragModeForItems();
                 }
+
+                ParentShellPageInstance.NavToolbarViewModel.SelectedItems = value;
             }
         }
 
@@ -498,7 +506,7 @@ namespace Files
             }
         }
 
-        public void ItemContextFlyout_Opening(object sender, object e)
+        public async void ItemContextFlyout_Opening(object sender, object e)
         {
             try
             {
@@ -511,7 +519,7 @@ namespace Files
                 }
                 if (IsItemSelected)
                 {
-                    LoadMenuItemsAsync();
+                    await LoadMenuItemsAsync();
                 }
             }
             catch (Exception error)
@@ -520,14 +528,33 @@ namespace Files
             }
         }
 
+        private CancellationTokenSource shellContextMenuItemCancellationToken;
+
         public async void BaseContextFlyout_Opening(object sender, object e)
         {
             try
             {
+                shellContextMenuItemCancellationToken?.Cancel();
+                shellContextMenuItemCancellationToken = new CancellationTokenSource();
                 var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-                var items = ContextFlyoutItemHelper.GetBaseContextCommands(connection: await Connection, currentInstanceViewModel: InstanceViewModel, itemViewModel: ParentShellPageInstance.FilesystemViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, false);
-                BaseContextMenuFlyout.Items.Clear();
-                ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(items).ForEach(i => BaseContextMenuFlyout.Items.Add(i));
+                var items = ContextFlyoutItemHelper.GetBaseContextCommandsWithoutShellItems(connection: await Connection, currentInstanceViewModel: InstanceViewModel, itemViewModel: ParentShellPageInstance.FilesystemViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, false);
+                BaseContextMenuFlyout.PrimaryCommands.Clear();
+                BaseContextMenuFlyout.SecondaryCommands.Clear();
+                var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
+                primaryElements.Where(i => i is AppBarButton).ForEach(i =>
+                {
+                    (i as AppBarButton).Click += new RoutedEventHandler((s, e) => BaseContextMenuFlyout.Hide());  // Workaround for WinUI (#5508)
+                });
+                primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
+                secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
+
+                var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false);
+                if (shellContextMenuItemCancellationToken.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
             }
             catch (Exception error)
             {
@@ -535,16 +562,71 @@ namespace Files
             }
         }
 
-        private async void LoadMenuItemsAsync()
+        private async Task LoadMenuItemsAsync()
         {
+            shellContextMenuItemCancellationToken?.Cancel();
+            shellContextMenuItemCancellationToken = new CancellationTokenSource();
             SelectedItemsPropertiesViewModel.CheckFileExtension(SelectedItem?.FileExtension);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var items = ContextFlyoutItemHelper.GetItemContextCommands(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
+            var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel, shiftPressed: shiftPressed, showOpenMenu: false);
             ItemContextMenuFlyout.PrimaryCommands.Clear();
             ItemContextMenuFlyout.SecondaryCommands.Clear();
             var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
+            primaryElements.Where(i => i is AppBarButton).ForEach(i =>
+            {
+                (i as AppBarButton).Click += new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide()); // Workaround for WinUI (#5508)
+            });
             primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
+
+            var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, shiftPressed: shiftPressed, showOpenMenu: false);
+            if (shellContextMenuItemCancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+
+            AddShellItemsToMenu(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
+        }
+
+        private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenuFlyout, bool shiftPressed)
+        {
+            var mainShellMenuItems = shellMenuItems.RemoveFrom(!App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4);
+            var overflowShellMenuItems = shellMenuItems.Except(mainShellMenuItems).ToList();
+
+            var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
+            var mainItems = ItemModelListToContextFlyoutHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
+
+            var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
+            if (overflowItem is not null)
+            {
+                var overflowItemFlyout = overflowItem.Flyout as MenuFlyout;
+                var index = contextMenuFlyout.SecondaryCommands.Count - 2;
+
+                foreach (var i in mainItems)
+                {
+                    index++;
+                    contextMenuFlyout.SecondaryCommands.Insert(index, i);
+                }
+
+                index = 0;
+
+                if (overflowItemFlyout.Items.Count > 0)
+                {
+                    overflowItemFlyout.Items.Insert(0, new MenuFlyoutSeparator());
+                }
+
+                foreach (var i in overflowItems)
+                {
+                    overflowItemFlyout.Items.Insert(index, i);
+                    index++;
+                }
+
+                if (overflowItemFlyout.Items.Count > 0)
+                {
+                    (contextMenuFlyout.SecondaryCommands.First(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator).Visibility = Visibility.Visible;
+                    overflowItem.Visibility = Visibility.Visible;
+                }
+            }
         }
 
         protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)

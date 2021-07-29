@@ -128,7 +128,7 @@ namespace Files.ViewModels
                 workingRoot = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(value));
             }
 
-            if (value == "Home" || value == "NewTab".GetLocalized())
+            if (value == "Home".GetLocalized() || value == "NewTab".GetLocalized())
             {
                 currentStorageFolder = null;
             }
@@ -708,6 +708,7 @@ namespace Files.ViewModels
 
         private async Task LoadItemThumbnail(ListedItem item, uint thumbnailSize = 20, IStorageItem matchingStorageItem = null, bool forceReload = false)
         {
+            var wasIconLoaded = false;
             if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File)
             {
                 if (!forceReload && item.CustomIconData != null)
@@ -719,6 +720,7 @@ namespace Files.ViewModels
                         item.LoadWebShortcutGlyph = false;
                         item.LoadFileIcon = true;
                     }, Windows.System.DispatcherQueuePriority.Low);
+                    wasIconLoaded = true;
                 }
                 else
                 {
@@ -738,6 +740,7 @@ namespace Files.ViewModels
                                     item.LoadWebShortcutGlyph = false;
                                     item.LoadFileIcon = true;
                                 }, Windows.System.DispatcherQueuePriority.Low);
+                                wasIconLoaded = true;
                             }
 
                             var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath);
@@ -752,7 +755,7 @@ namespace Files.ViewModels
                     }
                 }
 
-                if (!item.LoadFileIcon)
+                if (!wasIconLoaded)
                 {
                     var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize);
                     if (iconInfo.IconData != null)
@@ -788,6 +791,7 @@ namespace Files.ViewModels
                         item.LoadFolderGlyph = false;
                         item.LoadFileIcon = true;
                     }, Windows.System.DispatcherQueuePriority.Low);
+                    wasIconLoaded = true;
                 }
                 else
                 {
@@ -808,6 +812,7 @@ namespace Files.ViewModels
                                     item.LoadFolderGlyph = false;
                                     item.LoadFileIcon = true;
                                 }, Windows.System.DispatcherQueuePriority.Low);
+                                wasIconLoaded = true;
                             }
 
                             var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath);
@@ -822,7 +827,7 @@ namespace Files.ViewModels
                     }
                 }
 
-                if (!item.LoadFileIcon)
+                if (!wasIconLoaded)
                 {
                     var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize);
 
@@ -1127,6 +1132,7 @@ namespace Files.ViewModels
             }
             finally
             {
+                DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty); // Make sure item count is updated
                 enumFolderSemaphore.Release();
                 itemLoadEvent.Set();
             }
@@ -1223,14 +1229,15 @@ namespace Files.ViewModels
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
                 ItemPropertiesInitialized = true,
-                ItemName = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
+                ItemName = path.StartsWith(AppSettings.RecycleBinPath) ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin") :
+                           path.StartsWith(AppSettings.NetworkFolderPath) ? "Network".GetLocalized() : "FTP",
                 ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
                 ItemDateCreatedReal = DateTimeOffset.Now, // Fake for now
                 ItemType = "FileFolderListItem".GetLocalized(),
                 LoadFolderGlyph = true,
                 FileImage = null,
                 LoadFileIcon = false,
-                ItemPath = AppSettings.RecycleBinPath,
+                ItemPath = path,
                 LoadUnknownTypeGlyph = false,
                 FileSize = null,
                 FileSizeBytes = 0

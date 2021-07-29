@@ -19,7 +19,7 @@
                 Spacing="4">
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
-                        <RepositionThemeTransition />
+                        <ReorderThemeTransition />
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
@@ -39,7 +39,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsVerticalTabFlyoutSwitch"
                     Title="Display the vertical tab flyout on the title bar"
-                    Width="352"
+                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
                     HorizontalAlignment="Left">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xF5ED;" />
@@ -57,7 +57,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsMultitaskingEnableDualPane"
                     Title="Enable dual pane view"
-                    Width="352"
+                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
                     HorizontalAlignment="Left">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
@@ -68,7 +68,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsMultitaskingAlwaysOpenDualPane"
                     Title="Always open new tabs in dual pane mode"
-                    Width="352"
+                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
                     HorizontalAlignment="Left">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />

@@ -38,7 +38,7 @@ namespace Files.Interacts
             RunAsAnotherUserCommand = new RelayCommand<RoutedEventArgs>(commandsModel.RunAsAnotherUser);
             SidebarPinItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.SidebarPinItem);
             SidebarUnpinItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.SidebarUnpinItem);
-            UnpinDirectoryFromSidebarCommand = new RelayCommand<RoutedEventArgs>(commandsModel.UnpinDirectoryFromSidebar);
+            UnpinDirectoryFromFavoritesCommand = new RelayCommand<RoutedEventArgs>(commandsModel.UnpinDirectoryFromFavorites);
             OpenItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenItem);
             EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(commandsModel.EmptyRecycleBin);
             QuickLookCommand = new RelayCommand<RoutedEventArgs>(commandsModel.QuickLook);
@@ -59,7 +59,7 @@ namespace Files.Interacts
             CopyPathOfSelectedItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CopyPathOfSelectedItem);
             OpenDirectoryInDefaultTerminalCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenDirectoryInDefaultTerminal);
             ShareItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.ShareItem);
-            PinDirectoryToSidebarCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PinDirectoryToSidebar);
+            PinDirectoryToFavoritesCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PinDirectoryToFavorites);
             ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(commandsModel.ItemPointerPressed);
             UnpinItemFromStartCommand = new RelayCommand<RoutedEventArgs>(commandsModel.UnpinItemFromStart);
             PinItemToStartCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PinItemToStart);
@@ -98,7 +98,7 @@ namespace Files.Interacts
 
         public ICommand OpenItemCommand { get; private set; }
 
-        public ICommand UnpinDirectoryFromSidebarCommand { get; private set; }
+        public ICommand UnpinDirectoryFromFavoritesCommand { get; private set; }
 
         public ICommand EmptyRecycleBinCommand { get; private set; }
 
@@ -138,7 +138,7 @@ namespace Files.Interacts
 
         public ICommand ShareItemCommand { get; private set; }
 
-        public ICommand PinDirectoryToSidebarCommand { get; private set; }
+        public ICommand PinDirectoryToFavoritesCommand { get; private set; }
 
         public ICommand ItemPointerPressedCommand { get; private set; }
 

@@ -25,7 +25,7 @@
                 Spacing="4">
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
-                        <RepositionThemeTransition />
+                        <ReorderThemeTransition />
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
@@ -39,7 +39,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsPreferencesAppLanguage"
                     Title="Language"
-                    Width="352"
+                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
                     HorizontalAlignment="Left">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xF2B7;" />
@@ -57,18 +57,18 @@
                     </ComboBox>
                 </local:SettingsBlockControl>
 
-                <StackPanel
-                    Width="Auto"
-                    HorizontalAlignment="Left"
-                    Orientation="Horizontal"
-                    Spacing="8">
+                <local:SettingsBlockControl
+                    x:Uid="SettingsPreferencesTerminalApplications"
+                    Title="Terminal applications"
+                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
+                    HorizontalAlignment="Left">
+                    <local:SettingsBlockControl.Icon>
+                        <FontIcon Glyph="&#xE756;" />
+                    </local:SettingsBlockControl.Icon>
                     <ComboBox
                         x:Name="TerminalApplicationsComboBox"
-                        x:Uid="SettingsPreferencesTerminalApplications"
                         Width="Auto"
-                        MinWidth="200"
-                        MaxWidth="250"
-                        Header="Terminal applications"
+                        MaxWidth="140"
                         ItemsSource="{Binding Terminals}"
                         SelectedItem="{Binding SelectedTerminal, Mode=TwoWay}">
                         <ComboBox.ItemTemplate>
@@ -79,75 +79,71 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
+                    <local:SettingsBlockControl.ExpandableContent>
+                        <local:SettingsBlockControl x:Uid="SettingsPreferencesEditTerminalApplicationsExpander" Title="Edit terminal applications">
+                            <local:SettingsBlockControl.Icon>
+                                <FontIcon
+                                    FontSize="14"
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                    Glyph="&#xE104;" />
+                            </local:SettingsBlockControl.Icon>
+                            <HyperlinkButton
+                                x:Uid="SettingsPreferencesEditTerminalApplications"
+                                Height="32"
+                                Padding="8,4,8,4"
+                                VerticalAlignment="Bottom"
+                                AutomationProperties.Name="Edit terminal applications"
+                                Command="{Binding EditTerminalApplicationsCommand}">
+                                <FontIcon
+                                    FontSize="14"
+                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                    Glyph="&#xE2B4;" />
+                            </HyperlinkButton>
+                        </local:SettingsBlockControl>
+                    </local:SettingsBlockControl.ExpandableContent>
+                </local:SettingsBlockControl>
 
-                    <HyperlinkButton
-                        x:Uid="SettingsPreferencesEditTerminalApplications"
-                        Height="32"
-                        Padding="8,4,8,4"
-                        VerticalAlignment="Bottom"
-                        AutomationProperties.Name="Edit terminal applications"
-                        Command="{Binding EditTerminalApplicationsCommand}">
-                        <FontIcon
-                            FontSize="14"
-                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                            Glyph="&#xE104;" />
-                    </HyperlinkButton>
-
-                    <HyperlinkButton
-                        x:Uid="SettingsPreferencesTerminalApplicationsSampleProfiles"
-                        Height="32"
-                        Padding="8,4,8,4"
-                        VerticalAlignment="Bottom"
-                        AutomationProperties.Name="View sample profiles"
-                        NavigateUri="https://files-community.github.io/docs/#/articles/terminal-profiles"
-                        ToolTipService.ToolTip="View sample profiles">
-                        <FontIcon
-                            FontSize="14"
-                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                            Glyph="&#xE946;" />
-                    </HyperlinkButton>
-                </StackPanel>
-
-                <StackPanel
-                    Width="Auto"
-                    Orientation="Horizontal"
-                    Spacing="8">
+                <local:SettingsBlockControl
+                    x:Uid="SettingsDateFormat"
+                    Title="Date format"
+                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
+                    HorizontalAlignment="Left">
+                    <local:SettingsBlockControl.Icon>
+                        <FontIcon Glyph="&#xEC92;" />
+                    </local:SettingsBlockControl.Icon>
                     <ComboBox
                         x:Name="DateFormatChooser"
-                        x:Uid="SettingsDateFormat"
-                        Width="Auto"
-                        MinWidth="200"
-                        MaxWidth="250"
-                        Header="Date format"
                         ItemsSource="{Binding DateFormats}"
                         SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
+                </local:SettingsBlockControl>
 
-                    <HyperlinkButton
-                        x:Uid="SettingsDateFormatsTip"
-                        Height="32"
-                        Padding="8,4,8,4"
-                        VerticalAlignment="Bottom"
-                        AutomationProperties.Name="Learn more about date formats"
-                        NavigateUri="https://files-community.github.io/docs/#/articles/date-formats"
-                        ToolTipService.ToolTip="Learn more about date formats">
-                        <FontIcon
-                            FontSize="14"
-                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                            Glyph="&#xE946;" />
-                    </HyperlinkButton>
-                </StackPanel>
+                <local:SettingsBlockControl
+                    x:Uid="SettingsPreferencesShowConfirmDeleteDialog"
+                    Title="Show a confirmation dialog when deleting files or folders"
+                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
+                    HorizontalAlignment="Left">
+                    <local:SettingsBlockControl.Icon>
+                        <FontIcon Glyph="&#xE107;" />
+                    </local:SettingsBlockControl.Icon>
+                    <ToggleSwitch
+                        x:Name="ShowConfirmDeleteDialogSwitch"
+                        IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}"
+                        Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                </local:SettingsBlockControl>
 
-                <ToggleSwitch
-                    x:Name="ShowConfirmDeleteDialogSwitch"
-                    x:Uid="SettingsPreferencesShowConfirmDeleteDialogSwitch"
-                    Header="Show a confirmation dialog when deleting files or folders"
-                    IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}" />
-
-                <ToggleSwitch
-                    x:Name="OpenFoldersNewTab"
+                <local:SettingsBlockControl
                     x:Uid="SettingsPreferencesOpenFoldersNewTab"
-                    Header="Open folders in new tab"
-                    IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}" />
+                    Title="Open folders in new tab"
+                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
+                    HorizontalAlignment="Left">
+                    <local:SettingsBlockControl.Icon>
+                        <FontIcon Glyph="&#xF12B;" />
+                    </local:SettingsBlockControl.Icon>
+                    <ToggleSwitch
+                        x:Name="OpenFoldersNewTab"
+                        IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}"
+                        Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                </local:SettingsBlockControl>
             </StackPanel>
         </ScrollViewer>
 

@@ -1,5 +1,8 @@
-﻿using Files.Views;
+﻿using Files.Dialogs;
+using Files.Helpers;
+using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System.Profile;
@@ -137,6 +140,17 @@ namespace Files.ViewModels
             {
                 FontName = new FontFamily("Segoe MDL2 Assets");
             }
+        }
+
+        public readonly RelayCommand OpenSettingsCommand = new RelayCommand(OpenSettings);
+
+        public static async void OpenSettings()
+        {
+            if (!UIHelpers.IsAnyContentDialogOpen())
+            {
+                SettingsDialog settingsDialog = new SettingsDialog();
+                _ = await settingsDialog.ShowAsync();
+            }           
         }
     }
 }

@@ -17,18 +17,15 @@ namespace Files.Helpers
 {
     public static class ShellContextmenuHelper
     {
-        public static List<ContextMenuFlyoutItemViewModel> SetShellContextmenu(List<ContextMenuFlyoutItemViewModel> baseItems, bool shiftPressed, bool showOpenMenu, NamedPipeAsAppServiceConnection connection, string workingDirectory, List<ListedItem> selectedItems)
+        public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, NamedPipeAsAppServiceConnection connection, string workingDirectory, List<ListedItem> selectedItems)
         {
             bool IsItemSelected = selectedItems?.Count > 0;
 
-            var menuItemsList = new List<ContextMenuFlyoutItemViewModel>(baseItems);
-
-            var currentBaseLayoutItemCount = baseItems.Count;
-            var maxItems = !App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
+            var menuItemsList = new List<ContextMenuFlyoutItemViewModel>();
 
             if (connection != null)
             {
-                var task = Task.Run(() => connection.SendMessageForResponseAsync(new ValueSet()
+                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                 {
                     { "Arguments", "LoadContextMenu" },
                     { "FilePath", IsItemSelected ?
@@ -36,27 +33,17 @@ namespace Files.Helpers
                         workingDirectory},
                     { "ExtendedMenu", shiftPressed },
                     { "ShowOpenMenu", showOpenMenu }
-                }));
-                var completed = task.Wait(10000);
+                });
 
-                if (completed)
+                if (status == AppServiceResponseStatus.Success
+                    && response.ContainsKey("Handle"))
                 {
-                    var (status, response) = task.Result;
-                    if (status == AppServiceResponseStatus.Success
-                        && response.ContainsKey("Handle"))
+                    var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
+                    if (contextMenu != null)
                     {
-                        var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response["ContextMenu"]);
-                        if (contextMenu != null)
-                        {
-                            LoadMenuFlyoutItem(menuItemsList, contextMenu.Items, (string)response["Handle"], true, maxItems);
-                        }
+                        LoadMenuFlyoutItem(menuItemsList, contextMenu.Items, (string)response["Handle"], true);
                     }
                 }
-            }
-            var totalFlyoutItems = baseItems.Count - currentBaseLayoutItemCount;
-            if (totalFlyoutItems > 0 && !(baseItems[totalFlyoutItems].ItemType == ItemType.Separator))
-            {
-                menuItemsList.Insert(totalFlyoutItems, new ContextMenuFlyoutItemViewModel() { ItemType = ItemType.Separator });
             }
 
             return menuItemsList;

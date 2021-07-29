@@ -217,7 +217,7 @@ namespace Files.Views
             AppInstance.NavToolbarViewModel.CanNavigateToParent = false;
 
             // Set path of working directory empty
-            await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
+            await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home".GetLocalized());
 
             // Clear the path UI and replace with Favorites
             AppInstance.NavToolbarViewModel.PathComponents.Clear();

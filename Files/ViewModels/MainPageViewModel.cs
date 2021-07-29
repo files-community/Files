@@ -236,7 +236,7 @@ namespace Files.ViewModels
                 tabLocationHeader = "SidebarSettings/Text".GetLocalized();
                 fontIconSource.Glyph = "\xE713";
             }
-            else if (currentPath == null || currentPath == "NewTab".GetLocalized() || currentPath == "Home")
+            else if (currentPath == null || currentPath == "NewTab".GetLocalized() || currentPath == "Home".GetLocalized())
             {
                 tabLocationHeader = "NewTab".GetLocalized();
                 fontIconSource.Glyph = "\xE8A1";
@@ -269,16 +269,24 @@ namespace Files.ViewModels
                 switch (libName)
                 {
                     case "Documents":
-                    case "Pictures":
-                    case "Music":
-                    case "Videos":
-                        // Show localized name
-                        tabLocationHeader = $"Sidebar{libName}".GetLocalized();
+                        tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
+                        fontIconSource.Glyph = "\xE130";
                         break;
-
+                    case "Pictures":
+                        tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
+                        fontIconSource.Glyph = "\xE158";
+                        break;
+                    case "Music":
+                        tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
+                        fontIconSource.Glyph = "\xEC4F";
+                        break;
+                    case "Videos":
+                        tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
+                        fontIconSource.Glyph = "\xE116";
+                        break;
                     default:
-                        // Show original name
-                        tabLocationHeader = library.Text;
+                        tabLocationHeader = library.Text; // Show original name
+                        fontIconSource.Glyph = "\xE1D3";
                         break;
                 }
             }

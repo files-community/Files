@@ -28,6 +28,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using static Files.UserControls.INavigationToolbar;
 using SearchBox = Files.UserControls.SearchBox;
+using Files.Interacts;
 
 namespace Files.ViewModels
 {
@@ -182,7 +183,7 @@ namespace Files.ViewModels
         public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
         {
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
+                pathBoxItem.Path == "Home".GetLocalized() || pathBoxItem.Path == "NewTab".GetLocalized())
             {
                 return;
             }
@@ -199,7 +200,7 @@ namespace Files.ViewModels
             dragOverPath = null; // Reset dragged over pathbox item
 
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
+                pathBoxItem.Path == "Home".GetLocalized() || pathBoxItem.Path == "NewTab".GetLocalized())
             {
                 return;
             }
@@ -218,7 +219,7 @@ namespace Files.ViewModels
         public async void PathBoxItem_DragOver(object sender, DragEventArgs e)
         {
             if (IsSingleItemOverride || !((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
+                pathBoxItem.Path == "Home".GetLocalized() || pathBoxItem.Path == "NewTab".GetLocalized())
             {
                 return;
             }
@@ -490,7 +491,6 @@ namespace Files.ViewModels
             SearchBox.SuggestionChosen -= SearchRegion_SuggestionChosen;
             SearchBox.Escaped -= SearchRegion_Escaped;
         }
-
         public ICommand SelectAllContentPageItemsCommand { get; set; }
 
         public ICommand InvertContentPageSelctionCommand { get; set; }
@@ -499,7 +499,7 @@ namespace Files.ViewModels
 
         public ICommand PasteItemsFromClipboardCommand { get; set; }
 
-        public ICommand CopyPathOfWorkingDirectoryCommand { get; set; }
+        public ICommand CopyPathCommand { get; set; }
 
         public ICommand OpenNewWindowCommand { get; set; }
 
@@ -509,11 +509,17 @@ namespace Files.ViewModels
 
         public ICommand OpenDirectoryInDefaultTerminalCommand { get; set; }
 
-        public ICommand AddNewTabToMultitaskingControlCommand { get; set; }
-
         public ICommand CreateNewFileCommand { get; set; }
 
         public ICommand CreateNewFolderCommand { get; set; }
+
+        public ICommand CopyCommand { get; set; }
+
+        public ICommand DeleteCommand { get; set; }
+        
+        public ICommand Rename { get; set; }
+
+        public ICommand Share { get; set; }
 
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {
@@ -592,7 +598,7 @@ namespace Files.ViewModels
 
             if (currentInput != shellPage.FilesystemViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(WidgetsPage))
             {
-                if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase)
+                if (currentInput.Equals("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase)
                     || currentInput.Equals("NewTab".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
                     shellPage.NavigateHome();
@@ -758,5 +764,25 @@ namespace Files.ViewModels
             }
         }
 
+        List<ListedItem> selectedItems;
+        public List<ListedItem> SelectedItems
+        {
+            get => selectedItems;
+            set
+            {
+                if(SetProperty(ref selectedItems, value))
+                {
+                    OnPropertyChanged(nameof(CanCopy));
+                    OnPropertyChanged(nameof(CanCopyPath));
+                    OnPropertyChanged(nameof(CanShare));
+                    OnPropertyChanged(nameof(CanRename));
+                }
+            }
+        }
+
+        public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
+        public bool CanCopyPath => SelectedItems is null || SelectedItems.Count == 0 || (SelectedItems is not null && SelectedItems.Count == 1);
+        public bool CanShare => SelectedItems is not null && SelectedItems.Any() && !SelectedItems.All(x => x.IsShortcutItem);
+        public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
     }
 }

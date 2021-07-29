@@ -25,7 +25,7 @@
                 Spacing="4">
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
-                        <RepositionThemeTransition />
+                        <ReorderThemeTransition />
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
@@ -38,7 +38,7 @@
 
                 <local:SettingsBlockControl
                     Title="{Binding AppName}"
-                    Width="352"
+                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
                     HorizontalAlignment="Left"
                     Description="{Binding Version}">
                     <local:SettingsBlockControl.Icon>
@@ -54,7 +54,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsUsefulLinks"
                     Title="Useful links"
-                    Width="352"
+                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
                     HorizontalAlignment="Left">
                     <local:SettingsBlockControl.Icon>
                         <SymbolIcon Symbol="Link" />
@@ -179,13 +179,13 @@
                 <Button
                     x:Name="OpenLogLocationButton"
                     x:Uid="SettingsAboutOpenLogLocationButton"
-                    Width="352"
+                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
                     Padding="20,16,20,16"
                     AutomationProperties.Name="Open log location"
                     Command="{Binding OpenLogLocationCommand}">
                     <Button.Content>
                         <Grid
-                            Width="352"
+                            Width="{StaticResource SettingsBlockControlDefaultWidth}"
                             HorizontalAlignment="Left"
                             ColumnSpacing="16">
                             <Grid.ColumnDefinitions>

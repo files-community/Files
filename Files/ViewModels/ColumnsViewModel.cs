@@ -1,14 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 
 namespace Files.ViewModels
 {
@@ -97,12 +89,12 @@ namespace Files.ViewModels
             set => SetProperty(ref sizeColumn, value);
         }
 
-        public double TotalWidth => IconColumn.Length.Value + NameColumn.Length.Value + StatusColumn.Length.Value + DateModifiedColumn.Length.Value + OriginalPathColumn.Length.Value 
+        public double TotalWidth => IconColumn.Length.Value + NameColumn.Length.Value + StatusColumn.Length.Value + DateModifiedColumn.Length.Value + OriginalPathColumn.Length.Value
             + ItemTypeColumn.Length.Value + DateDeletedColumn.Length.Value + DateCreatedColumn.Length.Value + SizeColumn.Length.Value;
 
         public void SetDesiredSize(double width)
         {
-            if(TotalWidth > width || TotalWidth < width) 
+            if (TotalWidth > width || TotalWidth < width)
             {
                 var proportion = width / TotalWidth;
                 SetColumnSizeProportionally(proportion);
@@ -230,7 +222,7 @@ namespace Files.ViewModels
         public void TryMultiplySize(double factor)
         {
             var newSize = Length.Value * factor;
-            if(newSize == 0)
+            if (newSize == 0)
             {
                 return;
             }
@@ -239,7 +231,8 @@ namespace Files.ViewModels
             if (newSize < MinLength)
             {
                 setLength = MinLength;
-            } else if(newSize >= MaxLength)
+            }
+            else if (newSize >= MaxLength)
             {
                 setLength = MaxLength;
             }

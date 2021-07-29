@@ -58,6 +58,7 @@ namespace Files.Filesystem
                 var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24);
                 if (iconData != null)
                 {
+                    cloudProviderItem.IconData = iconData;
                     await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
                     {
                         cloudProviderItem.Icon = await iconData.ToBitmapAsync();
@@ -118,7 +119,9 @@ namespace Files.Filesystem
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
                                     (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
                                     (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0); // After drives section
+                        SidebarControl.SideBarItems.BeginBulkOperation();
                         SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), section);
+                        SidebarControl.SideBarItems.EndBulkOperation();
                     }
 
                     if (section != null)

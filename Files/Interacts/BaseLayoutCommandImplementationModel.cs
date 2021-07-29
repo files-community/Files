@@ -155,7 +155,7 @@ namespace Files.Interacts
             NavigationHelpers.OpenSelectedItems(associatedInstance, false);
         }
 
-        public virtual void UnpinDirectoryFromSidebar(RoutedEventArgs e)
+        public virtual void UnpinDirectoryFromFavorites(RoutedEventArgs e)
         {
             App.SidebarPinnedController.Model.RemoveItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
         }
@@ -313,8 +313,9 @@ namespace Files.Interacts
             {
                 if (SlimContentPage != null)
                 {
+                    var path = SlimContentPage.SelectedItem != null ? SlimContentPage.SelectedItem.ItemPath : associatedInstance.FilesystemViewModel.WorkingDirectory;
                     DataPackage data = new DataPackage();
-                    data.SetText(SlimContentPage.SelectedItem.ItemPath);
+                    data.SetText(path);
                     Clipboard.SetContent(data);
                     Clipboard.Flush();
                 }
@@ -402,7 +403,7 @@ namespace Files.Interacts
             }
         }
 
-        public virtual void PinDirectoryToSidebar(RoutedEventArgs e)
+        public virtual void PinDirectoryToFavorites(RoutedEventArgs e)
         {
             App.SidebarPinnedController.Model.AddItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
         }
@@ -631,7 +632,7 @@ namespace Files.Interacts
                     CancellationTokenSource extractCancellation = new CancellationTokenSource();
                     PostedStatusBanner banner = App.StatusCenterViewModel.PostOperationBanner(
                         string.Empty,
-                        "Extracting archive",
+                        "ExtractingArchiveText".GetLocalized(),
                         0,
                         ReturnResult.InProgress,
                         FileOperationType.Extract,
@@ -657,8 +658,8 @@ namespace Files.Interacts
                     if (sw.Elapsed.TotalSeconds >= 6)
                     {
                         App.StatusCenterViewModel.PostBanner(
-                            "Extracting complete!",
-                            "The archive extraction completed successfully.",
+                            "ExtractingCompleteText".GetLocalized(),
+                            "ArchiveExtractionCompletedSuccessfullyText".GetLocalized(),
                             0,
                             ReturnResult.Success,
                             FileOperationType.Extract);
@@ -682,7 +683,7 @@ namespace Files.Interacts
                 CancellationTokenSource extractCancellation = new CancellationTokenSource();
                 PostedStatusBanner banner = App.StatusCenterViewModel.PostOperationBanner(
                     string.Empty,
-                    "Extracting archive",
+                    "ExtractingArchiveText".GetLocalized(),
                     0,
                     ReturnResult.InProgress,
                     FileOperationType.Extract,
@@ -700,8 +701,8 @@ namespace Files.Interacts
                 if (sw.Elapsed.TotalSeconds >= 6)
                 {
                     App.StatusCenterViewModel.PostBanner(
-                        "Extracting complete!",
-                        "The archive extraction completed successfully.",
+                        "ExtractingCompleteText".GetLocalized(),
+                        "ArchiveExtractionCompletedSuccessfullyText".GetLocalized(),
                         0,
                         ReturnResult.Success,
                         FileOperationType.Extract);
@@ -725,7 +726,7 @@ namespace Files.Interacts
                 CancellationTokenSource extractCancellation = new CancellationTokenSource();
                 PostedStatusBanner banner = App.StatusCenterViewModel.PostOperationBanner(
                     string.Empty,
-                    "Extracting archive",
+                    "ExtractingArchiveText".GetLocalized(),
                     0,
                     ReturnResult.InProgress,
                     FileOperationType.Extract,
@@ -743,8 +744,8 @@ namespace Files.Interacts
                 if (sw.Elapsed.TotalSeconds >= 6)
                 {
                     App.StatusCenterViewModel.PostBanner(
-                        "Extracting complete!",
-                        "The archive extraction completed successfully.",
+                        "ExtractingCompleteText".GetLocalized(),
+                        "ArchiveExtractionCompletedSuccessfullyText".GetLocalized(),
                         0,
                         ReturnResult.Success,
                         FileOperationType.Extract);
