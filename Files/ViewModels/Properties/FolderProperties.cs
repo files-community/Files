@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -63,7 +64,8 @@ namespace Files.ViewModels.Properties
                     ViewModel.ShortcutItemArgumentsVisibility = Visibility.Collapsed;
                     ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
                     {
-                        await NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath));
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(
+                            () => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath)));
                     }, () =>
                     {
                         return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);

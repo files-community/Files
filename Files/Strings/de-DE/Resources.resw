@@ -84,9 +84,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Beim Start</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Terminal-Anwendungen</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Voreinstellungen</value>
   </data>
@@ -330,9 +327,6 @@
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimentell</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Beispielprofile anzeigen</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>In diesem Verzeichnis existiert bereits eine Datei oder ein Ordner mit diesem Namen.</value>
   </data>
@@ -506,9 +500,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Dateien werden in den Papierkorb verschoben</value>
-  </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Erfahren Sie mehr über Datumsformate</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Entsperren</value>
@@ -786,12 +777,6 @@
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>Terminal-Anwendungen bearbeiten</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Beispielprofile ansehen</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Konsolenanwendungen</value>
-  </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Unterstützen Sie uns</value>
   </data>
@@ -800,12 +785,6 @@
   </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Zugriff verweigert</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>Dialog zur Bestätigung des Löschvorgangs anzeigen</value>
-  </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>Datumsformat</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Status Center</value>
@@ -1175,9 +1154,6 @@
   </data>
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Status Center</value>
-  </data>
-  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>Mehr über Datumsformate erfahren</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Ergebnisse suchen in</value>
@@ -1805,9 +1781,6 @@
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Änderungsdatum:</value>
-  </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>Ordner in neuem Tab öffnen</value>
   </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Auswahloptionen</value>

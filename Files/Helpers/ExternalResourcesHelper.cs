@@ -52,11 +52,9 @@ namespace Files.Helpers
             {
                 await TryLoadThemeAsync(App.AppSettings.SelectedTheme);
             }
-
-            LoadOtherThemesAsync();
         }
 
-        private async void LoadOtherThemesAsync()
+        public async void LoadOtherThemesAsync()
         {
             try
             {

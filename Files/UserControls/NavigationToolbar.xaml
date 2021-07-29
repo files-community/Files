@@ -552,7 +552,7 @@
                             </Grid>
                         </Button.Content>
                         <Button.Flyout>
-                            <Flyout x:Uid="StatusCenterFlyout" AutomationProperties.Name="Ongoing tasks flyout">
+                            <Flyout x:Uid="StatusCenterFlyout" AutomationProperties.Name="Ongoing tasks flyout" ShouldConstrainToRootBounds="False">
                                 <uc:StatusCenter
                                     x:Name="OngoingTasksControl"
                                     Width="300"

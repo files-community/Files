@@ -59,14 +59,6 @@ namespace Files
         public static StatusCenterViewModel StatusCenterViewModel { get; } = new StatusCenterViewModel();
 
         public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
-
-        public static class AppData
-        {
-            // Get the extensions that are available for this host.
-            // Extensions that declare the same contract string as the host will be recognized.
-            internal static ExtensionManager FilePreviewExtensionManager { get; set; } = new ExtensionManager("com.files.filepreview");
-        }
-
         public App()
         {
             // Initialize logger
@@ -77,9 +69,6 @@ namespace Files
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
-
-            //LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
-            AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
         }
 
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
@@ -93,22 +82,32 @@ namespace Files
             await ExternalResourcesHelper.LoadSelectedTheme();
 
             MainViewModel ??= new MainViewModel();
-            SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
             LibraryManager ??= new LibraryManager();
             DrivesManager ??= new DrivesManager();
             NetworkDrivesManager ??= new NetworkDrivesManager();
             CloudDrivesManager ??= new CloudDrivesManager();
             WSLDistroManager ??= new WSLDistroManager();
+            SidebarPinnedController ??= new SidebarPinnedController();
+        }
+
+        public static async Task LoadOtherStuffAsync()
+        {
+            ExternalResourcesHelper.LoadOtherThemesAsync();
 
             // Start off a list of tasks we need to run before we can continue startup
-            _ = Task.Factory.StartNew(async () =>
+            _ = Task.Run(async () =>
             {
-                await LibraryManager.EnumerateLibrariesAsync();
-                await DrivesManager.EnumerateDrivesAsync();
-                await CloudDrivesManager.EnumerateDrivesAsync();
-                await NetworkDrivesManager.EnumerateDrivesAsync();
-                await WSLDistroManager.EnumerateDrivesAsync();
+                await Task.WhenAll(
+                   SidebarPinnedController.InitializeAsync(),
+                   DrivesManager.EnumerateDrivesAsync(),
+                   CloudDrivesManager.EnumerateDrivesAsync(),
+                   LibraryManager.EnumerateLibrariesAsync(),
+                   NetworkDrivesManager.EnumerateDrivesAsync(),
+                   WSLDistroManager.EnumerateDrivesAsync()
+                );
             });
+
+            ExternalResourcesHelper.LoadOtherThemesAsync();
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)

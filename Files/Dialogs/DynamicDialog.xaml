@@ -17,25 +17,11 @@
     RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
     SecondaryButtonText="{Binding SecondaryButtonText, Mode=OneWay}"
     Style="{StaticResource DefaultContentDialogStyle}"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    CloseButtonClick="ContentDialog_CloseButtonClick"
+    KeyDown="ContentDialog_KeyDown"
     mc:Ignorable="d">
-    <i:Interaction.Behaviors>
-        <!--  No need to specify CommandParameter - `e` is passed by default  -->
-        <icore:EventTriggerBehavior EventName="PrimaryButtonClick">
-            <icore:InvokeCommandAction Command="{Binding PrimaryButtonCommand, Mode=OneWay}" />
-        </icore:EventTriggerBehavior>
-        <!--  No need to specify CommandParameter - `e` is passed by default  -->
-        <icore:EventTriggerBehavior EventName="SecondaryButtonClick">
-            <icore:InvokeCommandAction Command="{Binding SecondaryButtonCommand, Mode=OneWay}" />
-        </icore:EventTriggerBehavior>
-        <!--  No need to specify CommandParameter - `e` is passed by default  -->
-        <icore:EventTriggerBehavior EventName="CloseButtonClick">
-            <icore:InvokeCommandAction Command="{Binding CloseButtonCommand, Mode=OneWay}" />
-        </icore:EventTriggerBehavior>
-        <!--  No need to specify CommandParameter - `e` is passed by default  -->
-        <icore:EventTriggerBehavior EventName="KeyDown">
-            <icore:InvokeCommandAction Command="{Binding KeyDownCommand, Mode=OneWay}" />
-        </icore:EventTriggerBehavior>
-    </i:Interaction.Behaviors>
 
     <Grid RowSpacing="20">
         <Grid.RowDefinitions>
