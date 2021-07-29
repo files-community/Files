@@ -120,9 +120,6 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Tentang</value>
   </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>Format tanggal</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Tampilan</value>
   </data>
@@ -345,9 +342,6 @@
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Properti</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Lihat contoh profil</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Item dengan nama ini sudah ada di direktori ini.</value>
   </data>
@@ -533,9 +527,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Jalankan sebagai administrator</value>
-  </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Pelajari tentang format tanggal</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Buka kunci</value>
@@ -830,18 +821,6 @@
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ubah aplikasi terminal</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Lihat contoh profil</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Aplikasi terminal</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>Tampilkan dialog konfirmasi saat menghapus file atau folder</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Aplikasi terminal</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Terjadi masalah saat menyimpan beberapa properti.</value>
@@ -1217,9 +1196,6 @@
   </data>
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Pusat Status</value>
-  </data>
-  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>Pelajari tentang format tanggal</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Cari</value>
@@ -1763,9 +1739,6 @@
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO speed</value>
-  </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>Buka folder di tab baru</value>
   </data>
   <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
     <value>Tampilkan widget Bundel</value>

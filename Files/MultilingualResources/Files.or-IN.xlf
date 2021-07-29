@@ -207,10 +207,6 @@
           <source>On Startup</source>
           <target state="translated">ଆରମ୍ଭ ରେ</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
-          <source>Terminal Applications</source>
-          <target state="translated">ଟର୍ମିନାଲ୍ ଆପ୍ଲିକେସନଗୁଡ଼ିକ</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
           <source>Preferences</source>
           <target state="translated">ପସନ୍ଦ</target>
@@ -447,10 +443,6 @@
           <source>Properties</source>
           <target state="translated">ଗୁଣଧର୍ମ</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>View sample profiles</source>
-          <target state="translated">ନମୁନା ପ୍ରୋଫାଇଲ୍ ଦେଖନ୍ତୁ</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogContent" translate="yes" xml:space="preserve">
           <source>An item with this name already exists in this directory.</source>
           <target state="translated">ଏହି ନାମ ସହିତ ଏକ ଆଇଟମ୍ ଏହି ଡିରେକ୍ଟୋରୀରେ ପୂର୍ବରୁ ବିଦ୍ୟମାନ ଅଛି |</target>
@@ -685,10 +677,6 @@
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
           <target state="translated">ପ୍ରଶାସକ ଭାବରେ ଚଲାନ୍ତୁ</target>
-        </trans-unit>
-        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Learn more about date formats</source>
-          <target state="translated">ତାରିଖ ଫର୍ମାଟ୍ ବିଷୟରେ ଅଧିକ ଜାଣନ୍ତୁ</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Unlock</source>
@@ -1057,14 +1045,6 @@
           <source>Edit terminal applications</source>
           <target state="new">Edit terminal applications</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>View sample profiles</source>
-          <target state="new">View sample profiles</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
-          <source>Terminal applications</source>
-          <target state="new">Terminal applications</target>
-        </trans-unit>
         <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
           <source>Support us</source>
           <target state="new">Support us</target>
@@ -1076,14 +1056,6 @@
         <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ପ୍ରବେଶ ପ୍ରତ୍ୟାଖ୍ୟାତ</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="new">Show a confirmation dialog when deleting files or folders</target>
-        </trans-unit>
-        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
-          <source>Date format</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ତାରିଖ ଫର୍ମାଟ୍</target>
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
           <source>Rating</source>
@@ -1577,10 +1549,6 @@
         <trans-unit id="StatusCenterTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Status Center</source>
           <target state="new">Status Center</target>
-        </trans-unit>
-        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Learn more about date formats</source>
-          <target state="new">Learn more about date formats</target>
         </trans-unit>
         <trans-unit id="SearchPagePathBoxOverrideText" translate="yes" xml:space="preserve">
           <source>Search results in</source>
@@ -2417,10 +2385,6 @@
         <trans-unit id="ToolTipDescriptionDate" translate="yes" xml:space="preserve">
           <source>Date modified:</source>
           <target state="new">Date modified:</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Header" translate="yes" xml:space="preserve">
-          <source>Open folders in new tab</source>
-          <target state="new">Open folders in new tab</target>
         </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
@@ -3457,6 +3421,42 @@
         <trans-unit id="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+T</source>
           <target state="new">Ctrl+Shift+T</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTerminalApplications.Title" translate="yes" xml:space="preserve">
+          <source>Terminal applications</source>
+          <target state="new">Terminal applications</target>
+        </trans-unit>
+        <trans-unit id="ArchiveExtractionCompletedSuccessfullyText" translate="yes" xml:space="preserve">
+          <source>The archive extraction completed successfully.</source>
+          <target state="new">The archive extraction completed successfully.</target>
+        </trans-unit>
+        <trans-unit id="ExtractingArchiveText" translate="yes" xml:space="preserve">
+          <source>Extracting archive</source>
+          <target state="new">Extracting archive</target>
+        </trans-unit>
+        <trans-unit id="ExtractingCompleteText" translate="yes" xml:space="preserve">
+          <source>Extracting complete!</source>
+          <target state="new">Extracting complete!</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+Shift+N</source>
+          <target state="new">Ctrl+Shift+N</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesEditTerminalApplicationsExpander.Title" translate="yes" xml:space="preserve">
+          <source>Edit terminal applications</source>
+          <target state="new">Edit terminal applications</target>
+        </trans-unit>
+        <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
+          <source>Date format</source>
+          <target state="new">Date format</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
+          <source>Show a confirmation dialog when deleting files or folders</source>
+          <target state="new">Show a confirmation dialog when deleting files or folders</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Title" translate="yes" xml:space="preserve">
+          <source>Open folders in new tab</source>
+          <target state="new">Open folders in new tab</target>
         </trans-unit>
       </group>
     </body>
