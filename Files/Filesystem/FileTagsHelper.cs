@@ -2,13 +2,11 @@
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
 namespace Files.Filesystem
@@ -32,22 +30,7 @@ namespace Files.Filesystem
 
         public static string ReadFileTag(string filePath)
         {
-            IntPtr hStream = NativeFileOperationsHelper.CreateFileFromApp($"{filePath}:files",
-                NativeFileOperationsHelper.GENERIC_READ, 0, IntPtr.Zero, NativeFileOperationsHelper.OPEN_EXISTING, (uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics, IntPtr.Zero);
-            if (hStream.ToInt64() == -1) return null;
-            byte[] buff = new byte[4096];
-            int dwBytesRead;
-            string str = null;
-            unsafe
-            {
-                fixed (byte* pBuff = buff)
-                {
-                    NativeFileOperationsHelper.ReadFile(hStream, pBuff, 4096 - 1, &dwBytesRead, IntPtr.Zero);
-                    str = Encoding.UTF8.GetString(pBuff, dwBytesRead);
-                }
-            }
-            NativeFileOperationsHelper.CloseHandle(hStream);
-            return str;
+            return NativeFileOperationsHelper.ReadStringFromFile($"{filePath}:files");
         }
 
         public static void WriteFileTag(string filePath, string tag)
@@ -58,25 +41,41 @@ namespace Files.Filesystem
             }
             else
             {
-                IntPtr hStream = NativeFileOperationsHelper.CreateFileFromApp($"{filePath}:files",
-                    NativeFileOperationsHelper.GENERIC_WRITE, 0, IntPtr.Zero, NativeFileOperationsHelper.CREATE_ALWAYS, (uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics, IntPtr.Zero);
-                if (hStream.ToInt64() == -1) return;
-                byte[] buff = Encoding.UTF8.GetBytes(tag);
-                int dwBytesWritten;
-                unsafe
-                {
-                    fixed (byte* pBuff = buff)
-                    {
-                        NativeFileOperationsHelper.WriteFile(hStream, pBuff, buff.Length, &dwBytesWritten, IntPtr.Zero);
-                    }
-                }
-                NativeFileOperationsHelper.CloseHandle(hStream);
+                NativeFileOperationsHelper.WriteStringToFile($"{filePath}:files", tag);
             }
+        }
+
+        public static async Task<ulong?> GetFileFRN(IStorageItem item)
+        {
+            if (item is StorageFolder folderItem)
+            {
+                var extraProperties = await folderItem.Properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
+                return (ulong?)extraProperties["System.FileFRN"];
+            }
+            else if (item is StorageFile fileItem)
+            {
+                var extraProperties = await fileItem.Properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
+                return (ulong?)extraProperties["System.FileFRN"];
+            }
+            return null;
+        }
+
+        public static ulong? GetFileFRN(string filePath)
+        {
+            var hFile = NativeFileOperationsHelper.CreateFileFromApp(filePath, NativeFileOperationsHelper.GENERIC_READ, 0, IntPtr.Zero, NativeFileOperationsHelper.OPEN_EXISTING, (uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics, IntPtr.Zero);
+            if (hFile.ToInt64() != -1)
+            {
+                var res = new NativeFileOperationsHelper.FILE_ID_INFO();
+                if (NativeFileOperationsHelper.GetFileInformationByHandleEx(hFile, NativeFileOperationsHelper.FILE_INFO_BY_HANDLE_CLASS.FileIdInfo, ref res, (uint)Marshal.SizeOf(res)))
+                {
+                    return BitConverter.ToUInt64(res.FileId.Identifier, 0);
+                }
+            }
+            return null;
         }
 
         private FileTagsHelper()
         {
-
         }
     }
 

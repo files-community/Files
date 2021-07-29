@@ -93,36 +93,39 @@ namespace FilesFullTrust
             using var dbInstance = new Common.FileTagsDb(FileTagsDbPath, true);
             foreach (var file in dbInstance.GetAll())
             {
-                var pathFromFrn = Win32API.PathFromFileId(file.Frn ?? 0, file.FilePath);
-                if (pathFromFrn != null)
+                Win32API.IgnoreExceptions(() =>
                 {
-                    // Frn is valid, update file path
-                    var tag = ReadFileTag(pathFromFrn.Replace(@"\\?\", ""));
-                    if (tag != null)
+                    var pathFromFrn = Win32API.PathFromFileId(file.Frn ?? 0, file.FilePath);
+                    if (pathFromFrn != null)
                     {
-                        dbInstance.UpdateTag(file.Frn ?? 0, null, pathFromFrn.Replace(@"\\?\", ""));
-                        dbInstance.SetTag(pathFromFrn.Replace(@"\\?\", ""), file.Frn, tag);
+                        // Frn is valid, update file path
+                        var tag = ReadFileTag(pathFromFrn.Replace(@"\\?\", ""));
+                        if (tag != null)
+                        {
+                            dbInstance.UpdateTag(file.Frn ?? 0, null, pathFromFrn.Replace(@"\\?\", ""));
+                            dbInstance.SetTag(pathFromFrn.Replace(@"\\?\", ""), file.Frn, tag);
+                        }
+                        else
+                        {
+                            dbInstance.SetTag(null, file.Frn, null);
+                        }
                     }
                     else
                     {
-                        dbInstance.SetTag(null, file.Frn, null);
+                        var tag = ReadFileTag(file.FilePath);
+                        if (tag != null)
+                        {
+                            using var si = new ShellItem(file.FilePath);
+                            var frn = si.Properties["System.FileFRN"];
+                            dbInstance.UpdateTag(file.FilePath, (ulong)frn, null);
+                            dbInstance.SetTag(file.FilePath, (ulong)frn, tag);
+                        }
+                        else
+                        {
+                            dbInstance.SetTag(file.FilePath, null, null);
+                        }
                     }
-                }
-                else
-                {
-                    var tag = ReadFileTag(file.FilePath);
-                    if (tag != null)
-                    {
-                        using var si = new ShellItem(file.FilePath);
-                        var frn = si.Properties["System.FileFRN"];
-                        dbInstance.UpdateTag(file.FilePath, (ulong)frn, null);
-                        dbInstance.SetTag(file.FilePath, (ulong)frn, tag);
-                    }
-                    else
-                    {
-                        dbInstance.SetTag(file.FilePath, null, null);
-                    }
-                }
+                });
             }
         }
 

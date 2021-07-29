@@ -83,6 +83,31 @@ namespace FilesFullTrust
             return tcs.Task;
         }
 
+        public static void IgnoreExceptions(Action action)
+        {
+            try
+            {
+                action();
+            }
+            catch (Exception ex)
+            {
+                Program.Logger.Info(ex, ex.Message);
+            }
+        }
+
+        public static T IgnoreExceptions<T>(Func<T> func)
+        {
+            try
+            {
+                return func();
+            }
+            catch (Exception ex)
+            {
+                Program.Logger.Info(ex, ex.Message);
+                return default;
+            }
+        }
+
         public static async Task<string> GetFileAssociationAsync(string filename)
         {
             // Find UWP apps
@@ -292,7 +317,7 @@ namespace FilesFullTrust
                 {
                     return bmp;
                 }
-                
+
                 Rectangle bmBounds = new Rectangle(0, 0, bmp.Width, bmp.Height);
                 var bmpData = bmp.LockBits(bmBounds, ImageLockMode.ReadOnly, bmp.PixelFormat);
                 if (IsAlphaBitmap(bmpData))

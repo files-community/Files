@@ -918,16 +918,17 @@ namespace Files.ViewModels
                             if (matchingStorageFile != null)
                             {
                                 await LoadItemThumbnail(item, thumbnailSize, matchingStorageFile, true);
-                                
+
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
-                                IDictionary<string, object> extraProperties = await matchingStorageFile.Properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
+                                var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
+                                var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
                                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                                 {
                                     item.FolderRelativeId = matchingStorageFile.FolderRelativeId;
                                     item.ItemType = matchingStorageFile.DisplayType;
                                     item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
-                                    item.FileFRN = (ulong?)extraProperties["System.FileFRN"];
-                                    item.FileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
+                                    item.FileFRN = fileFRN;
+                                    item.FileTag = fileTag;
                                 }, Windows.System.DispatcherQueuePriority.Low);
                                 FileTagsHelper.DbInstance.SetTag(item.ItemPath, item.FileFRN, item.FileTag);
                                 wasSyncStatusLoaded = true;
@@ -961,14 +962,15 @@ namespace Files.ViewModels
                                 }
 
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
-                                IDictionary<string, object> extraProperties = await matchingStorageFolder.Properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
+                                var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
+                                var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
                                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                                 {
                                     item.FolderRelativeId = matchingStorageFolder.FolderRelativeId;
                                     item.ItemType = matchingStorageFolder.DisplayType;
                                     item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
-                                    item.FileFRN = (ulong?)extraProperties["System.FileFRN"];
-                                    item.FileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
+                                    item.FileFRN = fileFRN;
+                                    item.FileTag = fileTag;
                                 }, Windows.System.DispatcherQueuePriority.Low);
                                 FileTagsHelper.DbInstance.SetTag(item.ItemPath, item.FileFRN, item.FileTag);
                                 wasSyncStatusLoaded = true;
@@ -992,12 +994,18 @@ namespace Files.ViewModels
                 {
                     if (!wasSyncStatusLoaded)
                     {
-                        await FilesystemTasks.Wrap(() => CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                        await FilesystemTasks.Wrap(async () =>
                         {
-                            item.SyncStatusUI = new CloudDriveSyncStatusUI() { LoadSyncStatus = false }; // Reset cloud sync status icon
-                            item.FileFRN = null;
-                            item.FileTag = null;
-                        }, Windows.System.DispatcherQueuePriority.Low));
+                            var fileFRN = FileTagsHelper.GetFileFRN(item.ItemPath);
+                            var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
+                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                            {
+                                item.SyncStatusUI = new CloudDriveSyncStatusUI() { LoadSyncStatus = false }; // Reset cloud sync status icon
+                                item.FileFRN = fileFRN;
+                                item.FileTag = fileTag;
+                            }, Windows.System.DispatcherQueuePriority.Low);
+                            FileTagsHelper.DbInstance.SetTag(item.ItemPath, item.FileFRN, item.FileTag);
+                        });
                     }
 
                     if (loadGroupHeaderInfo)
