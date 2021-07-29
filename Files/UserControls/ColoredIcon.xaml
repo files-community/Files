@@ -15,14 +15,17 @@
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="ColoredIconOverlayForeground" Color="{ThemeResource SystemAccentColorDark1}" />
                     <SolidColorBrush x:Key="ColoredIconOverlayForegroundDisabled" Color="{ThemeResource SystemAccentColorLight2}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayForegroundChecked" Color="{ThemeResource SystemAccentColorLight2}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="ColoredIconOverlayForeground" Color="{ThemeResource SystemAccentColorLight1}" />
                     <SolidColorBrush x:Key="ColoredIconOverlayForegroundDisabled" Color="{ThemeResource SystemAccentColorDark2}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayForegroundChecked" Color="{ThemeResource SystemAccentColorDark2}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
                     <SolidColorBrush x:Key="ColoredIconOverlayForeground" Color="{ThemeResource SystemAccentColor}" />
                     <SolidColorBrush x:Key="ColoredIconOverlayDisabled" Color="{ThemeResource SystemAccentColorDark2}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayForegroundChecked" Color="{ThemeResource SystemAccentColorDark2}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
@@ -41,6 +44,11 @@
                 <VisualState x:Name="Disabled">
                     <VisualState.Setters>
                         <Setter Target="OverlayIcon.Foreground" Value="{ThemeResource ColoredIconOverlayForegroundDisabled}"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Checked">
+                    <VisualState.Setters>
+                        <Setter Target="OverlayIcon.Foreground" Value="{ThemeResource ColoredIconOverlayForegroundChecked}"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
