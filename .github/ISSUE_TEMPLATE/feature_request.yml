@@ -4,18 +4,18 @@ labels: [feature_request]
 body:
   - type: input
     attributes:
-      title: What's the Problem?
+      label: What's the Problem?
       description: If your feature request is related to a problem, describe it clearly.
   - type: textarea
     attributes:
-      title: Solution/Idea
+      label: Solution/Idea
       description: Describe your solution/idea.
       render: markdown
     validations:
       required: true
   - type: textarea
     attributes:
-      title: Alternatives
+      label: Alternatives
       description: Describe alternatives you've considered
       render: markdown
     validations:
@@ -34,7 +34,7 @@ body:
         A good rule of thumb is to start your proposal with no more than 7 high-level requirements.
   - type: textarea
     attributes:
-      title: Priorities
+      label: Priorities
       description: describe all the elements of your idea and how important they are.
       render: markdown
       value: |
