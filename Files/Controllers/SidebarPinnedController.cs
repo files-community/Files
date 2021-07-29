@@ -15,7 +15,7 @@ namespace Files.Controllers
         public SidebarPinnedModel Model { get; set; }
         public string JsonFileName { get; } = "PinnedItems.json";
 
-        private SidebarPinnedController()
+        public SidebarPinnedController()
         {
             Model = new SidebarPinnedModel();
             Model.SetController(this);
@@ -27,7 +27,7 @@ namespace Files.Controllers
             return instance.InitializeAsync();
         }
 
-        private async Task<SidebarPinnedController> InitializeAsync()
+        public async Task<SidebarPinnedController> InitializeAsync()
         {
             await LoadAsync();
             return this;

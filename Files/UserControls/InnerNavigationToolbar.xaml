@@ -9,9 +9,8 @@
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xh="using:Files.Helpers.XamlHelpers"
-    d:DesignHeight="300"
+    d:DesignHeight="40"
     d:DesignWidth="400"
-    Loaded="UserControl_Loaded"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -44,7 +43,6 @@
             Grid.Column="0"
             HorizontalAlignment="Left"
             VerticalAlignment="Stretch"
-            x:Load="False"
             DefaultLabelPosition="Right"
             Loaded="ContextCommandBar_Loaded">
             <CommandBar.Resources>
@@ -58,6 +56,7 @@
                     x:Name="NewEmptySpaceAppBarButton"
                     x:Uid="BaseLayoutContextFlyoutNew"
                     IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
+                    KeyboardAcceleratorTextOverride="Ctrl+Shift+N"
                     Label="New">
                     <AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator
@@ -91,9 +90,23 @@
                         </MenuFlyout>
                     </AppBarButton.Flyout>
 
-                    <local:ColoredIcon BaseLayerGlyph="&#x0033;" OverlayLayerGlyph="&#x0034;" />
+                    <local:ColoredIcon
+                        Margin="0,1,0,-1"
+                        BaseLayerGlyph="&#x0037;"
+                        OverlayLayerGlyph="&#x0038;" />
                 </AppBarButton>
                 <AppBarSeparator />
+                <AppBarButton
+                    x:Uid="NavigationToolbarCopy"
+                    Width="Auto"
+                    MinWidth="40"
+                    Command="{x:Bind ViewModel.CopyCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay}"
+                    Label="Copy"
+                    LabelPosition="Collapsed"
+                    ToolTipService.ToolTip="Copy">
+                    <local:ColoredIcon BaseLayerGlyph="&#x0021;" OverlayLayerGlyph="&#x0022;" />
+                </AppBarButton>
                 <AppBarButton
                     x:Name="PasteButton"
                     x:Uid="NavigationToolbarPaste"
@@ -113,17 +126,6 @@
                     <local:ColoredIcon BaseLayerGlyph="&#x0023;" OverlayLayerGlyph="&#x0024;" />
                 </AppBarButton>
                 <AppBarButton
-                    x:Uid="NavigationToolbarCopy"
-                    Width="Auto"
-                    MinWidth="40"
-                    Command="{x:Bind ViewModel.CopyCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay}"
-                    Label="Copy"
-                    LabelPosition="Collapsed"
-                    ToolTipService.ToolTip="Copy">
-                    <local:ColoredIcon BaseLayerGlyph="&#x0021;" OverlayLayerGlyph="&#x0022;" />
-                </AppBarButton>
-                <AppBarButton
                     x:Name="CopyPathButton"
                     x:Uid="NavigationToolbarCopyPath"
                     Width="Auto"
@@ -137,6 +139,48 @@
                         <local:ColoredIcon BaseLayerGlyph="&#x002F;" OverlayLayerGlyph="&#x0030;" />
                     </AppBarButton.Content>
                 </AppBarButton>
+                <AppBarButton
+                    x:Name="RenameButton"
+                    x:Uid="NavigationToolbarRename"
+                    Width="Auto"
+                    MinWidth="40"
+                    Command="{x:Bind ViewModel.Rename, Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanRename, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
+                    Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutRename/Text')}"
+                    LabelPosition="Collapsed"
+                    ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutRename/Text')}">
+                    <AppBarButton.Content>
+                        <local:ColoredIcon BaseLayerGlyph="&#x0027;" OverlayLayerGlyph="&#x0028;" />
+                    </AppBarButton.Content>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="ShareButton"
+                    x:Uid="NavigationToolbarShare"
+                    Width="Auto"
+                    MinWidth="40"
+                    Command="{x:Bind ViewModel.Share, Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanShare, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
+                    Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutShare/Text')}"
+                    LabelPosition="Collapsed"
+                    ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutShare/Text')}">
+                    <AppBarButton.Content>
+                        <local:ColoredIcon BaseLayerGlyph="&#x0025;" OverlayLayerGlyph="&#x0026;" />
+                    </AppBarButton.Content>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="DeleteButton"
+                    x:Uid="NavigationToolbarDelete"
+                    Width="Auto"
+                    MinWidth="40"
+                    Command="{x:Bind ViewModel.DeleteCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
+                    Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutDelete/Text')}"
+                    LabelPosition="Collapsed"
+                    ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutDelete/Text')}">
+                    <AppBarButton.Content>
+                        <local:ColoredIcon BaseLayerGlyph="&#x0035;" OverlayLayerGlyph="&#x0036;" />
+                    </AppBarButton.Content>
+                </AppBarButton>
             </CommandBar.PrimaryCommands>
         </CommandBar>
         <CommandBar
@@ -144,7 +188,6 @@
             Grid.Column="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
-            x:Load="False"
             DefaultLabelPosition="Right">
             <CommandBar.Resources>
                 <ResourceDictionary>
@@ -206,9 +249,6 @@
                 Label="Select"
                 LabelPosition="Collapsed"
                 ToolTipService.ToolTip="Selection options">
-                <AppBarButton.Icon>
-                    <FontIcon FontSize="10" Glyph="&#xE762;" />
-                </AppBarButton.Icon>
                 <AppBarButton.Flyout>
                     <MenuFlyout Placement="Bottom">
                         <ToggleMenuFlyoutItem
@@ -255,6 +295,8 @@
                         </MenuFlyoutItem>
                     </MenuFlyout>
                 </AppBarButton.Flyout>
+
+                <local:ColoredIcon BaseLayerGlyph="&#xF02B;" OverlayLayerGlyph="&#xF02C;" />
             </AppBarButton>
             <AppBarButton
                 x:Name="ArrangementOptions"

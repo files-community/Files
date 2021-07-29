@@ -37,7 +37,7 @@ namespace Files.DataModels.NavigationControlItems
         }
 
         public string HoverDisplayText { get; private set; }
-        public FontFamily Font { get; set; } = new FontFamily("Segoe MDL2 Assets");
+        public FontFamily Font { get; set; }
         public NavigationControlItemType ItemType => NavigationControlItemType.Location;
         public bool IsDefaultLocation { get; set; }
         public ObservableCollection<INavigationControlItem> ChildItems { get; set; }

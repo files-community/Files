@@ -119,7 +119,9 @@ namespace Files.Filesystem
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
                                     (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
                                     (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0); // After drives section
+                        SidebarControl.SideBarItems.BeginBulkOperation();
                         SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), section);
+                        SidebarControl.SideBarItems.EndBulkOperation();
                     }
 
                     if (section != null)
