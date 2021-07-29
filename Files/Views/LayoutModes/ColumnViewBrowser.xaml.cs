@@ -100,7 +100,7 @@ namespace Files.Views.LayoutModes
 
         private void ItemManipulationModel_InvertSelectionInvoked(object sender, EventArgs e)
         {
-            if (IsLastColumnBase)
+            if (!IsLastColumnBase)
             {
                 var c = ColumnHost.ActiveBlades.Last();
                 ((c.Content as Frame).Content as ColumnShellPage).NavToolbarViewModel.InvertContentPageSelctionCommand.Execute(null);
