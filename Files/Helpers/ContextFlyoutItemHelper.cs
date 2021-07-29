@@ -183,7 +183,7 @@ namespace Files.Helpers
                     ColoredIcon = new ColoredIconModel()
                     {
                         BaseLayerGlyph = "\u0029",
-                        OverlayLayerGlyph = "\u0030",
+                        OverlayLayerGlyph = "\u002A",
                     },
                     ShowInRecycleBin = true,
                     Items = new List<ContextMenuFlyoutItemViewModel>()
