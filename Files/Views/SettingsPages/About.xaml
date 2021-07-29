@@ -185,14 +185,13 @@
                     x:Uid="SettingsPrivacy"
                     Title="Privacy policy"
                     Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left"
-                    Loaded="SettingsBlockControl_Loaded">
+                    HorizontalAlignment="Left">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xEA18;" />
                     </local:SettingsBlockControl.Icon>
 
                     <local:SettingsBlockControl.ExpandableContent>
-                        <controls:MarkdownTextBlock x:Name="PrivacyTextBlock" Margin="4" />
+                        <controls:MarkdownTextBlock x:Name="PrivacyTextBlock" Margin="4" x:Uid="SettingsPrivacyPolicyMarkdownBlock"/>
                     </local:SettingsBlockControl.ExpandableContent>
                 </local:SettingsBlockControl>
 
@@ -243,6 +242,7 @@
                     NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt" />
                 
                 <HyperlinkButton
+                    x:Uid="SettingsFluentUISystemIconsLicenseButton"
                     AutomationProperties.Name="Fluent UI System Icons"
                     Content="Fluent UI System Icons"
                     NavigateUri="https://github.com/microsoft/fluentui-system-icons/blob/master/LICENSE" />

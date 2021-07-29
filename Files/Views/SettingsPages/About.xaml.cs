@@ -9,12 +9,5 @@ namespace Files.SettingsPages
         {
             InitializeComponent();
         }
-
-        private async void SettingsBlockControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            // get's the privacy policy from the repo and sets the md text block to it's content
-            var url = "https://raw.githubusercontent.com/files-community/Files/main/Privacy.md";
-            PrivacyTextBlock.Text = await new WebClient().DownloadStringTaskAsync(url);
-        }
     }
 }
