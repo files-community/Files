@@ -138,6 +138,11 @@ namespace Files.Views.LayoutModes
 
         private void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
         {
+            FocusFileList();
+        }
+
+        private void FocusFileList()
+        {
             if (FileList.ContainerFromIndex(0) is ListViewItem item)
             {
                 _ = FocusManager.TryFocusAsync(item, FocusState.Programmatic);
@@ -484,7 +489,7 @@ namespace Files.Views.LayoutModes
                     }
 
                     base.Page_CharacterReceived(sender, args);
-                    FileList.Focus(FocusState.Keyboard);
+                    FocusFileList();
                 }
             }
         }
