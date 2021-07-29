@@ -583,7 +583,14 @@ namespace Files
                 (i as AppBarButton).Click += new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide()); // Workaround for WinUI (#5508)
             });
             primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
-            secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
+            secondaryElements.ForEach(i => {
+                if (i is AppBarButton appBarButton)
+                {
+                    appBarButton.MinWidth = 350; // setting the minwidth to a large number is a workaround for #5555
+                }
+
+                ItemContextMenuFlyout.SecondaryCommands.Add(i);
+            });
 
             var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, shiftPressed: shiftPressed, showOpenMenu: false);
             if (shellContextMenuItemCancellationToken.IsCancellationRequested)
