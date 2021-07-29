@@ -24,14 +24,14 @@ body:
     attributes:
       value: |
         ---
-         
+
         Please include a list of what the feature should and shouldn't do by filling in the table below.
-        
-        'Must' implies that the feature should not ship without this capability.  
+
+        'Must' implies that the feature should not ship without this capability.
         'Should' is something we should push hard for, but is not absolutely required to ship.
         'Could' is a nice-to-have; a good stretch goal that isn't painful if we don't achieve it.
         'Won't' is a clear statement that the proposal/feature will intentionally not have that capability.
-        
+
         This list will evolve and grow as the proposal becomes more refined over time.
         A good rule of thumb is to start your proposal with no more than 7 high-level requirements.
   - type: textarea
