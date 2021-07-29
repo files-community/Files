@@ -119,6 +119,7 @@
   <ItemGroup>
     <Compile Include="DeviceWatcher.cs" />
     <Compile Include="Helpers\DisposableDictionary.cs" />
+    <Compile Include="Helpers\FileTagsHelper.cs" />
     <Compile Include="Helpers\ShellFolderHelpers.cs" />
     <Compile Include="Helpers\ThreadWithMessageQueue.cs" />
     <Compile Include="MessageHandlers\LibrariesHandler.cs" />
