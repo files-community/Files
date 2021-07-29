@@ -23,6 +23,8 @@ body:
   - type: markdown
     attributes:
       value: |
+        ---
+         
         Please include a list of what the feature should and shouldn't do by filling in the table below.
         
         'Must' implies that the feature should not ship without this capability.  
@@ -43,7 +45,7 @@ body:
         | This proposal will allow developers to accomplish W | Must |
         | This proposal will allow end users to accomplish X | Should |
         | This proposal will allow developers to accomplish Y | Could |
-          | This proposal will allow end users to accomplish Z | Won't |
+        | This proposal will allow end users to accomplish Z | Won't |
   - type: input
     id: files-version
     attributes:
