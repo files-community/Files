@@ -1,12 +1,11 @@
 ﻿using Common;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.UI;
 using Windows.UI.Xaml.Media;
 
 namespace Files.Filesystem
@@ -81,25 +80,19 @@ namespace Files.Filesystem
 
     public class FileTag
     {
-        public string Tag { get; set; }
+        public string TagName { get; set; }
+        public string Uid { get; set; }
+        public string ColorString { get; set; }
+        
+        [JsonIgnore]
         public SolidColorBrush Color { get; set; }
 
-        public FileTag(string tag = null, SolidColorBrush color = null)
+        public FileTag(string tagName, string colorString)
         {
-            Tag = tag;
-            Color = color ?? new SolidColorBrush(Colors.Transparent);
-        }
-
-        public FileTag(string tag = null, Color? color = null)
-        {
-            Tag = tag;
-            Color = new SolidColorBrush(color ?? Colors.Transparent);
-        }
-
-        public FileTag(string tag = null, string color = null)
-        {
-            Tag = tag;
-            Color = new SolidColorBrush(color?.ToColor() ?? Colors.Transparent);
+            TagName = tagName;
+            ColorString = colorString;
+            Color = new SolidColorBrush(colorString.ToColor());
+            Uid = Guid.NewGuid().ToString();
         }
     }
 }

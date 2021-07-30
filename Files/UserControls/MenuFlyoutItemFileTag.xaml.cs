@@ -73,12 +73,12 @@ namespace Files.UserControls
             }
             else if (selectedItems.Count == 1)
             {
-                return App.AppSettings.FileTagList.SingleOrDefault(x => x.Tag == selectedItems.First().FileTag);
+                return App.AppSettings.FileTagList.SingleOrDefault(x => x.Uid == selectedItems.First().FileTag);
             }
             else
             {
                 var tag = selectedItems.First().FileTag;
-                return selectedItems.All(x => x.FileTag == tag) ? App.AppSettings.FileTagList.SingleOrDefault(t => t.Tag == tag) : null;
+                return selectedItems.All(x => x.FileTag == tag) ? App.AppSettings.FileTagList.SingleOrDefault(t => t.Uid == tag) : null;
             }
         }
 
@@ -90,7 +90,7 @@ namespace Files.UserControls
             }
             else if (selectedItems.Count == 1)
             {
-                selectedItems.First().FileTag = selectedTag?.Tag;
+                selectedItems.First().FileTag = selectedTag?.Uid;
             }
             else
             {
@@ -99,7 +99,7 @@ namespace Files.UserControls
                 {
                     foreach (var item in selectedItems)
                     {
-                        item.FileTag = selectedTag?.Tag;
+                        item.FileTag = selectedTag?.Uid;
                     }
                 }
             }

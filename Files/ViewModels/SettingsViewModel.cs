@@ -538,7 +538,7 @@ namespace Files.ViewModels
             {
                 ApplicationLanguages.PrimaryLanguageOverride = value.ID;
             }
-        }        
+        }
 
         #endregion Preferences
 
@@ -699,12 +699,29 @@ namespace Files.ViewModels
             set => Set((byte)value);
         }
 
-        private List<FileTag> _FileTagList = new List<FileTag>()
-            { new FileTag("Blue", "#0072BD"), new FileTag("Orange", "#D95319"), new FileTag("Yellow", "#EDB120"), new FileTag("Green", "#77AC30"), new FileTag("Azure", "#4DBEEE") };
-
+        private IList<FileTag> fileTagList;
         public IList<FileTag> FileTagList
         {
-            get => _FileTagList;
+            get
+            {
+                if (fileTagList != null)
+                {
+                    return fileTagList;
+                }
+                fileTagList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<FileTag>>(Get(""));
+                if (fileTagList == null)
+                {
+                    fileTagList = new List<FileTag>()
+                        { new FileTag("Blue", "#0072BD"), new FileTag("Orange", "#D95319"), new FileTag("Yellow", "#EDB120"), new FileTag("Green", "#77AC30"), new FileTag("Azure", "#4DBEEE") };
+                    Set(Newtonsoft.Json.JsonConvert.SerializeObject(fileTagList));
+                }
+                return fileTagList;
+            }
+            set
+            {
+                fileTagList = value;
+                Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
+            }
         }
 
         #region ReadAndSaveSettings
