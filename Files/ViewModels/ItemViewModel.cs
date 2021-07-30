@@ -1,4 +1,5 @@
 using Files.Common;
+using Files.Dialogs;
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem;
@@ -1284,37 +1285,59 @@ namespace Files.ViewModels
             }
             else if (isFtp)
             {
-                var client = FtpManager.GetFtpInstance(this);
-                await Task.Run(async () =>
+                var client = this.GetFtpInstance();
+                if (!client.IsConnected)
                 {
-                    if (!client.IsConnected)
+                    client.Host = FtpHelpers.GetFtpHost(path);
+                    if (UIHelpers.IsAnyContentDialogOpen()) return;
+
+                    retry:
+                    try
                     {
-                        client.Host = FtpHelpers.GetFtpHost(path);
-                        try
+                        var dialog = new CredentialDialog();
+
+                        if (await dialog.ShowAsync() == Windows.UI.Xaml.Controls.ContentDialogResult.Primary)
                         {
+                            var result = await dialog.Result;
+
+                            if (!result.Anonymous)
+                            {
+                                client.Credentials = new NetworkCredential(result.UserName, result.Password);
+                            }
+
                             if (await client.AutoConnectAsync() is null)
                             {
-                                // try asking for credentials
+                                goto retry;
                             }
                         }
-                        catch
-                        {
+                    }
+                    catch
+                    {
+                        goto retry;
+                    }
+                }
 
+                await Task.Run(async () =>
+                {
+                    try
+                    {
+                        var sampler = new IntervalSampler(500);
+                        var list = await client.GetListingAsync(FtpHelpers.GetFtpPath(path));
+
+                        for (var i = 0; i < list.Length; i++)
+                        {
+                            filesAndFolders.Add(new FtpItem(list[i], path));
+
+                            if (i == 32 || i == list.Length - 1 || sampler.CheckNow())
+                            {
+                                await OrderFilesAndFoldersAsync();
+                                await ApplyFilesAndFoldersChangesAsync();
+                            }
                         }
                     }
-
-                    var sampler = new IntervalSampler(500);
-                    var list = await client.GetListingAsync(FtpHelpers.GetFtpPath(path));
-
-                    for (var i = 0; i < list.Length; i++)
+                    catch
                     {
-                        filesAndFolders.Add(new FtpItem(list[i], path));
-
-                        if (i == 32 || i == list.Length - 1 || sampler.CheckNow())
-                        {
-                            await OrderFilesAndFoldersAsync();
-                            await ApplyFilesAndFoldersChangesAsync();
-                        }
+                        // network issue
                     }
                 });
             }

@@ -9,6 +9,9 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Storage.BulkAccess;
+using System.Collections.Generic;
+using Windows.Foundation.Metadata;
+using System.Threading.Tasks;
 
 namespace Files.Filesystem.StorageItems
 {
@@ -41,7 +44,53 @@ namespace Files.Filesystem.StorageItems
         public string ContentType { get; } = "application/octet-stream";
     }
 
-    class FtpStorageFile : IStorageFile
+    sealed class FtpStorageFileProperties : IStorageItemExtraProperties
+    {
+        private readonly FtpItem _ftpItem;
+        public FtpStorageFileProperties(FtpItem ftpItem)
+        {
+            _ftpItem = ftpItem;
+            Size = (ulong)_ftpItem.FileSizeBytes;
+            DateModified = _ftpItem.ItemDateModifiedReal;
+            ItemDate = _ftpItem.ItemDateCreatedReal;
+        }
+
+        public IAsyncOperation<IDictionary<string, object>> RetrievePropertiesAsync(IEnumerable<string> propertiesToRetrieve)
+        {
+            return AsyncInfo.Run(_ =>
+            {
+                IDictionary<string, object> result = new Dictionary<string, object>();
+                foreach (var property in propertiesToRetrieve)
+                {
+                    result.Add(property, property.ToLowerInvariant() switch
+                    {
+                        "size" => Size,
+                        "datamodified" => DateModified,
+                        "itemdate" => ItemDate,
+                        _ => null
+                    });
+                }
+
+                return Task.FromResult(result);
+            });
+        }
+
+        public IAsyncAction SavePropertiesAsync([HasVariant] IEnumerable<KeyValuePair<string, object>> propertiesToSave)
+        {
+            return AsyncInfo.Run(_ => Task.CompletedTask);
+        }
+
+        public IAsyncAction SavePropertiesAsync()
+        {
+            return AsyncInfo.Run(_ => Task.CompletedTask);
+        }
+
+        public ulong Size { get; }
+        public DateTimeOffset DateModified { get; }
+        public DateTimeOffset ItemDate { get; }
+    }
+
+    sealed class FtpStorageFile : IStorageFile
     {
         private readonly ItemViewModel _viewModel;
         private readonly FtpItem _ftpItem;
@@ -117,10 +166,10 @@ namespace Files.Filesystem.StorageItems
 
         public IAsyncOperation<BasicProperties> GetBasicPropertiesAsync()
         {
-            return AsyncInfo.Run<BasicProperties>(async (cancellationToken) =>
+            return AsyncInfo.Run((cancellationToken) =>
             {
-                // TODO: sigh... how to implement this?
-                return null;
+                // boom
+                return Task.FromResult((BasicProperties)(object)new FtpStorageFileProperties(_ftpItem));
             });
         }
 
