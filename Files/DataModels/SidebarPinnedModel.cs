@@ -94,7 +94,7 @@ namespace Files.DataModels
                     {
                         Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                         IsDefaultLocation = true,
-                        Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.RecycleBin).Image),
+                        Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.RecycleBin)?.Image),
                         Path = App.AppSettings.RecycleBinPath
                     };
                     // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
@@ -353,7 +353,7 @@ namespace Files.DataModels
                 Text = "SidebarFavorites".GetLocalized(),
                 Section = SectionType.Favorites,
                 SelectsOnInvoked = false,
-                Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.Shell32.QuickAccess).Image),
+                Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.Shell32.QuickAccess)?.Image),
                 Font = MainViewModel.FontName,
                 ChildItems = new ObservableCollection<INavigationControlItem>()
             };
