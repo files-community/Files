@@ -2,6 +2,7 @@
 using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.Interacts;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -115,10 +116,12 @@ namespace Files.Helpers
             {
                 foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
                 {
-                    if (FtpHelpers.IsFtpPath(listedItem.ItemPath))
+                    if (listedItem is FtpItem ftpItem)
                     {
+                        items.Add(new FtpStorageFile(associatedInstance.FilesystemViewModel, ftpItem));
                         continue;
                     }
+
                     if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
                         result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
