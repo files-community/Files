@@ -110,9 +110,22 @@ namespace Files.ViewModels
             }
         }
 
+        private bool isPageTypeFtp = false;
+        public bool IsPageTypeFtp
+        {
+            get => isPageTypeFtp;
+            set
+            {
+                SetProperty(ref isPageTypeFtp, value);
+                OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
+                OnPropertyChanged(nameof(CanCreateFileInPage));
+                OnPropertyChanged(nameof(CanOpenTerminalInPage));
+            }
+        }
+
         public bool IsCreateButtonEnabledInPage
         {
-            get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults;
+            get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp;
         }
 
         public bool CanCopyPathInPage
@@ -122,12 +135,12 @@ namespace Files.ViewModels
 
         public bool CanCreateFileInPage
         {
-            get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults;
+            get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp;
         }
 
         public bool CanOpenTerminalInPage
         {
-            get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults;
+            get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp;
         }
 
         public bool CanPasteInPage

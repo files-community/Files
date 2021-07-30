@@ -11,7 +11,7 @@ namespace Files.Filesystem
         private readonly static List<FtpClient> _ftpClients = new List<FtpClient>();
         private readonly static object _lock = new object();
 
-        public static FtpClient GetFtpInstance(ItemViewModel instance)
+        public static FtpClient GetFtpInstance(this ItemViewModel instance)
         {
             lock (_lock)
             {

@@ -115,6 +115,10 @@ namespace Files.Helpers
             {
                 foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
                 {
+                    if (FtpHelpers.IsFtpPath(listedItem.ItemPath))
+                    {
+                        continue;
+                    }
                     if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
                         result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)

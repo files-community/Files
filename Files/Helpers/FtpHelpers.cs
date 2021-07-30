@@ -29,5 +29,10 @@ namespace Files.Helpers
             var hostIndex = path.IndexOf("/", schemaIndex);
             return hostIndex == -1 ? "/" : path.Substring(hostIndex);
         }
+
+        public static string GetFtpDirectoryName(string path)
+        {
+            return System.IO.Path.GetDirectoryName(path).Replace("\\", "/");
+        }
     }
 }
