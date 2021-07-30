@@ -8,6 +8,7 @@ using Windows.Storage.Streams;
 using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Storage.BulkAccess;
 
 namespace Files.Filesystem.StorageItems
 {
@@ -114,7 +115,14 @@ namespace Files.Filesystem.StorageItems
             return DeleteAsync();
         }
 
-        public IAsyncOperation<BasicProperties> GetBasicPropertiesAsync() => AsyncInfo.Run<BasicProperties>((_) => null);
+        public IAsyncOperation<BasicProperties> GetBasicPropertiesAsync()
+        {
+            return AsyncInfo.Run<BasicProperties>(async (cancellationToken) =>
+            {
+                // TODO: sigh... how to implement this?
+                return null;
+            });
+        }
 
         public bool IsOfType(StorageItemTypes type) => type == StorageItemTypes.File;
 

@@ -162,7 +162,7 @@ namespace Files.Helpers
 
             if (items?.Count > 0)
             {
-                dataPackage.SetStorageItems(items);
+                dataPackage.SetStorageItems(items, false);
                 try
                 {
                     Clipboard.SetContent(dataPackage);
