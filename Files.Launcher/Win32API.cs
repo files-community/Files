@@ -83,28 +83,17 @@ namespace FilesFullTrust
             return tcs.Task;
         }
 
-        public static void IgnoreExceptions(Action action)
+        public static bool IgnoreExceptions(Action action)
         {
             try
             {
                 action();
+                return true;
             }
             catch (Exception ex)
             {
                 Program.Logger.Info(ex, ex.Message);
-            }
-        }
-
-        public static T IgnoreExceptions<T>(Func<T> func)
-        {
-            try
-            {
-                return func();
-            }
-            catch (Exception ex)
-            {
-                Program.Logger.Info(ex, ex.Message);
-                return default;
+                return false;
             }
         }
 
