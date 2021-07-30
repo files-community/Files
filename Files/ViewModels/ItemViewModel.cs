@@ -7,6 +7,7 @@ using Files.Filesystem.Cloud;
 using Files.Filesystem.StorageEnumerators;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
+using FluentFTP;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -1285,13 +1286,28 @@ namespace Files.ViewModels
             }
             else if (isFtp)
             {
-                var client = this.GetFtpInstance();
-                if (!client.IsConnected)
+                if (!FtpHelpers.VerifyFtpPath(path))
                 {
-                    client.Host = FtpHelpers.GetFtpHost(path);
+                    // TODO: show invalid path dialog
+                    return;
+                }
+
+                var client = this.GetFtpInstance();
+                var host = FtpHelpers.GetFtpHost(path);
+                var port = FtpHelpers.GetFtpPort(path);
+
+                if (!client.IsConnected || client.Host != host || port != client.Port)
+                {
                     if (UIHelpers.IsAnyContentDialogOpen()) return;
 
-                    retry:
+                    if (client.IsConnected)
+                    {
+                        await client.DisconnectAsync();
+                    }
+
+                    client.Host = host;
+                    client.Port = port;
+
                     try
                     {
                         var dialog = new CredentialDialog();
@@ -1307,13 +1323,17 @@ namespace Files.ViewModels
 
                             if (await client.AutoConnectAsync() is null)
                             {
-                                goto retry;
+                                throw new InvalidOperationException();
                             }
+                        }
+                        else
+                        {
+                            return;
                         }
                     }
                     catch
                     {
-                        goto retry;
+                        // TODO: show connection failure dialog
                     }
                 }
 

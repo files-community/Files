@@ -367,14 +367,23 @@ namespace Files.Filesystem
             ItemDateModifiedReal = item.RawModified < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawModified;
             ItemName = item.Name;
             ItemPath = Path.Combine(folder, item.Name);
-            ItemPropertiesInitialized = true;
             PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
-            ItemType = "FTP entry";
+            ItemPropertiesInitialized = true;
+
+            var itemType = isFile ? "ItemTypeFile".GetLocalized() : "FileFolderListItem".GetLocalized();
+            if (isFile && ItemName.Contains("."))
+            {
+                var itemFileExtension = Path.GetExtension(ItemPath);
+                itemType = itemFileExtension.Trim('.') + " " + itemType;
+            }
+
+            ItemType = itemType;
             LoadFolderGlyph = !isFile;
             LoadFileIcon = isFile;
-            LoadUnknownTypeGlyph = false;
             FileSizeBytes = item.Size;
             ContainsFilesOrFolders = !isFile;
+            LoadUnknownTypeGlyph = true;
+            FileImage = null;
         }
     }
 

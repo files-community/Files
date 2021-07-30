@@ -10,16 +10,66 @@ namespace Files.Helpers
     {
         public static bool IsFtpPath(string path)
         {
-            return path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase) 
+            return path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase)
                 || path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static bool VerifyFtpPath(string path)
+        {
+            var authority = GetFtpAuthority(path);
+            var index = authority.IndexOf(":");
+
+            if (index == -1)
+            {
+                return true;
+            }
+
+            return ushort.TryParse(authority.Substring(index + 1), out _);
         }
 
         public static string GetFtpHost(string path)
         {
+            var authority = GetFtpAuthority(path);
+            var index = authority.IndexOf(":");
+
+            if (index == -1)
+            {
+                return authority;
+            }
+
+            return authority.Substring(0, index);
+        }
+
+        public static ushort GetFtpPort(string path)
+        {
+            var authority = GetFtpAuthority(path);
+            var index = authority.IndexOf(":");
+
+            if (index == -1)
+            {
+                if (path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase))
+                {
+                    return 990;
+                }
+
+                return 21;
+            }
+
+            return ushort.Parse(authority.Substring(index + 1));
+        }
+
+        public static string GetFtpAuthority(string path)
+        {
             path = path.Replace("\\", "/");
             var schemaIndex = path.IndexOf("://") + 3;
             var hostIndex = path.IndexOf("/", schemaIndex);
-            return hostIndex == -1 ? path : path.Substring(0, hostIndex);
+
+            if (hostIndex == -1)
+            {
+                hostIndex = path.Length;
+            }
+
+            return path.Substring(schemaIndex, hostIndex - schemaIndex);
         }
 
         public static string GetFtpPath(string path)
