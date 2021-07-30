@@ -596,13 +596,9 @@ namespace Files
         {
             var fileTagMenuFlyout = new MenuFlyoutItemFileTag()
             {
-                ItemsSource = AppSettings.FileTagList
+                ItemsSource = AppSettings.FileTagList,
+                SelectedItems = SelectedItems
             };
-            fileTagMenuFlyout.SelectedItem = GetFileTag(SelectedItems);
-            fileTagMenuFlyout.RegisterPropertyChangedCallback(MenuFlyoutItemFileTag.SelectedItemProperty, new DependencyPropertyChangedCallback((s, e) =>
-            {
-                SetFileTag(s.GetValue(e) as FileTag);
-            }));
             var overflowSeparator = contextMenu.SecondaryCommands.FirstOrDefault(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator;
             var index = contextMenu.SecondaryCommands.IndexOf(overflowSeparator);
             index = index >= 0 ? index : contextMenu.SecondaryCommands.Count;
@@ -930,46 +926,6 @@ namespace Files
                 else
                 {
                     listedItem.Opacity = 1;
-                }
-            }
-        }
-
-        public FileTag GetFileTag(List<ListedItem> selectedItems)
-        {
-            if (selectedItems == null || selectedItems.Count == 0)
-            {
-                return null;
-            }
-            else if (selectedItems.Count == 1)
-            {
-                return AppSettings.FileTagList.SingleOrDefault(x => x.Tag == selectedItems.First().FileTag);
-            }
-            else
-            {
-                var tag = selectedItems.First().FileTag;
-                return selectedItems.All(x => x.FileTag == tag) ? AppSettings.FileTagList.SingleOrDefault(t => t.Tag == tag) : null;
-            }
-        }
-
-        public void SetFileTag(FileTag selectedTag)
-        {
-            if (SelectedItems == null || SelectedItems.Count == 0)
-            {
-                return;
-            }
-            else if (SelectedItems.Count == 1)
-            {
-                SelectedItems.First().FileTag = selectedTag?.Tag;
-            }
-            else
-            {
-                var tag = SelectedItems.First().FileTag;
-                if (selectedTag != null || SelectedItems.All(x => x.FileTag == tag))
-                {
-                    foreach (var item in SelectedItems)
-                    {
-                        item.FileTag = selectedTag?.Tag;
-                    }
                 }
             }
         }
