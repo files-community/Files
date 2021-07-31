@@ -146,10 +146,6 @@
           <source>About</source>
           <target state="translated">Névjegy</target>
         </trans-unit>
-        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
-          <source>Date format</source>
-          <target state="translated">Dátumformátum</target>
-        </trans-unit>
         <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
           <source>Appearance</source>
           <target state="translated">Megjelenés</target>
@@ -437,10 +433,6 @@
           <source>Properties</source>
           <target state="translated">Tulajdonságok</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>View sample profiles</source>
-          <target state="translated">Példa beállítások</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogContent" translate="yes" xml:space="preserve">
           <source>An item with this name already exists in this directory.</source>
           <target state="translated">Ezzel a névvel már létezik elem ebben a mappában.</target>
@@ -672,10 +664,6 @@
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
           <target state="translated">Futtatás rendszergazdaként</target>
-        </trans-unit>
-        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Learn more about date formats</source>
-          <target state="translated">Tudjon meg többet a dátumformátumokról</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Unlock</source>
@@ -1052,22 +1040,6 @@
         <trans-unit id="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
           <target state="translated">Terminál alkalmazások módosítása</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>View sample profiles</source>
-          <target state="translated">Példa beeállítások</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
-          <source>Terminal applications</source>
-          <target state="translated">Terminál alkalmazások</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">Megerősítő üzenet fájlok vagy mappák törlésekor</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
-          <source>Terminal Applications</source>
-          <target state="translated">Terminál alkalmazások</target>
         </trans-unit>
         <trans-unit id="StatusCenter.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Status center</source>
@@ -1560,10 +1532,6 @@
         <trans-unit id="StatusCenterTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Status Center</source>
           <target state="translated">Állapotközpont</target>
-        </trans-unit>
-        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Learn more about date formats</source>
-          <target state="translated">Tudjon meg többet a dátumformátumokról</target>
         </trans-unit>
         <trans-unit id="SearchPagePathBoxOverrideText" translate="yes" xml:space="preserve">
           <source>Search results in</source>
@@ -2402,10 +2370,6 @@
           <source>Date modified:</source>
           <target state="translated">Módosítás dátuma:</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Header" translate="yes" xml:space="preserve">
-          <source>Open folders in new tab</source>
-          <target state="translated">Mappák megnyitása új lapon</target>
-        </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">Kijelölési lehetőségek</target>
@@ -3112,7 +3076,7 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedInheritedConvert.Text" translate="yes" xml:space="preserve">
           <source>Convert inherited permissions into explicit permissions</source>
-          <target state="new">Convert inherited permissions into explicit permissions</target>
+          <target state="translated">Örökölt engedélyek határozottá alakítása</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedInheritedEnable.Text" translate="yes" xml:space="preserve">
           <source>Enable inheritance</source>
@@ -3120,15 +3084,15 @@
         </trans-unit>
         <trans-unit id="SecurityAdvancedInheritedRemove.Text" translate="yes" xml:space="preserve">
           <source>Remove all inherited permissions</source>
-          <target state="new">Remove all inherited permissions</target>
+          <target state="translated">Örökölt engedélyek megszüntetése</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedReplaceChildPermissions.Text" translate="yes" xml:space="preserve">
           <source>Reset child permissions</source>
-          <target state="new">Reset child permissions</target>
+          <target state="translated">Almappák engedélyeinek visszaállítása</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Replace all child object permissions entries with inheritable permission entries from this object</source>
-          <target state="new">Replace all child object permissions entries with inheritable permission entries from this object</target>
+          <target state="translated">Almappák engedélyeinek lecserélése ennek az objektum engedélyeivel</target>
         </trans-unit>
         <trans-unit id="CreateBundleBtn.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
@@ -3228,39 +3192,39 @@
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Title" translate="yes" xml:space="preserve">
           <source>Always open new tabs in dual pane mode</source>
-          <target state="new">Always open new tabs in dual pane mode</target>
+          <target state="translated">Az új lapokat mindig kettős nézetben nyissa meg</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingEnableDualPane.Title" translate="yes" xml:space="preserve">
           <source>Enable dual pane view</source>
-          <target state="new">Enable dual pane view</target>
+          <target state="translated">Kettős nézet engedélyezése</target>
         </trans-unit>
         <trans-unit id="SettingsVerticalTabFlyoutSwitch.Title" translate="yes" xml:space="preserve">
           <source>Display the vertical tab flyout on the title bar</source>
-          <target state="new">Display the vertical tab flyout on the title bar</target>
+          <target state="translated">Függőleges lap menü megjelenítése a címsoron</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show cloud drives section on the sidebar</source>
-          <target state="new">Show cloud drives section on the sidebar</target>
+          <target state="translated">Felhőtárhelyek megjelenítése az oldalsávon</target>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show drives section on the sidebar</source>
-          <target state="new">Show drives section on the sidebar</target>
+          <target state="translated">Meghajtók megjelenítése az oldalsávon</target>
         </trans-unit>
         <trans-unit id="SettingsShowWslSection.Title" translate="yes" xml:space="preserve">
           <source>Show WSL section on the sidebar</source>
-          <target state="new">Show WSL section on the sidebar</target>
+          <target state="translated">WSL megjelenítése az oldalsávon</target>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show network drives section on the sidebar</source>
-          <target state="new">Show network drives section on the sidebar</target>
+          <target state="translated">Hálózati meghajtók megjelenítése az oldalsávon</target>
         </trans-unit>
         <trans-unit id="SettingsRecycleBinSwitch.Title" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to Favorites</source>
-          <target state="new">Pin Recycle Bin to Favorites</target>
+          <target state="translated">Lomtár kitűzése a kedvencekhez</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
           <source>Show library section on the sidebar</source>
-          <target state="new">Show library section on the sidebar</target>
+          <target state="translated">Könyvtárak megjelenítése az oldalsávon</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTheme.Title" translate="yes" xml:space="preserve">
           <source>Choose your color</source>
@@ -3272,7 +3236,7 @@
         </trans-unit>
         <trans-unit id="SettingsContextMenuOverflowSwitch.Title" translate="yes" xml:space="preserve">
           <source>Move overflow items into a sub menu</source>
-          <target state="new">Move overflow items into a sub menu</target>
+          <target state="translated">Túlcsorduló elemek almenübe helyezése</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Title" translate="yes" xml:space="preserve">
           <source>Language</source>
@@ -3296,11 +3260,11 @@
         </trans-unit>
         <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Title" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
-          <target state="new">List and sort directories alongside files</target>
+          <target state="translated">Könyvtárak rendezése a fájlokkal együtt</target>
         </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems.Title" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
-          <target state="new">Show unindexed items when searching for files and folders (searches may take longer)</target>
+          <target state="translated">Nem indexelt elemek megjelenítése a fájlok és mappák keresésekor (hoszabb keresési idő)</target>
         </trans-unit>
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Title" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
@@ -3441,6 +3405,42 @@
         <trans-unit id="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+T</source>
           <target state="translated">Ctrl+Shift+T</target>
+        </trans-unit>
+		<trans-unit id="SettingsPreferencesTerminalApplications.Title" translate="yes" xml:space="preserve">
+          <source>Terminal applications</source>
+          <target state="translated">Terminál alkalmazások</target>
+        </trans-unit>
+        <trans-unit id="ArchiveExtractionCompletedSuccessfullyText" translate="yes" xml:space="preserve">
+          <source>The archive extraction completed successfully.</source>
+          <target state="translated">Az archívum kicsomagolása sikeresen befelyeződött.</target>
+        </trans-unit>
+        <trans-unit id="ExtractingArchiveText" translate="yes" xml:space="preserve">
+          <source>Extracting archive</source>
+          <target state="translated">Archívum kicsomagolása</target>
+        </trans-unit>
+        <trans-unit id="ExtractingCompleteText" translate="yes" xml:space="preserve">
+          <source>Extracting complete!</source>
+          <target state="translated">Kicsomagolás befelyezve!</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+Shift+N</source>
+          <target state="translated">Ctrl+Shift+N</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesEditTerminalApplicationsExpander.Title" translate="yes" xml:space="preserve">
+          <source>Edit terminal applications</source>
+          <target state="translated">Terminál alkalmazások szerkeztése</target>
+        </trans-unit>
+        <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
+          <source>Date format</source>
+          <target state="translated">Dátum formátum</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
+          <source>Show a confirmation dialog when deleting files or folders</source>
+          <target state="translated">Megerősítő dialógus megjelenítése fájlok és mappák törlésekor</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Title" translate="yes" xml:space="preserve">
+          <source>Open folders in new tab</source>
+          <target state="translated">Mappák megnyitása új lapon</target>
         </trans-unit>
       </group>
     </body>
