@@ -6,6 +6,7 @@ namespace Files.ViewModels
 {
     public class ColumnsViewModel : ObservableObject
     {
+        [JsonIgnore]
         private ColumnViewModel iconColumn = new ColumnViewModel()
         {
             UserLength = new GridLength(44, GridUnitType.Pixel),
@@ -38,14 +39,12 @@ namespace Files.ViewModels
             set => SetProperty(ref statusColumn, value);
         }
 
-
         private ColumnViewModel dateModifiedColumn = new ColumnViewModel();
         public ColumnViewModel DateModifiedColumn
         {
             get => dateModifiedColumn;
             set => SetProperty(ref dateModifiedColumn, value);
         }
-
 
         private ColumnViewModel originalPathColumn = new ColumnViewModel()
         {
@@ -57,7 +56,6 @@ namespace Files.ViewModels
             set => SetProperty(ref originalPathColumn, value);
         }
 
-
         private ColumnViewModel itemTypeColumn = new ColumnViewModel();
         public ColumnViewModel ItemTypeColumn
         {
@@ -65,14 +63,12 @@ namespace Files.ViewModels
             set => SetProperty(ref itemTypeColumn, value);
         }
 
-
         private ColumnViewModel dateDeletedColumn = new ColumnViewModel();
         public ColumnViewModel DateDeletedColumn
         {
             get => dateDeletedColumn;
             set => SetProperty(ref dateDeletedColumn, value);
         }
-
 
         private ColumnViewModel dateCreatedColumn = new ColumnViewModel()
         {
@@ -84,7 +80,6 @@ namespace Files.ViewModels
             get => dateCreatedColumn;
             set => SetProperty(ref dateCreatedColumn, value);
         }
-
 
         private ColumnViewModel sizeColumn = new ColumnViewModel();
         public ColumnViewModel SizeColumn
@@ -124,7 +119,7 @@ namespace Files.ViewModels
 
     public class ColumnViewModel : ObservableObject
     {
-
+        [JsonIgnore]
         private bool isHidden;
         public bool IsHidden
         {
@@ -132,6 +127,7 @@ namespace Files.ViewModels
             set => SetProperty(ref isHidden, value);
         }
 
+        [JsonIgnore]
         public double MaxLength
         {
             get => IsHidden || UserCollapsed ? 0 : NormalMaxLength;
@@ -160,8 +156,10 @@ namespace Files.ViewModels
             }
         }
 
+        [JsonIgnore]
         public double MinLength => IsHidden || UserCollapsed ? 0 : NormalMinLength;
-
+        
+        [JsonIgnore]
         public Visibility Visibility => IsHidden || UserCollapsed ? Visibility.Collapsed : Visibility.Visible;
 
         private bool userCollapsed;
