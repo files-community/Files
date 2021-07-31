@@ -295,6 +295,10 @@ namespace Files.Views.LayoutModes
         private void StartRenameItem()
         {
             renamingItem = FileList.SelectedItem as ListedItem;
+            if (renamingItem == null)
+            {
+                return;
+            }
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
             ListViewItem listViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
             TextBox textBox = null;
