@@ -56,6 +56,7 @@
                     x:Name="NewEmptySpaceAppBarButton"
                     x:Uid="BaseLayoutContextFlyoutNew"
                     IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
+                    KeyboardAcceleratorTextOverride="Ctrl+Shift+N"
                     Label="New">
                     <AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator
@@ -480,9 +481,9 @@
                 LabelPosition="Collapsed"
                 ToolTipService.ToolTip="Toggle the preview pane (Ctrl+P)"
                 Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
-                <AppBarToggleButton.Icon>
-                    <FontIcon FontSize="10" Glyph="&#xE146;" />
-                </AppBarToggleButton.Icon>
+                <AppBarToggleButton.Content>
+                    <local:ColoredIcon BaseLayerGlyph="&#x003b;" OverlayLayerGlyph="&#x003c;" />
+                </AppBarToggleButton.Content>
             </AppBarToggleButton>
             <CommandBar.SecondaryCommands>
                 <AppBarButton
