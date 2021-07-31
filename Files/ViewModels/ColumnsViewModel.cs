@@ -9,6 +9,7 @@ namespace Files.ViewModels
         private ColumnViewModel iconColumn = new ColumnViewModel()
         {
             UserLength = new GridLength(44, GridUnitType.Pixel),
+            IsResizeable = false,
         };
 
         public ColumnViewModel IconColumn
@@ -182,6 +183,16 @@ namespace Files.ViewModels
 
         }
 
+        const int gridSplitterWidth = 1;
+
+        public GridLength LengthIncludingGridSplitter
+        {
+            get => IsHidden || UserCollapsed ? new GridLength(0) : new GridLength(UserLength.Value + (IsResizeable ? gridSplitterWidth : 0));
+        }
+
+        [JsonIgnore]
+        public bool IsResizeable { get; set; } = true;
+
         [JsonIgnore]
         private GridLength userLength = new GridLength(200, GridUnitType.Pixel);
         public GridLength UserLength
@@ -192,6 +203,7 @@ namespace Files.ViewModels
                 if (SetProperty(ref userLength, value))
                 {
                     OnPropertyChanged(nameof(Length));
+                    OnPropertyChanged(nameof(LengthIncludingGridSplitter));
                 }
             }
         }
@@ -217,6 +229,7 @@ namespace Files.ViewModels
         private void UpdateVisibility()
         {
             OnPropertyChanged(nameof(Length));
+            OnPropertyChanged(nameof(LengthIncludingGridSplitter));
             OnPropertyChanged(nameof(MaxLength));
             OnPropertyChanged(nameof(Visibility));
             OnPropertyChanged(nameof(MinLength));
