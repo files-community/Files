@@ -471,7 +471,7 @@
                                 IsRightTapEnabled="True"
                                 Loaded="Grid_Loaded"
                                 RightTapped="StackPanel_RightTapped"
-                                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
+                                ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="{Binding ColumnsViewModel.IconColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
                                     <ColumnDefinition Width="{Binding ColumnsViewModel.NameColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
