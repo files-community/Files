@@ -37,7 +37,7 @@
             CommandParameter="{x:Bind CommandParameter}"
             IsEnabled="{x:Bind CanBeSorted, Mode=OneWay}"
             Style="{StaticResource HeaderButtonStyle}">
-            <Grid HorizontalAlignment="{x:Bind HorizontalContentAlignment}">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
