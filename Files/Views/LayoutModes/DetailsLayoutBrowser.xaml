@@ -376,6 +376,7 @@
                                 x:Name="SyncStatusHeader"
                                 x:Uid="syncStatusColumn"
                                 Grid.Column="8"
+                                HorizontalAlignment="Center"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="SyncStatus"
                                 Header="Status"
