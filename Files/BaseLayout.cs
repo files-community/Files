@@ -165,6 +165,7 @@ namespace Files
                     {
                         ItemManipulationModel.SetSelectedItem(jumpedToItem);
                         ItemManipulationModel.ScrollIntoView(jumpedToItem);
+                        ItemManipulationModel.FocusSelectedItems();
                     }
 
                     // Restart the timer
