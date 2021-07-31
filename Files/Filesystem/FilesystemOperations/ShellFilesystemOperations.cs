@@ -76,7 +76,7 @@ namespace Files.Filesystem
             collisions = collisions.Where(c => c != FileNameConflictResolveOptionType.Skip).ToList();
 
             var operationID = Guid.NewGuid().ToString();
-            using var _ = cancellationToken.Register(CancelOperation, operationID, false);
+            using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
             connection.RequestReceived += handler;
@@ -139,6 +139,7 @@ namespace Files.Filesystem
                 var tags = FileTagsHelper.DbInstance.GetAllUnderPath(x.src.Path); // copy tag for items contained in the folder
                 tags.ForEach(t => FileTagsHelper.DbInstance.SetTag(t.FilePath.Replace(x.src.Path, x.dest), FileTagsHelper.GetFileFRN(t.FilePath.Replace(x.src.Path, x.dest)), t.Tag));
             });
+            _ = connection?.SendMessageAsync(new ValueSet() { { "Arguments", "UpdateTagsDb" } });
 
             if (result)
             {
@@ -204,7 +205,7 @@ namespace Files.Filesystem
             }
 
             var operationID = Guid.NewGuid().ToString();
-            using var _ = cancellationToken.Register(CancelOperation, operationID, false);
+            using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
             connection.RequestReceived += handler;
@@ -310,7 +311,7 @@ namespace Files.Filesystem
             collisions = collisions.Where(c => c != FileNameConflictResolveOptionType.Skip).ToList();
 
             var operationID = Guid.NewGuid().ToString();
-            using var _ = cancellationToken.Register(CancelOperation, operationID, false);
+            using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
             connection.RequestReceived += handler;
@@ -368,6 +369,7 @@ namespace Files.Filesystem
                 var tags = FileTagsHelper.DbInstance.GetAllUnderPath(x.src.Path); // move tag for items contained in the folder
                 tags.ForEach(t => FileTagsHelper.DbInstance.UpdateTag(t.FilePath, FileTagsHelper.GetFileFRN(t.FilePath.Replace(x.src.Path, x.dest)), t.FilePath.Replace(x.src.Path, x.dest)));
             });
+            _ = connection?.SendMessageAsync(new ValueSet() { { "Arguments", "UpdateTagsDb" } });
 
             if (result)
             {
@@ -454,7 +456,7 @@ namespace Files.Filesystem
             }
 
             var operationID = Guid.NewGuid().ToString();
-            using var _ = cancellationToken.Register(CancelOperation, operationID, false);
+            using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
             connection.RequestReceived += handler;

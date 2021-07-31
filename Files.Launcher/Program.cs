@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
+using System.Linq;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text;
@@ -42,6 +43,7 @@ namespace FilesFullTrust
                 messageHandlers = new List<IMessageHandler>();
                 messageHandlers.Add(new RecycleBinHandler());
                 messageHandlers.Add(new LibrariesHandler());
+                messageHandlers.Add(new FileTagsHandler());
                 messageHandlers.Add(new ApplicationLaunchHandler());
                 messageHandlers.Add(new NetworkDrivesHandler());
                 messageHandlers.Add(new FileOperationsHandler());
@@ -61,7 +63,7 @@ namespace FilesFullTrust
                 deviceWatcher.Start();
 
                 // Update tags db
-                FileTagsHelper.UpdateTagsDb();
+                messageHandlers.OfType<FileTagsHandler>().Single().UpdateTagsDb();
 
                 // Wait until the connection gets closed
                 appServiceExit.WaitOne();

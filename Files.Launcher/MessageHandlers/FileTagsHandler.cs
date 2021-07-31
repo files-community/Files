@@ -1,15 +1,18 @@
 ﻿using Files.Common;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.IO.Pipes;
+using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.Storage;
 
-namespace FilesFullTrust.Helpers
+namespace FilesFullTrust.MessageHandlers
 {
-    public class FileTagsHelper
+    public class FileTagsHandler : IMessageHandler
     {
-        private static string ReadFileTag(string filePath)
+        private string ReadFileTag(string filePath)
         {
             using var hStream = Kernel32.CreateFile($"{filePath}:files",
                 Kernel32.FileAccess.GENERIC_READ, 0, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS, IntPtr.Zero);
@@ -20,7 +23,7 @@ namespace FilesFullTrust.Helpers
             return System.Text.Encoding.UTF8.GetString(bytes, 0, (int)read);
         }
 
-        public static void UpdateTagsDb()
+        public void UpdateTagsDb()
         {
             string FileTagsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
             using var dbInstance = new Common.FileTagsDb(FileTagsDbPath, true);
@@ -63,6 +66,25 @@ namespace FilesFullTrust.Helpers
                     }
                 }
             }
+        }
+
+        public Task ParseArgumentsAsync(NamedPipeServerStream connection, Dictionary<string, object> message, string arguments)
+        {
+            switch (arguments)
+            {
+                case "UpdateTagsDb":
+                    UpdateTagsDb();
+                    break;
+            }
+            return Task.CompletedTask;
+        }
+
+        public void Initialize(NamedPipeServerStream connection)
+        {
+        }
+
+        public void Dispose()
+        {
         }
     }
 }
