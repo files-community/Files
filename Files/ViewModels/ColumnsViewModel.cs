@@ -8,13 +8,24 @@ namespace Files.ViewModels
     {
         private ColumnViewModel iconColumn = new ColumnViewModel()
         {
-            UserLength = new GridLength(68, GridUnitType.Pixel),
+            UserLength = new GridLength(44, GridUnitType.Pixel),
         };
 
         public ColumnViewModel IconColumn
         {
             get => iconColumn;
             set => SetProperty(ref iconColumn, value);
+        }
+
+        private ColumnViewModel tagColumn = new ColumnViewModel()
+        {
+            UserLength = new GridLength(44, GridUnitType.Pixel),
+        };
+
+        public ColumnViewModel TagColumn
+        {
+            get => tagColumn;
+            set => SetProperty(ref tagColumn, value);
         }
 
         private ColumnViewModel nameColumn = new ColumnViewModel();
@@ -89,7 +100,7 @@ namespace Files.ViewModels
             set => SetProperty(ref sizeColumn, value);
         }
 
-        public double TotalWidth => IconColumn.Length.Value + NameColumn.Length.Value + StatusColumn.Length.Value + DateModifiedColumn.Length.Value + OriginalPathColumn.Length.Value
+        public double TotalWidth => IconColumn.Length.Value + TagColumn.Length.Value + NameColumn.Length.Value + StatusColumn.Length.Value + DateModifiedColumn.Length.Value + OriginalPathColumn.Length.Value
             + ItemTypeColumn.Length.Value + DateDeletedColumn.Length.Value + DateCreatedColumn.Length.Value + SizeColumn.Length.Value;
 
         public void SetDesiredSize(double width)
@@ -108,6 +119,7 @@ namespace Files.ViewModels
         private void SetColumnSizeProportionally(double factor)
         {
             NameColumn.TryMultiplySize(factor);
+            TagColumn.TryMultiplySize(factor);
             StatusColumn.TryMultiplySize(factor);
             DateModifiedColumn.TryMultiplySize(factor);
             OriginalPathColumn.TryMultiplySize(factor);

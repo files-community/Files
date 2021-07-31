@@ -239,6 +239,14 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
+                            Text = "BaseLayoutContextFlyoutSortByFileTag/Text".GetLocalized(),
+                            IsChecked = itemViewModel.IsSortedByFileTag,
+                            Command = new RelayCommand(() => itemViewModel.IsSortedByFileTag = true),
+                            ShowInRecycleBin = true,
+                            ItemType = ItemType.Toggle
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
                             Text = "BaseLayoutContextFlyoutSortByOriginalPath/Text".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedByOriginalPath,
                             ShowInRecycleBin = true,
@@ -347,6 +355,15 @@ namespace Files.Helpers
                             ShowInCloudDrive = true,
                             Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
                             CommandParameter = GroupOption.SyncStatus,
+                            ItemType = ItemType.Toggle,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "BaseLayoutContextFlyoutSortByFileTag/Text".GetLocalized(),
+                            IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileTag,
+                            ShowInRecycleBin = true,
+                            Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
+                            CommandParameter = GroupOption.FileTag,
                             ItemType = ItemType.Toggle,
                         },
                         new ContextMenuFlyoutItemViewModel()

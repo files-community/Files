@@ -2691,4 +2691,10 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
+  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
+    <value>File tag</value>
+  </data>
+  <data name="NavToolbarArrangementOption_FileTag.Content" xml:space="preserve">
+    <value>File tag</value>
+  </data>
 </root>

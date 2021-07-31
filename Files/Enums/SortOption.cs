@@ -8,6 +8,7 @@
         Size,
         FileType,
         SyncStatus,
+        FileTag,
         OriginalPath,
         DateDeleted
     }
@@ -21,6 +22,7 @@
         Size,
         FileType,
         SyncStatus,
+        FileTag,
         OriginalFolder,
         DateDeleted
     }

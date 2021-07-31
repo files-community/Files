@@ -186,6 +186,7 @@ namespace Files.ViewModels
             OnPropertyChanged(nameof(IsSortedByDateDeleted));
             OnPropertyChanged(nameof(IsSortedByDateCreated));
             OnPropertyChanged(nameof(IsSortedBySyncStatus));
+            OnPropertyChanged(nameof(IsSortedByFileTag));
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
         }
@@ -298,6 +299,19 @@ namespace Files.ViewModels
                 {
                     folderSettings.DirectorySortOption = SortOption.SyncStatus;
                     OnPropertyChanged(nameof(IsSortedBySyncStatus));
+                }
+            }
+        }
+
+        public bool IsSortedByFileTag
+        {
+            get => folderSettings.DirectorySortOption == SortOption.FileTag;
+            set
+            {
+                if (value)
+                {
+                    folderSettings.DirectorySortOption = SortOption.FileTag;
+                    OnPropertyChanged(nameof(IsSortedByFileTag));
                 }
             }
         }

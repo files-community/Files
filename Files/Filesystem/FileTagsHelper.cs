@@ -90,14 +90,14 @@ namespace Files.Filesystem
         public string Uid { get; set; }
         public string ColorString { get; set; }
 
+        private SolidColorBrush color;
         [JsonIgnore]
-        public SolidColorBrush Color { get; set; }
+        public SolidColorBrush Color => color ??= new SolidColorBrush(ColorString.ToColor());
 
         public FileTag(string tagName, string colorString)
         {
             TagName = tagName;
             ColorString = colorString;
-            Color = new SolidColorBrush(colorString.ToColor());
             Uid = Guid.NewGuid().ToString();
         }
     }

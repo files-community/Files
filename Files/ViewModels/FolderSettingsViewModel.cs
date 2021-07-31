@@ -502,13 +502,15 @@ namespace Files.ViewModels
                 // Do not save OriginalPath as global sort option (only works in recycle bin)
                 if (prefs.DirectorySortOption != SortOption.OriginalPath &&
                     prefs.DirectorySortOption != SortOption.DateDeleted &&
-                    prefs.DirectorySortOption != SortOption.SyncStatus)
+                    prefs.DirectorySortOption != SortOption.SyncStatus &&
+                    prefs.DirectorySortOption != SortOption.FileTag)
                 {
                     App.AppSettings.DefaultDirectorySortOption = prefs.DirectorySortOption;
                 }
                 if (prefs.DirectoryGroupOption != GroupOption.OriginalFolder &&
                     prefs.DirectoryGroupOption != GroupOption.DateDeleted &&
-                    prefs.DirectoryGroupOption != GroupOption.SyncStatus)
+                    prefs.DirectoryGroupOption != GroupOption.SyncStatus &&
+                    prefs.DirectoryGroupOption != GroupOption.FileTag)
                 {
                     App.AppSettings.DefaultDirectoryGroupOption = prefs.DirectoryGroupOption;
                 }
