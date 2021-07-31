@@ -602,6 +602,7 @@
                                     x:Name="ItemStatusGrid"
                                     Grid.Column="4"
                                     Width="{Binding ColumnsViewModel.StatusColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Margin="2,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
