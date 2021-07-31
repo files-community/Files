@@ -219,6 +219,7 @@ namespace Files
                         IsItemSelected = false;
                         SelectedItem = null;
                         SelectedItemsPropertiesViewModel.IsItemSelected = false;
+                        ResetRenameDoubleClick();
                     }
                     else
                     {
@@ -924,8 +925,8 @@ namespace Files
             {
                 if (item == preRenamingItem)
                 {
-                    ResetRenameDoubleClick();
                     StartRenameItem();
+                    ResetRenameDoubleClick();
                 }
                 preRenamingItem = item;
             }
@@ -937,7 +938,6 @@ namespace Files
 
         public void ResetRenameDoubleClick()
         {
-            RenamingItem = null;
             preRenamingItem = null;
         }
     }
