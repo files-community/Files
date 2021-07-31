@@ -67,6 +67,11 @@ namespace Files
         public PreviewPaneViewModel PreviewPaneViewModel { get; } = new PreviewPaneViewModel();
 
         public bool IsRenamingItem { get; set; } = false;
+        public ListedItem RenamingItem { get; set; } = null;
+
+        public string OldItemName { get; set; } = null;
+
+        public TextBlock RenamingTextBlock { get; set; } = null;
 
         private bool isMiddleClickToScrollEnabled = true;
 
@@ -214,6 +219,7 @@ namespace Files
                         IsItemSelected = false;
                         SelectedItem = null;
                         SelectedItemsPropertiesViewModel.IsItemSelected = false;
+                        ResetRenameDoubleClick();
                     }
                     else
                     {
@@ -907,6 +913,32 @@ namespace Files
                     listedItem.Opacity = 1;
                 }
             }
+        }
+
+        virtual public void StartRenameItem() { }
+
+        private ListedItem preRenamingItem = null;
+
+        public void CheckRenameDoubleClick(object clickedItem)
+        {
+            if (clickedItem is ListedItem item)
+            {
+                if (item == preRenamingItem)
+                {
+                    StartRenameItem();
+                    ResetRenameDoubleClick();
+                }
+                preRenamingItem = item;
+            }
+            else
+            {
+                ResetRenameDoubleClick();
+            }
+        }
+
+        public void ResetRenameDoubleClick()
+        {
+            preRenamingItem = null;
         }
     }
 }
