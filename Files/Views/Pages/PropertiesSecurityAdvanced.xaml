@@ -177,7 +177,7 @@
                     <Grid
                         Margin="12,0,12,0"
                         Padding="0,8,0,8"
-                        Background="{ThemeResource SolidBackgroundAcrylic}"
+                        Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource SystemChromeHighColor}"
                         BorderThickness="0,0,0,1">
                         <Grid.ColumnDefinitions>
