@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using Common;
+using Files.Common;
 using FilesFullTrust.Helpers;
 using Newtonsoft.Json;
 using System;
@@ -18,6 +19,7 @@ namespace FilesFullTrust.MessageHandlers
     public class FileOperationsHandler : IMessageHandler
     {
         private DisposableDictionary handleTable;
+        private FileTagsDb dbInstance;
 
         public FileOperationsHandler()
         {
@@ -27,6 +29,8 @@ namespace FilesFullTrust.MessageHandlers
 
         public void Initialize(NamedPipeServerStream connection)
         {
+            string fileTagsDbPath = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "filetags.db");
+            dbInstance = new FileTagsDb(fileTagsDbPath, true);
         }
 
         public async Task ParseArgumentsAsync(NamedPipeServerStream connection, Dictionary<string, object> message, string arguments)
@@ -150,6 +154,7 @@ namespace FilesFullTrust.MessageHandlers
                                         HRresult = (int)e.Result
                                     });
                                 };
+                                op.PostDeleteItem += (s, e) => UpdateFileTageDb(s, e, "delete");
                                 op.FinishOperations += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
                                 op.UpdateProgress += async (s, e) => await Win32API.SendMessageAsync(connection, new ValueSet() {
                                     { "Progress", e.ProgressPercentage },
@@ -211,10 +216,11 @@ namespace FilesFullTrust.MessageHandlers
                                     {
                                         Succeeded = e.Result.Succeeded,
                                         Source = e.SourceItem.FileSystemPath,
-                                        Destination = Path.Combine(Path.GetDirectoryName(e.SourceItem.FileSystemPath), e.Name),
+                                        Destination = !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(e.SourceItem.FileSystemPath), e.Name) : null,
                                         HRresult = (int)e.Result
                                     });
                                 };
+                                op.PostRenameItem += (s, e) => UpdateFileTageDb(s, e, "rename");
                                 op.FinishOperations += (s, e) => renameTcs.TrySetResult(e.Result.Succeeded);
 
                                 try
@@ -278,6 +284,7 @@ namespace FilesFullTrust.MessageHandlers
                                         HRresult = (int)e.Result
                                     });
                                 };
+                                op.PostMoveItem += (s, e) => UpdateFileTageDb(s, e, "move");
                                 op.FinishOperations += (s, e) => moveTcs.TrySetResult(e.Result.Succeeded);
                                 op.UpdateProgress += async (s, e) => await Win32API.SendMessageAsync(connection, new ValueSet() {
                                     { "Progress", e.ProgressPercentage },
@@ -352,6 +359,7 @@ namespace FilesFullTrust.MessageHandlers
                                         HRresult = (int)e.Result
                                     });
                                 };
+                                op.PostCopyItem += (s, e) => UpdateFileTageDb(s, e, "copy");
                                 op.FinishOperations += (s, e) => copyTcs.TrySetResult(e.Result.Succeeded);
                                 op.UpdateProgress += async (s, e) => await Win32API.SendMessageAsync(connection, new ValueSet() {
                                     { "Progress", e.ProgressPercentage },
@@ -529,9 +537,79 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
+        private void UpdateFileTageDb(object sender, ShellFileOperations.ShellFileOpEventArgs e, string operationType)
+        {
+            if (e.Result.Succeeded)
+            {
+                var destination = operationType switch
+                {
+                    "delete" => e.DestItem?.FileSystemPath,
+                    "rename" => (!string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(e.SourceItem.FileSystemPath), e.Name) : null),
+                    "copy" => (e.DestFolder != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null),
+                    _ => (e.DestFolder != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null)
+                };
+                if (destination == null)
+                {
+                    dbInstance.SetTag(e.SourceItem.FileSystemPath, null, null); // remove tag from deleted files
+                }
+                else
+                {
+                    Extensions.IgnoreExceptions(() =>
+                    {
+                        using var si = new ShellItem(destination);
+                        if (operationType == "copy")
+                        {
+                            var tag = dbInstance.GetTag(e.SourceItem.FileSystemPath);
+                            dbInstance.SetTag(destination, (ulong?)si.Properties["System.FileFRN"], tag); // copy tag to new files
+                        }
+                        else
+                        {
+                            dbInstance.UpdateTag(e.SourceItem.FileSystemPath, (ulong?)si.Properties["System.FileFRN"], destination); // move tag to new files
+                        }
+                    }, Program.Logger);
+                }
+                if (e.Result == HRESULT.COPYENGINE_S_DONT_PROCESS_CHILDREN) // child items not processed, update manually
+                {
+                    var tags = dbInstance.GetAllUnderPath(e.SourceItem.FileSystemPath).ToList();
+                    if (destination == null) // remove tag for items contained in the folder
+                    {
+                        tags.ForEach(t => dbInstance.SetTag(t.FilePath, null, null));
+                    }
+                    else
+                    {
+                        if (operationType == "copy") // copy tag for items contained in the folder
+                        {
+                            tags.ForEach(t =>
+                            {
+                                Extensions.IgnoreExceptions(() =>
+                                {
+                                    var subPath = t.FilePath.Replace(e.SourceItem.FileSystemPath, destination);
+                                    using var si = new ShellItem(subPath);
+                                    dbInstance.SetTag(subPath, (ulong?)si.Properties["System.FileFRN"], t.Tag);
+                                }, Program.Logger);
+                            });
+                        }
+                        else // move tag to new files
+                        {
+                            tags.ForEach(t =>
+                            {
+                                Extensions.IgnoreExceptions(() =>
+                                {
+                                    var subPath = t.FilePath.Replace(e.SourceItem.FileSystemPath, destination);
+                                    using var si = new ShellItem(subPath);
+                                    dbInstance.UpdateTag(t.FilePath, (ulong?)si.Properties["System.FileFRN"], subPath);
+                                }, Program.Logger);
+                            });
+                        }
+                    }
+                }
+            }
+        }
+
         public void Dispose()
         {
             handleTable?.Dispose();
+            dbInstance?.Dispose();
         }
     }
 }

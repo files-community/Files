@@ -25,8 +25,8 @@ namespace FilesFullTrust.MessageHandlers
 
         public void UpdateTagsDb()
         {
-            string FileTagsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
-            using var dbInstance = new Common.FileTagsDb(FileTagsDbPath, true);
+            string fileTagsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
+            using var dbInstance = new Common.FileTagsDb(fileTagsDbPath, true);
             foreach (var file in dbInstance.GetAll())
             {
                 var pathFromFrn = Win32API.PathFromFileId(file.Frn ?? 0, file.FilePath);
@@ -52,10 +52,10 @@ namespace FilesFullTrust.MessageHandlers
                         if (!Extensions.IgnoreExceptions(() =>
                         {
                             using var si = new ShellItem(file.FilePath);
-                            var frn = si.Properties["System.FileFRN"];
-                            dbInstance.UpdateTag(file.FilePath, (ulong)frn, null);
-                            dbInstance.SetTag(file.FilePath, (ulong)frn, tag);
-                        }))
+                            var frn = (ulong?)si.Properties["System.FileFRN"];
+                            dbInstance.UpdateTag(file.FilePath, frn, null);
+                            dbInstance.SetTag(file.FilePath, (ulong?)frn, tag);
+                        }, Program.Logger))
                         {
                             dbInstance.SetTag(file.FilePath, null, null);
                         }
