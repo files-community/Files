@@ -83,20 +83,6 @@ namespace FilesFullTrust
             return tcs.Task;
         }
 
-        public static bool IgnoreExceptions(Action action)
-        {
-            try
-            {
-                action();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Program.Logger.Info(ex, ex.Message);
-                return false;
-            }
-        }
-
         public static async Task<string> GetFileAssociationAsync(string filename)
         {
             // Find UWP apps

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Files.Common;
+using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.Storage;
@@ -49,7 +46,7 @@ namespace FilesFullTrust.Helpers
                     var tag = ReadFileTag(file.FilePath);
                     if (tag != null)
                     {
-                        if (!Win32API.IgnoreExceptions(() =>
+                        if (!Extensions.IgnoreExceptions(() =>
                         {
                             using var si = new ShellItem(file.FilePath);
                             var frn = si.Properties["System.FileFRN"];
