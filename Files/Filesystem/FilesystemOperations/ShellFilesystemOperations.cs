@@ -362,7 +362,8 @@ namespace Files.Filesystem
             }
 
             // Updated tag for successfully moved items
-            var movedZip = source.Zip(destination, (src, dest) => new { src, dest }).Where(x => movedSources.Contains(x.src.Path));
+            var movedZip = sourceRename.Zip(movedItems, (src, dest) => new { src, dest }).Where(x => movedSources.Contains(x.src.Path));
+            movedZip = movedZip.Concat(sourceReplace.Zip(destinationReplace, (src, dest) => new { src, dest }).Where(x => movedSources.Contains(x.src.Path)));
             movedZip.ForEach(x => FileTagsHelper.DbInstance.UpdateTag(x.src.Path, FileTagsHelper.GetFileFRN(x.dest), x.dest)); // move tag to new files
             movedZip.Where(x => x.src.ItemType == FilesystemItemType.Directory).ForEach(x =>
             {
