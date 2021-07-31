@@ -142,6 +142,10 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <Style TargetType="uc:DataGridHeader">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            </Style>
         </ResourceDictionary>
     </local:BaseLayout.Resources>
 
@@ -376,7 +380,8 @@
                                 x:Name="SyncStatusHeader"
                                 x:Uid="syncStatusColumn"
                                 Grid.Column="8"
-                                HorizontalAlignment="Center"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="SyncStatus"
                                 Header="Status"

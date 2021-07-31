@@ -42,7 +42,10 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Style="{ThemeResource NavigationViewItemHeaderTextStyle}" Text="{x:Bind Header, Mode=OneWay}" />
+                <TextBlock
+                    HorizontalAlignment="{x:Bind HorizontalContentAlignment}"
+                    Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
+                    Text="{x:Bind Header, Mode=OneWay}" />
                 <FontIcon
                     x:Name="SortIcon"
                     Grid.Column="1"
