@@ -2,12 +2,13 @@
     x:Class="Files.SettingsPages.About"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -191,7 +192,11 @@
                     </local:SettingsBlockControl.Icon>
 
                     <local:SettingsBlockControl.ExpandableContent>
-                        <controls:MarkdownTextBlock x:Name="PrivacyTextBlock" Margin="4" x:Uid="SettingsPrivacyPolicyMarkdownBlock"/>
+                        <controls:MarkdownTextBlock
+                            x:Name="PrivacyTextBlock"
+                            x:Uid="SettingsPrivacyPolicyMarkdownBlock"
+                            Margin="4"
+                            Padding="8" />
                     </local:SettingsBlockControl.ExpandableContent>
                 </local:SettingsBlockControl>
 
@@ -240,7 +245,7 @@
                     AutomationProperties.Name="QuickLook"
                     Content="QuickLook"
                     NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt" />
-                
+
                 <HyperlinkButton
                     x:Uid="SettingsFluentUISystemIconsLicenseButton"
                     AutomationProperties.Name="Fluent UI System Icons"
