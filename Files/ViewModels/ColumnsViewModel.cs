@@ -6,13 +6,13 @@ namespace Files.ViewModels
 {
     public class ColumnsViewModel : ObservableObject
     {
-        [JsonIgnore]
         private ColumnViewModel iconColumn = new ColumnViewModel()
         {
             UserLength = new GridLength(44, GridUnitType.Pixel),
             IsResizeable = false,
         };
 
+        [JsonIgnore]
         public ColumnViewModel IconColumn
         {
             get => iconColumn;
