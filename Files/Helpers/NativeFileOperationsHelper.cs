@@ -72,10 +72,10 @@ namespace Files.Helpers
             IntPtr hTemplateFile
         );
 
-        public static SafeFileHandle CreateFileForWrite(string filePath)
+        public static SafeFileHandle CreateFileForWrite(string filePath, bool overwrite = true)
         {
             return new SafeFileHandle(CreateFileFromApp(filePath,
-                GENERIC_WRITE, 0, IntPtr.Zero, CREATE_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
+                GENERIC_WRITE, 0, IntPtr.Zero, overwrite ? CREATE_ALWAYS : OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
         }
 
         [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,

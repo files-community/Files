@@ -596,7 +596,7 @@ namespace Files
         {
             var fileTagMenuFlyout = new MenuFlyoutItemFileTag()
             {
-                ItemsSource = AppSettings.FileTagList,
+                ItemsSource = AppSettings.FileTagsSettings.FileTagList,
                 SelectedItems = SelectedItems
             };
             var overflowSeparator = contextMenu.SecondaryCommands.FirstOrDefault(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator;

@@ -89,26 +89,25 @@ namespace Files.Filesystem
 
         public ulong? FileFRN { get; set; }
 
-        private string _FileTag;
-
+        private string fileTag;
         public string FileTag
         {
-            get => _FileTag;
+            get => fileTag;
             set
             {
-                if (value != _FileTag)
+                if (value != fileTag)
                 {
                     FileTagsHelper.DbInstance.SetTag(ItemPath, FileFRN, value);
                     FileTagsHelper.WriteFileTag(ItemPath, value);
                 }
-                SetProperty(ref _FileTag, value);
+                SetProperty(ref fileTag, value);
                 OnPropertyChanged(nameof(FileTagUI));
             }
         }
 
         public FileTag FileTagUI
         {
-            get => App.AppSettings.FileTagList.SingleOrDefault(x => x.Uid == FileTag);
+            get => App.AppSettings.FileTagsSettings.GetTagByID(FileTag);
         }
 
         private Uri customIconSource;

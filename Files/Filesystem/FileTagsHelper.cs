@@ -1,9 +1,11 @@
 ﻿using Common;
 using Files.Helpers;
+using Files.Models.Settings;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using System;
-using System.Runtime.InteropServices;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Media;
@@ -97,6 +99,38 @@ namespace Files.Filesystem
             ColorString = colorString;
             Color = new SolidColorBrush(colorString.ToColor());
             Uid = Guid.NewGuid().ToString();
+        }
+    }
+
+    public class FileTagsSettings : BaseJsonSettingsModel
+    {
+        public FileTagsSettings()
+            : base(System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.FileTagSettingsFileName),
+                  isCachingEnabled: true)
+        {
+        }
+
+        public IList<FileTag> FileTagList
+        {
+            get => Get<IList<FileTag>>(new List<FileTag>()
+            {
+                new FileTag("Blue", "#0072BD"),
+                new FileTag("Orange", "#D95319"),
+                new FileTag("Yellow", "#EDB120"),
+                new FileTag("Green", "#77AC30"),
+                new FileTag("Azure", "#4DBEEE")
+            });
+            set => Set(value);
+        }
+
+        public FileTag GetTagByID(string uid)
+        {
+            return FileTagList.SingleOrDefault(x => x.Uid == uid);
+        }
+
+        public FileTag GetTagByName(string tagName)
+        {
+            return FileTagList.SingleOrDefault(x => x.TagName.Equals(tagName, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

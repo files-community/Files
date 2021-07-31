@@ -59,10 +59,10 @@ namespace Files.Models.Settings
 
         #region Helpers
 
-        protected virtual async void Initialize()
+        protected virtual void Initialize()
         {
             // Create the file
-            await ApplicationData.Current.LocalFolder.CreateFileAsync(settingsPath.Replace(ApplicationData.Current.LocalFolder.Path, string.Empty), CreationCollisionOption.OpenIfExists);
+            using var _ = NativeFileOperationsHelper.CreateFileForWrite(settingsPath, false);
         }
 
         public virtual object ExportSettings()

@@ -73,12 +73,12 @@ namespace Files.UserControls
             }
             else if (selectedItems.Count == 1)
             {
-                return App.AppSettings.FileTagList.SingleOrDefault(x => x.Uid == selectedItems.First().FileTag);
+                return App.AppSettings.FileTagsSettings.GetTagByID(selectedItems.First().FileTag);
             }
             else
             {
                 var tag = selectedItems.First().FileTag;
-                return selectedItems.All(x => x.FileTag == tag) ? App.AppSettings.FileTagList.SingleOrDefault(t => t.Uid == tag) : null;
+                return selectedItems.All(x => x.FileTag == tag) ? App.AppSettings.FileTagsSettings.GetTagByID(tag) : null;
             }
         }
 

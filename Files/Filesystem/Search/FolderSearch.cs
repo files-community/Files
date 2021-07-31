@@ -89,7 +89,7 @@ namespace Files.Filesystem.Search
         private async Task SearchTagsAsync(string folder, ObservableCollection<ListedItem> results)
         {
             var tagName = Query.Substring("tag:".Length);
-            var tag = App.AppSettings.FileTagList.SingleOrDefault(x => x.TagName.Equals(tagName, StringComparison.OrdinalIgnoreCase));
+            var tag = App.AppSettings.FileTagsSettings.GetTagByName(tagName);
             if (tag == null)
             {
                 return;

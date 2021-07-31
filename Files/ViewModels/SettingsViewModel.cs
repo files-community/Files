@@ -10,7 +10,6 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -22,8 +21,6 @@ using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
@@ -49,6 +46,8 @@ namespace Files.ViewModels
             }
 
             TerminalController = await TerminalController.CreateInstance();
+
+            FileTagsSettings = new FileTagsSettings();
 
             // Send analytics to AppCenter
             TrackAnalytics();
@@ -699,30 +698,7 @@ namespace Files.ViewModels
             set => Set((byte)value);
         }
 
-        private IList<FileTag> fileTagList;
-        public IList<FileTag> FileTagList
-        {
-            get
-            {
-                if (fileTagList != null)
-                {
-                    return fileTagList;
-                }
-                fileTagList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<FileTag>>(Get(""));
-                if (fileTagList == null)
-                {
-                    fileTagList = new List<FileTag>()
-                        { new FileTag("Blue", "#0072BD"), new FileTag("Orange", "#D95319"), new FileTag("Yellow", "#EDB120"), new FileTag("Green", "#77AC30"), new FileTag("Azure", "#4DBEEE") };
-                    Set(Newtonsoft.Json.JsonConvert.SerializeObject(fileTagList));
-                }
-                return fileTagList;
-            }
-            set
-            {
-                fileTagList = value;
-                Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
-            }
-        }
+        public FileTagsSettings FileTagsSettings { get; private set; }
 
         #region ReadAndSaveSettings
 
