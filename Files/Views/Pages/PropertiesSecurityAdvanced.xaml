@@ -182,7 +182,7 @@
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.Header>
-                    <Grid
+                    <Border
                         Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource SystemChromeHighColor}"
                         BorderThickness="0,0,0,1">
@@ -225,7 +225,7 @@
                                 Text="Applies to"
                                 Visibility="{x:Bind ViewModel.IsFolder, Mode=OneWay}" />
                         </Grid>
-                    </Grid>
+                    </Border>
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="perm:FileSystemAccessRuleForUI">
