@@ -21,7 +21,7 @@ namespace Files.Filesystem
             {
                 if (_DbInstance == null)
                 {
-                    _DbInstance = new FileTagsDb(FileTagsDbPath);
+                    _DbInstance = new FileTagsDb(FileTagsDbPath, true);
                 }
                 return _DbInstance;
             }

@@ -23,7 +23,7 @@ namespace FilesFullTrust.Helpers
         public static void UpdateTagsDb()
         {
             string FileTagsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
-            using var dbInstance = new Common.FileTagsDb(FileTagsDbPath);
+            using var dbInstance = new Common.FileTagsDb(FileTagsDbPath, true);
             foreach (var file in dbInstance.GetAll())
             {
                 var pathFromFrn = Win32API.PathFromFileId(file.Frn ?? 0, file.FilePath);

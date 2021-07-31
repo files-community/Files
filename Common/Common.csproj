@@ -2,12 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="5.0.8" />
-    <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.0.4" />
+    <PackageReference Include="LiteDB" Version="4.1.4" />
   </ItemGroup>
 
 </Project>
