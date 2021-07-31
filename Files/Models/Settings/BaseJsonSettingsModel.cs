@@ -96,6 +96,11 @@ namespace Files.Models.Settings
 
         protected virtual TValue Get<TValue>(TValue defaultValue, [CallerMemberName] string propertyName = "")
         {
+            return Get<TValue>(() => defaultValue, propertyName);
+        }
+
+        protected virtual TValue Get<TValue>(Func<TValue> defaultValueFactory, [CallerMemberName] string propertyName = "")
+        {
             try
             {
                 // Check if caching is enabled
@@ -142,7 +147,7 @@ namespace Files.Models.Settings
                 if (!settingsCache.ContainsKey(propertyName))
                 {
                     // Add it to cache
-                    settingsCache.Add(propertyName, defaultValue);
+                    settingsCache.Add(propertyName, defaultValueFactory());
 
                     // Serialize with updated value
                     string serialized = JsonConvert.SerializeObject(settingsCache, Formatting.Indented);

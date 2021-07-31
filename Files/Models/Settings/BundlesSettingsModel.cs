@@ -21,7 +21,7 @@ namespace Files.Models.Settings
 
         public Dictionary<string, List<string>> SavedBundles
         {
-            get => Get<Dictionary<string, List<string>>>(null);
+            get => Get<Dictionary<string, List<string>>>(() => null);
             set => Set(value);
         }
 
