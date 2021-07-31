@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Extensions;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels;
 using Files.ViewModels.Widgets;
@@ -8,6 +9,7 @@ using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -152,7 +154,7 @@ namespace Files.UserControls.Widgets
             ItemsAdded.Add(new LibraryCardItem
             {
                 Text = "SidebarDesktop".GetLocalized(),
-                Path = UserDataPaths.GetDefault().Desktop,
+                Path = UserDataPaths.GetDefault().Desktop
             });
             ItemsAdded.Add(new LibraryCardItem
             {
@@ -179,9 +181,10 @@ namespace Files.UserControls.Widgets
                 Text = "SidebarVideos".GetLocalized(),
                 Path = UserDataPaths.GetDefault().Videos,
             });
-            await GetItemsAddedIcon();
-            ItemsAdded.EndBulkOperation();
 
+            await GetItemsAddedIcon();
+
+            ItemsAdded.EndBulkOperation();
             Loaded -= FolderWidget_Loaded;
         }
 
@@ -243,10 +246,26 @@ namespace Files.UserControls.Widgets
 
         private async Task LoadLibraryIcon(LibraryCardItem item)
         {
-            var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.Path, 48u);
+            byte[] iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.Path, 48u);
             if (iconData != null)
             {
                 item.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => iconData.ToBitmapAsync());
+            }
+            else
+            {
+                StorageFolder folder = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(item.Path).AsTask());
+                if (folder != null)
+                {
+                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                    {
+                        item.Icon = new BitmapImage();
+                        using var thumbnail = await folder.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 48, Windows.Storage.FileProperties.ThumbnailOptions.ReturnOnlyIfCached);
+                        if (thumbnail != null)
+                        {
+                            await item.Icon.SetSourceAsync(thumbnail);
+                        }
+                    });
+                }
             }
         }
     }

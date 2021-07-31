@@ -4,8 +4,6 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -14,6 +12,7 @@ namespace Files.DataModels.NavigationControlItems
     public class LocationItem : ObservableObject, INavigationControlItem
     {
         public BitmapImage icon;
+
         public BitmapImage Icon
         {
             get => icon;
@@ -33,12 +32,12 @@ namespace Files.DataModels.NavigationControlItems
             set
             {
                 path = value;
-                HoverDisplayText = Path.Contains("?") || Path.ToLower().StartsWith("shell:") || Path.ToLower().EndsWith(ShellLibraryItem.EXTENSION) || Path == "Home" ? Text : Path;
+                HoverDisplayText = Path.Contains("?") || Path.ToLower().StartsWith("shell:") || Path.ToLower().EndsWith(ShellLibraryItem.EXTENSION) || Path == "Home".GetLocalized() ? Text : Path;
             }
         }
 
         public string HoverDisplayText { get; private set; }
-        public FontFamily Font { get; set; } = new FontFamily("Segoe MDL2 Assets");
+        public FontFamily Font { get; set; }
         public NavigationControlItemType ItemType => NavigationControlItemType.Location;
         public bool IsDefaultLocation { get; set; }
         public ObservableCollection<INavigationControlItem> ChildItems { get; set; }

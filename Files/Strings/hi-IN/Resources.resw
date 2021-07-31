@@ -90,9 +90,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>एक्सेस किया गया:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>मालिक:</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>सभी वस्तुओं को साफ़ करें</value>
   </data>
@@ -110,12 +107,6 @@
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>इस वस्तु को निकालें</value>
-  </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>हाल ही का वस्तु</value>
-  </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files UWP</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>प्रतिक्रिया सबमिट करें</value>
@@ -168,9 +159,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>शुरू पर</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>टर्मिनल एप्लिकेशन</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>प्राथमिकताएँ</value>
   </data>
@@ -191,9 +179,6 @@
   </data>
   <data name="SidebarPictures" xml:space="preserve">
     <value>तस्वीरें</value>
-  </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>साइडबार से अनपिन</value>
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>चलचित्र</value>
@@ -266,9 +251,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>पुनर्नाम</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>साइडबार मे पिन करें</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>गुण</value>
@@ -347,9 +329,6 @@
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>गुण</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>नमूना प्रोफाइल देखें</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>इस नाम के साथ एक आइटम पहले से ही इस निर्देशिका में मौजूद है ।</value>
@@ -468,9 +447,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>आइटम नाम में निम्नलिखित वर्ण नहीं होने चाहिए: \/:*? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>लॉग स्थान खोलें</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>चयनित वस्तु</value>
   </data>
@@ -491,9 +467,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>फ़ाइलों को रीसायकल बिन में ले जा रहा है</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>डायरेक्ट्री को साइडबार मे पिन करें</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>ठीक है</value>
@@ -530,9 +503,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>प्रशासक के रूप में भागो</value>
-  </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>तारीख प्रारूपों के बारे में अधिक जानें</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>अनवरोधित</value>
@@ -584,9 +554,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>हाल में</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>ऐप लैंग्वेज</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>स्थिति</value>
@@ -640,7 +607,7 @@
     <value>तर्क</value>
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
-    <value>गंतव्य</value>
+    <value>मंजिल:</value>
   </data>
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>कार्य निर्देशिका:</value>
@@ -732,14 +699,8 @@
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>आगे नेविगेट करें</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>ऐप भाषा</value>
-  </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>प्रवेश निषेध</value>
-  </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>दिनांक स्वरूप</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>फ़ाइल</value>
@@ -752,12 +713,6 @@
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>ड्राइव:</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>छुपी हुई फ़ाइलें और फ़ोल्डर दिखाएँ</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>छुपी हुई फ़ाइलें और फ़ोल्डर दिखाएँ</value>
   </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>बाहर निकालें</value>
@@ -969,9 +924,6 @@
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>अनिर्दिष्ट.</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>यहाँ छोड़ें...</value>
-  </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>खोज परिणाम</value>
   </data>
@@ -986,12 +938,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>अद्यतन उपलब्ध</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>रक्षित ऑपरेटिंग सिस्टम फ़ाइलें छुपाएँ (अनुशंसित)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>रक्षित ऑपरेटिंग सिस्टम फ़ाइलें छुपाएँ (अनुशंसित)</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>फ़ाइल</value>
@@ -1127,9 +1073,6 @@
   </data>
   <data name="Browse" xml:space="preserve">
     <value>ब्राउज़</value>
-  </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>हाल ही के स्थान</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>कोई पूर्वावलोकन उपलब्ध नहीं</value>

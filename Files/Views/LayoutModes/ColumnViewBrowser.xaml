@@ -7,6 +7,8 @@
     xmlns:converters1="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Files.Helpers"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
     xmlns:local3="using:Files.Filesystem.Cloud"
@@ -15,13 +17,22 @@
     xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
     x:Name="PageRoot"
     mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <icore:EventTriggerBehavior EventName="PointerPressed">
+            <icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
+        </icore:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
     <local:BaseLayout.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
         <converters:BoolToVisibilityConverter
             x:Key="NegatedBoolToVisibilityConverter"
             FalseValue="Visible"
             TrueValue="Collapsed" />
-
+        <converters:EmptyObjectToObjectConverter
+            x:Key="EmptyObjectToObjectConverter"
+            EmptyValue="Collapsed"
+            NotEmptyValue="Visible" />
+        
         <converters:BoolToVisibilityConverter
             x:Key="BoolToVisibilityConverter"
             FalseValue="Collapsed"
@@ -1279,10 +1290,10 @@
                                 x:FieldModifier="public"
                                 AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                                 CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                                ChoosingItemContainer="FileList_ChoosingItemContainer"
+                                ContainerContentChanging="FileList_ContainerContentChanging"
                                 DoubleTapped="FileList_DoubleTapped"
-                                DragEnter="ItemsLayout_DragEnter"
                                 DragItemsStarting="FileList_DragItemsStarting"
+                                DragOver="ItemsLayout_DragOver"
                                 Drop="ItemsLayout_Drop"
                                 Holding="FileList_Holding"
                                 IsDoubleTapEnabled="True"
@@ -1326,15 +1337,6 @@
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <Grid
-                                                x:Name="SelectedFolderIndicator"
-                                                Width="3"
-                                                Height="16"
-                                                Margin="-10,0"
-                                                HorizontalAlignment="Left"
-                                                Background="Gray"
-                                                CornerRadius="{StaticResource ControlCornerRadius}"
-                                                Opacity="0" />
                                             <Grid
                                                 Grid.Column="0"
                                                 Width="24"
@@ -1426,16 +1428,24 @@
                                                 TextWrapping="Wrap"
                                                 Visibility="Collapsed" />
                                             <Grid Grid.Column="2">
-                                                <FontIcon
-                                                    x:Name="CloudDriveSyncStatusGlyph"
-                                                    Margin="0,0,0,0"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    x:Phase="2"
-                                                    FontSize="18"
-                                                    Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
-                                                    Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
-                                                    Visibility="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}" />
+                                                <StackPanel Orientation="Horizontal">
+                                                    <FontIcon
+                                                        x:Name="CloudDriveSyncStatusGlyph"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        x:Phase="2"
+                                                        FontSize="18"
+                                                        Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
+                                                        Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+                                                        Visibility="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}" />
+                                                    <Ellipse
+                                                        Width="12"
+                                                        Height="12"
+                                                        Margin="8,0,4,0"
+                                                        x:Phase="2"
+                                                        Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
+                                                        Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
+                                                </StackPanel>
                                             </Grid>
                                         </Grid>
                                     </DataTemplate>
@@ -1460,7 +1470,6 @@
                                                         <TextBlock
                                                             Margin="4,0,0,0"
                                                             VerticalAlignment="Center"
-                                                            Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
                                                             Style="{StaticResource BodyTextBlockStyle}"
                                                             Text="{x:Bind Model.CountText, Mode=OneWay}"
                                                             Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
@@ -1468,14 +1477,12 @@
                                                         <TextBlock
                                                             VerticalAlignment="Center"
                                                             FontSize="14"
-                                                            Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
                                                             Style="{StaticResource SubheaderTextBlockStyle}"
                                                             Text="{x:Bind Model.Subtext, Mode=OneWay}"
                                                             Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                                                     </StackPanel>
                                                     <TextBlock
                                                         Margin="0,2,0,0"
-                                                        Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
                                                         Style="{StaticResource BodyTextBlockStyle}"
                                                         Text="{x:Bind Model.CountText, Mode=OneWay}"
                                                         Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />

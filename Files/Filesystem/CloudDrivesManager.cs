@@ -37,6 +37,11 @@ namespace Files.Filesystem
 
         public async Task EnumerateDrivesAsync()
         {
+            if (!App.AppSettings.ShowCloudDrivesSection)
+            {
+                return;
+            }
+
             var cloudProviderController = new CloudProviderController();
             var cloudProviders = await cloudProviderController.DetectInstalledCloudProvidersAsync();
 
@@ -53,6 +58,7 @@ namespace Files.Filesystem
                 var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(provider.SyncFolder, 24);
                 if (iconData != null)
                 {
+                    cloudProviderItem.IconData = iconData;
                     await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
                     {
                         cloudProviderItem.Icon = await iconData.ToBitmapAsync();
@@ -99,10 +105,8 @@ namespace Files.Filesystem
                 await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    SidebarControl.SideBarItems.BeginBulkOperation();
-
                     var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalized()) as LocationItem;
-                    if (section == null && Drives.Any())
+                    if (App.AppSettings.ShowCloudDrivesSection && section == null && Drives.Any())
                     {
                         section = new LocationItem()
                         {
@@ -112,7 +116,12 @@ namespace Files.Filesystem
                             Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/CloudDrive.png")),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
-                        SidebarControl.SideBarItems.Add(section);
+                        var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
+                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
+                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0); // After drives section
+                        SidebarControl.SideBarItems.BeginBulkOperation();
+                        SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), section);
+                        SidebarControl.SideBarItems.EndBulkOperation();
                     }
 
                     if (section != null)
@@ -125,14 +134,38 @@ namespace Files.Filesystem
                             }
                         }
                     }
-
-                    SidebarControl.SideBarItems.EndBulkOperation();
                 }
                 finally
                 {
                     SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
+        }
+
+        private void RemoveCloudDrivesSideBarSection()
+        {
+            try
+            {
+                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarCloudDrives".GetLocalized()) select n).FirstOrDefault();
+                if (!App.AppSettings.ShowCloudDrivesSection && item != null)
+                {
+                    SidebarControl.SideBarItems.Remove(item);
+                }
+            }
+            catch (Exception)
+            { }
+        }
+
+        public async void UpdateCloudDrivesSectionVisibility()
+        {
+            if (App.AppSettings.ShowCloudDrivesSection)
+            {
+                await EnumerateDrivesAsync();
+            }
+            else
+            {
+                RemoveCloudDrivesSideBarSection();
+            }
         }
     }
 }

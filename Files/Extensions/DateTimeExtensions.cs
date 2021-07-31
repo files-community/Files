@@ -1,46 +1,54 @@
 ﻿using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Files.Extensions
 {
     public static class DateTimeExtensions
     {
-        public static string GetFriendlyDateFromFormat(this DateTimeOffset d, string returnFormat)
+        public static string GetFriendlyDateFromFormat(this DateTimeOffset d, string returnFormat, bool isDetailed = false)
         {
             var elapsed = DateTimeOffset.Now - d;
 
-            if (elapsed.TotalDays > 7 || returnFormat == "g")
+            if (d.Year == 1601)
+            {
+                return " ";
+            }
+            else if (isDetailed && returnFormat != "g" && elapsed.TotalDays < 7)
+            {
+                return d.ToLocalTime().ToString(returnFormat) + " " + d.ToLocalTime().ToString("t") + " (" + GetFriendlyDateFromFormat(d, returnFormat) + ")";
+            }
+            else if (isDetailed && returnFormat != "g")
+            {
+                return d.ToLocalTime().ToString(returnFormat) + " " + d.ToLocalTime().ToString("t");
+            }
+            else if (elapsed.TotalDays >= 7 || returnFormat == "g")
             {
                 return d.ToLocalTime().ToString(returnFormat);
             }
-            else if (elapsed.TotalDays > 2)
+            else if (elapsed.TotalDays >= 2)
             {
                 return string.Format("DaysAgo".GetLocalized(), elapsed.Days);
             }
-            else if (elapsed.TotalDays > 1)
+            else if (elapsed.TotalDays >= 1)
             {
                 return string.Format("DayAgo".GetLocalized(), elapsed.Days);
             }
-            else if (elapsed.TotalHours > 2)
+            else if (elapsed.TotalHours >= 2)
             {
                 return string.Format("HoursAgo".GetLocalized(), elapsed.Hours);
             }
-            else if (elapsed.TotalHours > 1)
+            else if (elapsed.TotalHours >= 1)
             {
-                return string.Format("HoursAgo".GetLocalized(), elapsed.Hours);
+                return string.Format("HourAgo".GetLocalized(), elapsed.Hours);
             }
-            else if (elapsed.TotalMinutes > 2)
+            else if (elapsed.TotalMinutes >= 2)
             {
                 return string.Format("MinutesAgo".GetLocalized(), elapsed.Minutes);
             }
-            else if (elapsed.TotalMinutes > 1)
+            else if (elapsed.TotalMinutes >= 1)
             {
-                return string.Format("MinutesAgo".GetLocalized(), elapsed.Minutes);
+                return string.Format("MinuteAgo".GetLocalized(), elapsed.Minutes);
             }
             else
             {
@@ -60,14 +68,13 @@ namespace Files.Extensions
             var t2 = dt.ToLocalTime();
             var today = DateTime.Today;
 
-
             var diff = t - dt;
             if (t.Month == t2.Month && t.Day == t2.Day)
             {
                 return ("ItemTimeText_Today".GetLocalized(), today.ToUserDateString(), "\ue184", 0);
             }
 
-            if(t.Month == t2.Month && t.Day - t2.Day < 2)
+            if (t.Month == t2.Month && t.Day - t2.Day < 2)
             {
                 return ("ItemTimeText_Yesterday".GetLocalized(), today.Subtract(TimeSpan.FromDays(1)).ToUserDateString(), "\ue161", 1);
             }
@@ -84,17 +91,17 @@ namespace Files.Extensions
 
             if (t.Year == t2.Year && t.Month == t2.Month)
             {
-                return ("ItemTimeText_ThisMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day-1)).ToUserDateString(), "\ue163", 4);
-            }
-            
-            if(t.Year == t2.Year && t.Month-1 == t2.Month)
-            {
-                return ("ItemTimeText_LastMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day - 1 + calendar.GetDaysInMonth(t.Year, t.Month-1))).ToUserDateString(), "\ue163", 5);
+                return ("ItemTimeText_ThisMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day - 1)).ToUserDateString(), "\ue163", 4);
             }
 
-            if(t.Year == t2.Year)
+            if (t.Year == t2.Year && t.Month - 1 == t2.Month)
             {
-                return ("ItemTimeText_ThisYear".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.DayOfYear-1)).ToUserDateString(), "\ue163", 5);
+                return ("ItemTimeText_LastMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day - 1 + calendar.GetDaysInMonth(t.Year, t.Month - 1))).ToUserDateString(), "\ue163", 5);
+            }
+
+            if (t.Year == t2.Year)
+            {
+                return ("ItemTimeText_ThisYear".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.DayOfYear - 1)).ToUserDateString(), "\ue163", 5);
             }
 
             return ("ItemTimeText_Older".GetLocalized(), string.Format("ItemTimeText_Before".GetLocalized(), today.Subtract(TimeSpan.FromDays(today.DayOfYear - 1)).ToUserDateString()), "\uEC92", 6);
@@ -112,6 +119,7 @@ namespace Files.Extensions
         }
 
         private static Calendar calendar = new CultureInfo(CultureInfo.CurrentUICulture.Name).Calendar;
+
         public static int GetWeekOfYear(this DateTimeOffset t)
         {
             // Should we use the system setting for the first day of week in the future?
@@ -122,7 +130,7 @@ namespace Files.Extensions
         {
             return t.Date.ToShortDateString();
         }
-        
+
         public static string ToUserDateString(this DateTime t)
         {
             return t.ToShortDateString();

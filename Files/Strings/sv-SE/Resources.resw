@@ -90,9 +90,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Använd:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Ägare:</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Rensa alla objekt</value>
   </data>
@@ -111,12 +108,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Ta bort det här objektet</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Senaste objekt</value>
-  </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Skicka feedback</value>
   </data>
@@ -126,26 +117,8 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Om</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Genomskinligt sidofält</value>
-  </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>Datumformat</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>Apptema</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Utseende</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>Visa filnamnstillägg för kända filtyper</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Visa dolda filer och mappar</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Visa dolda filer och mappar</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Filer och mappar</value>
@@ -186,9 +159,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Vid start</value>
   </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Visa ägare i egenskaper</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Alternativ</value>
   </data>
@@ -209,9 +179,6 @@
   </data>
   <data name="SidebarPictures" xml:space="preserve">
     <value>Bilder</value>
-  </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Lossa från sidofältet</value>
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Filmer</value>
@@ -290,9 +257,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Byt namn</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Fäst på sidofältet</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Egenskaper</value>
@@ -374,9 +338,6 @@
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Egenskaper</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Visa exempelprofiler</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Det finns redan ett objekt med samma namn på den här platsen.</value>
@@ -501,9 +462,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Filnamn kan inte innehålla något av följande tecken: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Öppna loggplats</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>objekt markerat</value>
   </data>
@@ -524,9 +482,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Flyttar filer till Papperskorgen</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Fäst mapp på sidofältet</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>Ja</value>
@@ -563,9 +518,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Kör som administratör</value>
-  </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Läs mer om datumformat</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Lås upp</value>
@@ -617,9 +569,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Senaste</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>Appspråk</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Flytta flik hit</value>
@@ -857,27 +806,6 @@
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>Redigera terminal-appar</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Visa exempelprofiler</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>Appspråk</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Terminal-appar</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>Flytta överflödesobjekt till en undermeny</value>
-  </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>Fäst Papperskorgen på sidofältet</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>Visa en bekräftelsedialog när du tar bort filer eller mappar</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Terminal-appar</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Det uppstod problem med att spara vissa egenskaper.</value>
@@ -1185,9 +1113,6 @@
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Statuscenter</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Öppna objekt med ett enda klick</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Fil</value>
   </data>
@@ -1245,12 +1170,6 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Statuscenter</value>
   </data>
-  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>Läs mer om datumformat</value>
-  </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>Släpp här</value>
-  </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Sök</value>
   </data>
@@ -1272,9 +1191,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Stöd oss på PayPal</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>Visa och sortera mappar tillsammans med filer istället för avskilt</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Information</value>
   </data>
@@ -1289,18 +1205,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Uppdateringar är tillgängliga</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Dölj skyddade operativsystemfiler (rekommenderas)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Dölj skyddade operativsystemfiler (rekommenderas)</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>Visa oindexerade objekt när du söker efter filer och mappar (sökningar kan ta längre tid)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>Använd individuella inställningar för varje mapp</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Anpassa högerklicksmenyn</value>
@@ -1328,12 +1232,6 @@
   </data>
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Pågående åtgärder</value>
-  </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>Öppna alltid nya flikar med dubbla paneler</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>Aktivera vy med dubbla paneler</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Öppna i sekundär panel</value>
@@ -1494,9 +1392,6 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Filnamn</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>Lossa mapp från sidofältet</value>
-  </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Filinformation</value>
   </data>
@@ -1574,9 +1469,6 @@
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Bläddra</value>
-  </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Nyligen använda platser</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Ingen förhandsgranskning är tillgänglig</value>

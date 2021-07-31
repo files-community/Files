@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Devices.Geolocation;
 using Windows.Foundation.Collections;
 using Windows.Security.Cryptography;
@@ -24,21 +25,28 @@ using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Properties
 {
-    public class FileProperties : FileSystemProperties
+    public class FileProperties : BaseProperties
     {
+        public ListedItem Item { get; }
+
         private IProgress<float> hashProgress;
 
         public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, IProgress<float> hashProgress, ListedItem item, IShellPage instance)
-            : base(viewModel, tokenSource, coreDispatcher, item, instance)
         {
+            ViewModel = viewModel;
+            TokenSource = tokenSource;
+            Dispatcher = coreDispatcher;
+            Item = item;
+            AppInstance = instance;
             this.hashProgress = hashProgress;
+
+            GetBaseProperties();
+
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
         public override void GetBaseProperties()
         {
-            base.GetBaseProperties();
-
             if (Item != null)
             {
                 ViewModel.ItemName = Item.ItemName;
@@ -81,8 +89,8 @@ namespace Files.ViewModels.Properties
                         }
                         else
                         {
-                            var folderUri = new Uri($"files-uwp:?folder={Path.GetDirectoryName(ViewModel.ShortcutItemPath)}");
-                            await Windows.System.Launcher.LaunchUriAsync(folderUri);
+                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(
+                                () => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath)));
                         }
                     }, () =>
                     {
@@ -94,8 +102,6 @@ namespace Files.ViewModels.Properties
 
         public override async void GetSpecialProperties()
         {
-            base.GetSpecialProperties();
-
             ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.ReadOnly);
             ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
@@ -320,7 +326,9 @@ namespace Files.ViewModels.Properties
                     var tmpItem = (ShortcutItem)Item;
                     if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
                         return;
-                    if (AppInstance.ServiceConnection != null)
+
+                    var connection = await AppServiceConnectionHelper.Instance;
+                    if (connection != null)
                     {
                         var value = new ValueSet()
                         {
@@ -332,7 +340,7 @@ namespace Files.ViewModels.Properties
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
                             { "runasadmin", tmpItem.RunAsAdmin },
                         };
-                        await AppInstance.ServiceConnection.SendMessageAsync(value);
+                        await connection.SendMessageAsync(value);
                     }
                     break;
             }

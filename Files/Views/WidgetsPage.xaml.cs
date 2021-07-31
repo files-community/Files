@@ -22,8 +22,8 @@ namespace Files.Views
 
         private FolderWidget folderWidget;
         private DrivesWidget drivesWidget;
-        private Bundles bundles;
-        private RecentFiles recentFiles;
+        private BundlesWidget bundlesWidget;
+        private RecentFilesWidget recentFilesWidget;
 
         public YourHomeViewModel ViewModel
         {
@@ -58,8 +58,8 @@ namespace Files.Views
         {
             folderWidget = WidgetsHelpers.TryGetWidget<FolderWidget>(Widgets.ViewModel, out bool shouldReloadFolderWidget, folderWidget);
             drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
-            bundles = WidgetsHelpers.TryGetWidget<Bundles>(Widgets.ViewModel, out bool shouldReloadBundles, bundles);
-            recentFiles = WidgetsHelpers.TryGetWidget<RecentFiles>(Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFiles);
+            bundlesWidget = WidgetsHelpers.TryGetWidget<BundlesWidget>(Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
+            recentFilesWidget = WidgetsHelpers.TryGetWidget<RecentFilesWidget>(Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
 
             if (shouldReloadFolderWidget && folderWidget != null)
             {
@@ -84,19 +84,19 @@ namespace Files.Views
                 drivesWidget.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
                 drivesWidget.DrivesWidgetNewPaneInvoked += DrivesWidget_DrivesWidgetNewPaneInvoked;
             }
-            if (shouldReloadBundles && bundles != null)
+            if (shouldReloadBundles && bundlesWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(bundles, 2);
-                ViewModel.LoadBundlesCommand.Execute(bundles.ViewModel);
+                Widgets.ViewModel.InsertWidget(bundlesWidget, 2);
+                ViewModel.LoadBundlesCommand.Execute(bundlesWidget.ViewModel);
             }
-            if (shouldReloadRecentFiles && recentFiles != null)
+            if (shouldReloadRecentFiles && recentFilesWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(recentFiles, 3);
+                Widgets.ViewModel.InsertWidget(recentFilesWidget, 3);
 
-                recentFiles.RecentFilesOpenLocationInvoked -= RecentFilesWidget_RecentFilesOpenLocationInvoked;
-                recentFiles.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
-                recentFiles.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
-                recentFiles.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
+                recentFilesWidget.RecentFilesOpenLocationInvoked -= RecentFilesWidget_RecentFilesOpenLocationInvoked;
+                recentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
+                recentFilesWidget.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
+                recentFilesWidget.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
             }
         }
 
@@ -111,7 +111,7 @@ namespace Files.Views
         {
             FolderWidget FolderWidget = sender as FolderWidget;
 
-            FolderWidget.ShowMultiPaneControls = AppInstance.IsMultiPaneEnabled && AppInstance.IsPageMainPane;
+            FolderWidget.ShowMultiPaneControls = AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false;
         }
 
         private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)
@@ -162,7 +162,9 @@ namespace Files.Views
         {
             AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
             {
-                NavPathParam = e.ItemPath
+                NavPathParam = e.ItemPath,
+                SelectItems = new [] { e.ItemName },
+                AssociatedTabInstance = AppInstance
             });
         }
 
@@ -214,10 +216,8 @@ namespace Files.Views
             AppInstance.NavToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
             AppInstance.NavToolbarViewModel.CanNavigateToParent = false;
 
-            AppInstance.LoadPreviewPaneChanged();
-
             // Set path of working directory empty
-            await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
+            await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home".GetLocalized());
 
             // Clear the path UI and replace with Favorites
             AppInstance.NavToolbarViewModel.PathComponents.Clear();

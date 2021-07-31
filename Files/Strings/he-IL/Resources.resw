@@ -87,9 +87,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>נפתח:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>בעלים</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>נקה את כל פריטים</value>
   </data>
@@ -107,12 +104,6 @@
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>הסר פריט זה</value>
-  </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>פריטים אחרונים</value>
-  </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>קבצים</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>שלח משוב</value>
@@ -164,9 +155,6 @@
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>בזמן העלייה</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>אפליקציות מסוף תוכנה</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>העדפות</value>
@@ -323,9 +311,6 @@
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>מאפיינים</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ראה פרופילים לדוגמה</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>פריט עם שם זהה כבר קיים בתיקייה זו</value>
@@ -491,9 +476,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>לאחרונה</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>שפת אפליקציה</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>מצב</value>
@@ -681,15 +663,6 @@
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>ערוך אפליקציות מסוף תוכנה</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>ראה פרופיל לדוגמה</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>שפת האפליקצה</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>אפליקציות מסוף תוכנה</value>
-  </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>תמכו בנו</value>
   </data>
@@ -698,15 +671,6 @@
   </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>הגישה נדחתה</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>הצג סיומות לסוגי קבצים ידועים</value>
-  </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>תבנית תאריך.</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>הצג בעלים במסך המאפיינים</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>דירוג</value>
@@ -921,9 +885,6 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>‏‏מסמך</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>פתח פריטים בלחיצה בודדת</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>קובץ</value>
   </data>
@@ -941,12 +902,6 @@
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>כוננים:</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>‏‏הצג קבצים ותיקיות מוסתרים</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>‏‏הצג קבצים ותיקיות מוסתרים</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>ניתן להסיר חומרה בבטחה</value>
@@ -1008,9 +963,6 @@
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>לא צוין</value>
   </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>שחרר כאן...</value>
-  </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>תוצאות חיפוש</value>
   </data>
@@ -1022,9 +974,6 @@
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>תמכו בנו באמצעות PayPal</value>
-  </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>הצג ומיין תיקיות בשילוב עם קבצים</value>
   </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>פרטים</value>
@@ -1041,12 +990,6 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>קיימים עדכונים זמינים</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>‏‏הסתר קבצים מוגנים של מערכת ההפעלה (מומלץ)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>‏‏הסתר קבצים מוגנים של מערכת ההפעלה (מומלץ)</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>קובץ</value>
   </data>
@@ -1055,12 +998,6 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>‏‏קובץ חדש</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>הצג פריטים לא מאונדקסים במהלך החיפוש של קבצים ותיקיות (משך החיפוש עשוי לגדול)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>אפשר העדפות יחודיות ברמת תיקיה בודדת</value>
   </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>הוסף</value>
@@ -1074,12 +1011,6 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>ביטול</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>תמיד תפתח כרטיסיות חדשות במצב של כפל חלוניות</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>אפשר תצוגת כפל חלוניות</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>פתח בחלונית משנית</value>
   </data>
@@ -1088,9 +1019,6 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>כפל חלוניות</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>במקרה של ריבוי פריטים הצג את הפריטים העודפים בתת תפריט</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>התאם אישית את התפריט תלוי-ההקשר המופעל בלחיצה ימנית</value>
@@ -1214,9 +1142,6 @@
   </data>
   <data name="Browse" xml:space="preserve">
     <value>צפייה</value>
-  </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>‏‏מיקומים אחרונים</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>אין תצוגה מקדימה זמינה</value>

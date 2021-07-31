@@ -10,6 +10,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -72,8 +73,6 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(PinRecycleBinToSideBar)} {PinRecycleBinToSideBar}");
             Analytics.TrackEvent($"{nameof(ShowFileExtensions)} {ShowFileExtensions}");
             Analytics.TrackEvent($"{nameof(ShowConfirmDeleteDialog)} {ShowConfirmDeleteDialog}");
-            Analytics.TrackEvent($"{nameof(IsAcrylicDisabled)} {IsAcrylicDisabled}");
-            Analytics.TrackEvent($"{nameof(ShowFileOwner)} {ShowFileOwner}");
             Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutEnabled)} {IsVerticalTabFlyoutEnabled}");
             Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)} {IsDualPaneEnabled}");
             Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)} {AlwaysOpenDualPaneInNewTab}");
@@ -90,7 +89,7 @@ namespace Files.ViewModels
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
 
-        public static async void OpenSkinsFolder() => await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.SkinFolder.Path);
+        public static async void OpenThemesFolder() => await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
 
         public static async void ReportIssueOnGitHub()
         {
@@ -102,7 +101,7 @@ namespace Files.ViewModels
         /// </summary>
         public GridLength SidebarWidth
         {
-            get => new GridLength(Math.Min(Math.Max(Get(255d), 255d), 500d), GridUnitType.Pixel);
+            get => new GridLength(Math.Min(Math.Max(Get(255d), Constants.UI.MinimumSidebarWidth), 500d), GridUnitType.Pixel);
             set => Set(value.Value);
         }
 
@@ -438,6 +437,42 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show drives section].
+        /// </summary>
+        public bool ShowDrivesSection
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [show cloud drives section].
+        /// </summary>
+        public bool ShowCloudDrivesSection
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [show network drives section].
+        /// </summary>
+        public bool ShowNetworkDrivesSection
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [show wsl section].
+        /// </summary>
+        public bool ShowWslSection
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         //TODO: This shouldn't pin recycle bin to the sidebar, it should only hold the value whether it should or shouldn't be pinned
         /// <summary>
         /// Gets or sets a value indicating whether or not recycle bin should be pinned to the sidebar.
@@ -503,20 +538,11 @@ namespace Files.ViewModels
             {
                 ApplicationLanguages.PrimaryLanguageOverride = value.ID;
             }
-        }        
+        }
 
         #endregion Preferences
 
         #region Appearance
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not acrylic is enabled.
-        /// </summary>
-        public bool IsAcrylicDisabled
-        {
-            get => Get(false);
-            set => Set(value);
-        }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to move overflow menu items into a sub menu.
@@ -530,11 +556,11 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets the user's current selected skin
         /// </summary>
-        public AppSkin SelectedSkin
+        public AppTheme SelectedTheme
         {
-            get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppSkin>(Get(System.Text.Json.JsonSerializer.Serialize(new AppSkin()
+            get => Newtonsoft.Json.JsonConvert.DeserializeObject<AppTheme>(Get(System.Text.Json.JsonSerializer.Serialize(new AppTheme()
             {
-                Name = "DefaultSkin".GetLocalized()
+                Name = "DefaultTheme".GetLocalized()
             })));
             set => Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
         }
@@ -542,16 +568,6 @@ namespace Files.ViewModels
         #endregion Appearance
 
         #region Experimental
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to show the item owner in the properties window.
-        /// </summary>
-        public bool ShowFileOwner
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
 
         #endregion Experimental
 
@@ -683,6 +699,31 @@ namespace Files.ViewModels
             set => Set((byte)value);
         }
 
+        private IList<FileTag> fileTagList;
+        public IList<FileTag> FileTagList
+        {
+            get
+            {
+                if (fileTagList != null)
+                {
+                    return fileTagList;
+                }
+                fileTagList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<FileTag>>(Get(""));
+                if (fileTagList == null)
+                {
+                    fileTagList = new List<FileTag>()
+                        { new FileTag("Blue", "#0072BD"), new FileTag("Orange", "#D95319"), new FileTag("Yellow", "#EDB120"), new FileTag("Green", "#77AC30"), new FileTag("Azure", "#4DBEEE") };
+                    Set(Newtonsoft.Json.JsonConvert.SerializeObject(fileTagList));
+                }
+                return fileTagList;
+            }
+            set
+            {
+                fileTagList = value;
+                Set(Newtonsoft.Json.JsonConvert.SerializeObject(value));
+            }
+        }
+
         #region ReadAndSaveSettings
 
         public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
@@ -758,6 +799,11 @@ namespace Files.ViewModels
             localSettings.Values[propertyName] = defaultValue;
 
             return defaultValue;
+        }
+
+        internal static void CopyVersionInfo()
+        {
+            throw new NotImplementedException();
         }
 
         private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);

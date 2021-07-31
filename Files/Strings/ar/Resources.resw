@@ -90,9 +90,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>التشغيل الأخير</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>المالك</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>ازالة كل العناصر</value>
   </data>
@@ -111,12 +108,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>إزالة هذا العنصر</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>العناصر الحديثة</value>
-  </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>الملفات</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>إرسال ملاحظات</value>
   </data>
@@ -126,26 +117,8 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>حول التطبيق</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Acrylic الشريط الجانبي</value>
-  </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>تنسيق التاريخ</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>مظهر التطبيق</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>المظهر</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>اظهر اضفات لانواع الملفات المعروفة</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>إظهار الملفات والمجلدات المخفية</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>إظهار الملفات والمجلدات المخفية</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>ملفات ومجلدات</value>
@@ -186,9 +159,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>عند بدء التشغيل</value>
   </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>اظهر المالك في الخصائص</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>التفضيلات</value>
   </data>
@@ -209,9 +179,6 @@
   </data>
   <data name="SidebarPictures" xml:space="preserve">
     <value>صور</value>
-  </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>عدم التقيض من الشريط الجانبي</value>
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>مقاطع الفيديو</value>
@@ -287,9 +254,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>إعادة تسمية</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>تثبيت في الشريط الجانبي</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>خصائص</value>
@@ -371,9 +335,6 @@
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>خصائص</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>اظهر عينة من الملف</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>يوجد عنصر بهذا الاسم في دليل الملفات</value>
@@ -495,9 +456,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>اسم الملف لا يجب ان يحتوي على: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>افتح موقع السجل</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>تم تحديد العنصر</value>
   </data>
@@ -518,9 +476,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>نقل الى سلة المهملات</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>تثبيت دليل التطبيقات الى الشريط الجانبي</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>نعم</value>
@@ -557,9 +512,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>تشغيل كمسؤول</value>
-  </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>تعلم المزيد عن صيغة التاريخ</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>إلغاء تأمين</value>
@@ -611,9 +563,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>الأخيرة</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>لغة التطبيق</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>انقل علامة التبويب الى هنا</value>
@@ -851,27 +800,6 @@
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>تعديل التطبيقات الطرفية</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>عرض نماذج لمحات</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>لغة التطبيق</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>تطبيقات المحطة الطرفية</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>نقل العناصر الفائضة إلى قائمة فرعية</value>
-  </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>قم بتثبيت سلة المحذوفات في الشريط الجانبي</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>إظهار مربع حوار التأكيد عند حذف الملفات أو المجلدات</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>تطبيقات المحطة الطرفية</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>كانت هناك مشكلة في حفظ بعض الخصائص</value>
@@ -1167,9 +1095,6 @@
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>مركز الحالة</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>افتح العناصر بنقرة واحدة</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>ملف</value>
   </data>
@@ -1227,12 +1152,6 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>مركز الحالات</value>
   </data>
-  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>تعرف على المزيد حول تنسيقات التاريخ</value>
-  </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>أفلت هنا</value>
-  </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>بحث</value>
   </data>
@@ -1254,9 +1173,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>ادعمنا على PayPal</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>قائمة وفرز الدلائل بجانب الملفات</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>التفاصيل</value>
   </data>
@@ -1271,18 +1187,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>التحديثات متوفرة</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>إخفاء ملفات نظام التشغيل المحمية (مستحسن)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>إخفاء ملفات نظام التشغيل المحمية (مستحسن)</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>إظهار العناصر غير المفهرسة عند البحث عن الملفات والمجلدات (قد تستغرق عمليات البحث وقتًا أطول)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>قم بتمكين التفضيلات الفردية للأدلة الفردية</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>تخصيص قائمة سياق النقر بزر الماوس الأيمن</value>
@@ -1310,12 +1214,6 @@
   </data>
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>المهام الجارية</value>
-  </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>افتح دائمًا علامات تبويب جديدة في وضع اللوحة المزدوجة</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>تفعيل العرض الثنائي</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>فتح في الجزء الثانوي</value>
@@ -1529,9 +1427,6 @@
   </data>
   <data name="Browse" xml:space="preserve">
     <value>تصفح</value>
-  </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>المواقع التي تمت زيارتها حديثاً</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>المعاينة غير متوفرة</value>

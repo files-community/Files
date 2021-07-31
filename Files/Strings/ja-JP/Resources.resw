@@ -105,12 +105,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>削除</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>最近使用したファイル</value>
-  </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>フィードバックを送信</value>
   </data>
@@ -162,9 +156,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>起動時</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>ターミナル</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>個人用設定</value>
   </data>
@@ -185,9 +176,6 @@
   </data>
   <data name="SidebarPictures" xml:space="preserve">
     <value>ピクチャ</value>
-  </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>サイドバーから固定解除</value>
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>ビデオ</value>
@@ -260,9 +248,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>名前の変更</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>サイドバーに固定</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>プロパティ</value>
@@ -341,9 +326,6 @@
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>プロパティ</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>サンプルプロファイルを表示</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>同じ名前のファイルがこのフォルダにすでに存在します。</value>
@@ -462,9 +444,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>ファイル名に次の文字を含めることはできません: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>ログの場所を開く</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>選択されたファイル</value>
   </data>
@@ -477,14 +456,8 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>ファイル</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>サイドバーに固定</value>
-  </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>アクセス日時:</value>
-  </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>所有者</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>キャンセル</value>
@@ -527,9 +500,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>ごみ箱に移動</value>
-  </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>日付形式の詳細</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>ロック解除</value>
@@ -584,9 +554,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>履歴</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>言語</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>状態</value>
@@ -810,15 +777,6 @@
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>ターミナルアプリを編集</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>サンプルプロファイルを表示</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>言語</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>ターミナルアプリ</value>
-  </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>支援する</value>
   </data>
@@ -828,32 +786,8 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>アクセスが拒否されました</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>ごみ箱をサイドバーに固定</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>ファイルやフォルダを削除するときに確認ダイアログを表示</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>既知のファイルタイプの拡張子を表示</value>
-  </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>透明なサイドバー</value>
-  </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>日付の書式</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>テーマ</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>プロパティにファイルの所有者を表示</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>ステータス センター</value>
-  </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>シングル クリックでファイルを開く</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>ファイル</value>
@@ -872,12 +806,6 @@
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>ドライブ</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>隠されたファイルとフォルダを表示</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>隠されたファイルとフォルダを表示</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>安全なハードウェアの取り外し</value>
@@ -1218,12 +1146,6 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>ステータス センター</value>
   </data>
-  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>日付書式について知る</value>
-  </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>ここにドロップ...</value>
-  </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>次の検索結果を表示:</value>
   </data>
@@ -1242,9 +1164,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>PayPal で私たちを支援してください</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>ファイルとフォルダを一緒に並べ替える</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>詳細</value>
   </data>
@@ -1260,12 +1179,6 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>更新あり</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>保護されたオペレーティング システム ファイルを表示しない (推奨)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>保護されたオペレーティング システム ファイルを表示しない (推奨)</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>ファイル</value>
   </data>
@@ -1277,12 +1190,6 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>新しいファイル</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>検索時にインデックスされていないファイルを表示 (検索に時間がかかる恐れがあります)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>フォルダごとに設定を保存</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>元のパス:</value>
@@ -1308,12 +1215,6 @@
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>進行中の処理</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>新しいタブを常にデュアル ペイン表示で開く</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>デュアル ペイン表示を有効化</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>セカンダリ ペインで開く</value>
   </data>
@@ -1322,9 +1223,6 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>デュアル ペイン</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>右クリックメニューの一部をサブメニューに移動</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>右クリックメニューをカスタマイズ</value>
@@ -1482,9 +1380,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>クラウド ドライブ</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>サイドバーからフォルダを固定解除</value>
-  </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>ネットワーク ドライブ</value>
   </data>
@@ -1596,9 +1491,6 @@
   <data name="Browse" xml:space="preserve">
     <value>ブラウズ</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>最近訪れた場所</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>プレビュー利用不可</value>
   </data>
@@ -1614,14 +1506,8 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>引数</value>
   </data>
-  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
-    <value>サイドバーにライブラリを表示</value>
-  </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>ライブラリ</value>
-  </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>新しいペインで開く</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>ファイル数</value>
@@ -1887,9 +1773,6 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>更新日時:</value>
   </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>フォルダを新しいタブで開く</value>
-  </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>選択オプション</value>
   </data>
@@ -2044,22 +1927,22 @@
     <value>{0} ファイルの {1} から {2} への移動が {3} ファイル移動後にキャンセルされました</value>
   </data>
   <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>{0} ファイル {1} から {2} へ移動中</value>
+    <value>{0} ファイルを {1} から {2} へ移動中</value>
   </data>
   <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>{0} ファイル {1} から {2} へ移動中</value>
+    <value>{0} ファイルを {1} から {2} へ移動中</value>
   </data>
   <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>{0} ファイル {1} から {2} へ移動しました</value>
+    <value>{0} ファイルを {1} から {2} へ移動しました</value>
   </data>
   <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>{0} ファイル {1} から {2} へ移動しました</value>
+    <value>{0} ファイルを {1} から {2} へ移動しました</value>
   </data>
   <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>{0} ファイル {1} から {2} へ移動に失敗しました</value>
+    <value>{0} ファイルを {1} から {2} へ移動に失敗しました</value>
   </data>
   <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>{0} ファイル {1} から {2} へ移動に失敗しました</value>
+    <value>{0} ファイルを {1} から {2} へ移動に失敗しました</value>
   </data>
   <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
     <value>{0} ファイルの {1} へのコピーがキャンセルされました</value>
@@ -2071,16 +1954,16 @@
     <value>{1} への {0} ファイルのコピーが {2} ファイルコピー後にキャンセルされました</value>
   </data>
   <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
-    <value>{0} ファイル {1} へコピー中</value>
+    <value>{0} ファイルを {1} へコピー中</value>
   </data>
   <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
-    <value>{0} ファイル {1} へコピー中</value>
+    <value>{0} ファイルを {1} へコピー中</value>
   </data>
   <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
-    <value>{0} ファイル {1} へコピーしました</value>
+    <value>{0} ファイルを {1} へコピーしました</value>
   </data>
   <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
-    <value>{0} ファイル {1} へコピーしました</value>
+    <value>{0} ファイルを {1} へコピーしました</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
     <value>{1} の {0} ファイルの削除がキャンセルされました</value>
@@ -2092,19 +1975,19 @@
     <value>{1} の {0} ファイルの削除が {3} ファイル削除後にキャンセルされました</value>
   </data>
   <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
-    <value>{0} ファイル {1} から削除中</value>
+    <value>{0} ファイルを {1} から削除中</value>
   </data>
   <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
-    <value>{0} ファイル {1} から削除中</value>
+    <value>{0} ファイルを {1} から削除中</value>
   </data>
   <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
-    <value>{0} ファイル {1} から削除しました</value>
+    <value>{0} ファイルを {1} から削除しました</value>
   </data>
   <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
-    <value>{0} ファイル {1} から削除しました</value>
+    <value>{0} ファイルを {1} から削除しました</value>
   </data>
   <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>{0} ファイル {1} から削除に失敗しました</value>
+    <value>{0} ファイルを {1} から削除に失敗しました</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>ごみ箱</value>
@@ -2135,5 +2018,47 @@
   </data>
   <data name="StatusCenterCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>キャンセル</value>
+  </data>
+  <data name="NavToolbarWidgets.Label" xml:space="preserve">
+    <value>ウィジェット</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
+    <value>選択</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>レイアウト</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>レイアウト</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
+    <value>レイアウト</value>
+  </data>
+  <data name="PreviewPaneToggle.Label" xml:space="preserve">
+    <value>プレビュー</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>並べ替え</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>並べ替え</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
+    <value>並べ替え</value>
+  </data>
+  <data name="NavToolbarLayout.Text" xml:space="preserve">
+    <value>レイアウト</value>
+  </data>
+  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
+    <value>同期状態</value>
+  </data>
+  <data name="NavToolbarArrangementOption_SyncStatus.Content" xml:space="preserve">
+    <value>同期状態</value>
+  </data>
+  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
+    <value>{0} ファイルを {1} から削除に失敗しました</value>
   </data>
 </root>

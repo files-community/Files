@@ -1,8 +1,10 @@
-﻿using Files.Filesystem;
+﻿using Files.Events;
+using Files.Filesystem;
 using Files.Interacts;
 using Files.ViewModels;
 using System;
 using System.Collections.Generic;
+using Windows.Foundation;
 
 namespace Files
 {
@@ -20,7 +22,10 @@ namespace Files
 
         ItemManipulationModel ItemManipulationModel { get; }
 
+        PreviewPaneViewModel PreviewPaneViewModel { get; }
+
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+        public BaseLayoutCommandsViewModel CommandsViewModel { get; }
     }
 }

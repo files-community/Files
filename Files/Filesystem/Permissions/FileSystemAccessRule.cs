@@ -14,6 +14,8 @@ namespace Files.Filesystem.Permissions
 
         public string CurrentUserSID { get; set; }
 
+        public bool AreAccessRulesProtected { get; set; }
+
         public FilePermissions()
         {
             AccessRules = new List<FileSystemAccessRule>();

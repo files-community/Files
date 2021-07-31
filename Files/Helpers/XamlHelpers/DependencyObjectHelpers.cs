@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -27,7 +28,30 @@ namespace Files.Helpers.XamlHelpers
             return null;
         }
 
-        public static void FindChildren<T>(IList<T> results, DependencyObject startNode) where T : DependencyObject
+        public static T FindChild<T>(DependencyObject startNode, Func<T, bool> predicate) where T : DependencyObject
+        {
+            int count = VisualTreeHelper.GetChildrenCount(startNode);
+            for (int i = 0; i < count; i++)
+            {
+                DependencyObject current = VisualTreeHelper.GetChild(startNode, i);
+                if (current.GetType().Equals(typeof(T)) || current.GetType().GetTypeInfo().IsSubclassOf(typeof(T)))
+                {
+                    T asType = (T)current;
+                    if (predicate(asType))
+                    {
+                        return asType;
+                    }
+                }
+                var retVal = FindChild<T>(current, predicate);
+                if (retVal != null)
+                {
+                    return retVal;
+                }
+            }
+            return null;
+        }
+
+        public static IEnumerable<T> FindChildren<T>(DependencyObject startNode) where T : DependencyObject
         {
             int count = VisualTreeHelper.GetChildrenCount(startNode);
             for (int i = 0; i < count; i++)
@@ -36,9 +60,12 @@ namespace Files.Helpers.XamlHelpers
                 if (current.GetType().Equals(typeof(T)) || (current.GetType().GetTypeInfo().IsSubclassOf(typeof(T))))
                 {
                     T asType = (T)current;
-                    results.Add(asType);
+                    yield return asType;
                 }
-                FindChildren<T>(results, current);
+                foreach (var item in FindChildren<T>(current))
+                {
+                    yield return item;
+                }
             }
         }
 

@@ -1,8 +1,10 @@
-﻿using Files.Filesystem;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.ViewModels;
 using Files.ViewModels.Properties;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading;
@@ -56,7 +58,8 @@ namespace Files.Views
             TabShorcut.Visibility = listedItem != null && listedItem.IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
             TabLibrary.Visibility = listedItem != null && listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
             TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem && !listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
-            TabSecurity.Visibility = listedItem != null && !listedItem.IsLibraryItem && !listedItem.IsRecycleBinItem ? Visibility.Visible : Visibility.Collapsed;
+            TabSecurity.Visibility = args.Item is DriveItem ||
+                (listedItem != null && !listedItem.IsLibraryItem && !listedItem.IsRecycleBinItem) ? Visibility.Visible : Visibility.Collapsed;
             base.OnNavigatedTo(e);
         }
 
@@ -66,12 +69,10 @@ namespace Files.Views
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 // Set window size in the loaded event to prevent flickering
-                ApplicationView.GetForCurrentView().TryResizeView(new Windows.Foundation.Size(400, 550));
-                ApplicationView.GetForCurrentView().Consolidated += Properties_Consolidated;
                 TitleBar = ApplicationView.GetForCurrentView().TitleBar;
                 TitleBar.ButtonBackgroundColor = Colors.Transparent;
                 TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppSettings.UpdateThemeElements.Execute(null));
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => AppSettings.UpdateThemeElements.Execute(null));
             }
             else
             {
@@ -80,21 +81,11 @@ namespace Files.Views
             }
         }
 
-        private void Properties_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
-        {
-            AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
-            ApplicationView.GetForCurrentView().Consolidated -= Properties_Consolidated;
-            if (tokenSource != null && !tokenSource.IsCancellationRequested)
-            {
-                tokenSource.Cancel();
-                tokenSource = null;
-            }
-        }
-
         private void PropertiesDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
         {
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
             sender.Closed -= PropertiesDialog_Closed;
+            (contentFrame.Content as PropertiesTab).Dispose();
             if (tokenSource != null && !tokenSource.IsCancellationRequested)
             {
                 tokenSource.Cancel();
@@ -151,7 +142,6 @@ namespace Files.Views
                 }
             }
 
-            (contentFrame.Content as PropertiesTab).Dispose();
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 await ApplicationView.GetForCurrentView().TryConsolidateAsync();
@@ -189,7 +179,7 @@ namespace Files.Views
             }
         }
 
-        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private void NavigationView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
         {
             var navParam = new PropertyNavParam()
             {
@@ -241,7 +231,7 @@ namespace Files.Views
             // I was unable to get this to work any other way
             try
             {
-                var xaml = XamlReader.Load(App.ExternalResourcesHelper.CurrentSkinResources) as ResourceDictionary;
+                var xaml = XamlReader.Load(App.ExternalResourcesHelper.CurrentThemeResources) as ResourceDictionary;
                 App.Current.Resources.MergedDictionaries.Add(xaml);
             }
             catch (Exception)

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -19,8 +18,8 @@ namespace Files.Filesystem.Permissions
             CanReadFilePermissions = permissions.CanReadFilePermissions;
             Owner = UserGroup.FromSid(permissions.OwnerSID);
             CurrentUser = UserGroup.FromSid(permissions.CurrentUserSID);
-
-            AccessRules = new ObservableCollection<FileSystemAccessRule>(permissions.AccessRules);
+            AreAccessRulesProtected = permissions.AreAccessRulesProtected;
+            AccessRules = new ObservableCollection<FileSystemAccessRuleForUI>(permissions.AccessRules.Select(x => new FileSystemAccessRuleForUI(x, IsFolder)));
             RulesForUsers = new ObservableCollection<RulesForUser>(RulesForUser.ForAllUsers(AccessRules, IsFolder));
         }
 
@@ -28,10 +27,12 @@ namespace Files.Filesystem.Permissions
 
         public UserGroup CurrentUser { get; private set; }
 
-        public ObservableCollection<FileSystemAccessRule> AccessRules { get; set; }
+        public ObservableCollection<FileSystemAccessRuleForUI> AccessRules { get; set; }
 
-        // Consolidated view 1       
+        // Consolidated view 1
         public ObservableCollection<RulesForUser> RulesForUsers { get; private set; }
+
+        public bool AreAccessRulesProtected { get; set; }
 
         public FileSystemRights GetEffectiveRights(UserGroup user)
         {
@@ -41,7 +42,7 @@ namespace Files.Filesystem.Permissions
             FileSystemRights inheritedDenyRights = 0, denyRights = 0;
             FileSystemRights inheritedAllowRights = 0, allowRights = 0;
 
-            foreach (FileSystemAccessRule Rule in AccessRules.Where(x => userSids.Contains(x.IdentityReference)))
+            foreach (FileSystemAccessRuleForUI Rule in AccessRules.Where(x => userSids.Contains(x.IdentityReference)))
             {
                 if (Rule.AccessControlType == AccessControlType.Deny)
                 {
@@ -76,7 +77,7 @@ namespace Files.Filesystem.Permissions
             {
                 FilePath = this.FilePath,
                 IsFolder = this.IsFolder,
-                AccessRules = this.AccessRules.ToList(),
+                AccessRules = this.AccessRules.Select(x => x.ToFileSystemAccessRule()).ToList(),
                 CanReadFilePermissions = this.CanReadFilePermissions,
                 CurrentUserSID = this.CurrentUser.Sid,
                 OwnerSID = this.Owner.Sid,

@@ -1,6 +1,4 @@
 ﻿using System;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {

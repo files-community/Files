@@ -1,5 +1,4 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,9 +9,9 @@ namespace Files.Filesystem.Permissions
     {
         private bool isFolder;
 
-        private ObservableCollection<FileSystemAccessRule> accessRules;
+        private ObservableCollection<FileSystemAccessRuleForUI> accessRules;
 
-        public RulesForUser(ObservableCollection<FileSystemAccessRule> accessRules, bool isFolder)
+        public RulesForUser(ObservableCollection<FileSystemAccessRuleForUI> accessRules, bool isFolder)
         {
             this.accessRules = accessRules;
             this.isFolder = isFolder;
@@ -26,7 +25,7 @@ namespace Files.Filesystem.Permissions
             }
             if (AllowRights != 0 && !InheritedAllowRights.HasFlag(AllowRights)) // Do not set if permission is already granted by inheritance
             {
-                accessRules.Add(new FileSystemAccessRule()
+                accessRules.Add(new FileSystemAccessRuleForUI(isFolder)
                 {
                     AccessControlType = AccessControlType.Allow,
                     FileSystemRights = AllowRights,
@@ -37,7 +36,7 @@ namespace Files.Filesystem.Permissions
             }
             if (DenyRights != 0 && !InheritedDenyRights.HasFlag(DenyRights)) // Do not set if permission is already denied by inheritance
             {
-                accessRules.Add(new FileSystemAccessRule()
+                accessRules.Add(new FileSystemAccessRuleForUI(isFolder)
                 {
                     AccessControlType = AccessControlType.Deny,
                     FileSystemRights = DenyRights,
@@ -52,6 +51,7 @@ namespace Files.Filesystem.Permissions
         public FileSystemRights InheritedAllowRights { get; set; }
 
         public FileSystemRights denyRights;
+
         public FileSystemRights DenyRights
         {
             get => denyRights;
@@ -70,6 +70,7 @@ namespace Files.Filesystem.Permissions
         }
 
         public FileSystemRights allowRights;
+
         public FileSystemRights AllowRights
         {
             get => allowRights;
@@ -136,21 +137,25 @@ namespace Files.Filesystem.Permissions
             get => AllowRights.HasFlag(FileSystemRights.Write) || GrantsInheritedWrite;
             set => ToggleAllowPermission(FileSystemRights.Write, value);
         }
+
         public bool GrantsRead
         {
             get => AllowRights.HasFlag(FileSystemRights.Read) || GrantsInheritedRead;
             set => ToggleAllowPermission(FileSystemRights.Read, value);
         }
+
         public bool GrantsListDirectory
         {
             get => AllowRights.HasFlag(FileSystemRights.ListDirectory) || GrantsInheritedListDirectory;
             set => ToggleAllowPermission(FileSystemRights.ListDirectory, value);
         }
+
         public bool GrantsReadAndExecute
         {
             get => AllowRights.HasFlag(FileSystemRights.ReadAndExecute) || GrantsInheritedReadAndExecute;
             set => ToggleAllowPermission(FileSystemRights.ReadAndExecute, value);
         }
+
         public bool GrantsModify
         {
             get => AllowRights.HasFlag(FileSystemRights.Modify) || GrantsInheritedModify;
@@ -168,38 +173,43 @@ namespace Files.Filesystem.Permissions
             get => DenyRights.HasFlag(FileSystemRights.Write) || DeniesInheritedWrite;
             set => ToggleDenyPermission(FileSystemRights.Write, value);
         }
+
         public bool DeniesRead
         {
             get => DenyRights.HasFlag(FileSystemRights.Read) || DeniesInheritedRead;
             set => ToggleDenyPermission(FileSystemRights.Read, value);
         }
+
         public bool DeniesListDirectory
         {
             get => DenyRights.HasFlag(FileSystemRights.ListDirectory) || DeniesInheritedListDirectory;
             set => ToggleDenyPermission(FileSystemRights.ListDirectory, value);
         }
+
         public bool DeniesReadAndExecute
         {
             get => DenyRights.HasFlag(FileSystemRights.ReadAndExecute) || DeniesInheritedReadAndExecute;
             set => ToggleDenyPermission(FileSystemRights.ReadAndExecute, value);
         }
+
         public bool DeniesModify
         {
             get => DenyRights.HasFlag(FileSystemRights.Modify) || DeniesInheritedModify;
             set => ToggleDenyPermission(FileSystemRights.Modify, value);
         }
+
         public bool DeniesFullControl
         {
             get => DenyRights.HasFlag(FileSystemRights.FullControl) || DeniesInheritedFullControl;
             set => ToggleDenyPermission(FileSystemRights.FullControl, value);
         }
 
-        public static List<RulesForUser> ForAllUsers(ObservableCollection<FileSystemAccessRule> accessRules, bool isFolder)
+        public static List<RulesForUser> ForAllUsers(ObservableCollection<FileSystemAccessRuleForUI> accessRules, bool isFolder)
         {
             return accessRules.Select(x => x.IdentityReference).Distinct().Select(x => RulesForUser.ForUser(accessRules, isFolder, x)).ToList();
         }
 
-        public static RulesForUser ForUser(ObservableCollection<FileSystemAccessRule> accessRules, bool isFolder, string identity)
+        public static RulesForUser ForUser(ObservableCollection<FileSystemAccessRuleForUI> accessRules, bool isFolder, string identity)
         {
             var perm = new RulesForUser(accessRules, isFolder) { UserGroup = UserGroup.FromSid(identity) };
             foreach (var Rule in accessRules.Where(x => x.IdentityReference == identity))

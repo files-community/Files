@@ -141,8 +141,6 @@ namespace Files.Filesystem.StorageEnumerators
         private static async Task<ListedItem> AddFolderAsync(StorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
-            var extraProps = await basicProperties.RetrievePropertiesAsync(new[] { "System.DateCreated" });
-            DateTimeOffset.TryParse(extraProps["System.DateCreated"] as string, out var dateCreated);
             if (!cancellationToken.IsCancellationRequested)
             {
                 return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
@@ -150,7 +148,7 @@ namespace Files.Filesystem.StorageEnumerators
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemName = folder.DisplayName,
                     ItemDateModifiedReal = basicProperties.DateModified,
-                    ItemDateCreatedReal = dateCreated,
+                    ItemDateCreatedReal = folder.DateCreated,
                     ItemType = folder.DisplayType,
                     IsHiddenItem = false,
                     Opacity = 1,
@@ -176,12 +174,11 @@ namespace Files.Filesystem.StorageEnumerators
         )
         {
             var basicProperties = await file.GetBasicPropertiesAsync();
-            var extraProperties = await basicProperties.RetrievePropertiesAsync(new[] { "System.DateCreated" });
             // Display name does not include extension
             var itemName = string.IsNullOrEmpty(file.DisplayName) || App.AppSettings.ShowFileExtensions ?
                 file.Name : file.DisplayName;
             var itemModifiedDate = basicProperties.DateModified;
-            DateTimeOffset.TryParse(extraProperties["System.DateCreated"] as string, out var itemCreatedDate);
+            var itemCreatedDate = file.DateCreated;
             var itemPath = string.IsNullOrEmpty(file.Path) ? Path.Combine(currentStorageFolder.Path, file.Name) : file.Path;
             var itemSize = ByteSize.FromBytes(basicProperties.Size).ToBinaryString().ConvertSizeAbbreviation();
             var itemSizeBytes = basicProperties.Size;
@@ -198,7 +195,7 @@ namespace Files.Filesystem.StorageEnumerators
             {
                 try
                 {
-                    var itemThumbnailImg = suppressThumbnailLoading ? null :
+                    using var itemThumbnailImg = suppressThumbnailLoading ? null :
                         await file.GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.UseCurrentScale);
                     if (itemThumbnailImg != null)
                     {
@@ -226,7 +223,7 @@ namespace Files.Filesystem.StorageEnumerators
             {
                 try
                 {
-                    var itemThumbnailImg = suppressThumbnailLoading ? null :
+                    using var itemThumbnailImg = suppressThumbnailLoading ? null :
                         await file.GetThumbnailAsync(ThumbnailMode.ListView, 80, ThumbnailOptions.UseCurrentScale);
                     if (itemThumbnailImg != null)
                     {

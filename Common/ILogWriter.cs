@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Files.Common
 {
     public interface ILogWriter
     {
-        Task WriteLineToLog(string text);
         Task InitializeAsync(string name);
+        Task WriteLineToLogAsync(string text);
+        void WriteLineToLog(string text);
     }
 }

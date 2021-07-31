@@ -1,7 +1,14 @@
 ﻿using Files.Dialogs;
+using Files.Helpers;
+using Files.Helpers.XamlHelpers;
+using Files.UserControls.Settings;
 using Files.ViewModels;
+using Files.ViewModels.SettingsViewModels;
 using Microsoft.Toolkit.Uwp.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using static Files.ViewModels.SettingsViewModels.AppearanceViewModel;
 
 namespace Files.SettingsPages
 {
@@ -10,17 +17,48 @@ namespace Files.SettingsPages
         public Appearance()
         {
             InitializeComponent();
+            Loaded += Appearance_Loaded;
         }
 
-        private void SkinsLearnMoreButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Appearance_Loaded(object sender, RoutedEventArgs e)
         {
-            SkinsTeachingTip.IsOpen = true;
+            for (int i = 0; i < ViewModel.CustomThemes.Count; i++)
+            {
+                if (ViewModel.CustomThemes[i].Path == ViewModel.SelectedTheme.Path)
+                {
+                    AppThemeSelectionGridView.SelectedIndex = i;
+                }
+            }
         }
 
-        private void OpenSkinsFolderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void ThemesLearnMoreButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            ThemesTeachingTip.IsOpen = true;
+        }
+
+        private void OpenThemesFolderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             this.FindAscendant<SettingsDialog>()?.Hide();
-            SettingsViewModel.OpenSkinsFolder();
+            SettingsViewModel.OpenThemesFolder();
+        }
+
+        private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ViewModel.SelectedElementTheme))
+            {
+                foreach (var theme in ViewModel.CustomThemes)
+                {
+                    var container = AppThemeSelectionGridView.ContainerFromItem(theme);
+                    if (container != null)
+                    {
+                        var item = DependencyObjectHelpers.FindChild<ThemeSampleDisplayControl>(container);
+                        if (item != null)
+                        {
+                            await item.ReevaluateThemeResourceBinding();
+                        }
+                    }
+                }
+            }
         }
     }
 }

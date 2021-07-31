@@ -44,11 +44,11 @@ namespace Files.Helpers
             {
                 return App.AppSettings.ShowDrivesWidget;
             }
-            if (typeof(TWidget) == typeof(Bundles))
+            if (typeof(TWidget) == typeof(BundlesWidget))
             {
                 return App.AppSettings.ShowBundlesWidget;
             }
-            if (typeof(TWidget) == typeof(RecentFiles))
+            if (typeof(TWidget) == typeof(RecentFilesWidget))
             {
                 return App.AppSettings.ShowRecentFilesWidget;
             }

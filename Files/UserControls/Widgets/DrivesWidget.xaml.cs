@@ -122,7 +122,7 @@ namespace Files.UserControls.Widgets
 
         public bool ShowMultiPaneControls
         {
-            get => AppInstance.IsMultiPaneEnabled && AppInstance.IsPageMainPane;
+            get => AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false;
         }
 
         private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
@@ -142,28 +142,30 @@ namespace Files.UserControls.Widgets
 
         private async void MapNetworkDrive_Click(object sender, RoutedEventArgs e)
         {
-            if (AppInstance.ServiceConnection != null)
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
             {
-                await AppInstance.ServiceConnection.SendMessageAsync(new ValueSet()
-                    {
-                        { "Arguments", "NetworkDriveOperation" },
-                        { "netdriveop", "OpenMapNetworkDriveDialog" },
-                        { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
-                    });
+                await connection.SendMessageAsync(new ValueSet()
+                {
+                    { "Arguments", "NetworkDriveOperation" },
+                    { "netdriveop", "OpenMapNetworkDriveDialog" },
+                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                });
             }
         }
 
         private async void DisconnectNetworkDrive_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
-            if (AppInstance.ServiceConnection != null)
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
             {
-                await AppInstance.ServiceConnection.SendMessageAsync(new ValueSet()
-                    {
-                        { "Arguments", "NetworkDriveOperation" },
-                        { "netdriveop", "DisconnectNetworkDrive" },
-                        { "drive", item.Path }
-                    });
+                await connection.SendMessageAsync(new ValueSet()
+                {
+                    { "Arguments", "NetworkDriveOperation" },
+                    { "netdriveop", "DisconnectNetworkDrive" },
+                    { "drive", item.Path }
+                });
             }
         }
 

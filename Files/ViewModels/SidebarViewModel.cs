@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 namespace Files.ViewModels
@@ -23,19 +24,19 @@ namespace Files.ViewModels
         public static async System.Threading.Tasks.Task<IEnumerable<IconFileInfo>> LoadSidebarIconResources()
         {
             const string imageres = @"C:\Windows\System32\imageres.dll";
-            var imageResList = await UIHelpers.LoadSelectedIconsAsync(imageres, new List<int>() {
+            var imageResList = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.LoadSelectedIconsAsync(imageres, new List<int>() {
                     Constants.ImageRes.RecycleBin,
                     Constants.ImageRes.NetworkDrives,
                     Constants.ImageRes.Libraries,
                     Constants.ImageRes.ThisPC,
                     Constants.ImageRes.CloudDrives,
                     Constants.ImageRes.Folder
-                }, 32, false);
+                }, 32, false));
 
             const string shell32 = @"C:\Windows\System32\shell32.dll";
-            var shell32List = await UIHelpers.LoadSelectedIconsAsync(shell32, new List<int>() {
+            var shell32List = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.LoadSelectedIconsAsync(shell32, new List<int>() {
                     Constants.Shell32.QuickAccess
-                }, 32, false);
+                }, 32, false));
 
             if (shell32List != null && imageResList != null)
             {
@@ -69,13 +70,13 @@ namespace Files.ViewModels
         public static readonly GridLength CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();
 
         private NavigationViewDisplayMode sidebarDisplayMode;
-        
+
         public NavigationViewDisplayMode SidebarDisplayMode
         {
             get => sidebarDisplayMode;
-            set 
-            { 
-                if(SetProperty(ref sidebarDisplayMode, value))
+            set
+            {
+                if (SetProperty(ref sidebarDisplayMode, value))
                 {
                     OnPropertyChanged(nameof(IsSidebarCompactSize));
                     UpdateTabControlMargin();
@@ -83,7 +84,7 @@ namespace Files.ViewModels
             }
         }
 
-        public bool IsSidebarCompactSize => SidebarDisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Compact || SidebarDisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Minimal;
+        public bool IsSidebarCompactSize => SidebarDisplayMode == NavigationViewDisplayMode.Compact || SidebarDisplayMode == NavigationViewDisplayMode.Minimal;
 
         public void NotifyInstanceRelatedPropertiesChanged(string arg)
         {
@@ -104,7 +105,7 @@ namespace Files.ViewModels
 
             if (string.IsNullOrEmpty(value))
             {
-                //SidebarSelectedItem = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
+                //SidebarSelectedItem = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalized()));
                 return;
             }
 
@@ -125,7 +126,7 @@ namespace Files.ViewModels
             {
                 if (value == "NewTab".GetLocalized())
                 {
-                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
+                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalized()));
                 }
             }
 
@@ -133,11 +134,6 @@ namespace Files.ViewModels
             {
                 SidebarSelectedItem = item;
             }
-        }
-
-        public bool IsMultiPaneEnabled
-        {
-            get => App.AppSettings.IsDualPaneEnabled && !IsSidebarCompactSize;
         }
 
         public bool IsSidebarOpen
@@ -167,9 +163,9 @@ namespace Files.ViewModels
             App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
         }
 
-        public void EmptyRecycleBin(RoutedEventArgs e)
+        public async void EmptyRecycleBin(RoutedEventArgs e)
         {
-            RecycleBinHelpers.EmptyRecycleBin(PaneHolder.ActivePane);
+            await RecycleBinHelpers.S_EmptyRecycleBin();
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -181,10 +177,6 @@ namespace Files.ViewModels
                     {
                         OnPropertyChanged(nameof(IsSidebarOpen));
                     }
-                    break;
-
-                case nameof(App.AppSettings.IsDualPaneEnabled):
-                    OnPropertyChanged(nameof(IsMultiPaneEnabled));
                     break;
             }
         }
@@ -205,13 +197,13 @@ namespace Files.ViewModels
             TabControlMargin = SidebarDisplayMode switch
             {
                 // This prevents the pane toggle button from overlapping the tab control in minimal mode
-                NavigationViewDisplayMode.Minimal => new Thickness(44, 0, 0, 0), 
-                _ => new Thickness(0, 0, 0, 0),
+                NavigationViewDisplayMode.Minimal => new GridLength(44, GridUnitType.Pixel),
+                _ => new GridLength(0, GridUnitType.Pixel),
             };
         }
 
-        private Thickness tabControlMargin;
-        public Thickness TabControlMargin
+        private GridLength tabControlMargin;
+        public GridLength TabControlMargin
         {
             get => tabControlMargin;
             set => SetProperty(ref tabControlMargin, value);

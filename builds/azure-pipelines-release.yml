@@ -5,14 +5,92 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'x86|x64'
-  buildConfiguration: 'Release'
-  appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
+- group: BuildPipelineVariables
+- name: solution
+  value: '**/*.sln'
+- name: buildPlatform
+  value: 'x86|x64'
+- name: buildConfiguration
+  value: 'Release'
+- name: appxPackageDir
+  value: '$(build.artifactStagingDirectory)\AppxPackages\\'
 
 jobs:
-### BUILD ###
-- job: BuildBits
+### Sideload release ###
+- job: SideloadRelease
+  timeoutInMinutes: 120
+  steps:
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\Files.Package\Package.appxmanifest
+        $xmlDoc.Package.Identity.Name="Files"
+        $xmlDoc.Package.Properties.DisplayName="Files"
+        $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
+        $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
+      failOnStderr: true
+
+  - task: DownloadSecureFile@1
+    name: mapsDevKey
+    displayName: 'Download Bing Maps Dev Key'
+    inputs:
+      secureFile: 'BingMapsKey.txt'
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Agent.TempDirectory)'
+      Contents: '$(mapsDevKey.secureFilePath)'
+      TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
+      overWrite: true
+
+  - task: DownloadSecureFile@1
+    name: appCenterDevKey
+    displayName: 'Download AppCenter Dev Key'
+    inputs:
+      secureFile: 'AppCenterKey.txt'
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Agent.TempDirectory)'
+      Contents: '$(appCenterDevKey.secureFilePath)'
+      TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
+      overWrite: true
+
+  - task: NuGetToolInstaller@1
+
+  - task: NuGetCommand@2
+    inputs:
+      restoreSolution: '$(solution)'
+
+  - task: DownloadSecureFile@1
+    name: caCertificate
+    displayName: 'Download CA certificate'
+    inputs:
+      secureFile: '$(signingCert.secureFilePath)'
+
+  - task: MSBuild@1
+    inputs:
+      solution: '**/*.wapproj'
+      platform: 'x86'
+      configuration: '$(buildConfiguration)'
+      msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=Sideload /p:AppxPackageSigningEnabled=true /p:PackageCertificateKeyFile="$(caCertificate.secureFilePath)" /p:PackageCertificatePassword="$(signingCert.password)" /p:PackageCertificateThumbprint=""'
+      maximumCpuCount: true
+
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+    inputs:
+      SourceFolder: '$(system.defaultworkingdirectory)'
+      Contents: '**\bin\$(BuildConfiguration)\**'
+      TargetFolder: '$(build.artifactstagingdirectory)'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
+    inputs:
+      PathtoPublish: '$(build.artifactstagingdirectory)'
+
+### Store release ###
+- job: StoreRelease
   timeoutInMinutes: 120
 
   steps:
@@ -64,20 +142,8 @@ jobs:
       solution: '**/*.wapproj'
       platform: 'x86'
       configuration: '$(buildConfiguration)'
-      msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreAndSideload'
+      msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
       maximumCpuCount: true
-
-  - task: CopyFiles@2
-    displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
-    inputs:
-      SourceFolder: '$(system.defaultworkingdirectory)'
-      Contents: '**\bin\$(BuildConfiguration)\**'
-      TargetFolder: '$(build.artifactstagingdirectory)'
-
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: drop'
-    inputs:
-      PathtoPublish: '$(build.artifactstagingdirectory)'
     
   - task: store-flight@0
     inputs:

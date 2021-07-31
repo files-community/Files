@@ -1,14 +1,10 @@
 ﻿using Files.Enums;
 using Files.Helpers;
 using Files.ViewModels.Dialogs;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.DataModels
 {
@@ -20,11 +16,14 @@ namespace Files.DataModels
 
         public string DestinationPath;
 
-        public FilesystemItemsOperationItemModel(FilesystemOperationType operationType, string sourcePath, string destinationPath)
+        public string DisplayFileName;
+
+        public FilesystemItemsOperationItemModel(FilesystemOperationType operationType, string sourcePath, string destinationPath, string displayFileName = null)
         {
             this.OperationType = operationType;
             this.SourcePath = sourcePath;
             this.DestinationPath = destinationPath;
+            this.DisplayFileName = displayFileName;
         }
     }
 
@@ -75,6 +74,7 @@ namespace Files.DataModels
                     ItemIcon = iconData != null ? await iconData.ToBitmapAsync() : null,
                     SourcePath = item.SourcePath,
                     DestinationPath = item.DestinationPath,
+                    DisplayFileName = item.DisplayFileName,
                     ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName,
                     ItemOperation = item.OperationType,
                     ActionTaken = false
@@ -92,6 +92,7 @@ namespace Files.DataModels
                     ItemIcon = iconData != null ? await iconData.ToBitmapAsync() : null,
                     SourcePath = item.SourcePath,
                     DestinationPath = item.DestinationPath,
+                    DisplayFileName = item.DisplayFileName,
                     ConflictResolveOption = FileNameConflictResolveOptionType.NotAConflict,
                     ItemOperation = item.OperationType,
                     ActionTaken = true

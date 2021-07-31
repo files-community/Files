@@ -42,12 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>이 항목 삭제</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>최근 파일</value>
-  </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>피드백 제출</value>
   </data>
@@ -90,14 +84,8 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>시작 시</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>터미널</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>환경 설정</value>
-  </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>사이드바 고정 해제</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>바탕 화면</value>
@@ -182,9 +170,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>이름 바꾸기</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>사이드바에 고정</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>속성</value>
@@ -339,9 +324,6 @@
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>실험실</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>프로필 예시 보기</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>폴더에 같은 이름의 항목이 이미 존재합니다.</value>
   </data>
@@ -447,9 +429,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>파일 이름에는 다음 문자를 사용할 수 없습니다. \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>로그 경로 열기</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>항목 선택함</value>
   </data>
@@ -462,14 +441,8 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>항목</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>사이드바에 폴더 고정</value>
-  </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>액세스한 날짜:</value>
-  </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>소유자:</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>취소</value>
@@ -503,9 +476,6 @@
   </data>
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
-  </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>날짜 형식 자세히 알아보기</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>잠금 해제</value>
@@ -569,9 +539,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>최근</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>언어</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>상태</value>
@@ -677,27 +644,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
     <value>자세히</value>
-  </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>사이드바 아크릴 효과</value>
-  </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>날짜 형식</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>앱 테마</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>알려진 파일 형식의 파일 확장명 표시</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>숨김 파일, 폴더 표시</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>숨김 파일, 폴더 표시</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>파일 속성에 소유자 표시</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>파일</value>
@@ -860,24 +806,6 @@
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>터미널 편집</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>프로필 예시 보기</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>언어</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>터미널</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>초과된 항목을 하위 메뉴로 이동</value>
-  </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>사이드바에 휴지통 고정</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>파일이나 폴더 삭제 시 확인 창 표시</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>일부 속성을 저장하던 중 문제가 발생했습니다.</value>
@@ -1185,9 +1113,6 @@
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>작업 현황</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>클릭 한번으로 항목 열기</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>파일</value>
   </data>
@@ -1245,12 +1170,6 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>작업 현황</value>
   </data>
-  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>날짜 형식 자세히 알아보기</value>
-  </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>여기에 놓기</value>
-  </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>검색</value>
   </data>
@@ -1272,9 +1191,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>PayPal 후원하기</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>폴더를 파일과 구분하지 않고 나열 및 정렬</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>자세히</value>
   </data>
@@ -1289,18 +1205,6 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>사용 가능한 업데이트가 있습니다</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>보호된 운영 체제 파일 숨기기 (권장)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>보호된 운영 체제 파일 숨기기 (권장)</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>파일, 폴더 검색 시 인덱싱되지 않은 항목 표시 (검색 시간이 길어질 수 있음)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>폴더마다 개별 환경 설정 적용 활성화</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>우클릭 컨텍스트 메뉴</value>
@@ -1328,12 +1232,6 @@
   </data>
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>진행 중인 작업</value>
-  </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>새 탭을 항상 듀얼 패널 모드로 열기</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>듀얼 패널 활성화</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>보조 패널에서 열기</value>
@@ -1494,9 +1392,6 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>이름</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>사이드바에서 폴더 고정 해제</value>
-  </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
     <value>파일 자세한 정보</value>
   </data>
@@ -1605,9 +1500,6 @@
   <data name="Browse" xml:space="preserve">
     <value>탐색</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>최근 위치</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>미리보기를 사용할 수 없습니다</value>
   </data>
@@ -1623,14 +1515,8 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>전달인자</value>
   </data>
-  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
-    <value>사이드바에 라이브러리 표시</value>
-  </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>라이브러리</value>
-  </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>새 패널에서 열기</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>항목 수</value>

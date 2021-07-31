@@ -9,10 +9,11 @@
     Closing="ContentDialog_Closing"
     CornerRadius="{StaticResource OverlayCornerRadius}"
     RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
+    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
     <ContentDialog.Resources>
         <ResourceDictionary>
-            <x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
+            <x:Double x:Key="ContentDialogMaxWidth">1300</x:Double>
             <Thickness x:Key="ContentDialogPadding">0</Thickness>
             <SolidColorBrush x:Key="ContentDialogTopOverlay" Color="Transparent" />
             <ResourceDictionary.ThemeDictionaries>
@@ -36,6 +37,7 @@
         x:Name="ContainerGrid"
         Width="Auto"
         Height="600"
+        Margin="-24"
         HorizontalAlignment="Stretch"
         Background="{ThemeResource SolidBackgroundFillColorTertiary}">
         <Grid.ColumnDefinitions>
@@ -45,6 +47,7 @@
         <muxc:NavigationView
             x:Name="SettingsPane"
             Grid.Column="0"
+            Width="180"
             Margin="12,12,0,12"
             IsBackButtonVisible="Collapsed"
             IsBackEnabled="False"
@@ -91,7 +94,7 @@
                     Content="Sidebar"
                     Tag="3">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE700;" />
+                        <FontIcon Glyph="&#xE145;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
@@ -106,13 +109,13 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavFilesAndFolders"
                     AccessKey="F"
-                    Content="Files and Folders"
+                    Content="Files &amp; Folders"
                     Tag="5">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8B7;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
+                <!--<muxc:NavigationViewItem
                     x:Uid="SettingsNavExperimental"
                     AccessKey="E"
                     Content="Experimental"
@@ -120,7 +123,7 @@
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF1AD;" />
                     </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
+                </muxc:NavigationViewItem>-->
             </muxc:NavigationView.MenuItems>
 
             <muxc:NavigationView.FooterMenuItems>
@@ -139,12 +142,12 @@
         <ScrollViewer
             Grid.Column="1"
             Margin="12,0,0,0"
-            Padding="8,12,8,0"
+            Padding="4,12,0,0"
             Background="{ThemeResource SolidBackgroundFillColorBase}"
             HorizontalScrollMode="Disabled"
             VerticalScrollBarVisibility="Auto"
             VerticalScrollMode="Enabled">
-            <Frame x:Name="SettingsContentFrame" Width="380" />
+            <Frame x:Name="SettingsContentFrame" Width="410" />
         </ScrollViewer>
 
         <Button
@@ -161,5 +164,25 @@
             ToolTipService.ToolTip="Close">
             <FontIcon FontSize="12" Glyph="&#xE8BB;" />
         </Button>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641.0" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="SettingsPane.DisplayMode" Value="LeftCompact" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </ContentDialog>

@@ -48,11 +48,11 @@ namespace Files.ViewModels.Previews
         /// <returns>A list of details</returns>
         public async virtual Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            var (IconData, OverlayData, IsCustom) = await FileThumbnailHelper.LoadIconOverlayAsync(Item.ItemPath, 400);
+            var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
 
-            if (IconData != null)
+            if (iconData != null)
             {
-                Item.FileImage = await IconData.ToBitmapAsync();
+                Item.FileImage = await iconData.ToBitmapAsync();
             }
             else
             {
@@ -75,7 +75,7 @@ namespace Files.ViewModels.Previews
 
             list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
                                                                                             (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
-            return list.Where(i => i.Value != null).ToList();
+            return list.Where(i => i.ValueText != null).ToList();
         }
 
         /// <summary>

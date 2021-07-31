@@ -42,12 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Usuń z listy</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Niedawno używane pliki</value>
-  </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Prześlij opinię</value>
   </data>
@@ -90,14 +84,8 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Po uruchomienu</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Aplikacja wiersza poleceń</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Opcje</value>
-  </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Odepnij od paska bocznego</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Pulpit</value>
@@ -182,9 +170,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Zmień nazwę</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Przypnij do paska bocznego</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Właściwości</value>
@@ -342,9 +327,6 @@
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Funkcje Eksperymentalne</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Zobacz przykładowe profile</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Element z tą nazwą już istnieje w tym katalogu.</value>
   </data>
@@ -462,9 +444,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Nazwa elementu nie może zawierać tych znaków: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Otwórz lokalizację dziennika</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>zaznaczony element</value>
   </data>
@@ -477,14 +456,8 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>elementy</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Przypnij katalog do paska bocznego</value>
-  </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Ostatnio używany:</value>
-  </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Właściciel:</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>Anuluj</value>
@@ -527,9 +500,6 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Przenoszenie plików do Kosza</value>
-  </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Dowiedz się więcej o formatach dat</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Odblokuj</value>
@@ -584,9 +554,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Ostatnio używane</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>Język aplikacji</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Status</value>
@@ -810,15 +777,6 @@
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>Edytuj aplikacje terminala</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Pokaż przykładowe profile</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>Język aplikacji</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Aplikacje Terminala</value>
-  </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Wspomóż nas</value>
   </data>
@@ -828,32 +786,8 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Odmowa dostępu</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>Przypnij Kosz do paska bocznego</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>Pokazuj okno potwierdzenia podczas usuwania plików lub folderów</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>Pokazuj rozszerzenia dla plików</value>
-  </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Akrylowe tło paska bocznego</value>
-  </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>Format daty</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>Motyw aplikacji</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Pokazuj właściciela w właściwościach</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Centrum statusu</value>
-  </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Otwieraj elementy przy jednym kliknięciu</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Plik</value>
@@ -872,12 +806,6 @@
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>Dyski</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Pokaż ukryte pliki i foldery</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Pokaż ukryte pliki i foldery</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>Można bezpiecznie usunąć sprzęt</value>
@@ -1221,12 +1149,6 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Centrum stanu</value>
   </data>
-  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>Dowiedz się więcej o formatach dat</value>
-  </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>Upuść tutaj...</value>
-  </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Wyniki wyszukiwania w</value>
   </data>
@@ -1245,9 +1167,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Wspomóż nas przez PayPal</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>Wyświetlaj i sortuj katalogi obok plików</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Szczegóły</value>
   </data>
@@ -1263,12 +1182,6 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Dostępne aktualizacje</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Ukryj chronione pliki systemu operacyjnego (zalecane)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Ukryj chronione pliki systemu operacyjnego (zalecane)</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Plik</value>
   </data>
@@ -1280,12 +1193,6 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>Nowy plik</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>Pokaż niezindeksowane elementy podczas wyszukiwania plików i folderów (wyszukiwanie może potrwać dłużej)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>Włącz indywidualne preferencje dla poszczególnych katalogów</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Oryginalna ścieżka</value>
@@ -1311,12 +1218,6 @@
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Bieżące zadania</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>Zawsze otwieraj nowe karty w trybie podwójnego panelu</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>Włącz widok podwójnego panelu</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Otwórz w drugim panelu</value>
   </data>
@@ -1325,9 +1226,6 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Podwójny panel</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>Przenieś elementy, które się nie mieszczą do podmenu</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Dostosuj menu kontekstowe prawego przycisku myszy</value>
@@ -1485,9 +1383,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Dyski w chmurze</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>Odepnij katalog od paska bocznego</value>
-  </data>
   <data name="Network" xml:space="preserve">
     <value>Sieciowa</value>
   </data>
@@ -1596,9 +1491,6 @@
   <data name="Browse" xml:space="preserve">
     <value>Wyszukaj</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Ostatnie lokalizacje</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Podgląd niedostępny</value>
   </data>
@@ -1614,14 +1506,8 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumenty</value>
   </data>
-  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
-    <value>Pokaż sekcję biblioteki na pasku bocznym</value>
-  </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Biblioteki</value>
-  </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>Otwórz w nowym Panelu</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Liczba elementów</value>

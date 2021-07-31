@@ -9,13 +9,10 @@ using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -141,7 +138,23 @@ namespace Files.Views.LayoutModes
 
         private void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
         {
-            FileList.Focus(FocusState.Programmatic);
+            if (FileList.ContainerFromIndex(0) is ListViewItem item)
+            {
+                _ = FocusManager.TryFocusAsync(item, FocusState.Programmatic);
+            }
+            else
+            {
+                FileList.ContainerContentChanging += FileList_FocusItem0;
+            }
+        }
+
+        private void FileList_FocusItem0(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            if (!args.InRecycleQueue && args.ItemIndex == 0)
+            {
+                _ = FocusManager.TryFocusAsync(args.ItemContainer, FocusState.Programmatic);
+                FileList.ContainerContentChanging -= FileList_FocusItem0;
+            }
         }
 
         protected override void UnhookEvents()
@@ -210,6 +223,7 @@ namespace Files.Views.LayoutModes
                 IsTypeCloudDrive = InstanceViewModel.IsPageTypeCloudDrive,
                 IsTypeRecycleBin = InstanceViewModel.IsPageTypeRecycleBin
             });
+            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 80);
         }
 
         private void FolderSettings_SortOptionPreferenceUpdated(object sender, EventArgs e)
@@ -257,28 +271,18 @@ namespace Files.Views.LayoutModes
                 ColumnsViewModel.StatusColumn.Show();
             }
 
-            ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column1.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
-                    + Column6.ActualWidth + Column7.ActualWidth + Column8.ActualWidth + Column9.ActualWidth + Column10.ActualWidth);
-
             UpdateSortIndicator();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            var selectorItems = new List<SelectorItem>();
-            DependencyObjectHelpers.FindChildren<SelectorItem>(selectorItems, FileList);
-            foreach (SelectorItem gvi in selectorItems)
-            {
-                base.UninitializeDrag(gvi);
-                gvi.PointerPressed -= FileListGridItem_PointerPressed;
-            }
-            selectorItems.Clear();
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
             FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
             FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
             ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+            FileList.ContainerContentChanging -= FileList_FocusItem0;
         }
 
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
@@ -311,11 +315,14 @@ namespace Files.Views.LayoutModes
         {
             renamingItem = SelectedItem;
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
-            ListViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
+            ListViewItem listViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
             TextBox textBox = null;
-
-            TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-            textBox = gridViewItem.FindDescendant("ItemNameTextBox") as TextBox;
+            if (listViewItem == null)
+            {
+                return;
+            }
+            TextBlock textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
+            textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
             //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
             //textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
             textBox.Text = textBlock.Text;
@@ -413,7 +420,7 @@ namespace Files.Views.LayoutModes
             IsRenamingItem = false;
         }
 
-        private void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        private async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
@@ -437,7 +444,7 @@ namespace Files.Views.LayoutModes
                 {
                     if (MainViewModel.IsQuickLookEnabled)
                     {
-                        QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
+                        await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
                     e.Handled = true;
                 }
@@ -484,7 +491,11 @@ namespace Files.Views.LayoutModes
 
         protected override ListedItem GetItemFromElement(object element)
         {
-            return (element as ListViewItem).DataContext as ListedItem;
+            if (element is ListViewItem item)
+            {
+                return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (FileList.ItemFromContainer(item) as ListedItem);
+            }
+            return null;
         }
 
         private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -529,7 +540,6 @@ namespace Files.Views.LayoutModes
                 listedItem.ItemPropertiesInitialized = false;
                 if (FileList.ContainerFromItem(listedItem) != null)
                 {
-                    listedItem.ItemPropertiesInitialized = true;
                     await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
                 }
             }
@@ -551,25 +561,6 @@ namespace Files.Views.LayoutModes
             {
                 await Task.Delay(200); // The delay gives time for the item to be selected
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-            }
-        }
-
-        private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
-        {
-            if (args.ItemContainer == null)
-            {
-                args.ItemContainer = new ListViewItem();
-            }
-            args.ItemContainer.DataContext = args.Item;
-            InitializeDrag(args.ItemContainer);
-
-            if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
-            {
-                args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
-                args.ItemContainer.CanDrag = args.ItemContainer.IsSelected; // Update CanDrag
-
-                item.ItemPropertiesInitialized = true;
-                await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
             }
         }
 
@@ -677,13 +668,11 @@ namespace Files.Views.LayoutModes
             ColumnsViewModel.DateCreatedColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column8.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.SizeColumn.UserLength = new GridLength(Column9.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.TotalWidth = Math.Max(RootGrid.ActualWidth, Column1.ActualWidth + Column2.ActualWidth + Column3.ActualWidth + Column4.ActualWidth + Column5.ActualWidth
-                    + Column6.ActualWidth + Column7.ActualWidth + Column8.ActualWidth + Column9.ActualWidth + Column10.ActualWidth);
         }
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UpdateColumnLayout();
+            ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 80);
         }
 
         private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
@@ -694,6 +683,93 @@ namespace Files.Views.LayoutModes
         private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
             ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
+        }
+
+        private void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            if (!args.InRecycleQueue)
+            {
+                InitializeDrag(args.ItemContainer);
+                args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
+                args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
+
+                if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
+                {
+                    args.RegisterUpdateCallback(3, async (s, c) =>
+                    {
+                        await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
+                    });
+                }
+            }
+            else
+            {
+                UninitializeDrag(args.ItemContainer);
+                args.ItemContainer.PointerPressed -= FileListGridItem_PointerPressed;
+                if (args.Item is ListedItem item)
+                {
+                    ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(item);
+                }
+            }
+        }
+
+        private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            var columnToResize = (Grid.GetColumn(sender as Microsoft.Toolkit.Uwp.UI.Controls.GridSplitter) - 1) / 2;
+            ResizeColumnToFit(columnToResize);
+            e.Handled = true;
+        }
+
+        private void ResizeColumnToFit(int columnToResize)
+        {
+            if (!FileList.Items.Any())
+            {
+                return;
+            }
+
+            var maxItemLength = columnToResize switch
+            {
+                1 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemName?.Length ?? 0).Max(), // file name column
+                2 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemOriginalPath?.Length ?? 0).Max(), // original path column
+                3 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
+                4 => 20, // cloud status column
+                5 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
+                6 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
+                7 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
+                _ => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
+            };
+            var colunmSizeToFit = columnToResize == 4 ? maxItemLength : MeasureTextColumn(columnToResize, 5, maxItemLength);
+            if (colunmSizeToFit > 0)
+            {
+                var column = columnToResize switch
+                {
+                    1 => ColumnsViewModel.NameColumn,
+                    2 => ColumnsViewModel.OriginalPathColumn,
+                    3 => ColumnsViewModel.DateDeletedColumn,
+                    4 => ColumnsViewModel.StatusColumn,
+                    5 => ColumnsViewModel.DateModifiedColumn,
+                    6 => ColumnsViewModel.DateCreatedColumn,
+                    7 => ColumnsViewModel.ItemTypeColumn,
+                    _ => ColumnsViewModel.SizeColumn
+                };
+                column.UserLength = new GridLength(Math.Min(colunmSizeToFit + 30, column.NormalMaxLength), GridUnitType.Pixel);
+            }
+
+            ParentShellPageInstance.InstanceViewModel.FolderSettings.ColumnsViewModel = ColumnsViewModel;
+        }
+
+        private double MeasureTextColumn(int columnIndex, int measureItems, int maxItemLength)
+        {
+            var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(x => Grid.GetColumn(x.Parent as Grid) == columnIndex);
+            var widthPerLetter = tbs.Where(tb => !string.IsNullOrEmpty(tb.Text)).Take(measureItems).Select(tb =>
+            {
+                tb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                return tb.DesiredSize.Width / Math.Max(1, tb.Text.Length);
+            });
+            if (!widthPerLetter.Any())
+            {
+                return 0;
+            }
+            return widthPerLetter.Average() * maxItemLength;
         }
     }
 }

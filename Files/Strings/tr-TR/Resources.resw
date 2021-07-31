@@ -42,12 +42,6 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Bu ögeyi sil</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Son kullanılanlar</value>
-  </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Geri bildirim gönder</value>
   </data>
@@ -90,14 +84,8 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Başlangıçta</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Uç Birim Uygulamaları</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Ayarlar</value>
-  </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Yan çubuktan kaldır</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Masaüstü</value>
@@ -182,9 +170,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Yeniden adlandır</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Yan çubuğa ekle</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Özellikler</value>
@@ -342,9 +327,6 @@
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Deneysel</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Örnek profilleri görüntüle</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Bu klasörde aynı adlı bir öge zaten var.</value>
   </data>
@@ -462,9 +444,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Öge adında şu karakterler bulunmamalı: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Günlük konumunu aç</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>öge seçildi</value>
   </data>
@@ -477,14 +456,8 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>ögeler</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Klasörü yan çubuğa ekle</value>
-  </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Erişim:</value>
-  </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Sahibi:</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>İptal</value>
@@ -518,9 +491,6 @@
   </data>
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
-  </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tarih biçimleri hakkında ayrıntılı bilgi alın</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Kilidi aç</value>
@@ -584,9 +554,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Son kullanılan</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>Uygulama dili</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Durum</value>
@@ -810,15 +777,6 @@
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>Uç birim uygulamalarını düzenle</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Örnek profilleri görüntüle</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>Uygulama dili</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Terminal Uygulamaları</value>
-  </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Bizi destekleyin</value>
   </data>
@@ -828,32 +786,8 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Erişim Engellendi</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Header" xml:space="preserve">
-    <value>Yan çubukta Geri Dönüşüm Kutusu görüntülensin</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>Dosya ve klasörler silinmeden onay iletisi görüntülensin</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>Bilinen dosya türleri için uzantılar görüntülensin</value>
-  </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Akrilik yan çubuk</value>
-  </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>Tarih biçimi</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>Uygulama teması</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Özellikle içinde Sahip görüntülensin</value>
-  </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Durum merkezi</value>
-  </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Ögeler tek tıklama ile açılsın</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Dosya</value>
@@ -872,12 +806,6 @@
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>Sürücüler</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Gizli dosya ve klasörler görüntülensin</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Gizli dosya ve klasörler görüntülensin</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>Aygıtı kaldırmak güvenli</value>
@@ -1227,12 +1155,6 @@
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Durum Merkezi</value>
   </data>
-  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>Tarih biçimleri hakkında ayrıntılı bilgi alın</value>
-  </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>Buraya bırakın</value>
-  </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Şuradaki arama sonuçları</value>
   </data>
@@ -1251,9 +1173,6 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Bizi PayPal ile destekleyin</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>Klasörler dosyaların yanında listelensin ve sıralansın</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Ayrıntılar</value>
   </data>
@@ -1269,12 +1188,6 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Güncelleştirmeler Var</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Korunan işletim sistem dosyaları gizlensin (Önerilen)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Korunan işletim sistemi dosyaları gizlensin (Önerilen)</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>Dosya</value>
   </data>
@@ -1286,12 +1199,6 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>Yeni Dosya</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>Dosya ve klasörler aranırken dizine eklenmemiş ögeler görüntülensin (arama daha uzun sürebilir)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>Her klasör için ayrı ayarlar kullanılsın</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Özgün yol</value>
@@ -1317,12 +1224,6 @@
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Süren İşlemler</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>Yeni sekmeler her zaman çift pano kipinde açılsın</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>Çift pano görünümü kullanılsın</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>İkinci panoda aç</value>
   </data>
@@ -1331,9 +1232,6 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Çift pano</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>Taşan ögeler bir alt menüye taşınsın</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Sağ tık menüsünü özelleştir</value>
@@ -1491,9 +1389,6 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Bulut Sürücüleri</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>Klasörü yan çubuktan kaldır</value>
-  </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Ağ sürücüleri</value>
   </data>
@@ -1605,9 +1500,6 @@
   <data name="Browse" xml:space="preserve">
     <value>Göz at</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Son konumlar</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Ön izleme yok</value>
   </data>
@@ -1623,14 +1515,8 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argümanlar</value>
   </data>
-  <data name="SettingsShowLibrarySection.Header" xml:space="preserve">
-    <value>Yan çubukta Hızlı Erişim görüntülensin</value>
-  </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Kitaplıklar</value>
-  </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>Yeni panoda aç</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Öğe sayısı</value>

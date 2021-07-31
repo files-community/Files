@@ -1,38 +1,25 @@
 ﻿using Files.DataModels;
-using Files.Filesystem;
 using Files.Helpers;
+using Files.Helpers.ContextFlyouts;
 using Files.Helpers.XamlHelpers;
-using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
 using Windows.System;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
-using static Files.UserControls.INavigationToolbar;
 
 namespace Files.UserControls
 {
     public sealed partial class NavigationToolbar : UserControl
     {
-        // TODO: Remove this MainPage reference when we work on new Vertical Tabs control in MainPage
-        private MainPage mainPage => ((Window.Current.Content as Frame).Content as MainPage);
-
         public NavToolbarViewModel ViewModel
         {
             get => (NavToolbarViewModel)GetValue(ViewModelProperty);
@@ -69,46 +56,15 @@ namespace Files.UserControls
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        private List<ShellNewEntry> cachedNewContextMenuEntries { get; set; }
-
-
         public NavigationToolbar()
         {
             InitializeComponent();
             Loading += NavigationToolbar_Loading;
         }
 
-        private async void NavigationToolbar_Loading(FrameworkElement sender, object args)
+        private void NavigationToolbar_Loading(FrameworkElement sender, object args)
         {
-            cachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
-        }
-
-
-        public bool ShowMultiPaneControls
-        {
-            get => (bool)GetValue(ShowMultiPaneControlsProperty);
-            set => SetValue(ShowMultiPaneControlsProperty, value);
-        }
-
-        // Using a DependencyProperty as the backing store for ShowMultiPaneControls.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ShowMultiPaneControlsProperty =
-            DependencyProperty.Register(nameof(ShowMultiPaneControls), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
-
-        private bool isMultiPaneActive;
-
-        public bool IsMultiPaneActive
-        {
-            get
-            {
-                return isMultiPaneActive;
-            }
-            set
-            {
-                if (value != isMultiPaneActive)
-                {
-                    isMultiPaneActive = value;
-                }
-            }
+            StatusCenterViewModel.ProgressBannerPosted += StatusCenterActions_ProgressBannerPosted;
         }
 
         private void VisiblePath_Loaded(object sender, RoutedEventArgs e)
@@ -165,51 +121,66 @@ namespace Files.UserControls
 
         private void SearchRegion_LostFocus(object sender, RoutedEventArgs e) => ViewModel.SearchRegion_LostFocus(sender, e);
 
-        private void NavMoreButtonFlyout_Opening(object sender, object e)
+        private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args) => ViewModel.VisiblePath_QuerySubmitted(sender, args);
+
+        public void SetShellCommandBarContextItems()
         {
-            if (cachedNewContextMenuEntries == null)
+
+        }
+        public bool ShowSearchBox
+        {
+            get { return (bool)GetValue(ShowSearchBoxProperty); }
+            set { SetValue(ShowSearchBoxProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CollapseSearchBox.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShowSearchBoxProperty =
+            DependencyProperty.Register(nameof(ShowSearchBox), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+
+
+        public static readonly DependencyProperty SettingsButtonCommandProperty = DependencyProperty.Register(nameof(SettingsButtonCommand), typeof(ICommand), typeof(NavigationToolbar), new PropertyMetadata(null));
+
+        public ICommand SettingsButtonCommand
+        {
+            get => (ICommand)GetValue(SettingsButtonCommandProperty);
+            set => SetValue(SettingsButtonCommandProperty, value);
+        }
+
+        public StatusCenterViewModel StatusCenterViewModel { get; set; }
+
+        private void StatusCenterActions_ProgressBannerPosted(object sender, PostedStatusBanner e)
+        {
+            if (AppSettings.ShowStatusCenterTeachingTip)
             {
-                return;
+                StatusCenterTeachingTip.IsOpen = true;
+                StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                AppSettings.ShowStatusCenterTeachingTip = false;
             }
-            if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
+            else
             {
-                var separatorIndex = NewEmptySpace.Items.IndexOf(NewEmptySpace.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
-                foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
-                {
-                    MenuFlyoutItem menuLayoutItem;
-                    if (newEntry.Icon != null)
-                    {
-                        BitmapImage image = null;
-                        image = new BitmapImage();
-#pragma warning disable CS4014
-                        image.SetSourceAsync(newEntry.Icon);
-#pragma warning restore CS4014
-                        menuLayoutItem = new MenuFlyoutItemWithImage()
-                        {
-                            Text = newEntry.Name,
-                            BitmapIcon = image,
-                            Tag = "CreateNewFile"
-                        };
-                    }
-                    else
-                    {
-                        menuLayoutItem = new MenuFlyoutItem()
-                        {
-                            Text = newEntry.Name,
-                            Icon = new FontIcon()
-                            {
-                                Glyph = "\xE7C3"
-                            },
-                            Tag = "CreateNewFile"
-                        };
-                    }
-                    menuLayoutItem.Command = ViewModel.CreateNewFileCommand;
-                    menuLayoutItem.CommandParameter = newEntry;
-                    NewEmptySpace.Items.Insert(separatorIndex + 1, menuLayoutItem);
-                }
+                StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                StatusCenterTeachingTip.IsOpen = false;
             }
         }
 
-        private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args) => ViewModel.VisiblePath_QuerySubmitted(sender, args);
+        public bool ShowStatusCenter
+        {
+            get => (bool)GetValue(ShowStatusCenterProperty);
+            set => SetValue(ShowStatusCenterProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for ShowStatusCenter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShowStatusCenterProperty =
+            DependencyProperty.Register(nameof(ShowStatusCenter), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+
+        public bool ShowSettingsButton
+        {
+            get => (bool)GetValue(dp: ShowSettingsButtonProperty);
+            set => SetValue(ShowSettingsButtonProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for ShowSettingsButton.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShowSettingsButtonProperty =
+            DependencyProperty.Register(nameof(ShowSettingsButton), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
     }
 }

@@ -42,20 +42,23 @@ namespace Files.Helpers
             await Launcher.LaunchUriAsync(filesUWPUri);
         }
 
-        public static async void OpenDirectoryInTerminal(string workingDir, IShellPage associatedInstance)
+        public static async Task OpenDirectoryInTerminal(string workingDir)
         {
             var terminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
 
-            if (associatedInstance.ServiceConnection != null)
+            var connection = await AppServiceConnectionHelper.Instance;
+
+            if (connection != null)
             {
                 var value = new ValueSet()
                 {
+                    { "Arguments", "LaunchApp" },
                     { "WorkingDirectory", workingDir },
                     { "Application", terminal.Path },
-                    { "Arguments", string.Format(terminal.Arguments,
+                    { "Parameters", string.Format(terminal.Arguments,
                        Helpers.PathNormalization.NormalizePath(workingDir)) }
                 };
-                await associatedInstance.ServiceConnection.SendMessageAsync(value);
+                await connection.SendMessageAsync(value);
             }
         }
 
@@ -131,15 +134,17 @@ namespace Files.Helpers
             bool shortcutRunAsAdmin = false;
             bool shortcutIsFolder = false;
 
+
             if (itemType == null || isShortcutItem || isHiddenItem)
             {
                 if (isShortcutItem)
                 {
-                    if (associatedInstance.ServiceConnection == null)
+                    var connection = await AppServiceConnectionHelper.Instance;
+                    if (connection == null)
                     {
                         return false;
                     }
-                    var (status, response) = await associatedInstance.ServiceConnection.SendMessageForResponseAsync(new ValueSet()
+                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "ParseLink" },

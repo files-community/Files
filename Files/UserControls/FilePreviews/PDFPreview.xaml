@@ -6,24 +6,35 @@
     xmlns:local="using:Files.UserControls.FilePreviews"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:vms="using:Files.ViewModels.Previews"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
-
-    <ListView
-        x:Name="PageList"
-        ItemsSource="{x:Bind ViewModel.Pages, Mode=OneWay}"
-        SelectionMode="None">
-        <ListView.ItemTemplate>
-            <DataTemplate x:DataType="Page">
-                <Grid Margin="0,5,0,5">
-                    <Image Source="{Binding PageImage}" />
-                </Grid>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-
-        <ListView.Footer>
-            <muxc:ProgressBar IsIndeterminate="True" Visibility="{x:Bind ViewModel.LoadingBarVisibility, Mode=OneWay}" />
-        </ListView.Footer>
-    </ListView>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListView
+            x:Name="PageList"
+            ItemsSource="{x:Bind ViewModel.Pages, Mode=OneWay}"
+            SelectionMode="None">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="vms:PageViewModel">
+                    <Grid>
+                        <Viewbox Margin="0,5,0,5" StretchDirection="DownOnly">
+                            <ContentPresenter CornerRadius="{StaticResource ControlCornerRadius}">
+                                <Image Source="{x:Bind PageImage}" />
+                            </ContentPresenter>
+                        </Viewbox>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <muxc:ProgressBar
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            IsIndeterminate="True"
+            Visibility="{x:Bind ViewModel.LoadingBarVisibility, Mode=OneWay}" />
+    </Grid>
 </UserControl>

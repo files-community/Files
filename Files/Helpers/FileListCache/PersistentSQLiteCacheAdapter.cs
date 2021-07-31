@@ -1,9 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
-using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -86,7 +84,7 @@ namespace Files.Helpers.FileListCache
         {
             if (!disposedValue)
             {
-                connection.Dispose();
+                connection?.Dispose();
                 disposedValue = true;
             }
         }
@@ -100,13 +98,9 @@ namespace Files.Helpers.FileListCache
             if (disposedValue) return false;
             if (connection != null) return true;
 
-            string dbPath = null;
+            string dbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "cache.db");
             try
             {
-                await ApplicationData.Current.LocalFolder.CreateFileAsync("cache.db", CreationCollisionOption.OpenIfExists);
-
-                dbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "cache.db");
-
                 SQLitePCL.Batteries_V2.Init();
 
                 connection = new SqliteConnection($"Data Source='{dbPath}'");
@@ -119,7 +113,7 @@ namespace Files.Helpers.FileListCache
 	                PRIMARY KEY(""Id"")
                 )";
                 using var cmdFileDisplayNameCacheTable = new SqliteCommand(createFileDisplayNameCacheTable, connection);
-                cmdFileDisplayNameCacheTable.ExecuteNonQuery();
+                await cmdFileDisplayNameCacheTable.ExecuteNonQueryAsync();
 
                 RunCleanupRoutine();
                 return true;

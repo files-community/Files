@@ -4,20 +4,26 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels;
+using Files.ViewModels.Dialogs;
 using Files.Views;
+using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 namespace Files.Interacts
@@ -29,8 +35,6 @@ namespace Files.Interacts
     public class BaseLayoutCommandImplementationModel : IBaseLayoutCommandImplementationModel
     {
         #region Singleton
-
-        private NamedPipeAsAppServiceConnection ServiceConnection => associatedInstance?.ServiceConnection;
 
         private IBaseLayout SlimContentPage => associatedInstance?.SlimContentPage;
 
@@ -76,7 +80,8 @@ namespace Files.Interacts
         {
             foreach (ListedItem selectedItem in SlimContentPage.SelectedItems)
             {
-                if (ServiceConnection != null)
+                var connection = await AppServiceConnectionHelper.Instance;
+                if (connection != null)
                 {
                     var value = new ValueSet()
                     {
@@ -88,11 +93,11 @@ namespace Files.Interacts
                         { "runasadmin", false },
                         {
                             "filepath",
-                            System.IO.Path.Combine(associatedInstance.FilesystemViewModel.WorkingDirectory,
+                            Path.Combine(associatedInstance.FilesystemViewModel.WorkingDirectory,
                                 string.Format("ShortcutCreateNewSuffix".GetLocalized(), selectedItem.ItemName) + ".lnk")
                         }
                     };
-                    await ServiceConnection.SendMessageAsync(value);
+                    await connection.SendMessageAsync(value);
                 }
             }
         }
@@ -109,9 +114,10 @@ namespace Files.Interacts
 
         public virtual async void RunAsAdmin(RoutedEventArgs e)
         {
-            if (ServiceConnection != null)
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
             {
-                await ServiceConnection.SendMessageAsync(new ValueSet()
+                await connection.SendMessageAsync(new ValueSet()
                 {
                     { "Arguments", "InvokeVerb" },
                     { "FilePath", SlimContentPage.SelectedItem.ItemPath },
@@ -122,9 +128,10 @@ namespace Files.Interacts
 
         public virtual async void RunAsAnotherUser(RoutedEventArgs e)
         {
-            if (ServiceConnection != null)
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
             {
-                await ServiceConnection.SendMessageAsync(new ValueSet()
+                await connection.SendMessageAsync(new ValueSet()
                 {
                     { "Arguments", "InvokeVerb" },
                     { "FilePath", SlimContentPage.SelectedItem.ItemPath },
@@ -148,24 +155,24 @@ namespace Files.Interacts
             NavigationHelpers.OpenSelectedItems(associatedInstance, false);
         }
 
-        public virtual void UnpinDirectoryFromSidebar(RoutedEventArgs e)
+        public virtual void UnpinDirectoryFromFavorites(RoutedEventArgs e)
         {
             App.SidebarPinnedController.Model.RemoveItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
         }
 
-        public virtual void EmptyRecycleBin(RoutedEventArgs e)
+        public virtual async void EmptyRecycleBin(RoutedEventArgs e)
         {
-            RecycleBinHelpers.EmptyRecycleBin(associatedInstance);
+            await RecycleBinHelpers.S_EmptyRecycleBin();
         }
 
-        public virtual void QuickLook(RoutedEventArgs e)
+        public virtual async void QuickLook(RoutedEventArgs e)
         {
-            QuickLookHelpers.ToggleQuickLook(associatedInstance);
+            await QuickLookHelpers.ToggleQuickLook(associatedInstance);
         }
 
-        public virtual void CopyItem(RoutedEventArgs e)
+        public virtual async void CopyItem(RoutedEventArgs e)
         {
-            UIFilesystemHelpers.CopyItem(associatedInstance);
+            await UIFilesystemHelpers.CopyItem(associatedInstance);
         }
 
         public virtual void CutItem(RoutedEventArgs e)
@@ -219,7 +226,7 @@ namespace Files.Interacts
             }
 
             // Check if destination path exists
-            string folderPath = System.IO.Path.GetDirectoryName(item.TargetPath);
+            string folderPath = Path.GetDirectoryName(item.TargetPath);
             FilesystemResult<StorageFolderWithPath> destFolder = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
 
             if (destFolder)
@@ -227,6 +234,7 @@ namespace Files.Interacts
                 associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
                 {
                     NavPathParam = folderPath,
+                    SelectItems = new[] { Path.GetFileName(item.TargetPath.TrimPath()) },
                     AssociatedTabInstance = associatedInstance
                 });
             }
@@ -305,8 +313,9 @@ namespace Files.Interacts
             {
                 if (SlimContentPage != null)
                 {
+                    var path = SlimContentPage.SelectedItem != null ? SlimContentPage.SelectedItem.ItemPath : associatedInstance.FilesystemViewModel.WorkingDirectory;
                     DataPackage data = new DataPackage();
-                    data.SetText(SlimContentPage.SelectedItem.ItemPath);
+                    data.SetText(path);
                     Clipboard.SetContent(data);
                     Clipboard.Flush();
                 }
@@ -317,9 +326,9 @@ namespace Files.Interacts
             }
         }
 
-        public virtual void OpenDirectoryInDefaultTerminal(RoutedEventArgs e)
+        public virtual async void OpenDirectoryInDefaultTerminal(RoutedEventArgs e)
         {
-            NavigationHelpers.OpenDirectoryInTerminal(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
+            await NavigationHelpers.OpenDirectoryInTerminal(associatedInstance.FilesystemViewModel.WorkingDirectory);
         }
 
         public virtual void ShareItem(RoutedEventArgs e)
@@ -394,7 +403,7 @@ namespace Files.Interacts
             }
         }
 
-        public virtual void PinDirectoryToSidebar(RoutedEventArgs e)
+        public virtual void PinDirectoryToFavorites(RoutedEventArgs e)
         {
             App.SidebarPinnedController.Model.AddItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
         }
@@ -470,8 +479,10 @@ namespace Files.Interacts
 
         public virtual void GridViewSizeDecrease(KeyboardAcceleratorInvokedEventArgs e)
         {
-            associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
-
+            if (associatedInstance.IsCurrentInstance)
+            {
+                associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
+            }
             if (e != null)
             {
                 e.Handled = true;
@@ -480,15 +491,17 @@ namespace Files.Interacts
 
         public virtual void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e)
         {
-            associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
-
+            if (associatedInstance.IsCurrentInstance)
+            {
+                associatedInstance.InstanceViewModel.FolderSettings.GridViewSize = associatedInstance.InstanceViewModel.FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
+            }
             if (e != null)
             {
                 e.Handled = true;
             }
         }
 
-        public virtual async void DragEnter(DragEventArgs e)
+        public virtual async void DragOver(DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
@@ -496,49 +509,72 @@ namespace Files.Interacts
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 e.Handled = true;
-                e.DragUIOverride.IsCaptionVisible = true;
-                IEnumerable<IStorageItem> draggedItems = new List<IStorageItem>();
+                IEnumerable<IStorageItem> draggedItems;
                 try
                 {
                     draggedItems = await e.DataView.GetStorageItemsAsync();
                 }
-                catch (Exception dropEx) when ((uint)dropEx.HResult == 0x80040064)
+                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
                 {
-                    if (associatedInstance.ServiceConnection != null)
-                    {
-                        await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet() {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "DragDrop" },
-                            { "droptext", "DragDropWindowText".GetLocalized() },
-                            { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
-                    }
+                    // Handled by FTP
+                    draggedItems = new List<IStorageItem>();
                 }
                 catch (Exception ex)
                 {
                     App.Logger.Warn(ex, ex.Message);
-                }
-                if (!draggedItems.Any())
-                {
                     e.AcceptedOperation = DataPackageOperation.None;
                     deferral.Complete();
                     return;
                 }
 
-                var folderName = System.IO.Path.GetFileName(associatedInstance.FilesystemViewModel.WorkingDirectory);
+                var pwd = associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
+                var folderName = (Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd) ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
                 // As long as one file doesn't already belong to this folder
-                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.All(x => Path.GetDirectoryName(x.Path) == associatedInstance.FilesystemViewModel.WorkingDirectory))
+                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || (draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(associatedInstance.FilesystemViewModel.WorkingDirectory)))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
-                else if (draggedItems.AreItemsInSameDrive(associatedInstance.FilesystemViewModel.WorkingDirectory))
+                else if (!draggedItems.Any())
                 {
-                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
-                    e.AcceptedOperation = DataPackageOperation.Move;
+                    if (pwd.StartsWith(App.AppSettings.RecycleBinPath))
+                    {
+                        e.AcceptedOperation = DataPackageOperation.None;
+                    }
+                    else
+                    {
+                        e.DragUIOverride.IsCaptionVisible = true;
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
+                        e.AcceptedOperation = DataPackageOperation.Copy;
+                    }
                 }
                 else
                 {
-                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
-                    e.AcceptedOperation = DataPackageOperation.Copy;
+                    e.DragUIOverride.IsCaptionVisible = true;
+                    if (pwd.StartsWith(App.AppSettings.RecycleBinPath))
+                    {
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
+                        e.AcceptedOperation = DataPackageOperation.Move;
+                    }
+                    else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
+                    {
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
+                        e.AcceptedOperation = DataPackageOperation.Copy;
+                    }
+                    else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
+                    {
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
+                        e.AcceptedOperation = DataPackageOperation.Move;
+                    }
+                    else if (draggedItems.AreItemsInSameDrive(associatedInstance.FilesystemViewModel.WorkingDirectory))
+                    {
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
+                        e.AcceptedOperation = DataPackageOperation.Move;
+                    }
+                    else
+                    {
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
+                        e.AcceptedOperation = DataPackageOperation.Copy;
+                    }
                 }
             }
 
@@ -571,6 +607,150 @@ namespace Files.Interacts
         public void CreateFolderWithSelection(RoutedEventArgs e)
         {
             UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
+        }
+
+        public async void DecompressArchive()
+        {
+            StorageFile archive = await StorageItemHelpers.ToStorageItem<StorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
+
+            if (archive != null)
+            {
+                DecompressArchiveDialog decompressArchiveDialog = new DecompressArchiveDialog();
+                DecompressArchiveDialogViewModel decompressArchiveViewModel = new DecompressArchiveDialogViewModel(archive);
+                decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
+
+                ContentDialogResult option = await decompressArchiveDialog.ShowAsync();
+
+                if (option == ContentDialogResult.Primary)
+                {
+                    // Check if archive still exists
+                    if (!StorageItemHelpers.Exists(archive.Path))
+                    {
+                        return;
+                    }
+
+                    CancellationTokenSource extractCancellation = new CancellationTokenSource();
+                    PostedStatusBanner banner = App.StatusCenterViewModel.PostOperationBanner(
+                        string.Empty,
+                        "ExtractingArchiveText".GetLocalized(),
+                        0,
+                        ReturnResult.InProgress,
+                        FileOperationType.Extract,
+                        extractCancellation);
+
+                    StorageFolder destinationFolder = decompressArchiveViewModel.DestinationFolder;
+                    string destinationFolderPath = decompressArchiveViewModel.DestinationFolderPath;
+
+                    if (destinationFolder == null)
+                    {
+                        StorageFolder parentFolder = await StorageItemHelpers.ToStorageItem<StorageFolder>(Path.GetDirectoryName(archive.Path));
+                        destinationFolder = await parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName);
+                    }
+
+                    Stopwatch sw = new Stopwatch();
+                    sw.Start();
+
+                    await ZipHelpers.ExtractArchive(archive, destinationFolder, banner.Progress, extractCancellation.Token);
+
+                    sw.Stop();
+                    banner.Remove();
+
+                    if (sw.Elapsed.TotalSeconds >= 6)
+                    {
+                        App.StatusCenterViewModel.PostBanner(
+                            "ExtractingCompleteText".GetLocalized(),
+                            "ArchiveExtractionCompletedSuccessfullyText".GetLocalized(),
+                            0,
+                            ReturnResult.Success,
+                            FileOperationType.Extract);
+                    }
+
+                    if (decompressArchiveViewModel.OpenDestinationFolderOnCompletion)
+                    {
+                        await NavigationHelpers.OpenPath(destinationFolderPath, associatedInstance, FilesystemItemType.Directory);
+                    }
+                }
+            }
+        }
+
+        public async void DecompressArchiveHere()
+        {
+            StorageFile archive = await StorageItemHelpers.ToStorageItem<StorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
+            StorageFolder currentFolder = await StorageItemHelpers.ToStorageItem<StorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
+
+            if (archive != null && currentFolder != null)
+            {
+                CancellationTokenSource extractCancellation = new CancellationTokenSource();
+                PostedStatusBanner banner = App.StatusCenterViewModel.PostOperationBanner(
+                    string.Empty,
+                    "ExtractingArchiveText".GetLocalized(),
+                    0,
+                    ReturnResult.InProgress,
+                    FileOperationType.Extract,
+                    extractCancellation);
+
+
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+
+                await ZipHelpers.ExtractArchive(archive, currentFolder, banner.Progress, extractCancellation.Token);
+
+                sw.Stop();
+                banner.Remove();
+
+                if (sw.Elapsed.TotalSeconds >= 6)
+                {
+                    App.StatusCenterViewModel.PostBanner(
+                        "ExtractingCompleteText".GetLocalized(),
+                        "ArchiveExtractionCompletedSuccessfullyText".GetLocalized(),
+                        0,
+                        ReturnResult.Success,
+                        FileOperationType.Extract);
+                }
+            }
+        }
+
+        public async void DecompressArchiveToChildFolder()
+        {
+            StorageFile archive = await StorageItemHelpers.ToStorageItem<StorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
+            StorageFolder currentFolder = await StorageItemHelpers.ToStorageItem<StorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
+            StorageFolder destinationFolder = null;
+
+            if (currentFolder != null)
+            {
+                destinationFolder = await currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.OpenIfExists);
+            }
+
+            if (archive != null && destinationFolder != null)
+            {
+                CancellationTokenSource extractCancellation = new CancellationTokenSource();
+                PostedStatusBanner banner = App.StatusCenterViewModel.PostOperationBanner(
+                    string.Empty,
+                    "ExtractingArchiveText".GetLocalized(),
+                    0,
+                    ReturnResult.InProgress,
+                    FileOperationType.Extract,
+                    extractCancellation);
+
+
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+
+                await ZipHelpers.ExtractArchive(archive, destinationFolder, banner.Progress, extractCancellation.Token);
+
+                sw.Stop();
+                banner.Remove();
+
+                if (sw.Elapsed.TotalSeconds >= 6)
+                {
+                    App.StatusCenterViewModel.PostBanner(
+                        "ExtractingCompleteText".GetLocalized(),
+                        "ArchiveExtractionCompletedSuccessfullyText".GetLocalized(),
+                        0,
+                        ReturnResult.Success,
+                        FileOperationType.Extract);
+                }
+            }
         }
 
         #endregion Command Implementation

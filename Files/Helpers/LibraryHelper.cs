@@ -154,7 +154,8 @@ namespace Files.Helpers
                 SubtitleText = "DialogRestoreLibrariesSubtitleText".GetLocalized(),
                 PrimaryButtonText = "DialogRestoreLibrariesButtonText".GetLocalized(),
                 CloseButtonText = "DialogCancelButtonText".GetLocalized(),
-                PrimaryButtonAction = async (vm, e) => {
+                PrimaryButtonAction = async (vm, e) =>
+                {
                     var connection = await AppServiceConnectionHelper.Instance;
                     if (connection != null)
                     {

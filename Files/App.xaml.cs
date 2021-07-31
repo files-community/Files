@@ -4,17 +4,14 @@ using Files.Controllers;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
+using Files.Models.Settings;
 using Files.SettingsInterfaces;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,7 +22,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -44,7 +40,7 @@ namespace Files
 
         public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
-        public static IBundlesSettings BundlesSettings = new BundlesSettingsViewModel();
+        public static IBundlesSettings BundlesSettings = new BundlesSettingsModel();
         public static SettingsViewModel AppSettings { get; private set; }
         public static MainViewModel MainViewModel { get; private set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
@@ -63,14 +59,6 @@ namespace Files
         public static StatusCenterViewModel StatusCenterViewModel { get; } = new StatusCenterViewModel();
 
         public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
-
-        public static class AppData
-        {
-            // Get the extensions that are available for this host.
-            // Extensions that declare the same contract string as the host will be recognized.
-            internal static ExtensionManager FilePreviewExtensionManager { get; set; } = new ExtensionManager("com.files.filepreview");
-        }
-
         public App()
         {
             // Initialize logger
@@ -81,9 +69,6 @@ namespace Files
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
-
-            //LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
-            AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
         }
 
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
@@ -94,25 +79,35 @@ namespace Files
             }
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
-            await ExternalResourcesHelper.LoadSelectedSkin();
+            await ExternalResourcesHelper.LoadSelectedTheme();
 
             MainViewModel ??= new MainViewModel();
-            SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
             LibraryManager ??= new LibraryManager();
             DrivesManager ??= new DrivesManager();
             NetworkDrivesManager ??= new NetworkDrivesManager();
             CloudDrivesManager ??= new CloudDrivesManager();
             WSLDistroManager ??= new WSLDistroManager();
+            SidebarPinnedController ??= new SidebarPinnedController();
+        }
+
+        public static async Task LoadOtherStuffAsync()
+        {
+            ExternalResourcesHelper.LoadOtherThemesAsync();
 
             // Start off a list of tasks we need to run before we can continue startup
-            _ = Task.Factory.StartNew(async () =>
+            _ = Task.Run(async () =>
             {
-                await LibraryManager.EnumerateLibrariesAsync();
-                await DrivesManager.EnumerateDrivesAsync();
-                await CloudDrivesManager.EnumerateDrivesAsync();
-                await NetworkDrivesManager.EnumerateDrivesAsync();
-                await WSLDistroManager.EnumerateDrivesAsync();
+                await Task.WhenAll(
+                   SidebarPinnedController.InitializeAsync(),
+                   DrivesManager.EnumerateDrivesAsync(),
+                   CloudDrivesManager.EnumerateDrivesAsync(),
+                   LibraryManager.EnumerateLibrariesAsync(),
+                   NetworkDrivesManager.EnumerateDrivesAsync(),
+                   WSLDistroManager.EnumerateDrivesAsync()
+                );
             });
+
+            ExternalResourcesHelper.LoadOtherThemesAsync();
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
@@ -200,7 +195,6 @@ namespace Files
                 }
             }
         }
-
 
         protected override async void OnActivated(IActivatedEventArgs args)
         {
@@ -375,10 +369,6 @@ namespace Files
             LibraryManager?.Dispose();
             DrivesManager?.Dispose();
             deferral.Complete();
-
-#if DEBUG
-            Current.Exit();
-#endif
         }
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
@@ -448,7 +438,7 @@ namespace Files
             Debugger.Break(); // Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
 
             SaveSessionTabs();
-            Logger.Error(ex, formattedException);
+            Logger.UnhandledError(ex, ex.Message);
             if (ShowErrorNotification)
             {
                 var toastContent = new ToastContent()
