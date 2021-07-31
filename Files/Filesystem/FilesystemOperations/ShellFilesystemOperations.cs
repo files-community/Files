@@ -87,8 +87,7 @@ namespace Files.Filesystem
             var destinationRename = destination.Where((src, index) => collisions.ElementAt(index) != FileNameConflictResolveOptionType.ReplaceExisting);
 
             var result = (FilesystemResult)true;
-            var copiedItems = new List<string>();
-            var copiedSources = new List<string>();
+            var copyResult = new ShellOperationResult();
             if (sourceRename.Any())
             {
                 var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
@@ -102,8 +101,8 @@ namespace Files.Filesystem
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
-                copiedItems.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("CopiedItems", "")) ?? Enumerable.Empty<string>());
-                copiedSources.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("CopiedSources", "")) ?? Enumerable.Empty<string>());
+                var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                copyResult.Items.AddRange(shellOpResult?.Items ?? Enumerable.Empty<ShellOperationItemResult>());
             }
             if (sourceReplace.Any())
             {
@@ -118,7 +117,8 @@ namespace Files.Filesystem
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
-                copiedSources.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("CopiedSources", "")) ?? Enumerable.Empty<string>());
+                var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                copyResult.Items.AddRange(shellOpResult?.Items ?? Enumerable.Empty<ShellOperationItemResult>());
             }
 
             if (connection != null)
@@ -126,37 +126,29 @@ namespace Files.Filesystem
                 connection.RequestReceived -= handler;
             }
 
-            // Updated tag for successfully copied items
-            var copiedZip = sourceRename.Zip(copiedItems, (src, dest) => new { src, dest }).Where(x => copiedSources.Contains(x.src.Path));
-            copiedZip = copiedZip.Concat(sourceReplace.Zip(destinationReplace, (src, dest) => new { src, dest }).Where(x => copiedSources.Contains(x.src.Path)));
-            copiedZip.ForEach(x =>
-            {
-                var tag = FileTagsHelper.DbInstance.GetTag(x.src.Path);
-                FileTagsHelper.DbInstance.SetTag(x.dest, FileTagsHelper.GetFileFRN(x.dest), tag); // copy tag to new files
-            });
-            copiedZip.Where(x => x.src.ItemType == FilesystemItemType.Directory).ForEach(x =>
-            {
-                var tags = FileTagsHelper.DbInstance.GetAllUnderPath(x.src.Path); // copy tag for items contained in the folder
-                tags.ForEach(t => FileTagsHelper.DbInstance.SetTag(t.FilePath.Replace(x.src.Path, x.dest), FileTagsHelper.GetFileFRN(t.FilePath.Replace(x.src.Path, x.dest)), t.Tag));
-            });
-            _ = connection?.SendMessageAsync(new ValueSet() { { "Arguments", "UpdateTagsDb" } });
+            result &= (FilesystemResult)copyResult.Items.All(x => x.Succeeded);
 
             if (result)
             {
                 progress?.Report(100.0f);
                 errorCode?.Report(FileSystemStatusCode.Success);
-                if (sourceRename.Any() && copiedItems.Count() == sourceRename.Count())
+                var copiedSources = copyResult.Items.Where(x => sourceRename.Select(s => s.Path).Contains(x.Source)).Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
+                if (copiedSources.Any())
                 {
-                    return new StorageHistory(FileOperationType.Copy, sourceRename,
-                        copiedItems.Select((item, index) => StorageItemHelpers.FromPathAndType(item, sourceRename.ElementAt(index).ItemType)));
+                    return new StorageHistory(FileOperationType.Copy, copiedSources.Select(x => sourceRename.Single(s => s.Path == x.Source)),
+                        copiedSources.Select(item => StorageItemHelpers.FromPathAndType(item.Destination, sourceRename.Single(s => s.Path == item.Source).ItemType)));
                 }
                 return null; // Cannot undo overwrite operation
             }
             else
             {
                 // Retry failed operations
-                var copiedFailedZip = source.Zip(destination, (src, dest) => new { src, dest }).Zip(collisions, (z1, coll) => new { z1.src, z1.dest, coll }).Where(x => !copiedSources.Contains(x.src.Path));
-                return await filesystemOperations.CopyItemsAsync(copiedFailedZip.Select(x => x.src), copiedFailedZip.Select(x => x.dest), copiedFailedZip.Select(x => x.coll), progress, errorCode, cancellationToken);
+                var failedSources = copyResult.Items.Where(x => source.Select(s => s.Path).Contains(x.Source)).Where(x => !x.Succeeded);
+                var copyZip = source.Zip(destination, (src, dest) => new { src, dest }).Zip(collisions, (z1, coll) => new { z1.src, z1.dest, coll });
+                return await filesystemOperations.CopyItemsAsync(
+                    failedSources.Select(x => copyZip.Single(s => s.src.Path == x.Source).src),
+                    failedSources.Select(x => copyZip.Single(s => s.src.Path == x.Source).dest),
+                    failedSources.Select(x => copyZip.Single(s => s.src.Path == x.Source).coll), progress, errorCode, cancellationToken);
             }
         }
 
@@ -210,8 +202,7 @@ namespace Files.Filesystem
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
             connection.RequestReceived += handler;
 
-            var deletedItems = new List<string>();
-            var recycledItems = new List<string>();
+            var deleteResult = new ShellOperationResult();
             var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
             {
                 { "Arguments", "FileOperation" },
@@ -222,58 +213,38 @@ namespace Files.Filesystem
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
-            deletedItems.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("DeletedItems", "")) ?? Enumerable.Empty<string>());
-            recycledItems.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("RecycledItems", "")) ?? Enumerable.Empty<string>());
+            var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+            deleteResult.Items.AddRange(shellOpResult?.Items ?? Enumerable.Empty<ShellOperationItemResult>());
 
             if (connection != null)
             {
                 connection.RequestReceived -= handler;
             }
 
-            // Updated tag for successfully deleted items
-            if (recycledItems.Count() == deletedItems.Count())
-            {
-                var recycledZip = source.Where(x => deletedItems.Contains(x.Path)).Zip(recycledItems, (src, dest) => new { src, dest });
-                recycledZip.ForEach(x => FileTagsHelper.DbInstance.UpdateTag(x.src.Path, null, x.dest)); // move tag to files in bin
-                recycledZip.Where(x => x.src.ItemType == FilesystemItemType.Directory).ForEach(x =>
-                {
-                    var tags = FileTagsHelper.DbInstance.GetAllUnderPath(x.src.Path); // move tag for items contained in the folder
-                    tags.ForEach(t => FileTagsHelper.DbInstance.UpdateTag(t.FilePath, null, t.FilePath.Replace(x.src.Path, x.dest)));
-                });
-            }
-            else
-            {
-                deletedItems.ForEach(x => FileTagsHelper.DbInstance.SetTag(x, null, null)); // remove tag from deleted files
-                source.Where(x => deletedItems.Contains(x.Path)).Where(x => x.ItemType == FilesystemItemType.Directory).ForEach(x =>
-                {
-                    var tags = FileTagsHelper.DbInstance.GetAllUnderPath(x.Path); // remove tag for items contained in the folder
-                    tags.ForEach(t => FileTagsHelper.DbInstance.SetTag(t.FilePath, null, null));
-                });
-            }
+            result &= (FilesystemResult)deleteResult.Items.All(x => x.Succeeded);
 
             if (result)
             {
                 progress?.Report(100.0f);
                 errorCode?.Report(FileSystemStatusCode.Success);
-                if (deletedItems != null)
+                foreach (var item in deleteResult.Items)
                 {
-                    foreach (var item in deletedItems)
-                    {
-                        await associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(item);
-                    }
+                    await associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(item.Source);
                 }
-                if (!permanently && recycledItems != null && recycledItems.Count() == source.Count())
+                var recycledSources = deleteResult.Items.Where(x => source.Select(s => s.Path).Contains(x.Source)).Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
+                if (recycledSources.Any())
                 {
-                    return new StorageHistory(FileOperationType.Recycle, source, recycledItems.Select((item, index) => StorageItemHelpers.FromPathAndType(item, source.ElementAt(index).ItemType)));
+                    return new StorageHistory(FileOperationType.Recycle, recycledSources.Select(x => source.Single(s => s.Path == x.Source)),
+                        recycledSources.Select(item => StorageItemHelpers.FromPathAndType(item.Destination, source.Single(s => s.Path == item.Source).ItemType)));
                 }
                 return new StorageHistory(FileOperationType.Delete, source, null);
             }
             else
             {
                 // Retry failed operations
-                var deletedSources = JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("DeletedItems", "")) ?? Enumerable.Empty<string>();
-                var deletedZip = source.Where(x => !deletedSources.Contains(x.Path));
-                return await filesystemOperations.DeleteItemsAsync(deletedZip, progress, errorCode, permanently, cancellationToken);
+                var failedSources = deleteResult.Items.Where(x => source.Select(s => s.Path).Contains(x.Source)).Where(x => !x.Succeeded);
+                return await filesystemOperations.DeleteItemsAsync(
+                    failedSources.Select(x => source.Single(s => s.Path == x.Source)), progress, errorCode, permanently, cancellationToken);
             }
         }
 
@@ -322,8 +293,7 @@ namespace Files.Filesystem
             var destinationRename = destination.Where((src, index) => collisions.ElementAt(index) != FileNameConflictResolveOptionType.ReplaceExisting);
 
             var result = (FilesystemResult)true;
-            var movedItems = new List<string>();
-            var movedSources = new List<string>();
+            var moveResult = new ShellOperationResult();
             if (sourceRename.Any())
             {
                 var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
@@ -337,8 +307,8 @@ namespace Files.Filesystem
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
-                movedItems.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("MovedItems", "")) ?? Enumerable.Empty<string>());
-                movedSources.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("MovedSources", "")) ?? Enumerable.Empty<string>());
+                var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                moveResult.Items.AddRange(shellOpResult?.Items ?? Enumerable.Empty<ShellOperationItemResult>());
             }
             if (sourceReplace.Any())
             {
@@ -353,7 +323,8 @@ namespace Files.Filesystem
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
-                movedSources.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("MovedSources", "")) ?? Enumerable.Empty<string>());
+                var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+                moveResult.Items.AddRange(shellOpResult?.Items ?? Enumerable.Empty<ShellOperationItemResult>());
             }
 
             if (connection != null)
@@ -361,33 +332,29 @@ namespace Files.Filesystem
                 connection.RequestReceived -= handler;
             }
 
-            // Updated tag for successfully moved items
-            var movedZip = sourceRename.Zip(movedItems, (src, dest) => new { src, dest }).Where(x => movedSources.Contains(x.src.Path));
-            movedZip = movedZip.Concat(sourceReplace.Zip(destinationReplace, (src, dest) => new { src, dest }).Where(x => movedSources.Contains(x.src.Path)));
-            movedZip.ForEach(x => FileTagsHelper.DbInstance.UpdateTag(x.src.Path, FileTagsHelper.GetFileFRN(x.dest), x.dest)); // move tag to new files
-            movedZip.Where(x => x.src.ItemType == FilesystemItemType.Directory).ForEach(x =>
-            {
-                var tags = FileTagsHelper.DbInstance.GetAllUnderPath(x.src.Path); // move tag for items contained in the folder
-                tags.ForEach(t => FileTagsHelper.DbInstance.UpdateTag(t.FilePath, FileTagsHelper.GetFileFRN(t.FilePath.Replace(x.src.Path, x.dest)), t.FilePath.Replace(x.src.Path, x.dest)));
-            });
-            _ = connection?.SendMessageAsync(new ValueSet() { { "Arguments", "UpdateTagsDb" } });
+            result &= (FilesystemResult)moveResult.Items.All(x => x.Succeeded);
 
             if (result)
             {
                 progress?.Report(100.0f);
                 errorCode?.Report(FileSystemStatusCode.Success);
-                if (sourceRename.Any() && movedItems.Count() == sourceRename.Count())
+                var movedSources = moveResult.Items.Where(x => sourceRename.Select(s => s.Path).Contains(x.Source)).Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
+                if (movedSources.Any())
                 {
-                    return new StorageHistory(FileOperationType.Move, sourceRename,
-                        movedItems.Select((item, index) => StorageItemHelpers.FromPathAndType(item, sourceRename.ElementAt(index).ItemType)));
+                    return new StorageHistory(FileOperationType.Move, movedSources.Select(x => sourceRename.Single(s => s.Path == x.Source)),
+                        movedSources.Select(item => StorageItemHelpers.FromPathAndType(item.Destination, sourceRename.Single(s => s.Path == item.Source).ItemType)));
                 }
                 return null; // Cannot undo overwrite operation
             }
             else
             {
                 // Retry failed operations
-                var movedFailedZip = source.Zip(destination, (src, dest) => new { src, dest }).Zip(collisions, (z1, coll) => new { z1.src, z1.dest, coll }).Where(x => !movedSources.Contains(x.src.Path));
-                return await filesystemOperations.MoveItemsAsync(movedFailedZip.Select(x => x.src), movedFailedZip.Select(x => x.dest), movedFailedZip.Select(x => x.coll), progress, errorCode, cancellationToken);
+                var failedSources = moveResult.Items.Where(x => source.Select(s => s.Path).Contains(x.Source)).Where(x => !x.Succeeded);
+                var moveZip = source.Zip(destination, (src, dest) => new { src, dest }).Zip(collisions, (z1, coll) => new { z1.src, z1.dest, coll });
+                return await filesystemOperations.MoveItemsAsync(
+                    failedSources.Select(x => moveZip.Single(s => s.src.Path == x.Source).src),
+                    failedSources.Select(x => moveZip.Single(s => s.src.Path == x.Source).dest),
+                    failedSources.Select(x => moveZip.Single(s => s.src.Path == x.Source).coll), progress, errorCode, cancellationToken);
             }
         }
 
@@ -405,7 +372,7 @@ namespace Files.Filesystem
                 return await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
             }
 
-            var renamedItems = new List<string>();
+            var renameResult = new ShellOperationResult();
             var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
             {
                 { "Arguments", "FileOperation" },
@@ -417,26 +384,19 @@ namespace Files.Filesystem
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
-            renamedItems.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("RenamedItems", "")) ?? Enumerable.Empty<string>());
+            var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+            renameResult.Items.AddRange(shellOpResult?.Items ?? Enumerable.Empty<ShellOperationItemResult>());
 
-            // Updated tag for successfully renamed items
-            if (result && renamedItems.Count == 1)
-            {
-                FileTagsHelper.DbInstance.UpdateTag(source.Path, null, renamedItems.Single()); // move tag to new files
-                if (source.ItemType == FilesystemItemType.Directory)
-                {
-                    var tags = FileTagsHelper.DbInstance.GetAllUnderPath(source.Path); // move tag for items contained in the folder
-                    tags.ForEach(t => FileTagsHelper.DbInstance.UpdateTag(t.FilePath, null, t.FilePath.Replace(source.Path, renamedItems.Single())));
-                }
-            }
+            result &= (FilesystemResult)renameResult.Items.All(x => x.Succeeded);
 
             if (result)
             {
                 errorCode?.Report(FileSystemStatusCode.Success);
-                if (collision != NameCollisionOption.ReplaceExisting && renamedItems != null && renamedItems.Count() == 1)
+                var renamedSources = renameResult.Items.Where(x => new[] { source }.Select(s => s.Path).Contains(x.Source)).Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
+                if (renamedSources.Any())
                 {
                     return new StorageHistory(FileOperationType.Rename, source,
-                        StorageItemHelpers.FromPathAndType(renamedItems.Single(), source.ItemType));
+                        StorageItemHelpers.FromPathAndType(renamedSources.Single().Destination, source.ItemType));
                 }
                 return null; // Cannot undo overwrite operation
             }
@@ -462,7 +422,7 @@ namespace Files.Filesystem
             EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
             connection.RequestReceived += handler;
 
-            var movedItems = new List<string>();
+            var moveResult = new ShellOperationResult();
             var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
             {
                 { "Arguments", "FileOperation" },
@@ -474,36 +434,29 @@ namespace Files.Filesystem
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
-            movedItems.AddRange(JsonConvert.DeserializeObject<IEnumerable<string>>(response.Get("MovedItems", "")) ?? Enumerable.Empty<string>());
+            var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", ""));
+            moveResult.Items.AddRange(shellOpResult?.Items ?? Enumerable.Empty<ShellOperationItemResult>());
 
             if (connection != null)
             {
                 connection.RequestReceived -= handler;
             }
 
-            // Updated tag for successfully restored items
-            if (result && movedItems.Count == 1)
-            {
-                FileTagsHelper.DbInstance.UpdateTag(source.Path, null, movedItems.Single()); // move tag to new files
-                if (source.ItemType == FilesystemItemType.Directory)
-                {
-                    var tags = FileTagsHelper.DbInstance.GetAllUnderPath(source.Path); // move tag for items contained in the folder
-                    tags.ForEach(t => FileTagsHelper.DbInstance.UpdateTag(t.FilePath, null, t.FilePath.Replace(source.Path, movedItems.Single())));
-                }
-            }
+            result &= (FilesystemResult)moveResult.Items.All(x => x.Succeeded);
 
             if (result)
             {
                 progress?.Report(100.0f);
                 errorCode?.Report(FileSystemStatusCode.Success);
-                if (movedItems != null && movedItems.Count() == 1)
+                var movedSources = moveResult.Items.Where(x => new[] { source }.Select(s => s.Path).Contains(x.Source)).Where(x => x.Succeeded && x.Destination != null && x.Source != x.Destination);
+                if (movedSources.Any())
                 {
                     // Recycle bin also stores a file starting with $I for each item
-                    await DeleteAsync(StorageItemHelpers.FromPathAndType(
-                        Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I")), source.ItemType),
-                        null, null, true, cancellationToken);
+                    await DeleteItemsAsync(movedSources.Select(src => StorageItemHelpers.FromPathAndType(
+                        Path.Combine(Path.GetDirectoryName(src.Source), Path.GetFileName(src.Source).Replace("$R", "$I")),
+                        new[] { source }.Single(s => s.Path == src.Source).ItemType)), null, null, true, cancellationToken);
                     return new StorageHistory(FileOperationType.Restore, source,
-                        StorageItemHelpers.FromPathAndType(movedItems.Single(), source.ItemType));
+                        StorageItemHelpers.FromPathAndType(movedSources.Single().Destination, source.ItemType));
                 }
                 return null; // Cannot undo overwrite operation
             }

@@ -74,7 +74,7 @@ namespace Files.Filesystem
             //}
             //NativeFileOperationsHelper.CloseHandle(hFile);
             //return frn;
-            return null; // Not workinh from UWP?
+            throw new NotImplementedException("GetFileInformationByHandleEx not working from UWP");
         }
 
         private FileTagsHelper()
