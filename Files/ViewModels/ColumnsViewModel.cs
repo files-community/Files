@@ -25,8 +25,11 @@ namespace Files.ViewModels
             set => SetProperty(ref nameColumn, value);
         }
 
-
-        private ColumnViewModel statusColumn = new ColumnViewModel();
+        private ColumnViewModel statusColumn = new ColumnViewModel()
+        {
+            UserLength = new GridLength(50),
+            NormalMaxLength = 80,
+        };
 
         public ColumnViewModel StatusColumn
         {
