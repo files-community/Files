@@ -127,16 +127,17 @@ namespace Files.Filesystem
             }
 
             // Updated tag for successfully copied items
-            var copiedZip = source.Zip(destination, (src, dest) => new { src, dest }).Where(x => copiedSources.Contains(x.src.Path));
+            var copiedZip = sourceRename.Zip(copiedItems, (src, dest) => new { src, dest }).Where(x => copiedSources.Contains(x.src.Path));
+            copiedZip = copiedZip.Concat(sourceReplace.Zip(destinationReplace, (src, dest) => new { src, dest }).Where(x => copiedSources.Contains(x.src.Path)));
             copiedZip.ForEach(x =>
             {
                 var tag = FileTagsHelper.DbInstance.GetTag(x.src.Path);
-                FileTagsHelper.DbInstance.SetTag(x.dest, null, tag); // copy tag to new files
+                FileTagsHelper.DbInstance.SetTag(x.dest, FileTagsHelper.GetFileFRN(x.dest), tag); // copy tag to new files
             });
             copiedZip.Where(x => x.src.ItemType == FilesystemItemType.Directory).ForEach(x =>
             {
                 var tags = FileTagsHelper.DbInstance.GetAllUnderPath(x.src.Path); // copy tag for items contained in the folder
-                tags.ForEach(t => FileTagsHelper.DbInstance.SetTag(t.FilePath.Replace(x.src.Path, x.dest), null, t.Tag));
+                tags.ForEach(t => FileTagsHelper.DbInstance.SetTag(t.FilePath.Replace(x.src.Path, x.dest), FileTagsHelper.GetFileFRN(t.FilePath.Replace(x.src.Path, x.dest)), t.Tag));
             });
 
             if (result)
@@ -239,7 +240,15 @@ namespace Files.Filesystem
                     tags.ForEach(t => FileTagsHelper.DbInstance.UpdateTag(t.FilePath, null, t.FilePath.Replace(x.src.Path, x.dest)));
                 });
             }
-            deletedItems.ForEach(x => FileTagsHelper.DbInstance.SetTag(x, null, null)); // remove tag from deleted files
+            else
+            {
+                deletedItems.ForEach(x => FileTagsHelper.DbInstance.SetTag(x, null, null)); // remove tag from deleted files
+                source.Where(x => deletedItems.Contains(x.Path)).Where(x => x.ItemType == FilesystemItemType.Directory).ForEach(x =>
+                {
+                    var tags = FileTagsHelper.DbInstance.GetAllUnderPath(x.Path); // remove tag for items contained in the folder
+                    tags.ForEach(t => FileTagsHelper.DbInstance.SetTag(t.FilePath, null, null));
+                });
+            }
 
             if (result)
             {
@@ -353,11 +362,11 @@ namespace Files.Filesystem
 
             // Updated tag for successfully moved items
             var movedZip = source.Zip(destination, (src, dest) => new { src, dest }).Where(x => movedSources.Contains(x.src.Path));
-            movedZip.ForEach(x => FileTagsHelper.DbInstance.UpdateTag(x.src.Path, null, x.dest)); // move tag to new files
+            movedZip.ForEach(x => FileTagsHelper.DbInstance.UpdateTag(x.src.Path, FileTagsHelper.GetFileFRN(x.dest), x.dest)); // move tag to new files
             movedZip.Where(x => x.src.ItemType == FilesystemItemType.Directory).ForEach(x =>
             {
                 var tags = FileTagsHelper.DbInstance.GetAllUnderPath(x.src.Path); // move tag for items contained in the folder
-                tags.ForEach(t => FileTagsHelper.DbInstance.UpdateTag(t.FilePath, null, t.FilePath.Replace(x.src.Path, x.dest)));
+                tags.ForEach(t => FileTagsHelper.DbInstance.UpdateTag(t.FilePath, FileTagsHelper.GetFileFRN(t.FilePath.Replace(x.src.Path, x.dest)), t.FilePath.Replace(x.src.Path, x.dest)));
             });
 
             if (result)

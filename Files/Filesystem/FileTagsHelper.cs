@@ -62,15 +62,18 @@ namespace Files.Filesystem
         public static ulong? GetFileFRN(string filePath)
         {
             var hFile = NativeFileOperationsHelper.CreateFileFromApp(filePath, NativeFileOperationsHelper.GENERIC_READ, 0, IntPtr.Zero, NativeFileOperationsHelper.OPEN_EXISTING, (uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics, IntPtr.Zero);
-            if (hFile.ToInt64() != -1)
+            if (hFile.ToInt64() == -1)
             {
-                var res = new NativeFileOperationsHelper.FILE_ID_INFO();
-                if (NativeFileOperationsHelper.GetFileInformationByHandleEx(hFile, NativeFileOperationsHelper.FILE_INFO_BY_HANDLE_CLASS.FileIdInfo, ref res, (uint)Marshal.SizeOf(res)))
-                {
-                    return BitConverter.ToUInt64(res.FileId.Identifier, 0);
-                }
+                return null;
             }
-            return null;
+            ulong? frn = null;
+            var res = new NativeFileOperationsHelper.FILE_ID_INFO();
+            if (NativeFileOperationsHelper.GetFileInformationByHandleEx(hFile, NativeFileOperationsHelper.FILE_INFO_BY_HANDLE_CLASS.FileIdInfo, ref res, (uint)Marshal.SizeOf(res)))
+            {
+                frn = BitConverter.ToUInt64(res.FileId.Identifier, 0);
+            }
+            NativeFileOperationsHelper.CloseHandle(hFile);
+            return frn;
         }
 
         private FileTagsHelper()
@@ -83,7 +86,7 @@ namespace Files.Filesystem
         public string TagName { get; set; }
         public string Uid { get; set; }
         public string ColorString { get; set; }
-        
+
         [JsonIgnore]
         public SolidColorBrush Color { get; set; }
 
