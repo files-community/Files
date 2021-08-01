@@ -119,6 +119,7 @@ namespace Files.Models.Settings
                         {
                             // Get the value from JToken
                             settingValue = jtoken.ToObject<TValue>();
+                            settingsCache[propertyName] = settingValue;
                         }
                         else
                         {
@@ -160,7 +161,9 @@ namespace Files.Models.Settings
                 object valueObject = settingsCache[propertyName];
                 if (valueObject is JToken jtoken2)
                 {
-                    return jtoken2.ToObject<TValue>();
+                    var settingValue = jtoken2.ToObject<TValue>();
+                    settingsCache[propertyName] = settingValue;
+                    return settingValue;
                 }
 
                 return (TValue)valueObject;

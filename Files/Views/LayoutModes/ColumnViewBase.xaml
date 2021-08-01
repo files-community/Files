@@ -1432,6 +1432,7 @@
                                             Margin="8,0,4,0"
                                             x:Phase="2"
                                             Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
+                                            ToolTipService.ToolTip="{x:Bind FileTagUI.TagName, Mode=OneWay}"
                                             Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                                     </StackPanel>
                                 </Grid>

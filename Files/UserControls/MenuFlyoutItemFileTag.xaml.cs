@@ -5,8 +5,6 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-// Il modello di elemento Controllo utente è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.UserControls
 {
     public sealed partial class MenuFlyoutItemFileTag : UserControl
@@ -14,13 +12,9 @@ namespace Files.UserControls
         public List<ListedItem> SelectedItems
         {
             get { return (List<ListedItem>)GetValue(SelectedItemsProperty); }
-            set
-            {
-                SetValue(SelectedItemsProperty, value);
-            }
+            set { SetValue(SelectedItemsProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for SelectedItems.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedItemsProperty =
             DependencyProperty.Register("SelectedItems", typeof(List<ListedItem>), typeof(MenuFlyoutItemFileTag), new PropertyMetadata(null, new PropertyChangedCallback((s, e) =>
             {
@@ -53,7 +47,6 @@ namespace Files.UserControls
         public MenuFlyoutItemFileTag()
         {
             this.InitializeComponent();
-            this.ItemsSource = new List<FileTag>();
         }
 
         private async void TagList_ItemClick(object sender, ItemClickEventArgs e)

@@ -10,16 +10,16 @@
     d:DesignWidth="400"
     mc:Ignorable="d">
 
-    <Grid x:Name="LayoutRoot" Height="38">
+    <Grid x:Name="LayoutRoot" Height="34">
         <ListView
             x:Name="TagList"
-            Padding="38,0,12,0"
+            Padding="12,0,12,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Background="Transparent"
             IsItemClickEnabled="True"
             ItemClick="TagList_ItemClick"
-            ItemsSource="{x:Bind ItemsSource}"
+            ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
             ScrollViewer.HorizontalScrollBarVisibility="Hidden"
             ScrollViewer.HorizontalScrollMode="Auto"
             ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -39,7 +39,7 @@
                         Width="14"
                         Height="14"
                         Fill="{x:Bind Color}"
-                        Stroke="Black" />
+                        ToolTipService.ToolTip="{x:Bind TagName}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ItemsPanel>
