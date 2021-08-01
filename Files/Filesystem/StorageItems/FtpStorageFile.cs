@@ -40,14 +40,16 @@ namespace Files.Filesystem.StorageItems
         {
             return StorageFile.CreateStreamedFileAsync(Name, async request =>
             {
-                var ftpClient = _viewModel.GetFtpInstance();
-                if (!await ftpClient.EnsureConnectedAsync())
-                {
-                    request.FailAndClose(StreamedFileFailureMode.CurrentlyUnavailable);
-                    return;
-                }
                 try
                 {
+                    var ftpClient = _viewModel.GetFtpInstance();
+
+                    if (!await ftpClient.EnsureConnectedAsync())
+                    {
+                        request.FailAndClose(StreamedFileFailureMode.CurrentlyUnavailable);
+                        return;
+                    }
+
                     using var stream = request.AsStreamForWrite();
                     await ftpClient.DownloadAsync(stream, FtpPath);
                     await request.FlushAsync();
@@ -55,6 +57,10 @@ namespace Files.Filesystem.StorageItems
                 catch
                 {
                     request.FailAndClose(StreamedFileFailureMode.Incomplete);
+                }
+                finally
+                {
+                    request.Dispose();
                 }
 
             }, null);

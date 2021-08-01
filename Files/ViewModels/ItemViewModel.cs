@@ -1308,32 +1308,20 @@ namespace Files.ViewModels
                     client.Host = host;
                     client.Port = port;
 
-                    try
+                    var dialog = new CredentialDialog();
+
+                    if (await dialog.ShowAsync() == Windows.UI.Xaml.Controls.ContentDialogResult.Primary)
                     {
-                        var dialog = new CredentialDialog();
+                        var result = await dialog.Result;
 
-                        if (await dialog.ShowAsync() == Windows.UI.Xaml.Controls.ContentDialogResult.Primary)
+                        if (!result.Anonymous)
                         {
-                            var result = await dialog.Result;
-
-                            if (!result.Anonymous)
-                            {
-                                client.Credentials = new NetworkCredential(result.UserName, result.Password);
-                            }
-
-                            if (await client.AutoConnectAsync() is null)
-                            {
-                                throw new InvalidOperationException();
-                            }
-                        }
-                        else
-                        {
-                            return;
+                            client.Credentials = new NetworkCredential(result.UserName, result.Password);
                         }
                     }
-                    catch
+                    else
                     {
-                        // TODO: show connection failure dialog
+                        return;
                     }
                 }
 
@@ -1341,6 +1329,11 @@ namespace Files.ViewModels
                 {
                     try
                     {
+                        if (!client.IsConnected && await client.AutoConnectAsync() is null)
+                        {
+                            throw new InvalidOperationException();
+                        }
+
                         var sampler = new IntervalSampler(500);
                         var list = await client.GetListingAsync(FtpHelpers.GetFtpPath(path));
 
