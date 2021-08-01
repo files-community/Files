@@ -118,7 +118,7 @@ namespace Files.Helpers
                 {
                     if (listedItem is FtpItem ftpItem)
                     {
-                        items.Add(new FtpStorageFile(associatedInstance.FilesystemViewModel, ftpItem));
+                        items.Add(await new FtpStorageFile(associatedInstance.FilesystemViewModel, ftpItem).ToStorageFileAsync());
                         continue;
                     }
 
@@ -162,7 +162,7 @@ namespace Files.Helpers
 
             if (items?.Count > 0)
             {
-                dataPackage.SetStorageItems(items, false);
+                dataPackage.SetStorageItems(items);
                 try
                 {
                     Clipboard.SetContent(dataPackage);

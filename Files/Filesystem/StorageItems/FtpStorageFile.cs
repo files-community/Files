@@ -8,88 +8,10 @@ using Windows.Storage.Streams;
 using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Storage.BulkAccess;
-using System.Collections.Generic;
-using Windows.Foundation.Metadata;
 using System.Threading.Tasks;
 
 namespace Files.Filesystem.StorageItems
 {
-    class FtpRandomAccessStreamWithContentType : IRandomAccessStreamWithContentType
-    {
-        private readonly IRandomAccessStream _stream;
-        public FtpRandomAccessStreamWithContentType(IRandomAccessStream stream)
-        {
-            _stream = stream;
-        }
-
-        public IInputStream GetInputStreamAt(ulong position) => _stream.GetInputStreamAt(position);
-        public IOutputStream GetOutputStreamAt(ulong position) => _stream.GetOutputStreamAt(position);
-        public void Seek(ulong position) => _stream.Seek(position);
-        public IRandomAccessStream CloneStream() => _stream.CloneStream();
-
-        public bool CanRead => _stream.CanRead;
-
-        public bool CanWrite => _stream.CanWrite;
-
-        public ulong Position => _stream.Position;
-
-        public ulong Size { get => _stream.Size; set => _stream.Size = value; }
-
-        public IAsyncOperationWithProgress<IBuffer, uint> ReadAsync(IBuffer buffer, uint count, InputStreamOptions options) => _stream.ReadAsync(buffer, count, options);
-        public IAsyncOperationWithProgress<uint, uint> WriteAsync(IBuffer buffer) => _stream.WriteAsync(buffer);
-        public IAsyncOperation<bool> FlushAsync() => _stream.FlushAsync();
-        public void Dispose() => _stream.Dispose();
-
-        public string ContentType { get; } = "application/octet-stream";
-    }
-
-    sealed class FtpStorageFileProperties : IStorageItemExtraProperties
-    {
-        private readonly FtpItem _ftpItem;
-        public FtpStorageFileProperties(FtpItem ftpItem)
-        {
-            _ftpItem = ftpItem;
-            Size = (ulong)_ftpItem.FileSizeBytes;
-            DateModified = _ftpItem.ItemDateModifiedReal;
-            ItemDate = _ftpItem.ItemDateCreatedReal;
-        }
-
-        public IAsyncOperation<IDictionary<string, object>> RetrievePropertiesAsync(IEnumerable<string> propertiesToRetrieve)
-        {
-            return AsyncInfo.Run(_ =>
-            {
-                IDictionary<string, object> result = new Dictionary<string, object>();
-                foreach (var property in propertiesToRetrieve)
-                {
-                    result.Add(property, property.ToLowerInvariant() switch
-                    {
-                        "size" => Size,
-                        "datamodified" => DateModified,
-                        "itemdate" => ItemDate,
-                        _ => null
-                    });
-                }
-
-                return Task.FromResult(result);
-            });
-        }
-
-        public IAsyncAction SavePropertiesAsync([HasVariant] IEnumerable<KeyValuePair<string, object>> propertiesToSave)
-        {
-            return AsyncInfo.Run(_ => Task.CompletedTask);
-        }
-
-        public IAsyncAction SavePropertiesAsync()
-        {
-            return AsyncInfo.Run(_ => Task.CompletedTask);
-        }
-
-        public ulong Size { get; }
-        public DateTimeOffset DateModified { get; }
-        public DateTimeOffset ItemDate { get; }
-    }
-
     sealed class FtpStorageFile : IStorageFile
     {
         private readonly ItemViewModel _viewModel;
@@ -102,7 +24,32 @@ namespace Files.Filesystem.StorageItems
             DateCreated = _ftpItem.ItemDateCreatedReal;
             Name = _ftpItem.ItemName;
             Path = _ftpItem.ItemPath;
+            FtpPath = FtpHelpers.GetFtpPath(_ftpItem.ItemPath);
             FileType = _ftpItem.ItemType;
+        }
+
+        public IAsyncOperation<StorageFile> ToStorageFileAsync()
+        {
+            return StorageFile.CreateStreamedFileAsync(Name, async request =>
+            {
+                var ftpClient = _viewModel.GetFtpInstance();
+                if (!await ftpClient.EnsureConnectedAsync())
+                {
+                    request.FailAndClose(StreamedFileFailureMode.CurrentlyUnavailable);
+                    return;
+                }
+                try
+                {
+                    using var stream = request.AsStreamForWrite();
+                    await ftpClient.DownloadAsync(stream, FtpPath);
+                    await request.FlushAsync();
+                }
+                catch
+                {
+                    request.FailAndClose(StreamedFileFailureMode.Incomplete);
+                }
+
+            }, null);
         }
 
         public IAsyncAction RenameAsync(string desiredName)
@@ -110,13 +57,13 @@ namespace Files.Filesystem.StorageItems
             return AsyncInfo.Run(async (cancellationToken) =>
             {
                 var ftpClient = _viewModel.GetFtpInstance();
-                if (!ftpClient.IsConnected)
+                if (!await ftpClient.EnsureConnectedAsync())
                 {
                     return;
                 }
 
-                if (!await ftpClient.MoveFileAsync(Path,
-                    $"{FtpHelpers.GetFtpDirectoryName(Path)}/{desiredName}",
+                if (!await ftpClient.MoveFileAsync(FtpPath,
+                    $"{FtpHelpers.GetFtpDirectoryName(FtpPath)}/{desiredName}",
                     FtpRemoteExists.Skip,
                     cancellationToken))
                 {
@@ -124,18 +71,19 @@ namespace Files.Filesystem.StorageItems
                 }
             });
         }
+
         public IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
         {
             return AsyncInfo.Run(async (cancellationToken) =>
             {
                 var ftpClient = _viewModel.GetFtpInstance();
-                if (!ftpClient.IsConnected)
+                if (!await ftpClient.EnsureConnectedAsync())
                 {
                     return;
                 }
 
-                if (!await ftpClient.MoveFileAsync(Path,
-                    $"{FtpHelpers.GetFtpDirectoryName(Path)}/{desiredName}",
+                if (!await ftpClient.MoveFileAsync(FtpPath,
+                    $"{FtpHelpers.GetFtpDirectoryName(FtpPath)}/{desiredName}",
                     option == NameCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip,
                     cancellationToken))
                 {
@@ -146,19 +94,21 @@ namespace Files.Filesystem.StorageItems
                 }
             });
         }
+
         public IAsyncAction DeleteAsync()
         {
             return AsyncInfo.Run(async (cancellationToken) =>
             {
                 var ftpClient = _viewModel.GetFtpInstance();
-                if (!ftpClient.IsConnected)
+                if (!await ftpClient.EnsureConnectedAsync())
                 {
                     return;
                 }
 
-                await ftpClient.DeleteFileAsync(Path, cancellationToken);
+                await ftpClient.DeleteFileAsync(FtpPath, cancellationToken);
             });
         }
+
         public IAsyncAction DeleteAsync(StorageDeleteOption option)
         {
             return DeleteAsync();
@@ -166,11 +116,7 @@ namespace Files.Filesystem.StorageItems
 
         public IAsyncOperation<BasicProperties> GetBasicPropertiesAsync()
         {
-            return AsyncInfo.Run((cancellationToken) =>
-            {
-                // boom
-                return Task.FromResult((BasicProperties)(object)new FtpStorageFileProperties(_ftpItem));
-            });
+            throw new NotSupportedException($"Use {nameof(ToStorageFileAsync)} instead.");
         }
 
         public bool IsOfType(StorageItemTypes type) => type == StorageItemTypes.File;
@@ -183,60 +129,29 @@ namespace Files.Filesystem.StorageItems
 
         public string Path { get; }
 
-        public IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
-        {
-            var ftpClient = _viewModel.GetFtpInstance();
+        public string FtpPath { get; }
 
-            var asyncInfo = AsyncInfo.Run(async cancellationToken =>
-            {
-                if (!ftpClient.IsConnected)
-                {
-                    return null;
-                }
-
-                if (accessMode == FileAccessMode.Read)
-                {
-                    var stream = await ftpClient.OpenReadAsync(Path, FtpDataType.Binary, cancellationToken);
-                    return stream.AsRandomAccessStream();
-                }
-                else
-                {
-                    var stream = await ftpClient.OpenWriteAsync(Path, FtpDataType.Binary, cancellationToken);
-                    return stream.AsRandomAccessStream();
-                }
-            });
-
-            asyncInfo.Completed = (info, status) =>
-            {
-                if (!ftpClient.IsConnected || accessMode == FileAccessMode.Read)
-                {
-                    return;
-                }
-
-                if (status == AsyncStatus.Completed)
-                {
-                    ftpClient.GetReply();
-                }
-            };
-
-            return asyncInfo;
-        }
+        public IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode) => throw new NotSupportedException();
+        
         public IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync() => throw new NotSupportedException();
+        
         public IAsyncOperation<StorageFile> CopyAsync(IStorageFolder destinationFolder)
         {
             return CopyAsync(destinationFolder, Name, NameCollisionOption.FailIfExists);
         }
+        
         public IAsyncOperation<StorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName)
         {
             return CopyAsync(destinationFolder, desiredNewName, NameCollisionOption.FailIfExists);
         }
+        
         public IAsyncOperation<StorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
         {
             return AsyncInfo.Run(async (cancellationToken) =>
             {
                 var ftpClient = _viewModel.GetFtpInstance();
 
-                if (!ftpClient.IsConnected)
+                if (!await ftpClient.EnsureConnectedAsync())
                 {
                     return null;
                 }
@@ -252,7 +167,7 @@ namespace Files.Filesystem.StorageItems
                 var file = await destinationFolder.CreateFileAsync(desiredNewName, createOption);
                 var stream = await file.OpenStreamForWriteAsync();
 
-                if (await ftpClient.DownloadAsync(stream, Path, token: cancellationToken))
+                if (await ftpClient.DownloadAsync(stream, FtpPath, token: cancellationToken))
                 {
                     return file;
                 }
@@ -260,21 +175,23 @@ namespace Files.Filesystem.StorageItems
                 return null;
             });
         }
+        
         public IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace)
         {
             return AsyncInfo.Run(async (cancellationToken) =>
             {
                 var ftpClient = _viewModel.GetFtpInstance();
 
-                if (!ftpClient.IsConnected)
+                if (!await ftpClient.EnsureConnectedAsync())
                 {
                     return;
                 }
 
                 var stream = await fileToReplace.OpenStreamForWriteAsync();
-                await ftpClient.DownloadAsync(stream, Path, token: cancellationToken);
+                await ftpClient.DownloadAsync(stream, FtpPath, token: cancellationToken);
             });
         }
+        
         public IAsyncAction MoveAsync(IStorageFolder destinationFolder)
         {
             return MoveAsync(destinationFolder, Name, NameCollisionOption.FailIfExists);
@@ -291,7 +208,7 @@ namespace Files.Filesystem.StorageItems
             {
                 var ftpClient = _viewModel.GetFtpInstance();
 
-                if (!ftpClient.IsConnected)
+                if (!await ftpClient.EnsureConnectedAsync())
                 {
                     return;
                 }
@@ -307,27 +224,28 @@ namespace Files.Filesystem.StorageItems
                 var file = await destinationFolder.CreateFileAsync(desiredNewName, createOption);
                 var stream = await file.OpenStreamForWriteAsync();
 
-                if (await ftpClient.DownloadAsync(stream, Path, token: cancellationToken))
+                if (await ftpClient.DownloadAsync(stream, FtpPath, token: cancellationToken))
                 {
-                    await ftpClient.DeleteFileAsync(Path, cancellationToken);
+                    await ftpClient.DeleteFileAsync(FtpPath, cancellationToken);
                 }
             });
         }
+
         public IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace)
         {
             return AsyncInfo.Run(async (cancellationToken) =>
             {
                 var ftpClient = _viewModel.GetFtpInstance();
 
-                if (!ftpClient.IsConnected)
+                if (!await ftpClient.EnsureConnectedAsync())
                 {
                     return;
                 }
 
                 var stream = await fileToReplace.OpenStreamForWriteAsync();
-                if (await ftpClient.DownloadAsync(stream, Path, token: cancellationToken))
+                if (await ftpClient.DownloadAsync(stream, FtpPath, token: cancellationToken))
                 {
-                    await ftpClient.DeleteFileAsync(Path, cancellationToken);
+                    await ftpClient.DeleteFileAsync(FtpPath, cancellationToken);
                 }
             });
         }
@@ -336,21 +254,7 @@ namespace Files.Filesystem.StorageItems
 
         public string FileType { get; }
 
-        public IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync()
-        {
-            return AsyncInfo.Run(async (cancellationToken) =>
-            {
-                var ftpClient = _viewModel.GetFtpInstance();
-
-                if (!ftpClient.IsConnected)
-                {
-                    return null;
-                }
-
-                var stream = await ftpClient.OpenReadAsync(Path, cancellationToken);
-                return new FtpRandomAccessStreamWithContentType(stream.AsRandomAccessStream()) as IRandomAccessStreamWithContentType;
-            });
-        }
+        public IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync() => throw new NotSupportedException();
 
         public IAsyncOperation<IInputStream> OpenSequentialReadAsync()
         {
@@ -358,12 +262,12 @@ namespace Files.Filesystem.StorageItems
             {
                 var ftpClient = _viewModel.GetFtpInstance();
 
-                if (!ftpClient.IsConnected)
+                if (!await ftpClient.EnsureConnectedAsync())
                 {
                     return null;
                 }
 
-                var stream = await ftpClient.OpenReadAsync(Path, cancellationToken);
+                var stream = await ftpClient.OpenReadAsync(FtpPath, cancellationToken);
 
                 return stream.AsInputStream();
             });

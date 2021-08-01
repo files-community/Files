@@ -1,4 +1,5 @@
-﻿using Files.ViewModels;
+﻿using Files.Helpers;
+using Files.ViewModels;
 using FluentFTP;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,25 @@ namespace Files.Filesystem
                 _ftpClients.Add(client);
 
                 return client;
+            }
+        }
+
+        public static FtpClient FindFtpInstance(string path)
+        {
+            var host = FtpHelpers.GetFtpHost(path);
+            var port = FtpHelpers.GetFtpPort(path);
+
+            lock (_lock)
+            {
+                foreach (var i in _ftpClients)
+                {
+                    if (i.Host == host && i.Port == port)
+                    {
+                        return i;
+                    }
+                }
+
+                return null;
             }
         }
 

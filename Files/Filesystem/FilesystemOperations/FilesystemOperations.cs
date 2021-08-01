@@ -4,6 +4,7 @@ using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.Interacts;
+using FluentFTP;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -216,7 +217,7 @@ namespace Files.Filesystem
                     }
                 }
             }
-            else if (source.ItemType == FilesystemItemType.File)
+            else if (source.ItemType == FilesystemItemType.File && !string.IsNullOrEmpty(source.Path) && !FtpHelpers.IsFtpPath(destination))
             {
                 var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.CopyFileFromApp(source.Path, destination, true));
 
@@ -264,6 +265,62 @@ namespace Files.Filesystem
                 {
                     return null;
                 }
+            }
+            else if (string.IsNullOrEmpty(source.Path) && !FtpHelpers.IsFtpPath(destination))
+            {
+                var fsResult = source.Item is StorageFile file ? await FilesystemTasks.Wrap(async () =>
+                    await file.CopyAsync(
+                        await StorageFolder.GetFolderFromPathAsync(Path.GetDirectoryName(destination)),
+                        file.Name,
+                        collision)) : new FilesystemResult<StorageFile>(null, FileSystemStatusCode.Generic);
+
+                if (!fsResult)
+                {
+                    errorCode?.Report(fsResult.ErrorCode);
+                    return null;
+                }
+            }
+            else if (!string.IsNullOrEmpty(source.Path) && FtpHelpers.IsFtpPath(destination))
+            {
+                var ftpClient = FtpManager.FindFtpInstance(destination);
+
+                if (ftpClient is null || !await ftpClient.EnsureConnectedAsync())
+                {
+                    errorCode?.Report(FileSystemStatusCode.Generic);
+                    return null;
+                }
+
+                if (source.Item is StorageFile file)
+                {
+                    void ReportFtpPorgress(object sender, FtpProgress p)
+                    {
+                        progress?.Report((float)p.Progress);
+                    }
+
+                    using var stream = await file.OpenStreamForReadAsync();
+
+                    var ftpProgress = new Progress<FtpProgress>();
+                    ftpProgress.ProgressChanged += ReportFtpPorgress;
+
+                    var result = await ftpClient.UploadAsync(stream, FtpHelpers.GetFtpPath(destination), collision switch
+                    {
+                        NameCollisionOption.ReplaceExisting => FtpRemoteExists.Overwrite,
+                        _ => FtpRemoteExists.Skip,
+                    }, false, ftpProgress, cancellationToken);
+
+                    ftpProgress.ProgressChanged -= ReportFtpPorgress;
+
+                    if (result != FtpStatus.Success)
+                    {
+                        errorCode?.Report(FileSystemStatusCode.Generic);
+                        return null;
+                    }
+                }
+            }
+            else
+            {
+                errorCode?.Report(FileSystemStatusCode.Generic);
+                return null;
             }
 
             if (Path.GetDirectoryName(destination) == associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath())

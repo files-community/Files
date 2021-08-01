@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentFTP;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,25 @@ using System.Threading.Tasks;
 
 namespace Files.Helpers
 {
-    public class FtpHelpers
+    public static class FtpHelpers
     {
+        public static async Task<bool> EnsureConnectedAsync(this FtpClient ftpClient)
+        {
+            if (!ftpClient.IsConnected)
+            {
+                try
+                {
+                    await ftpClient.ConnectAsync();
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public static bool IsFtpPath(string path)
         {
             return path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase)
