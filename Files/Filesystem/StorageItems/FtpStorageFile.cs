@@ -9,58 +9,9 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace Files.Filesystem.StorageItems
 {
-    sealed class FtpStorageFolder : IStorageFolder
-    {
-        private readonly ItemViewModel _viewModel;
-
-        public FtpStorageFolder(ItemViewModel viewModel, FtpItem ftpItem)
-        {
-            _viewModel = viewModel;
-            DateCreated = ftpItem.ItemDateCreatedReal;
-            Name = ftpItem.ItemName;
-            Path = ftpItem.ItemPath;
-            FtpPath = FtpHelpers.GetFtpPath(ftpItem.ItemPath);
-        }
-
-        public FtpStorageFolder(ItemViewModel viewModel, IStorageItemWithPath item)
-        {
-            _viewModel = viewModel;
-            Name = System.IO.Path.GetFileName(item.Path);
-            Path = item.Path;
-            FtpPath = FtpHelpers.GetFtpPath(item.Path);
-        }
-
-        public IAsyncOperation<StorageFile> CreateFileAsync(string desiredName) => throw new NotImplementedException();
-        public IAsyncOperation<StorageFile> CreateFileAsync(string desiredName, CreationCollisionOption options) => throw new NotImplementedException();
-        public IAsyncOperation<StorageFolder> CreateFolderAsync(string desiredName) => throw new NotImplementedException();
-        public IAsyncOperation<StorageFolder> CreateFolderAsync(string desiredName, CreationCollisionOption options) => throw new NotImplementedException();
-        public IAsyncOperation<StorageFile> GetFileAsync(string name) => throw new NotImplementedException();
-        public IAsyncOperation<StorageFolder> GetFolderAsync(string name) => throw new NotImplementedException();
-        public IAsyncOperation<IStorageItem> GetItemAsync(string name) => throw new NotImplementedException();
-        public IAsyncOperation<IReadOnlyList<StorageFile>> GetFilesAsync() => throw new NotImplementedException();
-        public IAsyncOperation<IReadOnlyList<StorageFolder>> GetFoldersAsync() => throw new NotImplementedException();
-        public IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync() => throw new NotImplementedException();
-        public IAsyncAction RenameAsync(string desiredName) => throw new NotImplementedException();
-        public IAsyncAction RenameAsync(string desiredName, NameCollisionOption option) => throw new NotImplementedException();
-        public IAsyncAction DeleteAsync() => throw new NotImplementedException();
-        public IAsyncAction DeleteAsync(StorageDeleteOption option) => throw new NotImplementedException();
-        public IAsyncOperation<BasicProperties> GetBasicPropertiesAsync() => throw new NotSupportedException();
-        public bool IsOfType(StorageItemTypes type) => type == StorageItemTypes.Folder;
-
-        public Windows.Storage.FileAttributes Attributes { get; } = Windows.Storage.FileAttributes.Directory;
-
-        public DateTimeOffset DateCreated { get; }
-
-        public string Name { get; }
-
-        public string Path { get; }
-
-        public string FtpPath { get; }
-    }
 
     sealed class FtpStorageFile : IStorageFile
     {
@@ -111,22 +62,7 @@ namespace Files.Filesystem.StorageItems
 
         public IAsyncAction RenameAsync(string desiredName)
         {
-            return AsyncInfo.Run(async (cancellationToken) =>
-            {
-                var ftpClient = _viewModel.GetFtpInstance();
-                if (!await ftpClient.EnsureConnectedAsync())
-                {
-                    return;
-                }
-
-                if (!await ftpClient.MoveFileAsync(FtpPath,
-                    $"{FtpHelpers.GetFtpDirectoryName(FtpPath)}/{desiredName}",
-                    FtpRemoteExists.Skip,
-                    cancellationToken))
-                {
-                    // TODO: handle existing
-                }
-            });
+            return RenameAsync(desiredName, NameCollisionOption.FailIfExists);
         }
 
         public IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
