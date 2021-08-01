@@ -40,5 +40,13 @@ namespace Files.Dialogs
         {
             _taskCompletionSource.SetResult((null, null, true));
         }
+
+        private void AskCredentialDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
+        {
+            if (args.Result == ContentDialogResult.None)
+            {
+                _taskCompletionSource.SetResult((null, null, true));
+            }
+        }
     }
 }

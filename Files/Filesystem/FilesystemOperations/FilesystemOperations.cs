@@ -590,7 +590,6 @@ namespace Files.Filesystem
                 fsResult = await source.ToStorageItemResult(associatedInstance).OnSuccess(async (t) =>
                 {
                     await t.DeleteAsync();
-
                     return t;
                 });
 
