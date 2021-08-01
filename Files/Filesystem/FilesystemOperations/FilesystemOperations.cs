@@ -587,22 +587,12 @@ namespace Files.Filesystem
 
             if (deleteFromFtp)
             {
-                var ftpClient = associatedInstance.FilesystemViewModel.GetFtpInstance();
+                fsResult = await source.ToStorageItemResult(associatedInstance).OnSuccess(async (t) =>
+                {
+                    await t.DeleteAsync();
 
-                if (!await ftpClient.EnsureConnectedAsync())
-                {
-                    errorCode?.Report(FileSystemStatusCode.Generic);
-                    return null;
-                }
-
-                if (source.ItemType == FilesystemItemType.Directory)
-                {
-                    fsResult = await FilesystemTasks.Wrap(() => ftpClient.DeleteDirectoryAsync(FtpHelpers.GetFtpPath(source.Path), cancellationToken));
-                }
-                else
-                {
-                    fsResult = await FilesystemTasks.Wrap(() => ftpClient.DeleteFileAsync(FtpHelpers.GetFtpPath(source.Path), cancellationToken));
-                }
+                    return t;
+                });
 
                 errorCode?.Report(fsResult.ErrorCode);
                 progress?.Report(100.0f);
