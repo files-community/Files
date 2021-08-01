@@ -282,9 +282,9 @@ namespace Files.Filesystem
             }
             else if (!string.IsNullOrEmpty(source.Path) && FtpHelpers.IsFtpPath(destination))
             {
-                var ftpClient = FtpManager.FindFtpInstance(destination);
+                var ftpClient = associatedInstance.FilesystemViewModel.GetFtpInstance();
 
-                if (ftpClient is null || !await ftpClient.EnsureConnectedAsync())
+                if (!await ftpClient.EnsureConnectedAsync())
                 {
                     errorCode?.Report(FileSystemStatusCode.Generic);
                     return null;

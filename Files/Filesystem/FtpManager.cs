@@ -45,25 +45,6 @@ namespace Files.Filesystem
             }
         }
 
-        public static FtpClient FindFtpInstance(string path)
-        {
-            var host = FtpHelpers.GetFtpHost(path);
-            var port = FtpHelpers.GetFtpPort(path);
-
-            lock (_lock)
-            {
-                foreach (var i in _ftpClients)
-                {
-                    if (i.Host == host && i.Port == port)
-                    {
-                        return i;
-                    }
-                }
-
-                return null;
-            }
-        }
-
         public static void DisposeUnused()
         {
             lock (_lock)
