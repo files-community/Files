@@ -194,9 +194,7 @@ namespace Files.Views
 
         void InitToolbarCommands()
         {
-            NavToolbarViewModel.SelectAllContentPageItemsCommand = new RelayCommand(() => {
-                SlimContentPage?.ItemManipulationModel.SelectAllItems();
-            });
+            NavToolbarViewModel.SelectAllContentPageItemsCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.SelectAllItems());
             NavToolbarViewModel.InvertContentPageSelctionCommand = new RelayCommand(() => GetActiveLayout()?.ItemManipulationModel.InvertSelection());
             NavToolbarViewModel.ClearContentPageSelectionCommand = new RelayCommand(() => GetActiveLayout()?.ItemManipulationModel.ClearSelection());
             NavToolbarViewModel.PasteItemsFromClipboardCommand = new RelayCommand(() => GetActiveLayout()?.CommandsViewModel.PasteItemsFromClipboardCommand.Execute(null));
