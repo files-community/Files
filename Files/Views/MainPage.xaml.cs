@@ -330,7 +330,7 @@ namespace Files.Views
             FindName(nameof(horizontalMultitaskingControl));
             FindName(nameof(NavToolbar));
 
-            _ = App.LoadOtherStuffAsync();
+            App.LoadOtherStuffAsync().ContinueWith(t => App.Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
         }
 
         private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs e)

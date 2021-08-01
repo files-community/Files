@@ -92,10 +92,8 @@ namespace Files
 
         public static async Task LoadOtherStuffAsync()
         {
-            ExternalResourcesHelper.LoadOtherThemesAsync();
-
             // Start off a list of tasks we need to run before we can continue startup
-            _ = Task.Run(async () =>
+            await Task.Run(async () =>
             {
                 await Task.WhenAll(
                    SidebarPinnedController.InitializeAsync(),
@@ -103,11 +101,10 @@ namespace Files
                    CloudDrivesManager.EnumerateDrivesAsync(),
                    LibraryManager.EnumerateLibrariesAsync(),
                    NetworkDrivesManager.EnumerateDrivesAsync(),
-                   WSLDistroManager.EnumerateDrivesAsync()
+                   WSLDistroManager.EnumerateDrivesAsync(),
+                   ExternalResourcesHelper.LoadOtherThemesAsync()
                 );
             });
-
-            ExternalResourcesHelper.LoadOtherThemesAsync();
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
