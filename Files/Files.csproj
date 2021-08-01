@@ -253,9 +253,6 @@
     <Compile Include="Helpers\ZipHelpers.cs" />
     <Compile Include="Interacts\ItemManipulationModel.cs" />
     <Compile Include="ISearchBox.cs" />
-    <Compile Include="UserControls\ArrangementOptions.xaml.cs">
-      <DependentUpon>ArrangementOptions.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\ColoredIcon.xaml.cs">
       <DependentUpon>ColoredIcon.xaml</DependentUpon>
     </Compile>
@@ -1117,10 +1114,6 @@
     <Page Include="ResourceDictionaries\RightAlignedToggleSwitchStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\ArrangementOptions.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ColoredIcon.xaml">
       <SubType>Designer</SubType>

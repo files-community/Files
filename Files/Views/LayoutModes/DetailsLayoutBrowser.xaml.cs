@@ -226,12 +226,12 @@ namespace Files.Views.LayoutModes
             ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 80);
         }
 
-        private void FolderSettings_SortOptionPreferenceUpdated(object sender, EventArgs e)
+        private void FolderSettings_SortOptionPreferenceUpdated(object sender, SortOption e)
         {
             UpdateSortIndicator();
         }
 
-        private void FolderSettings_SortDirectionPreferenceUpdated(object sender, EventArgs e)
+        private void FolderSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
         {
             UpdateSortIndicator();
         }
@@ -239,7 +239,7 @@ namespace Files.Views.LayoutModes
         private void UpdateSortIndicator()
         {
             NameHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Name ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
-            OriginalPathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalPath ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
+            OriginalPathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalFolder ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
             DateDeletedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateDeleted ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
             DateModifiedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateModified ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
             DateCreatedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateCreated ? FolderSettings.DirectorySortDirection : (SortDirection?)null;

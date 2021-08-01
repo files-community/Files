@@ -1,4 +1,5 @@
-﻿using Files.EventArguments;
+﻿using Files.Enums;
+using Files.EventArguments;
 using Files.Events;
 using Files.Extensions;
 using Files.Filesystem;
@@ -478,7 +479,7 @@ namespace Files
 
         private CancellationTokenSource groupingCancellationToken;
 
-        private async void FolderSettings_GroupOptionPreferenceUpdated(object sender, EventArgs e)
+        private async void FolderSettings_GroupOptionPreferenceUpdated(object sender, GroupOption e)
         {
             // Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning
             groupingCancellationToken?.Cancel();

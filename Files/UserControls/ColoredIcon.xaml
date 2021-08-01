@@ -4,11 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    mc:Ignorable="d"
-    Loading="UserControl_Loading">
+    Loading="UserControl_Loading"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
@@ -28,19 +29,22 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Margin="-2">
-        <FontIcon FontFamily="{StaticResource ColoredIconFontFamily}" Glyph="{x:Bind BaseLayerGlyph, Mode=OneWay}" x:Name="BaseIcon"/>
         <FontIcon
+            x:Name="BaseIcon"
             FontFamily="{StaticResource ColoredIconFontFamily}"
+            Glyph="{x:Bind BaseLayerGlyph, Mode=OneWay}" />
+        <FontIcon
             x:Name="OverlayIcon"
+            FontFamily="{StaticResource ColoredIconFontFamily}"
             Foreground="{ThemeResource ColoredIconOverlayForeground}"
             Glyph="{x:Bind OverlayLayerGlyph, Mode=OneWay}" />
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
-                <VisualState x:Name="Normal"/>
+                <VisualState x:Name="Normal" />
                 <VisualState x:Name="Disabled">
                     <VisualState.Setters>
-                        <Setter Target="OverlayIcon.Foreground" Value="{ThemeResource ColoredIconOverlayForegroundDisabled}"/>
+                        <Setter Target="OverlayIcon.Foreground" Value="{ThemeResource ColoredIconOverlayForegroundDisabled}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

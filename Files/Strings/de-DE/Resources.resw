@@ -79,7 +79,7 @@
     <value>Einen neuen Tab öffnen</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Bestimmte Seite oder mehrere Seiten öffnen</value>
+    <value>Einen oder mehrere Ordner öffnen</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Beim Start</value>
@@ -562,10 +562,10 @@
     <value>Neue Seite hinzufügen</value>
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>Seiten:</value>
+    <value>Ordner:</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Wenn ein Ordner in Files geöfnet wird</value>
+    <value>Wenn ein Ordner in Files geöffnet wird</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>In neuem Fenster öffnen</value>
@@ -1818,41 +1818,11 @@
   <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
     <value>Gruppieren nach</value>
   </data>
-  <data name="NavToolbarGroupByOption_None.Content" xml:space="preserve">
-    <value>Keine</value>
-  </data>
-  <data name="NavToolbarArrangementOption_Name.Content" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="NavToolbarArrangementOption_DateModified.Content" xml:space="preserve">
-    <value>Änderungsdatum</value>
-  </data>
-  <data name="NavToolbarArrangementOption_DateCreated.Content" xml:space="preserve">
-    <value>Erstelldatum</value>
-  </data>
-  <data name="NavToolbarArrangementOption_Size.Content" xml:space="preserve">
-    <value>Größe</value>
-  </data>
-  <data name="NavToolbarArrangementOption_DateDeleted.Content" xml:space="preserve">
-    <value>Löschdatum</value>
-  </data>
-  <data name="NavToolbarArrangementOption_OriginalFolder.Content" xml:space="preserve">
-    <value>Ursprünglicher Ordner</value>
-  </data>
-  <data name="NavToolbarArrangementOption_Type.Content" xml:space="preserve">
-    <value>Typ</value>
-  </data>
   <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
     <value>Sortieren nach</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
     <value>Sortierrichtung</value>
-  </data>
-  <data name="NavToolbarSortDirectionOption_Ascending.Content" xml:space="preserve">
-    <value>Aufsteigend</value>
-  </data>
-  <data name="NavToolbarSortDirectionOption_Descending.Content" xml:space="preserve">
-    <value>Absteigend</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
     <value>Riesig</value>
@@ -2062,9 +2032,6 @@
     <value>Schließen</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Sync-Status</value>
-  </data>
-  <data name="NavToolbarArrangementOption_SyncStatus.Content" xml:space="preserve">
     <value>Sync-Status</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
@@ -2449,13 +2416,13 @@
     <value>Öffnen durch einfachen Klick</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles.Title" xml:space="preserve">
-    <value>Verzeichnisse und Dateien zusammen mit auflisten und sortieren</value>
+    <value>Dateien und Ordner zusammen auflisten und sortieren</value>
   </data>
   <data name="SettingsSearchUnindexedItems.Title" xml:space="preserve">
     <value>Nicht indizierte Dateien und Ordner in der Suche anzeigen (Suchen wird langsamer)</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder.Title" xml:space="preserve">
-    <value>Individuelle Einstellungen für einzelne Verzeichnisse aktivieren</value>
+    <value>Individuelle Einstellungen für einzelne Ordner aktivieren</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>Nützliche Links</value>

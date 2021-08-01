@@ -252,7 +252,7 @@ namespace Files.Helpers
                             IsChecked = itemViewModel.IsSortedByDateDeleted,
                             Command = new RelayCommand(() => itemViewModel.IsSortedByDateDeleted = true),
                             ShowInRecycleBin = true,
-                            ShowItem =currentInstanceViewModel.IsPageTypeRecycleBin,
+                            ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
                             ItemType = ItemType.Toggle
                         },
                         new ContextMenuFlyoutItemViewModel()
@@ -287,7 +287,7 @@ namespace Files.Helpers
                     {
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "NavToolbarGroupByOption_None/Content".GetLocalized(),
+                            Text = "NavToolbarGroupByOptionNone/Text".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.None,
                             ShowInRecycleBin = true,
                             Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
@@ -351,7 +351,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "NavToolbarArrangementOption_OriginalFolder/Content".GetLocalized(),
+                            Text = "NavToolbarArrangementOptionOriginalFolder/Text".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.OriginalFolder,
                             ShowInRecycleBin = true,
                             Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
