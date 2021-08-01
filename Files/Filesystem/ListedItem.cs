@@ -1,4 +1,5 @@
-﻿using Files.Enums;
+﻿using ByteSizeLib;
+using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
@@ -366,6 +367,7 @@ namespace Files.Filesystem
             ItemDateCreatedReal = item.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawCreated;
             ItemDateModifiedReal = item.RawModified < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawModified;
             ItemName = item.Name;
+            FileExtension = Path.GetExtension(item.Name);
             ItemPath = Path.Combine(folder, item.Name);
             PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
             ItemPropertiesInitialized = true;
@@ -373,17 +375,18 @@ namespace Files.Filesystem
             var itemType = isFile ? "ItemTypeFile".GetLocalized() : "FileFolderListItem".GetLocalized();
             if (isFile && ItemName.Contains("."))
             {
-                var itemFileExtension = Path.GetExtension(ItemPath);
-                itemType = itemFileExtension.Trim('.') + " " + itemType;
+                itemType = FileExtension.Trim('.') + " " + itemType;
             }
 
             ItemType = itemType;
             LoadFolderGlyph = !isFile;
-            LoadFileIcon = isFile;
             FileSizeBytes = item.Size;
             ContainsFilesOrFolders = !isFile;
-            LoadUnknownTypeGlyph = true;
+            LoadUnknownTypeGlyph = isFile;
             FileImage = null;
+            FileSize = ByteSize.FromBytes(FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
+            Opacity = 1;
+            IsHiddenItem = false;
         }
     }
 
