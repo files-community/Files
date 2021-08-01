@@ -124,7 +124,6 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\IJson.cs" />
     <Compile Include="Controllers\SidebarPinnedController.cs" />
-    <Compile Include="Converters\BooleanInvertConverter.cs" />
     <Compile Include="Converters\BoolToSelectionMode.cs" />
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="Converters\DateTimeOffsetToString.cs" />
