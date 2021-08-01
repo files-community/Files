@@ -119,8 +119,8 @@ namespace Files.ViewModels
 
     public class ColumnViewModel : ObservableObject
     {
-        [JsonIgnore]
         private bool isHidden;
+        [JsonIgnore]
         public bool IsHidden
         {
             get => isHidden;
@@ -191,7 +191,6 @@ namespace Files.ViewModels
         [JsonIgnore]
         public bool IsResizeable { get; set; } = true;
 
-        [JsonIgnore]
         private GridLength userLength = new GridLength(200, GridUnitType.Pixel);
         public GridLength UserLength
         {

@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml.Controls;
 
 namespace Files.SettingsPages
 {
