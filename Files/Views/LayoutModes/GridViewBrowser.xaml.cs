@@ -236,6 +236,10 @@ namespace Files.Views.LayoutModes
         private void StartRenameItem()
         {
             renamingItem = SelectedItem;
+            if (renamingItem == null)
+            {
+                return;
+            }
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
             GridViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as GridViewItem;
             TextBox textBox = null;
