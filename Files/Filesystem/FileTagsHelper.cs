@@ -61,24 +61,6 @@ namespace Files.Filesystem
             return null;
         }
 
-        public static ulong? GetFileFRN(string filePath)
-        {
-            //var hFile = NativeFileOperationsHelper.CreateFileFromApp(filePath, NativeFileOperationsHelper.GENERIC_READ, 0, IntPtr.Zero, NativeFileOperationsHelper.OPEN_EXISTING, (uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics, IntPtr.Zero);
-            //if (hFile.ToInt64() == -1)
-            //{
-            //    return null;
-            //}
-            //ulong? frn = null;
-            //var res = new NativeFileOperationsHelper.FILE_ID_INFO();
-            //if (NativeFileOperationsHelper.GetFileInformationByHandleEx(hFile, NativeFileOperationsHelper.FILE_INFO_BY_HANDLE_CLASS.FileIdInfo, ref res, (uint)Marshal.SizeOf(res)))
-            //{
-            //    frn = BitConverter.ToUInt64(res.FileId.Identifier, 0);
-            //}
-            //NativeFileOperationsHelper.CloseHandle(hFile);
-            //return frn;
-            throw new NotImplementedException("GetFileInformationByHandleEx not working from UWP");
-        }
-
         private FileTagsHelper()
         {
         }

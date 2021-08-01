@@ -1010,12 +1010,10 @@ namespace Files.ViewModels
                     {
                         await FilesystemTasks.Wrap(async () =>
                         {
-                            var fileFRN = FileTagsHelper.GetFileFRN(item.ItemPath);
                             var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                             {
                                 item.SyncStatusUI = new CloudDriveSyncStatusUI() { LoadSyncStatus = false }; // Reset cloud sync status icon
-                                item.FileFRN = fileFRN;
                                 item.FileTag = fileTag;
                             }, Windows.System.DispatcherQueuePriority.Low);
                             FileTagsHelper.DbInstance.SetTag(item.ItemPath, item.FileFRN, item.FileTag);
