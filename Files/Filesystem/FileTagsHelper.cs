@@ -100,6 +100,14 @@ namespace Files.Filesystem
             ColorString = colorString;
             Uid = Guid.NewGuid().ToString();
         }
+
+        [JsonConstructor]
+        public FileTag(string tagName, string colorString, string uid)
+        {
+            TagName = tagName;
+            ColorString = colorString;
+            Uid = uid;
+        }
     }
 
     public class FileTagsSettings : BaseJsonSettingsModel
@@ -125,7 +133,13 @@ namespace Files.Filesystem
 
         public FileTag GetTagByID(string uid)
         {
-            return FileTagList.SingleOrDefault(x => x.Uid == uid);
+            var tag = FileTagList.SingleOrDefault(x => x.Uid == uid);
+            if (!string.IsNullOrEmpty(uid) && tag == null)
+            {
+                tag = new FileTag("Unknown tag", "#9ea3a1", uid);
+                FileTagList = FileTagList.Append(tag).ToList();
+            }
+            return tag;
         }
 
         public FileTag GetTagByName(string tagName)
