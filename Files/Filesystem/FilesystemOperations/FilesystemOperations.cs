@@ -578,11 +578,36 @@ namespace Files.Filesystem
                                                        CancellationToken cancellationToken)
         {
             bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
+            bool deleteFromFtp = FtpHelpers.IsFtpPath(source.Path);
 
             FilesystemResult fsResult = FileSystemStatusCode.InProgress;
 
             errorCode?.Report(fsResult);
             progress?.Report(0.0f);
+
+            if (deleteFromFtp)
+            {
+                var ftpClient = associatedInstance.FilesystemViewModel.GetFtpInstance();
+
+                if (!await ftpClient.EnsureConnectedAsync())
+                {
+                    errorCode?.Report(FileSystemStatusCode.Generic);
+                    return null;
+                }
+
+                if (source.ItemType == FilesystemItemType.Directory)
+                {
+                    fsResult = await FilesystemTasks.Wrap(() => ftpClient.DeleteDirectoryAsync(FtpHelpers.GetFtpPath(source.Path), cancellationToken));
+                }
+                else
+                {
+                    fsResult = await FilesystemTasks.Wrap(() => ftpClient.DeleteFileAsync(FtpHelpers.GetFtpPath(source.Path), cancellationToken));
+                }
+
+                errorCode?.Report(fsResult.ErrorCode);
+                progress?.Report(100.0f);
+                return null;
+            }
 
             if (permanently)
             {
