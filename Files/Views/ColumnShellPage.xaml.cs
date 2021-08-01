@@ -60,6 +60,8 @@ namespace Files.Views
         public MainViewModel MainViewModel => App.MainViewModel;
         private bool isCurrentInstance { get; set; } = false;
 
+        public bool IsColumnView { get; } = true;
+
         public bool IsCurrentInstance
         {
             get

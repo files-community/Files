@@ -236,6 +236,10 @@ namespace Files.Views.LayoutModes
         private void StartRenameItem()
         {
             renamingItem = SelectedItem;
+            if (renamingItem == null)
+            {
+                return;
+            }
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
             GridViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as GridViewItem;
             TextBox textBox = null;
@@ -434,7 +438,11 @@ namespace Files.Views.LayoutModes
 
         protected override ListedItem GetItemFromElement(object element)
         {
-            return (element as GridViewItem).DataContext as ListedItem ?? (element as GridViewItem).Content as ListedItem;
+            if (element is GridViewItem item)
+            {
+                return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (FileList.ItemFromContainer(item) as ListedItem);
+            }
+            return null;
         }
 
         private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)
