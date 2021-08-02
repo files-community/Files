@@ -29,14 +29,11 @@ namespace Files.Views.LayoutModes
     /// </summary>
     public sealed partial class ColumnViewBase : BaseLayout
     {
-        private DispatcherQueueTimer tapDebounceTimer;
-
         public ColumnViewBase() : base()
         {
             this.InitializeComponent();
             CurrentColumn = this;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
-            tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         protected override void HookEvents()
@@ -333,7 +330,6 @@ namespace Files.Views.LayoutModes
                 //FileList.CommitEdit();
             }
             UnFocusPreviousListView?.Invoke(FileList, EventArgs.Empty);
-            tapDebounceTimer.Stop();
             SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
 
@@ -497,7 +493,6 @@ namespace Files.Views.LayoutModes
             if (AppSettings.OpenItemsWithOneclick)
             {
                 ResetRenameDoubleClick();
-                tapDebounceTimer.Stop();
                 await Task.Delay(200);
                 if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {

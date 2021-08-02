@@ -31,7 +31,6 @@ namespace Files.Views.LayoutModes
     /// </summary>
     public sealed partial class ColumnViewBrowser : BaseLayout
     {
-        private DispatcherQueueTimer tapDebounceTimer;
         public static IShellPage columnparent;
         private NavigationArguments parameters;
         private ListViewItem listViewItem;
@@ -46,7 +45,6 @@ namespace Files.Views.LayoutModes
             ColumnViewBase.DismissColumn += ColumnViewBase_DismissColumn;
             //this.DataContext = this;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
-            tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         protected override void HookEvents()
@@ -388,7 +386,6 @@ namespace Files.Views.LayoutModes
                 // Do not commit rename if SelectionChanged is due to selction rectangle (#3660)
                 //FileList.CommitEdit();
             }
-            tapDebounceTimer.Stop();
             SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
 
@@ -611,7 +608,6 @@ namespace Files.Views.LayoutModes
             if (AppSettings.OpenItemsWithOneclick)
             {
                 ResetRenameDoubleClick();
-                tapDebounceTimer.Stop();
                 await Task.Delay(200);
                 if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
