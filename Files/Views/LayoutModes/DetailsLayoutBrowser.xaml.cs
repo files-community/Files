@@ -81,6 +81,7 @@ namespace Files.Views.LayoutModes
             if (SelectedItems.Any())
             {
                 FileList.ScrollIntoView(SelectedItems.Last());
+                (FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
             }
         }
 
@@ -131,6 +132,18 @@ namespace Files.Views.LayoutModes
 
         private void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
         {
+            FocusFileList();
+        }
+
+        private void FocusFileList()
+        {
+            var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+            if (focusedElement is ListViewItem lvi)
+            {
+                // if an item in the file list is already focused, don't refocus
+                return;
+            }
+
             if (FileList.ContainerFromIndex(0) is ListViewItem item)
             {
                 _ = FocusManager.TryFocusAsync(item, FocusState.Programmatic);
@@ -307,6 +320,10 @@ namespace Files.Views.LayoutModes
         override public void StartRenameItem()
         {
             renamingItem = SelectedItem;
+            if (renamingItem == null)
+            {
+                return;
+            }
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
             ListViewItem listViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
             TextBox textBox = null;
@@ -477,7 +494,7 @@ namespace Files.Views.LayoutModes
                     }
 
                     base.Page_CharacterReceived(sender, args);
-                    FileList.Focus(FocusState.Keyboard);
+                    FocusFileList();
                 }
             }
         }

@@ -207,6 +207,10 @@ namespace Files.Views.LayoutModes
         override public void StartRenameItem()
         {
             RenamingItem = FileList.SelectedItem as ListedItem;
+            if (RenamingItem == null)
+            {
+                return;
+            }
             int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
             ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
             TextBox textBox = null;
