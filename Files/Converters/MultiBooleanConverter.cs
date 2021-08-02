@@ -19,5 +19,8 @@ namespace Files.Converters
 
         public static Visibility OrConvertToVisibility(bool a, bool b)
             => (a || b) ? Visibility.Visible : Visibility.Collapsed;
+
+        public static Visibility OrNotConvertToVisibility(bool a, bool b)
+            => OrConvertToVisibility(a, !b);
     }
 }

@@ -165,6 +165,7 @@ namespace Files
                     {
                         ItemManipulationModel.SetSelectedItem(jumpedToItem);
                         ItemManipulationModel.ScrollIntoView(jumpedToItem);
+                        ItemManipulationModel.FocusSelectedItems();
                     }
 
                     // Restart the timer
@@ -546,7 +547,14 @@ namespace Files
                     (i as AppBarButton).Click += new RoutedEventHandler((s, e) => BaseContextMenuFlyout.Hide());  // Workaround for WinUI (#5508)
                 });
                 primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
-                secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
+                secondaryElements.ForEach(i =>
+                {
+                    if (i is AppBarButton appBarButton)
+                    {
+                        appBarButton.MinWidth = 350; // setting the minwidth to a large number is a workaround for #5555
+                    }
+                    BaseContextMenuFlyout.SecondaryCommands.Add(i);
+                });
 
                 if (!InstanceViewModel.IsPageTypeSearchResults)
                 {
@@ -580,7 +588,14 @@ namespace Files
                 (i as AppBarButton).Click += new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide()); // Workaround for WinUI (#5508)
             });
             primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
-            secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
+            secondaryElements.ForEach(i => {
+                if (i is AppBarButton appBarButton)
+                {
+                    appBarButton.MinWidth = 350; // setting the minwidth to a large number is a workaround for #5555
+                }
+
+                ItemContextMenuFlyout.SecondaryCommands.Add(i);
+            });
 
             if (!InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin)
             {

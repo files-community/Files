@@ -190,7 +190,7 @@ namespace Files.Helpers
                     ColoredIcon = new ColoredIconModel()
                     {
                         BaseLayerGlyph = "\u0029",
-                        OverlayLayerGlyph = "\u0030",
+                        OverlayLayerGlyph = "\u002A",
                     },
                     ShowInRecycleBin = true,
                     ShowInSearchPage = true,
@@ -654,7 +654,11 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutCut/Text".GetLocalized(),
-                    Glyph = "\uE8C6",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u003D",
+                        OverlayLayerGlyph = "\u003E",
+                    },
                     Command = commandsViewModel.CutItemCommand,
                     KeyboardAccelerator = new KeyboardAccelerator
                     {
