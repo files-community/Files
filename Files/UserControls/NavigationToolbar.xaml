@@ -458,7 +458,7 @@
                 Text="{x:Bind ViewModel.PathText, Mode=OneWay}"
                 TextChanged="{x:Bind ViewModel.VisiblePath_TextChanged, Mode=OneWay}"
                 TextMemberPath="ItemPath"
-                Visibility="{x:Bind ViewModel.IsSearchBoxVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />
+                Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}" />
 
             <Grid
                 x:Name="ClickablePath"
@@ -473,7 +473,7 @@
                 BorderThickness="1"
                 CornerRadius="{StaticResource ControlCornerRadius}"
                 PointerPressed="ManualPathEntryItem_Click"
-                Visibility="{x:Bind ViewModel.IsSearchBoxVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
+                Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
                 <uc:PathBreadcrumb
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
