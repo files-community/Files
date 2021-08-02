@@ -554,8 +554,7 @@
                                     Width="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Tapped="ItemNameGrid_Tapped">
+                                    VerticalAlignment="Center">
                                     <TextBlock
                                         x:Name="ItemName"
                                         VerticalAlignment="Center"
