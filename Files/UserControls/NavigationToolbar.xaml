@@ -485,6 +485,7 @@
                 x:Name="SearchRegion"
                 Grid.Column="2"
                 Width="240"
+                Height="33"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 Canvas.ZIndex="100"
@@ -503,7 +504,7 @@
                     x:Name="SearchButton"
                     x:Uid="NavSearchButton"
                     Width="36"
-                    Height="32"
+                    Height="33"
                     AccessKey="I"
                     AutomationProperties.Name="Search"
                     Background="Transparent"
@@ -521,7 +522,7 @@
                     </Button.KeyboardAccelerators>
                 </Button>
 
-                <Grid x:Name="StatusCenterGrid" Visibility="{x:Bind ShowStatusCenter, Mode=OneWay}">
+                <Grid x:Name="StatusCenterGrid" Visibility="{x:Bind StatusCenterViewModel.AnyOperationsOngoing, Mode=OneWay}">
                     <Button
                         x:Name="StatusCenter"
                         x:Uid="StatusCenter"
@@ -552,7 +553,10 @@
                             </Grid>
                         </Button.Content>
                         <Button.Flyout>
-                            <Flyout x:Uid="StatusCenterFlyout" AutomationProperties.Name="Ongoing tasks flyout" ShouldConstrainToRootBounds="False">
+                            <Flyout
+                                x:Uid="StatusCenterFlyout"
+                                AutomationProperties.Name="Ongoing tasks flyout"
+                                ShouldConstrainToRootBounds="False">
                                 <uc:StatusCenter
                                     x:Name="OngoingTasksControl"
                                     Width="300"
@@ -571,8 +575,8 @@
                     x:Uid="NavSettingsButton"
                     Width="36"
                     Height="32"
-                    AutomationProperties.Name="Settings"
                     AccessKey="I"
+                    AutomationProperties.Name="Settings"
                     Background="Transparent"
                     Command="{x:Bind SettingsButtonCommand, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"
