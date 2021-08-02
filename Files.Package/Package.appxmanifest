@@ -68,6 +68,9 @@
         <rescap:Capability Name="allowElevation"/>
         <uap:Capability Name="removableStorage" />
         <Capability Name="internetClient"/>
+        <uap:Capability Name="picturesLibrary"/>
+        <uap:Capability Name="videosLibrary"/>
+        <uap:Capability Name="musicLibrary"/>
         <Capability Name="privateNetworkClientServer"/>
     </Capabilities>
 </Package>

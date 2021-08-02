@@ -36,34 +36,32 @@ namespace Files.Filesystem.StorageItems
             FileType = "FTP File";
         }
 
+        private async void FtpDataStreamingHandler(StreamedFileDataRequest request)
+        {
+            try
+            {
+                var ftpClient = _viewModel.GetFtpInstance();
+
+                if (!await ftpClient.EnsureConnectedAsync())
+                {
+                    request.FailAndClose(StreamedFileFailureMode.CurrentlyUnavailable);
+                    return;
+                }
+
+                using var stream = request.AsStreamForWrite();
+                await ftpClient.DownloadAsync(stream, FtpPath);
+                await request.FlushAsync();
+                request.Dispose();
+            }
+            catch
+            {
+                request.FailAndClose(StreamedFileFailureMode.Incomplete);
+            }
+        }
+
         public IAsyncOperation<StorageFile> ToStorageFileAsync()
         {
-            return StorageFile.CreateStreamedFileAsync(Name, async request =>
-            {
-                try
-                {
-                    var ftpClient = _viewModel.GetFtpInstance();
-
-                    if (!await ftpClient.EnsureConnectedAsync())
-                    {
-                        request.FailAndClose(StreamedFileFailureMode.CurrentlyUnavailable);
-                        return;
-                    }
-
-                    using var stream = request.AsStreamForWrite();
-                    await ftpClient.DownloadAsync(stream, FtpPath);
-                    await request.FlushAsync();
-                }
-                catch
-                {
-                    request.FailAndClose(StreamedFileFailureMode.Incomplete);
-                }
-                finally
-                {
-                    request.Dispose();
-                }
-
-            }, null);
+            return StorageFile.CreateStreamedFileAsync(Name, FtpDataStreamingHandler, null);
         }
 
         public IAsyncAction RenameAsync(string desiredName)
