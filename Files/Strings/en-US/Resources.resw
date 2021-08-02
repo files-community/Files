@@ -2697,4 +2697,7 @@
   <data name="NavToolbarArrangementOption_FileTag.Content" xml:space="preserve">
     <value>File tag</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
+    <value>Open parent folder</value>
+  </data>
 </root>

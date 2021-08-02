@@ -35,7 +35,7 @@ namespace Files.Helpers
 
         public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, string workingDir, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, bool showOpenMenu, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel)
         {
-            var menuItemsList = GetBaseItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel);
+            var menuItemsList = GetBaseItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel, currentInstanceViewModel: currentInstanceViewModel);
             menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, removeOverflowMenu: false);
             return menuItemsList;
         }
@@ -92,7 +92,6 @@ namespace Files.Helpers
         private static bool Check(ContextMenuFlyoutItemViewModel item, CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, bool shiftPressed)
         {
             return (item.ShowInRecycleBin || !currentInstanceViewModel.IsPageTypeRecycleBin) // Hide non-recycle bin items
-                && (!item.ShowInCloudDrive || currentInstanceViewModel.IsPageTypeCloudDrive) // Hide non-cloud drive items
                 && (item.ShowInSearchPage || !currentInstanceViewModel.IsPageTypeSearchResults) // Hide non-search items
                 && (!item.SingleItemOnly || selectedItems.Count == 1)
                 && item.ShowItem;
@@ -247,8 +246,7 @@ namespace Files.Helpers
                             Text = "BaseLayoutContextFlyoutSortBySyncStatus/Text".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedBySyncStatus,
                             Command = new RelayCommand(() => itemViewModel.IsSortedBySyncStatus = true),
-                            ShowInRecycleBin = false,
-                            ShowInCloudDrive = true,
+                            ShowItem = currentInstanceViewModel.IsPageTypeCloudDrive,
                             ItemType = ItemType.Toggle
                         },
                         new ContextMenuFlyoutItemViewModel()
@@ -376,8 +374,7 @@ namespace Files.Helpers
                         {
                             Text = "BaseLayoutContextFlyoutSortBySyncStatus/Text".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.SyncStatus,
-                            ShowInRecycleBin = false,
-                            ShowInCloudDrive = true,
+                            ShowItem = currentInstanceViewModel.IsPageTypeCloudDrive,
                             Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
                             CommandParameter = GroupOption.SyncStatus,
                             ItemType = ItemType.Toggle,
@@ -509,7 +506,7 @@ namespace Files.Helpers
                     Glyph = "\uEF88",
                     GlyphFontFamilyName = "RecycleBinIcons",
                     Command = commandsViewModel.EmptyRecycleBinCommand,
-                    ShowItem =currentInstanceViewModel.IsPageTypeRecycleBin,
+                    ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
                     ShowInRecycleBin = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -529,7 +526,7 @@ namespace Files.Helpers
             };
         }
 
-        public static List<ContextMenuFlyoutItemViewModel> GetBaseItemMenuItems(BaseLayoutCommandsViewModel commandsViewModel, List<ListedItem> selectedItems, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel)
+        public static List<ContextMenuFlyoutItemViewModel> GetBaseItemMenuItems(BaseLayoutCommandsViewModel commandsViewModel, List<ListedItem> selectedItems, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel, CurrentInstanceViewModel currentInstanceViewModel)
         {
             return new List<ContextMenuFlyoutItemViewModel>()
             {
@@ -819,6 +816,15 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
+                    Text = "BaseLayoutItemContextFlyoutOpenParentFolder/Text".GetLocalized(),
+                    Glyph = "\uE197",
+                    Command = commandsViewModel.OpenParentFolderCommand,
+                    ShowItem = currentInstanceViewModel.IsPageTypeSearchResults,
+                    SingleItemOnly = true,
+                    ShowInSearchPage = true,
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
                     Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.SidebarPinItemCommand,
@@ -941,6 +947,6 @@ namespace Files.Helpers
             return list;
         }
 
-        
+
     }
 }

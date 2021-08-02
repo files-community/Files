@@ -37,11 +37,6 @@ namespace Files.ViewModels
         public bool ShowInRecycleBin { get; set; }
 
         /// <summary>
-        /// True if the item is shown only in cloud drive folders
-        /// </summary>
-        public bool ShowInCloudDrive { get; set; }
-
-        /// <summary>
         /// True if the item is shown in search page
         /// </summary>
         public bool ShowInSearchPage { get; set; }

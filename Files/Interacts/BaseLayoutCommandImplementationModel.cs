@@ -249,6 +249,18 @@ namespace Files.Interacts
             }
         }
 
+        public virtual void OpenParentFolder(RoutedEventArgs e)
+        {
+            var item = SlimContentPage.SelectedItem;
+            var folderPath = Path.GetDirectoryName(item.ItemPath.TrimEnd('\\'));
+            associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
+            {
+                NavPathParam = folderPath,
+                SelectItems = new[] { item.ItemName },
+                AssociatedTabInstance = associatedInstance
+            });
+        }
+
         public virtual void OpenItemWithApplicationPicker(RoutedEventArgs e)
         {
             NavigationHelpers.OpenSelectedItems(associatedInstance, true);
