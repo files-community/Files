@@ -443,7 +443,6 @@ namespace Files.Views.LayoutModes
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
             }
-            ResetRenameDoubleClick();
         }
 
         private void FileList_Holding(object sender, HoldingRoutedEventArgs e)
@@ -496,7 +495,6 @@ namespace Files.Views.LayoutModes
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
             {
-                ResetRenameDoubleClick();
                 await Task.Delay(200);
                 if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
