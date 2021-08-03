@@ -999,14 +999,20 @@ namespace Files
 
         private ListedItem preRenamingItem = null;
 
-        public void CheckRenameDoubleClick(object clickedItem)
+        private int doubleClickInterval = 500;
+
+        public async void CheckRenameDoubleClick(object clickedItem)
         {
             if (clickedItem is ListedItem item)
             {
                 if (item == preRenamingItem)
                 {
-                    StartRenameItem();
-                    ResetRenameDoubleClick();
+                    await Task.Delay(doubleClickInterval);
+                    if (item == preRenamingItem)
+                    {
+                        StartRenameItem();
+                        ResetRenameDoubleClick();
+                    }
                 }
                 preRenamingItem = item;
             }
