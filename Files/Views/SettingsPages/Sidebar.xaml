@@ -51,7 +51,8 @@
                     x:Uid="SettingsRecycleBinSwitch"
                     Title="Pin Recycle Bin to the favorites section"
                     Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Left"
+                    IsEnabled="{Binding ShowFavoritesSection}">
                     <local:SettingsBlockControl.Icon>
                         <SymbolIcon Symbol="Pin" />
                     </local:SettingsBlockControl.Icon>
