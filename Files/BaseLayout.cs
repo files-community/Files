@@ -239,10 +239,12 @@ namespace Files
                         {
                             SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemSelected/Text".GetLocalized()}";
                             SelectedItemsPropertiesViewModel.ItemSize = SelectedItem.FileSize;
+                            preRenamingItem = SelectedItem;
                         }
                         else
                         {
                             SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemsSelected/Text".GetLocalized()}";
+                            ResetRenameDoubleClick();
 
                             if (SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File))
                             {
@@ -270,7 +272,7 @@ namespace Files
 
         public ListedItem SelectedItem { get; private set; }
 
-        private DispatcherQueueTimer dragOverTimer;
+        private DispatcherQueueTimer dragOverTimer, tapDebounceTimer;
 
         public BaseLayout()
         {
@@ -296,6 +298,7 @@ namespace Files
             }
 
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         protected abstract void HookEvents();
@@ -999,27 +1002,34 @@ namespace Files
 
         private ListedItem preRenamingItem = null;
 
-        private int doubleClickInterval = 500;
+        private IntervalSampler tapIntervalSampler = new IntervalSampler(500);
 
-        public async void CheckRenameDoubleClick(object clickedItem)
+        public void CheckRenameDoubleClick(object clickedItem)
         {
             if (clickedItem is ListedItem item)
             {
                 if (item == preRenamingItem)
                 {
-                    await Task.Delay(doubleClickInterval);
-                    if (preRenamingItem == null)
+                    if (!tapIntervalSampler.CheckNow())
                     {
-                        return;
+                        tapIntervalSampler.Reset();
+                        tapDebounceTimer.Stop();
                     }
-                    
-                    if (item == preRenamingItem)
+                    else
                     {
-                        StartRenameItem();
-                        ResetRenameDoubleClick();
+                        tapDebounceTimer.Debounce(() =>
+                        {
+                            StartRenameItem();
+                            tapDebounceTimer.Stop();
+                        }, TimeSpan.FromMilliseconds(500));
                     }
                 }
-                preRenamingItem = item;
+                else
+                {
+                    tapDebounceTimer.Stop();
+                    tapIntervalSampler.Reset();
+                    preRenamingItem = item;
+                }
             }
             else
             {
@@ -1030,6 +1040,7 @@ namespace Files
         public void ResetRenameDoubleClick()
         {
             preRenamingItem = null;
+            tapDebounceTimer.Stop();
         }
     }
 }
