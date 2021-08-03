@@ -33,7 +33,10 @@
             x:Key="NegatedBoolToVisibilityConverter"
             FalseValue="Visible"
             TrueValue="Collapsed" />
-
+        <converters:BoolToObjectConverter
+            x:Key="NegatedBoolToOpacityConverter"
+            FalseValue="1"
+            TrueValue="0" />
         <converters:BoolToVisibilityConverter
             x:Key="BoolToVisibilityConverter"
             FalseValue="Collapsed"
@@ -161,7 +164,7 @@
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap"
-                        Visibility="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+                        Opacity="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToOpacityConverter}}" />
                 </Grid>
                 <Popup
                     x:Name="EditPopup"
