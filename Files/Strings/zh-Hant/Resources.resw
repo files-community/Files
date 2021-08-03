@@ -1818,6 +1818,30 @@
   <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
     <value>分類</value>
   </data>
+  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
+    <value>無</value>
+  </data>
+  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
+    <value>名稱</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+    <value>修改日期</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
+    <value>建立日期</value>
+  </data>
+  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
+    <value>大小</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
+    <value>刪除日期</value>
+  </data>
+  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+    <value>源資料夾</value>
+  </data>
+  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
+    <value>類型</value>
+  </data>
   <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
     <value>排序</value>
   </data>
@@ -2030,6 +2054,9 @@
   </data>
   <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
     <value>同步狀態</value>
+  </data>
+  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
+    <value>無法從 {1} 刪除 {0} 個項目</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>無法從 {1} 刪除 {0} 個項目</value>

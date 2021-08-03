@@ -150,12 +150,17 @@
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </StackPanel>
-                    <muxc:ItemsRepeater
+                    <ItemsControl
                         x:Name="FileDetailsRepeater"
                         Margin="8"
                         ItemsSource="{x:Bind Model.SelectedItem.FileDetails, Mode=OneWay}"
                         Visibility="Collapsed">
-                        <muxc:ItemsRepeater.ItemTemplate>
+                        <ItemsControl.ItemContainerTransitions>
+                            <TransitionCollection>
+                                <EntranceThemeTransition IsStaggeringEnabled="False" />
+                            </TransitionCollection>
+                        </ItemsControl.ItemContainerTransitions>
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="properties:FileProperty">
                                 <Grid
                                     Padding="0,0,0,8"
@@ -184,13 +189,13 @@
                                         TextWrapping="Wrap" />
                                 </Grid>
                             </DataTemplate>
-                        </muxc:ItemsRepeater.ItemTemplate>
+                        </ItemsControl.ItemTemplate>
                         <!--<muxc:ItemsRepeater.cont>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                             </Style>
                         </muxc:ItemsRepeater.cont>-->
-                    </muxc:ItemsRepeater>
+                    </ItemsControl>
                 </StackPanel>
             </ScrollViewer>
         </Grid>
