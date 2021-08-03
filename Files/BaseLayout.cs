@@ -942,6 +942,11 @@ namespace Files
                 if (item == preRenamingItem)
                 {
                     await Task.Delay(doubleClickInterval);
+                    if (preRenamingItem == null)
+                    {
+                        return;
+                    }
+                    
                     if (item == preRenamingItem)
                     {
                         StartRenameItem();
