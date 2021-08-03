@@ -37,6 +37,17 @@
                     Text="Sidebar" />
 
                 <local:SettingsBlockControl
+                    x:Uid="SettingsShowFavoritesSection"
+                    Title="Show Favorites section"
+                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
+                    HorizontalAlignment="Left">
+                    <local:SettingsBlockControl.Icon>
+                        <SymbolIcon Symbol="Favorite" />
+                    </local:SettingsBlockControl.Icon>
+                    <ToggleSwitch IsOn="{Binding ShowFavoritesSection, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                </local:SettingsBlockControl>
+
+                <local:SettingsBlockControl
                     x:Uid="SettingsRecycleBinSwitch"
                     Title="Pin Recycle Bin to the favorites section"
                     Width="{StaticResource SettingsBlockControlDefaultWidth}"
