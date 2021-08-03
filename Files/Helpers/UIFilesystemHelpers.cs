@@ -166,7 +166,6 @@ namespace Files.Helpers
                 try
                 {
                     Clipboard.SetContent(dataPackage);
-                    Clipboard.Flush();
                 }
                 catch
                 {
