@@ -161,7 +161,16 @@
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap"
-                        Visibility="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+                        Visibility="Visible">
+                        <i:Interaction.Behaviors>
+                            <icore:DataTriggerBehavior Binding="{Binding IsOpen, ElementName=EditPopup, Mode=OneWay}" Value="False">
+                                <icore:ChangePropertyAction TargetObject="{Binding ElementName=ItemName}" PropertyName="Opacity" Value="1" />
+                            </icore:DataTriggerBehavior>
+                            <icore:DataTriggerBehavior Binding="{Binding IsOpen, ElementName=EditPopup, Mode=OneWay}" Value="True">
+                                <icore:ChangePropertyAction TargetObject="{Binding ElementName=ItemName}" PropertyName="Opacity" Value="0" />
+                            </icore:DataTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </TextBlock>
                 </Grid>
                 <Popup
                     x:Name="EditPopup"
