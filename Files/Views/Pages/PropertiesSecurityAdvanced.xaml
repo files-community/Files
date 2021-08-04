@@ -14,7 +14,7 @@
     d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:Height="550"
     d:Width="850"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"
     Background="{ThemeResource PropertiesDialogRootBackgroundBrush}"
     KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
@@ -36,6 +36,14 @@
                 x:Key="BoolToWidthConverter"
                 FalseValue="0"
                 TrueValue="*" />
+
+            <AcrylicBrush
+                x:Key="AcrylicInAppFillColorDefaultBrush"
+                BackgroundSource="Backdrop"
+                FallbackColor="{ThemeResource ControlFillColorDefault}"
+                TintColor="{ThemeResource ControlFillColorDefault}"
+                TintLuminosityOpacity="0.1"
+                TintOpacity="0.5" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -155,7 +163,7 @@
                 x:Name="ListView"
                 Grid.Row="2"
                 x:Load="{x:Bind ViewModel.FilePermissions.CanReadFilePermissions, Mode=OneWay}"
-                Background="{ThemeResource SolidBackgroundAcrylic}"
+                Background="{ThemeResource ControlFillColorDefaultBrush}"
                 BorderBrush="Gray"
                 BorderThickness="1"
                 CornerRadius="4"
@@ -174,50 +182,50 @@
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.Header>
-                    <Grid
-                        Margin="12,0,12,0"
-                        Padding="0,8,0,8"
-                        Background="{ThemeResource SolidBackgroundAcrylic}"
+                    <Border
+                        Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource SystemChromeHighColor}"
                         BorderThickness="0,0,0,1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="32" />
-                            <ColumnDefinition Width="70" />
-                            <ColumnDefinition Width="*" MinWidth="200" />
-                            <ColumnDefinition Width="*" MinWidth="160" />
-                            <ColumnDefinition Width="70" />
-                            <ColumnDefinition Width="{x:Bind ViewModel.IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind ViewModel.IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
-                        </Grid.ColumnDefinitions>
+                        <Grid Margin="12,0,12,0" Padding="0,8,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32" />
+                                <ColumnDefinition Width="70" />
+                                <ColumnDefinition Width="*" MinWidth="200" />
+                                <ColumnDefinition Width="*" MinWidth="160" />
+                                <ColumnDefinition Width="70" />
+                                <ColumnDefinition Width="{x:Bind ViewModel.IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind ViewModel.IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock
-                            x:Uid="SecurityAdvancedTypeLabel"
-                            Grid.Column="1"
-                            HorizontalAlignment="Center"
-                            FontWeight="SemiBold"
-                            Text="Type" />
-                        <TextBlock
-                            x:Uid="SecurityAdvancedEntityLabel"
-                            Grid.Column="2"
-                            FontWeight="SemiBold"
-                            Text="Entity" />
-                        <TextBlock
-                            x:Uid="SecurityAdvancedAccessLabel"
-                            Grid.Column="3"
-                            FontWeight="SemiBold"
-                            Text="Access" />
-                        <TextBlock
-                            x:Uid="SecurityAdvancedInheritedLabel"
-                            Grid.Column="4"
-                            FontWeight="SemiBold"
-                            Text="Inherited" />
-                        <TextBlock
-                            x:Name="AppliesToLabel"
-                            x:Uid="SecurityAdvancedAppliesToLabel"
-                            Grid.Column="5"
-                            FontWeight="SemiBold"
-                            Text="Applies to"
-                            Visibility="{x:Bind ViewModel.IsFolder, Mode=OneWay}" />
-                    </Grid>
+                            <TextBlock
+                                x:Uid="SecurityAdvancedTypeLabel"
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                FontWeight="SemiBold"
+                                Text="Type" />
+                            <TextBlock
+                                x:Uid="SecurityAdvancedEntityLabel"
+                                Grid.Column="2"
+                                FontWeight="SemiBold"
+                                Text="Entity" />
+                            <TextBlock
+                                x:Uid="SecurityAdvancedAccessLabel"
+                                Grid.Column="3"
+                                FontWeight="SemiBold"
+                                Text="Access" />
+                            <TextBlock
+                                x:Uid="SecurityAdvancedInheritedLabel"
+                                Grid.Column="4"
+                                FontWeight="SemiBold"
+                                Text="Inherited" />
+                            <TextBlock
+                                x:Name="AppliesToLabel"
+                                x:Uid="SecurityAdvancedAppliesToLabel"
+                                Grid.Column="5"
+                                FontWeight="SemiBold"
+                                Text="Applies to"
+                                Visibility="{x:Bind ViewModel.IsFolder, Mode=OneWay}" />
+                        </Grid>
+                    </Border>
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="perm:FileSystemAccessRuleForUI">

@@ -67,6 +67,11 @@ namespace Files
         public PreviewPaneViewModel PreviewPaneViewModel { get; } = new PreviewPaneViewModel();
 
         public bool IsRenamingItem { get; set; } = false;
+        public ListedItem RenamingItem { get; set; } = null;
+
+        public string OldItemName { get; set; } = null;
+
+        public TextBlock RenamingTextBlock { get; set; } = null;
 
         private bool isMiddleClickToScrollEnabled = true;
 
@@ -165,6 +170,7 @@ namespace Files
                     {
                         ItemManipulationModel.SetSelectedItem(jumpedToItem);
                         ItemManipulationModel.ScrollIntoView(jumpedToItem);
+                        ItemManipulationModel.FocusSelectedItems();
                     }
 
                     // Restart the timer
@@ -214,6 +220,7 @@ namespace Files
                         IsItemSelected = false;
                         SelectedItem = null;
                         SelectedItemsPropertiesViewModel.IsItemSelected = false;
+                        ResetRenameDoubleClick();
                     }
                     else
                     {
@@ -548,8 +555,14 @@ namespace Files
                     (i as AppBarButton).Click += new RoutedEventHandler((s, e) => BaseContextMenuFlyout.Hide());  // Workaround for WinUI (#5508)
                 });
                 primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
-                secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
-
+                secondaryElements.ForEach(i =>
+                {
+                    if(i is AppBarButton appBarButton)
+                    {
+                        appBarButton.MinWidth = 350; // setting the minwidth to a large number is a workaround for #5555
+                    }
+                    BaseContextMenuFlyout.SecondaryCommands.Add(i);
+                });
                 var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false);
                 if (shellContextMenuItemCancellationToken.IsCancellationRequested)
                 {
@@ -579,7 +592,14 @@ namespace Files
                 (i as AppBarButton).Click += new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide()); // Workaround for WinUI (#5508)
             });
             primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
-            secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
+            secondaryElements.ForEach(i => {
+                if (i is AppBarButton appBarButton)
+                {
+                    appBarButton.MinWidth = 350; // setting the minwidth to a large number is a workaround for #5555
+                }
+
+                ItemContextMenuFlyout.SecondaryCommands.Add(i);
+            });
 
             var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, shiftPressed: shiftPressed, showOpenMenu: false);
             if (shellContextMenuItemCancellationToken.IsCancellationRequested)
@@ -909,6 +929,32 @@ namespace Files
                     listedItem.Opacity = 1;
                 }
             }
+        }
+
+        virtual public void StartRenameItem() { }
+
+        private ListedItem preRenamingItem = null;
+
+        public void CheckRenameDoubleClick(object clickedItem)
+        {
+            if (clickedItem is ListedItem item)
+            {
+                if (item == preRenamingItem)
+                {
+                    StartRenameItem();
+                    ResetRenameDoubleClick();
+                }
+                preRenamingItem = item;
+            }
+            else
+            {
+                ResetRenameDoubleClick();
+            }
+        }
+
+        public void ResetRenameDoubleClick()
+        {
+            preRenamingItem = null;
         }
     }
 }

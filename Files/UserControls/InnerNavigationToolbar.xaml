@@ -16,7 +16,6 @@
         <ResourceDictionary>
             <Style x:Key="AccentColorFontIconStyle" TargetType="FontIcon" />
             <converters:LayoutModeToBoolConverter x:Key="LayoutModeConverter" />
-            <converters:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
             <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
             <converters1:BoolToVisibilityConverter
                 x:Key="NegatedBoolToVisibilityConverter"
@@ -97,6 +96,19 @@
                 </AppBarButton>
                 <AppBarSeparator />
                 <AppBarButton
+                    x:Name="CutButton"
+                    Width="Auto"
+                    MinWidth="40"
+                    Command="{x:Bind ViewModel.CutCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
+                    Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutCut/Text')}"
+                    LabelPosition="Collapsed"
+                    ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutCut/Text')}">
+                    <AppBarButton.Content>
+                        <local:ColoredIcon BaseLayerGlyph="&#x003D;" OverlayLayerGlyph="&#x003E;" />
+                    </AppBarButton.Content>
+                </AppBarButton>
+                <AppBarButton
                     x:Uid="NavigationToolbarCopy"
                     Width="Auto"
                     MinWidth="40"
@@ -124,20 +136,6 @@
                             Modifiers="Control" />
                     </AppBarButton.KeyboardAccelerators>
                     <local:ColoredIcon BaseLayerGlyph="&#x0023;" OverlayLayerGlyph="&#x0024;" />
-                </AppBarButton>
-                <AppBarButton
-                    x:Name="CopyPathButton"
-                    x:Uid="NavigationToolbarCopyPath"
-                    Width="Auto"
-                    MinWidth="40"
-                    Command="{x:Bind ViewModel.CopyPathCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopyPath, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
-                    Label="Copy location"
-                    LabelPosition="Collapsed"
-                    ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutCopyLocation/Text')}">
-                    <AppBarButton.Content>
-                        <local:ColoredIcon BaseLayerGlyph="&#x002F;" OverlayLayerGlyph="&#x0030;" />
-                    </AppBarButton.Content>
                 </AppBarButton>
                 <AppBarButton
                     x:Name="RenameButton"
