@@ -936,32 +936,24 @@ namespace Files
 
         private ListedItem preRenamingItem = null;
 
-        private IntervalSampler tapIntervalSampler = new IntervalSampler(500);
-
         public void CheckRenameDoubleClick(object clickedItem)
         {
             if (clickedItem is ListedItem item)
             {
                 if (item == preRenamingItem)
                 {
-                    if (!tapIntervalSampler.CheckNow())
+                    tapDebounceTimer.Debounce(() =>
                     {
-                        tapIntervalSampler.Reset();
-                        tapDebounceTimer.Stop();
-                    }
-                    else
-                    {
-                        tapDebounceTimer.Debounce(() =>
+                        if (item == preRenamingItem)
                         {
                             StartRenameItem();
                             tapDebounceTimer.Stop();
-                        }, TimeSpan.FromMilliseconds(500));
-                    }
+                        }
+                    }, TimeSpan.FromMilliseconds(500));
                 }
                 else
                 {
                     tapDebounceTimer.Stop();
-                    tapIntervalSampler.Reset();
                     preRenamingItem = item;
                 }
             }
