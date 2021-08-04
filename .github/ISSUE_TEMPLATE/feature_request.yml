@@ -10,14 +10,12 @@ body:
     attributes:
       label: Solution/Idea
       description: Describe your solution/idea.
-      render: markdown
     validations:
       required: true
   - type: textarea
     attributes:
       label: Alternatives
       description: Describe alternatives you've considered
-      render: markdown
     validations:
       required: true
   - type: markdown
@@ -38,7 +36,6 @@ body:
     attributes:
       label: Priorities
       description: describe all the elements of your idea and how important they are.
-      render: markdown
       value: |
         | Capability | Priority |
         | :---------- | :------- |
@@ -65,4 +62,3 @@ body:
     attributes:
       label: Additional comment
       description: Add any other comment or screenshots about the feature request here. What device type/UI layout and app version?
-      render: markdown
