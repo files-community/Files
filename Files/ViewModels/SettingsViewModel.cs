@@ -240,6 +240,15 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the filetag column should be visible.
+        /// </summary>
+        public bool ShowFileTagColumn
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         #endregion DetailsView Column Settings
 
         #region CommonPaths
@@ -349,6 +358,15 @@ namespace Files.ViewModels
         public bool AdaptiveLayoutEnabled
         {
             get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable file tags feature.
+        /// </summary>
+        public bool AreFileTagsEnabled
+        {
+            get => Get(false);
             set => Set(value);
         }
 

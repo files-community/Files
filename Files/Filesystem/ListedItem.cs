@@ -107,7 +107,7 @@ namespace Files.Filesystem
 
         public FileTag FileTagUI
         {
-            get => App.AppSettings.FileTagsSettings.GetTagByID(FileTag);
+            get => App.AppSettings.AreFileTagsEnabled ? App.AppSettings.FileTagsSettings.GetTagByID(FileTag) : null;
         }
 
         private Uri customIconSource;

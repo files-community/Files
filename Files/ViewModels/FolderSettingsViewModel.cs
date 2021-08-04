@@ -502,15 +502,13 @@ namespace Files.ViewModels
                 // Do not save OriginalPath as global sort option (only works in recycle bin)
                 if (prefs.DirectorySortOption != SortOption.OriginalPath &&
                     prefs.DirectorySortOption != SortOption.DateDeleted &&
-                    prefs.DirectorySortOption != SortOption.SyncStatus &&
-                    prefs.DirectorySortOption != SortOption.FileTag)
+                    prefs.DirectorySortOption != SortOption.SyncStatus)
                 {
                     App.AppSettings.DefaultDirectorySortOption = prefs.DirectorySortOption;
                 }
                 if (prefs.DirectoryGroupOption != GroupOption.OriginalFolder &&
                     prefs.DirectoryGroupOption != GroupOption.DateDeleted &&
-                    prefs.DirectoryGroupOption != GroupOption.SyncStatus &&
-                    prefs.DirectoryGroupOption != GroupOption.FileTag)
+                    prefs.DirectoryGroupOption != GroupOption.SyncStatus)
                 {
                     App.AppSettings.DefaultDirectoryGroupOption = prefs.DirectoryGroupOption;
                 }
@@ -519,6 +517,7 @@ namespace Files.ViewModels
                 App.AppSettings.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
                 App.AppSettings.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
                 App.AppSettings.ShowSizeColumn = !prefs.ColumnsViewModel.SizeColumn.UserCollapsed;
+                App.AppSettings.ShowFileTagColumn = !prefs.ColumnsViewModel.TagColumn.UserCollapsed;
             }
         }
 
@@ -629,6 +628,7 @@ namespace Files.ViewModels
                 this.ColumnsViewModel.DateModifiedColumn.UserCollapsed = !App.AppSettings.ShowDateColumn;
                 this.ColumnsViewModel.ItemTypeColumn.UserCollapsed = !App.AppSettings.ShowTypeColumn;
                 this.ColumnsViewModel.SizeColumn.UserCollapsed = !App.AppSettings.ShowSizeColumn;
+                this.ColumnsViewModel.TagColumn.UserCollapsed = !App.AppSettings.ShowFileTagColumn;
 
                 this.IsAdaptiveLayoutOverridden = false; // Default is always turned on for every dir
             }

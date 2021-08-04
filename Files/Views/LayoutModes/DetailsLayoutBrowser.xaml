@@ -243,6 +243,12 @@
                             <Grid.ContextFlyout>
                                 <MenuFlyout>
                                     <ToggleMenuFlyoutItem
+                                        x:Uid="DetailsViewHeaderFlyout_ShowFileTag"
+                                        Click="ToggleMenuFlyoutItem_Click"
+                                        IsChecked="{x:Bind ColumnsViewModel.TagColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+                                        Text="File tag column"
+                                        Visibility="{x:Bind ColumnsViewModel.TagColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+                                    <ToggleMenuFlyoutItem
                                         x:Uid="DetailsViewHeaderFlyout_ShowOriginalPath"
                                         Click="ToggleMenuFlyoutItem_Click"
                                         IsChecked="{x:Bind ColumnsViewModel.OriginalPathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
@@ -357,14 +363,16 @@
                                 Grid.Column="4"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="FileTag"
-                                Header="Tag" />
+                                Header="Tag"
+                                Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
                                 Grid.Column="5"
                                 DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
-                                Style="{StaticResource HeaderGridSplitterStyle}" />
+                                Style="{StaticResource HeaderGridSplitterStyle}"
+                                Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
 
                             <uc:DataGridHeader
                                 x:Name="OriginalPathHeader"

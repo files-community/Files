@@ -603,7 +603,7 @@ namespace Files
                 ItemContextMenuFlyout.SecondaryCommands.Add(i);
             });
 
-            if (!InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin)
+            if (AppSettings.AreFileTagsEnabled && !InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin)
             {
                 AddFileTagsItemToMenu(ItemContextMenuFlyout);
             }

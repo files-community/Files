@@ -278,6 +278,15 @@ namespace Files.Views.LayoutModes
                 ColumnsViewModel.StatusColumn.Show();
             }
 
+            if (!App.AppSettings.AreFileTagsEnabled)
+            {
+                ColumnsViewModel.TagColumn.Hide();
+            }
+            else
+            {
+                ColumnsViewModel.TagColumn.Show();
+            }
+
             UpdateSortIndicator();
         }
 
@@ -698,7 +707,7 @@ namespace Files.Views.LayoutModes
 
             var maxItemLength = columnToResize switch
             {
-                1 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemName?.Length ?? 0).Max(), // file name column
+                1 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemName?.Length ?? 0).Max() + (AppSettings.AreFileTagsEnabled ? 20 : 0), // file name column
                 2 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagUI?.TagName?.Length ?? 0).Max(), // file tag column
                 3 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemOriginalPath?.Length ?? 0).Max(), // original path column
                 4 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
