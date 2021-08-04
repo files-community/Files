@@ -699,7 +699,7 @@ namespace Files.Views.LayoutModes
             var maxItemLength = columnToResize switch
             {
                 1 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemName?.Length ?? 0).Max(), // file name column
-                2 => 20, // file tag column
+                2 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagUI?.TagName?.Length ?? 0).Max(), // file tag column
                 3 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemOriginalPath?.Length ?? 0).Max(), // original path column
                 4 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
                 5 => 20, // cloud status column
@@ -708,7 +708,7 @@ namespace Files.Views.LayoutModes
                 8 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
                 _ => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
             };
-            var colunmSizeToFit = new[] { 2, 5 }.Contains(columnToResize) ? maxItemLength : MeasureTextColumn(columnToResize, 5, maxItemLength);
+            var colunmSizeToFit = new[] { 5 }.Contains(columnToResize) ? maxItemLength : MeasureTextColumn(columnToResize, 5, maxItemLength);
             if (colunmSizeToFit > 0)
             {
                 var column = columnToResize switch

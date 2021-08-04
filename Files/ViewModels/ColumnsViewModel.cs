@@ -19,11 +19,7 @@ namespace Files.ViewModels
             set => SetProperty(ref iconColumn, value);
         }
 
-        private ColumnViewModel tagColumn = new ColumnViewModel()
-        {
-            UserLength = new GridLength(44, GridUnitType.Pixel),
-        };
-
+        private ColumnViewModel tagColumn = new ColumnViewModel();
         public ColumnViewModel TagColumn
         {
             get => tagColumn;

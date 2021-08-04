@@ -580,6 +580,10 @@
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
                                     <TextBlock
                                         x:Name="ItemName"
                                         VerticalAlignment="Center"
@@ -590,6 +594,15 @@
                                         VerticalAlignment="Center"
                                         TextChanged="ListViewTextBoxItemName_TextChanged"
                                         Visibility="Collapsed" />
+                                    <Ellipse
+                                        Grid.Column="1"
+                                        Width="12"
+                                        Height="12"
+                                        Margin="4,0,0,0"
+                                        VerticalAlignment="Center"
+                                        x:Phase="2"
+                                        Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
+                                        Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                                 </Grid>
 
                                 <Grid
@@ -600,14 +613,11 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <Ellipse
-                                        Width="12"
-                                        Height="12"
-                                        HorizontalAlignment="Left"
+                                    <TextBlock
                                         VerticalAlignment="Center"
-                                        x:Phase="2"
-                                        Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
-                                        ToolTipService.ToolTip="{x:Bind FileTagUI.TagName, Mode=OneWay}"
+                                        FontWeight="Light"
+                                        Text="{x:Bind FileTagUI.TagName, Mode=OneWay}"
+                                        TextTrimming="CharacterEllipsis"
                                         Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                                 </Grid>
 
