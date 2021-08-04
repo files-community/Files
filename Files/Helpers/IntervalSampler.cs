@@ -1,38 +1,40 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Files.Helpers
 {
     internal class IntervalSampler
     {
-        private DateTime recordPoint;
-        private TimeSpan sampleInterval;
+        private long sampleInterval;
+        private Stopwatch stopwatch;
 
         public IntervalSampler(int millisecondsInterval)
         {
-            sampleInterval = TimeSpan.FromMilliseconds(millisecondsInterval);
-            recordPoint = DateTime.Now;
+            sampleInterval = millisecondsInterval;
+            stopwatch = Stopwatch.StartNew();
         }
 
         public IntervalSampler(TimeSpan interval)
         {
-            sampleInterval = interval;
-            recordPoint = DateTime.Now;
+            sampleInterval = interval.Milliseconds;
+            stopwatch = Stopwatch.StartNew();
         }
 
         public void Reset()
         {
-            recordPoint = DateTime.Now;
+            stopwatch.Restart();
         }
 
         public bool CheckNow()
         {
-            var now = DateTime.Now;
-            if (now - sampleInterval >= recordPoint)
+            stopwatch.Stop();
+            if (stopwatch.ElapsedMilliseconds < sampleInterval)
             {
-                recordPoint = now;
-                return true;
+                return false;
             }
-            return false;
+
+            stopwatch.Restart();
+            return true;
         }
     }
 }
