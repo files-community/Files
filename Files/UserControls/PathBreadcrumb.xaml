@@ -32,6 +32,7 @@
                     <ControlTemplate TargetType="ListViewItem">
                         <ListViewItemPresenter
                             x:Name="Root"
+                            Margin="0,-2"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                             CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}"
@@ -40,6 +41,7 @@
                             ContentMargin="{TemplateBinding Padding}"
                             ContentTransitions="{TemplateBinding ContentTransitions}"
                             Control.IsTemplateFocusTarget="True"
+                            CornerRadius="{ThemeResource ControlCornerRadius}"
                             DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
                             DragBackground="{ThemeResource ListViewItemDragBackground}"
                             DragForeground="{ThemeResource ListViewItemDragForeground}"
@@ -188,6 +190,7 @@
         <DataTemplate x:Name="ParentItems">
             <Grid
                 x:Name="ListViewItemContentGrid"
+                Margin="2,0"
                 AllowDrop="True"
                 AutomationProperties.Name="{Binding Title}"
                 Background="Transparent"
@@ -228,8 +231,6 @@
 
                     <FontIcon
                         x:Name="PathSeaparatorIcon"
-                        Width="32"
-                        Margin="-11,0,-11,0"
                         DataContextChanged="PathItemSeparator_DataContextChanged"
                         FontSize="10"
                         Glyph="&#xE76C;"
