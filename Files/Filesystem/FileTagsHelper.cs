@@ -124,9 +124,9 @@ namespace Files.Filesystem
             return tag;
         }
 
-        public FileTag GetTagByName(string tagName)
+        public IEnumerable<FileTag> GetTagsByName(string tagName)
         {
-            return FileTagList.SingleOrDefault(x => x.TagName.Equals(tagName, StringComparison.OrdinalIgnoreCase));
+            return FileTagList.Where(x => x.TagName.Equals(tagName, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

@@ -89,12 +89,12 @@ namespace Files.Filesystem.Search
         private async Task SearchTagsAsync(string folder, ObservableCollection<ListedItem> results)
         {
             var tagName = Query.Substring("tag:".Length);
-            var tag = App.AppSettings.FileTagsSettings.GetTagByName(tagName);
-            if (tag == null)
+            var tags = App.AppSettings.FileTagsSettings.GetTagsByName(tagName);
+            if (!tags.Any())
             {
                 return;
             }
-            var matches = FileTagsHelper.DbInstance.GetAllUnderPath(folder).Where(x => x.Tag == tag.Uid);
+            var matches = FileTagsHelper.DbInstance.GetAllUnderPath(folder).Where(x => tags.Any(t => x.Tag == t.Uid));
             foreach (var match in matches)
             {
                 (IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
