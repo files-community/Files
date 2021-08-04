@@ -112,12 +112,15 @@ namespace Files.Helpers
             string copySourcePath = associatedInstance.FilesystemViewModel.WorkingDirectory;
             FilesystemResult result = (FilesystemResult)false;
 
+            bool canFlush = true;
+
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {
                 foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
                 {
                     if (listedItem is FtpItem ftpItem)
                     {
+                        canFlush = false;
                         items.Add(await new FtpStorageFile(associatedInstance.FilesystemViewModel, ftpItem).ToStorageFileAsync());
                         continue;
                     }
@@ -166,6 +169,11 @@ namespace Files.Helpers
                 try
                 {
                     Clipboard.SetContent(dataPackage);
+                    
+                    if (canFlush)
+                    {
+                        Clipboard.Flush();
+                    }
                 }
                 catch
                 {

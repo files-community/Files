@@ -7,6 +7,7 @@ using Windows.Storage.FileProperties;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Files.Filesystem.StorageItems
 {
@@ -58,8 +59,39 @@ namespace Files.Filesystem.StorageItems
             });
         }
 
-        public IAsyncOperation<StorageFile> GetFileAsync(string name) => throw new NotSupportedException();
+        private StreamedFileDataRequestedHandler FtpDataStreamingHandler(string name)
+        {
+            return async request =>
+            {
+                try
+                {
+                    var ftpClient = _viewModel.GetFtpInstance();
+
+                    if (!await ftpClient.EnsureConnectedAsync())
+                    {
+                        request.FailAndClose(StreamedFileFailureMode.CurrentlyUnavailable);
+                        return;
+                    }
+
+                    using var stream = request.AsStreamForWrite();
+                    await ftpClient.DownloadAsync(stream, $"{Path}/{name}");
+                    await request.FlushAsync();
+                    request.Dispose();
+                }
+                catch
+                {
+                    request.FailAndClose(StreamedFileFailureMode.Incomplete);
+                }
+            };
+        }
+
+        public IAsyncOperation<StorageFile> GetFileAsync(string name)
+        {
+            return StorageFile.CreateStreamedFileAsync(name, FtpDataStreamingHandler(name), null);
+        }
+
         public IAsyncOperation<StorageFolder> GetFolderAsync(string name) => throw new NotSupportedException();
+
         public IAsyncOperation<IStorageItem> GetItemAsync(string name) => throw new NotSupportedException();
         public IAsyncOperation<IReadOnlyList<StorageFile>> GetFilesAsync() => throw new NotSupportedException();
         public IAsyncOperation<IReadOnlyList<StorageFolder>> GetFoldersAsync() => throw new NotSupportedException();
