@@ -220,7 +220,7 @@ namespace Files.Filesystem
                 else if (FtpHelpers.IsFtpPath(destination) && !FtpHelpers.IsFtpPath(source.Path))
                 {
                     var fsSourceFolder = await source.ToStorageItemResult(associatedInstance);
-                    var ftpDestFolder = await new StorageFolderWithPath(null, destination).ToStorageItemResult();
+                    var ftpDestFolder = await new StorageFolderWithPath(null, destination).ToStorageItemResult(associatedInstance);
                     var fsCopyResult = await FilesystemTasks.Wrap(() => CloneDirectoryToFtpAsync((StorageFolder)fsSourceFolder, (FtpStorageFolder)ftpDestFolder.Result, collision.Convert()));
 
                     if (fsCopyResult == FileSystemStatusCode.AlreadyExists)

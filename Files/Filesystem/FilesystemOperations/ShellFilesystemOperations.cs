@@ -65,7 +65,7 @@ namespace Files.Filesystem
         public async Task<IStorageHistory> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IEnumerable<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\")) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\")))
+            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\")) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\") || FtpHelpers.IsFtpPath(x)))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.CopyItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
