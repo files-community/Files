@@ -1028,6 +1028,7 @@
     <PRIResource Include="Strings\es-419\Resources.resw" />
     <PRIResource Include="Strings\pt-PT\Resources.resw" />
     <XliffResource Include="MultilingualResources\Files.el.xlf" />
+    <XliffResource Include="MultilingualResources\Files.en-GB.xlf" />
     <XliffResource Include="MultilingualResources\Files.id-ID.xlf" />
     <XliffResource Include="MultilingualResources\Files.es-419.xlf" />
     <XliffResource Include="MultilingualResources\Files.ka.xlf" />
