@@ -32,6 +32,44 @@ namespace Files.Filesystem.StorageItems
             FtpPath = FtpHelpers.GetFtpPath(item.Path);
         }
 
+        public FtpStorageFolder CloneWithPath(string path)
+        {
+            return new FtpStorageFolder(_viewModel, new StorageFolderWithPath(null, path));
+        }
+
+        public IAsyncOperation<FtpStorageFile> UploadFileAsync(IStorageFile sourceFile, string desiredNewName, NameCollisionOption option)
+        {
+            return AsyncInfo.Run(async (cancellationToken) =>
+            {
+                var ftpClient = _viewModel.GetFtpInstance();
+
+                if (!await ftpClient.EnsureConnectedAsync())
+                {
+                    return null;
+                }
+
+                using var stream = await sourceFile.OpenStreamForReadAsync();
+                var result = await ftpClient.UploadAsync(stream, $"{FtpPath}/{desiredNewName}", option == NameCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip);
+                
+                if (result == FtpStatus.Success)
+                {
+                    return new FtpStorageFile(_viewModel, new StorageFileWithPath(null, $"{Path}/{desiredNewName}"));
+                }
+
+                if (result == FtpStatus.Skipped)
+                {
+                    if (option == NameCollisionOption.FailIfExists)
+                    {
+                        throw new IOException("File already exists.");
+                    }
+
+                    return null;
+                }
+
+                throw new IOException($"Failed to copy file {sourceFile.Path}.");
+            });
+        }
+
         public IAsyncOperation<StorageFile> CreateFileAsync(string desiredName) => throw new NotSupportedException();
 
         public IAsyncOperation<StorageFile> CreateFileAsync(string desiredName, CreationCollisionOption options) => throw new NotSupportedException();
@@ -48,12 +86,20 @@ namespace Files.Filesystem.StorageItems
                 var ftpClient = _viewModel.GetFtpInstance();
                 if (!await ftpClient.EnsureConnectedAsync())
                 {
+                    throw new IOException($"Failed to connect to FTP server.");
+                }
+
+                if (ftpClient.DirectoryExists($"{FtpPath}/{desiredName}"))
+                {
                     return null;
                 }
 
-                await ftpClient.CreateDirectoryAsync($"{FtpPath}/{desiredName}", 
-                    options == CreationCollisionOption.ReplaceExisting, 
-                    cancellationToken);
+                if (!await ftpClient.CreateDirectoryAsync($"{FtpPath}/{desiredName}", 
+                    options == CreationCollisionOption.ReplaceExisting,
+                    cancellationToken))
+                {
+                    throw new IOException($"Failed to create folder {desiredName}.");
+                }
 
                 return null;
             });
@@ -91,7 +137,6 @@ namespace Files.Filesystem.StorageItems
         }
 
         public IAsyncOperation<StorageFolder> GetFolderAsync(string name) => throw new NotSupportedException();
-
         public IAsyncOperation<IStorageItem> GetItemAsync(string name) => throw new NotSupportedException();
         public IAsyncOperation<IReadOnlyList<StorageFile>> GetFilesAsync() => throw new NotSupportedException();
         public IAsyncOperation<IReadOnlyList<StorageFolder>> GetFoldersAsync() => throw new NotSupportedException();

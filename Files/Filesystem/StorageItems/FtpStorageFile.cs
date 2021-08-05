@@ -111,10 +111,7 @@ namespace Files.Filesystem.StorageItems
             return DeleteAsync();
         }
 
-        public IAsyncOperation<BasicProperties> GetBasicPropertiesAsync()
-        {
-            throw new NotSupportedException($"Use {nameof(ToStorageFileAsync)} instead.");
-        }
+        public IAsyncOperation<BasicProperties> GetBasicPropertiesAsync() => throw new NotSupportedException();
 
         public bool IsOfType(StorageItemTypes type) => type == StorageItemTypes.File;
 
@@ -131,7 +128,7 @@ namespace Files.Filesystem.StorageItems
         public IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode) => throw new NotSupportedException();
         
         public IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync() => throw new NotSupportedException();
-        
+
         public IAsyncOperation<StorageFile> CopyAsync(IStorageFolder destinationFolder)
         {
             return CopyAsync(destinationFolder, Name, NameCollisionOption.FailIfExists);
@@ -173,101 +170,17 @@ namespace Files.Filesystem.StorageItems
             });
         }
         
-        public IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace)
-        {
-            return AsyncInfo.Run(async (cancellationToken) =>
-            {
-                var ftpClient = _viewModel.GetFtpInstance();
-
-                if (!await ftpClient.EnsureConnectedAsync())
-                {
-                    return;
-                }
-
-                var stream = await fileToReplace.OpenStreamForWriteAsync();
-                await ftpClient.DownloadAsync(stream, FtpPath, token: cancellationToken);
-            });
-        }
-        
-        public IAsyncAction MoveAsync(IStorageFolder destinationFolder)
-        {
-            return MoveAsync(destinationFolder, Name, NameCollisionOption.FailIfExists);
-        }
-
-        public IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName)
-        {
-            return MoveAsync(destinationFolder, desiredNewName, NameCollisionOption.FailIfExists);
-        }
-
-        public IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
-        {
-            return AsyncInfo.Run(async (cancellationToken) =>
-            {
-                var ftpClient = _viewModel.GetFtpInstance();
-
-                if (!await ftpClient.EnsureConnectedAsync())
-                {
-                    return;
-                }
-
-                var createOption = option switch
-                {
-                    NameCollisionOption.FailIfExists => CreationCollisionOption.FailIfExists,
-                    NameCollisionOption.GenerateUniqueName => CreationCollisionOption.GenerateUniqueName,
-                    NameCollisionOption.ReplaceExisting => CreationCollisionOption.ReplaceExisting,
-                    _ => CreationCollisionOption.FailIfExists
-                };
-
-                var file = await destinationFolder.CreateFileAsync(desiredNewName, createOption);
-                var stream = await file.OpenStreamForWriteAsync();
-
-                if (await ftpClient.DownloadAsync(stream, FtpPath, token: cancellationToken))
-                {
-                    await ftpClient.DeleteFileAsync(FtpPath, cancellationToken);
-                }
-            });
-        }
-
-        public IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace)
-        {
-            return AsyncInfo.Run(async (cancellationToken) =>
-            {
-                var ftpClient = _viewModel.GetFtpInstance();
-
-                if (!await ftpClient.EnsureConnectedAsync())
-                {
-                    return;
-                }
-
-                var stream = await fileToReplace.OpenStreamForWriteAsync();
-                if (await ftpClient.DownloadAsync(stream, FtpPath, token: cancellationToken))
-                {
-                    await ftpClient.DeleteFileAsync(FtpPath, cancellationToken);
-                }
-            });
-        }
+        public IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace) => throw new NotSupportedException();
+        public IAsyncAction MoveAsync(IStorageFolder destinationFolder) => throw new NotSupportedException();
+        public IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName) => throw new NotSupportedException();
+        public IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option) => throw new NotSupportedException();
+        public IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace) => throw new NotSupportedException();
 
         public string ContentType { get; } = "application/octet-stream";
 
         public string FileType { get; }
 
         public IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync() => throw new NotSupportedException();
-
-        public IAsyncOperation<IInputStream> OpenSequentialReadAsync()
-        {
-            return AsyncInfo.Run(async (cancellationToken) =>
-            {
-                var ftpClient = _viewModel.GetFtpInstance();
-
-                if (!await ftpClient.EnsureConnectedAsync())
-                {
-                    return null;
-                }
-
-                var stream = await ftpClient.OpenReadAsync(FtpPath, cancellationToken);
-
-                return stream.AsInputStream();
-            });
-        }
+        public IAsyncOperation<IInputStream> OpenSequentialReadAsync() => throw new NotSupportedException();
     }
 }
