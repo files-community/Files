@@ -12,4 +12,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
+    <value>Choose your colour</value>
+  </data>
+  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
+    <value>Experimental</value>
+  </data>
+  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
+    <value>Unpin from Favourites</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+    <value>Pin to Favourites</value>
+  </data>
+  <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
+    <value>Pin Recycle Bin to Favourites</value>
+  </data>
+  <data name="SettingsContextMenu.Text" xml:space="preserve">
+    <value>Customise the right click context menu</value>
+  </data>
+  <data name="SettingsTabCustomization.Text" xml:space="preserve">
+    <value>Tab customisation</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
+    <value>Unpin from Favourites</value>
+  </data>
+  <data name="SidebarFavorites" xml:space="preserve">
+    <value>Favourites</value>
+  </data>
+  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
+    <value>Custom themes provide a great way for you to personalise Files.</value>
+  </data>
 </root>
