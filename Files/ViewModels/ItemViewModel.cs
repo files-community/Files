@@ -213,12 +213,12 @@ namespace Files.ViewModels
 
         public bool IsSortedByOriginalPath
         {
-            get => folderSettings.DirectorySortOption == SortOption.OriginalPath;
+            get => folderSettings.DirectorySortOption == SortOption.OriginalFolder;
             set
             {
                 if (value)
                 {
-                    folderSettings.DirectorySortOption = SortOption.OriginalPath;
+                    folderSettings.DirectorySortOption = SortOption.OriginalFolder;
                     OnPropertyChanged(nameof(IsSortedByOriginalPath));
                 }
             }

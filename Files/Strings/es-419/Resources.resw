@@ -1854,41 +1854,11 @@
   <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
     <value>Agrupar por</value>
   </data>
-  <data name="NavToolbarGroupByOption_None.Content" xml:space="preserve">
-    <value>Ninguno</value>
-  </data>
-  <data name="NavToolbarArrangementOption_Name.Content" xml:space="preserve">
-    <value>Nombre</value>
-  </data>
-  <data name="NavToolbarArrangementOption_DateModified.Content" xml:space="preserve">
-    <value>Fecha de modificación</value>
-  </data>
-  <data name="NavToolbarArrangementOption_DateCreated.Content" xml:space="preserve">
-    <value>Fecha de creación</value>
-  </data>
-  <data name="NavToolbarArrangementOption_Size.Content" xml:space="preserve">
-    <value>Tamaño</value>
-  </data>
-  <data name="NavToolbarArrangementOption_DateDeleted.Content" xml:space="preserve">
-    <value>Fecha de eliminación</value>
-  </data>
-  <data name="NavToolbarArrangementOption_OriginalFolder.Content" xml:space="preserve">
-    <value>Ubicación original</value>
-  </data>
-  <data name="NavToolbarArrangementOption_Type.Content" xml:space="preserve">
-    <value>Tipo</value>
-  </data>
   <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
     <value>Ordenar por</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
     <value>Dirección de ordenación</value>
-  </data>
-  <data name="NavToolbarSortDirectionOption_Ascending.Content" xml:space="preserve">
-    <value>Ascendente</value>
-  </data>
-  <data name="NavToolbarSortDirectionOption_Descending.Content" xml:space="preserve">
-    <value>Descendente</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
     <value>Enorme</value>
@@ -2068,9 +2038,6 @@
     <value>Widgets</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Estado de sincronización</value>
-  </data>
-  <data name="NavToolbarArrangementOption_SyncStatus.Content" xml:space="preserve">
     <value>Estado de sincronización</value>
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">

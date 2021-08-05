@@ -1,6 +1,7 @@
 using Files.Common;
 using Files.DataModels;
 using Files.Dialogs;
+using Files.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
@@ -350,12 +351,12 @@ namespace Files.Views
             NavParams = (eventArgs.Parameter as ColumnParam).Path.ToString();
         }
 
-        private void AppSettings_SortDirectionPreferenceUpdated(object sender, EventArgs e)
+        private void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
         {
             FilesystemViewModel?.UpdateSortDirectionStatus();
         }
 
-        private void AppSettings_SortOptionPreferenceUpdated(object sender, EventArgs e)
+        private void AppSettings_SortOptionPreferenceUpdated(object sender, SortOption e)
         {
             FilesystemViewModel?.UpdateSortOptionStatus();
         }
