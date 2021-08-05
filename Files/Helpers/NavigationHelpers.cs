@@ -307,7 +307,19 @@ namespace Files.Helpers
                                 {
                                     DisplayApplicationPicker = true
                                 };
-                                await Launcher.LaunchFileAsync(childFile.File, options);
+                                if (!await Launcher.LaunchFileAsync(childFile.File, options))
+                                {
+                                    var connection = await AppServiceConnectionHelper.Instance;
+                                    if (connection != null)
+                                    {
+                                        await connection.SendMessageAsync(new ValueSet()
+                                        {
+                                            { "Arguments", "InvokeVerb" },
+                                            { "FilePath", path },
+                                            { "Verb", "openas" }
+                                        });
+                                    }
+                                }
                             }
                             else
                             {
