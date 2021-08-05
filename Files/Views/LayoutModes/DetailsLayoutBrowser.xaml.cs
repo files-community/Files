@@ -1,4 +1,4 @@
-using Files.Enums;
+﻿using Files.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
 using Files.Helpers;
@@ -26,6 +26,8 @@ namespace Files.Views.LayoutModes
 {
     public sealed partial class DetailsLayoutBrowser : BaseLayout
     {
+        public string oldItemName;
+
         private ColumnsViewModel columnsViewModel = new ColumnsViewModel();
 
         public ColumnsViewModel ColumnsViewModel
@@ -43,6 +45,9 @@ namespace Files.Views.LayoutModes
 
         private RelayCommand<string> UpdateSortOptionsCommand { get; set; }
 
+        private DispatcherQueueTimer renameDoubleClickTimer;
+        private DispatcherQueueTimer renameDoubleClickTimeoutTimer;
+
         public DetailsLayoutBrowser() : base()
         {
             InitializeComponent();
@@ -50,6 +55,8 @@ namespace Files.Views.LayoutModes
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+            renameDoubleClickTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            renameDoubleClickTimeoutTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         protected override void HookEvents()
@@ -81,7 +88,6 @@ namespace Files.Views.LayoutModes
             if (SelectedItems.Any())
             {
                 FileList.ScrollIntoView(SelectedItems.Last());
-                (FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
             }
         }
 
@@ -132,18 +138,6 @@ namespace Files.Views.LayoutModes
 
         private void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
         {
-            FocusFileList();
-        }
-
-        private void FocusFileList()
-        {
-            var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
-            if (focusedElement is ListViewItem lvi)
-            {
-                // if an item in the file list is already focused, don't refocus
-                return;
-            }
-
             if (FileList.ContainerFromIndex(0) is ListViewItem item)
             {
                 _ = FocusManager.TryFocusAsync(item, FocusState.Programmatic);
@@ -317,13 +311,9 @@ namespace Files.Views.LayoutModes
 
         private ListedItem renamingItem;
 
-        override public void StartRenameItem()
+        private void StartRenameItem()
         {
             renamingItem = SelectedItem;
-            if (renamingItem == null)
-            {
-                return;
-            }
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
             ListViewItem listViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
             TextBox textBox = null;
@@ -336,7 +326,7 @@ namespace Files.Views.LayoutModes
             //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
             //textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
             textBox.Text = textBlock.Text;
-            OldItemName = textBlock.Text;
+            oldItemName = textBlock.Text;
             textBlock.Visibility = Visibility.Collapsed;
             textBox.Visibility = Visibility.Visible;
 
@@ -375,7 +365,7 @@ namespace Files.Views.LayoutModes
             {
                 TextBox textBox = sender as TextBox;
                 textBox.LostFocus -= RenameTextBox_LostFocus;
-                textBox.Text = OldItemName;
+                textBox.Text = oldItemName;
                 EndRename(textBox);
                 e.Handled = true;
             }
@@ -403,10 +393,10 @@ namespace Files.Views.LayoutModes
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
 
-            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(renamingItem, OldItemName, newItemName, ParentShellPageInstance);
+            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(renamingItem, oldItemName, newItemName, ParentShellPageInstance);
             if (!successful)
             {
-                renamingItem.ItemName = OldItemName;
+                renamingItem.ItemName = oldItemName;
             }
         }
 
@@ -494,18 +484,14 @@ namespace Files.Views.LayoutModes
                     }
 
                     base.Page_CharacterReceived(sender, args);
-                    FocusFileList();
+                    FileList.Focus(FocusState.Keyboard);
                 }
             }
         }
 
         protected override ListedItem GetItemFromElement(object element)
         {
-            if (element is ListViewItem item)
-            {
-                return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (FileList.ItemFromContainer(item) as ListedItem);
-            }
-            return null;
+            return (element as ListViewItem).DataContext as ListedItem ?? (element as ListViewItem).Content as ListedItem;
         }
 
         private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -569,18 +555,14 @@ namespace Files.Views.LayoutModes
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
             {
-                ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-            }
-            else
-            {
-                CheckRenameDoubleClick(e.ClickedItem);
             }
         }
 
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
+            ResetDoubleClick();
 
             // Skip opening selected items if the double tap doesn't capture an item
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
@@ -590,7 +572,8 @@ namespace Files.Views.LayoutModes
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
             }
-            ResetRenameDoubleClick();
+
+            renameDoubleClickTimer.Stop();
         }
 
         #region IDisposable
@@ -618,6 +601,51 @@ namespace Files.Views.LayoutModes
         {
             // This prevents the drag selection rectangle from appearing when resizing the columns
             e.Handled = true;
+        }
+
+        private void ItemNameGrid_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            CheckDoubleClickToRename();
+        }
+
+        private int clickCount = 0;
+        private void CheckDoubleClickToRename()
+        {
+            if (clickCount < 1)
+            {
+                if (renameDoubleClickTimer.IsRunning || AppSettings.OpenItemsWithOneclick)
+                {
+                    ResetDoubleClick();
+                }
+                else
+                {
+                    clickCount++;
+                    renameDoubleClickTimer.Debounce(() =>
+                    {
+                        renameDoubleClickTimer.Stop();
+                    }, TimeSpan.FromMilliseconds(510));
+
+                    if (!renameDoubleClickTimeoutTimer.IsRunning)
+                    {
+                        renameDoubleClickTimeoutTimer.Debounce(() =>
+                        {
+                            ResetDoubleClick();
+                        }, TimeSpan.FromMilliseconds(2000));
+                    }
+                }
+            }
+            else
+            {
+                ResetDoubleClick();
+                StartRenameItem();
+            }
+        }
+
+        private void ResetDoubleClick()
+        {
+            renameDoubleClickTimeoutTimer.Stop();
+            renameDoubleClickTimer.Stop();
+            clickCount = 0;
         }
 
         private void GridSplitter_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)

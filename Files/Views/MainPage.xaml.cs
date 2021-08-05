@@ -324,8 +324,6 @@ namespace Files.Views
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
-
             // Defers the status bar loading until after the page has loaded to improve startup perf
             FindName(nameof(StatusBarControl));
             FindName(nameof(InnerNavigationToolbar));

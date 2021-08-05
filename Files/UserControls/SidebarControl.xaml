@@ -233,6 +233,8 @@
                                     Grid.ColumnSpan="2"
                                     VerticalAlignment="Stretch"
                                     Background="{ThemeResource TitlebarContentBackgroundBrush}"
+                                    BorderBrush="{ThemeResource NavigationViewContentGridBorderBrush}"
+                                    BorderThickness="{ThemeResource NavigationViewContentGridBorderThickness}"
                                     CornerRadius="0,0,0,0"
                                     IsHitTestVisible="False" />
 
@@ -302,7 +304,6 @@
                                     ManipulationMode="TranslateX"
                                     ManipulationStarted="ResizeElementBorder_ManipulationStarted"
                                     PointerCanceled="Border_PointerExited"
-                                    DoubleTapped="ResizeElementBorder_DoubleTapped"
                                     PointerEntered="Border_PointerEntered"
                                     PointerExited="Border_PointerExited"
                                     RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}"

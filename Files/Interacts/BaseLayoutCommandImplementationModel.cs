@@ -355,7 +355,7 @@ namespace Files.Interacts
                     {
                         if (item.IsLinkItem)
                         {
-                            dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalized(), item.ItemName);
+                            dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalized(), items.First().Name);
                             dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalized();
                             dataRequest.Data.SetWebLink(new Uri(((ShortcutItem)item).TargetPath));
                             dataRequestDeferral.Complete();

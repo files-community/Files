@@ -26,6 +26,8 @@ namespace Files.Views.LayoutModes
 {
     public sealed partial class GridViewBrowser : BaseLayout
     {
+        public string oldItemName;
+
         /// <summary>
         /// The minimum item width for items. Used in the StretchedGridViewItems behavior.
         /// </summary>
@@ -229,15 +231,13 @@ namespace Files.Views.LayoutModes
             SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
 
-        override public void StartRenameItem()
+        private ListedItem renamingItem;
+
+        private void StartRenameItem()
         {
-            RenamingItem = SelectedItem;
-            if (RenamingItem == null)
-            {
-                return;
-            }
-            int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
-            GridViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
+            renamingItem = SelectedItem;
+            int extensionLength = renamingItem.FileExtension?.Length ?? 0;
+            GridViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as GridViewItem;
             TextBox textBox = null;
             if (gridViewItem == null)
             {
@@ -253,7 +253,7 @@ namespace Files.Views.LayoutModes
                 textBox = popup.Child as TextBox;
                 textBox.Text = textBlock.Text;
                 popup.IsOpen = true;
-                OldItemName = textBlock.Text;
+                oldItemName = textBlock.Text;
             }
             else
             {
@@ -262,7 +262,7 @@ namespace Files.Views.LayoutModes
                 //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
                 //textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
                 textBox.Text = textBlock.Text;
-                OldItemName = textBlock.Text;
+                oldItemName = textBlock.Text;
                 textBlock.Visibility = Visibility.Collapsed;
                 textBox.Visibility = Visibility.Visible;
             }
@@ -302,7 +302,7 @@ namespace Files.Views.LayoutModes
             {
                 TextBox textBox = sender as TextBox;
                 textBox.LostFocus -= RenameTextBox_LostFocus;
-                textBox.Text = OldItemName;
+                textBox.Text = oldItemName;
                 EndRename(textBox);
                 e.Handled = true;
             }
@@ -330,10 +330,10 @@ namespace Files.Views.LayoutModes
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
 
-            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, OldItemName, newItemName, ParentShellPageInstance);
+            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(renamingItem, oldItemName, newItemName, ParentShellPageInstance);
             if (!successful)
             {
-                RenamingItem.ItemName = OldItemName;
+                renamingItem.ItemName = oldItemName;
             }
         }
 
@@ -434,11 +434,7 @@ namespace Files.Views.LayoutModes
 
         protected override ListedItem GetItemFromElement(object element)
         {
-            if (element is GridViewItem item)
-            {
-                return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (FileList.ItemFromContainer(item) as ListedItem);
-            }
-            return null;
+            return (element as GridViewItem).DataContext as ListedItem ?? (element as GridViewItem).Content as ListedItem;
         }
 
         private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -503,13 +499,8 @@ namespace Files.Views.LayoutModes
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
             {
-                ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-            }
-            else
-            {
-                CheckRenameDoubleClick(e.ClickedItem);
             }
         }
         
@@ -523,7 +514,6 @@ namespace Files.Views.LayoutModes
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
             }
-            ResetRenameDoubleClick();
         }
 
         #region IDisposable

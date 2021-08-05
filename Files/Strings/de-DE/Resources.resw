@@ -79,7 +79,7 @@
     <value>Einen neuen Tab öffnen</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Einen oder mehrere Ordner öffnen</value>
+    <value>Bestimmte Seite oder mehrere Seiten öffnen</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Beim Start</value>
@@ -562,10 +562,10 @@
     <value>Neue Seite hinzufügen</value>
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>Ordner:</value>
+    <value>Seiten:</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Wenn ein Ordner in Files geöffnet wird</value>
+    <value>Wenn ein Ordner in Files geöfnet wird</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>In neuem Fenster öffnen</value>
@@ -2449,13 +2449,13 @@
     <value>Öffnen durch einfachen Klick</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles.Title" xml:space="preserve">
-    <value>Dateien und Ordner zusammen auflisten und sortieren</value>
+    <value>Verzeichnisse und Dateien zusammen mit auflisten und sortieren</value>
   </data>
   <data name="SettingsSearchUnindexedItems.Title" xml:space="preserve">
     <value>Nicht indizierte Dateien und Ordner in der Suche anzeigen (Suchen wird langsamer)</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder.Title" xml:space="preserve">
-    <value>Individuelle Einstellungen für einzelne Ordner aktivieren</value>
+    <value>Individuelle Einstellungen für einzelne Verzeichnisse aktivieren</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>Nützliche Links</value>

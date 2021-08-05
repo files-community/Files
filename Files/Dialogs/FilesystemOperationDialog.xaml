@@ -30,6 +30,7 @@
     <ContentDialog.Resources>
         <ResourceDictionary>
             <x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
+            <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
         </ResourceDictionary>
     </ContentDialog.Resources>
 

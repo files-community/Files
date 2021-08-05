@@ -50,16 +50,10 @@ namespace Files.UserControls
 
         void ForegroundChanged(DependencyObject sender, DependencyProperty dp)
         {
-            var v = sender.GetValue(dp);
-            if (v == Resources["AppBarButtonForegroundDisabled"])
+            if(sender.GetValue(dp) == Resources["AppBarButtonForegroundDisabled"])
             {
                 VisualStateManager.GoToState(this, "Disabled", true);
-            } 
-            else if(v == Resources["AppBarToggleButtonForegroundChecked"] || v == Resources["AppBarToggleButtonForegroundCheckedPressed"])
-            {
-                VisualStateManager.GoToState(this, "Checked", true);
-            }
-            else
+            } else
             {
                 VisualStateManager.GoToState(this, "Normal", true);
             }

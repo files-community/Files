@@ -499,6 +499,8 @@ namespace Files.ViewModels
 
         public ICommand PasteItemsFromClipboardCommand { get; set; }
 
+        public ICommand CopyPathCommand { get; set; }
+
         public ICommand OpenNewWindowCommand { get; set; }
 
         public ICommand OpenNewPaneCommand { get; set; }
@@ -518,8 +520,6 @@ namespace Files.ViewModels
         public ICommand Rename { get; set; }
 
         public ICommand Share { get; set; }
-
-        public ICommand CutCommand { get; set; }
 
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {
@@ -773,6 +773,7 @@ namespace Files.ViewModels
                 if(SetProperty(ref selectedItems, value))
                 {
                     OnPropertyChanged(nameof(CanCopy));
+                    OnPropertyChanged(nameof(CanCopyPath));
                     OnPropertyChanged(nameof(CanShare));
                     OnPropertyChanged(nameof(CanRename));
                 }
@@ -780,7 +781,8 @@ namespace Files.ViewModels
         }
 
         public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
-        public bool CanShare => SelectedItems is not null && SelectedItems.Any() && !SelectedItems.All(x => x.IsShortcutItem || x.IsHiddenItem);
+        public bool CanCopyPath => SelectedItems is null || SelectedItems.Count == 0 || (SelectedItems is not null && SelectedItems.Count == 1);
+        public bool CanShare => SelectedItems is not null && SelectedItems.Any() && !SelectedItems.All(x => x.IsShortcutItem);
         public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
     }
 }

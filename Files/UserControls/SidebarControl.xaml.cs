@@ -886,11 +886,6 @@ namespace Files.UserControls
             dragging = false;
         }
 
-        private void ResizeElementBorder_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            IsPaneOpen = !IsPaneOpen;
-        }
-
         private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
         {
             var item = (sender as MenuFlyoutItem).DataContext;

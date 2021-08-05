@@ -31,6 +31,10 @@ namespace Files.Views.LayoutModes
     /// </summary>
     public sealed partial class ColumnViewBrowser : BaseLayout
     {
+        private DispatcherQueueTimer tapDebounceTimer;
+        private ListedItem renamingItem;
+        private string oldItemName;
+        private TextBlock textBlock;
         public static IShellPage columnparent;
         private NavigationArguments parameters;
         private ListViewItem listViewItem;
@@ -45,6 +49,7 @@ namespace Files.Views.LayoutModes
             ColumnViewBase.DismissColumn += ColumnViewBase_DismissColumn;
             //this.DataContext = this;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
+            tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         protected override void HookEvents()
@@ -95,13 +100,6 @@ namespace Files.Views.LayoutModes
 
         private void ItemManipulationModel_InvertSelectionInvoked(object sender, EventArgs e)
         {
-            if (!IsLastColumnBase)
-            {
-                var c = ColumnHost.ActiveBlades.Last();
-                ((c.Content as Frame).Content as ColumnShellPage).NavToolbarViewModel.InvertContentPageSelctionCommand.Execute(null);
-                return;
-            }
-
             if (SelectedItems.Count < GetAllItems().Cast<ListedItem>().Count() / 2)
             {
                 var oldSelectedItems = SelectedItems.ToList();
@@ -121,27 +119,12 @@ namespace Files.Views.LayoutModes
 
         private void ItemManipulationModel_ClearSelectionInvoked(object sender, EventArgs e)
         {
-            if (IsLastColumnBase)
-            {
-                FileList.SelectedItems.Clear();
-            }
-            else
-            {
-                var c = ColumnHost.ActiveBlades.Last();
-                ((c.Content as Frame).Content as ColumnShellPage).NavToolbarViewModel.ClearContentPageSelectionCommand.Execute(null);
-            }
+            FileList.SelectedItems.Clear();
         }
 
         private void ItemManipulationModel_SelectAllItemsInvoked(object sender, EventArgs e)
         {
-            if (IsLastColumnBase)
-            {
-                FileList.SelectAll();
-            } else
-            {
-                var c = ColumnHost.ActiveBlades.Last();
-                ((c.Content as Frame).Content as ColumnShellPage).NavToolbarViewModel.SelectAllContentPageItemsCommand.Execute(null);
-            }
+            FileList.SelectAll();
         }
 
         private void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
@@ -287,27 +270,23 @@ namespace Files.Views.LayoutModes
         {
         }
 
-        override public void StartRenameItem()
+        private void StartRenameItem()
         {
-            RenamingItem = FileList.SelectedItem as ListedItem;
-            if (RenamingItem == null)
-            {
-                return;
-            }
-            int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
-            ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+            renamingItem = FileList.SelectedItem as ListedItem;
+            int extensionLength = renamingItem.FileExtension?.Length ?? 0;
+            ListViewItem listViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
             TextBox textBox = null;
             if (listViewItem == null)
             {
                 return;
             }
-            RenamingTextBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
+            textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
             textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
             //textBlock = (listViewItem.ContentTemplateRoot as Border).FindDescendant("ItemName") as TextBlock;
             //textBox = (listViewItem.ContentTemplateRoot as Border).FindDescendant("ListViewTextBoxItemName") as TextBox;
-            textBox.Text = RenamingTextBlock.Text;
-            OldItemName = RenamingTextBlock.Text;
-            RenamingTextBlock.Visibility = Visibility.Collapsed;
+            textBox.Text = textBlock.Text;
+            oldItemName = textBlock.Text;
+            textBlock.Visibility = Visibility.Collapsed;
             textBox.Visibility = Visibility.Visible;
             textBox.Focus(FocusState.Pointer);
             textBox.LostFocus += RenameTextBox_LostFocus;
@@ -328,7 +307,7 @@ namespace Files.Views.LayoutModes
             {
                 TextBox textBox = sender as TextBox;
                 textBox.LostFocus -= RenameTextBox_LostFocus;
-                textBox.Text = OldItemName;
+                textBox.Text = oldItemName;
                 EndRename(textBox);
                 e.Handled = true;
             }
@@ -356,10 +335,10 @@ namespace Files.Views.LayoutModes
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
 
-            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, OldItemName, newItemName, ParentShellPageInstance);
+            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(renamingItem, oldItemName, newItemName, ParentShellPageInstance);
             if (!successful)
             {
-                RenamingItem.ItemName = OldItemName;
+                renamingItem.ItemName = oldItemName;
             }
         }
 
@@ -372,7 +351,7 @@ namespace Files.Views.LayoutModes
             else
             {
                 textBox.Visibility = Visibility.Collapsed;
-                RenamingTextBlock.Visibility = Visibility.Visible;
+                textBlock.Visibility = Visibility.Visible;
             }
 
             textBox.LostFocus -= RenameTextBox_LostFocus;
@@ -388,11 +367,7 @@ namespace Files.Views.LayoutModes
 
         protected override ListedItem GetItemFromElement(object element)
         {
-            if (element is ListViewItem item)
-            {
-                return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (FileList.ItemFromContainer(item) as ListedItem);
-            }
-            return null;
+            return (element as ListViewItem).DataContext as ListedItem ?? (element as ListViewItem).Content as ListedItem;
         }
 
         #region IDisposable
@@ -412,6 +387,7 @@ namespace Files.Views.LayoutModes
                 // Do not commit rename if SelectionChanged is due to selction rectangle (#3660)
                 //FileList.CommitEdit();
             }
+            tapDebounceTimer.Stop();
             SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
 
@@ -546,7 +522,6 @@ namespace Files.Views.LayoutModes
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
             }
-            ResetRenameDoubleClick();
         }
 
         private void FileList_Holding(object sender, HoldingRoutedEventArgs e)
@@ -633,7 +608,7 @@ namespace Files.Views.LayoutModes
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
             {
-                ResetRenameDoubleClick();
+                tapDebounceTimer.Stop();
                 await Task.Delay(200);
                 if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
@@ -668,11 +643,7 @@ namespace Files.Views.LayoutModes
                 {
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
-            }
-            else
-            {
-                CheckRenameDoubleClick(item);
-            }
+            }            
         }
 
         private void ColumnShellPage_NotifyRoot(object sender, EventArgs e)
@@ -780,11 +751,5 @@ namespace Files.Views.LayoutModes
                 }
             }
         }
-
-        public IBaseLayout LastColumnBrowser => IsLastColumnBase ? this : ((ColumnHost.ActiveBlades.Last().Content as Frame).Content as ColumnShellPage).SlimContentPage as ColumnViewBase;
-
-        public IShellPage LastColumnShellPage => IsLastColumnBase ? ParentShellPageInstance : ((ColumnHost.ActiveBlades.Last().Content as Frame).Content as ColumnShellPage);
-
-        public bool IsLastColumnBase => ColumnHost.ActiveBlades.Count == 1;
     }
 }

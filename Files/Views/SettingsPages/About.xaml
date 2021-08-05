@@ -2,7 +2,6 @@
     x:Class="Files.SettingsPages.About"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
@@ -11,12 +10,7 @@
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
     <Page.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
-                <ResourceDictionary Source="/ResourceDictionaries/TransparentMarkdownTextBlock.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+        <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
     </Page.Resources>
     <Page.DataContext>
         <settingsviewmodels:AboutViewModel />
@@ -182,24 +176,6 @@
                     </local:SettingsBlockControl.ExpandableContent>
                 </local:SettingsBlockControl>
 
-                <local:SettingsBlockControl
-                    x:Uid="SettingsPrivacy"
-                    Title="Privacy policy"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
-                    <local:SettingsBlockControl.Icon>
-                        <FontIcon Glyph="&#xEA18;" />
-                    </local:SettingsBlockControl.Icon>
-
-                    <local:SettingsBlockControl.ExpandableContent>
-                        <controls:MarkdownTextBlock
-                            x:Name="PrivacyTextBlock"
-                            x:Uid="SettingsPrivacyPolicyMarkdownBlock"
-                            Margin="4"
-                            Padding="8" />
-                    </local:SettingsBlockControl.ExpandableContent>
-                </local:SettingsBlockControl>
-
                 <Button
                     x:Name="OpenLogLocationButton"
                     x:Uid="SettingsAboutOpenLogLocationButton"
@@ -245,12 +221,6 @@
                     AutomationProperties.Name="QuickLook"
                     Content="QuickLook"
                     NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt" />
-
-                <HyperlinkButton
-                    x:Uid="SettingsFluentUISystemIconsLicenseButton"
-                    AutomationProperties.Name="Fluent UI System Icons"
-                    Content="Fluent UI System Icons"
-                    NavigateUri="https://github.com/microsoft/fluentui-system-icons/blob/master/LICENSE" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

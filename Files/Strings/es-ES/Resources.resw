@@ -55,7 +55,7 @@
     <value>Apariencia</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Archivos y carpetas</value>
+    <value>Carpetas y archivos</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Acerca de Files</value>
@@ -2419,7 +2419,7 @@
     <value>Mostrar unidades de red en la barra lateral</value>
   </data>
   <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
-    <value>Anclar la Papelera de reciclaje a Favoritos</value>
+    <value>Mostrar la Papelera de reciclaje en la barra lateral</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>Mostrar Bibliotecas en la barra lateral</value>
@@ -2468,95 +2468,5 @@
   </data>
   <data name="SettingsAboutOpenLogLocationButtonText.Text" xml:space="preserve">
     <value>Abrir ubicación del archivo de registro (log)</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
-    <value>Anclar a Favoritos</value>
-  </data>
-  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Desanclar de Favoritos</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Desanclar de Favoritos</value>
-  </data>
-  <data name="NavSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Ajustes</value>
-  </data>
-  <data name="NavSettingsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ajustes</value>
-  </data>
-  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Copiar</value>
-  </data>
-  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
-    <value>Copiar</value>
-  </data>
-  <data name="ConsentDialogTitle" xml:space="preserve">
-    <value>Actualizaciones disponibles</value>
-  </data>
-  <data name="ConsentDialogContent" xml:space="preserve">
-    <value>Hay actualizaciones listas para instalarse</value>
-  </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
-    <value>Cerrar</value>
-  </data>
-  <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Actualizar</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
-    <value>Agregar archivo</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Agregar carpeta</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Agregar elemento...</value>
-  </data>
-  <data name="Home" xml:space="preserve">
-    <value>Inicio</value>
-  </data>
-  <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
-    <value>Nueva pestaña</value>
-  </data>
-  <data name="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+A</value>
-  </data>
-  <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Alt+Mayús++</value>
-  </data>
-  <data name="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Mayús+W</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+N</value>
-  </data>
-  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Arriba</value>
-  </data>
-  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Alt+Abajo</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Mayús+1</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTilesView.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Mayús+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutGridViewSmall.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Mayús+3</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutGridViewMedium.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Mayús+4</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutGridViewLarge.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Mayús+5</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Mayús+6</value>
-  </data>
-  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+T</value>
-  </data>
-  <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Mayús+T</value>
   </data>
 </root>

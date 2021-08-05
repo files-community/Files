@@ -15,6 +15,7 @@
 
     <UserControl.Resources>
         <!--  Converters  -->
+        <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
     </UserControl.Resources>
 

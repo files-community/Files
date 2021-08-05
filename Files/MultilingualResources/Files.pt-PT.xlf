@@ -3404,69 +3404,39 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Title" translate="yes" xml:space="preserve">
           <source>Terminal applications</source>
-          <target state="translated">Aplicações Terminal</target>
+          <target state="new">Terminal applications</target>
         </trans-unit>
         <trans-unit id="ArchiveExtractionCompletedSuccessfullyText" translate="yes" xml:space="preserve">
           <source>The archive extraction completed successfully.</source>
-          <target state="translated">A extração do ficheiro completado com sucesso.</target>
+          <target state="new">The archive extraction completed successfully.</target>
         </trans-unit>
         <trans-unit id="ExtractingArchiveText" translate="yes" xml:space="preserve">
           <source>Extracting archive</source>
-          <target state="translated">Extraindo ficheiro</target>
+          <target state="new">Extracting archive</target>
         </trans-unit>
         <trans-unit id="ExtractingCompleteText" translate="yes" xml:space="preserve">
           <source>Extracting complete!</source>
-          <target state="translated">Extração completa!</target>
+          <target state="new">Extracting complete!</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+N</source>
-          <target state="translated">Ctrl+Shift+N</target>
+          <target state="new">Ctrl+Shift+N</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplicationsExpander.Title" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
-          <target state="translated">Editar aplicações terminal</target>
+          <target state="new">Edit terminal applications</target>
         </trans-unit>
         <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
           <source>Date format</source>
-          <target state="translated">Formato da data</target>
+          <target state="new">Date format</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">Mostrar um diálogo de confirmação ao eliminar ficheiros ou pastas</target>
+          <target state="new">Show a confirmation dialog when deleting files or folders</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Title" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
-          <target state="translated">Abrir pastas num novo separador</target>
-        </trans-unit>
-        <trans-unit id="SettingsPrivacy.Title" translate="yes" xml:space="preserve">
-          <source>Privacy policy</source>
-          <target state="new">Privacy policy</target>
-        </trans-unit>
-        <trans-unit id="SettingsFluentUISystemIconsLicenseButton.Content" translate="yes" xml:space="preserve">
-          <source>Fluent UI System Icons</source>
-          <target state="new">Fluent UI System Icons</target>
-        </trans-unit>
-        <trans-unit id="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Fluent UI System Icons</source>
-          <target state="new">Fluent UI System Icons</target>
-        </trans-unit>
-        <trans-unit id="SettingsPrivacyPolicyMarkdownBlock.Text" translate="yes" xml:space="preserve">
-          <source>
-*Personal Information Collection* 
-Files does not collect, store, share or publish any personal information.
-
-*Non-personal Information Collection*
-
-We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
-  </source>
-          <target state="new">
-*Personal Information Collection* 
-Files does not collect, store, share or publish any personal information.
-
-*Non-personal Information Collection*
-
-We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
-  </target>
+          <target state="new">Open folders in new tab</target>
         </trans-unit>
       </group>
     </body>
