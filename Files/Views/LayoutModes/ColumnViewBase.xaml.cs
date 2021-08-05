@@ -29,17 +29,11 @@ namespace Files.Views.LayoutModes
     /// </summary>
     public sealed partial class ColumnViewBase : BaseLayout
     {
-        private DispatcherQueueTimer tapDebounceTimer;
-        private ListedItem renamingItem;
-        private string oldItemName;
-        private TextBlock textBlock;
-
         public ColumnViewBase() : base()
         {
             this.InitializeComponent();
             CurrentColumn = this;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
-            tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         protected override void HookEvents()
@@ -210,23 +204,27 @@ namespace Files.Views.LayoutModes
         {
         }
 
-        private void StartRenameItem()
+        override public void StartRenameItem()
         {
-            renamingItem = FileList.SelectedItem as ListedItem;
-            int extensionLength = renamingItem.FileExtension?.Length ?? 0;
-            ListViewItem listViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
+            RenamingItem = FileList.SelectedItem as ListedItem;
+            if (RenamingItem == null)
+            {
+                return;
+            }
+            int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
+            ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
             TextBox textBox = null;
             if (listViewItem == null)
             {
                 return;
             }
-            textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
+            RenamingTextBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
             textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
             //textBlock = (listViewItem.ContentTemplateRoot as Border).FindDescendant("ItemName") as TextBlock;
             //textBox = (listViewItem.ContentTemplateRoot as Border).FindDescendant("ListViewTextBoxItemName") as TextBox;
-            textBox.Text = textBlock.Text;
-            oldItemName = textBlock.Text;
-            textBlock.Visibility = Visibility.Collapsed;
+            textBox.Text = RenamingTextBlock.Text;
+            OldItemName = RenamingTextBlock.Text;
+            RenamingTextBlock.Visibility = Visibility.Collapsed;
             textBox.Visibility = Visibility.Visible;
 
             textBox.Focus(FocusState.Pointer);
@@ -248,7 +246,7 @@ namespace Files.Views.LayoutModes
             {
                 TextBox textBox = sender as TextBox;
                 textBox.LostFocus -= RenameTextBox_LostFocus;
-                textBox.Text = oldItemName;
+                textBox.Text = OldItemName;
                 EndRename(textBox);
                 e.Handled = true;
             }
@@ -276,10 +274,10 @@ namespace Files.Views.LayoutModes
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
 
-            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(renamingItem, oldItemName, newItemName, ParentShellPageInstance);
+            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, OldItemName, newItemName, ParentShellPageInstance);
             if (!successful)
             {
-                renamingItem.ItemName = oldItemName;
+                RenamingItem.ItemName = OldItemName;
             }
         }
 
@@ -292,7 +290,7 @@ namespace Files.Views.LayoutModes
             else
             {
                 textBox.Visibility = Visibility.Collapsed;
-                textBlock.Visibility = Visibility.Visible;
+                RenamingTextBlock.Visibility = Visibility.Visible;
             }
 
             textBox.LostFocus -= RenameTextBox_LostFocus;
@@ -308,7 +306,11 @@ namespace Files.Views.LayoutModes
 
         protected override ListedItem GetItemFromElement(object element)
         {
-            return (element as ListViewItem).DataContext as ListedItem ?? (element as ListViewItem).Content as ListedItem;
+            if (element is ListViewItem item)
+            {
+                return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (FileList.ItemFromContainer(item) as ListedItem);
+            }
+            return null;
         }
 
         #region IDisposable
@@ -332,7 +334,6 @@ namespace Files.Views.LayoutModes
                 //FileList.CommitEdit();
             }
             UnFocusPreviousListView?.Invoke(FileList, EventArgs.Empty);
-            tapDebounceTimer.Stop();
             SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
 
@@ -442,6 +443,7 @@ namespace Files.Views.LayoutModes
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
             }
+            ResetRenameDoubleClick();
         }
 
         private void FileList_Holding(object sender, HoldingRoutedEventArgs e)
@@ -494,7 +496,7 @@ namespace Files.Views.LayoutModes
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
             {
-                tapDebounceTimer.Stop();
+                ResetRenameDoubleClick();
                 await Task.Delay(200);
                 if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
@@ -509,6 +511,10 @@ namespace Files.Views.LayoutModes
                 {
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
+            }
+            else
+            {
+                CheckRenameDoubleClick(item);
             }
         }
 
