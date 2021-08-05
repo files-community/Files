@@ -446,6 +446,15 @@ namespace Files.ViewModels
         #region Sidebar
 
         /// <summary>
+        /// Gets or sets a value indicating whether or not to show the Favorites section on the sidebar.
+        /// </summary>
+        public bool ShowFavoritesSection
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not to show the library section on the sidebar.
         /// </summary>
         public bool ShowLibrarySection

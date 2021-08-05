@@ -1956,41 +1956,11 @@
   <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
     <value>Ομάδα από</value>
   </data>
-  <data name="NavToolbarGroupByOption_None.Content" xml:space="preserve">
-    <value>Κανένα</value>
-  </data>
-  <data name="NavToolbarArrangementOption_Name.Content" xml:space="preserve">
-    <value>Όνομα</value>
-  </data>
-  <data name="NavToolbarArrangementOption_DateModified.Content" xml:space="preserve">
-    <value>Ημερομηνία τροποποίησης</value>
-  </data>
-  <data name="NavToolbarArrangementOption_DateCreated.Content" xml:space="preserve">
-    <value>Ημερομηνία δημιουργίας</value>
-  </data>
-  <data name="NavToolbarArrangementOption_Size.Content" xml:space="preserve">
-    <value>Μέγεθος</value>
-  </data>
-  <data name="NavToolbarArrangementOption_DateDeleted.Content" xml:space="preserve">
-    <value>Ημερομηνία διαγραφής</value>
-  </data>
-  <data name="NavToolbarArrangementOption_OriginalFolder.Content" xml:space="preserve">
-    <value>Αρχικός φάκελος</value>
-  </data>
-  <data name="NavToolbarArrangementOption_Type.Content" xml:space="preserve">
-    <value>Τύπος</value>
-  </data>
   <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
     <value>Ταξινόμηση κατά</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
     <value>Κατεύθυνση ταξινόμησης</value>
-  </data>
-  <data name="NavToolbarSortDirectionOption_Ascending.Content" xml:space="preserve">
-    <value>Ανερχόμενο</value>
-  </data>
-  <data name="NavToolbarSortDirectionOption_Descending.Content" xml:space="preserve">
-    <value>Κατιούσα</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
     <value>Τεράστιο</value>
@@ -2170,9 +2140,6 @@
     <value>Widgets</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Κατάσταση συγχρονισμού</value>
-  </data>
-  <data name="NavToolbarArrangementOption_SyncStatus.Content" xml:space="preserve">
     <value>Κατάσταση συγχρονισμού</value>
   </data>
   <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">

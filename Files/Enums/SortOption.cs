@@ -9,7 +9,7 @@
         FileType,
         SyncStatus,
         FileTag,
-        OriginalPath,
+        OriginalFolder,
         DateDeleted
     }
 
