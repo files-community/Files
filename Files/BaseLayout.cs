@@ -8,6 +8,7 @@ using Files.Helpers.ContextFlyouts;
 using Files.Interacts;
 using Files.UserControls;
 using Files.ViewModels;
+using Files.ViewModels.Previews;
 using Files.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -685,7 +686,20 @@ namespace Files
                 }
             }
 
-            if (selectedStorageItems.Count > 0)
+            if (selectedStorageItems.Count == 1)
+            {
+                if (selectedStorageItems[0] is IStorageFile file)
+                {
+                    var itemExtension = System.IO.Path.GetExtension(file.Name);
+                    if (ImagePreviewViewModel.Extensions.Any((ext) => ext.Equals(itemExtension, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        var streamRef = Windows.Storage.Streams.RandomAccessStreamReference.CreateFromFile(file);
+                        e.Data.SetBitmap(streamRef);
+                    }
+                }
+                e.Data.SetStorageItems(selectedStorageItems, false);
+            }
+            else if (selectedStorageItems.Count > 1)
             {
                 e.Data.SetStorageItems(selectedStorageItems, false);
             }

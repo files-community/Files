@@ -2386,7 +2386,7 @@
     <value>Mostrar seção de drives de rede na barra lateral</value>
   </data>
   <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
-    <value>Fixar Lixeira na barra lateral</value>
+    <value>Fixar Lixeira nos Favoritos</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>Mostrar seção da biblioteca na barra lateral</value>
@@ -2443,7 +2443,7 @@
     <value>Desafixar dos Favoritos</value>
   </data>
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Desafixar dos favoritos</value>
+    <value>Desafixar dos Favoritos</value>
   </data>
   <data name="NavSettingsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Configurações</value>
@@ -2484,8 +2484,50 @@
   <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
     <value>Nova guia</value>
   </data>
+  <data name="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+A</value>
+  </data>
+  <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Alt+Shift++</value>
+  </data>
+  <data name="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+W</value>
+  </data>
+  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+N</value>
+  </data>
+  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Alt+Up</value>
+  </data>
+  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Alt+Down</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+1</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutTilesView.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+2</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutGridViewSmall.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+3</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutGridViewMedium.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+4</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutGridViewLarge.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+5</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+6</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+T</value>
+  </data>
+  <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+T</value>
+  </data>
   <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
-    <value>Aplicativos de terminal</value>
+    <value>Aplicativo de terminal</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>A extração do arquivo foi concluída com sucesso.</value>
@@ -2500,7 +2542,7 @@
     <value>Ctrl+Shift+N</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
-    <value>Editar aplicativo de terminal</value>
+    <value>Editar aplicativos de terminal</value>
   </data>
   <data name="SettingsDateFormat.Title" xml:space="preserve">
     <value>Formato de data</value>
