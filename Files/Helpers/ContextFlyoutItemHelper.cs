@@ -428,14 +428,14 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.PinDirectoryToFavoritesCommand,
-                    ShowItem =!itemViewModel.CurrentFolder.IsPinned
+                    ShowItem =!itemViewModel.CurrentFolder.IsPinned & App.AppSettings.ShowFavoritesSection
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutUnpinFromFavorites/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = commandsViewModel.UnpinDirectoryFromFavoritesCommand,
-                    ShowItem =itemViewModel.CurrentFolder.IsPinned
+                    ShowItem =itemViewModel.CurrentFolder.IsPinned & App.AppSettings.ShowFavoritesSection
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -757,7 +757,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.SidebarPinItemCommand,
-                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsPinned),
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsPinned) & App.AppSettings.ShowFavoritesSection,
                     IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -765,7 +765,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutContextFlyoutUnpinFromFavorites/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = commandsViewModel.SidebarUnpinItemCommand,
-                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsPinned),
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsPinned) & App.AppSettings.ShowFavoritesSection,
                     IsPrimary = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
