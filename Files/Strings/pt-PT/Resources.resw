@@ -1818,30 +1818,6 @@
   <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
     <value>Agrupar por</value>
   </data>
-  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
-    <value>Nada</value>
-  </data>
-  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>Nome</value>
-  </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
-    <value>Data de modificação</value>
-  </data>
-  <data name="NavToolbarArrangementOption_DateCreated.Text" xml:space="preserve">
-    <value>Data de criação</value>
-  </data>
-  <data name="NavToolbarArrangementOption_Size.Text" xml:space="preserve">
-    <value>Tamanho</value>
-  </data>
-  <data name="NavToolbarArrangementOption_DateDeleted.Text" xml:space="preserve">
-    <value>Data da eliminação</value>
-  </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>Pasta Original</value>
-  </data>
-  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>Tipo</value>
-  </data>
   <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
     <value>Ordenar por</value>
   </data>

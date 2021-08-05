@@ -1956,41 +1956,11 @@
   <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
     <value>Ομάδα από</value>
   </data>
-  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
-    <value>Κανένα</value>
-  </data>
-  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>Όνομα</value>
-  </data>
-  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
-    <value>Ημερομηνία τροποποίησης</value>
-  </data>
-  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
-    <value>Ημερομηνία δημιουργίας</value>
-  </data>
-  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
-    <value>Μέγεθος</value>
-  </data>
-  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
-    <value>Ημερομηνία διαγραφής</value>
-  </data>
-  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
-    <value>Αρχικός φάκελος</value>
-  </data>
-  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
-    <value>Τύπος</value>
-  </data>
   <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
     <value>Ταξινόμηση κατά</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
     <value>Κατεύθυνση ταξινόμησης</value>
-  </data>
-  <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
-    <value>Ανερχόμενο</value>
-  </data>
-  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
-    <value>Κατιούσα</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
     <value>Τεράστιο</value>
@@ -2170,9 +2140,6 @@
     <value>Widgets</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Κατάσταση συγχρονισμού</value>
-  </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
     <value>Κατάσταση συγχρονισμού</value>
   </data>
   <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
