@@ -1,4 +1,5 @@
-﻿using Files.EventArguments;
+﻿using Files.Enums;
+using Files.EventArguments;
 using Files.Events;
 using Files.Extensions;
 using Files.Filesystem;
@@ -7,6 +8,7 @@ using Files.Helpers.ContextFlyouts;
 using Files.Interacts;
 using Files.UserControls;
 using Files.ViewModels;
+using Files.ViewModels.Previews;
 using Files.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -485,7 +487,7 @@ namespace Files
 
         private CancellationTokenSource groupingCancellationToken;
 
-        private async void FolderSettings_GroupOptionPreferenceUpdated(object sender, EventArgs e)
+        private async void FolderSettings_GroupOptionPreferenceUpdated(object sender, GroupOption e)
         {
             // Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning
             groupingCancellationToken?.Cancel();
@@ -684,7 +686,20 @@ namespace Files
                 }
             }
 
-            if (selectedStorageItems.Count > 0)
+            if (selectedStorageItems.Count == 1)
+            {
+                if (selectedStorageItems[0] is IStorageFile file)
+                {
+                    var itemExtension = System.IO.Path.GetExtension(file.Name);
+                    if (ImagePreviewViewModel.Extensions.Any((ext) => ext.Equals(itemExtension, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        var streamRef = Windows.Storage.Streams.RandomAccessStreamReference.CreateFromFile(file);
+                        e.Data.SetBitmap(streamRef);
+                    }
+                }
+                e.Data.SetStorageItems(selectedStorageItems, false);
+            }
+            else if (selectedStorageItems.Count > 1)
             {
                 e.Data.SetStorageItems(selectedStorageItems, false);
             }

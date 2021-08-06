@@ -2420,38 +2420,6 @@
           <source>Group By</source>
           <target state="translated">Gruppieren nach</target>
         </trans-unit>
-        <trans-unit id="NavToolbarGroupByOption_None.Content" translate="yes" xml:space="preserve">
-          <source>None</source>
-          <target state="translated">Keine</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_Name.Content" translate="yes" xml:space="preserve">
-          <source>Name</source>
-          <target state="translated">Name</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_DateModified.Content" translate="yes" xml:space="preserve">
-          <source>Date modified</source>
-          <target state="translated">Änderungsdatum</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_DateCreated.Content" translate="yes" xml:space="preserve">
-          <source>Date created</source>
-          <target state="translated">Erstelldatum</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_Size.Content" translate="yes" xml:space="preserve">
-          <source>Size</source>
-          <target state="translated">Größe</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_DateDeleted.Content" translate="yes" xml:space="preserve">
-          <source>Date deleted</source>
-          <target state="translated">Löschdatum</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_OriginalFolder.Content" translate="yes" xml:space="preserve">
-          <source>Original folder</source>
-          <target state="translated">Ursprünglicher Ordner</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_Type.Content" translate="yes" xml:space="preserve">
-          <source>Type</source>
-          <target state="translated">Typ</target>
-        </trans-unit>
         <trans-unit id="NavToolbarSortByRadioButtons.Header" translate="yes" xml:space="preserve">
           <source>Sort By</source>
           <target state="translated">Sortieren nach</target>
@@ -2459,14 +2427,6 @@
         <trans-unit id="NavToolbarSortDirectionRadioButtons.Header" translate="yes" xml:space="preserve">
           <source>Sort direction</source>
           <target state="translated">Sortierrichtung</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOption_Ascending.Content" translate="yes" xml:space="preserve">
-          <source>Ascending</source>
-          <target state="translated">Aufsteigend</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOption_Descending.Content" translate="yes" xml:space="preserve">
-          <source>Descending</source>
-          <target state="translated">Absteigend</target>
         </trans-unit>
         <trans-unit id="ItemSizeText_Huge" translate="yes" xml:space="preserve">
           <source>Huge</source>
@@ -2745,10 +2705,6 @@
           <target state="translated">Schließen</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">Sync-Status</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_SyncStatus.Content" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="translated">Sync-Status</target>
         </trans-unit>
@@ -3473,6 +3429,50 @@ Files does not collect, store, share or publish any personal information.
 
 We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
   </target>
+        </trans-unit>
+        <trans-unit id="NavToolbarGroupByOptionNone.Text" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="new">None</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionName.Text" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="new">Name</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+          <source>Date modified</source>
+          <target state="new">Date modified</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionDateCreated.Text" translate="yes" xml:space="preserve">
+          <source>Date created</source>
+          <target state="new">Date created</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionSize.Text" translate="yes" xml:space="preserve">
+          <source>Size</source>
+          <target state="new">Size</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionDateDeleted.Text" translate="yes" xml:space="preserve">
+          <source>Date deleted</source>
+          <target state="new">Date deleted</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionOriginalFolder.Text" translate="yes" xml:space="preserve">
+          <source>Original folder</source>
+          <target state="new">Original folder</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionType.Text" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <target state="new">Type</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSortDirectionOptionAscending.Text" translate="yes" xml:space="preserve">
+          <source>Ascending</source>
+          <target state="new">Ascending</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+          <source>Descending</source>
+          <target state="new">Descending</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+          <source>Sync status</source>
+          <target state="new">Sync status</target>
         </trans-unit>
       </group>
     </body>

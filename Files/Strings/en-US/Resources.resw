@@ -2076,28 +2076,28 @@
   <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
     <value>Group By</value>
   </data>
-  <data name="NavToolbarGroupByOption_None.Content" xml:space="preserve">
+  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
     <value>None</value>
   </data>
-  <data name="NavToolbarArrangementOption_Name.Content" xml:space="preserve">
+  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="NavToolbarArrangementOption_DateModified.Content" xml:space="preserve">
+  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
     <value>Date modified</value>
   </data>
-  <data name="NavToolbarArrangementOption_DateCreated.Content" xml:space="preserve">
+  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
     <value>Date created</value>
   </data>
-  <data name="NavToolbarArrangementOption_Size.Content" xml:space="preserve">
+  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
     <value>Size</value>
   </data>
-  <data name="NavToolbarArrangementOption_DateDeleted.Content" xml:space="preserve">
+  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
     <value>Date deleted</value>
   </data>
-  <data name="NavToolbarArrangementOption_OriginalFolder.Content" xml:space="preserve">
+  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
     <value>Original folder</value>
   </data>
-  <data name="NavToolbarArrangementOption_Type.Content" xml:space="preserve">
+  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>Type</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
@@ -2106,10 +2106,10 @@
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
     <value>Sort direction</value>
   </data>
-  <data name="NavToolbarSortDirectionOption_Ascending.Content" xml:space="preserve">
+  <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
     <value>Ascending</value>
   </data>
-  <data name="NavToolbarSortDirectionOption_Descending.Content" xml:space="preserve">
+  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Descending</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
@@ -2292,7 +2292,7 @@
   <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
     <value>Sync status</value>
   </data>
-  <data name="NavToolbarArrangementOption_SyncStatus.Content" xml:space="preserve">
+  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
     <value>Sync status</value>
   </data>
   <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
@@ -2691,7 +2691,7 @@
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
-    <data name="SettingsPrivacy.Title" xml:space="preserve">
+  <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Privacy policy</value>
   </data>
   <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
@@ -2709,5 +2709,8 @@ Files does not collect, store, share or publish any personal information.
 
 We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
   </value>
+  </data>
+  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
+    <value>Show Favorites section on the sidebar</value>
   </data>
 </root>
