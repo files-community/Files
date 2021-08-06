@@ -60,7 +60,7 @@ namespace Files.Helpers
         public static List<ContextMenuFlyoutItemViewModel> Filter(List<ContextMenuFlyoutItemViewModel> items, List<ListedItem> selectedItems, bool shiftPressed, CurrentInstanceViewModel currentInstanceViewModel, bool removeOverflowMenu = true)
         {
             items = items.Where(x => Check(item: x, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, shiftPressed: shiftPressed)).ToList();
-            items.ForEach(x => x.Items = x.Items.Where(y => Check(item: y, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, shiftPressed: shiftPressed)).ToList());
+            items.ForEach(x => x.Items = x.Items?.Where(y => Check(item: y, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, shiftPressed: shiftPressed)).ToList());
 
             var overflow = items.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
             if (overflow != null)
@@ -478,6 +478,7 @@ namespace Files.Helpers
                 {
                     Text = "ContextMenuMoreItemsLabel".GetLocalized(),
                     Glyph = "\xE712",
+                    Items = new List<ContextMenuFlyoutItemViewModel>(),
                     ID = "ItemOverflow",
                     Tag = "ItemOverflow",
                     IsHidden = true,
@@ -509,7 +510,18 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalized(),
                     Glyph = "\uE17D",
                     Command = commandsViewModel.OpenItemWithApplicationPickerCommand,
+                    Tag = "OpenWith",
                     CollapseLabel = true,
+                    ShowItem = selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem),
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalized(),
+                    Glyph = "\uE17D",
+                    Tag = "OpenWithOverflow",
+                    IsHidden = true,
+                    CollapseLabel = true,
+                    Items = new List<ContextMenuFlyoutItemViewModel>(),
                     ShowItem = selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem),
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -804,6 +816,7 @@ namespace Files.Helpers
                 {
                     Text = "ContextMenuMoreItemsLabel".GetLocalized(),
                     Glyph = "\xE712",
+                    Items = new List<ContextMenuFlyoutItemViewModel>(),
                     ID = "ItemOverflow",
                     Tag = "ItemOverflow",
                     IsHidden = true,
