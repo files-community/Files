@@ -1267,7 +1267,13 @@
     </local:BaseLayout.Resources>
     <Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
         <controls:BladeView x:Name="ColumnHost">
-            <controls:BladeItem x:Name="FirstBlade">
+            <controls:BladeView.Transitions>
+                <TransitionCollection />
+            </controls:BladeView.Transitions>
+            <controls:BladeView.ItemContainerTransitions>
+                <TransitionCollection />
+            </controls:BladeView.ItemContainerTransitions>
+            <controls:BladeItem x:Name="FirstBlade" Background="Transparent">
                 <Grid>
                     <muxc:TeachingTip
                         x:Name="FileNameTeachingTip"
@@ -1299,7 +1305,6 @@
                                 IsItemClickEnabled="True"
                                 IsRightTapEnabled="True"
                                 ItemClick="FileList_ItemClick"
-                                ItemContainerStyle="{ThemeResource NormalStyle}"
                                 ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
                                 PreviewKeyDown="FileList_PreviewKeyDown"
                                 RightTapped="FileList_RightTapped"
@@ -1317,7 +1322,6 @@
                                 </ListView.ItemContainerTransitions>
 
                                 <ListView.ItemTemplate>
-
                                     <DataTemplate x:DataType="local2:ListedItem">
                                         <Grid
                                             Height="32"
