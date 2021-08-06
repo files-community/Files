@@ -3468,6 +3468,10 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Sync status</source>
           <target state="new">Sync status</target>
         </trans-unit>
+        <trans-unit id="SettingsShowFavoritesSection.Title" translate="yes" xml:space="preserve">
+          <source>Show Favorites section on the sidebar</source>
+          <target state="new">Show Favorites section on the sidebar</target>
+        </trans-unit>
       </group>
     </body>
   </file>
