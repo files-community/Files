@@ -506,16 +506,6 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutCreateFolderWithSelection/Text".GetLocalized(),
-                    ColoredIcon = new ColoredIconModel()
-                    {
-                        BaseLayerGlyph = "\u0033",
-                        OverlayLayerGlyph = "\u0034"
-                    },
-                    Command = commandsViewModel.CreateFolderWithSelection,
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
                     Text = "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalized(),
                     Glyph = "\uE17D",
                     Command = commandsViewModel.OpenItemWithApplicationPickerCommand,
@@ -661,6 +651,16 @@ namespace Files.Helpers
                         Modifiers = Windows.System.VirtualKeyModifiers.Control,
                         IsEnabled = false,
                     },
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutCreateFolderWithSelection/Text".GetLocalized(),
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0033",
+                        OverlayLayerGlyph = "\u0034"
+                    },
+                    Command = commandsViewModel.CreateFolderWithSelection,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
