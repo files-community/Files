@@ -3470,7 +3470,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSection.Title" translate="yes" xml:space="preserve">
           <source>Show Favorites section on the sidebar</source>
-          <target state="new">Show Favorites section on the sidebar</target>
+          <target state="translated">Εμφάνιση της ενότητας Αγαπημένα στην πλαϊνή μπάρα</target>
         </trans-unit>
       </group>
     </body>
