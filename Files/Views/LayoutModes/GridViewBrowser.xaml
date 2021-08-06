@@ -484,7 +484,6 @@
                     AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                     CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                     ContainerContentChanging="FileList_ContainerContentChanging"
-                    DesiredWidth="{x:Bind GridViewItemMinWidth, Mode=OneWay}"
                     DoubleTapped="FileList_DoubleTapped"
                     DragItemsStarting="FileList_DragItemsStarting"
                     DragOver="ItemsLayout_DragOver"
