@@ -545,7 +545,6 @@ namespace Files.Helpers
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = commandsViewModel.OpenDirectoryInNewTabCommand,
                     ShowItem = selectedItems.Count < 5 && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
-
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
