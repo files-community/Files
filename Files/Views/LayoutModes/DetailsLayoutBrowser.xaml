@@ -142,6 +142,10 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <Style TargetType="uc:DataGridHeader">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            </Style>
         </ResourceDictionary>
     </local:BaseLayout.Resources>
 
@@ -187,7 +191,10 @@
             Subtitle="The file name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |"
             Visibility="Collapsed" />
 
-        <SemanticZoom ViewChangeStarted="SemanticZoom_ViewChangeStarted" Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+        <SemanticZoom
+            CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
+            ViewChangeStarted="SemanticZoom_ViewChangeStarted"
+            Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
             <SemanticZoom.ZoomedInView>
                 <ListView
                     x:Name="FileList"
@@ -376,6 +383,8 @@
                                 x:Name="SyncStatusHeader"
                                 x:Uid="syncStatusColumn"
                                 Grid.Column="8"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Left"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="SyncStatus"
                                 Header="Status"
@@ -465,17 +474,17 @@
                                 IsRightTapEnabled="True"
                                 Loaded="Grid_Loaded"
                                 RightTapped="StackPanel_RightTapped"
-                                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
+                                ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.IconColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.NameColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.OriginalPathColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.DateDeletedColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.StatusColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.DateModifiedColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.DateCreatedColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.ItemTypeColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.SizeColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.IconColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.OriginalPathColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.DateDeletedColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.StatusColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.DateModifiedColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.DateCreatedColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.ItemTypeColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.SizeColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
                                 </Grid.ColumnDefinitions>
                                 <Grid
                                     x:Uid="FileBrowserThumbnailIconColumnGrid"
@@ -545,11 +554,10 @@
 
                                 <Grid
                                     Grid.Column="1"
-                                    Width="{Binding ColumnsViewModel.NameColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Width="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Tapped="ItemNameGrid_Tapped">
+                                    VerticalAlignment="Center">
                                     <TextBlock
                                         x:Name="ItemName"
                                         VerticalAlignment="Center"
@@ -565,7 +573,7 @@
                                 <Grid
                                     x:Name="ItemOriginalPathGrid"
                                     Grid.Column="2"
-                                    Width="{Binding ColumnsViewModel.OriginalPathColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Width="{Binding ColumnsViewModel.OriginalPathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
@@ -580,7 +588,7 @@
                                 <Grid
                                     x:Name="ItemDateDeletedGrid"
                                     Grid.Column="3"
-                                    Width="{Binding ColumnsViewModel.DateDeletedColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Width="{Binding ColumnsViewModel.DateDeletedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
@@ -595,7 +603,7 @@
                                 <Grid
                                     x:Name="ItemStatusGrid"
                                     Grid.Column="4"
-                                    Width="{Binding ColumnsViewModel.StatusColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Width="{Binding ColumnsViewModel.StatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
@@ -612,7 +620,7 @@
                                 <Grid
                                     x:Name="ItemDateModifiedGrid"
                                     Grid.Column="5"
-                                    Width="{Binding ColumnsViewModel.DateModifiedColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Width="{Binding ColumnsViewModel.DateModifiedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
@@ -627,7 +635,7 @@
                                 <Grid
                                     x:Name="ItemDateCreatedGrid"
                                     Grid.Column="6"
-                                    Width="{Binding ColumnsViewModel.DateCreatedColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Width="{Binding ColumnsViewModel.DateCreatedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
@@ -642,7 +650,7 @@
                                 <Grid
                                     x:Name="ItemTypeGrid"
                                     Grid.Column="7"
-                                    Width="{Binding ColumnsViewModel.ItemTypeColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Width="{Binding ColumnsViewModel.ItemTypeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
@@ -657,7 +665,7 @@
                                 <Grid
                                     x:Name="ItemSizeGrid"
                                     Grid.Column="8"
-                                    Width="{Binding ColumnsViewModel.SizeColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Width="{Binding ColumnsViewModel.SizeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"

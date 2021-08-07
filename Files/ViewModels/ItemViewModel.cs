@@ -213,12 +213,12 @@ namespace Files.ViewModels
 
         public bool IsSortedByOriginalPath
         {
-            get => folderSettings.DirectorySortOption == SortOption.OriginalPath;
+            get => folderSettings.DirectorySortOption == SortOption.OriginalFolder;
             set
             {
                 if (value)
                 {
-                    folderSettings.DirectorySortOption = SortOption.OriginalPath;
+                    folderSettings.DirectorySortOption = SortOption.OriginalFolder;
                     OnPropertyChanged(nameof(IsSortedByOriginalPath));
                 }
             }
@@ -1671,14 +1671,14 @@ namespace Files.ViewModels
             const uint FILE_ACTION_RENAMED_OLD_NAME = 0x00000004;
             const uint FILE_ACTION_RENAMED_NEW_NAME = 0x00000005;
 
-            var sampler = new IntervalSampler(500);
+            var sampler = new IntervalSampler(200);
             bool anyEdits = false;
 
             try
             {
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    if (operationEvent.Wait(500, cancellationToken))
+                    if (operationEvent.Wait(200, cancellationToken))
                     {
                         operationEvent.Reset();
                         while (operationQueue.TryDequeue(out var operation))

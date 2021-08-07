@@ -2414,38 +2414,6 @@
           <source>Group By</source>
           <target state="translated">Agrupar por</target>
         </trans-unit>
-        <trans-unit id="NavToolbarGroupByOption_None.Content" translate="yes" xml:space="preserve">
-          <source>None</source>
-          <target state="translated">Nenhum</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_Name.Content" translate="yes" xml:space="preserve">
-          <source>Name</source>
-          <target state="translated">Nome</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_DateModified.Content" translate="yes" xml:space="preserve">
-          <source>Date modified</source>
-          <target state="translated">Data de modificação</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_DateCreated.Content" translate="yes" xml:space="preserve">
-          <source>Date created</source>
-          <target state="translated">Data de criação</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_Size.Content" translate="yes" xml:space="preserve">
-          <source>Size</source>
-          <target state="translated">Tamanho</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_DateDeleted.Content" translate="yes" xml:space="preserve">
-          <source>Date deleted</source>
-          <target state="translated">Data de exclusão</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_OriginalFolder.Content" translate="yes" xml:space="preserve">
-          <source>Original folder</source>
-          <target state="translated">Pasta original</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_Type.Content" translate="yes" xml:space="preserve">
-          <source>Type</source>
-          <target state="translated">Tipo</target>
-        </trans-unit>
         <trans-unit id="NavToolbarSortByRadioButtons.Header" translate="yes" xml:space="preserve">
           <source>Sort By</source>
           <target state="translated">Ordenar por</target>
@@ -2453,14 +2421,6 @@
         <trans-unit id="NavToolbarSortDirectionRadioButtons.Header" translate="yes" xml:space="preserve">
           <source>Sort direction</source>
           <target state="translated">Ordenar direção</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOption_Ascending.Content" translate="yes" xml:space="preserve">
-          <source>Ascending</source>
-          <target state="translated">Ascendente</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOption_Descending.Content" translate="yes" xml:space="preserve">
-          <source>Descending</source>
-          <target state="translated">Descendente</target>
         </trans-unit>
         <trans-unit id="ItemSizeText_Huge" translate="yes" xml:space="preserve">
           <source>Huge</source>
@@ -2739,10 +2699,6 @@
           <target state="translated">Fechar</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">Status de sincronia</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_SyncStatus.Content" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="translated">Status de sincronia</target>
         </trans-unit>
@@ -3437,6 +3393,84 @@
         <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Title" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
           <target state="translated">Abrir pastas em uma nova guia</target>
+        </trans-unit>
+        <trans-unit id="SettingsPrivacy.Title" translate="yes" xml:space="preserve">
+          <source>Privacy policy</source>
+          <target state="new">Privacy policy</target>
+        </trans-unit>
+        <trans-unit id="SettingsFluentUISystemIconsLicenseButton.Content" translate="yes" xml:space="preserve">
+          <source>Fluent UI System Icons</source>
+          <target state="new">Fluent UI System Icons</target>
+        </trans-unit>
+        <trans-unit id="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Fluent UI System Icons</source>
+          <target state="new">Fluent UI System Icons</target>
+        </trans-unit>
+        <trans-unit id="SettingsPrivacyPolicyMarkdownBlock.Text" translate="yes" xml:space="preserve">
+          <source>
+*Personal Information Collection* 
+Files does not collect, store, share or publish any personal information.
+
+*Non-personal Information Collection*
+
+We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
+  </source>
+          <target state="new">
+*Personal Information Collection* 
+Files does not collect, store, share or publish any personal information.
+
+*Non-personal Information Collection*
+
+We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
+  </target>
+        </trans-unit>
+        <trans-unit id="NavToolbarGroupByOptionNone.Text" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="new">None</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionName.Text" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="new">Name</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+          <source>Date modified</source>
+          <target state="new">Date modified</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionDateCreated.Text" translate="yes" xml:space="preserve">
+          <source>Date created</source>
+          <target state="new">Date created</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionSize.Text" translate="yes" xml:space="preserve">
+          <source>Size</source>
+          <target state="new">Size</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionDateDeleted.Text" translate="yes" xml:space="preserve">
+          <source>Date deleted</source>
+          <target state="new">Date deleted</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionOriginalFolder.Text" translate="yes" xml:space="preserve">
+          <source>Original folder</source>
+          <target state="new">Original folder</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionType.Text" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <target state="new">Type</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSortDirectionOptionAscending.Text" translate="yes" xml:space="preserve">
+          <source>Ascending</source>
+          <target state="new">Ascending</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+          <source>Descending</source>
+          <target state="new">Descending</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+          <source>Sync status</source>
+          <target state="new">Sync status</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowFavoritesSection.Title" translate="yes" xml:space="preserve">
+          <source>Show Favorites section on the sidebar</source>
+          <target state="new">Show Favorites section on the sidebar</target>
         </trans-unit>
       </group>
     </body>

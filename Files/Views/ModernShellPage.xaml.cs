@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.DataModels;
 using Files.Dialogs;
+using Files.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
@@ -198,7 +199,6 @@ namespace Files.Views
             NavToolbarViewModel.InvertContentPageSelctionCommand = new RelayCommand(() => GetActiveLayout()?.ItemManipulationModel.InvertSelection());
             NavToolbarViewModel.ClearContentPageSelectionCommand = new RelayCommand(() => GetActiveLayout()?.ItemManipulationModel.ClearSelection());
             NavToolbarViewModel.PasteItemsFromClipboardCommand = new RelayCommand(() => GetActiveLayout()?.CommandsViewModel.PasteItemsFromClipboardCommand.Execute(null));
-            NavToolbarViewModel.CopyPathCommand = new RelayCommand(() => GetActiveLayout()?.CommandsViewModel.CopyPathOfSelectedItemCommand.Execute(null));
             NavToolbarViewModel.OpenNewWindowCommand = new RelayCommand(NavigationHelpers.LaunchNewWindow);
             NavToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized()));
             NavToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
@@ -209,6 +209,7 @@ namespace Files.Views
             NavToolbarViewModel.Rename = new RelayCommand(() => GetActiveLayout()?.CommandsViewModel.RenameItemCommand.Execute(null));
             NavToolbarViewModel.Share = new RelayCommand(() => GetActiveLayout()?.CommandsViewModel.ShareItemCommand.Execute(null));
             NavToolbarViewModel.DeleteCommand = new RelayCommand(() => GetActiveLayout()?.CommandsViewModel.DeleteItemCommand.Execute(null));
+            NavToolbarViewModel.CutCommand = new RelayCommand(() => GetActiveLayout()?.CommandsViewModel.CutItemCommand.Execute(null));
         }
 
         private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
@@ -369,12 +370,12 @@ namespace Files.Views
             NavParams = eventArgs.Parameter.ToString();
         }
 
-        private void AppSettings_SortDirectionPreferenceUpdated(object sender, EventArgs e)
+        private void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
         {
             FilesystemViewModel?.UpdateSortDirectionStatus();
         }
 
-        private void AppSettings_SortOptionPreferenceUpdated(object sender, EventArgs e)
+        private void AppSettings_SortOptionPreferenceUpdated(object sender, SortOption e)
         {
             FilesystemViewModel?.UpdateSortOptionStatus();
         }
@@ -724,6 +725,7 @@ namespace Files.Views
 
                     break;
 
+                case (true, false, false, true, VirtualKey.D): // ctrl + d, delete item
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
                     {

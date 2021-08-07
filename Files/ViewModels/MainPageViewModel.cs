@@ -199,7 +199,9 @@ namespace Files.ViewModels
             };
             tabItem.Control.ContentChanged += Control_ContentChanged;
             await UpdateTabInfo(tabItem, path);
-            AppInstances.Insert(atIndex == -1 ? AppInstances.Count : atIndex, tabItem);
+            var index = atIndex == -1 ? AppInstances.Count : atIndex;
+            AppInstances.Insert(index, tabItem);
+            App.MainViewModel.TabStripSelectedIndex = index;
         }
 
         public static async Task UpdateTabInfo(TabItem tabItem, object navigationArg)
