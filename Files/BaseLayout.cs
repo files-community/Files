@@ -649,10 +649,9 @@ namespace Files
                 });
                 if (desiredWidth.Any())
                 {
-                    var itc = commandBar.FindDescendant<ItemsControl>();
-                    if (itc != null)
+                    if (commandBar.FindDescendant<ItemsControl>() is ItemsControl itemsControl)
                     {
-                        itc.MinWidth = desiredWidth.Max();
+                        itemsControl.MinWidth = Math.Min(commandBar.MaxWidth, desiredWidth.Max());
                     }
                 }
             }
