@@ -555,14 +555,7 @@ namespace Files
                     (i as AppBarButton).Click += new RoutedEventHandler((s, e) => BaseContextMenuFlyout.Hide());  // Workaround for WinUI (#5508)
                 });
                 primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
-                secondaryElements.ForEach(i =>
-                {
-                    if(i is AppBarButton appBarButton)
-                    {
-                        appBarButton.MinWidth = 350; // setting the minwidth to a large number is a workaround for #5555
-                    }
-                    BaseContextMenuFlyout.SecondaryCommands.Add(i);
-                });
+                secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
                 var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false);
                 if (shellContextMenuItemCancellationToken.IsCancellationRequested)
                 {
@@ -592,14 +585,7 @@ namespace Files
                 (i as AppBarButton).Click += new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide()); // Workaround for WinUI (#5508)
             });
             primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
-            secondaryElements.ForEach(i => {
-                if (i is AppBarButton appBarButton)
-                {
-                    appBarButton.MinWidth = 350; // setting the minwidth to a large number is a workaround for #5555
-                }
-
-                ItemContextMenuFlyout.SecondaryCommands.Add(i);
-            });
+            secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 
             var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, shiftPressed: shiftPressed, showOpenMenu: false);
             if (shellContextMenuItemCancellationToken.IsCancellationRequested)
@@ -647,6 +633,27 @@ namespace Files
                 {
                     (contextMenuFlyout.SecondaryCommands.First(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator).Visibility = Visibility.Visible;
                     overflowItem.Visibility = Visibility.Visible;
+                }
+            }
+
+            // Workaround for #5555
+            var openedPopups = Windows.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(Window.Current);
+            var menu = openedPopups.FirstOrDefault(popup => popup.Child is FlyoutPresenter);
+            var commandBar = (menu?.Child as FlyoutPresenter)?.Content as Microsoft.UI.Xaml.Controls.Primitives.CommandBarFlyoutCommandBar;
+            if (commandBar != null)
+            {
+                var desiredWidth = commandBar.SecondaryCommands.OfType<AppBarButton>().Select(x =>
+                {
+                    x.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                    return x.DesiredSize.Width;
+                });
+                if (desiredWidth.Any())
+                {
+                    var itc = commandBar.FindDescendant<ItemsControl>();
+                    if (itc != null)
+                    {
+                        itc.MinWidth = desiredWidth.Max();
+                    }
                 }
             }
         }
