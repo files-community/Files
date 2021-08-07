@@ -456,7 +456,11 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalized(),
-                    Glyph = "\uE946",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0031",
+                        OverlayLayerGlyph = "\u0032"
+                    },
                     Command = commandsViewModel.ShowFolderPropertiesCommand,
                 },
                 new ContextMenuFlyoutItemViewModel()
