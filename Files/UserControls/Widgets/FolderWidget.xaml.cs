@@ -246,26 +246,10 @@ namespace Files.UserControls.Widgets
 
         private async Task LoadLibraryIcon(LibraryCardItem item)
         {
-            byte[] iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.Path, 48u);
-            if (iconData != null)
+            item.IconData = await FileThumbnailHelper.LoadIconFromPathAsync(item.Path, 48u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
+            if (item.IconData != null)
             {
-                item.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => iconData.ToBitmapAsync());
-            }
-            else
-            {
-                StorageFolder folder = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(item.Path).AsTask());
-                if (folder != null)
-                {
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                    {
-                        item.Icon = new BitmapImage();
-                        using var thumbnail = await folder.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 48, Windows.Storage.FileProperties.ThumbnailOptions.ReturnOnlyIfCached);
-                        if (thumbnail != null)
-                        {
-                            await item.Icon.SetSourceAsync(thumbnail);
-                        }
-                    });
-                }
+                item.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => item.IconData.ToBitmapAsync());
             }
         }
     }

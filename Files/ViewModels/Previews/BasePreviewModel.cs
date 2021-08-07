@@ -48,17 +48,10 @@ namespace Files.ViewModels.Previews
         /// <returns>A list of details</returns>
         public async virtual Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
-
+            var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 400u, ThumbnailMode.SingleItem);
             if (iconData != null)
             {
                 Item.FileImage = await iconData.ToBitmapAsync();
-            }
-            else
-            {
-                using var icon = await Item.ItemFile.GetThumbnailAsync(ThumbnailMode.SingleItem, 400);
-                Item.FileImage ??= new Windows.UI.Xaml.Media.Imaging.BitmapImage();
-                await Item.FileImage.SetSourceAsync(icon);
             }
 
             return new List<FileProperty>();

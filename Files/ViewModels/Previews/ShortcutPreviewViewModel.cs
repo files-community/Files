@@ -60,7 +60,6 @@ namespace Files.ViewModels.Previews
         private async Task LoadItemThumbnail()
         {
             var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
-
             if (iconData != null)
             {
                 Item.FileImage = await iconData.ToBitmapAsync();
