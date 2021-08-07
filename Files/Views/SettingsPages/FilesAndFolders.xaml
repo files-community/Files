@@ -110,39 +110,6 @@
                     </local:SettingsBlockControl.Icon>
                     <ToggleSwitch IsOn="{Binding AreLayoutPreferencesPerFolder, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                 </local:SettingsBlockControl>
-
-                <local:SettingsBlockControl
-                    x:Uid="SettingsEnableFileTags"
-                    Title="Enable file tags"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
-                    <local:SettingsBlockControl.Icon>
-                        <FontIcon Glyph="&#xE1CB;" />
-                    </local:SettingsBlockControl.Icon>
-                    <ToggleSwitch IsOn="{Binding AreFileTagsEnabled, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                    <local:SettingsBlockControl.ExpandableContent>
-                        <local:SettingsBlockControl x:Uid="SettingsEditFileTagsExpander" Title="Edit file tags">
-                            <local:SettingsBlockControl.Icon>
-                                <FontIcon
-                                    FontSize="14"
-                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                    Glyph="&#xE104;" />
-                            </local:SettingsBlockControl.Icon>
-                            <HyperlinkButton
-                                x:Uid="SettingsEditFileTags"
-                                Height="32"
-                                Padding="8,4,8,4"
-                                VerticalAlignment="Bottom"
-                                AutomationProperties.Name="Edit file tags"
-                                Command="{Binding EditFileTagsCommand}">
-                                <FontIcon
-                                    FontSize="14"
-                                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                    Glyph="&#xE2B4;" />
-                            </HyperlinkButton>
-                        </local:SettingsBlockControl>
-                    </local:SettingsBlockControl.ExpandableContent>
-                </local:SettingsBlockControl>
             </StackPanel>
         </ScrollViewer>
     </Grid>
