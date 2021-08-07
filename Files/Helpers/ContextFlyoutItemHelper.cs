@@ -414,7 +414,11 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutNew/Label".GetLocalized(),
-                    Glyph = "\uE710",
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\u0037",
+                        OverlayLayerGlyph = "\u0038"
+                    },
                     KeyboardAccelerator = new KeyboardAccelerator
                     {
                         Key = Windows.System.VirtualKey.N,
