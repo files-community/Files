@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -209,9 +210,6 @@ namespace Files.Filesystem.Search
             else if (item.IsOfType(StorageItemTypes.File))
             {
                 var file = (StorageFile)item;
-                var bitmapIcon = new BitmapImage();
-                using var thumbnail = await file.GetThumbnailAsync(ThumbnailMode.ListView, ThumbnailSize, ThumbnailOptions.UseCurrentScale);
-
                 string itemFileExtension = null;
                 string itemType = null;
                 if (file.Name.Contains("."))
@@ -220,16 +218,16 @@ namespace Files.Filesystem.Search
                     itemType = itemFileExtension.Trim('.') + " " + itemType;
                 }
 
-                if (thumbnail != null)
+                var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(file, ThumbnailSize, ThumbnailMode.ListView);
+                if (iconData != null)
                 {
-                    await bitmapIcon.SetSourceAsync(thumbnail);
                     return new ListedItem(null)
                     {
                         PrimaryItemAttribute = StorageItemTypes.File,
                         ItemName = file.DisplayName,
                         ItemPath = file.Path,
                         LoadFileIcon = true,
-                        FileImage = bitmapIcon,
+                        FileImage = await iconData.ToBitmapAsync(),
                         LoadUnknownTypeGlyph = false,
                         LoadFolderGlyph = false,
                         ItemPropertiesInitialized = true,

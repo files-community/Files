@@ -137,37 +137,11 @@ namespace Files.ViewModels.Widgets.Bundles
             }
             else // NotADirectory
             {
-                try
+                var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, 24u, ThumbnailMode.ListView);
+                if (iconData != null)
                 {
-                    if (Path.EndsWith(".lnk") || Path.EndsWith(".url"))
-                    {
-                        byte[] iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, 24u);
-                        Icon = iconData != null ? await iconData.ToBitmapAsync() : null;
-
-                        return;
-                    }
-
-                    StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>(Path);
-
-                    if (file == null) // No file found
-                    {
-                        Icon = new BitmapImage();
-                        return;
-                    }
-
-                    BitmapImage icon = new BitmapImage();
-                    using var thumbnail = await file.GetThumbnailAsync(ThumbnailMode.ListView, 24u, ThumbnailOptions.UseCurrentScale);
-
-                    if (thumbnail != null)
-                    {
-                        await icon.SetSourceAsync(thumbnail);
-                        Icon = icon;
-                        OnPropertyChanged(nameof(Icon));
-                    }
-                }
-                catch
-                {
-                    Icon = new BitmapImage(); // Set here no file image
+                    Icon = await iconData.ToBitmapAsync();
+                    OnPropertyChanged(nameof(Icon));
                 }
             }
         }
