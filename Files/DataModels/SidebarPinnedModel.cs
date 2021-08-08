@@ -120,7 +120,7 @@ namespace Files.DataModels
                     {
                         Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                         IsDefaultLocation = true,
-                        Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.RecycleBin).Image),
+                        Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.RecycleBin)?.Image),
                         Path = App.AppSettings.RecycleBinPath
                     };
                     // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)

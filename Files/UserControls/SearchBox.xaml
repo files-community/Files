@@ -53,7 +53,7 @@
                         </Grid>
                         <FontIcon
                             x:Name="EmptyIconGlyph"
-                            x:Load="{x:Bind LoadUnknownTypeGlyph}"
+                            x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                             Glyph="&#xE7C3;" />
                         <FontIcon
                             x:Name="FolderGlyphIcon"

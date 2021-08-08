@@ -340,6 +340,11 @@
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
                                 Text="Sync status" />
                             <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionFileTag"
+                                IsChecked="{x:Bind ViewModel.IsSortedByFileTag, Mode=TwoWay}"
+                                Visibility="{x:Bind AppSettings.AreFileTagsEnabled, Mode=OneWay}"
+                                Text="File tag" />
+                            <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionOriginalFolder"
                                 IsChecked="{x:Bind ViewModel.IsSortedByOriginalFolder, Mode=TwoWay}"
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
@@ -380,6 +385,11 @@
                                 IsChecked="{x:Bind ViewModel.IsGroupedBySyncStatus, Mode=TwoWay}"
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
                                 Text="Sync status" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionFileTag"
+                                IsChecked="{x:Bind ViewModel.IsGroupedByFileTag, Mode=TwoWay}"
+                                Visibility="{x:Bind AppSettings.AreFileTagsEnabled, Mode=OneWay}"
+                                Text="File tag" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionOriginalFolder"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByOriginalFolder, Mode=TwoWay}"

@@ -245,6 +245,7 @@ namespace Files.Views.LayoutModes
         private void UpdateSortIndicator()
         {
             NameHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Name ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
+            TagHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileTag ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
             OriginalPathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalFolder ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
             DateDeletedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateDeleted ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
             DateModifiedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateModified ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
@@ -275,6 +276,15 @@ namespace Files.Views.LayoutModes
             else
             {
                 ColumnsViewModel.StatusColumn.Show();
+            }
+
+            if (!App.AppSettings.AreFileTagsEnabled)
+            {
+                ColumnsViewModel.TagColumn.Hide();
+            }
+            else
+            {
+                ColumnsViewModel.TagColumn.Show();
             }
 
             UpdateSortIndicator();
@@ -629,13 +639,14 @@ namespace Files.Views.LayoutModes
         {
             ColumnsViewModel.IconColumn.UserLength = new GridLength(Column1.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.NameColumn.UserLength = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.OriginalPathColumn.UserLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.DateDeletedColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.StatusColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.DateModifiedColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.DateCreatedColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column8.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.SizeColumn.UserLength = new GridLength(Column9.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.TagColumn.UserLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.OriginalPathColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.DateDeletedColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.StatusColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.DateModifiedColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.DateCreatedColumn.UserLength = new GridLength(Column8.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column9.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.SizeColumn.UserLength = new GridLength(Column10.ActualWidth, GridUnitType.Pixel);
         }
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -697,28 +708,34 @@ namespace Files.Views.LayoutModes
             var maxItemLength = columnToResize switch
             {
                 1 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemName?.Length ?? 0).Max(), // file name column
-                2 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemOriginalPath?.Length ?? 0).Max(), // original path column
-                3 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
-                4 => 20, // cloud status column
-                5 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
-                6 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
-                7 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
+                2 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagUI?.TagName?.Length ?? 0).Max(), // file tag column
+                3 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemOriginalPath?.Length ?? 0).Max(), // original path column
+                4 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
+                5 => 20, // cloud status column
+                6 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
+                7 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
+                8 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
                 _ => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
             };
-            var colunmSizeToFit = columnToResize == 4 ? maxItemLength : MeasureTextColumn(columnToResize, 5, maxItemLength);
+            var colunmSizeToFit = new[] { 5 }.Contains(columnToResize) ? maxItemLength : MeasureTextColumn(columnToResize, 5, maxItemLength);
             if (colunmSizeToFit > 0)
             {
                 var column = columnToResize switch
                 {
                     1 => ColumnsViewModel.NameColumn,
-                    2 => ColumnsViewModel.OriginalPathColumn,
-                    3 => ColumnsViewModel.DateDeletedColumn,
-                    4 => ColumnsViewModel.StatusColumn,
-                    5 => ColumnsViewModel.DateModifiedColumn,
-                    6 => ColumnsViewModel.DateCreatedColumn,
-                    7 => ColumnsViewModel.ItemTypeColumn,
+                    2 => ColumnsViewModel.TagColumn,
+                    3 => ColumnsViewModel.OriginalPathColumn,
+                    4 => ColumnsViewModel.DateDeletedColumn,
+                    5 => ColumnsViewModel.StatusColumn,
+                    6 => ColumnsViewModel.DateModifiedColumn,
+                    7 => ColumnsViewModel.DateCreatedColumn,
+                    8 => ColumnsViewModel.ItemTypeColumn,
                     _ => ColumnsViewModel.SizeColumn
                 };
+                if (columnToResize == 1)
+                {
+                    colunmSizeToFit += AppSettings.AreFileTagsEnabled ? 20 : 0;
+                }
                 column.UserLength = new GridLength(Math.Min(colunmSizeToFit + 30, column.NormalMaxLength), GridUnitType.Pixel);
             }
 

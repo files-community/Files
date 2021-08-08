@@ -28,6 +28,10 @@
             x:Key="NegatedBoolToVisibilityConverter"
             FalseValue="Visible"
             TrueValue="Collapsed" />
+        <converters:EmptyObjectToObjectConverter
+            x:Key="EmptyObjectToObjectConverter"
+            EmptyValue="Collapsed"
+            NotEmptyValue="Visible" />
 
         <converters:BoolToVisibilityConverter
             x:Key="BoolToVisibilityConverter"
@@ -208,15 +212,6 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <Grid
-                                                x:Name="SelectedFolderIndicator"
-                                                Width="3"
-                                                Height="16"
-                                                Margin="-10,0"
-                                                HorizontalAlignment="Left"
-                                                Background="Gray"
-                                                CornerRadius="{StaticResource ControlCornerRadius}"
-                                                Opacity="0" />
-                                            <Grid
                                                 Grid.Column="0"
                                                 Width="24"
                                                 Height="24"
@@ -313,16 +308,25 @@
                                                 TextWrapping="Wrap"
                                                 Visibility="Collapsed" />
                                             <Grid Grid.Column="2">
-                                                <FontIcon
-                                                    x:Name="CloudDriveSyncStatusGlyph"
-                                                    Margin="0,0,0,0"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    x:Phase="2"
-                                                    FontSize="18"
-                                                    Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
-                                                    Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
-                                                    Visibility="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}" />
+                                                <StackPanel Orientation="Horizontal">
+                                                    <FontIcon
+                                                        x:Name="CloudDriveSyncStatusGlyph"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        x:Phase="2"
+                                                        FontSize="18"
+                                                        Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
+                                                        Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+                                                        Visibility="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}" />
+                                                    <Ellipse
+                                                        Width="12"
+                                                        Height="12"
+                                                        Margin="8,0,4,0"
+                                                        x:Phase="2"
+                                                        Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
+                                                        ToolTipService.ToolTip="{x:Bind FileTagUI.TagName, Mode=OneWay}"
+                                                        Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
+                                                </StackPanel>
                                             </Grid>
                                         </Grid>
                                     </DataTemplate>

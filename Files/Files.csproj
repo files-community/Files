@@ -204,6 +204,7 @@
     <Compile Include="Extensions\KeyboardAcceleratorExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Filesystem\FilesystemOperations\ShellFilesystemOperations.cs" />
+    <Compile Include="Filesystem\FileTagsHelper.cs" />
     <Compile Include="Filesystem\Permissions\FilePermissionsManager.cs" />
     <Compile Include="Filesystem\Permissions\FileSystemAccessRule.cs" />
     <Compile Include="Filesystem\Permissions\FileSystemAccessRuleForUI.cs" />
@@ -451,6 +452,9 @@
     <Compile Include="INavigationToolbar.cs" />
     <Compile Include="UserControls\FileIcon.xaml.cs">
       <DependentUpon>FileIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MenuFlyoutItemFileTag.xaml.cs">
+      <DependentUpon>MenuFlyoutItemFileTag.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MenuFlyoutItemWithImage.xaml.cs">
       <DependentUpon>MenuFlyoutItemWithImage.xaml</DependentUpon>
@@ -1198,6 +1202,10 @@
     <Page Include="UserControls\FilePreviews\TextPreview.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\MenuFlyoutItemFileTag.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\MenuFlyoutItemWithImage.xaml">
       <SubType>Designer</SubType>

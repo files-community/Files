@@ -105,6 +105,8 @@
             public const string SettingsFolderName = "settings";
 
             public const string BundlesSettingsFileName = "bundles.json";
+
+            public const string FileTagSettingsFileName = "filetags.json";
         }
 
         public static class PreviewPane

@@ -515,6 +515,7 @@ namespace Files.ViewModels
                 App.AppSettings.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
                 App.AppSettings.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
                 App.AppSettings.ShowSizeColumn = !prefs.ColumnsViewModel.SizeColumn.UserCollapsed;
+                App.AppSettings.ShowFileTagColumn = !prefs.ColumnsViewModel.TagColumn.UserCollapsed;
             }
         }
 
@@ -625,6 +626,7 @@ namespace Files.ViewModels
                 this.ColumnsViewModel.DateModifiedColumn.UserCollapsed = !App.AppSettings.ShowDateColumn;
                 this.ColumnsViewModel.ItemTypeColumn.UserCollapsed = !App.AppSettings.ShowTypeColumn;
                 this.ColumnsViewModel.SizeColumn.UserCollapsed = !App.AppSettings.ShowSizeColumn;
+                this.ColumnsViewModel.TagColumn.UserCollapsed = !App.AppSettings.ShowFileTagColumn;
 
                 this.IsAdaptiveLayoutOverridden = false; // Default is always turned on for every dir
             }
