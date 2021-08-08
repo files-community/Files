@@ -262,7 +262,7 @@ namespace Files.Views.LayoutModes
         private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             // This check allows the user to use the text box context menu without ending the rename
-            if (!(FocusManager.GetFocusedElement() is AppBarButton))
+            if (!(FocusManager.GetFocusedElement() is AppBarButton or Popup))
             {
                 TextBox textBox = e.OriginalSource as TextBox;
                 CommitRename(textBox);
