@@ -302,7 +302,6 @@ namespace Files.Filesystem.Search
             else if (item.IsOfType(StorageItemTypes.File))
             {
                 var file = (StorageFile)item;
-
                 string itemFileExtension = null;
                 string itemType = null;
                 if (file.Name.Contains("."))
@@ -326,12 +325,10 @@ namespace Files.Filesystem.Search
             }
             if (listedItem != null && MaxItemCount > 0) // Only load icon for searchbox suggestions
             {
-                using var Thumbnail = item is StorageFile ?
-                    await ((StorageFile)item).GetThumbnailAsync(ThumbnailMode.ListView, ThumbnailSize, ThumbnailOptions.ResizeThumbnail) :
-                    await ((StorageFolder)item).GetThumbnailAsync(ThumbnailMode.ListView, ThumbnailSize, ThumbnailOptions.ReturnOnlyIfCached);
-                if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
+                var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(item, ThumbnailSize, ThumbnailMode.ListView);
+                if (iconData != null)
                 {
-                    listedItem.CustomIconData = await Thumbnail.ToByteArrayAsync();
+                    listedItem.CustomIconData = iconData;
                     listedItem.FileImage = await listedItem.CustomIconData.ToBitmapAsync();
                     listedItem.LoadUnknownTypeGlyph = false;
                     listedItem.LoadWebShortcutGlyph = false;

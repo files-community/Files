@@ -286,35 +286,13 @@ namespace Files.DataModels
 
                 if (res)
                 {
-                    using var thumbnail = await res.Result.GetThumbnailAsync(
-                        Windows.Storage.FileProperties.ThumbnailMode.ListView,
-                        24,
-                        Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
-
-                    if (thumbnail != null)
+                    var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                    if (iconData == null)
                     {
-                        locationItem.IconData = await thumbnail.ToByteArrayAsync();
-                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                        {
-                            locationItem.Icon = await locationItem.IconData.ToBitmapAsync();
-                        });
+                        iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
                     }
-                    else
-                    {
-                        using var thumbnailFallback = await res.Result.GetThumbnailAsync(
-                            Windows.Storage.FileProperties.ThumbnailMode.SingleItem,
-                            24,
-                            Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
-
-                        if (thumbnailFallback != null)
-                        {
-                            locationItem.IconData = await thumbnailFallback.ToByteArrayAsync();
-                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                            {
-                                locationItem.Icon = await locationItem.IconData.ToBitmapAsync();
-                            });
-                        }
-                    }
+                    locationItem.IconData = iconData;
+                    locationItem.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
                 }
                 else
                 {

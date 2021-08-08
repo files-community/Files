@@ -117,6 +117,7 @@ namespace Files.Helpers
                     {
                         Text = menuFlyoutItem.Label.Replace("&", ""),
                         Tag = (menuFlyoutItem, menuHandle),
+                        Items = new List<ContextMenuFlyoutItemViewModel>(),
                     };
                     LoadMenuFlyoutItem(menuLayoutSubItem.Items, menuFlyoutItem.SubItems, menuHandle, showIcons);
                     menuItemsListLocal.Insert(0, menuLayoutSubItem);
@@ -161,6 +162,13 @@ namespace Files.Helpers
 
                 return (null, null);
             }
+        }
+
+        public static List<ContextMenuFlyoutItemViewModel> GetOpenWithItems(List<ContextMenuFlyoutItemViewModel> flyout)
+        {
+            var item = flyout.FirstOrDefault(x => x.Tag is ValueTuple<Win32ContextMenuItem, string> vt && vt.Item1.CommandString == "openas");
+            flyout.Remove(item);
+            return item?.Items;
         }
     }
 }
