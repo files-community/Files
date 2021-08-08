@@ -54,7 +54,7 @@ namespace Files.Helpers
             }
         }
 
-        public async void LoadOtherThemesAsync()
+        public async Task LoadOtherThemesAsync()
         {
             try
             {

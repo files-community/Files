@@ -556,13 +556,17 @@ namespace Files
                 });
                 primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
                 secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
-                var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false);
-                if (shellContextMenuItemCancellationToken.IsCancellationRequested)
-                {
-                    return;
-                }
 
-                AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
+                if (!InstanceViewModel.IsPageTypeSearchResults)
+                {
+                    var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false);
+                    if (shellContextMenuItemCancellationToken.IsCancellationRequested)
+                    {
+                        return;
+                    }
+
+                    AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
+                }
             }
             catch (Exception error)
             {
@@ -587,6 +591,11 @@ namespace Files
             primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 
+            if (AppSettings.AreFileTagsEnabled && !InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin)
+            {
+                AddFileTagsItemToMenu(ItemContextMenuFlyout);
+            }
+
             var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, shiftPressed: shiftPressed, showOpenMenu: false);
             if (shellContextMenuItemCancellationToken.IsCancellationRequested)
             {
@@ -594,6 +603,23 @@ namespace Files
             }
 
             AddShellItemsToMenu(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
+        }
+
+        private void AddFileTagsItemToMenu(Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenu)
+        {
+            var fileTagMenuFlyout = new MenuFlyoutItemFileTag()
+            {
+                ItemsSource = AppSettings.FileTagsSettings.FileTagList,
+                SelectedItems = SelectedItems
+            };
+            var overflowSeparator = contextMenu.SecondaryCommands.FirstOrDefault(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator;
+            var index = contextMenu.SecondaryCommands.IndexOf(overflowSeparator);
+            index = index >= 0 ? index : contextMenu.SecondaryCommands.Count;
+            contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
+            contextMenu.SecondaryCommands.Insert(index + 1, new AppBarElementContainer()
+            {
+                Content = fileTagMenuFlyout
+            });
         }
 
         private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenuFlyout, bool shiftPressed)
@@ -609,8 +635,12 @@ namespace Files
             if (overflowItem is not null)
             {
                 var overflowItemFlyout = overflowItem.Flyout as MenuFlyout;
-                var index = contextMenuFlyout.SecondaryCommands.Count - 2;
+                if (overflowItemFlyout.Items.Count > 0)
+                {
+                    overflowItemFlyout.Items.Insert(0, new MenuFlyoutSeparator());
+                }
 
+                var index = contextMenuFlyout.SecondaryCommands.Count - 2;
                 foreach (var i in mainItems)
                 {
                     index++;
@@ -618,12 +648,6 @@ namespace Files
                 }
 
                 index = 0;
-
-                if (overflowItemFlyout.Items.Count > 0)
-                {
-                    overflowItemFlyout.Items.Insert(0, new MenuFlyoutSeparator());
-                }
-
                 foreach (var i in overflowItems)
                 {
                     overflowItemFlyout.Items.Insert(index, i);
@@ -636,7 +660,11 @@ namespace Files
                     overflowItem.Visibility = Visibility.Visible;
                 }
             }
-            
+            else
+            {
+                mainItems.ForEach(x => contextMenuFlyout.SecondaryCommands.Add(x));
+            }
+
             // add items to openwith dropdown
             var openWithOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWithOverflow") as AppBarButton;
             if (openWithSubItems is not null && openWithOverflow is not null)

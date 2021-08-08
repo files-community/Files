@@ -292,7 +292,7 @@ namespace FilesFullTrust
                 {
                     return bmp;
                 }
-                
+
                 Rectangle bmBounds = new Rectangle(0, 0, bmp.Width, bmp.Height);
                 var bmpData = bmp.LockBits(bmBounds, ImageLockMode.ReadOnly, bmp.PixelFormat);
                 if (IsAlphaBitmap(bmpData))
@@ -446,6 +446,26 @@ namespace FilesFullTrust
             }
 
             return uniquePath;
+        }
+
+        /// <summary>
+        /// Gets file path from file FRN
+        /// </summary>
+        /// <param name="frn">File reference number</param>
+        /// <param name="volumeHint">Drive containing the file (e.g. "C:\")</param>
+        /// <returns>File path or null</returns>
+        public static string PathFromFileId(ulong frn, string volumeHint)
+        {
+            string volumePath = Path.GetPathRoot(volumeHint);
+            using var volumeHandle = Kernel32.CreateFile(volumePath, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
+            if (volumeHandle.IsInvalid) return null;
+            var fileId = new Kernel32.FILE_ID_DESCRIPTOR() { Type = 0, Id = new Kernel32.FILE_ID_DESCRIPTOR.DUMMYUNIONNAME() { FileId = (long)frn } };
+            fileId.dwSize = (uint)Marshal.SizeOf(fileId);
+            using var hFile = Kernel32.OpenFileById(volumeHandle, fileId, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
+            if (hFile.IsInvalid) return null;
+            var sb = new StringBuilder(4096);
+            var ret = Kernel32.GetFinalPathNameByHandle(hFile, sb, 4095, 0);
+            return (ret != 0) ? sb.ToString() : null;
         }
 
         public class Win32Window : IWin32Window
