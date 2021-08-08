@@ -561,6 +561,10 @@ namespace FilesFullTrust.MessageHandlers
                         {
                             var tag = dbInstance.GetTag(e.SourceItem.FileSystemPath);
                             dbInstance.SetTag(destination, (ulong?)si.Properties["System.FileFRN"], tag); // copy tag to new files
+                            if (si.IsFolder) // File tag is not copied automatically for folders
+                            {
+                                FileTagsHandler.WriteFileTag(destination, tag);
+                            }
                         }
                         else
                         {

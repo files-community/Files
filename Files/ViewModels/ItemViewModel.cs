@@ -976,7 +976,7 @@ namespace Files.ViewModels
                                 }
 
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
-                                var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
+                                var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
                                 var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
                                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                                 {

@@ -12,15 +12,40 @@ namespace FilesFullTrust.MessageHandlers
 {
     public class FileTagsHandler : IMessageHandler
     {
-        private string ReadFileTag(string filePath)
+        public static string ReadFileTag(string filePath)
         {
             using var hStream = Kernel32.CreateFile($"{filePath}:files",
                 Kernel32.FileAccess.GENERIC_READ, 0, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS, IntPtr.Zero);
-            if (hStream.IsInvalid) return null;
+            if (hStream.IsInvalid)
+            {
+                return null;
+            }
             var bytes = new byte[4096];
             var ret = Kernel32.ReadFile(hStream, bytes, (uint)bytes.Length, out var read, IntPtr.Zero);
-            if (!ret) return null;
+            if (!ret)
+            {
+                return null;
+            }
             return System.Text.Encoding.UTF8.GetString(bytes, 0, (int)read);
+        }
+
+        public static bool WriteFileTag(string filePath, string tag)
+        {
+            if (tag == null)
+            {
+                return Kernel32.DeleteFile($"{filePath}:files");
+            }
+            else
+            {
+                using var hStream = Kernel32.CreateFile($"{filePath}:files",
+                    Kernel32.FileAccess.GENERIC_WRITE, 0, null, FileMode.Create, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS, IntPtr.Zero);
+                if (hStream.IsInvalid)
+                {
+                    return false;
+                }
+                byte[] buff = System.Text.Encoding.UTF8.GetBytes(tag);
+                return Kernel32.WriteFile(hStream, buff, (uint)buff.Length, out var written, IntPtr.Zero);
+            }
         }
 
         public void UpdateTagsDb()
