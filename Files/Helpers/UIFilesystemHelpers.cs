@@ -180,7 +180,7 @@ namespace Files.Helpers
 
         public static async Task<bool> RenameFileItemAsync(ListedItem item, string oldName, string newName, IShellPage associatedInstance)
         {
-            if (oldName == newName)
+            if (oldName == newName || string.IsNullOrEmpty(newName))
             {
                 return true;
             }

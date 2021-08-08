@@ -87,17 +87,14 @@ namespace Files.Helpers
 
         public async Task<bool> TryLoadThemeAsync(AppTheme theme)
         {
-
-            try
+            var xaml = await Filesystem.FilesystemTasks.Wrap(() => TryLoadResourceDictionary(theme));
+            if (xaml != null)
             {
-                var xaml = await TryLoadResourceDictionary(theme);
                 App.Current.Resources.MergedDictionaries.Add(xaml);
                 return true;
             }
-            catch (Exception)
-            {
-                return false;
-            }
+            App.Logger.Warn($"Invalid theme: {theme.Path}");
+            return false;
         }
         
         public async Task<ResourceDictionary> TryLoadResourceDictionary(AppTheme theme)

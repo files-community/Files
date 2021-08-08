@@ -360,7 +360,7 @@ namespace Files
         {
             if (ParentShellPageInstance.SlimContentPage != null)
             {
-                var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
+                var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, false);
 
                 if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {

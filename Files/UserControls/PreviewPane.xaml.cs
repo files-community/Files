@@ -65,7 +65,7 @@ namespace Files.UserControls
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Model.UpdateSelectedItemPreview(true);
+            Model?.UpdateSelectedItemPreview(true);
         }
     }
 }
