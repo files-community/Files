@@ -598,6 +598,7 @@ namespace Files
 
         private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenuFlyout, bool shiftPressed)
         {
+            var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
             var mainShellMenuItems = shellMenuItems.RemoveFrom(!App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4);
             var overflowShellMenuItems = shellMenuItems.Except(mainShellMenuItems).ToList();
 
@@ -634,6 +635,22 @@ namespace Files
                     (contextMenuFlyout.SecondaryCommands.First(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator).Visibility = Visibility.Visible;
                     overflowItem.Visibility = Visibility.Visible;
                 }
+            }
+            
+            // add items to openwith dropdown
+            var openWithOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWithOverflow") as AppBarButton;
+            if (openWithSubItems is not null && openWithOverflow is not null)
+            {
+                var openWith = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWith") as AppBarButton;
+                var flyout = new MenuFlyout();
+                foreach (var item in openWithSubItems)
+                {
+                    flyout.Items.Add(item);
+                }
+
+                openWithOverflow.Flyout = flyout;
+                openWith.Visibility = Visibility.Collapsed;
+                openWithOverflow.Visibility = Visibility.Visible;
             }
 
             // Workaround for #5555

@@ -729,7 +729,9 @@ namespace Files.ViewModels
                         var matchingStorageFile = (StorageFile)matchingStorageItem ?? await GetFileFromPathAsync(item.ItemPath);
                         if (matchingStorageFile != null)
                         {
-                            using var Thumbnail = await matchingStorageFile.GetThumbnailAsync(ThumbnailMode.ListView, thumbnailSize, ThumbnailOptions.ResizeThumbnail);
+                            var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
+
+                            using var Thumbnail = await matchingStorageFile.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.UseCurrentScale);
                             if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
                             {
                                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
@@ -830,7 +832,6 @@ namespace Files.ViewModels
                 if (!wasIconLoaded)
                 {
                     var iconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, thumbnailSize);
-
                     if (iconInfo.IconData != null)
                     {
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
@@ -1009,16 +1010,11 @@ namespace Files.ViewModels
             ImageSource groupImage = null;
             if (item.PrimaryItemAttribute != StorageItemTypes.Folder)
             {
-                (byte[] iconData, byte[] overlayData) headerIconInfo = await FileThumbnailHelper.LoadIconAndOverlayAsync(item.ItemPath, 76);
-
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, 76);
+                if (headerIconInfo != null && !item.IsShortcutItem)
                 {
-                    if (headerIconInfo.iconData != null && !item.IsShortcutItem)
-                    {
-                        groupImage = await headerIconInfo.iconData.ToBitmapAsync();
-                    }
-                }, Windows.System.DispatcherQueuePriority.Low);
-
+                    groupImage = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => headerIconInfo.ToBitmapAsync(), Windows.System.DispatcherQueuePriority.Low);
+                }
                 if (!item.IsShortcutItem && !item.IsHiddenItem && !item.ItemPath.StartsWith("ftp:"))
                 {
                     if (groupImage == null) // Loading icon from fulltrust process failed
