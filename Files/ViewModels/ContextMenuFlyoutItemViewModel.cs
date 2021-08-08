@@ -18,7 +18,7 @@ namespace Files.ViewModels
         public object Tag { get; set; }
         public ItemType ItemType { get; set; }
         public bool IsSubItem { get; set; }
-        public List<ContextMenuFlyoutItemViewModel> Items { get; set; } = new List<ContextMenuFlyoutItemViewModel>();
+        public List<ContextMenuFlyoutItemViewModel> Items { get; set; }
         public BitmapImage BitmapIcon { get; set; }
 
         /// <summary>
