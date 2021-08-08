@@ -46,7 +46,9 @@
 
         <DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="local2:ListedItem">
             <Grid
-                Width="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+                x:Name="GridViewBrowserListedItem"
+                tui:FrameworkElementExtensions.EnableActualSizeBinding="True"
+                MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                 Height="Auto"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
@@ -61,7 +63,7 @@
                 </Grid.RowDefinitions>
                 <Grid
                     Grid.Row="0"
-                    Width="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+                    Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
                     Height="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                     Opacity="{x:Bind Opacity, Mode=OneWay}"
                     Tag="ItemImage">
@@ -143,7 +145,7 @@
                 </Grid>
                 <Grid
                     Grid.Row="1"
-                    MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+                    MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}" 
                     Margin="5,0,5,10"
                     HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
@@ -176,7 +178,8 @@
                     x:Load="False">
                     <TextBox
                         x:Name="GridViewTextBoxItemName"
-                        Width="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+                        Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
+                        Background="{ThemeResource SolidBackgroundFillColorSecondary}"
                         Margin="0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"

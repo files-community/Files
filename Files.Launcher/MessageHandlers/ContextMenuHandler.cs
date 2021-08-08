@@ -124,7 +124,7 @@ namespace FilesFullTrust.MessageHandlers
         {
             var knownItems = new List<string>()
             {
-                "opennew", "openas", "opencontaining", "opennewprocess",
+                "opennew", "opencontaining", "opennewprocess",
                 "runas", "runasuser", "pintohome", "PinToStartScreen",
                 "cut", "copy", "paste", "delete", "properties", "link",
                 "Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
