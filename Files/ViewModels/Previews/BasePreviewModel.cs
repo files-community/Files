@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels.Previews
 {
@@ -48,13 +49,18 @@ namespace Files.ViewModels.Previews
         /// <returns>A list of details</returns>
         public async virtual Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 400u, ThumbnailMode.SingleItem);
-            if (iconData != null)
-            {
-                Item.FileImage = await iconData.ToBitmapAsync();
-            }
+            using var icon = await Item.ItemFile.GetThumbnailAsync(ThumbnailMode.SingleItem, 400);
+            FileImage ??= new Windows.UI.Xaml.Media.Imaging.BitmapImage();
+            await FileImage.SetSourceAsync(icon);
 
             return new List<FileProperty>();
+        }
+
+        private BitmapImage fileImage;
+        public BitmapImage FileImage
+        {
+            get => fileImage;
+            set => SetProperty(ref fileImage, value);
         }
 
         private async Task<List<FileProperty>> GetSystemFileProperties()
