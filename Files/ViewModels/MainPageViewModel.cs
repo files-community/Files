@@ -314,7 +314,10 @@ namespace Files.ViewModels
             if (iconSource.ImageSource == null)
             {
                 var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(currentPath, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
-                iconSource.ImageSource = await iconData?.ToBitmapAsync();
+                if (iconData != null)
+                {
+                    iconSource.ImageSource = await iconData.ToBitmapAsync();
+                }
             }
 
             return (tabLocationHeader, iconSource);
