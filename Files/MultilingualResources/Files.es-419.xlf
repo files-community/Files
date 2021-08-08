@@ -3462,7 +3462,7 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
         </trans-unit>
         <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
           <source>Descending</source>
-          <target state="translated">Descendiente</target>
+          <target state="translated">Descendente</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
           <source>Sync status</source>
