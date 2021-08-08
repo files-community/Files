@@ -503,6 +503,7 @@
                         <DataTemplate x:DataType="local2:ListedItem">
                             <Grid
                                 HorizontalAlignment="Stretch"
+                                AutomationProperties.Name="{x:Bind ItemName, Mode=OneWay}"
                                 IsRightTapEnabled="True"
                                 Loaded="Grid_Loaded"
                                 RightTapped="StackPanel_RightTapped"
@@ -630,7 +631,7 @@
                                     Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
                                     <TextBlock
                                         VerticalAlignment="Center"
-                                        FontWeight="Light"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{x:Bind FileTagUI.TagName, Mode=OneWay}"
                                         TextTrimming="CharacterEllipsis"
                                         Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
@@ -646,9 +647,10 @@
                                     x:Load="{x:Bind IsRecycleBinItem}">
                                     <TextBlock
                                         VerticalAlignment="Center"
-                                        FontWeight="Light"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="NoWrap" />
                                 </Grid>
 
                                 <Grid
@@ -661,9 +663,10 @@
                                     x:Load="{x:Bind IsRecycleBinItem}">
                                     <TextBlock
                                         VerticalAlignment="Center"
-                                        FontWeight="Light"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="NoWrap" />
                                 </Grid>
 
                                 <Grid
@@ -693,9 +696,10 @@
                                     Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
                                     <TextBlock
                                         VerticalAlignment="Center"
-                                        FontWeight="Light"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{x:Bind ItemDateModified, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="NoWrap" />
                                 </Grid>
 
                                 <Grid
@@ -708,9 +712,10 @@
                                     Visibility="{Binding ColumnsViewModel.DateCreatedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
                                     <TextBlock
                                         VerticalAlignment="Center"
-                                        FontWeight="Light"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{x:Bind ItemDateCreated, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="NoWrap" />
                                 </Grid>
 
                                 <Grid
@@ -723,9 +728,10 @@
                                     Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
                                     <TextBlock
                                         VerticalAlignment="Center"
-                                        FontWeight="Light"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{x:Bind ItemType, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="NoWrap" />
                                 </Grid>
 
                                 <Grid
@@ -738,9 +744,10 @@
                                     Visibility="{Binding ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
                                     <TextBlock
                                         VerticalAlignment="Center"
-                                        FontWeight="Light"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{x:Bind FileSize, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="NoWrap" />
                                 </Grid>
                             </Grid>
                         </DataTemplate>
