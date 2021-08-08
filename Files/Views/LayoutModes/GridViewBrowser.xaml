@@ -190,7 +190,6 @@
 
         <DataTemplate x:Name="TilesBrowserTemplate" x:DataType="local2:ListedItem">
             <Grid
-                Width="260"
                 Height="100"
                 Margin="0,0,0,0"
                 Padding="0"
