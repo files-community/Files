@@ -63,7 +63,7 @@ namespace Files.ViewModels.Previews
 
             if (iconData != null)
             {
-                Item.FileImage = await iconData.ToBitmapAsync();
+                FileImage = await iconData.ToBitmapAsync();
             }
         }
     }
