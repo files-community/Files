@@ -376,6 +376,13 @@
     "ID": null
   },
   {
+    "NameResource": "PropertyDateTaken",
+    "SectionResource": "PropertySectionPhoto",
+    "Property": "System.Photo.DateTaken",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
     "NameResource": "PropertyDateModified",
     "SectionResource": "PropertySectionCore",
     "Property": "System.DateModified",
@@ -437,10 +444,9 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyDateTaken",
-    "SectionResource": "PropertySectionPhoto",
-    "Property": "System.Photo.DateTaken",
+    "NameResource": "DetailsViewHeaderFlyout_ShowFileTag/Text",
+    "SectionResource": "PropertySectionCore",
     "IsReadOnly": true,
-    "ID": null
+    "ID": "filetag"
   }
 ]

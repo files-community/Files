@@ -74,6 +74,16 @@ namespace Files.ViewModels.Previews
 
             list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
                                                                                             (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+
+            // adds the value for the file tag
+            if(App.AppSettings.AreFileTagsEnabled)
+            {
+                list.FirstOrDefault(x => x.ID == "filetag").Value = Item.FileTagUI?.TagName;
+            } else
+            {
+                _ = list.Remove(list.FirstOrDefault(x => x.ID == "filetag"));
+            }
+
             return list.Where(i => i.ValueText != null).ToList();
         }
 
