@@ -101,7 +101,7 @@ namespace Files.Helpers
 
         public string Text
         {
-            get => text;
+            get => text ?? ""; // Text is bound to AutomationProperties.Name and can't be null
             set => SetPropertyWithUpdateDelay(ref text, value);
         }
 
