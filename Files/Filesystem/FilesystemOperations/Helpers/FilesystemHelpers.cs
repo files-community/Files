@@ -135,6 +135,11 @@ namespace Files.Filesystem
                     incomingItems,
                     new List<FilesystemItemsOperationItemModel>()));
 
+                if (UIHelpers.IsAnyContentDialogOpen())
+                {
+                    // Only a single ContentDialog can be open at any time.
+                    return ReturnResult.Cancelled;
+                }
                 ContentDialogResult result = await dialog.ShowAsync();
 
                 if (result != ContentDialogResult.Primary)
@@ -316,6 +321,11 @@ namespace Files.Filesystem
                     incomingItems,
                     new List<FilesystemItemsOperationItemModel>()));
 
+                if (UIHelpers.IsAnyContentDialogOpen())
+                {
+                    // Only a single ContentDialog can be open at any time.
+                    return ReturnResult.Cancelled;
+                }
                 ContentDialogResult result = await dialog.ShowAsync();
 
                 if (result != ContentDialogResult.Primary)
@@ -397,6 +407,11 @@ namespace Files.Filesystem
                     incomingItems,
                     new List<FilesystemItemsOperationItemModel>()));
 
+                if (UIHelpers.IsAnyContentDialogOpen())
+                {
+                    // Only a single ContentDialog can be open at any time.
+                    return ReturnResult.Cancelled;
+                }
                 ContentDialogResult result = await dialog.ShowAsync();
 
                 if (result != ContentDialogResult.Primary)
@@ -1024,7 +1039,9 @@ namespace Files.Filesystem
 
             for (int i = 0; i < source.Count(); i++)
             {
-                incomingItems.Add(new FilesystemItemsOperationItemModel(operationType, source.ElementAt(i).Path ?? source.ElementAt(i).Item.Path, destination.ElementAt(i)));
+                var itemPathOrName = string.IsNullOrEmpty(source.ElementAt(i).Path) ? 
+                    (string.IsNullOrEmpty(source.ElementAt(i).Item.Path) ? source.ElementAt(i).Item.Name : source.ElementAt(i).Item.Path) : source.ElementAt(i).Path;
+                incomingItems.Add(new FilesystemItemsOperationItemModel(operationType, itemPathOrName, destination.ElementAt(i)));
                 collisions.Add(incomingItems.ElementAt(i).SourcePath, FileNameConflictResolveOptionType.GenerateNewName);
 
                 if (destination.Count() > 0 && StorageItemHelpers.Exists(destination.ElementAt(i))) // Same item names in both directories
@@ -1045,6 +1062,11 @@ namespace Files.Filesystem
                     incomingItems,
                     conflictingItems));
 
+                if (UIHelpers.IsAnyContentDialogOpen())
+                {
+                    // Only a single ContentDialog can be open at any time.
+                    return (new List<FileNameConflictResolveOptionType>(), true);
+                }
                 ContentDialogResult result = await dialog.ShowAsync();
 
                 if (mustResolveConflicts) // If there were conflicts, result buttons are different
@@ -1070,7 +1092,9 @@ namespace Files.Filesystem
             {
                 for (int j = 0; j < source.Count(); j++)
                 {
-                    if (collisions.ElementAt(i).Key == (source.ElementAt(j).Path ?? source.ElementAt(j).Item.Path))
+                    var itemPathOrName = string.IsNullOrEmpty(source.ElementAt(j).Path) ?
+                        (string.IsNullOrEmpty(source.ElementAt(j).Item.Path) ? source.ElementAt(j).Item.Name : source.ElementAt(j).Item.Path) : source.ElementAt(j).Path;
+                    if (collisions.ElementAt(i).Key == itemPathOrName)
                     {
                         newCollisions.Add(collisions.ElementAt(j).Value);
                     }

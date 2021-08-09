@@ -11,7 +11,7 @@
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="RootPage"
-    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+    Background="Transparent"
     KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
     mc:Ignorable="d">
@@ -124,6 +124,11 @@
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Control" />
         <KeyboardAccelerator
+            Key="D"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control" />
+        <KeyboardAccelerator
             Key="Delete"
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
@@ -194,7 +199,6 @@
             Grid.ColumnSpan="3"
             HorizontalAlignment="Stretch"
             x:FieldModifier="public"
-            Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
             Canvas.ZIndex="30"
             Navigated="ItemDisplayFrame_Navigated" />
     </Grid>

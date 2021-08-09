@@ -1818,41 +1818,11 @@
   <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
     <value>Groeperen op</value>
   </data>
-  <data name="NavToolbarGroupByOption_None.Content" xml:space="preserve">
-    <value>Geen</value>
-  </data>
-  <data name="NavToolbarArrangementOption_Name.Content" xml:space="preserve">
-    <value>Naam</value>
-  </data>
-  <data name="NavToolbarArrangementOption_DateModified.Content" xml:space="preserve">
-    <value>Gewijzigd op</value>
-  </data>
-  <data name="NavToolbarArrangementOption_DateCreated.Content" xml:space="preserve">
-    <value>Gemaakt op</value>
-  </data>
-  <data name="NavToolbarArrangementOption_Size.Content" xml:space="preserve">
-    <value>Grootte</value>
-  </data>
-  <data name="NavToolbarArrangementOption_DateDeleted.Content" xml:space="preserve">
-    <value>Verwijderd op</value>
-  </data>
-  <data name="NavToolbarArrangementOption_OriginalFolder.Content" xml:space="preserve">
-    <value>Originele map</value>
-  </data>
-  <data name="NavToolbarArrangementOption_Type.Content" xml:space="preserve">
-    <value>Type</value>
-  </data>
   <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
     <value>Sorteren op</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
     <value>Sorteerrichting</value>
-  </data>
-  <data name="NavToolbarSortDirectionOption_Ascending.Content" xml:space="preserve">
-    <value>Oplopend</value>
-  </data>
-  <data name="NavToolbarSortDirectionOption_Descending.Content" xml:space="preserve">
-    <value>Aflopend</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
     <value>Enorm</value>
@@ -2062,9 +2032,6 @@
     <value>Sluiten</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Synchronisatiestatus</value>
-  </data>
-  <data name="NavToolbarArrangementOption_SyncStatus.Content" xml:space="preserve">
     <value>Synchronisatiestatus</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
