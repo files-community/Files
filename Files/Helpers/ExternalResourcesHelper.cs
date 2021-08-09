@@ -87,19 +87,30 @@ namespace Files.Helpers
 
         public async Task<bool> TryLoadThemeAsync(AppTheme theme)
         {
-            var xaml = await Filesystem.FilesystemTasks.Wrap(() => TryLoadResourceDictionary(theme));
-            if (xaml != null)
+            try
             {
-                App.Current.Resources.MergedDictionaries.Add(xaml);
-                return true;
+                var xaml = await TryLoadResourceDictionary(theme);
+                if (xaml != null)
+                {
+                    App.Current.Resources.MergedDictionaries.Add(xaml);
+                    return true;
+                }
+                return false;
             }
-            App.Logger.Warn($"Invalid theme: {theme.Path}");
-            return false;
+            catch (Exception ex)
+            {
+                App.Logger.Warn(ex, $"Error loading theme: {theme?.Path}");
+                return false;
+            }
         }
         
         public async Task<ResourceDictionary> TryLoadResourceDictionary(AppTheme theme)
         {
             StorageFile file;
+            if (theme?.Path == null)
+            {
+                return null;
+            }
             if (theme.IsFromOptionalPackage)
             {
                 if (OptionalPackageThemesFolder != null)
