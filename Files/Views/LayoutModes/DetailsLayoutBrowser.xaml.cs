@@ -579,6 +579,7 @@ namespace Files.Views.LayoutModes
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
             {
+                ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
@@ -590,7 +591,6 @@ namespace Files.Views.LayoutModes
 
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-
             // Skip opening selected items if the double tap doesn't capture an item
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
@@ -599,6 +599,8 @@ namespace Files.Views.LayoutModes
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
             }
+            System.Diagnostics.Debug.WriteLine("FileList_DoubleTapped");
+            ResetRenameDoubleClick();
         }
 
         #region IDisposable
