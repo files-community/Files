@@ -4,6 +4,7 @@ using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -224,6 +225,16 @@ namespace Files.UserControls.MultitaskingControl
         public static readonly DependencyProperty TabStripVisibilityProperty =
             DependencyProperty.Register("TabStripVisibility", typeof(Visibility), typeof(HorizontalMultitaskingControl), new PropertyMetadata(Visibility.Visible));
 
+        private bool firstLoad = true;
 
+        private void TabViewItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            // fixes issue where tab would not show as selected when opened with path argument
+            if(firstLoad)
+            {
+                firstLoad = false;
+                (sender as TabViewItem).IsSelected = true;
+            }
+        }
     }
 }
