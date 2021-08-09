@@ -589,7 +589,6 @@ namespace Files.Views.LayoutModes
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
             }
-            System.Diagnostics.Debug.WriteLine("FileList_DoubleTapped");
             ResetRenameDoubleClick();
         }
 
