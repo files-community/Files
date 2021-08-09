@@ -568,7 +568,8 @@ namespace Files.Filesystem
                         { "fileop", "DeleteItem" },
                         { "operationID", Guid.NewGuid().ToString() },
                         { "filepath", source.Path },
-                        { "permanently", permanently }
+                        { "permanently", permanently },
+                        { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                     });
                     fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
                         && response.Get("Success", false));
@@ -581,7 +582,8 @@ namespace Files.Filesystem
                         { "fileop", "DeleteItem" },
                         { "operationID", Guid.NewGuid().ToString() },
                         { "filepath", source.Path },
-                        { "permanently", permanently }
+                        { "permanently", permanently },
+                        { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                     });
                 }
             }
