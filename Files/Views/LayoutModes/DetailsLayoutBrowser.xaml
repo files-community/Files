@@ -150,6 +150,16 @@
             <Style TargetType="uc:DataGridHeader">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             </Style>
+
+            <Style
+                x:Key="ColumnContentTextBlock"
+                BasedOn="{StaticResource CaptionTextBlockStyle}"
+                TargetType="TextBlock">
+                <Setter Property="TextWrapping" Value="NoWrap" />
+                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+            </Style>
         </ResourceDictionary>
     </local:BaseLayout.Resources>
 
@@ -630,8 +640,7 @@
                                     VerticalAlignment="Center"
                                     Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
                                     <TextBlock
-                                        VerticalAlignment="Center"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Style="{StaticResource ColumnContentTextBlock}"
                                         Text="{x:Bind FileTagUI.TagName, Mode=OneWay}"
                                         TextTrimming="CharacterEllipsis"
                                         Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
@@ -645,12 +654,7 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     x:Load="{x:Bind IsRecycleBinItem}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="NoWrap" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}" />
                                 </Grid>
 
                                 <Grid
@@ -661,12 +665,7 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     x:Load="{x:Bind IsRecycleBinItem}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="NoWrap" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}" />
                                 </Grid>
 
                                 <Grid
@@ -694,12 +693,7 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind ItemDateModified, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="NoWrap" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind ItemDateModified, Mode=OneWay}" />
                                 </Grid>
 
                                 <Grid
@@ -710,12 +704,7 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Visibility="{Binding ColumnsViewModel.DateCreatedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind ItemDateCreated, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="NoWrap" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind ItemDateCreated, Mode=OneWay}" />
                                 </Grid>
 
                                 <Grid
@@ -726,12 +715,7 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind ItemType, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="NoWrap" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind ItemType, Mode=OneWay}" />
                                 </Grid>
 
                                 <Grid
@@ -742,12 +726,7 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Visibility="{Binding ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind FileSize, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="NoWrap" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind FileSize, Mode=OneWay}" />
                                 </Grid>
                             </Grid>
                         </DataTemplate>
