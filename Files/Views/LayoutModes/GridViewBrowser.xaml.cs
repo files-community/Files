@@ -503,6 +503,7 @@ namespace Files.Views.LayoutModes
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
             {
+                ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
             }
@@ -522,6 +523,7 @@ namespace Files.Views.LayoutModes
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
             }
+            ResetRenameDoubleClick();
         }
 
         #region IDisposable
