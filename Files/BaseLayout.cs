@@ -270,7 +270,7 @@ namespace Files
 
         public ListedItem SelectedItem { get; private set; }
 
-        private DispatcherQueueTimer dragOverTimer;
+        private DispatcherQueueTimer dragOverTimer, tapDebounceTimer;
 
         public BaseLayout()
         {
@@ -296,6 +296,7 @@ namespace Files
             }
 
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         protected abstract void HookEvents();
@@ -1005,10 +1006,20 @@ namespace Files
             {
                 if (item == preRenamingItem)
                 {
-                    StartRenameItem();
-                    ResetRenameDoubleClick();
+                    tapDebounceTimer.Debounce(() =>
+                    {
+                        if (item == preRenamingItem)
+                        {
+                            StartRenameItem();
+                            tapDebounceTimer.Stop();
+                        }
+                    }, TimeSpan.FromMilliseconds(500));
                 }
-                preRenamingItem = item;
+                else
+                {
+                    tapDebounceTimer.Stop();
+                    preRenamingItem = item;
+                }
             }
             else
             {
@@ -1019,6 +1030,7 @@ namespace Files
         public void ResetRenameDoubleClick()
         {
             preRenamingItem = null;
+            tapDebounceTimer.Stop();
         }
     }
 }
