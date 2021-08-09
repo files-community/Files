@@ -413,14 +413,8 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            DismissColumn?.Invoke(sender as ListView, EventArgs.Empty);
-            await Task.Delay(200);
-            if (listViewItem != null)
-            {
-                //_ = VisualStateManager.GoToState(listViewItem, "CurrentItem", true);
-            }
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
                 if (listViewItem != null)
@@ -430,6 +424,7 @@ namespace Files.Views.LayoutModes
                 var item = (e.OriginalSource as FrameworkElement).DataContext as ListedItem;
                 if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
+                    DismissColumn?.Invoke(sender as ListView, EventArgs.Empty);
                     if (item.ContainsFilesOrFolders)
                     {
                         listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
@@ -437,7 +432,6 @@ namespace Files.Views.LayoutModes
                         ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
                     }
                 }
-                // The delay gives time for the item to be selected
                 else
                 {
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -475,8 +469,6 @@ namespace Files.Views.LayoutModes
 
         private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            DismissColumn?.Invoke(sender as ListView, EventArgs.Empty);
-            await Task.Delay(200);
             if (listViewItem != null)
             {
                 //_ = VisualStateManager.GoToState(listViewItem, "NotCurrentItem", true);
@@ -497,16 +489,16 @@ namespace Files.Views.LayoutModes
             if (AppSettings.OpenItemsWithOneclick)
             {
                 ResetRenameDoubleClick();
-                await Task.Delay(200);
+                await Task.Delay(200); // The delay gives time for the item to be selected
                 if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
+                    DismissColumn?.Invoke(sender as ListView, EventArgs.Empty);
                     if (item.ContainsFilesOrFolders)
                     {
                         listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
                         ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
                     }
                 }
-                // The delay gives time for the item to be selected
                 else
                 {
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
