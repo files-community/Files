@@ -107,6 +107,7 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
 
             var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => recycleBinHelpers.IsPathUnderRecycleBin(path));
+            var canBeSentToBin = !deleteFromRecycleBin && !source.Any(x => string.IsNullOrEmpty(x.Path) || x.Path.StartsWith(@"\\?\"));
 
             if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
@@ -130,8 +131,8 @@ namespace Files.Filesystem
                 FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     FilesystemOperationType.Delete,
                     false,
-                    !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
-                    !deleteFromRecycleBin,
+                    canBeSentToBin ? permanently : true,
+                    canBeSentToBin,
                     incomingItems,
                     new List<FilesystemItemsOperationItemModel>()));
 
@@ -179,8 +180,6 @@ namespace Files.Filesystem
 
             var sw = new Stopwatch();
             sw.Start();
-
-            bool originalPermanently = permanently;
 
             IStorageHistory history = await filesystemOperations.DeleteItemsAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
             ((IProgress<float>)banner.Progress).Report(100.0f);
@@ -270,8 +269,9 @@ namespace Files.Filesystem
         {
             PostedStatusBanner banner;
             bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
+            var canBeSentToBin = !deleteFromRecycleBin && !string.IsNullOrEmpty(source.Path) && !source.Path.StartsWith(@"\\?\");
 
-            if (deleteFromRecycleBin)
+            if (!canBeSentToBin)
             {
                 permanently = true;
             }
@@ -316,8 +316,8 @@ namespace Files.Filesystem
                 FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     FilesystemOperationType.Delete,
                     false,
-                    !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
-                    !deleteFromRecycleBin,
+                    canBeSentToBin ? permanently : true,
+                    canBeSentToBin,
                     incomingItems,
                     new List<FilesystemItemsOperationItemModel>()));
 
@@ -366,8 +366,9 @@ namespace Files.Filesystem
         {
             PostedStatusBanner banner;
             bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
+            var canBeSentToBin = !deleteFromRecycleBin && !string.IsNullOrEmpty(source.Path) && !source.Path.StartsWith(@"\\?\");
 
-            if (deleteFromRecycleBin)
+            if (!canBeSentToBin)
             {
                 permanently = true;
             }
@@ -402,8 +403,8 @@ namespace Files.Filesystem
                 FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     FilesystemOperationType.Delete,
                     false,
-                    !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
-                    !deleteFromRecycleBin,
+                    canBeSentToBin ? permanently : true,
+                    canBeSentToBin,
                     incomingItems,
                     new List<FilesystemItemsOperationItemModel>()));
 
