@@ -1117,7 +1117,11 @@ namespace Files.Views
                     var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => navigationPath.StartsWith(x.Path));
                     if (matchingDrive != null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSize.FromBytes(0))
                     {
-                        await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), matchingDrive.Path));
+                        bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertADiscDialog/OpenDriveButton".GetLocalized(), "InsertADiscDialog/CloseDialogButton".GetLocalized());
+                        if (ejectButton)
+                        {
+                           await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                        }
                         if (string.Equals(FilesystemViewModel.WorkingDirectory, "Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                         {
                             return;

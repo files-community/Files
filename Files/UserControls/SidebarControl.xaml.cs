@@ -344,7 +344,11 @@ namespace Files.UserControls
                     var driveItem = item as DriveItem;
                     if (driveItem.Type == DriveType.CDRom && driveItem.MaxSpace == ByteSize.FromBytes(0))
                     {
-                        await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), item.Path));
+                        bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), item.Path), "InsertADiscDialog/OpenDriveButton".GetLocalized(), "InsertADiscDialog/CloseDialogButton".GetLocalized());
+                        if (ejectButton)
+                        {
+                            await DriveHelpers.EjectDeviceAsync(item.Path);
+                        }
                         return;
                     }
                 }
@@ -463,7 +467,11 @@ namespace Files.UserControls
                 var item = RightClickedItem as DriveItem;
                 if (item.Type == DataModels.NavigationControlItems.DriveType.CDRom && item.MaxSpace == ByteSize.FromBytes(0))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), item.Path));
+                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), item.Path), "InsertADiscDialog/OpenDriveButton".GetLocalized(), "InsertADiscDialog/CloseDialogButton".GetLocalized());
+                    if (ejectButton)
+                    {
+                        await DriveHelpers.EjectDeviceAsync(item.Path);
+                    }
                     return;
                 }
             }
@@ -477,7 +485,11 @@ namespace Files.UserControls
                 var item = RightClickedItem as DriveItem;
                 if (item.Type == DriveType.CDRom && item.MaxSpace == ByteSize.FromBytes(0))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), item.Path));
+                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), item.Path), "InsertADiscDialog/OpenDriveButton".GetLocalized(), "InsertADiscDialog/CloseDialogButton".GetLocalized());
+                    if (ejectButton)
+                    {
+                        await DriveHelpers.EjectDeviceAsync(item.Path);
+                    }
                     return;
                 }
             }

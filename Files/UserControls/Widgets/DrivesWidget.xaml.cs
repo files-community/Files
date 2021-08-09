@@ -75,7 +75,11 @@ namespace Files.UserControls.Widgets
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
             if (item.Type == DriveType.CDRom && item.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
             {
-                await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), item.Path));
+                bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), item.Path), "InsertADiscDialog/OpenDriveButton".GetLocalized(), "InsertADiscDialog/CloseDialogButton".GetLocalized());
+                if (ejectButton)
+                {
+                    await DriveHelpers.EjectDeviceAsync(item.Path);
+                }
                 return;
             }
             await NavigationHelpers.OpenPathInNewTab(item.Path);
@@ -86,7 +90,11 @@ namespace Files.UserControls.Widgets
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
             if (item.Type == DriveType.CDRom && item.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
             {
-                await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), item.Path));
+                bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), item.Path), "InsertADiscDialog/OpenDriveButton".GetLocalized(), "InsertADiscDialog/CloseDialogButton".GetLocalized());
+                if (ejectButton)
+                {
+                    await DriveHelpers.EjectDeviceAsync(item.Path);
+                }
                 return;
             }
             await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
@@ -111,7 +119,11 @@ namespace Files.UserControls.Widgets
                 var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => NavigationPath.StartsWith(x.Path));
                 if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSize.FromBytes(0))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), matchingDrive.Path));
+                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertADiscDialog/OpenDriveButton".GetLocalized(), "InsertADiscDialog/CloseDialogButton".GetLocalized());
+                    if (ejectButton)
+                    {
+                        await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                    }
                     return;
                 }
                 await NavigationHelpers.OpenPathInNewTab(NavigationPath);
@@ -132,7 +144,11 @@ namespace Files.UserControls.Widgets
                 var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => navigationPath.StartsWith(x.Path));
                 if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSize.FromBytes(0))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), matchingDrive.Path));
+                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertADiscDialog/OpenDriveButton".GetLocalized(), "InsertADiscDialog/CloseDialogButton".GetLocalized());
+                    if (ejectButton)
+                    {
+                        await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                    }
                     return;
                 }
                 await NavigationHelpers.OpenPathInNewTab(navigationPath);
