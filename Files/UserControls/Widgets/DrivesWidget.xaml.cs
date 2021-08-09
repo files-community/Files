@@ -1,8 +1,10 @@
-﻿using Files.DataModels.NavigationControlItems;
+﻿using ByteSizeLib;
+using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels;
 using Files.ViewModels.Widgets;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -71,12 +73,22 @@ namespace Files.UserControls.Widgets
         private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            if (item.Type == DriveType.CDRom && item.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
+            {
+                await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), item.Path));
+                return;
+            }
             await NavigationHelpers.OpenPathInNewTab(item.Path);
         }
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            if (item.Type == DriveType.CDRom && item.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
+            {
+                await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), item.Path));
+                return;
+            }
             await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
         }
 
@@ -96,6 +108,12 @@ namespace Files.UserControls.Widgets
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed)
             {
+                var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => NavigationPath.StartsWith(x.Path));
+                if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSize.FromBytes(0))
+                {
+                    await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), matchingDrive.Path));
+                    return;
+                }
                 await NavigationHelpers.OpenPathInNewTab(NavigationPath);
                 return;
             }
@@ -111,6 +129,12 @@ namespace Files.UserControls.Widgets
             if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
             {
                 string navigationPath = (sender as Button).Tag.ToString();
+                var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => navigationPath.StartsWith(x.Path));
+                if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSize.FromBytes(0))
+                {
+                    await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), matchingDrive.Path));
+                    return;
+                }
                 await NavigationHelpers.OpenPathInNewTab(navigationPath);
             }
         }

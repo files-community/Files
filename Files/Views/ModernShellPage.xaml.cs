@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using ByteSizeLib;
+using Files.Common;
 using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
@@ -1071,7 +1072,7 @@ namespace Files.Views
             NavigateToPath(navigationPath, FolderSettings.GetLayoutType(navigationPath), navArgs);
         }
 
-        public void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
+        public async void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
         {
             if (sourcePageType == null && !string.IsNullOrEmpty(navigationPath))
             {
@@ -1107,6 +1108,23 @@ namespace Files.Views
                     (sourcePageType == typeof(DetailsLayoutBrowser) || sourcePageType == typeof(GridViewBrowser)))
                 {
                     transition = new EntranceNavigationTransitionInfo();
+                }
+
+                if (!navigationPath.StartsWith(FilesystemViewModel.WorkingDirectory))
+                {
+                    var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(navigationPath));
+                    StorageFolder diskRoot = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(navigationPath, item));
+                    var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => navigationPath.StartsWith(x.Path));
+                    if (matchingDrive != null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSize.FromBytes(0))
+                    {
+                        await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), matchingDrive.Path));
+                        if (string.Equals(FilesystemViewModel.WorkingDirectory, "Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
+                        {
+                            return;
+                        }
+                        navigationPath = FilesystemViewModel.WorkingDirectory;
+                        sourcePageType = InstanceViewModel.FolderSettings.GetLayoutType(navigationPath);
+                    }
                 }
 
                 ItemDisplayFrame.Navigate(

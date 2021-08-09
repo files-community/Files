@@ -1,4 +1,5 @@
-﻿using Files.DataModels;
+﻿using ByteSizeLib;
+using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
@@ -336,8 +337,17 @@ namespace Files.UserControls
         {
             var properties = e.GetCurrentPoint(null).Properties;
             var context = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext;
-            if (properties.IsMiddleButtonPressed && context is INavigationControlItem item)
+            if (properties.IsMiddleButtonPressed && context is INavigationControlItem item && item.Path!=null)
             {
+                if (item is DriveItem)
+                {
+                    var driveItem = item as DriveItem;
+                    if (driveItem.Type == DriveType.CDRom && driveItem.MaxSpace == ByteSize.FromBytes(0))
+                    {
+                        await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), item.Path));
+                        return;
+                    }
+                }
                 IsInPointerPressed = true;
                 await NavigationHelpers.OpenPathInNewTab(item.Path);
                 e.Handled = true;
@@ -448,11 +458,29 @@ namespace Files.UserControls
 
         private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
+            if (RightClickedItem is DriveItem)
+            {
+                var item = RightClickedItem as DriveItem;
+                if (item.Type == DataModels.NavigationControlItems.DriveType.CDRom && item.MaxSpace == ByteSize.FromBytes(0))
+                {
+                    await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), item.Path));
+                    return;
+                }
+            }
             await NavigationHelpers.OpenPathInNewTab(RightClickedItem.Path);
         }
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
         {
+            if (RightClickedItem is DriveItem)
+            {
+                var item = RightClickedItem as DriveItem;
+                if (item.Type == DriveType.CDRom && item.MaxSpace == ByteSize.FromBytes(0))
+                {
+                    await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), item.Path));
+                    return;
+                }
+            }
             await NavigationHelpers.OpenPathInNewWindowAsync(RightClickedItem.Path);
         }
 
