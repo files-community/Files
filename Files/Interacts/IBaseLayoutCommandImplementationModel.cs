@@ -45,6 +45,8 @@ namespace Files.Interacts
 
         void OpenFileLocation(RoutedEventArgs e);
 
+        void OpenParentFolder(RoutedEventArgs e);
+
         void OpenItemWithApplicationPicker(RoutedEventArgs e);
 
         void OpenDirectoryInNewTab(RoutedEventArgs e);

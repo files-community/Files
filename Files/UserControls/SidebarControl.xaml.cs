@@ -257,7 +257,12 @@ namespace Files.UserControls
 
         public void HideSection_Click(object sender, RoutedEventArgs e)
         {
-            if ("SidebarLibraries".GetLocalized().Equals(RightClickedItem.Text))
+            if ("SidebarFavorites".GetLocalized().Equals(RightClickedItem.Text))
+            {
+                AppSettings.ShowFavoritesSection = false;
+                App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
+            }
+            else if ("SidebarLibraries".GetLocalized().Equals(RightClickedItem.Text))
             {
                 AppSettings.ShowLibrarySection = false;
                 App.LibraryManager.UpdateLibrariesSectionVisibility();
@@ -384,7 +389,7 @@ namespace Files.UserControls
                 RightClickedItem = item;
                 SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
             }
-            else if (!favoritesHeader)
+            else
             {
                 IsLocationItem = false;
                 ShowProperties = false;

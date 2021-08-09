@@ -1,4 +1,5 @@
-﻿using Files.EventArguments;
+﻿using Files.Enums;
+using Files.EventArguments;
 using Files.Events;
 using Files.Extensions;
 using Files.Filesystem;
@@ -7,6 +8,7 @@ using Files.Helpers.ContextFlyouts;
 using Files.Interacts;
 using Files.UserControls;
 using Files.ViewModels;
+using Files.ViewModels.Previews;
 using Files.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -358,7 +360,7 @@ namespace Files
         {
             if (ParentShellPageInstance.SlimContentPage != null)
             {
-                var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
+                var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, false);
 
                 if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {
@@ -485,7 +487,7 @@ namespace Files
 
         private CancellationTokenSource groupingCancellationToken;
 
-        private async void FolderSettings_GroupOptionPreferenceUpdated(object sender, EventArgs e)
+        private async void FolderSettings_GroupOptionPreferenceUpdated(object sender, GroupOption e)
         {
             // Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning
             groupingCancellationToken?.Cancel();
@@ -553,21 +555,18 @@ namespace Files
                     (i as AppBarButton).Click += new RoutedEventHandler((s, e) => BaseContextMenuFlyout.Hide());  // Workaround for WinUI (#5508)
                 });
                 primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
-                secondaryElements.ForEach(i =>
-                {
-                    if(i is AppBarButton appBarButton)
-                    {
-                        appBarButton.MinWidth = 350; // setting the minwidth to a large number is a workaround for #5555
-                    }
-                    BaseContextMenuFlyout.SecondaryCommands.Add(i);
-                });
-                var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false);
-                if (shellContextMenuItemCancellationToken.IsCancellationRequested)
-                {
-                    return;
-                }
+                secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
 
-                AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
+                if (!InstanceViewModel.IsPageTypeSearchResults)
+                {
+                    var shellMenuItems = await ContextFlyoutItemHelper.GetBaseContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, shiftPressed: shiftPressed, showOpenMenu: false);
+                    if (shellContextMenuItemCancellationToken.IsCancellationRequested)
+                    {
+                        return;
+                    }
+
+                    AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
+                }
             }
             catch (Exception error)
             {
@@ -590,14 +589,12 @@ namespace Files
                 (i as AppBarButton).Click += new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide()); // Workaround for WinUI (#5508)
             });
             primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
-            secondaryElements.ForEach(i => {
-                if (i is AppBarButton appBarButton)
-                {
-                    appBarButton.MinWidth = 350; // setting the minwidth to a large number is a workaround for #5555
-                }
+            secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 
-                ItemContextMenuFlyout.SecondaryCommands.Add(i);
-            });
+            if (AppSettings.AreFileTagsEnabled && !InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin)
+            {
+                AddFileTagsItemToMenu(ItemContextMenuFlyout);
+            }
 
             var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await Connection, currentInstanceViewModel: InstanceViewModel, workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems, shiftPressed: shiftPressed, showOpenMenu: false);
             if (shellContextMenuItemCancellationToken.IsCancellationRequested)
@@ -608,8 +605,26 @@ namespace Files
             AddShellItemsToMenu(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
         }
 
+        private void AddFileTagsItemToMenu(Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenu)
+        {
+            var fileTagMenuFlyout = new MenuFlyoutItemFileTag()
+            {
+                ItemsSource = AppSettings.FileTagsSettings.FileTagList,
+                SelectedItems = SelectedItems
+            };
+            var overflowSeparator = contextMenu.SecondaryCommands.FirstOrDefault(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator;
+            var index = contextMenu.SecondaryCommands.IndexOf(overflowSeparator);
+            index = index >= 0 ? index : contextMenu.SecondaryCommands.Count;
+            contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
+            contextMenu.SecondaryCommands.Insert(index + 1, new AppBarElementContainer()
+            {
+                Content = fileTagMenuFlyout
+            });
+        }
+
         private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenuFlyout, bool shiftPressed)
         {
+            var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
             var mainShellMenuItems = shellMenuItems.RemoveFrom(!App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4);
             var overflowShellMenuItems = shellMenuItems.Except(mainShellMenuItems).ToList();
 
@@ -620,8 +635,12 @@ namespace Files
             if (overflowItem is not null)
             {
                 var overflowItemFlyout = overflowItem.Flyout as MenuFlyout;
-                var index = contextMenuFlyout.SecondaryCommands.Count - 2;
+                if (overflowItemFlyout.Items.Count > 0)
+                {
+                    overflowItemFlyout.Items.Insert(0, new MenuFlyoutSeparator());
+                }
 
+                var index = contextMenuFlyout.SecondaryCommands.Count - 2;
                 foreach (var i in mainItems)
                 {
                     index++;
@@ -629,12 +648,6 @@ namespace Files
                 }
 
                 index = 0;
-
-                if (overflowItemFlyout.Items.Count > 0)
-                {
-                    overflowItemFlyout.Items.Insert(0, new MenuFlyoutSeparator());
-                }
-
                 foreach (var i in overflowItems)
                 {
                     overflowItemFlyout.Items.Insert(index, i);
@@ -645,6 +658,46 @@ namespace Files
                 {
                     (contextMenuFlyout.SecondaryCommands.First(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator).Visibility = Visibility.Visible;
                     overflowItem.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                mainItems.ForEach(x => contextMenuFlyout.SecondaryCommands.Add(x));
+            }
+
+            // add items to openwith dropdown
+            var openWithOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWithOverflow") as AppBarButton;
+            if (openWithSubItems is not null && openWithOverflow is not null)
+            {
+                var openWith = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWith") as AppBarButton;
+                var flyout = new MenuFlyout();
+                foreach (var item in openWithSubItems)
+                {
+                    flyout.Items.Add(item);
+                }
+
+                openWithOverflow.Flyout = flyout;
+                openWith.Visibility = Visibility.Collapsed;
+                openWithOverflow.Visibility = Visibility.Visible;
+            }
+
+            // Workaround for #5555
+            var openedPopups = Windows.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(Window.Current);
+            var menu = openedPopups.FirstOrDefault(popup => popup.Child is FlyoutPresenter);
+            var commandBar = (menu?.Child as FlyoutPresenter)?.Content as Microsoft.UI.Xaml.Controls.Primitives.CommandBarFlyoutCommandBar;
+            if (commandBar != null)
+            {
+                var desiredWidth = commandBar.SecondaryCommands.OfType<AppBarButton>().Select(x =>
+                {
+                    x.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                    return x.DesiredSize.Width;
+                });
+                if (desiredWidth.Any())
+                {
+                    if (commandBar.FindDescendant<ItemsControl>() is ItemsControl itemsControl)
+                    {
+                        itemsControl.MinWidth = Math.Min(commandBar.MaxWidth, desiredWidth.Max());
+                    }
                 }
             }
         }
@@ -684,7 +737,20 @@ namespace Files
                 }
             }
 
-            if (selectedStorageItems.Count > 0)
+            if (selectedStorageItems.Count == 1)
+            {
+                if (selectedStorageItems[0] is IStorageFile file)
+                {
+                    var itemExtension = System.IO.Path.GetExtension(file.Name);
+                    if (ImagePreviewViewModel.Extensions.Any((ext) => ext.Equals(itemExtension, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        var streamRef = Windows.Storage.Streams.RandomAccessStreamReference.CreateFromFile(file);
+                        e.Data.SetBitmap(streamRef);
+                    }
+                }
+                e.Data.SetStorageItems(selectedStorageItems, false);
+            }
+            else if (selectedStorageItems.Count > 1)
             {
                 e.Data.SetStorageItems(selectedStorageItems, false);
             }

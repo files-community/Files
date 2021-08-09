@@ -177,6 +177,8 @@
                     </LinearGradientBrush>
 
                     <CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>
+                    <CornerRadius x:Key="GridViewThumbnailCornerRadius">2</CornerRadius>
+                    <CornerRadius x:Key="DetailsLayoutThumbnailCornerRadius">2</CornerRadius>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

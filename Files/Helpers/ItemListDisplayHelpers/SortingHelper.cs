@@ -22,7 +22,8 @@ namespace Files.Helpers
                 SortOption.FileType => item => item.ItemType,
                 SortOption.Size => item => item.FileSizeBytes,
                 SortOption.SyncStatus => item => item.SyncStatusString,
-                SortOption.OriginalPath => item => (item as RecycleBinItem)?.ItemOriginalFolder,
+                SortOption.FileTag => item => item.FileTag,
+                SortOption.OriginalFolder => item => (item as RecycleBinItem)?.ItemOriginalFolder,
                 SortOption.DateDeleted => item => (item as RecycleBinItem)?.ItemDateDeletedReal,
                 _ => null,
             };

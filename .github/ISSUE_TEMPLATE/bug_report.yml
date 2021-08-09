@@ -51,4 +51,3 @@ body:
         To upload the log, access it from Settings -> About -> Open log location; Or
         - Copy the `debug.log` and `debug_fulltrust.log` files from `%localappdata%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState`
         - Drag and drop them into this text area.
-      render: markdown

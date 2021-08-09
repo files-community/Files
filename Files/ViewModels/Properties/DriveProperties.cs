@@ -47,13 +47,11 @@ namespace Files.ViewModels.Properties
             {
                 if (diskRoot != null)
                 {
-                    using var thumbnail = await diskRoot.GetThumbnailAsync(ThumbnailMode.SingleItem, 80, ThumbnailOptions.UseCurrentScale);
-                    ViewModel.IconData = await thumbnail.ToByteArrayAsync();
+                    ViewModel.IconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(diskRoot, 80, ThumbnailMode.SingleItem);
                 }
                 else
                 {
-                    var fileIconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.Path, 80);
-                    ViewModel.IconData = fileIconData;
+                    ViewModel.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.Path, 80);
                 }
             }
 

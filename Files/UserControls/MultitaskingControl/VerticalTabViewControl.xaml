@@ -2,7 +2,7 @@
     x:Class="Files.UserControls.MultitaskingControl.VerticalTabViewControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls.MultitaskingControl"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -11,74 +11,76 @@
     d:DesignHeight="400"
     d:DesignWidth="300"
     mc:Ignorable="d">
-	<UserControl.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/ResourceDictionaries/TabView_themeresources.xaml" />
-				<ResourceDictionary Source="/ResourceDictionaries/TabView_vertical.xaml" />
-				<ResourceDictionary Source="/ResourceDictionaries/TabViewItem_shared.xaml" />
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionaries/TabView_themeresources.xaml" />
+                <ResourceDictionary Source="/ResourceDictionaries/TabView_vertical.xaml" />
+                <ResourceDictionary Source="/ResourceDictionaries/TabViewItem_shared.xaml" />
 
-				<ResourceDictionary>
-					<Style TargetType="primitives:TabViewListView">
-						<Setter Property="VerticalAlignment" Value="Top" />
-						<Setter Property="IsTabStop" Value="False" />
-						<Setter Property="TabNavigation" Value="Once" />
-						<Setter Property="IsSwipeEnabled" Value="False" />
-						<Setter Property="SingleSelectionFollowsFocus" Value="False"/>
-						<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
-						<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-						<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
-						<Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False" />
-						<Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
-						<Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True" />
-						<Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
-						<Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
-						<Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
-						<Setter Property="ItemContainerTransitions">
-							<Setter.Value>
-								<TransitionCollection>
-								</TransitionCollection>
-							</Setter.Value>
-						</Setter>
+                <ResourceDictionary>
+                    <Style TargetType="primitives:TabViewListView">
+                        <Setter Property="VerticalAlignment" Value="Top" />
+                        <Setter Property="IsTabStop" Value="False" />
+                        <Setter Property="TabNavigation" Value="Once" />
+                        <Setter Property="IsSwipeEnabled" Value="False" />
+                        <Setter Property="SingleSelectionFollowsFocus" Value="False" />
+                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+                        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
+                        <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False" />
+                        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
+                        <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True" />
+                        <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
+                        <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+                        <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
+                        <Setter Property="ItemContainerTransitions">
+                            <Setter.Value>
+                                <TransitionCollection />
+                            </Setter.Value>
+                        </Setter>
 
-						<Setter Property="ItemsPanel">
-							<Setter.Value>
-								<ItemsPanelTemplate>
-									<ItemsStackPanel Orientation="Vertical"/>
-								</ItemsPanelTemplate>
-							</Setter.Value>
-						</Setter>
+                        <Setter Property="ItemsPanel">
+                            <Setter.Value>
+                                <ItemsPanelTemplate>
+                                    <ItemsStackPanel Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </Setter.Value>
+                        </Setter>
 
-						<Setter Property="Template">
-							<Setter.Value>
-								<ControlTemplate TargetType="primitives:TabViewListView">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="primitives:TabViewListView">
 
-									<ScrollViewer MaxHeight="300" x:Name="ScrollViewer" >
-										<ItemsPresenter HorizontalAlignment="Stretch" x:Name="TabsItemsPresenter"
-                                                Padding="{TemplateBinding Padding}" />
+                                    <ScrollViewer x:Name="ScrollViewer" MaxHeight="300">
+                                        <ItemsPresenter
+                                            x:Name="TabsItemsPresenter"
+                                            Padding="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Stretch" />
 
-										</ScrollViewer>
-								</ControlTemplate>
-							</Setter.Value>
-						</Setter>
-					</Style>
-				</ResourceDictionary>
-			</ResourceDictionary.MergedDictionaries>
-		</ResourceDictionary>
-	</UserControl.Resources>
+                                    </ScrollViewer>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
-		</Grid.RowDefinitions>
-		<TextBlock
-                    x:Uid="VerticalTabViewHeader"
-                    Padding="4,6"
-                    FontWeight="Medium"
-                    Text="Open tabs" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            x:Uid="VerticalTabViewHeader"
+            Padding="4,6"
+            FontWeight="Medium"
+            Text="Open tabs" />
         <muxc:TabView
             x:Name="VerticalTabView"
+            Grid.Row="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             x:FieldModifier="public"
@@ -88,7 +90,6 @@
             CanDragTabs="True"
             CanReorderTabs="True"
             DragLeave="TabStrip_DragLeave"
-			Grid.Row="1"
             IsAddTabButtonVisible="True"
             SelectedIndex="{x:Bind local1:App.MainViewModel.TabStripSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             SelectionChanged="TabStrip_SelectionChanged"
@@ -103,30 +104,30 @@
             TabWidthMode="Equal">
             <muxc:TabView.Resources>
                 <ThemeResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="SolidBackgroundFillColorBaseBrush" />
-				<Thickness x:Key="TabViewHeaderPadding">0,0,0,0</Thickness>
+                <Thickness x:Key="TabViewHeaderPadding">0,0,0,0</Thickness>
             </muxc:TabView.Resources>
             <muxc:TabView.TabItemTemplate>
                 <DataTemplate x:DataType="local:TabItem">
-					<muxc:TabViewItem
+                    <muxc:TabViewItem
+                        Width="250"
+                        Height="40"
+                        Padding="1"
                         AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
+                        CornerRadius="4"
                         DragEnter="TabViewItem_DragEnter"
                         DragLeave="TabViewItem_DragLeave"
                         Drop="TabViewItem_Drop"
-						Width="250"
-						Height="40"
-						Padding="1"
-						CornerRadius="4"
                         Header="{x:Bind Header, Mode=OneWay}"
                         IconSource="{x:Bind IconSource, Mode=OneWay}"
                         Style="{StaticResource TabViewItemStyle}"
-                        ToolTipService.ToolTip="{x:Null}" >
-						<muxc:TabViewItem.Resources>
-							<StaticResource x:Key="TabViewItemSeparator" ResourceKey="SystemControlTransparentBrush"/>
-						</muxc:TabViewItem.Resources>
-					</muxc:TabViewItem>
+                        ToolTipService.ToolTip="{x:Null}">
+                        <muxc:TabViewItem.Resources>
+                            <StaticResource x:Key="TabViewItemSeparator" ResourceKey="SystemControlTransparentBrush" />
+                        </muxc:TabViewItem.Resources>
+                    </muxc:TabViewItem>
                 </DataTemplate>
             </muxc:TabView.TabItemTemplate>
-            
+
         </muxc:TabView>
     </Grid>
 </local:BaseMultitaskingControl>

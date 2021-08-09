@@ -177,7 +177,7 @@ namespace Files.Views.LayoutModes
             var index = ColumnHost.ActiveBlades.IndexOf(blade) - 1;
             if (index == 0)
             {
-                listViewItem.Style = (Style)this.Resources["UnFocusedStyle"];
+                //_ = VisualStateManager.GoToState(listViewItem, "NotCurrentItem", true);
             }
             else
             {
@@ -185,10 +185,6 @@ namespace Files.Views.LayoutModes
                 {
                     var listview = ColumnHost.ActiveBlades[index].FindDescendant("FileList") as ListView;
                     ListViewItem listViewItem2 = listview.ContainerFromItem((listview.SelectedItem) as ListedItem) as ListViewItem;
-                    if (listViewItem2 != null)
-                    {
-                        listViewItem2.Style = ColumnViewBase.CurrentColumn.Resources["UnFocusedStyle"] as Style;
-                    }
                 }
                 catch
                 {
@@ -499,7 +495,7 @@ namespace Files.Views.LayoutModes
             {
                 if (listViewItem != null)
                 {
-                    listViewItem.Style = (Style)this.Resources["NormalStyle"];
+                    //_ = VisualStateManager.GoToState(listViewItem, "CurrentItem", true);
                 }
                 var item = (e.OriginalSource as FrameworkElement).DataContext as ListedItem;
                 if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
@@ -616,7 +612,7 @@ namespace Files.Views.LayoutModes
             await Task.Delay(200);
             if (listViewItem != null)
             {
-                listViewItem.Style = (Style)this.Resources["NormalStyle"];
+                //_ = VisualStateManager.GoToState(listViewItem, "CurrentItem", true);
             }
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
@@ -745,12 +741,12 @@ namespace Files.Views.LayoutModes
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-            // This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
-            // because you can't use bindings in the setters
-            DependencyObject item = VisualTreeHelper.GetParent(sender as Grid);
-            while (!(item is ListViewItem))
-                item = VisualTreeHelper.GetParent(item);
-            var itemContainer = item as ListViewItem;
+            var itemContainer = (sender as Grid)?.FindAscendant<ListViewItem>();
+            if (itemContainer is null)
+            {
+                return;
+            }
+
             itemContainer.ContextFlyout = ItemContextMenuFlyout;
         }
 

@@ -86,5 +86,19 @@ namespace Files.Common
             }
             return default;
         }
+
+        public static bool IgnoreExceptions(Action action, Logger logger = null)
+        {
+            try
+            {
+                action();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger?.Info(ex, ex.Message);
+                return false;
+            }
+        }
     }
 }

@@ -36,16 +36,18 @@ namespace Files.UserControls.Settings
         {
             if (SampleTheme.Path != null)
             {
-                var resources = await App.ExternalResourcesHelper.TryLoadResourceDictionary(SampleTheme);
+                var resources = await Filesystem.FilesystemTasks.Wrap(() => App.ExternalResourcesHelper.TryLoadResourceDictionary(SampleTheme));
                 if (resources != null)
                 {
                     Resources.MergedDictionaries.Add(resources);
                     RequestedTheme = ElementTheme.Dark;
                     RequestedTheme = ElementTheme.Light;
                     RequestedTheme = ThemeHelper.RootTheme;
+                    return true;
                 }
             }
-            return true;
+            App.Logger.Warn($"Invalid theme: {SampleTheme.Path}");
+            return false;
         }
     }
 }
