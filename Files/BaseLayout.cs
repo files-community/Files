@@ -222,6 +222,7 @@ namespace Files
                         IsItemSelected = false;
                         SelectedItem = null;
                         SelectedItemsPropertiesViewModel.IsItemSelected = false;
+                        ResetRenameDoubleClick();
                     }
                     else
                     {
