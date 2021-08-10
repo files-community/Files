@@ -256,6 +256,42 @@
                             </Border>
                         </DataTemplate>
                     </ListView.ItemTemplate>
+
+                    <ListView.Footer>
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBlock Text="Apply to all" />
+                            <!--  Split with options  -->
+                            <muxc:SplitButton
+                                x:Name="Split"
+                                x:Uid="ConflictingItemsDialogItemDefaultOption"
+                                Grid.RowSpan="2"
+                                Grid.Column="2"
+                                Command="{x:Bind ViewModel.ApplyToAllCommand}"
+                                CommandParameter="0"
+                                Content="Generate new name"
+                                Visibility="{x:Bind ViewModel.MustResolveConflicts, Mode=OneWay}">
+                                <muxc:SplitButton.Flyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem
+                                            x:Uid="ConflictingItemsDialogItemOptionGenerateNewName"
+                                            Command="{x:Bind ViewModel.ApplyToAllCommand}"
+                                            CommandParameter="0"
+                                            Text="Generate new name" />
+                                        <MenuFlyoutItem
+                                            x:Uid="ConflictingItemsDialogItemOptionReplaceExisting"
+                                            Command="{x:Bind ViewModel.ApplyToAllCommand}"
+                                            CommandParameter="1"
+                                            Text="Replace" />
+                                        <MenuFlyoutItem
+                                            x:Uid="ConflictingItemsDialogItemOptionSkip"
+                                            Command="{x:Bind ViewModel.ApplyToAllCommand}"
+                                            CommandParameter="2"
+                                            Text="Skip" />
+                                    </MenuFlyout>
+                                </muxc:SplitButton.Flyout>
+                            </muxc:SplitButton>
+                        </StackPanel>
+                    </ListView.Footer>
                 </ListView>
             </Grid>
         </StackPanel>
