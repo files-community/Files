@@ -4,6 +4,7 @@ using Files.Filesystem;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 
@@ -76,6 +77,13 @@ namespace Files.Helpers
                 }
 
                 tipText.Opacity = 0.0d;
+            };
+
+            inputText.Loaded += async (s, e) =>
+            {
+                // without the short delay the primary button will steal focus from the text box
+                await Task.Delay(5);
+                _ = inputText.Focus(Windows.UI.Xaml.FocusState.Programmatic);
             };
 
             dialog = new DynamicDialog(new DynamicDialogViewModel()

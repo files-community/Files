@@ -258,7 +258,7 @@
                     </ListView.ItemTemplate>
 
                     <ListView.Footer>
-                        <StackPanel Orientation="Horizontal" Spacing="4">
+                        <StackPanel Orientation="Vertical" Spacing="4">
                             <TextBlock Text="Apply to all" />
                             <!--  Split with options  -->
                             <muxc:SplitButton
