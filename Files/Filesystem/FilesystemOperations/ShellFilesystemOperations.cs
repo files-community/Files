@@ -243,7 +243,8 @@ namespace Files.Filesystem
             else
             {
                 // Retry failed operations
-                var failedSources = deleteResult.Items.Where(x => source.Select(s => s.Path).Contains(x.Source)).Where(x => !x.Succeeded && x.HRresult != HRESULT.COPYENGINE_E_USER_CANCELLED);
+                var failedSources = deleteResult.Items.Where(x => source.Select(s => s.Path).Contains(x.Source))
+                    .Where(x => !x.Succeeded && x.HRresult != HRESULT.COPYENGINE_E_USER_CANCELLED && x.HRresult != HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND);
                 return await filesystemOperations.DeleteItemsAsync(
                     failedSources.Select(x => source.Single(s => s.Path == x.Source)), progress, errorCode, permanently, cancellationToken);
             }
@@ -495,6 +496,7 @@ namespace Files.Filesystem
         {
             public const int S_OK = 0;
             public const int COPYENGINE_E_USER_CANCELLED = -2144927744;
+            public const int COPYENGINE_E_RECYCLE_BIN_NOT_FOUND = -2144927686;
         }
 
         #region IDisposable

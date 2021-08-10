@@ -146,6 +146,13 @@ namespace FilesFullTrust.MessageHandlers
 
                                 handleTable.SetValue(operationID, false);
                                 var deleteTcs = new TaskCompletionSource<bool>();
+                                op.PreDeleteItem += (s, e) =>
+                                {
+                                    if (!permanently && !e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
+                                    {
+                                        throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND); // E_FAIL, stops operation
+                                    }
+                                };
                                 op.PostDeleteItem += (s, e) =>
                                 {
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
