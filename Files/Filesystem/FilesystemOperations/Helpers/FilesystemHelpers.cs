@@ -107,7 +107,7 @@ namespace Files.Filesystem
             var returnStatus = ReturnResult.InProgress;
 
             var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => recycleBinHelpers.IsPathUnderRecycleBin(path));
-            var canBeSentToBin = !deleteFromRecycleBin && !source.Any(x => string.IsNullOrEmpty(x.Path) || x.Path.StartsWith(@"\\?\"));
+            var canBeSentToBin = !deleteFromRecycleBin && await recycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
 
             if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
@@ -269,7 +269,7 @@ namespace Files.Filesystem
         {
             PostedStatusBanner banner;
             bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
-            var canBeSentToBin = !deleteFromRecycleBin && !string.IsNullOrEmpty(source.Path) && !source.Path.StartsWith(@"\\?\");
+            var canBeSentToBin = !deleteFromRecycleBin && await recycleBinHelpers.HasRecycleBin(source.Path);
 
             if (!canBeSentToBin)
             {
@@ -366,7 +366,7 @@ namespace Files.Filesystem
         {
             PostedStatusBanner banner;
             bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
-            var canBeSentToBin = !deleteFromRecycleBin && !string.IsNullOrEmpty(source.Path) && !source.Path.StartsWith(@"\\?\");
+            var canBeSentToBin = !deleteFromRecycleBin && await recycleBinHelpers.HasRecycleBin(source.Path);
 
             if (!canBeSentToBin)
             {
