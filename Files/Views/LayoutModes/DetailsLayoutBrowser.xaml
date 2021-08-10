@@ -819,6 +819,7 @@
 
                                                                 <ContentPresenter
                                                                     Grid.Row="1"
+                                                                    Grid.ColumnSpan="2"
                                                                     Padding="8,0,8,8"
                                                                     Content="{TemplateBinding Footer}" />
                                                             </Grid>
