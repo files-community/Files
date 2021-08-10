@@ -97,5 +97,26 @@ namespace Files.Helpers
                 }
             }
         }
+
+        public async Task<bool> HasRecycleBin(string path)
+        {
+            if (string.IsNullOrEmpty(path) || path.StartsWith(@"\\?\"))
+            {
+                return false;
+            }
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                var value = new ValueSet
+                {
+                    { "Arguments", "RecycleBin" },
+                    { "action", "Query" },
+                    { "drive", path }
+                };
+                var (status, response) = await connection.SendMessageForResponseAsync(value);
+                return status == AppServiceResponseStatus.Success && response.Get("HasRecycleBin", false);
+            }
+            return false;
+        }
     }
 }
