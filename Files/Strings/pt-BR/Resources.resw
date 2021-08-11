@@ -2608,4 +2608,31 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Mostrar seção de favoritos na barra lateral</value>
   </data>
+  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
+    <value>Etiqueta de arquivo</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
+    <value>Etiqueta de arquivo</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
+    <value>Abrir local do arquivo</value>
+  </data>
+  <data name="FileTagUnknown" xml:space="preserve">
+    <value>Desconhecida</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
+    <value>Etiqueta de arquivo</value>
+  </data>
+  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
+    <value>Editar etiquetas de arquivo</value>
+  </data>
+  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Editar etiquetas de arquivo</value>
+  </data>
+  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+    <value>Editar etiquetas de arquivo</value>
+  </data>
+  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
+    <value>Habilitar etiquetas de arquivo</value>
+  </data>
 </root>

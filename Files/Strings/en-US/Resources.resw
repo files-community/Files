@@ -2740,16 +2740,16 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Show Favorites section on the sidebar</value>
   </data>
-  <data name="InsertADiscDialog.CloseDialogButton" xml:space="preserve">
+  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
     <value>Close</value>
   </data>
-  <data name="InsertADiscDialog.OpenDriveButton" xml:space="preserve">
+  <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Open Drive</value>
   </data>
-  <data name="InsertADiscDialog.Text" xml:space="preserve">
+  <data name="InsertDiscDialog.Text" xml:space="preserve">
     <value>Please insert a disc into drive {0}</value>
   </data>
-  <data name="InsertADiscDialog.Title" xml:space="preserve">
+  <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Insert a disc</value>
   </data>
 </root>
