@@ -337,7 +337,7 @@ namespace Files.UserControls
         {
             var properties = e.GetCurrentPoint(null).Properties;
             var context = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext;
-            if (properties.IsMiddleButtonPressed && context is INavigationControlItem item && item.Path!=null)
+            if (properties.IsMiddleButtonPressed && context is INavigationControlItem item && item.Path != null)
             {
                 if (item is DriveItem)
                 {
@@ -853,7 +853,8 @@ namespace Files.UserControls
                     SetSize(step, true);
                     e.Handled = true;
                 }
-            } else if(e.Key == VirtualKey.Right)
+            }
+            else if (e.Key == VirtualKey.Right)
             {
                 IsPaneOpen = !IsPaneOpen;
                 return;
