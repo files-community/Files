@@ -794,6 +794,16 @@ namespace Files.ViewModels
                     var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
                     if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
                     {
+                        var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path)));
+                        if (matchingDrive != null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
+                        {
+                            bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertADiscDialog/OpenDriveButton".GetLocalized(), "InsertADiscDialog/CloseDialogButton".GetLocalized());
+                            if (ejectButton)
+                            {
+                                await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                            }
+                            return;
+                        }
                         var pathToNavigate = resFolder.Result?.Path ?? currentInput;
                         shellPage.NavigateToPath(pathToNavigate);
                     }

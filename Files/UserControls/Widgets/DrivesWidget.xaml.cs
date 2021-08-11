@@ -3,11 +3,13 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels;
 using Files.ViewModels.Widgets;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
@@ -71,12 +73,20 @@ namespace Files.UserControls.Widgets
         private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            if (await CheckEmptyDrive(item.Path))
+            {
+                return;
+            }
             await NavigationHelpers.OpenPathInNewTab(item.Path);
         }
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            if (await CheckEmptyDrive(item.Path))
+            {
+                return;
+            }
             await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
         }
 
@@ -88,10 +98,13 @@ namespace Files.UserControls.Widgets
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            string NavigationPath = ""; // path to navigate
             string ClickedCard = (sender as Button).Tag.ToString();
+            string NavigationPath = ClickedCard; // path to navigate
 
-            NavigationPath = ClickedCard;
+            if (await CheckEmptyDrive(NavigationPath))
+            {
+                return;
+            }
 
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             if (ctrlPressed)
@@ -111,6 +124,10 @@ namespace Files.UserControls.Widgets
             if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
             {
                 string navigationPath = (sender as Button).Tag.ToString();
+                if (await CheckEmptyDrive(navigationPath))
+                {
+                    return;
+                }
                 await NavigationHelpers.OpenPathInNewTab(navigationPath);
             }
         }
@@ -125,9 +142,13 @@ namespace Files.UserControls.Widgets
             get => AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false;
         }
 
-        private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
+        private async void OpenInNewPane_Click(object sender, RoutedEventArgs e)
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            if (await CheckEmptyDrive(item.Path))
+            {
+                return;
+            }
             DrivesWidgetNewPaneInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs()
             {
                 Path = item.Path
@@ -172,6 +193,24 @@ namespace Files.UserControls.Widgets
         private async void GoToStorageSense_Click(object sender, RoutedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri("ms-settings:storagesense"));
+        }
+
+        private async Task<bool> CheckEmptyDrive(string drivePath)
+        {
+            if (drivePath is not null)
+            {
+                var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path));
+                if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
+                {
+                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertADiscDialog/OpenDriveButton".GetLocalized(), "InsertADiscDialog/CloseDialogButton".GetLocalized());
+                    if (ejectButton)
+                    {
+                        await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                    }
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void Dispose()
