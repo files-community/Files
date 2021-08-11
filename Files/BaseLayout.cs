@@ -548,7 +548,7 @@ namespace Files
             {
                 if (BaseContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
                 {
-                    itc.MaxHeight = 480;
+                    itc.MaxHeight = 480; // Reset menu max height
                 }
                 shellContextMenuItemCancellationToken?.Cancel();
                 shellContextMenuItemCancellationToken = new CancellationTokenSource();
@@ -562,7 +562,7 @@ namespace Files
                     (i as AppBarButton).Click += new RoutedEventHandler((s, e) => BaseContextMenuFlyout.Hide());  // Workaround for WinUI (#5508)
                 });
                 primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
-                secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250);
+                secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250); // Set menu min width
                 secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
 
                 if (!InstanceViewModel.IsPageTypeSearchResults)
@@ -586,7 +586,7 @@ namespace Files
         {
             if (ItemContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
             {
-                itc.MaxHeight = 480;
+                itc.MaxHeight = 480; // Reset menu max height
             }
             shellContextMenuItemCancellationToken?.Cancel();
             shellContextMenuItemCancellationToken = new CancellationTokenSource();
@@ -601,7 +601,7 @@ namespace Files
                 (i as AppBarButton).Click += new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide()); // Workaround for WinUI (#5508)
             });
             primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
-            secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250);
+            secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250); // Set menu min width
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 
             if (AppSettings.AreFileTagsEnabled && !InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin)
@@ -644,15 +644,14 @@ namespace Files
             var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
             var mainItems = ItemModelListToContextFlyoutHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
 
-            // Workaround for #5555
             var openedPopups = Windows.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(Window.Current);
             var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
             var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
             if (itemsControl is not null)
             {
                 contextMenuFlyout.SetValue(ContextMenuExtensions.ItemsControlProperty, itemsControl);
-                itemsControl.MaxHeight = Math.Min(480, itemsControl.ActualHeight);
-                mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - 10);
+                itemsControl.MaxHeight = Math.Min(480, itemsControl.ActualHeight); // Set menu max height to current height (avoids menu repositioning)
+                mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - 10); // Set items max width to current menu width (#5555)
             }
 
             var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
@@ -705,14 +704,29 @@ namespace Files
                 openWithOverflow.Visibility = Visibility.Visible;
             }
 
-            // Workaround for #5555
             if (itemsControl is not null)
             {
                 itemsControl.Items.OfType<FrameworkElement>().ForEach(item =>
                 {
-                    if (item.FindDescendant("OverflowTextLabel") is TextBlock label)
+                    if (item.FindDescendant("OverflowTextLabel") is TextBlock label) // Enable CharacterEllipsis text trimming for menu items
                     {
                         label.TextTrimming = TextTrimming.CharacterEllipsis;
+                    }
+                    if ((item as AppBarButton)?.Flyout as MenuFlyout is MenuFlyout flyout) // Close main menu when clicking on subitems (#5508)
+                    {
+                        Action<IList<MenuFlyoutItemBase>> clickAction = null;
+                        clickAction = (items) =>
+                        {
+                            items.OfType<MenuFlyoutItem>().ForEach(i =>
+                            {
+                                i.Click += new RoutedEventHandler((s, e) => contextMenuFlyout.Hide());
+                            });
+                            items.OfType<MenuFlyoutSubItem>().ForEach(i =>
+                            {
+                                clickAction(i.Items);
+                            });
+                        };
+                        clickAction(flyout.Items);
                     }
                 });
             }
