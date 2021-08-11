@@ -9,6 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:vc="using:Files.Converters"
+    x:Name="RootDialog"
     Title="{x:Bind ViewModel.Title, Mode=OneWay}"
     CornerRadius="{StaticResource OverlayCornerRadius}"
     DefaultButton="Primary"
@@ -30,25 +31,31 @@
     <ContentDialog.Resources>
         <ResourceDictionary>
             <x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
-            <MenuFlyout x:Key="ItemContextFlyout" Placement="Bottom">
+            <MenuFlyout
+                x:Key="ItemContextFlyout"
+                Opening="MenuFlyout_Opening"
+                Placement="Bottom">
                 <MenuFlyoutItem
                     x:Uid="ConflictingItemsDialogOptionGenerateNewName"
                     Click="MenuFlyoutItem_Click"
-                    Command="{Binding OptionGenerateNewNameCommand}"
                     Tag="0"
                     Text="Generate new name" />
                 <MenuFlyoutItem
                     x:Uid="ConflictingItemsDialogOptionReplaceExisting"
                     Click="MenuFlyoutItem_Click"
-                    Command="{Binding OptionReplaceExistingCommand}"
                     Tag="1"
                     Text="Replace existing" />
                 <MenuFlyoutItem
                     x:Uid="ConflictingItemsDialogOptionSkip"
                     Click="MenuFlyoutItem_Click"
-                    Command="{Binding OptionSkipCommand}"
                     Tag="2"
                     Text="Skip" />
+                <MenuFlyoutSeparator x:Name="ApplyToAllSeparator" />
+                <MenuFlyoutItem
+                    x:Name="ApplyToAllOption"
+                    Click="MenuFlyoutItem_Click"
+                    Tag="All"
+                    Text="Apply to all" />
             </MenuFlyout>
         </ResourceDictionary>
     </ContentDialog.Resources>
@@ -259,60 +266,6 @@
                             </Border>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-
-                    <ListView.Header>
-                        <Grid Margin="24,0,0,4" ColumnSpacing="12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="16" />
-                                <RowDefinition Height="20" />
-                            </Grid.RowDefinitions>
-                            <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Margin="8,0,0,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                FontWeight="Bold"
-                                Text="Apply to all" />
-
-                            <!--  Split with options  -->
-                            <muxc:SplitButton
-                                x:Name="Split"
-                                x:Uid="ConflictingItemsDialogItemDefaultOption"
-                                Grid.RowSpan="2"
-                                Grid.Column="2"
-                                Margin="14,0,0,0"
-                                Command="{x:Bind ViewModel.ApplyToAllCommand}"
-                                CommandParameter="0"
-                                Content="Generate new name"
-                                Visibility="{x:Bind ViewModel.MustResolveConflicts, Mode=OneWay}">
-                                <muxc:SplitButton.Flyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem
-                                            x:Uid="ConflictingItemsDialogItemOptionGenerateNewName"
-                                            Command="{x:Bind ViewModel.ApplyToAllCommand}"
-                                            CommandParameter="0"
-                                            Text="Generate new name" />
-                                        <MenuFlyoutItem
-                                            x:Uid="ConflictingItemsDialogItemOptionReplaceExisting"
-                                            Command="{x:Bind ViewModel.ApplyToAllCommand}"
-                                            CommandParameter="1"
-                                            Text="Replace" />
-                                        <MenuFlyoutItem
-                                            x:Uid="ConflictingItemsDialogItemOptionSkip"
-                                            Command="{x:Bind ViewModel.ApplyToAllCommand}"
-                                            CommandParameter="2"
-                                            Text="Skip" />
-                                    </MenuFlyout>
-                                </muxc:SplitButton.Flyout>
-                            </muxc:SplitButton>
-                        </Grid>
-                    </ListView.Header>
 
                     <ListView.ItemContainerStyle>
                         <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">

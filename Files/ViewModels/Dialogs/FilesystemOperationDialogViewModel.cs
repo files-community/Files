@@ -122,7 +122,7 @@ namespace Files.ViewModels.Dialogs
             });
         }
 
-        private void ApplyConflictOptionToAll(FileNameConflictResolveOptionType e)
+        public void ApplyConflictOptionToAll(FileNameConflictResolveOptionType e)
         {
             foreach (var item in Items)
             {
