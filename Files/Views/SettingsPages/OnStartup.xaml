@@ -64,13 +64,10 @@
                     GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{Binding OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                <Grid
-                    Width="Auto"
-                    HorizontalAlignment="Left"
-                    Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
+                <Grid HorizontalAlignment="Stretch" Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition MinWidth="100" />
-                        <ColumnDefinition MinWidth="240" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />

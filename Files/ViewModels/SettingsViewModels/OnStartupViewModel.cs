@@ -39,7 +39,7 @@ namespace Files.ViewModels.SettingsViewModels
 
             PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
-            var recentsItem = new MenuFlyoutSubItemViewModel("RecentLocations".GetLocalized());
+            var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalized());
             recentsItem.Items.Add(new MenuFlyoutItemViewModel("SidebarHome".GetLocalized(), "Home".GetLocalized(), AddPageCommand));
             PopulateRecentItems(recentsItem);
 
