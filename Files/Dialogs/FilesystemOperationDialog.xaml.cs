@@ -1,5 +1,6 @@
 ﻿using Files.Enums;
 using Files.ViewModels.Dialogs;
+using Microsoft.Toolkit.Uwp.UI;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml.Controls;
@@ -51,6 +52,11 @@ namespace Files.Dialogs
 
         private void MenuFlyout_Opening(object sender, object e)
         {
+            if(!ViewModel.MustResolveConflicts)
+            {
+                return;
+            }
+
             if (((sender as MenuFlyout)?.Target as ListViewItem)?.Content is FilesystemOperationItemViewModel li)
             {
                 if(!DetailsGrid.SelectedItems.Contains(li))
@@ -68,6 +74,15 @@ namespace Files.Dialogs
             {
                 ApplyToAllOption.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 ApplyToAllSeparator.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            }
+        }
+
+        private void Grid_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            // if there are conflicts to be resolved, apply the conflict context flyout
+            if(ViewModel.MustResolveConflicts)
+            {
+                (sender as Grid).FindAscendant<ListViewItem>().ContextFlyout = ItemContextFlyout;
             }
         }
     }
