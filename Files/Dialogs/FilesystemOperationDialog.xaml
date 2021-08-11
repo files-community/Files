@@ -53,6 +53,7 @@
                 <MenuFlyoutSeparator x:Name="ApplyToAllSeparator" />
                 <MenuFlyoutItem
                     x:Name="ApplyToAllOption"
+                    x:Uid="ConfictingItemsDialogOptionApplyToAll"
                     Click="MenuFlyoutItem_Click"
                     Tag="All"
                     Text="Apply to all" />
