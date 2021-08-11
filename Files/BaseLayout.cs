@@ -543,6 +543,10 @@ namespace Files
         {
             try
             {
+                if (BaseContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
+                {
+                    itc.MaxHeight = 480;
+                }
                 shellContextMenuItemCancellationToken?.Cancel();
                 shellContextMenuItemCancellationToken = new CancellationTokenSource();
                 var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
@@ -555,6 +559,7 @@ namespace Files
                     (i as AppBarButton).Click += new RoutedEventHandler((s, e) => BaseContextMenuFlyout.Hide());  // Workaround for WinUI (#5508)
                 });
                 primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
+                secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250);
                 secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
 
                 if (!InstanceViewModel.IsPageTypeSearchResults)
@@ -576,6 +581,10 @@ namespace Files
 
         private async Task LoadMenuItemsAsync()
         {
+            if (ItemContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
+            {
+                itc.MaxHeight = 480;
+            }
             shellContextMenuItemCancellationToken?.Cancel();
             shellContextMenuItemCancellationToken = new CancellationTokenSource();
             SelectedItemsPropertiesViewModel.CheckFileExtension(SelectedItem?.FileExtension);
@@ -589,6 +598,7 @@ namespace Files
                 (i as AppBarButton).Click += new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide()); // Workaround for WinUI (#5508)
             });
             primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
+            secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250);
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 
             if (AppSettings.AreFileTagsEnabled && !InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin)
@@ -630,6 +640,17 @@ namespace Files
 
             var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
             var mainItems = ItemModelListToContextFlyoutHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
+
+            // Workaround for #5555
+            var openedPopups = Windows.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(Window.Current);
+            var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
+            var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
+            if (itemsControl is not null)
+            {
+                contextMenuFlyout.SetValue(ContextMenuExtensions.ItemsControlProperty, itemsControl);
+                itemsControl.MaxHeight = Math.Min(480, itemsControl.ActualHeight);
+                mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - 10);
+            }
 
             var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
             if (overflowItem is not null)
@@ -682,23 +703,15 @@ namespace Files
             }
 
             // Workaround for #5555
-            var openedPopups = Windows.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(Window.Current);
-            var menu = openedPopups.FirstOrDefault(popup => popup.Child is FlyoutPresenter);
-            var commandBar = (menu?.Child as FlyoutPresenter)?.Content as Microsoft.UI.Xaml.Controls.Primitives.CommandBarFlyoutCommandBar;
-            if (commandBar != null)
+            if (itemsControl is not null)
             {
-                var desiredWidth = commandBar.SecondaryCommands.OfType<AppBarButton>().Select(x =>
+                itemsControl.Items.OfType<FrameworkElement>().ForEach(item =>
                 {
-                    x.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-                    return x.DesiredSize.Width;
-                });
-                if (desiredWidth.Any())
-                {
-                    if (commandBar.FindDescendant<ItemsControl>() is ItemsControl itemsControl)
+                    if (item.FindDescendant("OverflowTextLabel") is TextBlock label)
                     {
-                        itemsControl.MinWidth = Math.Min(commandBar.MaxWidth, desiredWidth.Max());
+                        label.TextTrimming = TextTrimming.CharacterEllipsis;
                     }
-                }
+                });
             }
         }
 
@@ -1020,5 +1033,21 @@ namespace Files
         {
             preRenamingItem = null;
         }
+    }
+
+    public class ContextMenuExtensions : DependencyObject
+    {
+        public static ItemsControl GetItemsControl(DependencyObject obj)
+        {
+            return (ItemsControl)obj.GetValue(ItemsControlProperty);
+        }
+
+        public static void SetItemsControl(DependencyObject obj, ItemsControl value)
+        {
+            obj.SetValue(ItemsControlProperty, value);
+        }
+
+        public static readonly DependencyProperty ItemsControlProperty =
+            DependencyProperty.RegisterAttached("ItemsControl", typeof(ItemsControl), typeof(ContextMenuExtensions), new PropertyMetadata(null));
     }
 }

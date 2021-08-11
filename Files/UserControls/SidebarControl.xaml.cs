@@ -339,8 +339,8 @@ namespace Files.UserControls
             if (properties.IsMiddleButtonPressed && context is INavigationControlItem item)
             {
                 IsInPointerPressed = true;
-                await NavigationHelpers.OpenPathInNewTab(item.Path);
                 e.Handled = true;
+                await NavigationHelpers.OpenPathInNewTab(item.Path);
             }
         }
 
