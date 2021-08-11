@@ -3486,7 +3486,7 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
         </trans-unit>
         <trans-unit id="FileTagUnknown" translate="yes" xml:space="preserve">
           <source>Unknown</source>
-          <target state="new">Unknown</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">desconocido</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
@@ -3510,7 +3510,7 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
         </trans-unit>
         <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
           <source>Close</source>
-          <target state="new">Close</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">cerrar</target>
         </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>

@@ -2635,4 +2635,10 @@
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
     <value>Ενεργοποίηση ετικετών αρχείων</value>
   </data>
+  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
+    <value>Κλείσιμο</value>
+  </data>
+  <data name="InsertDiscDialog.Title" xml:space="preserve">
+    <value>Εισαγάγετε ένα δίσκο</value>
+  </data>
 </root>

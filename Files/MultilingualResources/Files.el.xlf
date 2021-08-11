@@ -3510,7 +3510,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         </trans-unit>
         <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
           <source>Close</source>
-          <target state="new">Close</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Κλείσιμο</target>
         </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
@@ -3522,7 +3522,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         </trans-unit>
         <trans-unit id="InsertDiscDialog.Title" translate="yes" xml:space="preserve">
           <source>Insert a disc</source>
-          <target state="new">Insert a disc</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Εισαγάγετε ένα δίσκο</target>
         </trans-unit>
       </group>
     </body>
