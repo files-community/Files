@@ -1,4 +1,5 @@
-﻿using Files.ViewModels.Dialogs;
+﻿using Files.Enums;
+using Files.ViewModels.Dialogs;
 using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
 
@@ -22,6 +23,18 @@ namespace Files.Dialogs
 
             ViewModel = viewModel;
             ViewModel.View = this;
+        }
+
+        private void MenuFlyoutItem_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var op = (FileNameConflictResolveOptionType)int.Parse((sender as MenuFlyoutItem).Tag as string);
+            foreach (var item in DetailsGrid.SelectedItems)
+            {
+                if(item is FilesystemOperationItemViewModel model)
+                {
+                    model.TakeAction(op);
+                }
+            }
         }
     }
 
