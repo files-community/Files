@@ -196,11 +196,16 @@ namespace Files.DataModels.NavigationControlItems
                         PercentageUsed = 100.0f - ((float)(FreeSpace.Bytes / MaxSpace.Bytes) * 100.0f);
                     }
                 }
+                else
+                {
+                    SpaceText = "DriveCapacityUnknown".GetLocalized();
+                    MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
+                }
             }
             catch (Exception)
             {
                 SpaceText = "DriveCapacityUnknown".GetLocalized();
-                SpaceUsed = ByteSize.FromBytes(0);
+                MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
             }
         }
 

@@ -178,9 +178,6 @@ namespace Files.ViewModels
 
         public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
         {
-            Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            fontIconSource.FontFamily = App.MainViewModel.FontName;
-
             if (string.IsNullOrEmpty(path))
             {
                 path = "NewTab".GetLocalized();
@@ -189,7 +186,7 @@ namespace Files.ViewModels
             TabItem tabItem = new TabItem()
             {
                 Header = null,
-                IconSource = fontIconSource,
+                IconSource = null,
                 Description = null
             };
             tabItem.Control.NavigationArguments = new TabItemArguments()

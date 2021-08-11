@@ -121,6 +121,7 @@ namespace FilesFullTrust.MessageHandlers
                         var fileToDeletePath = ((string)message["filepath"]).Split('|');
                         var permanently = (bool)message["permanently"];
                         var operationID = (string)message["operationID"];
+                        var ownerHwnd = (long)message["HWND"];
                         var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
                             using (var op = new ShellFileOperations())
@@ -128,6 +129,7 @@ namespace FilesFullTrust.MessageHandlers
                                 op.Options = ShellFileOperations.OperationFlags.Silent
                                             | ShellFileOperations.OperationFlags.NoConfirmation
                                             | ShellFileOperations.OperationFlags.NoErrorUI;
+                                op.OwnerWindow = Win32API.Win32Window.FromLong(ownerHwnd);
                                 if (!permanently)
                                 {
                                     op.Options |= ShellFileOperations.OperationFlags.RecycleOnDelete
@@ -144,6 +146,13 @@ namespace FilesFullTrust.MessageHandlers
 
                                 handleTable.SetValue(operationID, false);
                                 var deleteTcs = new TaskCompletionSource<bool>();
+                                op.PreDeleteItem += (s, e) =>
+                                {
+                                    if (!permanently && !e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
+                                    {
+                                        throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND); // E_FAIL, stops operation
+                                    }
+                                };
                                 op.PostDeleteItem += (s, e) =>
                                 {
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()

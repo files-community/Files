@@ -2,7 +2,6 @@
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -13,6 +12,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
@@ -22,8 +22,6 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Shapes;
 
 namespace Files.UserControls
 {
@@ -321,10 +319,16 @@ namespace Files.UserControls
                 return;
             }
 
-            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            if (ctrlPressed && !(args.InvokedItemContainer.Tag is null))
+            string navigationPath = args.InvokedItemContainer.Tag?.ToString();
+
+            if (await CheckEmptyDrive(navigationPath))
             {
-                string navigationPath = args.InvokedItemContainer.Tag.ToString();
+                return;
+            }
+
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            if (ctrlPressed && navigationPath is not null)
+            {
                 await NavigationHelpers.OpenPathInNewTab(navigationPath);
                 return;
             }
@@ -336,11 +340,15 @@ namespace Files.UserControls
         {
             var properties = e.GetCurrentPoint(null).Properties;
             var context = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext;
-            if (properties.IsMiddleButtonPressed && context is INavigationControlItem item)
+            if (properties.IsMiddleButtonPressed && context is INavigationControlItem item && item.Path != null)
             {
+                if (await CheckEmptyDrive(item.Path))
+                {
+                    return;
+                }
                 IsInPointerPressed = true;
-                await NavigationHelpers.OpenPathInNewTab(item.Path);
                 e.Handled = true;
+                await NavigationHelpers.OpenPathInNewTab(item.Path);
             }
         }
 
@@ -448,11 +456,19 @@ namespace Files.UserControls
 
         private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
+            if (await CheckEmptyDrive(RightClickedItem.Path))
+            {
+                return;
+            }
             await NavigationHelpers.OpenPathInNewTab(RightClickedItem.Path);
         }
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
         {
+            if (await CheckEmptyDrive(RightClickedItem.Path))
+            {
+                return;
+            }
             await NavigationHelpers.OpenPathInNewWindowAsync(RightClickedItem.Path);
         }
 
@@ -813,7 +829,8 @@ namespace Files.UserControls
                     SetSize(step, true);
                     e.Handled = true;
                 }
-            } else if(e.Key == VirtualKey.Right)
+            }
+            else if (e.Key == VirtualKey.Right)
             {
                 IsPaneOpen = !IsPaneOpen;
                 return;
@@ -896,9 +913,13 @@ namespace Files.UserControls
             IsPaneOpen = !IsPaneOpen;
         }
 
-        private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
+        private async void OpenInNewPane_Click(object sender, RoutedEventArgs e)
         {
             var item = (sender as MenuFlyoutItem).DataContext;
+            if (await CheckEmptyDrive((item as INavigationControlItem)?.Path))
+            {
+                return;
+            }
             SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(item));
         }
 
@@ -911,6 +932,24 @@ namespace Files.UserControls
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPressed", true);
                 dragging = true;
             }
+        }
+
+        private async Task<bool> CheckEmptyDrive(string drivePath)
+        {
+            if (drivePath is not null)
+            {
+                var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path));
+                if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
+                {
+                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "InsertDiscDialog/CloseDialogButton".GetLocalized());
+                    if (ejectButton)
+                    {
+                        await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                    }
+                    return true;
+                }
+            }
+            return false;
         }
     }
 

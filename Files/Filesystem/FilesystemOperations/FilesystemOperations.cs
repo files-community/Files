@@ -5,6 +5,7 @@ using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.Interacts;
 using Microsoft.Toolkit.Uwp;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -559,7 +560,8 @@ namespace Files.Filesystem
             if (fsResult == FileSystemStatusCode.Unauthorized)
             {
                 // Try again with fulltrust process (non admin: for shortcuts and hidden files)
-                var connection = await AppServiceConnectionHelper.Instance;
+                // Not neeeded if called after trying with ShellFilesystemOperations
+                /*var connection = await AppServiceConnectionHelper.Instance;
                 if (connection != null)
                 {
                     var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
@@ -568,11 +570,14 @@ namespace Files.Filesystem
                         { "fileop", "DeleteItem" },
                         { "operationID", Guid.NewGuid().ToString() },
                         { "filepath", source.Path },
-                        { "permanently", permanently }
+                        { "permanently", permanently },
+                        { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                     });
                     fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
                         && response.Get("Success", false));
-                }
+                    var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", "{\"Items\": []}"));
+                    fsResult &= (FilesystemResult)shellOpResult.Items.All(x => x.Succeeded);
+                }*/
                 if (!fsResult)
                 {
                     fsResult = await PerformAdminOperation(new ValueSet()
@@ -581,7 +586,8 @@ namespace Files.Filesystem
                         { "fileop", "DeleteItem" },
                         { "operationID", Guid.NewGuid().ToString() },
                         { "filepath", source.Path },
-                        { "permanently", permanently }
+                        { "permanently", permanently },
+                        { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                     });
                 }
             }
@@ -902,8 +908,10 @@ namespace Files.Filesystem
                     if (connection != null)
                     {
                         var (status, response) = await connection.SendMessageForResponseAsync(operation);
-                        return (FilesystemResult)(status == AppServiceResponseStatus.Success
+                        var fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
                             && response.Get("Success", false));
+                        var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", "{\"Items\": []}"));
+                        fsResult &= (FilesystemResult)shellOpResult.Items.All(x => x.Succeeded);
                     }
                 }
             }
