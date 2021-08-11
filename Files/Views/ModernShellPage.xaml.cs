@@ -1,6 +1,4 @@
-﻿using ByteSizeLib;
-using Files.Common;
-using Files.DataModels;
+﻿using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
 using Files.EventArguments;
@@ -15,7 +13,6 @@ using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -1072,7 +1069,7 @@ namespace Files.Views
             NavigateToPath(navigationPath, FolderSettings.GetLayoutType(navigationPath), navArgs);
         }
 
-        public async void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
+        public void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
         {
             if (sourcePageType == null && !string.IsNullOrEmpty(navigationPath))
             {
@@ -1108,27 +1105,6 @@ namespace Files.Views
                     (sourcePageType == typeof(DetailsLayoutBrowser) || sourcePageType == typeof(GridViewBrowser)))
                 {
                     transition = new EntranceNavigationTransitionInfo();
-                }
-
-                if (!navigationPath.StartsWith(FilesystemViewModel.WorkingDirectory))
-                {
-                    var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(navigationPath));
-                    StorageFolder diskRoot = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(navigationPath, item));
-                    var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => navigationPath.StartsWith(x.Path));
-                    if (matchingDrive != null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSize.FromBytes(0))
-                    {
-                        bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertADiscDialog/Title".GetLocalized(), string.Format("InsertADiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertADiscDialog/OpenDriveButton".GetLocalized(), "InsertADiscDialog/CloseDialogButton".GetLocalized());
-                        if (ejectButton)
-                        {
-                           await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
-                        }
-                        if (string.Equals(FilesystemViewModel.WorkingDirectory, "Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
-                        {
-                            return;
-                        }
-                        navigationPath = FilesystemViewModel.WorkingDirectory;
-                        sourcePageType = InstanceViewModel.FolderSettings.GetLayoutType(navigationPath);
-                    }
                 }
 
                 ItemDisplayFrame.Navigate(
