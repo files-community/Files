@@ -52,11 +52,11 @@
         <DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="local2:ListedItem">
             <Grid
                 x:Name="GridViewBrowserListedItem"
-                tui:FrameworkElementExtensions.EnableActualSizeBinding="True"
-                MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                 Height="Auto"
+                MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
+                tui:FrameworkElementExtensions.EnableActualSizeBinding="True"
                 Background="Transparent"
                 IsRightTapEnabled="True"
                 Loaded="Grid_Loaded"
@@ -150,7 +150,7 @@
                 </Grid>
                 <Grid
                     Grid.Row="1"
-                    MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}" 
+                    MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                     Margin="5,0,5,10"
                     HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
@@ -194,10 +194,10 @@
                     <TextBox
                         x:Name="GridViewTextBoxItemName"
                         Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
-                        Background="{ThemeResource SolidBackgroundFillColorSecondary}"
                         Margin="0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        Background="{ThemeResource SolidBackgroundFillColorSecondary}"
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         TextAlignment="Center"
                         TextChanged="GridViewTextBoxItemName_TextChanged"
@@ -224,6 +224,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <StackPanel
+                    Width="20"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
                     Orientation="Vertical">
@@ -346,6 +347,7 @@
                         <TextBlock
                             HorizontalAlignment="Left"
                             Opacity="0.6"
+                            Style="{StaticResource CaptionTextBlockStyle}"
                             Text="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             TextAlignment="Left"
                             TextTrimming="CharacterEllipsis"
@@ -353,6 +355,7 @@
                         <TextBlock
                             HorizontalAlignment="Left"
                             Opacity="0.6"
+                            Style="{StaticResource CaptionTextBlockStyle}"
                             Text="{x:Bind FileSize}"
                             TextAlignment="Left"
                             TextTrimming="CharacterEllipsis"

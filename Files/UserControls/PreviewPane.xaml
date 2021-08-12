@@ -175,8 +175,7 @@
                                         Grid.Row="0"
                                         Grid.Column="0"
                                         HorizontalAlignment="Stretch"
-                                        FontSize="14"
-                                        Style="{StaticResource HeaderTextBlockStyle}"
+                                        Style="{StaticResource BodyTextBlockStyle}"
                                         Text="{x:Bind Name, Mode=OneWay}" />
 
                                     <TextBlock
@@ -185,16 +184,12 @@
                                         Grid.Column="0"
                                         HorizontalAlignment="Stretch"
                                         IsTextSelectionEnabled="True"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{x:Bind ValueText, Mode=TwoWay}"
                                         TextWrapping="Wrap" />
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
-                        <!--<muxc:ItemsRepeater.cont>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            </Style>
-                        </muxc:ItemsRepeater.cont>-->
                     </ItemsControl>
                 </StackPanel>
             </ScrollViewer>
