@@ -38,7 +38,7 @@ namespace Files.Dialogs
             
             if (Window.Current.Bounds.Height <= 600)
             {
-                ContainerGrid.MinHeight = Window.Current.Bounds.Height;
+                ContainerGrid.Height = Window.Current.Bounds.Height;
             }
             else
             {
