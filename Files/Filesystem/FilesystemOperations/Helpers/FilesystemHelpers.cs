@@ -556,7 +556,7 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            itemManipulationModel.ClearSelection();
+            itemManipulationModel?.ClearSelection();
 
             IStorageHistory history = await filesystemOperations.CopyItemsAsync(source, destination, collisions, banner.Progress, banner.ErrorCode, token);
             ((IProgress<float>)banner.Progress).Report(100.0f);
@@ -618,7 +618,7 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            itemManipulationModel.ClearSelection();
+            itemManipulationModel?.ClearSelection();
 
             IStorageHistory history = null;
             if (collisions.First() != FileNameConflictResolveOptionType.Skip)
@@ -808,7 +808,7 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            itemManipulationModel.ClearSelection();
+            itemManipulationModel?.ClearSelection();
 
             IStorageHistory history = await filesystemOperations.MoveItemsAsync(source, destination, collisions, banner.Progress, banner.ErrorCode, token);
             ((IProgress<float>)banner.Progress).Report(100.0f);
@@ -876,7 +876,7 @@ namespace Files.Filesystem
             var sw = new Stopwatch();
             sw.Start();
 
-            itemManipulationModel.ClearSelection();
+            itemManipulationModel?.ClearSelection();
 
             IStorageHistory history = null;
 
