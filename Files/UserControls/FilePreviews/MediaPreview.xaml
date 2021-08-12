@@ -11,16 +11,16 @@
     mc:Ignorable="d">
 
     <Grid>
-        <MediaPlayerElement
+        <local:PreviewMediaPlayerElement
             AreTransportControlsEnabled="True"
             Foreground="Transparent"
             Source="{x:Bind ViewModel.Source, Mode=OneWay}">
-            <MediaPlayerElement.TransportControls>
+            <local:PreviewMediaPlayerElement.TransportControls>
                 <MediaTransportControls
                     IsFullWindowButtonVisible="False"
                     IsPlaybackRateButtonVisible="False"
                     IsZoomButtonVisible="False" />
-            </MediaPlayerElement.TransportControls>
-        </MediaPlayerElement>
+            </local:PreviewMediaPlayerElement.TransportControls>
+        </local:PreviewMediaPlayerElement>
     </Grid>
 </UserControl>
