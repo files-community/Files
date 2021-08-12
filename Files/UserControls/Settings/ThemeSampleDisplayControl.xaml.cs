@@ -1,4 +1,5 @@
 ﻿using Files.Helpers;
+using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -34,7 +35,7 @@ namespace Files.UserControls.Settings
 
         public async Task<bool> ReevaluateThemeResourceBinding()
         {
-            if (SampleTheme.Path != null)
+            try
             {
                 var resources = await App.ExternalResourcesHelper.TryLoadResourceDictionary(SampleTheme);
                 if (resources != null)
@@ -43,9 +44,15 @@ namespace Files.UserControls.Settings
                     RequestedTheme = ElementTheme.Dark;
                     RequestedTheme = ElementTheme.Light;
                     RequestedTheme = ThemeHelper.RootTheme;
+                    return true;
                 }
+                return false;
             }
-            return true;
+            catch (Exception ex)
+            {
+                App.Logger.Warn(ex, $"Error loading theme: {SampleTheme?.Path}");
+                return false;
+            }
         }
     }
 }

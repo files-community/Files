@@ -31,7 +31,7 @@ namespace Files.Helpers
                 // First, reset DataGrid Rows that may be in "cut" command mode
                 associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
-                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems.ToList())
                 {
                     // Dim opacities accordingly
                     listedItem.Opacity = Constants.UI.DimItemOpacity;
@@ -113,7 +113,7 @@ namespace Files.Helpers
 
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {
-                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems.ToList())
                 {
                     if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
@@ -180,7 +180,7 @@ namespace Files.Helpers
 
         public static async Task<bool> RenameFileItemAsync(ListedItem item, string oldName, string newName, IShellPage associatedInstance)
         {
-            if (oldName == newName)
+            if (oldName == newName || string.IsNullOrEmpty(newName))
             {
                 return true;
             }

@@ -323,7 +323,7 @@ namespace Files.Filesystem
             {
                 suffix = PrimaryItemAttribute == StorageItemTypes.File ? "FileItemAutomation".GetLocalized() : "FolderItemAutomation".GetLocalized();
             }
-            return $"{ItemName}, {ItemPath}, {suffix}";
+            return $"{ItemName}, {suffix}";
         }
 
         public bool IsRecycleBinItem => this is RecycleBinItem;

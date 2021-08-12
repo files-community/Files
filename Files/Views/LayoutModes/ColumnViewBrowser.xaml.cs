@@ -487,10 +487,8 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            DismissOtherBlades(sender as ListView);
-            await Task.Delay(200);
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
                 if (listViewItem != null)
@@ -505,17 +503,7 @@ namespace Files.Views.LayoutModes
                     //await pane.FilesystemViewModel.SetWorkingDirectoryAsync(item.ItemPath);
                     //pane.IsPageMainPane = false;
                     //pane.NavParams = item.ItemPath;
-                    try
-                    {
-                        while (ColumnHost.ActiveBlades.Count > 1)
-                        {
-                            ColumnHost.Items.RemoveAt(1);
-                            ColumnHost.ActiveBlades.RemoveAt(1);
-                        }
-                    }
-                    catch
-                    {
-                    }
+                    DismissOtherBlades(sender as ListView);
                     if (item.ContainsFilesOrFolders)
                     {
                         listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
@@ -536,7 +524,6 @@ namespace Files.Views.LayoutModes
                         });
                     }
                 }
-                // The delay gives time for the item to be selected
                 else
                 {
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -608,8 +595,6 @@ namespace Files.Views.LayoutModes
 
         private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            DismissOtherBlades(sender as ListView);
-            await Task.Delay(200);
             if (listViewItem != null)
             {
                 //_ = VisualStateManager.GoToState(listViewItem, "CurrentItem", true);
@@ -630,7 +615,7 @@ namespace Files.Views.LayoutModes
             if (AppSettings.OpenItemsWithOneclick)
             {
                 ResetRenameDoubleClick();
-                await Task.Delay(200);
+                await Task.Delay(200); // The delay gives time for the item to be selected
                 if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
                     //var pane = new ModernShellPage();
@@ -638,7 +623,7 @@ namespace Files.Views.LayoutModes
                     //await pane.FilesystemViewModel.SetWorkingDirectoryAsync(item.ItemPath);
                     //pane.IsPageMainPane = false;
                     //pane.NavParams = item.ItemPath;
-                    
+                    DismissOtherBlades(sender as ListView);
                     if (item.ContainsFilesOrFolders)
                     {
                         listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
@@ -659,7 +644,6 @@ namespace Files.Views.LayoutModes
                         });
                     }
                 }
-                // The delay gives time for the item to be selected
                 else
                 {
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);

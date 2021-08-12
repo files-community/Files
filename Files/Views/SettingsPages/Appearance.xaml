@@ -157,97 +157,92 @@
     </Page.DataContext>
 
     <Grid>
-        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <StackPanel
-                Margin="12,12,8,8"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Spacing="4">
-                <StackPanel.ChildrenTransitions>
-                    <TransitionCollection>
-                        <ReorderThemeTransition />
-                    </TransitionCollection>
-                </StackPanel.ChildrenTransitions>
+        <StackPanel
+            Margin="12,12,8,8"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Spacing="4">
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <ReorderThemeTransition />
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
 
-                <TextBlock
-                    x:Uid="SettingsAppearanceTitle"
-                    Padding="0,0,0,12"
-                    FontSize="20"
-                    FontWeight="Medium"
-                    Text="Appearance" />
+            <TextBlock
+                x:Uid="SettingsAppearanceTitle"
+                Padding="0,0,0,12"
+                FontSize="20"
+                FontWeight="Medium"
+                Text="Appearance" />
 
-                <local:SettingsBlockControl
-                    x:Uid="SettingsAppearanceTheme"
-                    Title="Choose your color"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
-                    <local:SettingsBlockControl.Icon>
-                        <FontIcon Glyph="&#xE790;" />
-                    </local:SettingsBlockControl.Icon>
-                    <ComboBox
-                        x:Name="ThemeChooser"
-                        ItemsSource="{Binding Themes}"
-                        SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}" />
-                </local:SettingsBlockControl>
+            <local:SettingsBlockControl
+                x:Uid="SettingsAppearanceTheme"
+                Title="Choose your color"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE790;" />
+                </local:SettingsBlockControl.Icon>
+                <ComboBox
+                    x:Name="ThemeChooser"
+                    ItemsSource="{Binding Themes}"
+                    SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}" />
+            </local:SettingsBlockControl>
 
-                <local:SettingsBlockControl
-                    x:Uid="SettingsAppearanceCustomThemes"
-                    Title="Custom themes"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
-                    <local:SettingsBlockControl.Icon>
-                        <FontIcon Glyph="&#xE771;" />
-                    </local:SettingsBlockControl.Icon>
-                    <local:SettingsBlockControl.ExpandableContent>
-                        <StackPanel>
-                            <GridView
-                                x:Name="AppThemeSelectionGridView"
-                                Padding="5"
-                                ItemsSource="{Binding CustomThemes}"
-                                SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
-                                SelectionMode="Single">
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <local:ThemeSampleDisplayControl SampleTheme="{Binding Mode=OneWay}" />
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
-                        </StackPanel>
-                    </local:SettingsBlockControl.ExpandableContent>
-                    <Button
-                        x:Name="ThemesLearnMoreButton"
-                        x:Uid="SettingsThemesLearnMoreButton"
-                        Height="32"
-                        Padding="8,4,8,4"
-                        VerticalAlignment="Bottom"
-                        AutomationProperties.Name="Learn more about custom themes"
-                        Background="Transparent"
-                        BorderBrush="Transparent"
-                        Click="ThemesLearnMoreButton_Click"
-                        ToolTipService.ToolTip="Learn more about custom themes">
-                        <FontIcon FontSize="14" Glyph="&#xE946;" />
-                    </Button>
-                </local:SettingsBlockControl>
+            <local:SettingsBlockControl
+                x:Uid="SettingsAppearanceCustomThemes"
+                Title="Custom themes"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE771;" />
+                </local:SettingsBlockControl.Icon>
+                <local:SettingsBlockControl.ExpandableContent>
+                    <StackPanel>
+                        <GridView
+                            x:Name="AppThemeSelectionGridView"
+                            Padding="5"
+                            ItemsSource="{Binding CustomThemes}"
+                            SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
+                            SelectionMode="Single">
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <local:ThemeSampleDisplayControl SampleTheme="{Binding Mode=OneWay}" />
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </StackPanel>
+                </local:SettingsBlockControl.ExpandableContent>
+                <Button
+                    x:Name="ThemesLearnMoreButton"
+                    x:Uid="SettingsThemesLearnMoreButton"
+                    Height="32"
+                    Padding="8,4,8,4"
+                    VerticalAlignment="Bottom"
+                    AutomationProperties.Name="Learn more about custom themes"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Click="ThemesLearnMoreButton_Click"
+                    ToolTipService.ToolTip="Learn more about custom themes">
+                    <FontIcon FontSize="14" Glyph="&#xE946;" />
+                </Button>
+            </local:SettingsBlockControl>
 
-                <TextBlock
-                    x:Uid="SettingsContextMenu"
-                    Padding="0,12,0,0"
-                    FontSize="14"
-                    FontWeight="Medium"
-                    Text="Customize the right click context menu" />
+            <TextBlock
+                x:Uid="SettingsContextMenu"
+                Padding="0,12,0,0"
+                FontSize="14"
+                FontWeight="Medium"
+                Text="Customize the right click context menu" />
 
-                <local:SettingsBlockControl
-                    x:Uid="SettingsContextMenuOverflowSwitch"
-                    Title="Move overflow items into a sub menu"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
-                    <local:SettingsBlockControl.Icon>
-                        <FontIcon Glyph="&#xE10C;" />
-                    </local:SettingsBlockControl.Icon>
-                    <ToggleSwitch IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                </local:SettingsBlockControl>
-            </StackPanel>
-        </ScrollViewer>
+            <local:SettingsBlockControl
+                x:Uid="SettingsContextMenuOverflowSwitch"
+                Title="Move overflow items into a sub menu"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE10C;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
+        </StackPanel>
 
         <muxc:TeachingTip
             x:Name="ThemesTeachingTip"

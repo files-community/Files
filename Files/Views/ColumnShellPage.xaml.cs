@@ -925,11 +925,15 @@ namespace Files.Views
             else
             {
                 if (string.IsNullOrEmpty(navigationPath) ||
-                string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory) ||
-                navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
-                    FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
-                    StringComparison.OrdinalIgnoreCase)) // return if already selected
+                    string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory) ||
+                    navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
+                        FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
+                        StringComparison.OrdinalIgnoreCase)) // return if already selected
                 {
+                    if (InstanceViewModel?.FolderSettings is FolderSettingsViewModel fsModel)
+                    {
+                        fsModel.IsLayoutModeChanging = false;
+                    }
                     return;
                 }
 

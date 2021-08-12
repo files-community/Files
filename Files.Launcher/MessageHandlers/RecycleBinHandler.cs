@@ -78,16 +78,25 @@ namespace FilesFullTrust.MessageHandlers
                     break;
 
                 case "Query":
+                    var binForDrive = message.Get("drive", "");
                     var responseQuery = new ValueSet();
                     Win32API.SHQUERYRBINFO queryBinInfo = new Win32API.SHQUERYRBINFO();
                     queryBinInfo.cbSize = Marshal.SizeOf(queryBinInfo);
-                    var res = Win32API.SHQueryRecycleBin("", ref queryBinInfo);
+                    var res = Win32API.SHQueryRecycleBin(binForDrive, ref queryBinInfo);
                     if (res == HRESULT.S_OK)
                     {
                         var numItems = queryBinInfo.i64NumItems;
                         var binSize = queryBinInfo.i64Size;
+                        responseQuery.Add("HasRecycleBin", true);
                         responseQuery.Add("NumItems", numItems);
                         responseQuery.Add("BinSize", binSize);
+                        await Win32API.SendMessageAsync(connection, responseQuery, message.Get("RequestID", (string)null));
+                    }
+                    else
+                    {
+                        responseQuery.Add("HasRecycleBin", false);
+                        responseQuery.Add("NumItems", 0);
+                        responseQuery.Add("BinSize", 0);
                         await Win32API.SendMessageAsync(connection, responseQuery, message.Get("RequestID", (string)null));
                     }
                     break;

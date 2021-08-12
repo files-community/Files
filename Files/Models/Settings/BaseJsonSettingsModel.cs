@@ -170,10 +170,8 @@ namespace Files.Models.Settings
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                Debugger.Break();
-
-                return default;
+                App.Logger.Warn(ex, $"Error loading json setting: {propertyName}");
+                return defaultValueFactory();
             }
         }
 

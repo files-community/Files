@@ -376,7 +376,8 @@
                     ShowSearchBox="True"
                     ShowSettingsButton="{x:Bind IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                     ShowStatusCenter="True"
-                    StatusCenterViewModel="{x:Bind StatusCenterViewModel}" />
+                    StatusCenterViewModel="{x:Bind StatusCenterViewModel}"
+                    TabIndex="0" />
             </Grid>
         </controls:SidebarControl.TabContent>
 

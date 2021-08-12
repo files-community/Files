@@ -1086,6 +1086,12 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>שם פריט</value>
   </data>
+  <data name="SidebarCloudDrives" xml:space="preserve">
+    <value>כונני ענן</value>
+  </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>כונני רשת</value>
+  </data>
   <data name="Network" xml:space="preserve">
     <value>רשת</value>
   </data>
@@ -1184,5 +1190,53 @@
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>אפשרויות בחירה</value>
+  </data>
+  <data name="SettingsNavSidebar.Content" xml:space="preserve">
+    <value>סרגל הצד</value>
+  </data>
+  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
+    <value>סרגל הצד</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>ברירת מחדל</value>
+  </data>
+  <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
+    <value>יצירת ספריה חדשה</value>
+  </data>
+  <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
+    <value>שחזור ספריות ברירת המחדל</value>
+  </data>
+  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
+    <value>העתק</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+    <value>הצמד למועדפים</value>
+  </data>
+  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
+    <value>הסר מהמועדפים</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
+    <value>הסר מהמועדפים</value>
+  </data>
+  <data name="NavSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>הגדרות</value>
+  </data>
+  <data name="NavSettingsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>הגדרות</value>
+  </data>
+  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
+    <value>העתק</value>
+  </data>
+  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
+    <value>העתק</value>
+  </data>
+  <data name="ConsentDialogTitle" xml:space="preserve">
+    <value>עדכון חדש זמין</value>
+  </data>
+  <data name="ConsentDialogContent" xml:space="preserve">
+    <value>העדכון מוכן להתקנה</value>
+  </data>
+  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+    <value>סגירה</value>
   </data>
 </root>
