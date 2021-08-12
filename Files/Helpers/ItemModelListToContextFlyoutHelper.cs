@@ -14,7 +14,7 @@ namespace Files.Helpers.ContextFlyouts
     {
         public static List<MenuFlyoutItemBase> GetMenuFlyoutItemsFromModel(List<ContextMenuFlyoutItemViewModel> items)
         {
-            if(items is null)
+            if (items is null)
             {
                 return null;
             }
@@ -154,7 +154,7 @@ namespace Files.Helpers.ContextFlyouts
             {
                 flyoutItem.KeyboardAcceleratorTextOverride = i.KeyboardAcceleratorTextOverride;
             }
-            
+
             return flyoutItem;
         }
 
@@ -203,10 +203,12 @@ namespace Files.Helpers.ContextFlyouts
                 {
                     Source = item.BitmapIcon,
                 };
-            } else if(item.ColoredIcon.IsValid)
+            }
+            else if (item.ColoredIcon.IsValid)
             {
                 content = item.ColoredIcon.ToColoredIcon();
-            } else if(item.ShowLoadingIndicator)
+            }
+            else if (item.ShowLoadingIndicator)
             {
                 content = new Microsoft.UI.Xaml.Controls.ProgressRing()
                 {
