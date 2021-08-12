@@ -488,7 +488,7 @@
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Text" translate="yes" xml:space="preserve">
           <source>Please insert the necessary drive to access this item.</source>
-          <target state="translated">אנא חבר את הכוננן הנדרש עבור גישה לפריט זה</target>
+          <target state="translated">אנא חבר את הכונן הנדרש עבור גישה לפריט זה</target>
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Title" translate="yes" xml:space="preserve">
           <source>Drive Unplugged</source>
@@ -922,7 +922,7 @@
         </trans-unit>
         <trans-unit id="RenameError.ItemDeleted.Text" translate="yes" xml:space="preserve">
           <source>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</source>
-          <target state="translated">הפריט המיועד לעדכון שם אינו קיימם יותר. אנא ודא את המיקם הנכון של הפריט.</target>
+          <target state="translated">הפריט המיועד לעדכון שם אינו קיים יותר. אנא ודא את המיקם הנכון של הפריט.</target>
         </trans-unit>
         <trans-unit id="RenameError.ItemDeleted.Title" translate="yes" xml:space="preserve">
           <source>Item no longer exists</source>
@@ -2091,11 +2091,11 @@
         </trans-unit>
         <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
           <source>Pin to the Start Menu</source>
-          <target state="translated" state-qualifier="tm-suggestion">הצמד לתפריט התחל</target>
+          <target state="translated" state-qualifier="tm-suggestion">הצמד לתפריט ההתחלה</target>
         </trans-unit>
         <trans-unit id="UnpinItemFromStart.Text" translate="yes" xml:space="preserve">
           <source>Unpin from the Start Menu</source>
-          <target state="translated" state-qualifier="tm-suggestion">בטל הצמדה לתפריט התחל</target>
+          <target state="translated" state-qualifier="tm-suggestion">בטל הצמדה לתפריט ההתחלה</target>
         </trans-unit>
         <trans-unit id="NavToolbarColumnView.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Column View</source>
