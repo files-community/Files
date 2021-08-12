@@ -2635,4 +2635,10 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
     <value>Habilitar etiquetas de arquivo</value>
   </data>
+  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
+    <value>Fechar</value>
+  </data>
+  <data name="InsertDiscDialog.Title" xml:space="preserve">
+    <value>Inserir um disco</value>
+  </data>
 </root>

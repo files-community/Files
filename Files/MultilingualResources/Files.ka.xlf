@@ -720,31 +720,31 @@
         </trans-unit>
         <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
           <source>bytes</source>
-          <target state="new">bytes</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ბაიტი</target>
         </trans-unit>
         <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
           <source>KB</source>
-          <target state="new">KB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">კბაიტი</target>
         </trans-unit>
         <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
           <source>MB</source>
-          <target state="new">MB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">მბაიტი</target>
         </trans-unit>
         <trans-unit id="GigaByteSymbol" translate="yes" xml:space="preserve">
           <source>GB</source>
-          <target state="new">GB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">გბაიტი</target>
         </trans-unit>
         <trans-unit id="TeraByteSymbol" translate="yes" xml:space="preserve">
           <source>TB</source>
-          <target state="new">TB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ტბაიტი</target>
         </trans-unit>
         <trans-unit id="PetaByteSymbol" translate="yes" xml:space="preserve">
           <source>PB</source>
-          <target state="new">PB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">პბაიტი</target>
         </trans-unit>
         <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
           <source>B</source>
-          <target state="new">B</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">უ</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
@@ -1540,7 +1540,7 @@
         </trans-unit>
         <trans-unit id="PropertySectionGPS" translate="yes" xml:space="preserve">
           <source>GPS</source>
-          <target state="new">GPS</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">GPS</target>
         </trans-unit>
         <trans-unit id="PropertySectionMedia" translate="yes" xml:space="preserve">
           <source>Media</source>
@@ -3324,19 +3324,19 @@
         </trans-unit>
         <trans-unit id="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+A</source>
-          <target state="new">Ctrl+A</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ctrl+A</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Alt+Shift++</source>
-          <target state="new">Alt+Shift++</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Alt + Shift</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+W</source>
-          <target state="new">Ctrl+Shift+W</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ctrl+Shift+W</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+N</source>
-          <target state="new">Ctrl+N</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ctrl+N</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Alt+Up</source>
@@ -3372,11 +3372,11 @@
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+T</source>
-          <target state="new">Ctrl+T</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ctrl+T</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+T</source>
-          <target state="new">Ctrl+Shift+T</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ctrl+Shift+T</target>
         </trans-unit>
         <trans-unit id="ArchiveExtractionCompletedSuccessfullyText" translate="yes" xml:space="preserve">
           <source>The archive extraction completed successfully.</source>
@@ -3392,7 +3392,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+N</source>
-          <target state="new">Ctrl+Shift+N</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ctrl+Shift+N</target>
         </trans-unit>
         <trans-unit id="SettingsPrivacy.Title" translate="yes" xml:space="preserve">
           <source>Privacy policy</source>
@@ -3509,7 +3509,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         </trans-unit>
         <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
           <source>Close</source>
-          <target state="new">Close</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">დახურვა</target>
         </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
@@ -3521,7 +3521,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         </trans-unit>
         <trans-unit id="InsertDiscDialog.Title" translate="yes" xml:space="preserve">
           <source>Insert a disc</source>
-          <target state="new">Insert a disc</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">დისკის ჩადება</target>
         </trans-unit>
       </group>
     </body>

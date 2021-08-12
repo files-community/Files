@@ -2538,4 +2538,46 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Mappák megnyitása új lapon</value>
   </data>
+  <data name="SettingsPrivacy.Title" xml:space="preserve">
+    <value>Adatvédelmi szabályzat</value>
+  </data>
+  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
+    <value>Nincs</value>
+  </data>
+  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
+    <value>Név</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+    <value>Módosítás dátuma</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
+    <value>Létrehozás dátuma</value>
+  </data>
+  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
+    <value>Méret</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
+    <value>Törlés dátuma</value>
+  </data>
+  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
+    <value>Típus</value>
+  </data>
+  <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
+    <value>Növekvő</value>
+  </data>
+  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+    <value>Csökkenő</value>
+  </data>
+  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+    <value>Szinkronizálás állapota</value>
+  </data>
+  <data name="FileTagUnknown" xml:space="preserve">
+    <value>Ismeretlen</value>
+  </data>
+  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
+    <value>Bezárás</value>
+  </data>
+  <data name="InsertDiscDialog.Title" xml:space="preserve">
+    <value>Helyezzen be egy lemezt.</value>
+  </data>
 </root>

@@ -347,8 +347,8 @@ namespace Files.UserControls
                     return;
                 }
                 IsInPointerPressed = true;
-                await NavigationHelpers.OpenPathInNewTab(item.Path);
                 e.Handled = true;
+                await NavigationHelpers.OpenPathInNewTab(item.Path);
             }
         }
 
