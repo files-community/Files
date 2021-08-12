@@ -179,8 +179,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsAppearanceTheme"
                     Title="Choose your color"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xE790;" />
                     </local:SettingsBlockControl.Icon>
@@ -193,8 +192,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsAppearanceCustomThemes"
                     Title="Custom themes"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xE771;" />
                     </local:SettingsBlockControl.Icon>
@@ -239,8 +237,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsContextMenuOverflowSwitch"
                     Title="Move overflow items into a sub menu"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xE10C;" />
                     </local:SettingsBlockControl.Icon>

@@ -23,14 +23,16 @@ namespace Files.Dialogs
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
-            if (Window.Current.Bounds.Width <= 750)
+            if (Window.Current.Bounds.Width <= 700)
             {
                 SettingsPane.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.LeftCompact;
+                SettingsContentFrame.Width = 410;
                 Column0.Width = new GridLength(60);
             }
             else
             {
                 SettingsPane.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Left;
+                SettingsContentFrame.Width = 460;
                 Column0.Width = new GridLength(0, GridUnitType.Auto);
             }
         }

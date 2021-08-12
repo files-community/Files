@@ -44,8 +44,7 @@
 
                 <local:SettingsBlockControl
                     Title="{Binding AppName}"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Stretch"
                     Description="{Binding Version}">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xE946;" />
@@ -60,8 +59,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsUsefulLinks"
                     Title="Useful links"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <SymbolIcon Symbol="Link" />
                     </local:SettingsBlockControl.Icon>
@@ -185,8 +183,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsPrivacy"
                     Title="Privacy policy"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xEA18;" />
                     </local:SettingsBlockControl.Icon>
@@ -203,15 +200,12 @@
                 <Button
                     x:Name="OpenLogLocationButton"
                     x:Uid="SettingsAboutOpenLogLocationButton"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
                     Padding="20,16,20,16"
+                    HorizontalAlignment="Stretch"
                     AutomationProperties.Name="Open log location"
                     Command="{Binding OpenLogLocationCommand}">
                     <Button.Content>
-                        <Grid
-                            Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                            HorizontalAlignment="Left"
-                            ColumnSpacing="16">
+                        <Grid HorizontalAlignment="Stretch" ColumnSpacing="16">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />

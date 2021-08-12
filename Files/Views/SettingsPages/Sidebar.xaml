@@ -39,8 +39,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsShowFavoritesSection"
                     Title="Show Favorites section"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <SymbolIcon Symbol="Favorite" />
                     </local:SettingsBlockControl.Icon>
@@ -50,8 +49,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsRecycleBinSwitch"
                     Title="Pin Recycle Bin to the favorites section"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Stretch"
                     IsEnabled="{Binding ShowFavoritesSection}">
                     <local:SettingsBlockControl.Icon>
                         <SymbolIcon Symbol="Pin" />
@@ -62,8 +60,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsShowLibrarySection"
                     Title="Show library section"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <SymbolIcon Symbol="Library" />
                     </local:SettingsBlockControl.Icon>
@@ -73,8 +70,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsShowDrivesSection"
                     Title="Show drives section"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xEDA2;" />
                     </local:SettingsBlockControl.Icon>
@@ -84,8 +80,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsShowCloudDrivesSection"
                     Title="Show cloud drives section"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xE753;" />
                     </local:SettingsBlockControl.Icon>
@@ -95,8 +90,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsShowNetworkDrivesSection"
                     Title="Show network section"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xE968;" />
                     </local:SettingsBlockControl.Icon>
@@ -106,8 +100,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsShowWslSection"
                     Title="Show WSL section"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xEC7A;" />
                     </local:SettingsBlockControl.Icon>

@@ -37,8 +37,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsFilesAndFoldersShowHiddenItems"
                     Title="Show hidden files and folders"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xE7B3;" />
                     </local:SettingsBlockControl.Icon>
@@ -48,8 +47,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsFilesAndFoldersHideSystemItems"
                     Title="Hide protected operating system files (Recommended)"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xED1A;" />
                     </local:SettingsBlockControl.Icon>
@@ -59,8 +57,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsFilesAndFoldersShowFileExtensions"
                     Title="Show extensions for known file types"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xE160;" />
                     </local:SettingsBlockControl.Icon>
@@ -70,8 +67,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsOpenItemsWithOneclick"
                     Title="Open items with a single click"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xE8B0;" />
                     </local:SettingsBlockControl.Icon>
@@ -81,8 +77,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsListAndSortDirectoriesAlongsideFiles"
                     Title="List and sort directories alongside files"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xE174;" />
                     </local:SettingsBlockControl.Icon>
@@ -92,8 +87,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsSearchUnindexedItems"
                     Title="Show unindexed items when searching for files and folders (searches may take longer)"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xE721;" />
                     </local:SettingsBlockControl.Icon>
@@ -103,8 +97,7 @@
                 <local:SettingsBlockControl
                     x:Uid="SettingsEnableLayoutPreferencesPerFolder"
                     Title="Enable individual preferences for individual directories"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                     <local:SettingsBlockControl.Icon>
                         <FontIcon Glyph="&#xE8B7;" />
                     </local:SettingsBlockControl.Icon>
