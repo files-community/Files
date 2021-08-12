@@ -2629,4 +2629,10 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
     <value>Activer les étiquettes de fichier</value>
   </data>
+  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="InsertDiscDialog.Title" xml:space="preserve">
+    <value>Insérer un disque</value>
+  </data>
 </root>
