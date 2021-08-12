@@ -19,9 +19,15 @@ namespace Files.Dialogs
             this.InitializeComponent();
             SettingsPane.SelectedItem = SettingsPane.MenuItems[0];
             Window.Current.SizeChanged += Current_SizeChanged;
+            UpdateDialogLayout();
         }
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        {
+            UpdateDialogLayout();
+        }
+
+        private void UpdateDialogLayout()
         {
             if (Window.Current.Bounds.Width <= 700)
             {
@@ -35,7 +41,7 @@ namespace Files.Dialogs
                 SettingsContentFrame.Width = 460;
                 Column0.Width = new GridLength(0, GridUnitType.Auto);
             }
-            
+
             if (Window.Current.Bounds.Height <= 600)
             {
                 ContainerGrid.Height = Window.Current.Bounds.Height;
