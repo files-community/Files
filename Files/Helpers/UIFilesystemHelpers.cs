@@ -221,6 +221,13 @@ namespace Files.Helpers
             if (associatedInstance.SlimContentPage != null)
             {
                 currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
+                if (App.LibraryManager.TryGetLibrary(currentPath, out var library))
+                {
+                    if (!library.IsEmpty && library.Folders.Count == 1) // TODO: handle libraries with multiple folders
+                    {
+                        currentPath = library.Folders.First();
+                    }
+                }
             }
 
             // Show rename dialog
@@ -235,7 +242,7 @@ namespace Files.Helpers
             // Create file based on dialog result
             string userInput = dialog.ViewModel.AdditionalData as string;
             var folderRes = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(currentPath);
-            FilesystemResult<(ReturnResult, IStorageItem)> created = null;
+            var created = new FilesystemResult<(ReturnResult, IStorageItem)>((ReturnResult.Failed, null), FileSystemStatusCode.Generic);
             if (folderRes)
             {
                 switch (itemType)
