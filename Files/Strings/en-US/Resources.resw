@@ -2742,6 +2742,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
     <value>Apply to all</value>
+  </data>
   <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
     <value>Close</value>
   </data>
