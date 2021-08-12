@@ -147,7 +147,10 @@
             HorizontalScrollMode="Disabled"
             VerticalScrollBarVisibility="Auto"
             VerticalScrollMode="Enabled">
-            <Frame x:Name="SettingsContentFrame" Width="460" />
+            <Frame
+                x:Name="SettingsContentFrame"
+                Width="460"
+                Height="Auto" />
         </ScrollViewer>
 
         <Button

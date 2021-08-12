@@ -35,6 +35,15 @@ namespace Files.Dialogs
                 SettingsContentFrame.Width = 460;
                 Column0.Width = new GridLength(0, GridUnitType.Auto);
             }
+            
+            if (Window.Current.Bounds.Height <= 600)
+            {
+                ContainerGrid.MinHeight = Window.Current.Bounds.Height;
+            }
+            else
+            {
+                ContainerGrid.Height = 600;
+            }
         }
 
         private void SettingsPane_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
