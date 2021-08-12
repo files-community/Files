@@ -276,7 +276,7 @@
         </trans-unit>
         <trans-unit id="WelcomeDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Grant Permission</source>
-          <target state="translated">Itemtype:</target>
+          <target state="translated">Toestemming geven</target>
         </trans-unit>
         <trans-unit id="WelcomeDialogTextBlock.Text" translate="yes" xml:space="preserve">
           <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </source>
