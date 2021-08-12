@@ -14,11 +14,17 @@ namespace Files.UserControls.FilePreviews
         {
             ViewModel = model;
             InitializeComponent();
-            PlayerContext.MediaPlayer.VolumeChanged += MediaPlayer_VolumeChanged;
-            PlayerContext.MediaPlayer.Volume = App.AppSettings.MediaVolume;
+            PlayerContext.Loaded += PlayerContext_Loaded;
         }
 
         public MediaPreviewViewModel ViewModel { get; set; }
+
+        private void PlayerContext_Loaded(object sender, RoutedEventArgs e)
+        {
+            PlayerContext.MediaPlayer.Volume = App.AppSettings.MediaVolume;
+            PlayerContext.MediaPlayer.VolumeChanged += MediaPlayer_VolumeChanged;
+        }
+
         private void MediaPlayer_VolumeChanged(MediaPlayer sender, object args)
         {
             if (sender.Volume != App.AppSettings.MediaVolume)
