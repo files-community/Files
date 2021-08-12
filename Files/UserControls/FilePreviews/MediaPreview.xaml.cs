@@ -14,21 +14,11 @@ namespace Files.UserControls.FilePreviews
         {
             ViewModel = model;
             InitializeComponent();
+            PlayerContext.MediaPlayer.VolumeChanged += MediaPlayer_VolumeChanged;
+            PlayerContext.MediaPlayer.Volume = App.AppSettings.MediaVolume;
         }
 
         public MediaPreviewViewModel ViewModel { get; set; }
-    }
-
-    // Exposing MediaPlayer Volume Property
-    public sealed class PreviewMediaPlayerElement : MediaPlayerElement
-    {
-        protected override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-            this.MediaPlayer.VolumeChanged += MediaPlayer_VolumeChanged;
-            this.MediaPlayer.Volume = App.AppSettings.MediaVolume;
-        }
-
         private void MediaPlayer_VolumeChanged(MediaPlayer sender, object args)
         {
             if (sender.Volume != App.AppSettings.MediaVolume)
