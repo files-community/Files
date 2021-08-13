@@ -497,10 +497,12 @@ namespace Files.Filesystem
                     {
                         var items = await packageView.GetStorageItemsAsync();
                         NavigationHelpers.OpenItemsWithExecutable(associatedInstance, items.ToList(), destination);
+                        return ReturnResult.Success;
                     }
-
-                    // TODO: Support link creation
-                    return default;
+                    else
+                    {
+                        return await CreateShortcutFromClipboard(packageView, destination, showDialog, registerHistory);
+                    }
                 }
                 else if (operation.HasFlag(DataPackageOperation.None))
                 {
@@ -653,6 +655,41 @@ namespace Files.Filesystem
             }
 
             return returnStatus;
+        }
+
+        public async Task<ReturnResult> CreateShortcutFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
+        {
+            if (!HasDraggedStorageItems(packageView))
+            {
+                // Happens if you copy some text and then you Ctrl+V in Files
+                return ReturnResult.BadArgumentException;
+            }
+
+            var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
+
+            if (handledByFtp)
+            {
+                // Not supported
+                return ReturnResult.Failed;
+            }
+
+            var returnCode = FileSystemStatusCode.InProgress;
+            var errorCode = new Progress<FileSystemStatusCode>();
+            errorCode.ProgressChanged += (s, e) => returnCode = e;
+
+            source = source.Where(x => !string.IsNullOrEmpty(x.Path));
+            var dest = source.Select(x => Path.Combine(destination,
+                string.Format("ShortcutCreateNewSuffix".GetLocalized(), Path.GetFileName(x.Path)) + ".lnk"));
+
+            var history = await filesystemOperations.CreateShortcutItemsAsync(source, dest, null, errorCode, cancellationToken);
+
+            if (registerHistory)
+            {
+                App.HistoryWrapper.AddHistory(history);
+            }
+
+            await Task.Yield();
+            return returnCode.ToStatus();
         }
 
         public async Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)

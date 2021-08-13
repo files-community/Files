@@ -63,6 +63,18 @@ namespace Files.Filesystem.FilesystemHistory
                         break;
                     }
 
+                case FileOperationType.CreateLink: // CreateLink PASS
+                    {
+                        if (IsHistoryNull(history))
+                        {
+                            break;
+                        }
+
+                        await filesystemOperations.CreateShortcutItemsAsync(history.Source, history.Destination.Select(item => item.Path), null, errorCode, cancellationToken);
+
+                        break;
+                    }
+
                 case FileOperationType.Rename: // Rename PASS
                     {
                         if (IsHistoryNull(history))
@@ -178,6 +190,18 @@ namespace Files.Filesystem.FilesystemHistory
                         }
 
                         return await filesystemHelpers.DeleteItemsAsync(history.Source, false, true, false);
+                    }
+
+                case FileOperationType.CreateLink: // CreateLink PASS
+                    {
+                        // Opposite: Delete created items
+
+                        if (IsHistoryNull(history.Destination))
+                        {
+                            break;
+                        }
+
+                        return await filesystemHelpers.DeleteItemsAsync(history.Destination, false, true, false);
                     }
 
                 case FileOperationType.Rename: // Rename PASS

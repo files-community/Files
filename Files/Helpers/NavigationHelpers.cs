@@ -134,7 +134,6 @@ namespace Files.Helpers
             bool shortcutRunAsAdmin = false;
             bool shortcutIsFolder = false;
 
-
             if (itemType == null || isShortcutItem || isHiddenItem)
             {
                 if (isShortcutItem)

@@ -591,6 +591,11 @@ namespace Files.UserControls
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Move;
                     }
+                    else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
+                    {
+                        e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.AcceptedOperation = DataPackageOperation.Link;
+                    }
                     else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
                     {
                         e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
@@ -708,7 +713,12 @@ namespace Files.UserControls
             else
             {
                 e.DragUIOverride.IsCaptionVisible = true;
-                if (e.Modifiers.HasFlag(DragDropModifiers.Control))
+                if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
+                {
+                    e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), driveItem.Text);
+                    e.AcceptedOperation = DataPackageOperation.Link;
+                }
+                else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
                 {
                     e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), driveItem.Text);
                     e.AcceptedOperation = DataPackageOperation.Copy;
