@@ -554,17 +554,19 @@ namespace Files.UserControls
 
             var deferral = e.GetDeferral();
 
-            var (hResult, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-            if (hResult == 1)
+            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 e.Handled = true;
 
+                var (handledByFtp, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+
                 if (string.IsNullOrEmpty(locationItem.Path) ||
-                    locationItem.Path.StartsWith("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
+                    (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(locationItem.Path))
+                    || locationItem.Path.StartsWith("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
-                else
+                else if (handledByFtp)
                 {
                     if (locationItem.Path.StartsWith(App.AppSettings.RecycleBinPath))
                     {
@@ -576,17 +578,6 @@ namespace Files.UserControls
                         e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
-                }
-            }
-            else if (storageItems.Any())
-            {
-                e.Handled = true;
-
-                if (string.IsNullOrEmpty(locationItem.Path) ||
-                    (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(locationItem.Path))
-                    || locationItem.Path.StartsWith("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
-                {
-                    e.AcceptedOperation = DataPackageOperation.None;
                 }
                 else
                 {
@@ -693,14 +684,14 @@ namespace Files.UserControls
             var deferral = e.GetDeferral();
             e.Handled = true;
 
-            var (hResult, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+            var (handledByFtp, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
             
             if ("DriveCapacityUnknown".GetLocalized().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
                 (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
             {
                 e.AcceptedOperation = DataPackageOperation.None;
             }
-            else if (hResult == 1)
+            else if (handledByFtp)
             {
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), driveItem.Text);

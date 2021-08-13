@@ -437,8 +437,8 @@ namespace Files.ViewModels
             e.Handled = true;
             var deferral = e.GetDeferral();
 
-            var (hResult, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-            if (hResult == 1)
+            var (handledByFtp, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+            if (handledByFtp)
             {
                 e.AcceptedOperation = DataPackageOperation.None;
                 deferral.Complete();

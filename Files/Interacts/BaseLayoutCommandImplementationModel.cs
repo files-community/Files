@@ -516,22 +516,24 @@ namespace Files.Interacts
         public virtual async void DragOver(DragEventArgs e)
         {
             var deferral = e.GetDeferral();
-            
-            itemManipulationModel.ClearSelection();
-            
-            var pwd = associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
-            var folderName = (Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd) ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
 
-            var (hResult, draggedItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-            if (hResult == 1)
+            itemManipulationModel.ClearSelection();
+
+            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 e.Handled = true;
+
+                var (handledByFtp, draggedItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+
+                var pwd = associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
+                var folderName = (Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd) ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
+
                 // As long as one file doesn't already belong to this folder
-                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults)
+                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || (draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(associatedInstance.FilesystemViewModel.WorkingDirectory)))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
-                else
+                else if (handledByFtp)
                 {
                     if (pwd.StartsWith(App.AppSettings.RecycleBinPath))
                     {
@@ -543,16 +545,6 @@ namespace Files.Interacts
                         e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
-                }
-            }
-            else if (draggedItems.Any())
-            {
-                e.Handled = true;
-
-                // As long as one file doesn't already belong to this folder
-                if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || (draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(associatedInstance.FilesystemViewModel.WorkingDirectory)))
-                {
-                    e.AcceptedOperation = DataPackageOperation.None;
                 }
                 else
                 {

@@ -12,13 +12,11 @@ using Files.ViewModels.Previews;
 using Files.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
-using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -27,7 +25,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
 using Windows.Storage;
-using Windows.Storage.Streams;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -843,27 +840,21 @@ namespace Files
                 }, TimeSpan.FromMilliseconds(1000), false);
             }
 
-            var (hResult, draggedItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-            if (hResult == 1)
+            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 e.Handled = true;
-                if (InstanceViewModel.IsPageTypeSearchResults)
+
+                var (handledByFtp, draggedItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+
+                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
-                else
+                else if (handledByFtp)
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
                     e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
                     e.AcceptedOperation = DataPackageOperation.Copy;
-                }
-            }
-            else if (draggedItems.Any())
-            {
-                e.Handled = true;
-                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
-                {
-                    e.AcceptedOperation = DataPackageOperation.None;
                 }
                 else
                 {

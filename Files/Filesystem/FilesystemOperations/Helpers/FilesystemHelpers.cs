@@ -657,16 +657,18 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
-            var (hResult, source) = await GetDraggedStorageItems(packageView);
-            if (hResult == 1)
-            {
-                // Not supported
-                return ReturnResult.Failed;
-            }
-            if (!source.Any())
+            if (!HasDraggedStorageItems(packageView))
             {
                 // Happens if you copy some text and then you Ctrl+V in Files
                 return ReturnResult.BadArgumentException;
+            }
+
+            var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
+
+            if (handledByFtp)
+            {
+                // Not supported
+                return ReturnResult.Failed;
             }
 
             ReturnResult returnStatus = ReturnResult.InProgress;
@@ -679,8 +681,9 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
-            var (hResult, source) = await GetDraggedStorageItems(packageView);
-            if (hResult == 1)
+            var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
+
+            if (handledByFtp)
             {
                 var connection = await ServiceConnection;
                 if (connection != null)
@@ -899,16 +902,18 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> MoveItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
-            var (hResult, source) = await GetDraggedStorageItems(packageView);
-            if (hResult == 1)
-            {
-                // Not supported
-                return ReturnResult.Failed;
-            }
-            if (!source.Any())
+            if (!HasDraggedStorageItems(packageView))
             {
                 // Happens if you copy some text and then you Ctrl+V in Files
                 return ReturnResult.BadArgumentException;
+            }
+
+            var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
+
+            if (handledByFtp)
+            {
+                // Not supported
+                return ReturnResult.Failed;
             }
 
             ReturnResult returnStatus = ReturnResult.InProgress;
@@ -1087,7 +1092,7 @@ namespace Files.Filesystem
             return packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out var data));
         }
 
-        public static async Task<(int hResult, IEnumerable<IStorageItemWithPath> items)> GetDraggedStorageItems(DataPackageView packageView)
+        public static async Task<(bool handledByFtp, IEnumerable<IStorageItemWithPath> items)> GetDraggedStorageItems(DataPackageView packageView)
         {
             var itemsList = new List<IStorageItemWithPath>();
             if (packageView.Contains(StandardDataFormats.StorageItems))
@@ -1099,12 +1104,12 @@ namespace Files.Filesystem
                 }
                 catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
                 {
-                    return (1, itemsList);
+                    return (true, itemsList);
                 }
                 catch (Exception ex)
                 {
                     App.Logger.Warn(ex, ex.Message);
-                    return (0, itemsList);
+                    return (false, itemsList);
                 }
             }
             if (packageView.Properties.TryGetValue("FileDrop", out var data))
@@ -1114,7 +1119,7 @@ namespace Files.Filesystem
                     itemsList.AddRange(source);
                 }
             }
-            return (0, itemsList);
+            return (false, itemsList);
         }
 
         public static bool ContainsRestrictedCharacters(string input)
