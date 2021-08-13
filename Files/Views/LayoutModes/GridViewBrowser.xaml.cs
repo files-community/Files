@@ -385,11 +385,11 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
+                    e.Handled = true;
                     if (MainViewModel.IsQuickLookEnabled)
                     {
                         await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
-                    e.Handled = true;
                 }
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
