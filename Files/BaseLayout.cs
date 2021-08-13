@@ -748,22 +748,27 @@ namespace Files
             foreach (var itemObj in e.Items)
             {
                 var item = itemObj as ListedItem;
-                if (item == null || item is ShortcutItem)
+                if (item == null)
                 {
-                    // Can't drag shortcut items
                     continue;
                 }
 
                 SelectedItems.Add(item);
                 if (item.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                        .OnSuccess(t => selectedStorageItems.Add(t));
+                    var file = await StorageItemHelpers.ToStorageItem<StorageFile>(item.ItemPath, ParentShellPageInstance);
+                    if (file != null)
+                    {
+                        selectedStorageItems.Add(file);
+                    }
                 }
                 else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                        .OnSuccess(t => selectedStorageItems.Add(t));
+                    var folder = await StorageItemHelpers.ToStorageItem<StorageFolder>(item.ItemPath, ParentShellPageInstance);
+                    if (folder != null)
+                    {
+                        selectedStorageItems.Add(folder);
+                    }
                 }
             }
 

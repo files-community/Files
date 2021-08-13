@@ -616,9 +616,9 @@ namespace Files.Interacts
             associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
         }
 
-        public void CreateFolderWithSelection(RoutedEventArgs e)
+        public async void CreateFolderWithSelection(RoutedEventArgs e)
         {
-            UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
+            await UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
         }
 
         public async void DecompressArchive()

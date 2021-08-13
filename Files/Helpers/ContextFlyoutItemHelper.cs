@@ -782,7 +782,7 @@ namespace Files.Helpers
                         OverlayLayerGlyph = "\u0026",
                     },
                     Command = commandsViewModel.ShareItemCommand,
-                    ShowItem = DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem),
+                    ShowItem = DataTransferManager.IsSupported() && !selectedItems.Any(i => (i.IsShortcutItem && !i.IsLinkItem) || i.IsHiddenItem),
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {

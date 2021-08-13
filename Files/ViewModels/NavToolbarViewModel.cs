@@ -968,7 +968,7 @@ namespace Files.ViewModels
         }
 
         public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
-        public bool CanShare => SelectedItems is not null && SelectedItems.Any() && !SelectedItems.All(x => x.IsShortcutItem || x.IsHiddenItem);
+        public bool CanShare => SelectedItems is not null && SelectedItems.Any() && !SelectedItems.All(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem);
         public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
 
         public void Dispose()

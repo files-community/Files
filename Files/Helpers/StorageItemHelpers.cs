@@ -1,8 +1,12 @@
+using Files.Common;
 using Files.Enums;
 using Files.Filesystem;
+using Microsoft.Win32.SafeHandles;
 using System;
-using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
@@ -23,21 +27,6 @@ namespace Files.Helpers
             FilesystemResult<StorageFile> file = null;
             FilesystemResult<StorageFolder> folder = null;
 
-            if (path.ToLower().EndsWith(".lnk") || path.ToLower().EndsWith(".url"))
-            {
-                // TODO: In the future, when IStorageItemWithPath will inherit from IStorageItem,
-                //      we could implement this code here for getting .lnk files
-                //      for now, we can't
-
-                return default;
-
-                if (false) // Prevent unnecessary exceptions
-                {
-                    Debugger.Break();
-                    throw new ArgumentException("Function ToStorageItem<TOut>() does not support converting from .lnk and .url files");
-                }
-            }
-
             if (typeof(IStorageFile).IsAssignableFrom(typeof(TOut)))
             {
                 await GetFile();
@@ -48,7 +37,7 @@ namespace Files.Helpers
             }
             else if (typeof(IStorageItem).IsAssignableFrom(typeof(TOut)))
             {
-                if (System.IO.Path.HasExtension(path)) // Probably a file
+                if (Path.HasExtension(path)) // Probably a file
                 {
                     await GetFile();
                 }
@@ -62,6 +51,49 @@ namespace Files.Helpers
                         await GetFile();
                     }
                 }
+            }
+
+            if (file != null && file == FileSystemStatusCode.Unauthorized)
+            {
+                var fileName = new System.Text.RegularExpressions.Regex(@"\.(lnk|url)$").Replace(Path.GetFileName(path), ".sht");
+                file = await FilesystemTasks.Wrap(() => StorageFile.CreateStreamedFileAsync(fileName, new StreamedFileDataRequestedHandler(async (request) =>
+                {
+                    try
+                    {
+                        var connection = await AppServiceConnectionHelper.Instance;
+                        if (connection != null)
+                        {
+                            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                            {
+                                { "Arguments", "FileOperation" },
+                                { "fileop", "GetFileHandle" },
+                                { "filepath", path },
+                                { "processid", System.Diagnostics.Process.GetCurrentProcess().Id },
+                            });
+                            if (status == AppServiceResponseStatus.Success && response.Get("Success", false))
+                            {
+                                using (var hFile = new SafeFileHandle(new IntPtr((long)response["Handle"]), true))
+                                using (var inStream = new FileStream(hFile, FileAccess.Read))
+                                using (var outStream = request.AsStreamForWrite())
+                                {
+                                    await inStream.CopyToAsync(outStream);
+                                }
+                                request.Dispose();
+                                return;
+                            }
+                        }
+                        request.FailAndClose(StreamedFileFailureMode.CurrentlyUnavailable);
+                    }
+                    catch (Exception ex)
+                    {
+                        request.FailAndClose(StreamedFileFailureMode.Failed);
+                        App.Logger.Warn(ex, "Error converting link to StorageFile.");
+                    }
+                }), null).AsTask());
+            }
+            else if (folder != null && folder == FileSystemStatusCode.Unauthorized)
+            {
+                // TODO
             }
 
             if (file != null && file)
