@@ -574,6 +574,7 @@ namespace Files.Helpers
                     Tag = "OpenWithOverflow",
                     IsHidden = true,
                     CollapseLabel = true,
+                    ShowInSearchPage = true,
                     Items = new List<ContextMenuFlyoutItemViewModel>(),
                     ShowItem = selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem),
                 },
