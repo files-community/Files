@@ -1679,7 +1679,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarDisplayOptions.Text" translate="yes" xml:space="preserve">
           <source>Display Options</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">אפשרויות תצוגה</target>
+          <target state="translated" state-qualifier="tm-suggestion">אפשרויות תצוגה</target>
         </trans-unit>
         <trans-unit id="NavToolbarGridViewLarge.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
@@ -1711,15 +1711,15 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted.Text" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">תאריך מחיקה</target>
+          <target state="translated" state-qualifier="tm-suggestion">תאריך מחיקה</target>
         </trans-unit>
         <trans-unit id="dateDeletedColumn.Header" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">תאריך מחיקה</target>
+          <target state="translated" state-qualifier="tm-suggestion">תאריך מחיקה</target>
         </trans-unit>
         <trans-unit id="PropertyItemPathDisplay" translate="yes" xml:space="preserve">
           <source>Item Path</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">נתיב פריט</target>
+          <target state="translated" state-qualifier="tm-suggestion">נתיב פריט</target>
         </trans-unit>
         <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Toggle the preview pane (Ctrl+P)</source>
@@ -1895,11 +1895,11 @@
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Online" translate="yes" xml:space="preserve">
           <source>Available when online</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">זמין במצב מקוון</target>
+          <target state="translated" state-qualifier="tm-suggestion">זמין במצב מקוון</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Offline" translate="yes" xml:space="preserve">
           <source>Available offline</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">זמין במצב לא מקוון</target>
+          <target state="translated" state-qualifier="tm-suggestion">זמין במצב לא מקוון</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_PartialOffline" translate="yes" xml:space="preserve">
           <source>Partially available offline</source>
@@ -2027,7 +2027,7 @@
         </trans-unit>
         <trans-unit id="SidebarLibraries" translate="yes" xml:space="preserve">
           <source>Libraries</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ספריות</target>
+          <target state="translated" state-qualifier="tm-suggestion">ספריות</target>
         </trans-unit>
         <trans-unit id="PropertyItemCount" translate="yes" xml:space="preserve">
           <source>Item count</source>
@@ -2039,7 +2039,7 @@
         </trans-unit>
         <trans-unit id="StatusUnknownError" translate="yes" xml:space="preserve">
           <source>An unknown error has occurred.</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">אירעה שגיאה לא ידועה.</target>
+          <target state="translated" state-qualifier="tm-suggestion">אירעה שגיאה לא ידועה.</target>
         </trans-unit>
         <trans-unit id="StatusDeletionComplete" translate="yes" xml:space="preserve">
           <source>Deletion complete</source>
