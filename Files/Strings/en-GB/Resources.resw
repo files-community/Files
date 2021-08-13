@@ -154,7 +154,7 @@
     <value>Downloads</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
-    <value>Home email address</value>
+    <value>Home</value>
   </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>Music</value>
@@ -1414,7 +1414,7 @@
     <value>Update</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>Home email address</value>
+    <value>Home</value>
   </data>
   <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
     <value>New tab</value>
