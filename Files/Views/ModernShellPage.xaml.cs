@@ -216,23 +216,6 @@ namespace Files.Views
             currentPage.RefreshWidgetList();
         }
 
-        private void CopyLocation()
-        {
-            try
-            {
-                if (this.SlimContentPage != null && SlimContentPage.SelectedItems is not null && SlimContentPage.SelectedItems.Any())
-                {
-                    DataPackage data = new DataPackage();
-                    data.SetText(this.FilesystemViewModel.WorkingDirectory);
-                    Clipboard.SetContent(data);
-                    Clipboard.Flush();
-                }
-            }
-            catch
-            {
-            }
-        }
-
         private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
         {
             if (FilesystemViewModel != null)
@@ -1020,7 +1003,7 @@ namespace Files.Views
 
         public DataPackageOperation TabItemDragOver(object sender, DragEventArgs e)
         {
-            if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
+            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 if (!InstanceViewModel.IsPageTypeSearchResults)
                 {
@@ -1032,7 +1015,7 @@ namespace Files.Views
 
         public async Task<DataPackageOperation> TabItemDrop(object sender, DragEventArgs e)
         {
-            if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
+            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 if (InstanceViewModel.IsPageTypeNotHome && !InstanceViewModel.IsPageTypeSearchResults)
                 {

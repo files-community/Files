@@ -27,7 +27,14 @@ namespace Files.Helpers
             FilesystemResult<StorageFile> file = null;
             FilesystemResult<StorageFolder> folder = null;
 
-            if (typeof(IStorageFile).IsAssignableFrom(typeof(TOut)))
+            if (path.ToLower().EndsWith(".lnk") || path.ToLower().EndsWith(".url"))
+            {
+                // TODO: In the future, when IStorageItemWithPath will inherit from IStorageItem,
+                // we could implement this code here for getting .lnk files
+                // for now, we can't
+                return default;
+            }
+            else if (typeof(IStorageFile).IsAssignableFrom(typeof(TOut)))
             {
                 await GetFile();
             }
@@ -51,49 +58,6 @@ namespace Files.Helpers
                         await GetFile();
                     }
                 }
-            }
-
-            if (file != null && file == FileSystemStatusCode.Unauthorized)
-            {
-                var fileName = new System.Text.RegularExpressions.Regex(@"\.(lnk|url)$").Replace(Path.GetFileName(path), ".sht");
-                file = await FilesystemTasks.Wrap(() => StorageFile.CreateStreamedFileAsync(fileName, new StreamedFileDataRequestedHandler(async (request) =>
-                {
-                    try
-                    {
-                        var connection = await AppServiceConnectionHelper.Instance;
-                        if (connection != null)
-                        {
-                            var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                            {
-                                { "Arguments", "FileOperation" },
-                                { "fileop", "GetFileHandle" },
-                                { "filepath", path },
-                                { "processid", System.Diagnostics.Process.GetCurrentProcess().Id },
-                            });
-                            if (status == AppServiceResponseStatus.Success && response.Get("Success", false))
-                            {
-                                using (var hFile = new SafeFileHandle(new IntPtr((long)response["Handle"]), true))
-                                using (var inStream = new FileStream(hFile, FileAccess.Read))
-                                using (var outStream = request.AsStreamForWrite())
-                                {
-                                    await inStream.CopyToAsync(outStream);
-                                }
-                                request.Dispose();
-                                return;
-                            }
-                        }
-                        request.FailAndClose(StreamedFileFailureMode.CurrentlyUnavailable);
-                    }
-                    catch (Exception ex)
-                    {
-                        request.FailAndClose(StreamedFileFailureMode.Failed);
-                        App.Logger.Warn(ex, "Error converting link to StorageFile.");
-                    }
-                }), null).AsTask());
-            }
-            else if (folder != null && folder == FileSystemStatusCode.Unauthorized)
-            {
-                // TODO
             }
 
             if (file != null && file)

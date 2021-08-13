@@ -428,7 +428,7 @@ namespace Files.ViewModels
                 }
             }
 
-            if (!e.DataView.Contains(StandardDataFormats.StorageItems))
+            if (!Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 e.AcceptedOperation = DataPackageOperation.None;
                 return;
@@ -437,25 +437,14 @@ namespace Files.ViewModels
             e.Handled = true;
             var deferral = e.GetDeferral();
 
-            IReadOnlyList<IStorageItem> storageItems;
-            try
-            {
-                storageItems = await e.DataView.GetStorageItemsAsync();
-            }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
+            var (hResult, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+            if (hResult == 1)
             {
                 e.AcceptedOperation = DataPackageOperation.None;
                 deferral.Complete();
                 return;
             }
-            catch (Exception ex)
-            {
-                App.Logger.Warn(ex, ex.Message);
-                e.AcceptedOperation = DataPackageOperation.None;
-                deferral.Complete();
-                return;
-            }
-
+            
             if (!storageItems.Any(storageItem =>
                 storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
                 Trim(Path.DirectorySeparatorChar).

@@ -253,12 +253,12 @@ namespace Files.Filesystem
             return Environment.ExpandEnvironmentVariables(path);
         }
 
-        public static bool AreItemsInSameDrive(this IEnumerable<IStorageItem> storageItems, string destinationPath)
+        public static bool AreItemsInSameDrive(this IEnumerable<string> itemsPath, string destinationPath)
         {
             try
             {
-                return storageItems.Any(storageItem =>
-                    Path.GetPathRoot(storageItem.Path).Equals(
+                return itemsPath.Any(itemPath =>
+                    Path.GetPathRoot(itemPath).Equals(
                         Path.GetPathRoot(destinationPath),
                         StringComparison.OrdinalIgnoreCase));
             }
@@ -268,18 +268,38 @@ namespace Files.Filesystem
             }
         }
 
-        public static bool AreItemsAlreadyInFolder(this IEnumerable<IStorageItem> storageItems, string destinationPath)
+        public static bool AreItemsInSameDrive(this IEnumerable<IStorageItemWithPath> storageItems, string destinationPath)
+        {
+            return storageItems.Select(x => x.Path).AreItemsInSameDrive(destinationPath);
+        }
+
+        public static bool AreItemsInSameDrive(this IEnumerable<IStorageItem> storageItems, string destinationPath)
+        {
+            return storageItems.Select(x => x.Path).AreItemsInSameDrive(destinationPath);
+        }
+
+        public static bool AreItemsAlreadyInFolder(this IEnumerable<string> itemsPath, string destinationPath)
         {
             try
             {
-                return storageItems.All(storageItem =>
-                    Path.GetDirectoryName(storageItem.Path).Equals(
+                return itemsPath.All(itemPath =>
+                    Path.GetDirectoryName(itemPath).Equals(
                         destinationPath.TrimPath(), StringComparison.OrdinalIgnoreCase));
             }
             catch
             {
                 return false;
             }
+        }
+
+        public static bool AreItemsAlreadyInFolder(this IEnumerable<IStorageItemWithPath> storageItems, string destinationPath)
+        {
+            return storageItems.Select(x => x.Path).AreItemsAlreadyInFolder(destinationPath);
+        }
+
+        public static bool AreItemsAlreadyInFolder(this IEnumerable<IStorageItem> storageItems, string destinationPath)
+        {
+            return storageItems.Select(x => x.Path).AreItemsAlreadyInFolder(destinationPath);
         }
     }
 }

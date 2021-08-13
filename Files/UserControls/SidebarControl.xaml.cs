@@ -552,36 +552,19 @@ namespace Files.UserControls
                 return;
             }
 
-            // If the dragged item is a folder or file from a file system
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            var deferral = e.GetDeferral();
+
+            var (hResult, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+            if (hResult == 1)
             {
-                var deferral = e.GetDeferral();
                 e.Handled = true;
-                IReadOnlyList<IStorageItem> storageItems;
-                try
-                {
-                    storageItems = await e.DataView.GetStorageItemsAsync();
-                }
-                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-                {
-                    // Handled by FTP
-                    storageItems = new List<IStorageItem>();
-                }
-                catch (Exception ex)
-                {
-                    App.Logger.Warn(ex, ex.Message);
-                    e.AcceptedOperation = DataPackageOperation.None;
-                    deferral.Complete();
-                    return;
-                }
 
                 if (string.IsNullOrEmpty(locationItem.Path) ||
-                    (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(locationItem.Path))
-                    || locationItem.Path.StartsWith("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
+                    locationItem.Path.StartsWith("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
-                else if (!storageItems.Any())
+                else
                 {
                     if (locationItem.Path.StartsWith(App.AppSettings.RecycleBinPath))
                     {
@@ -593,6 +576,17 @@ namespace Files.UserControls
                         e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
+                }
+            }
+            else if (storageItems.Any())
+            {
+                e.Handled = true;
+
+                if (string.IsNullOrEmpty(locationItem.Path) ||
+                    (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(locationItem.Path))
+                    || locationItem.Path.StartsWith("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
                 }
                 else
                 {
@@ -623,15 +617,14 @@ namespace Files.UserControls
                         e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
                     }
                 }
-
-                deferral.Complete();
             }
             else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
             {
                 // else if the drag over event is called over a location item
-
                 NavigationViewLocationItem_DragOver_SetCaptions(locationItem, sourceLocationItem, e);
             }
+
+            deferral.Complete();
         }
 
         /// <summary>
@@ -667,7 +660,7 @@ namespace Files.UserControls
             }
 
             // If the dropped item is a folder or file from a file system
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
@@ -692,37 +685,22 @@ namespace Files.UserControls
         private async void NavigationViewDriveItem_DragOver(object sender, DragEventArgs e)
         {
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem) ||
-                !e.DataView.Contains(StandardDataFormats.StorageItems))
+                !Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 return;
             }
 
             var deferral = e.GetDeferral();
             e.Handled = true;
-            IReadOnlyList<IStorageItem> storageItems;
-            try
-            {
-                storageItems = await e.DataView.GetStorageItemsAsync();
-            }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-            {
-                // Handled by FTP
-                storageItems = new List<IStorageItem>();
-            }
-            catch (Exception ex)
-            {
-                App.Logger.Warn(ex, ex.Message);
-                e.AcceptedOperation = DataPackageOperation.None;
-                deferral.Complete();
-                return;
-            }
 
+            var (hResult, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+            
             if ("DriveCapacityUnknown".GetLocalized().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
                 (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
             {
                 e.AcceptedOperation = DataPackageOperation.None;
             }
-            else if (!storageItems.Any())
+            else if (hResult == 1)
             {
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), driveItem.Text);

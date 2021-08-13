@@ -12,11 +12,13 @@ using Files.ViewModels.Previews;
 using Files.Views;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -25,6 +27,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -744,32 +747,38 @@ namespace Files
         protected async void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
             List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
+            var result = (FilesystemResult)false;
 
-            foreach (var itemObj in e.Items)
+            e.Items.OfType<ListedItem>().ForEach(item => SelectedItems.Add(item));
+
+            foreach (var item in e.Items.OfType<ListedItem>())
             {
-                var item = itemObj as ListedItem;
-                if (item == null)
-                {
-                    continue;
-                }
-
-                SelectedItems.Add(item);
                 if (item.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    var file = await StorageItemHelpers.ToStorageItem<StorageFile>(item.ItemPath, ParentShellPageInstance);
-                    if (file != null)
+                    result = await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
+                        .OnSuccess(t => selectedStorageItems.Add(t));
+                    if (!result)
                     {
-                        selectedStorageItems.Add(file);
+                        break;
                     }
                 }
                 else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    var folder = await StorageItemHelpers.ToStorageItem<StorageFolder>(item.ItemPath, ParentShellPageInstance);
-                    if (folder != null)
+                    result = await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
+                        .OnSuccess(t => selectedStorageItems.Add(t));
+                    if (!result)
                     {
-                        selectedStorageItems.Add(folder);
+                        break;
                     }
                 }
+            }
+
+            if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
+            {
+                var itemList = e.Items.OfType<ListedItem>().Select(x => StorageItemHelpers.FromPathAndType(
+                    x.ItemPath, x.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+                e.Data.Properties["FileDrop"] = itemList.ToList();
+                return;
             }
 
             if (selectedStorageItems.Count == 1)
@@ -834,36 +843,27 @@ namespace Files
                 }, TimeSpan.FromMilliseconds(1000), false);
             }
 
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            var (hResult, draggedItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+            if (hResult == 1)
             {
-                IReadOnlyList<IStorageItem> draggedItems;
-                try
-                {
-                    draggedItems = await e.DataView.GetStorageItemsAsync();
-                }
-                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-                {
-                    // Handled by FTP
-                    draggedItems = new List<IStorageItem>();
-                }
-                catch (Exception ex)
-                {
-                    App.Logger.Warn(ex, ex.Message);
-                    e.AcceptedOperation = DataPackageOperation.None;
-                    deferral.Complete();
-                    return;
-                }
-
                 e.Handled = true;
-                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+                if (InstanceViewModel.IsPageTypeSearchResults)
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
-                else if (!draggedItems.Any())
+                else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
                     e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
                     e.AcceptedOperation = DataPackageOperation.Copy;
+                }
+            }
+            else if (draggedItems.Any())
+            {
+                e.Handled = true;
+                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
                 }
                 else
                 {
