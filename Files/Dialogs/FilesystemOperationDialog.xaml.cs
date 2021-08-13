@@ -65,7 +65,7 @@ namespace Files.Dialogs
                 }
             }
 
-            if (DetailsGrid.SelectedItems.Count == 1 && DetailsGrid.SelectedItems.Any(x => (x as FilesystemOperationItemViewModel).ActionTaken))
+            if (DetailsGrid.Items.Count > 1 && DetailsGrid.SelectedItems.Count == 1 && DetailsGrid.SelectedItems.Any(x => (x as FilesystemOperationItemViewModel).ActionTaken))
             {
                 ApplyToAllOption.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 ApplyToAllSeparator.Visibility = Windows.UI.Xaml.Visibility.Visible;
