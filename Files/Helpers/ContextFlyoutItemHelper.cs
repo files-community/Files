@@ -611,6 +611,7 @@ namespace Files.Helpers
                     Command = commandsViewModel.OpenInNewWindowItemCommand,
                     ShowItem = selectedItems.Count < 5 && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
                     ShowInSearchPage = true,
+                    ShowOnShift = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {

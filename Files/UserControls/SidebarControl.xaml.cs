@@ -576,7 +576,8 @@ namespace Files.UserControls
                 }
 
                 if (string.IsNullOrEmpty(locationItem.Path) ||
-                    (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(locationItem.Path)))
+                    (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(locationItem.Path))
+                    || locationItem.Path.StartsWith("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }

@@ -12,6 +12,7 @@
 
     <Grid>
         <MediaPlayerElement
+            x:Name="PlayerContext"
             AreTransportControlsEnabled="True"
             Foreground="Transparent"
             Source="{x:Bind ViewModel.Source, Mode=OneWay}">

@@ -150,6 +150,17 @@
             <Style TargetType="uc:DataGridHeader">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             </Style>
+
+            <Style
+                x:Key="ColumnContentTextBlock"
+                BasedOn="{StaticResource CaptionTextBlockStyle}"
+                TargetType="TextBlock">
+                <Setter Property="TextWrapping" Value="NoWrap" />
+                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="Opacity" Value="0.6" />
+            </Style>
         </ResourceDictionary>
     </local:BaseLayout.Resources>
 
@@ -503,6 +514,7 @@
                         <DataTemplate x:DataType="local2:ListedItem">
                             <Grid
                                 HorizontalAlignment="Stretch"
+                                AutomationProperties.Name="{x:Bind ItemName, Mode=OneWay}"
                                 IsRightTapEnabled="True"
                                 Loaded="Grid_Loaded"
                                 RightTapped="StackPanel_RightTapped"
@@ -629,8 +641,7 @@
                                     VerticalAlignment="Center"
                                     Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
                                     <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontWeight="Light"
+                                        Style="{StaticResource ColumnContentTextBlock}"
                                         Text="{x:Bind FileTagUI.TagName, Mode=OneWay}"
                                         TextTrimming="CharacterEllipsis"
                                         Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
@@ -644,11 +655,7 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     x:Load="{x:Bind IsRecycleBinItem}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontWeight="Light"
-                                        Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}" />
                                 </Grid>
 
                                 <Grid
@@ -659,11 +666,7 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     x:Load="{x:Bind IsRecycleBinItem}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontWeight="Light"
-                                        Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}" />
                                 </Grid>
 
                                 <Grid
@@ -691,11 +694,7 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontWeight="Light"
-                                        Text="{x:Bind ItemDateModified, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind ItemDateModified, Mode=OneWay}" />
                                 </Grid>
 
                                 <Grid
@@ -706,11 +705,7 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Visibility="{Binding ColumnsViewModel.DateCreatedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontWeight="Light"
-                                        Text="{x:Bind ItemDateCreated, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind ItemDateCreated, Mode=OneWay}" />
                                 </Grid>
 
                                 <Grid
@@ -721,11 +716,7 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontWeight="Light"
-                                        Text="{x:Bind ItemType, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind ItemType, Mode=OneWay}" />
                                 </Grid>
 
                                 <Grid
@@ -736,11 +727,7 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Visibility="{Binding ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontWeight="Light"
-                                        Text="{x:Bind FileSize, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind FileSize, Mode=OneWay}" />
                                 </Grid>
                             </Grid>
                         </DataTemplate>
@@ -815,6 +802,10 @@
                                                             VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
                                                             ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
                                                             <Grid>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="*" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="Auto" />
                                                                     <ColumnDefinition Width="*" MinWidth="24" />
@@ -822,11 +813,16 @@
                                                                 <ItemsPresenter
                                                                     Padding="{TemplateBinding Padding}"
                                                                     HorizontalAlignment="Stretch"
-                                                                    Footer="{TemplateBinding Footer}"
                                                                     FooterTemplate="{TemplateBinding FooterTemplate}"
                                                                     FooterTransitions="{TemplateBinding FooterTransitions}"
                                                                     HeaderTemplate="{TemplateBinding HeaderTemplate}"
                                                                     HeaderTransitions="{TemplateBinding HeaderTransitions}" />
+
+                                                                <ContentPresenter
+                                                                    Grid.Row="1"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Padding="8,0,8,8"
+                                                                    Content="{TemplateBinding Footer}" />
                                                             </Grid>
                                                         </ScrollViewer>
                                                     </Grid>

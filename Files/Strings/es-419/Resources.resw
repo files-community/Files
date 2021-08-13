@@ -2596,4 +2596,10 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Mostrar Favoritos en la barra lateral</value>
   </data>
+  <data name="FileTagUnknown" xml:space="preserve">
+    <value>desconocido</value>
+  </data>
+  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
+    <value>cerrar</value>
+  </data>
 </root>
