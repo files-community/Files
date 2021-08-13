@@ -1,12 +1,7 @@
-using Files.Common;
 using Files.Enums;
 using Files.Filesystem;
-using Microsoft.Win32.SafeHandles;
 using System;
-using System.IO;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
@@ -44,7 +39,7 @@ namespace Files.Helpers
             }
             else if (typeof(IStorageItem).IsAssignableFrom(typeof(TOut)))
             {
-                if (Path.HasExtension(path)) // Probably a file
+                if (System.IO.Path.HasExtension(path)) // Probably a file
                 {
                     await GetFile();
                 }

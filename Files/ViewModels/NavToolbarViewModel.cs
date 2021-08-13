@@ -444,7 +444,7 @@ namespace Files.ViewModels
                 deferral.Complete();
                 return;
             }
-            
+
             if (!storageItems.Any(storageItem =>
                 storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
                 Trim(Path.DirectorySeparatorChar).
