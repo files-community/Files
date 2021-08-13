@@ -332,6 +332,23 @@ namespace Files.Views
             FindName(nameof(horizontalMultitaskingControl));
             FindName(nameof(NavToolbar));
 
+
+            // the adaptive triggers do not evaluate on app startup, manually checking and calling GoToState here fixes https://github.com/files-community/Files/issues/5801
+            if (Window.Current.Bounds.Width < CollapseSearchBoxAdaptiveTrigger.MinWindowWidth)
+            {
+                _ = VisualStateManager.GoToState(this, nameof(CollapseSearchBoxState), true);
+            }
+            
+            if(Window.Current.Bounds.Width < MinimalSidebarAdaptiveTrigger.MinWindowWidth)
+            {
+                _ = VisualStateManager.GoToState(this, nameof(MinimalSidebarState), true);
+            }
+            
+            if(Window.Current.Bounds.Width < CollapseHorizontalTabViewTrigger.MinWindowWidth)
+            {
+                _ = VisualStateManager.GoToState(this, nameof(HorizontalTabViewCollapsed), true);
+            }
+
             App.LoadOtherStuffAsync().ContinueWith(t => App.Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
         }
 
