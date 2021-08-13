@@ -856,6 +856,10 @@ namespace Files
                     e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
                     e.AcceptedOperation = DataPackageOperation.Copy;
                 }
+                else if (!draggedItems.Any())
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                }
                 else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;

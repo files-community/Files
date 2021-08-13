@@ -579,6 +579,10 @@ namespace Files.UserControls
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                 }
+                else if (!storageItems.Any())
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                }
                 else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
@@ -696,6 +700,10 @@ namespace Files.UserControls
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), driveItem.Text);
                 e.AcceptedOperation = DataPackageOperation.Copy;
+            }
+            else if (!storageItems.Any())
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
             }
             else
             {

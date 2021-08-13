@@ -546,6 +546,10 @@ namespace Files.Interacts
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                 }
+                else if (!draggedItems.Any())
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                }
                 else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
