@@ -193,7 +193,7 @@ namespace Files.Filesystem
             if (deleteFromRecycleBin)
             {
                 // Recycle bin also stores a file starting with $I for each item
-                deleleFilePaths = deleleFilePaths.Concat(source.Select(x => Path.Combine(Path.GetDirectoryName(x.Path), Path.GetFileName(x.Path).Replace("$R", "$I"))));
+                deleleFilePaths = deleleFilePaths.Concat(source.Select(x => Path.Combine(Path.GetDirectoryName(x.Path), Path.GetFileName(x.Path).Replace("$R", "$I")))).Distinct();
             }
 
             var operationID = Guid.NewGuid().ToString();
