@@ -395,7 +395,7 @@ namespace Files.Filesystem
             FileExtension = Path.GetExtension(item.Name);
             ItemPath = Path.Combine(folder, item.Name);
             PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
-            ItemPropertiesInitialized = true;
+            ItemPropertiesInitialized = false;
 
             var itemType = isFile ? "ItemTypeFile".GetLocalized() : "FileFolderListItem".GetLocalized();
             if (isFile && ItemName.Contains("."))
