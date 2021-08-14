@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,16 @@ namespace BackgroundTasks
             // Refresh jump list to update string resources
             try { await RefreshJumpList(); } catch { }
 
+            // Delete previous version log files
+            try { DeleteLogFiles(); } catch { }
+
             deferral.Complete();
+        }
+
+        private void DeleteLogFiles()
+        {
+            File.Delete(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log"));
+            File.Delete(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug_fulltrust.log"));
         }
 
         private async Task RefreshJumpList()

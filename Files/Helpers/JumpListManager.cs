@@ -116,14 +116,14 @@ namespace Files.Helpers
                 {
                     if (JumpListItemPaths.Remove(path))
                     {
-                        await UpdateAsync();
+                        await instance.SaveAsync();
                     }
                 }
             }
             catch { }
         }
 
-        private async Task UpdateAsync()
+        private async Task RefreshAsync()
         {
             if (instance != null)
             {
