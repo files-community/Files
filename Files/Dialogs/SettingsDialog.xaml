@@ -47,7 +47,7 @@
         <muxc:NavigationView
             x:Name="SettingsPane"
             Grid.Column="0"
-            Width="180"
+            Width="200"
             Margin="12,12,0,12"
             IsBackButtonVisible="Collapsed"
             IsBackEnabled="False"
@@ -55,7 +55,7 @@
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
             IsTitleBarAutoPaddingEnabled="False"
-            OpenPaneLength="180"
+            OpenPaneLength="200"
             PaneDisplayMode="Left"
             SelectionChanged="SettingsPane_SelectionChanged">
 
@@ -115,7 +115,7 @@
                         <FontIcon Glyph="&#xE8B7;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <!--<muxc:NavigationViewItem
+                <muxc:NavigationViewItem
                     x:Uid="SettingsNavExperimental"
                     AccessKey="E"
                     Content="Experimental"
@@ -123,7 +123,7 @@
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF1AD;" />
                     </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>-->
+                </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>
 
             <muxc:NavigationView.FooterMenuItems>
@@ -142,12 +142,15 @@
         <ScrollViewer
             Grid.Column="1"
             Margin="12,0,0,0"
-            Padding="4,12,0,0"
+            Padding="4,12,8,0"
             Background="{ThemeResource SolidBackgroundFillColorBase}"
             HorizontalScrollMode="Disabled"
             VerticalScrollBarVisibility="Auto"
             VerticalScrollMode="Enabled">
-            <Frame x:Name="SettingsContentFrame" Width="410" />
+            <Frame
+                x:Name="SettingsContentFrame"
+                Width="460"
+                Height="Auto" />
         </ScrollViewer>
 
         <Button
@@ -164,25 +167,5 @@
             ToolTipService.ToolTip="Close">
             <FontIcon FontSize="12" Glyph="&#xE8BB;" />
         </Button>
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="641.0" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Target="SettingsPane.DisplayMode" Value="LeftCompact" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
     </Grid>
 </ContentDialog>

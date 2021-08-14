@@ -33,7 +33,7 @@ namespace Files.Helpers
                 // First, reset DataGrid Rows that may be in "cut" command mode
                 associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
-                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems.ToList())
                 {
                     // FTP doesn't support cut, fallback to copy
                     if (listedItem is FtpItem ftpItem)
@@ -129,7 +129,7 @@ namespace Files.Helpers
 
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {
-                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
+                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems.ToList())
                 {
                     if (listedItem is FtpItem ftpItem)
                     {
@@ -207,7 +207,7 @@ namespace Files.Helpers
 
         public static async Task<bool> RenameFileItemAsync(ListedItem item, string oldName, string newName, IShellPage associatedInstance)
         {
-            if (oldName == newName)
+            if (oldName == newName || string.IsNullOrEmpty(newName))
             {
                 return true;
             }
@@ -248,6 +248,13 @@ namespace Files.Helpers
             if (associatedInstance.SlimContentPage != null)
             {
                 currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
+                if (App.LibraryManager.TryGetLibrary(currentPath, out var library))
+                {
+                    if (!library.IsEmpty && library.Folders.Count == 1) // TODO: handle libraries with multiple folders
+                    {
+                        currentPath = library.Folders.First();
+                    }
+                }
             }
 
             // Show rename dialog
@@ -262,7 +269,7 @@ namespace Files.Helpers
             // Create file based on dialog result
             string userInput = dialog.ViewModel.AdditionalData as string;
             var folderRes = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(currentPath);
-            FilesystemResult<(ReturnResult, IStorageItem)> created = null;
+            var created = new FilesystemResult<(ReturnResult, IStorageItem)>((ReturnResult.Failed, null), FileSystemStatusCode.Generic);
             if (folderRes)
             {
                 switch (itemType)

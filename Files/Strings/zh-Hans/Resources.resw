@@ -2555,4 +2555,49 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>在新选项卡中打开文件夹</value>
   </data>
+  <data name="SettingsPrivacy.Title" xml:space="preserve">
+    <value>隐私策略</value>
+  </data>
+  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+    <value>修改日期</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
+    <value>创建日期</value>
+  </data>
+  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
+    <value>大小</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
+    <value>删除日期</value>
+  </data>
+  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+    <value>原始文件夹</value>
+  </data>
+  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
+    <value>升序</value>
+  </data>
+  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+    <value>降序</value>
+  </data>
+  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+    <value>同步状态</value>
+  </data>
+  <data name="FileTagUnknown" xml:space="preserve">
+    <value>unknown</value>
+  </data>
+  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="InsertDiscDialog.Title" xml:space="preserve">
+    <value>插入一张光盘</value>
+  </data>
 </root>

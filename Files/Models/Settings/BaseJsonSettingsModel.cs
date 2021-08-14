@@ -59,10 +59,10 @@ namespace Files.Models.Settings
 
         #region Helpers
 
-        protected virtual async void Initialize()
+        protected virtual void Initialize()
         {
             // Create the file
-            await ApplicationData.Current.LocalFolder.CreateFileAsync(settingsPath.Replace(ApplicationData.Current.LocalFolder.Path, string.Empty), CreationCollisionOption.OpenIfExists);
+            using var _ = NativeFileOperationsHelper.CreateFileForWrite(settingsPath, false);
         }
 
         public virtual object ExportSettings()
@@ -96,6 +96,11 @@ namespace Files.Models.Settings
 
         protected virtual TValue Get<TValue>(TValue defaultValue, [CallerMemberName] string propertyName = "")
         {
+            return Get<TValue>(() => defaultValue, propertyName);
+        }
+
+        protected virtual TValue Get<TValue>(Func<TValue> defaultValueFactory, [CallerMemberName] string propertyName = "")
+        {
             try
             {
                 // Check if caching is enabled
@@ -114,6 +119,7 @@ namespace Files.Models.Settings
                         {
                             // Get the value from JToken
                             settingValue = jtoken.ToObject<TValue>();
+                            settingsCache[propertyName] = settingValue;
                         }
                         else
                         {
@@ -142,7 +148,7 @@ namespace Files.Models.Settings
                 if (!settingsCache.ContainsKey(propertyName))
                 {
                     // Add it to cache
-                    settingsCache.Add(propertyName, defaultValue);
+                    settingsCache.Add(propertyName, defaultValueFactory());
 
                     // Serialize with updated value
                     string serialized = JsonConvert.SerializeObject(settingsCache, Formatting.Indented);
@@ -155,17 +161,17 @@ namespace Files.Models.Settings
                 object valueObject = settingsCache[propertyName];
                 if (valueObject is JToken jtoken2)
                 {
-                    return jtoken2.ToObject<TValue>();
+                    var settingValue = jtoken2.ToObject<TValue>();
+                    settingsCache[propertyName] = settingValue;
+                    return settingValue;
                 }
 
                 return (TValue)valueObject;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                Debugger.Break();
-
-                return default;
+                App.Logger.Warn(ex, $"Error loading json setting: {propertyName}");
+                return defaultValueFactory();
             }
         }
 

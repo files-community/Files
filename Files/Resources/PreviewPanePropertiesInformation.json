@@ -164,6 +164,13 @@
     "ID": null
   },
   {
+    "NameResource": "PropertyPartOfSet",
+    "SectionResource": "PropertySectionMusic",
+    "Property": "System.Music.PartOfSet",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
     "NameResource": "PropertyGenre",
     "SectionResource": "PropertySectionMusic",
     "Property": "System.Music.Genre",
@@ -376,6 +383,13 @@
     "ID": null
   },
   {
+    "NameResource": "PropertyDateTaken",
+    "SectionResource": "PropertySectionPhoto",
+    "Property": "System.Photo.DateTaken",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
     "NameResource": "PropertyDateModified",
     "SectionResource": "PropertySectionCore",
     "Property": "System.DateModified",
@@ -437,10 +451,9 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyDateTaken",
-    "SectionResource": "PropertySectionPhoto",
-    "Property": "System.Photo.DateTaken",
+    "NameResource": "DetailsViewHeaderFlyout_ShowFileTag/Text",
+    "SectionResource": "PropertySectionCore",
     "IsReadOnly": true,
-    "ID": null
+    "ID": "filetag"
   }
 ]

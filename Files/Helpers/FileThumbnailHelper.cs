@@ -1,8 +1,11 @@
 ﻿using Files.Common;
+using Files.Extensions;
+using Files.Filesystem;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 
 namespace Files.Helpers
 {
@@ -78,6 +81,46 @@ namespace Files.Helpers
                     // BitmapImage later to prevent exceptions once SynchorizationContext lost
                     return (icon == null ? null : Convert.FromBase64String(icon));
                 }
+            }
+            return null;
+        }
+
+        public static async Task<byte[]> LoadIconFromStorageItemAsync(IStorageItem item, uint thumbnailSize, Windows.Storage.FileProperties.ThumbnailMode thumbnailMode)
+        {
+            if (item is StorageFile file)
+            {
+                using var thumbnail = await file.GetThumbnailAsync(thumbnailMode, thumbnailSize, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+                if (thumbnail != null)
+                {
+                    return await thumbnail.ToByteArrayAsync();
+                }
+            }
+            else if (item is StorageFolder folder)
+            {
+                using var thumbnail = await folder.GetThumbnailAsync(thumbnailMode, thumbnailSize, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+                if (thumbnail != null)
+                {
+                    return await thumbnail.ToByteArrayAsync();
+                }
+            }
+            return null;
+        }
+
+        public static async Task<byte[]> LoadIconFromPathAsync(string filePath, uint thumbnailSize, Windows.Storage.FileProperties.ThumbnailMode thumbnailMode)
+        {
+            if (!filePath.EndsWith(".lnk") && !filePath.EndsWith(".url"))
+            {
+                var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(filePath));
+                var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(filePath, item));
+                if (res)
+                {
+                    return await LoadIconFromStorageItemAsync(res.Result, thumbnailSize, thumbnailMode);
+                }
+            }
+            var iconData = await LoadIconWithoutOverlayAsync(filePath, thumbnailSize);
+            if (iconData != null)
+            {
+                return iconData;
             }
             return null;
         }

@@ -7,8 +7,8 @@
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-	xmlns:vm="using:Files.ViewModels"
-	d:DesignHeight="300"
+    xmlns:vm="using:Files.ViewModels"
+    d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -73,10 +73,10 @@
                     </MenuFlyout>
                 </ResourceDictionary>
 
-				<ResourceDictionary Source="/ResourceDictionaries/TabView_themeresources.xaml" />
-				<ResourceDictionary Source="/ResourceDictionaries/TabViewItem_shared.xaml" />
+                <ResourceDictionary Source="/ResourceDictionaries/TabView_themeresources.xaml" />
+                <ResourceDictionary Source="/ResourceDictionaries/TabViewItem_shared.xaml" />
 
-			</ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -119,6 +119,7 @@
                         Drop="TabViewItem_Drop"
                         Header="{x:Bind Header, Mode=OneWay}"
                         IconSource="{x:Bind IconSource, Mode=OneWay}"
+                        Loaded="TabViewItem_Loaded"
                         Style="{ThemeResource TabViewItemStyle}"
                         ToolTipService.ToolTip="{x:Null}" />
                 </DataTemplate>

@@ -1,4 +1,5 @@
-﻿using ByteSizeLib;
+﻿using Common;
+using ByteSizeLib;
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.Cloud;
@@ -11,6 +12,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -85,6 +87,29 @@ namespace Files.Filesystem
                 LoadCustomIcon = true;
                 SetProperty(ref customIcon, value);
             }
+        }
+
+        public ulong? FileFRN { get; set; }
+
+        private string fileTag;
+        public string FileTag
+        {
+            get => fileTag;
+            set
+            {
+                if (value != fileTag)
+                {
+                    FileTagsHelper.DbInstance.SetTag(ItemPath, FileFRN, value);
+                    FileTagsHelper.WriteFileTag(ItemPath, value);
+                }
+                SetProperty(ref fileTag, value);
+                OnPropertyChanged(nameof(FileTagUI));
+            }
+        }
+
+        public FileTag FileTagUI
+        {
+            get => App.AppSettings.AreFileTagsEnabled ? App.AppSettings.FileTagsSettings.GetTagByID(FileTag) : null;
         }
 
         private Uri customIconSource;
@@ -300,7 +325,7 @@ namespace Files.Filesystem
             {
                 suffix = PrimaryItemAttribute == StorageItemTypes.File ? "FileItemAutomation".GetLocalized() : "FolderItemAutomation".GetLocalized();
             }
-            return $"{ItemName}, {ItemPath}, {suffix}";
+            return $"{ItemName}, {suffix}";
         }
 
         public bool IsRecycleBinItem => this is RecycleBinItem;

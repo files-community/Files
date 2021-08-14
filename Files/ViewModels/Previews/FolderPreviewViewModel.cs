@@ -59,15 +59,19 @@ namespace Files.ViewModels.Previews
                 },
                 new FileProperty()
                 {
-                    NameResource = "PropertyItemName",
-                    Value = Folder.Name,
-                },
-                new FileProperty()
-                {
                     NameResource = "PropertyItemPathDisplay",
                     Value = Folder.Path,
                 }
             };
+
+            if(App.AppSettings.AreFileTagsEnabled)
+            {
+                Item.FileDetails.Add(new FileProperty()
+                {
+                    NameResource = "DetailsViewHeaderFlyout_ShowFileTag/Text",
+                    Value = Item.FileTagUI?.TagName
+                });
+            }
         }
     }
 }

@@ -318,7 +318,7 @@ namespace Files.Views.LayoutModes
         private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             // This check allows the user to use the text box context menu without ending the rename
-            if (!(FocusManager.GetFocusedElement() is AppBarButton))
+            if (!(FocusManager.GetFocusedElement() is AppBarButton or Popup))
             {
                 TextBox textBox = e.OriginalSource as TextBox;
                 CommitRename(textBox);
@@ -385,11 +385,11 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
+                    e.Handled = true;
                     if (MainViewModel.IsQuickLookEnabled)
                     {
                         await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
-                    e.Handled = true;
                 }
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))

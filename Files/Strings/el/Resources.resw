@@ -2553,4 +2553,92 @@
   <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
     <value>Άνοιγμα φακέλων σε νέα καρτέλα</value>
   </data>
+  <data name="SettingsPrivacy.Title" xml:space="preserve">
+    <value>Πολιτική απορρήτου</value>
+  </data>
+  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
+    <value>Εικονίδια συστήματος Fluent UI</value>
+  </data>
+  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Εικονίδια συστήματος Fluent UI</value>
+  </data>
+  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
+    <value>
+*Συλλογή προσωπικών πληροφοριών* 
+Η Files δεν συλλέγει, αποθηκεύει, μοιράζεται ή δημοσιεύει προσωπικές πληροφορίες.
+
+*Συλλογή μη προσωπικών πληροφοριών*
+
+Χρησιμοποιούμε το Κέντρο εφαρμογών για να παρακολουθούμε τη χρήση της εφαρμογής, να βρίσκουμε σφάλματα και να διορθώνουμε συντριβές. Όλες οι πληροφορίες που αποστέλλονται στο App Center είναι ανώνυμες και δεν περιέχουν δεδομένα χρήστη ή συμφραζόμενα.
+  </value>
+  </data>
+  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
+    <value>Κανένα</value>
+  </data>
+  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
+    <value>Όνομα</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+    <value>Ημερομηνία τροποποίησης</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
+    <value>Ημερομηνία δημιουργίας</value>
+  </data>
+  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
+    <value>Μέγεθος</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
+    <value>Ημερομηνία διαγραφής</value>
+  </data>
+  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+    <value>Αρχικός φάκελος</value>
+  </data>
+  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
+    <value>Τύπος</value>
+  </data>
+  <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
+    <value>Ανερχόμενο</value>
+  </data>
+  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+    <value>Κατιούσα</value>
+  </data>
+  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+    <value>Κατάσταση συγχρονισμού</value>
+  </data>
+  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
+    <value>Εμφάνιση της ενότητας Αγαπημένα στην πλαϊνή μπάρα</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
+    <value>Ετικέτα αρχείου</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
+    <value>Ετικέτα αρχείου</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
+    <value>Άνοιγμα γονικού φακέλου</value>
+  </data>
+  <data name="FileTagUnknown" xml:space="preserve">
+    <value>Άγνωστος</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
+    <value>Ετικέτα αρχείου</value>
+  </data>
+  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
+    <value>Επεξεργασία ετικετών αρχείων</value>
+  </data>
+  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Επεξεργασία ετικετών αρχείων</value>
+  </data>
+  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+    <value>Επεξεργασία ετικετών αρχείων</value>
+  </data>
+  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
+    <value>Ενεργοποίηση ετικετών αρχείων</value>
+  </data>
+  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
+    <value>Κλείσιμο</value>
+  </data>
+  <data name="InsertDiscDialog.Title" xml:space="preserve">
+    <value>Εισαγάγετε ένα δίσκο</value>
+  </data>
 </root>

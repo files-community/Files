@@ -135,6 +135,12 @@ namespace Files.ViewModels
             set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.DateDeleted; }
         }
 
+        public bool IsSortedByFileTag
+        {
+            get => InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.FileTag;
+            set { if (value) InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.FileTag; }
+        }
+
         // Group by
 
         public bool IsGroupedByNone
@@ -189,6 +195,12 @@ namespace Files.ViewModels
         {
             get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.DateDeleted;
             set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.DateDeleted; }
+        }
+
+        public bool IsGroupedByFileTag
+        {
+            get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileTag;
+            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.FileTag; }
         }
 
         private bool canCopyPathInPage;
@@ -334,6 +346,7 @@ namespace Files.ViewModels
             OnPropertyChanged(nameof(IsSortedBySyncStatus));
             OnPropertyChanged(nameof(IsSortedByOriginalFolder));
             OnPropertyChanged(nameof(IsSortedByDateDeleted));
+            OnPropertyChanged(nameof(IsSortedByFileTag));
         }
 
         private void FolderSettings_GroupOptionPreferenceUpdated(object sender, GroupOption e)
@@ -347,6 +360,7 @@ namespace Files.ViewModels
             OnPropertyChanged(nameof(IsGroupedBySyncStatus));
             OnPropertyChanged(nameof(IsGroupedByOriginalFolder));
             OnPropertyChanged(nameof(IsGroupedByDateDeleted));
+            OnPropertyChanged(nameof(IsGroupedByFileTag));
         }
 
         public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
@@ -780,6 +794,16 @@ namespace Files.ViewModels
                     var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
                     if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
                     {
+                        var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path)));
+                        if (matchingDrive != null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
+                        {
+                            bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "InsertDiscDialog/CloseDialogButton".GetLocalized());
+                            if (ejectButton)
+                            {
+                                await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                            }
+                            return;
+                        }
                         var pathToNavigate = resFolder.Result?.Path ?? currentInput;
                         shellPage.NavigateToPath(pathToNavigate);
                     }

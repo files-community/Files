@@ -7,6 +7,7 @@ using Files.Helpers;
 using Files.Interacts;
 using FluentFTP;
 using Microsoft.Toolkit.Uwp;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -255,7 +256,16 @@ namespace Files.Filesystem
                     if (fsResult)
                     {
                         var file = (StorageFile)sourceResult;
-                        var fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
+                        var fsResultCopy = new FilesystemResult<StorageFile>(null, FileSystemStatusCode.Generic);
+                        if (string.IsNullOrEmpty(file.Path) && collision != NameCollisionOption.ReplaceExisting)
+                        {
+                            // Microsoft bug! When dragging files from .zip, "GenerateUniqueName" option is not respected and the file gets overwritten
+                            fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.FailIfExists).AsTask());
+                        }
+                        else
+                        {
+                            fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
+                        }
 
                         if (fsResultCopy == FileSystemStatusCode.AlreadyExists)
                         {
@@ -644,7 +654,8 @@ namespace Files.Filesystem
             if (fsResult == FileSystemStatusCode.Unauthorized)
             {
                 // Try again with fulltrust process (non admin: for shortcuts and hidden files)
-                var connection = await AppServiceConnectionHelper.Instance;
+                // Not neeeded if called after trying with ShellFilesystemOperations
+                /*var connection = await AppServiceConnectionHelper.Instance;
                 if (connection != null)
                 {
                     var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
@@ -653,11 +664,14 @@ namespace Files.Filesystem
                         { "fileop", "DeleteItem" },
                         { "operationID", Guid.NewGuid().ToString() },
                         { "filepath", source.Path },
-                        { "permanently", permanently }
+                        { "permanently", permanently },
+                        { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                     });
                     fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
                         && response.Get("Success", false));
-                }
+                    var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", "{\"Items\": []}"));
+                    fsResult &= (FilesystemResult)shellOpResult.Items.All(x => x.Succeeded);
+                }*/
                 if (!fsResult)
                 {
                     fsResult = await PerformAdminOperation(new ValueSet()
@@ -666,7 +680,8 @@ namespace Files.Filesystem
                         { "fileop", "DeleteItem" },
                         { "operationID", Guid.NewGuid().ToString() },
                         { "filepath", source.Path },
-                        { "permanently", permanently }
+                        { "permanently", permanently },
+                        { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                     });
                 }
             }
@@ -1005,8 +1020,10 @@ namespace Files.Filesystem
                     if (connection != null)
                     {
                         var (status, response) = await connection.SendMessageForResponseAsync(operation);
-                        return (FilesystemResult)(status == AppServiceResponseStatus.Success
+                        var fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
                             && response.Get("Success", false));
+                        var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", "{\"Items\": []}"));
+                        fsResult &= (FilesystemResult)shellOpResult.Items.All(x => x.Succeeded);
                     }
                 }
             }

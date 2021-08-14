@@ -121,6 +121,7 @@
     <Compile Include="Helpers\DisposableDictionary.cs" />
     <Compile Include="Helpers\ShellFolderHelpers.cs" />
     <Compile Include="Helpers\ThreadWithMessageQueue.cs" />
+    <Compile Include="MessageHandlers\FileTagsHandler.cs" />
     <Compile Include="MessageHandlers\LibrariesHandler.cs" />
     <Compile Include="LogWriter.cs" />
     <Compile Include="FilePermissions.cs" />

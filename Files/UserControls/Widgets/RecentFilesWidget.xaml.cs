@@ -40,14 +40,7 @@ namespace Files.UserControls.Widgets
 
             recentItemsCollection.Clear();
 
-            try
-            {
-                PopulateRecentsList();
-            }
-            catch (Exception ex)
-            {
-                App.Logger.Info(ex, "Could not fetch recent items");
-            }
+            PopulateRecentsList();
         }
 
         private void OpenFileLocation_Click(object sender, RoutedEventArgs e)
@@ -68,38 +61,41 @@ namespace Files.UserControls.Widgets
 
         private async void PopulateRecentsList()
         {
-            var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
-
             Empty.Visibility = Visibility.Collapsed;
 
-            foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
+            await FilesystemTasks.Wrap(async () =>
             {
-                string mruToken = entry.Token;
-                var added = await FilesystemTasks.Wrap(async () =>
+                var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
+
+                foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
                 {
-                    IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
-                    await AddItemToRecentListAsync(item, entry);
-                });
-                if (added == FileSystemStatusCode.Unauthorized)
-                {
-                    // Skip item until consent is provided
-                }
-                // Exceptions include but are not limited to:
-                // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
-                // 0x8007016A -> The cloud file provider is not running
-                // 0x8000000A -> The data necessary to complete this operation is not yet available
-                // 0x80004005 -> Unspecified error
-                // 0x80270301 -> ?
-                else if (!added)
-                {
-                    await FilesystemTasks.Wrap(() =>
+                    string mruToken = entry.Token;
+                    var added = await FilesystemTasks.Wrap(async () =>
                     {
-                        mostRecentlyUsed.Remove(mruToken);
-                        return Task.CompletedTask;
+                        IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
+                        await AddItemToRecentListAsync(item, entry);
                     });
-                    System.Diagnostics.Debug.WriteLine(added.ErrorCode);
+                    if (added == FileSystemStatusCode.Unauthorized)
+                    {
+                        // Skip item until consent is provided
+                    }
+                    // Exceptions include but are not limited to:
+                    // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
+                    // 0x8007016A -> The cloud file provider is not running
+                    // 0x8000000A -> The data necessary to complete this operation is not yet available
+                    // 0x80004005 -> Unspecified error
+                    // 0x80270301 -> ?
+                    else if (!added)
+                    {
+                        await FilesystemTasks.Wrap(() =>
+                        {
+                            mostRecentlyUsed.Remove(mruToken);
+                            return Task.CompletedTask;
+                        });
+                        System.Diagnostics.Debug.WriteLine(added.ErrorCode);
+                    }
                 }
-            }
+            });
 
             if (recentItemsCollection.Count == 0)
             {

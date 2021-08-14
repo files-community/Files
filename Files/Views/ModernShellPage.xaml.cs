@@ -1,5 +1,4 @@
-﻿using Files.Common;
-using Files.DataModels;
+﻿using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
 using Files.EventArguments;
@@ -14,7 +13,6 @@ using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -1087,12 +1085,16 @@ namespace Files.Views
             }
             else
             {
-                if (string.IsNullOrEmpty(navigationPath)
-                    || string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory)
-                    || navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
+                if (string.IsNullOrEmpty(navigationPath) ||
+                    string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory) ||
+                    navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
                         FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
                         StringComparison.OrdinalIgnoreCase)) // return if already selected
                 {
+                    if (InstanceViewModel?.FolderSettings is FolderSettingsViewModel fsModel)
+                    {
+                        fsModel.IsLayoutModeChanging = false;
+                    }
                     return;
                 }
 

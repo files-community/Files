@@ -2710,7 +2710,52 @@ Files does not collect, store, share or publish any personal information.
 We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
   </value>
   </data>
+  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
+    <value>File tag</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
+    <value>File tag</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
+    <value>Open parent folder</value>
+  </data>
+  <data name="FileTagUnknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
+    <value>File tag</value>
+  </data>
+  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
+    <value>Edit file tags</value>
+  </data>
+  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Edit file tags</value>
+  </data>
+  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+    <value>Edit file tags</value>
+  </data>
+  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
+    <value>Enable file tags</value>
+  </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Show Favorites section on the sidebar</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Apply to all</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Part of set</value>
+  </data>
+  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
+    <value>Open Drive</value>
+  </data>
+  <data name="InsertDiscDialog.Text" xml:space="preserve">
+    <value>Please insert a disc into drive {0}</value>
+  </data>
+  <data name="InsertDiscDialog.Title" xml:space="preserve">
+    <value>Insert a disc</value>
   </data>
 </root>
