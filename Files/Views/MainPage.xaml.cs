@@ -332,7 +332,6 @@ namespace Files.Views
             FindName(nameof(horizontalMultitaskingControl));
             FindName(nameof(NavToolbar));
 
-
             // the adaptive triggers do not evaluate on app startup, manually checking and calling GoToState here fixes https://github.com/files-community/Files/issues/5801
             if (Window.Current.Bounds.Width < CollapseSearchBoxAdaptiveTrigger.MinWindowWidth)
             {
@@ -371,7 +370,6 @@ namespace Files.Views
         {
             SidebarAdaptiveViewModel.UpdateTabControlMargin(); // Set the correct tab margin on startup
         }
-
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
