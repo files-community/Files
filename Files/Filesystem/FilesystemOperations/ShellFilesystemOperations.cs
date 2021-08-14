@@ -179,7 +179,7 @@ namespace Files.Filesystem
         public async Task<IStorageHistory> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, bool permanently, CancellationToken cancellationToken)
         {
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\")))
+            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\") || FtpHelpers.IsFtpPath(x.Path)))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.DeleteItemsAsync(source, progress, errorCode, permanently, cancellationToken);
@@ -273,7 +273,7 @@ namespace Files.Filesystem
         public async Task<IStorageHistory> MoveItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IEnumerable<FileNameConflictResolveOptionType> collisions, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\")) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\")))
+            if (connection == null || source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\")) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\") || FtpHelpers.IsFtpPath(x)))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.MoveItemsAsync(source, destination, collisions, progress, errorCode, cancellationToken);
@@ -368,7 +368,7 @@ namespace Files.Filesystem
         public async Task<IStorageHistory> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\"))
+            if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\") || FtpHelpers.IsFtpPath(source.Path))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
@@ -412,7 +412,7 @@ namespace Files.Filesystem
         public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source, string destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
             var connection = await AppServiceConnectionHelper.Instance;
-            if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\") || string.IsNullOrWhiteSpace(destination) || destination.StartsWith(@"\\?\"))
+            if (connection == null || string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\") || string.IsNullOrWhiteSpace(destination) || destination.StartsWith(@"\\?\") || FtpHelpers.IsFtpPath(destination))
             {
                 // Fallback to builtin file operations
                 return await filesystemOperations.RestoreFromTrashAsync(source, destination, progress, errorCode, cancellationToken);
