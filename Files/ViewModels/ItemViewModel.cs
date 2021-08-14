@@ -1952,15 +1952,6 @@ namespace Files.ViewModels
             }
         }
 
-        private async Task RemoveFileOrFolderAsync(ListedItem item)
-        {
-            filesAndFolders.Remove(item);
-            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
-            {
-                App.JumpList.RemoveFolder(item.ItemPath);
-            });
-        }
-
         public async Task<ListedItem> RemoveFileOrFolderAsync(string path)
         {
             try
@@ -1978,7 +1969,7 @@ namespace Files.ViewModels
 
                 if (matchingItem != null)
                 {
-                    await RemoveFileOrFolderAsync(matchingItem);
+                    filesAndFolders.Remove(matchingItem);
                     return matchingItem;
                 }
             }

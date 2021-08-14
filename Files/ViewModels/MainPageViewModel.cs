@@ -400,10 +400,6 @@ namespace Files.ViewModels
                     }
                 }
 
-                // Check for required updates
-                AppUpdater updater = new AppUpdater();
-                updater.CheckForUpdatesAsync();
-
                 // Initial setting of SelectedTabItem
                 SelectedTabItem = AppInstances[App.MainViewModel.TabStripSelectedIndex];
             }

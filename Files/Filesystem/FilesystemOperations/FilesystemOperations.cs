@@ -889,8 +889,6 @@ namespace Files.Filesystem
                 await sourceFolder.DeleteAsync(StorageDeleteOption.Default);
             }
 
-            App.JumpList.RemoveFolder(sourceFolder.Path);
-
             return createdRoot;
         }
 

@@ -21,16 +21,9 @@ namespace Files.Controllers
             Model.SetController(this);
         }
 
-        public static Task<SidebarPinnedController> CreateInstance()
-        {
-            var instance = new SidebarPinnedController();
-            return instance.InitializeAsync();
-        }
-
-        public async Task<SidebarPinnedController> InitializeAsync()
+        public async Task InitializeAsync()
         {
             await LoadAsync();
-            return this;
         }
 
         private async Task LoadAsync()
