@@ -50,8 +50,6 @@ namespace Files.UserControls
 
         public event SidebarItemDroppedEventHandler SidebarItemDropped;
 
-        public event EventHandler RecycleBinItemRightTapped;
-
         /// <summary>
         /// The Model for the pinned sidebar items
         /// </summary>
@@ -128,8 +126,6 @@ namespace Files.UserControls
         public bool ShowEmptyRecycleBin { get; set; }
 
         public bool ShowEjectDevice { get; set; }
-
-        public bool RecycleBinHasItems { get; set; }
 
         public bool IsLocationItem { get; set; }
 
@@ -276,7 +272,6 @@ namespace Files.UserControls
 
                 if (string.Equals(item.Path, AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
                     ShowEmptyRecycleBin = true;
                     ShowUnpinItem = true;
                     ShowProperties = false;
@@ -863,6 +858,15 @@ namespace Files.UserControls
         {
             try
             {
+                if (ShowEmptyRecycleBin)
+                {
+                    var emptyRecycleBinItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "EmptyRecycleBin") as AppBarButton;
+                    if (emptyRecycleBinItem is not null)
+                    {
+                        var binHasItems = await new RecycleBinHelpers().RecycleBinHasItems();
+                        emptyRecycleBinItem.IsEnabled = binHasItems;
+                    }
+                }
                 if (IsLocationItem)
                 {
                     var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
@@ -905,7 +909,9 @@ namespace Files.UserControls
                     GlyphFontFamilyName = "RecycleBinIcons",
                     Command = EmptyRecycleBinCommand,
                     ShowItem = ShowEmptyRecycleBin,
-                    IsEnabled = RecycleBinHasItems
+                    IsEnabled = false,
+                    ID = "EmptyRecycleBin",
+                    Tag = "EmptyRecycleBin",
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
