@@ -32,6 +32,7 @@ namespace Files.ViewModels
                 OnPropertyChanged(nameof(CanOpenTerminalInPage));
                 OnPropertyChanged(nameof(CanCopyPathInPage));
                 OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
+                OnPropertyChanged(nameof(CanShareInPage));
             }
         }
 
@@ -75,6 +76,8 @@ namespace Files.ViewModels
                 OnPropertyChanged(nameof(CanPasteInPage));
                 OnPropertyChanged(nameof(CanOpenTerminalInPage));
                 OnPropertyChanged(nameof(CanCopyPathInPage));
+                OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
+                OnPropertyChanged(nameof(CanShareInPage));
             }
         }
 
@@ -91,6 +94,8 @@ namespace Files.ViewModels
                 OnPropertyChanged(nameof(CanPasteInPage));
                 OnPropertyChanged(nameof(CanOpenTerminalInPage));
                 OnPropertyChanged(nameof(CanCopyPathInPage));
+                OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
+                OnPropertyChanged(nameof(CanShareInPage));
             }
         }
 
@@ -107,10 +112,13 @@ namespace Files.ViewModels
                 OnPropertyChanged(nameof(CanPasteInPage));
                 OnPropertyChanged(nameof(CanOpenTerminalInPage));
                 OnPropertyChanged(nameof(CanCopyPathInPage));
+                OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
+                OnPropertyChanged(nameof(CanShareInPage));
             }
         }
 
         private bool isPageTypeFtp = false;
+
         public bool IsPageTypeFtp
         {
             get => isPageTypeFtp;
@@ -119,7 +127,29 @@ namespace Files.ViewModels
                 SetProperty(ref isPageTypeFtp, value);
                 OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
                 OnPropertyChanged(nameof(CanCreateFileInPage));
+                OnPropertyChanged(nameof(CanPasteInPage));
                 OnPropertyChanged(nameof(CanOpenTerminalInPage));
+                OnPropertyChanged(nameof(CanCopyPathInPage));
+                OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
+                OnPropertyChanged(nameof(CanShareInPage));
+            }
+        }
+
+        private bool isPageTypeCloudDrive = false;
+
+        public bool IsPageTypeCloudDrive
+        {
+            get => isPageTypeCloudDrive;
+            set
+            {
+                SetProperty(ref isPageTypeCloudDrive, value);
+                OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
+                OnPropertyChanged(nameof(CanCreateFileInPage));
+                OnPropertyChanged(nameof(CanPasteInPage));
+                OnPropertyChanged(nameof(CanOpenTerminalInPage));
+                OnPropertyChanged(nameof(CanCopyPathInPage));
+                OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
+                OnPropertyChanged(nameof(CanShareInPage));
             }
         }
 
@@ -148,12 +178,9 @@ namespace Files.ViewModels
             get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults;
         }
 
-        private bool isPageTypeCloudDrive = false;
-
-        public bool IsPageTypeCloudDrive
+        public bool CanShareInPage
         {
-            get => isPageTypeCloudDrive;
-            set => SetProperty(ref isPageTypeCloudDrive, value);
+            get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeFtp;
         }
     }
 }

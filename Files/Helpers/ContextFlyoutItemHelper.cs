@@ -692,7 +692,6 @@ namespace Files.Helpers
                     ItemType = ItemType.Separator,
                     ShowInRecycleBin = true,
                     ShowInSearchPage = true,
-                    ShowInFtpPage = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
