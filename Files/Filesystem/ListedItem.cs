@@ -386,7 +386,7 @@ namespace Files.Filesystem
 
     public class FtpItem : ListedItem
     {
-        public FtpItem(FtpListItem item, string folder)
+        public FtpItem(FtpListItem item, string folder, string dateReturnFormat = null) : base(null, dateReturnFormat)
         {
             var isFile = item.Type == FtpFileSystemObjectType.File;
             ItemDateCreatedReal = item.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawCreated;

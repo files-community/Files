@@ -1367,7 +1367,7 @@ namespace Files.ViewModels
 
                         for (var i = 0; i < list.Length; i++)
                         {
-                            filesAndFolders.Add(new FtpItem(list[i], path));
+                            filesAndFolders.Add(new FtpItem(list[i], path, returnformat));
 
                             if (i == 32 || i == list.Length - 1 || sampler.CheckNow())
                             {
