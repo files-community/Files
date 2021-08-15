@@ -295,6 +295,7 @@
                         x:FieldModifier="public"
                         x:Load="False"
                         Loaded="HorizontalMultitaskingControl_Loaded"
+                        TabIndex="0"
                         TabStripVisibility="Visible"
                         Visibility="Visible">
                         <usercontrols:HorizontalMultitaskingControl.ActionsControl>
@@ -380,7 +381,7 @@
                         ShowSettingsButton="{x:Bind IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                         ShowStatusCenter="True"
                         StatusCenterViewModel="{x:Bind StatusCenterViewModel}"
-                        TabIndex="0" />
+                        TabIndex="1" />
                 </Grid>
             </controls:SidebarControl.TabContent>
 
@@ -414,7 +415,8 @@
                     IsCompactOverlay="{x:Bind IsCompactOverlay, Mode=OneWay}"
                     Loaded="NavToolbar_Loaded"
                     SetCompactOverlayCommand="{x:Bind SetCompactOverlayCommand}"
-                    ShowPreviewPaneButton="{x:Bind IsPreviewPaneDisabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
+                    ShowPreviewPaneButton="{x:Bind IsPreviewPaneDisabled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                    TabIndex="2" />
 
                 <ContentPresenter
                     Grid.Row="1"
