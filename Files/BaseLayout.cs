@@ -239,7 +239,11 @@ namespace Files
                         {
                             SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemSelected/Text".GetLocalized()}";
                             SelectedItemsPropertiesViewModel.ItemSize = SelectedItem.FileSize;
-                            preRenamingItem = SelectedItem;
+                            DispatcherQueue.GetForCurrentThread().EnqueueAsync(async () =>
+                            {
+                                await Task.Delay(50); // Tapped event must be executed first
+                                preRenamingItem = SelectedItem;
+                            });
                         }
                         else
                         {
