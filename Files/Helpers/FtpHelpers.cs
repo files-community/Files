@@ -28,8 +28,12 @@ namespace Files.Helpers
 
         public static bool IsFtpPath(string path)
         {
-            return path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase)
-                || path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase);
+            if (!string.IsNullOrEmpty(path))
+            {
+                return path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase)
+                    || path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase);
+            }
+            return false;
         }
 
         public static bool VerifyFtpPath(string path)

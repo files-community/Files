@@ -313,7 +313,7 @@ namespace Files.Filesystem
                     return null;
                 }
             }
-            else if (!string.IsNullOrEmpty(source.Path) && FtpHelpers.IsFtpPath(destination))
+            else if (FtpHelpers.IsFtpPath(destination))
             {
                 var ftpClient = associatedInstance.FilesystemViewModel.GetFtpInstance();
 

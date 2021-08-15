@@ -3,6 +3,7 @@ using Files.EventArguments;
 using Files.Events;
 using Files.Extensions;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.ContextFlyouts;
 using Files.Interacts;
@@ -757,7 +758,14 @@ namespace Files
                 }
 
                 SelectedItems.Add(item);
-                if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                if (item is FtpItem ftpItem)
+                {
+                    if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                    {
+                        selectedStorageItems.Add(await new FtpStorageFile(ParentShellPageInstance.FilesystemViewModel, ftpItem).ToStorageFileAsync());
+                    }
+                }
+                else if (item.PrimaryItemAttribute == StorageItemTypes.File)
                 {
                     await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
                         .OnSuccess(t => selectedStorageItems.Add(t));
