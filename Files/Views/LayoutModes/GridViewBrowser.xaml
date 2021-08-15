@@ -532,14 +532,13 @@
                     DragOver="ItemsLayout_DragOver"
                     Drop="ItemsLayout_Drop"
                     IsDoubleTapEnabled="True"
-                    IsItemClickEnabled="True"
-                    ItemClick="FileList_ItemClick"
                     ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
                     PreviewKeyDown="FileList_PreviewKeyDown"
                     ScrollViewer.IsHorizontalScrollChainingEnabled="False"
                     SelectionChanged="FileList_SelectionChanged"
                     SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
-                    StretchContentForSingleRow="False">
+                    StretchContentForSingleRow="False"
+                    Tapped="FileList_ItemTapped">
                     <controls:AdaptiveGridView.GroupStyle>
                         <GroupStyle>
                             <GroupStyle.HeaderTemplate>
@@ -629,7 +628,6 @@
                 <ListView
                     HorizontalAlignment="Stretch"
                     VerticalContentAlignment="Center"
-                    IsItemClickEnabled="True"
                     ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
                     SelectionMode="None">
                     <ListView.ItemTemplate>

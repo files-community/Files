@@ -399,16 +399,12 @@ namespace Files.ViewModels
                         await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
                     }
                 }
-
-                // Initial setting of SelectedTabItem
-                SelectedTabItem = AppInstances[App.MainViewModel.TabStripSelectedIndex];
             }
         }
 
         public static async Task AddNewTabAsync()
         {
             await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
-            App.MainViewModel.TabStripSelectedIndex = AppInstances.Count - 1;
         }
 
         public async void AddNewTab()
