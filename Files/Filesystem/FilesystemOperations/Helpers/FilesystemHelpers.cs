@@ -4,6 +4,7 @@ using Files.Dialogs;
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Interacts;
 using Files.ViewModels;
