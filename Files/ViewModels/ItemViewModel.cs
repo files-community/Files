@@ -911,6 +911,7 @@ namespace Files.ViewModels
                 }
                 catch (OperationCanceledException)
                 {
+                    loadExtendedPropsSemaphore.Release();
                     return;
                 }
 
@@ -2084,6 +2085,7 @@ namespace Files.ViewModels
             filesAndFolders.Clear();
             IsLoadingItems = true;
             IsSearchResults = true;
+            itemLoadEvent.Reset();
             await ApplyFilesAndFoldersChangesAsync();
             EmptyTextType = EmptyTextType.None;
 
@@ -2104,6 +2106,7 @@ namespace Files.ViewModels
 
             ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete });
             IsLoadingItems = false;
+            itemLoadEvent.Set();
         }
 
         public void CancelSearch()

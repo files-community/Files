@@ -100,7 +100,7 @@ namespace Files.Filesystem.Search
 
         private async Task SearchAsync(StorageFolder folder, IList<ListedItem> results, CancellationToken token)
         {
-            var sampler = new IntervalSampler(500);
+            //var sampler = new IntervalSampler(500);
             uint index = 0;
             var stepSize = Math.Min(defaultStepSize, UsedMaxItemCount);
             var options = ToQueryOptions();
@@ -126,7 +126,7 @@ namespace Files.Filesystem.Search
                         App.Logger.Warn(ex, "Error creating ListedItem from StorageItem");
                     }
 
-                    if (results.Count == 32 || sampler.CheckNow())
+                    if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
                     {
                         SearchTick?.Invoke(this, new());
                     }
@@ -148,7 +148,7 @@ namespace Files.Filesystem.Search
 
         private async Task SearchTagsAsync(string folder, IList<ListedItem> results)
         {
-            var sampler = new IntervalSampler(500);
+            //var sampler = new IntervalSampler(500);
             var tagName = AQSQuery.Substring("tag:".Length);
             var tags = App.AppSettings.FileTagsSettings.GetTagsByName(tagName);
             if (!tags.Any())
@@ -197,7 +197,7 @@ namespace Files.Filesystem.Search
                     }
                 }
 
-                if (results.Count == 32 || sampler.CheckNow())
+                if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
                 {
                     SearchTick?.Invoke(this, new());
                 }
@@ -238,7 +238,7 @@ namespace Files.Filesystem.Search
 
         private async Task SearchWithWin32Async(string folder, bool hiddenOnly, uint maxItemCount, IList<ListedItem> results, CancellationToken token)
         {
-            var sampler = new IntervalSampler(500);
+            //var sampler = new IntervalSampler(500);
             (IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
             {
                 int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
@@ -275,7 +275,7 @@ namespace Files.Filesystem.Search
                             }
                         }
 
-                        if (results.Count == 32 || sampler.CheckNow())
+                        if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
                         {
                             SearchTick?.Invoke(this, new());
                         }
