@@ -408,7 +408,7 @@ namespace Files
             IsItemSelected = false;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
-            //ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
+            ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
             FolderSettings.SetLayoutInformation();
 
             if (!navigationArguments.IsSearchResultPage)

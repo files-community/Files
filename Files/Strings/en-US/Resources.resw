@@ -2779,4 +2779,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>UserName</value>
   </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>No items found</value>
+  </data>
 </root>
