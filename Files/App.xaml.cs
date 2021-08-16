@@ -79,6 +79,7 @@ namespace Files
             }
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
+            await ExternalResourcesHelper.LoadWindowsVersionStyle();
             await ExternalResourcesHelper.LoadSelectedTheme();
 
             MainViewModel ??= new MainViewModel();
