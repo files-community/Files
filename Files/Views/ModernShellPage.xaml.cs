@@ -666,6 +666,7 @@ namespace Files.Views
                     }
                     break;
 
+                case (false, false, false, true, VirtualKey.F3): //f3
                 case (true, false, false, true, VirtualKey.F): // ctrl + f
                     NavToolbarViewModel.SwitchSearchBoxVisibility();
                     break;
