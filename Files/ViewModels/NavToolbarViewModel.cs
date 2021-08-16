@@ -972,7 +972,7 @@ namespace Files.ViewModels
         }
 
         public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
-        public bool CanShare => SelectedItems is not null && SelectedItems.Any() && !SelectedItems.All(x => x.IsShortcutItem || x.IsHiddenItem);
+        public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => x.IsShortcutItem || x.IsHiddenItem || x.PrimaryItemAttribute == StorageItemTypes.Folder);
         public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
 
         public void Dispose()

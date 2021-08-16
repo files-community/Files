@@ -4,6 +4,7 @@ using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.Cloud;
+using Files.Filesystem.Search;
 using Files.Filesystem.StorageEnumerators;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
@@ -431,6 +432,7 @@ namespace Files.ViewModels
             CancelExtendedPropertiesLoading();
             filesAndFolders.Clear();
             FilesAndFolders.Clear();
+            CancelSearch();
         }
 
         public void CancelExtendedPropertiesLoading()
@@ -2072,6 +2074,37 @@ namespace Files.ViewModels
             }
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
+        }
+
+        private CancellationTokenSource searchCancellationToken;
+
+        public async Task SearchAsync(FolderSearch search)
+        {
+            CancelSearch();
+            searchCancellationToken = new CancellationTokenSource();
+            filesAndFolders.Clear();
+            IsLoadingItems = true;
+            await ApplyFilesAndFoldersChangesAsync();
+            IsFolderEmptyTextDisplayed = false;
+
+            var results = new List<ListedItem>();
+            search.SearchTick += async (s, e) =>
+            {
+                filesAndFolders = new List<ListedItem>(results);
+                await OrderFilesAndFoldersAsync();
+                await ApplyFilesAndFoldersChangesAsync();
+            };
+            await search.SearchAsync(results, searchCancellationToken.Token);
+
+            await OrderFilesAndFoldersAsync();
+            await ApplyFilesAndFoldersChangesAsync();
+
+            IsLoadingItems = false;
+        }
+
+        public void CancelSearch()
+        {
+            searchCancellationToken?.Cancel();
         }
 
         public void Dispose()

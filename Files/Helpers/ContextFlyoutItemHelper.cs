@@ -820,7 +820,7 @@ namespace Files.Helpers
                         OverlayLayerGlyph = "\u0026",
                     },
                     Command = commandsViewModel.ShareItemCommand,
-                    ShowItem = DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem),
+                    ShowItem = DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem || i.IsShortcutItem || i.PrimaryItemAttribute == StorageItemTypes.Folder),
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {

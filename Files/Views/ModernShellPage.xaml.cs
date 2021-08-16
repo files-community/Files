@@ -281,6 +281,7 @@ namespace Files.Views
             {
                 if (!string.IsNullOrWhiteSpace(sender.Query))
                 {
+                    var query = sender.Query;
                     var search = new FolderSearch
                     {
                         Query = sender.Query,
@@ -322,15 +323,19 @@ namespace Files.Views
             }
         }
 
+        FolderSearch previousSearchInstance;
+
         public async void SubmitSearch(string query, bool searchUnindexedItems)
         {
-            var search = new FolderSearch
+            previousSearchInstance = new FolderSearch
             {
                 Query = query,
                 Folder = FilesystemViewModel.WorkingDirectory,
                 ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
                 SearchUnindexedItems = searchUnindexedItems
             };
+            FilesystemViewModel.CancelSearch();
+            SetLoadingIndicatorForTabs(true);
             InstanceViewModel.CurrentSearchQuery = query;
             InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
             ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
@@ -338,8 +343,12 @@ namespace Files.Views
                 AssociatedTabInstance = this,
                 IsSearchResultPage = true,
                 SearchPathParam = FilesystemViewModel.WorkingDirectory,
-                SearchResults = await search.SearchAsync(),
+                //SearchResults = await search.SearchAsync(),
+                FolderSearch = previousSearchInstance,
             });
+
+            await FilesystemViewModel.SearchAsync(previousSearchInstance);
+            SetLoadingIndicatorForTabs(false);
         }
 
         private void ModernShellPage_RefreshRequested(object sender, EventArgs e)
@@ -802,12 +811,25 @@ namespace Files.Views
 
         public async void Refresh_Click()
         {
+
             NavToolbarViewModel.CanRefresh = false;
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+
+            if (InstanceViewModel.IsPageTypeSearchResults)
             {
-                var ContentOwnedViewModelInstance = FilesystemViewModel;
-                ContentOwnedViewModelInstance?.RefreshItems(null);
-            });
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    SetLoadingIndicatorForTabs(true);
+                    await FilesystemViewModel.SearchAsync(previousSearchInstance);
+                    SetLoadingIndicatorForTabs(false);
+                });
+            } else
+            {
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    var ContentOwnedViewModelInstance = FilesystemViewModel;
+                    ContentOwnedViewModelInstance?.RefreshItems(null);
+                });
+            }
         }
 
         public void Back_Click()
@@ -1167,6 +1189,7 @@ namespace Files.Views
         public IShellPage AssociatedTabInstance { get; set; }
         public bool IsSearchResultPage { get; set; } = false;
         public ObservableCollection<ListedItem> SearchResults { get; set; } = new ObservableCollection<ListedItem>();
+        public FolderSearch FolderSearch { get; set; }
         public string SearchPathParam { get; set; } = null;
         public bool IsLayoutSwitch { get; set; } = false;
         public IEnumerable<string> SelectItems { get; set; }

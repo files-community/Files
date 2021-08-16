@@ -7,8 +7,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
@@ -18,7 +20,7 @@ using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem.Search
 {
-    internal class FolderSearch
+    public class FolderSearch
     {
         private const uint defaultStepSize = 500;
 
@@ -31,26 +33,55 @@ namespace Files.Filesystem.Search
 
         private uint UsedMaxItemCount => MaxItemCount > 0 ? MaxItemCount : uint.MaxValue;
 
-        public async Task<ObservableCollection<ListedItem>> SearchAsync()
-        {
-            var results = new ObservableCollection<ListedItem>();
+        public EventHandler SearchTick;
 
+        public string AQSQuery
+        {
+            get
+            {
+                // if the query starts with a $, assume the query is in aqs format, otherwise assume the user is searching for the file name
+                if (Query is not null && Query.StartsWith("$"))
+                {
+                    return Query.Substring(1);
+                }
+                else
+                {
+                    return $"filename:\"{Query}\"";
+                }
+            }
+        }
+
+        public async Task SearchAsync(IList<ListedItem> results, CancellationToken token)
+        {
             if (App.LibraryManager.TryGetLibrary(Folder, out var library))
             {
-                await AddItemsAsync(library, results);
+                await AddItemsAsync(library, results, token);
             }
             else
             {
-                await AddItemsAsync(Folder, results);
+                await AddItemsAsync(Folder, results, token);
+            }
+        }
+
+        public async Task<ObservableCollection<ListedItem>> SearchAsync()
+        {
+            ObservableCollection<ListedItem> results = new ObservableCollection<ListedItem>();
+            var token = new CancellationTokenSource().Token;
+            if (App.LibraryManager.TryGetLibrary(Folder, out var library))
+            {
+                await AddItemsAsync(library, results, token);
+            }
+            else
+            {
+                await AddItemsAsync(Folder, results, token);
             }
 
             return results;
         }
 
-        private async Task<IList<ListedItem>> SearchAsync(StorageFolder folder)
+        private async Task SearchAsync(StorageFolder folder, IList<ListedItem> results, CancellationToken token)
         {
             uint index = 0;
-            var results = new List<ListedItem>();
             var stepSize = Math.Min(defaultStepSize, UsedMaxItemCount);
             var options = ToQueryOptions();
 
@@ -61,6 +92,11 @@ namespace Files.Filesystem.Search
             {
                 foreach (IStorageItem item in items)
                 {
+                    if (token.IsCancellationRequested)
+                    {
+                        return;
+                    }
+
                     try
                     {
                         results.Add(await GetListedItemAsync(item));
@@ -75,20 +111,21 @@ namespace Files.Filesystem.Search
                 stepSize = Math.Min(defaultStepSize, UsedMaxItemCount - (uint)results.Count);
                 items = await queryResult.GetItemsAsync(index, stepSize);
             }
-            return results;
+
+            SearchTick?.Invoke(this, new());
         }
 
-        private async Task AddItemsAsync(LibraryLocationItem library, ObservableCollection<ListedItem> results)
+        private async Task AddItemsAsync(LibraryLocationItem library, IList<ListedItem> results, CancellationToken token)
         {
             foreach (var folder in library.Folders)
             {
-                await AddItemsAsync(folder, results);
+                await AddItemsAsync(folder, results, token);
             }
         }
 
-        private async Task SearchTagsAsync(string folder, ObservableCollection<ListedItem> results)
+        private async Task SearchTagsAsync(string folder, IList<ListedItem> results)
         {
-            var tagName = Query.Substring("tag:".Length);
+            var tagName = AQSQuery.Substring("tag:".Length);
             var tags = App.AppSettings.FileTagsSettings.GetTagsByName(tagName);
             if (!tags.Any())
             {
@@ -117,6 +154,7 @@ namespace Files.Filesystem.Search
                         if (item != null)
                         {
                             results.Add(item);
+                            SearchTick?.Invoke(this, new());
                         }
                     }
 
@@ -138,9 +176,9 @@ namespace Files.Filesystem.Search
             }
         }
 
-        private async Task AddItemsAsync(string folder, ObservableCollection<ListedItem> results)
+        private async Task AddItemsAsync(string folder, IList<ListedItem> results, CancellationToken token)
         {
-            if (Query.StartsWith("tag:"))
+            if (AQSQuery.StartsWith("tag:"))
             {
                 await SearchTagsAsync(folder, results);
             }
@@ -151,24 +189,26 @@ namespace Files.Filesystem.Search
                 var hiddenOnlyFromWin32 = false;
                 if (workingFolder)
                 {
-                    foreach (var item in await SearchAsync(workingFolder))
-                    {
-                        results.Add(item);
-                    }
+                    await SearchAsync(workingFolder, results, token);
+                    //foreach (var item in await SearchAsync(workingFolder))
+                    //{
+                    //    results.Add(item);
+                    //}
                     hiddenOnlyFromWin32 = true;
                 }
 
                 if (!hiddenOnlyFromWin32 || App.AppSettings.AreHiddenItemsVisible)
                 {
-                    foreach (var item in await SearchWithWin32Async(folder, hiddenOnlyFromWin32, UsedMaxItemCount - (uint)results.Count))
-                    {
-                        results.Add(item);
-                    }
+                    await SearchWithWin32Async(folder, hiddenOnlyFromWin32, UsedMaxItemCount - (uint)results.Count, results, token);
+                    //foreach (var item in)
+                    //{
+                    //    results.Add(item);
+                    //}
                 }
             }
         }
 
-        private async Task<IList<ListedItem>> SearchWithWin32Async(string folder, bool hiddenOnly, uint maxItemCount)
+        private async Task SearchWithWin32Async(string folder, bool hiddenOnly, uint maxItemCount, IList<ListedItem> result, CancellationToken token)
         {
             var results = new List<ListedItem>();
             (IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
@@ -204,6 +244,7 @@ namespace Files.Filesystem.Search
                             if (item != null)
                             {
                                 results.Add(item);
+                                SearchTick?.Invoke(this, new());
                             }
                         }
 
@@ -213,7 +254,6 @@ namespace Files.Filesystem.Search
                     FindClose(hFile);
                 });
             }
-            return results;
         }
 
         private ListedItem GetListedItemAsync(string itemPath, WIN32_FIND_DATA findData)
@@ -344,7 +384,7 @@ namespace Files.Filesystem.Search
             var query = new QueryOptions
             {
                 FolderDepth = FolderDepth.Deep,
-                UserSearchFilter = Query ?? string.Empty,
+                UserSearchFilter = AQSQuery ?? string.Empty,
             };
 
             query.IndexerOption = SearchUnindexedItems
