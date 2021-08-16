@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using ByteSizeLib;
+using Files.Common;
 using Files.Extensions;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp;
@@ -326,6 +327,7 @@ namespace Files.Filesystem.Search
         private async Task<ListedItem> GetListedItemAsync(IStorageItem item)
         {
             ListedItem listedItem = null;
+            var props = await item.GetBasicPropertiesAsync();
             if (item.IsOfType(StorageItemTypes.Folder))
             {
                 var folder = (StorageFolder)item;
@@ -335,6 +337,8 @@ namespace Files.Filesystem.Search
                     ItemName = folder.DisplayName,
                     ItemPath = folder.Path,
                     LoadFolderGlyph = true,
+                    ItemDateModifiedReal = props.DateModified,
+                    ItemDateCreatedReal = folder.DateCreated,
                     LoadUnknownTypeGlyph = false,
                     Opacity = 1
                 };
@@ -350,6 +354,8 @@ namespace Files.Filesystem.Search
                     itemType = itemFileExtension.Trim('.') + " " + itemType;
                 }
 
+                var itemSize = ByteSize.FromBytes(props.Size).ToBinaryString().ConvertSizeAbbreviation();
+
                 listedItem = new ListedItem(null)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
@@ -359,6 +365,10 @@ namespace Files.Filesystem.Search
                     LoadUnknownTypeGlyph = true,
                     LoadFolderGlyph = false,
                     FileExtension = itemFileExtension,
+                    FileSizeBytes = (long)props.Size,
+                    FileSize = itemSize,
+                    ItemDateModifiedReal = props.DateModified,
+                    ItemDateCreatedReal = file.DateCreated,
                     ItemType = itemType,
                     Opacity = 1
                 };
@@ -394,7 +404,7 @@ namespace Files.Filesystem.Search
             query.SortOrder.Clear();
             query.SortOrder.Add(new SortEntry { PropertyName = "System.Search.Rank", AscendingOrder = false });
 
-            query.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
+            query.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, null);
             query.SetThumbnailPrefetch(ThumbnailMode.ListView, 24, ThumbnailOptions.UseCurrentScale);
 
             return query;
