@@ -281,7 +281,6 @@ namespace Files.Views
             {
                 if (!string.IsNullOrWhiteSpace(sender.Query))
                 {
-                    var query = sender.Query;
                     var search = new FolderSearch
                     {
                         Query = sender.Query,
@@ -343,8 +342,6 @@ namespace Files.Views
                 AssociatedTabInstance = this,
                 IsSearchResultPage = true,
                 SearchPathParam = FilesystemViewModel.WorkingDirectory,
-                //SearchResults = await search.SearchAsync(),
-                FolderSearch = previousSearchInstance,
             });
 
             await FilesystemViewModel.SearchAsync(previousSearchInstance);
@@ -821,6 +818,7 @@ namespace Files.Views
                     SetLoadingIndicatorForTabs(true);
                     await FilesystemViewModel.SearchAsync(previousSearchInstance);
                     SetLoadingIndicatorForTabs(false);
+                    NavToolbarViewModel.CanRefresh = true;
                 });
             } else
             {
@@ -1189,7 +1187,6 @@ namespace Files.Views
         public IShellPage AssociatedTabInstance { get; set; }
         public bool IsSearchResultPage { get; set; } = false;
         public ObservableCollection<ListedItem> SearchResults { get; set; } = new ObservableCollection<ListedItem>();
-        public FolderSearch FolderSearch { get; set; }
         public string SearchPathParam { get; set; } = null;
         public bool IsLayoutSwitch { get; set; } = false;
         public IEnumerable<string> SelectItems { get; set; }

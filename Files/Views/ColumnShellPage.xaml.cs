@@ -286,8 +286,8 @@ namespace Files.Views
                     var search = new FolderSearch
                     {
                         Query = sender.Query,
-                        MaxItemCount = 10,
                         Folder = FilesystemViewModel.WorkingDirectory,
+                        MaxItemCount = 10,
                         SearchUnindexedItems = App.AppSettings.SearchUnindexedItems
                     };
                     sender.SetSuggestions(await search.SearchAsync());
@@ -746,12 +746,27 @@ namespace Files.Views
 
         public async void Refresh_Click()
         {
+
             NavToolbarViewModel.CanRefresh = false;
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+
+            if (InstanceViewModel.IsPageTypeSearchResults)
             {
-                var ContentOwnedViewModelInstance = FilesystemViewModel;
-                ContentOwnedViewModelInstance?.RefreshItems(null);
-            });
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    SetLoadingIndicatorForTabs(true);
+                    await FilesystemViewModel.SearchAsync(previousSearchInstance);
+                    SetLoadingIndicatorForTabs(false);
+                    NavToolbarViewModel.CanRefresh = true;
+                });
+            }
+            else
+            {
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    var ContentOwnedViewModelInstance = FilesystemViewModel;
+                    ContentOwnedViewModelInstance?.RefreshItems(null);
+                });
+            }
         }
 
         public void Back_Click()
@@ -970,25 +985,30 @@ namespace Files.Views
             ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
         }
 
+        FolderSearch previousSearchInstance;
+
         public async void SubmitSearch(string query, bool searchUnindexedItems)
         {
-            var search = new FolderSearch
+            previousSearchInstance = new FolderSearch
             {
                 Query = query,
                 Folder = FilesystemViewModel.WorkingDirectory,
                 ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
                 SearchUnindexedItems = searchUnindexedItems
             };
-
+            FilesystemViewModel.CancelSearch();
+            SetLoadingIndicatorForTabs(true);
             InstanceViewModel.CurrentSearchQuery = query;
-            InstanceViewModel.SearchedUnindexedItems = !searchUnindexedItems;
+            InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
             ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
             {
                 AssociatedTabInstance = this,
                 IsSearchResultPage = true,
                 SearchPathParam = FilesystemViewModel.WorkingDirectory,
-                SearchResults = await search.SearchAsync(),
             });
+
+            await FilesystemViewModel.SearchAsync(previousSearchInstance);
+            SetLoadingIndicatorForTabs(false);
         }
     }
 }

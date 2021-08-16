@@ -41,40 +41,54 @@ namespace Files.Filesystem.Search
             get
             {
                 // if the query starts with a $, assume the query is in aqs format, otherwise assume the user is searching for the file name
-                if (Query is not null && Query.StartsWith("$"))
+                if (Query is not null && (Query.StartsWith("$") || Query.Contains(":")))
                 {
                     return Query.Substring(1);
                 }
                 else
                 {
-                    return $"filename:\"{Query}\"";
+                    return $"System.FileName:\"{Query}\"";
                 }
             }
         }
 
         public async Task SearchAsync(IList<ListedItem> results, CancellationToken token)
         {
-            if (App.LibraryManager.TryGetLibrary(Folder, out var library))
+            try
             {
-                await AddItemsAsync(library, results, token);
+                if (App.LibraryManager.TryGetLibrary(Folder, out var library))
+                {
+                    await AddItemsAsync(library, results, token);
+                }
+                else
+                {
+                    await AddItemsAsync(Folder, results, token);
+                }
             }
-            else
+            catch (Exception e)
             {
-                await AddItemsAsync(Folder, results, token);
+                App.Logger.Warn(e, "Search failure");
             }
         }
 
         public async Task<ObservableCollection<ListedItem>> SearchAsync()
         {
             ObservableCollection<ListedItem> results = new ObservableCollection<ListedItem>();
-            var token = new CancellationTokenSource().Token;
-            if (App.LibraryManager.TryGetLibrary(Folder, out var library))
+            try
             {
-                await AddItemsAsync(library, results, token);
+                var token = new CancellationTokenSource().Token;
+                if (App.LibraryManager.TryGetLibrary(Folder, out var library))
+                {
+                    await AddItemsAsync(library, results, token);
+                }
+                else
+                {
+                    await AddItemsAsync(Folder, results, token);
+                }
             }
-            else
+            catch (Exception e)
             {
-                await AddItemsAsync(Folder, results, token);
+                App.Logger.Warn(e, "Search failure");
             }
 
             return results;
