@@ -41,9 +41,13 @@ namespace Files.Filesystem.Search
             get
             {
                 // if the query starts with a $, assume the query is in aqs format, otherwise assume the user is searching for the file name
-                if (Query is not null && (Query.StartsWith("$") || Query.Contains(":")))
+                if (Query is not null && Query.StartsWith("$"))
                 {
                     return Query.Substring(1);
+                }
+                else if (Query is not null && Query.Contains(":"))
+                {
+                    return Query;
                 }
                 else
                 {
