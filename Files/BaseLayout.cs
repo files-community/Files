@@ -458,6 +458,14 @@ namespace Files
                 {
                     var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
                     ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, $"{"SearchPagePathBoxOverrideText".GetLocalized()} {displayName}");
+                    var searchInstance = new Filesystem.Search.FolderSearch
+                    {
+                        Query = navigationArguments.SearchQuery,
+                        Folder = navigationArguments.SearchPathParam,
+                        ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
+                        SearchUnindexedItems = navigationArguments.SearchUnindexedItems
+                    };
+                    _ = ParentShellPageInstance.FilesystemViewModel.SearchAsync(searchInstance);
                 }
             }
 

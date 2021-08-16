@@ -832,7 +832,7 @@ namespace Files.Views
             }
         }
 
-        public async void Back_Click()
+        public void Back_Click()
         {
             NavToolbarViewModel.CanGoBack = false;
             if (ItemDisplayFrame.CanGoBack)
@@ -855,22 +855,10 @@ namespace Files.Views
                 {
                     ItemDisplayFrame.GoBack();
                 }
-
-                if (previousPageNavPath.IsSearchResultPage)
-                {
-                    var searchInstance = new FolderSearch
-                    {
-                        Query = previousPageNavPath.SearchQuery,
-                        Folder = FilesystemViewModel.WorkingDirectory,
-                        ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
-                        SearchUnindexedItems = previousPageNavPath.SearchUnindexedItems
-                    };
-                    await FilesystemViewModel.SearchAsync(searchInstance);
-                }
             }
         }
 
-        public async void Forward_Click()
+        public void Forward_Click()
         {
             NavToolbarViewModel.CanGoForward = false;
             if (ItemDisplayFrame.CanGoForward)
@@ -885,18 +873,6 @@ namespace Files.Views
                 }
                 SelectSidebarItemFromPath(incomingPageContent.SourcePageType);
                 ItemDisplayFrame.GoForward();
-
-                if (incomingPageNavPath.IsSearchResultPage)
-                {
-                    var searchInstance = new FolderSearch
-                    {
-                        Query = incomingPageNavPath.SearchQuery,
-                        Folder = FilesystemViewModel.WorkingDirectory,
-                        ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
-                        SearchUnindexedItems = incomingPageNavPath.SearchUnindexedItems
-                    };
-                    await FilesystemViewModel.SearchAsync(searchInstance);
-                }
             }
         }
 

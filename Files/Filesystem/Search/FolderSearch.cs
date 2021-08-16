@@ -146,7 +146,7 @@ namespace Files.Filesystem.Search
             }
         }
 
-        private async Task SearchTagsAsync(string folder, IList<ListedItem> results)
+        private async Task SearchTagsAsync(string folder, IList<ListedItem> results, CancellationToken token)
         {
             //var sampler = new IntervalSampler(500);
             var tagName = AQSQuery.Substring("tag:".Length);
@@ -197,6 +197,11 @@ namespace Files.Filesystem.Search
                     }
                 }
 
+                if (token.IsCancellationRequested)
+                {
+                    break;
+                }
+
                 if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
                 {
                     SearchTick?.Invoke(this, new());
@@ -208,7 +213,7 @@ namespace Files.Filesystem.Search
         {
             if (AQSQuery.StartsWith("tag:"))
             {
-                await SearchTagsAsync(folder, results);
+                await SearchTagsAsync(folder, results, token);
             }
             else
             {
@@ -273,6 +278,11 @@ namespace Files.Filesystem.Search
                             {
                                 results.Add(item);
                             }
+                        }
+
+                        if (token.IsCancellationRequested)
+                        {
+                            break;
                         }
 
                         if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
