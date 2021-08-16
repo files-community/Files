@@ -521,7 +521,7 @@ namespace Files.Interacts
         {
             var deferral = e.GetDeferral();
 
-            if(associatedInstance.InstanceViewModel.IsPageTypeSearchResults)
+            if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults)
             {
                 e.AcceptedOperation = DataPackageOperation.None;
                 deferral.Complete();

@@ -833,7 +833,7 @@ namespace Files
                 dragOverTimer.Stop();
                 dragOverTimer.Debounce(() =>
                 {
-                    if (dragOverItem != null && !InstanceViewModel.IsPageTypeSearchResults && !dragOverItem.IsExecutable)
+                    if (dragOverItem != null && !dragOverItem.IsExecutable)
                     {
                         dragOverItem = null;
                         dragOverTimer.Stop();
@@ -863,7 +863,7 @@ namespace Files
                 }
 
                 e.Handled = true;
-                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+                if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }

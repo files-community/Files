@@ -433,6 +433,11 @@ namespace Files.ViewModels
                 e.AcceptedOperation = DataPackageOperation.None;
                 return;
             }
+            if (string.IsNullOrEmpty(pathBoxItem.Path)) // In search page
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+                return;
+            }
 
             e.Handled = true;
             var deferral = e.GetDeferral();
