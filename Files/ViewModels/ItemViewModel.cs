@@ -8,6 +8,7 @@ using Files.Filesystem.Search;
 using Files.Filesystem.StorageEnumerators;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
+using Files.UserControls;
 using FluentFTP;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
@@ -165,19 +166,11 @@ namespace Files.ViewModels
             return await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(value, workingRoot, currentStorageFolder));
         }
 
-        private bool isFolderEmptyTextDisplayed;
-
-        public bool IsFolderEmptyTextDisplayed
+        private EmptyTextType emptyTextType;
+        public EmptyTextType EmptyTextType
         {
-            get => isFolderEmptyTextDisplayed;
-            set
-            {
-                if (value != isFolderEmptyTextDisplayed)
-                {
-                    isFolderEmptyTextDisplayed = value;
-                    OnPropertyChanged(nameof(IsFolderEmptyTextDisplayed));
-                }
-            }
+            get => emptyTextType;
+            set => SetProperty(ref emptyTextType, value);
         }
 
         public async void UpdateSortOptionStatus()
@@ -456,9 +449,16 @@ namespace Files.ViewModels
                 {
                     FilesAndFolders.Insert(Math.Min(newIndex, FilesAndFolders.Count), item);
                 }
-                IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
+                UpdateEmptyTextType();
                 DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
             });
+        }
+
+        private bool IsSearchResults { get; set; }
+
+        private void UpdateEmptyTextType()
+        {
+            EmptyTextType = FilesAndFolders.Count == 0 ? (IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) : EmptyTextType.None;
         }
 
         // apply changes immediately after manipulating on filesAndFolders completed
@@ -471,7 +471,7 @@ namespace Files.ViewModels
                     Action action = () =>
                     {
                         FilesAndFolders.Clear();
-                        IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
+                        UpdateEmptyTextType();
                         DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
                     };
                     if (CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
@@ -558,7 +558,7 @@ namespace Files.ViewModels
                     // trigger CollectionChanged with NotifyCollectionChangedAction.Reset
                     // once loading is completed so that UI can be updated
                     FilesAndFolders.EndBulkOperation();
-                    IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
+                    UpdateEmptyTextType();
                     DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
                 };
 
@@ -748,9 +748,7 @@ namespace Files.ViewModels
                         var matchingStorageFile = (StorageFile)matchingStorageItem ?? await GetFileFromPathAsync(item.ItemPath);
                         if (matchingStorageFile != null)
                         {
-                            var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
-
-                            using var Thumbnail = await matchingStorageFile.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.UseCurrentScale);
+                            using var Thumbnail = await matchingStorageFile.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale);
                             if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
                             {
                                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
@@ -821,9 +819,7 @@ namespace Files.ViewModels
                         var matchingStorageFolder = (StorageFolder)matchingStorageItem ?? await GetFolderFromPathAsync(item.ItemPath);
                         if (matchingStorageFolder != null)
                         {
-                            var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
-
-                            using var Thumbnail = await matchingStorageFolder.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.UseCurrentScale);
+                            using var Thumbnail = await matchingStorageFolder.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale);
                             if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
                             {
                                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
@@ -1094,6 +1090,7 @@ namespace Files.ViewModels
 
         private async void RapidAddItemsToCollectionAsync(string path, string previousDir, Action postLoadCallback)
         {
+            IsSearchResults = false;
             ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
             CancelLoadAndClearFiles();
@@ -2084,8 +2081,9 @@ namespace Files.ViewModels
             searchCancellationToken = new CancellationTokenSource();
             filesAndFolders.Clear();
             IsLoadingItems = true;
+            IsSearchResults = true;
             await ApplyFilesAndFoldersChangesAsync();
-            IsFolderEmptyTextDisplayed = false;
+            EmptyTextType = EmptyTextType.None;
 
             var results = new List<ListedItem>();
             search.SearchTick += async (s, e) =>
