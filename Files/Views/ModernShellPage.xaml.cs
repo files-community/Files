@@ -332,6 +332,8 @@ namespace Files.Views
                 AssociatedTabInstance = this,
                 IsSearchResultPage = true,
                 SearchPathParam = FilesystemViewModel.WorkingDirectory,
+                SearchQuery = query,
+                SearchUnindexedItems = searchUnindexedItems,
             });
             var searchInstance = new FolderSearch
             {
@@ -830,7 +832,7 @@ namespace Files.Views
             }
         }
 
-        public void Back_Click()
+        public async void Back_Click()
         {
             NavToolbarViewModel.CanGoBack = false;
             if (ItemDisplayFrame.CanGoBack)
@@ -853,10 +855,22 @@ namespace Files.Views
                 {
                     ItemDisplayFrame.GoBack();
                 }
+
+                if (previousPageNavPath.IsSearchResultPage)
+                {
+                    var searchInstance = new FolderSearch
+                    {
+                        Query = previousPageNavPath.SearchQuery,
+                        Folder = FilesystemViewModel.WorkingDirectory,
+                        ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
+                        SearchUnindexedItems = previousPageNavPath.SearchUnindexedItems
+                    };
+                    await FilesystemViewModel.SearchAsync(searchInstance);
+                }
             }
         }
 
-        public void Forward_Click()
+        public async void Forward_Click()
         {
             NavToolbarViewModel.CanGoForward = false;
             if (ItemDisplayFrame.CanGoForward)
@@ -871,6 +885,18 @@ namespace Files.Views
                 }
                 SelectSidebarItemFromPath(incomingPageContent.SourcePageType);
                 ItemDisplayFrame.GoForward();
+
+                if (incomingPageNavPath.IsSearchResultPage)
+                {
+                    var searchInstance = new FolderSearch
+                    {
+                        Query = incomingPageNavPath.SearchQuery,
+                        Folder = FilesystemViewModel.WorkingDirectory,
+                        ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
+                        SearchUnindexedItems = incomingPageNavPath.SearchUnindexedItems
+                    };
+                    await FilesystemViewModel.SearchAsync(searchInstance);
+                }
             }
         }
 
@@ -1186,8 +1212,9 @@ namespace Files.Views
         public string NavPathParam { get; set; } = null;
         public IShellPage AssociatedTabInstance { get; set; }
         public bool IsSearchResultPage { get; set; } = false;
-        public ObservableCollection<ListedItem> SearchResults { get; set; } = new ObservableCollection<ListedItem>();
         public string SearchPathParam { get; set; } = null;
+        public string SearchQuery { get; set; } = null;
+        public bool SearchUnindexedItems { get; set; } = false;
         public bool IsLayoutSwitch { get; set; } = false;
         public IEnumerable<string> SelectItems { get; set; }
     }

@@ -154,6 +154,7 @@ namespace Files.Views
             {
                 FlowDirection = FlowDirection.RightToLeft;
             }
+            ColumnViewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
             ColumnViewBase.ItemInvoked += ColumnViewBase_ItemInvoked;
 
             //NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
@@ -208,14 +209,7 @@ namespace Files.Views
 
         private void ColumnViewBase_ItemInvoked(object sender, EventArgs e)
         {
-            NotifyRoot?.Invoke(new ColumnParam
-            {
-                Column = Column + 1,
-                Path = sender.ToString()
-            }, EventArgs.Empty);
         }
-
-        public static event EventHandler NotifyRoot;
 
         private void CopyWorkingLocation()
         {
@@ -998,6 +992,8 @@ namespace Files.Views
                 AssociatedTabInstance = this,
                 IsSearchResultPage = true,
                 SearchPathParam = FilesystemViewModel.WorkingDirectory,
+                SearchQuery = query,
+                SearchUnindexedItems = searchUnindexedItems,
             });
 
             var searchInstance = new FolderSearch

@@ -34,15 +34,10 @@ namespace Files.Views.LayoutModes
         public static IShellPage columnparent;
         private NavigationArguments parameters;
         private ListViewItem listViewItem;
-        public static ColumnViewBrowser ColumnViewBrowser1;
 
         public ColumnViewBrowser() : base()
         {
             this.InitializeComponent();
-            ColumnViewBrowser1 = this;
-            ColumnViewBase.ItemInvoked += ColumnViewBase_ItemInvoked;
-            ColumnViewBase.UnFocusPreviousListView += ColumnViewBase_UnFocusPreviousListView;
-            ColumnViewBase.DismissColumn += ColumnViewBase_DismissColumn;
             //this.DataContext = this;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
         }
@@ -247,6 +242,12 @@ namespace Files.Views.LayoutModes
             //await viewmodel.SetWorkingDirectoryAsync(NavParam);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
+            ColumnViewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
+            ColumnViewBase.ItemInvoked += ColumnViewBase_ItemInvoked;
+            ColumnViewBase.UnFocusPreviousListView -= ColumnViewBase_UnFocusPreviousListView;
+            ColumnViewBase.UnFocusPreviousListView += ColumnViewBase_UnFocusPreviousListView;
+            ColumnViewBase.DismissColumn -= ColumnViewBase_DismissColumn;
+            ColumnViewBase.DismissColumn += ColumnViewBase_DismissColumn;
             columnparent = ParentShellPageInstance;
             parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
@@ -264,6 +265,9 @@ namespace Files.Views.LayoutModes
         {
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+            ColumnViewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
+            ColumnViewBase.UnFocusPreviousListView -= ColumnViewBase_UnFocusPreviousListView;
+            ColumnViewBase.DismissColumn -= ColumnViewBase_DismissColumn;
         }
 
         private async void ReloadItemIcons()
@@ -662,36 +666,6 @@ namespace Files.Views.LayoutModes
                     }
                 }
             }
-        }
-
-        private void ColumnShellPage_NotifyRoot(object sender, EventArgs e)
-        {
-            var column = sender as ColumnParam;
-            try
-            {
-                while (ColumnHost.ActiveBlades.Count > column.Column)
-                {
-                    ColumnHost.ActiveBlades.RemoveAt(column.Column + 1);
-                }
-            }
-            catch
-            {
-            }
-            var frame = new Frame();
-            var blade = new BladeItem();
-            blade.Content = frame;
-            ColumnHost.Items.Add(blade);
-            //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
-            //{
-            //    NavPathParam = item.ItemPath,
-            //    AssociatedTabInstance = ParentShellPageInstance
-            //});
-
-            frame.Navigate(typeof(ColumnShellPage), new ColumnParam
-            {
-                Column = ColumnHost.ActiveBlades.IndexOf(blade),
-                Path = column.Path
-            });
         }
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
