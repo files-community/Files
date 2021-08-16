@@ -3524,6 +3524,42 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
           <source>Insert a disc</source>
           <target state="translated">Insira um disco</target>
         </trans-unit>
+        <trans-unit id="ConfictingItemsDialogOptionApplyToAll.Text" translate="yes" xml:space="preserve">
+          <source>Apply to all</source>
+          <target state="new">Apply to all</target>
+        </trans-unit>
+        <trans-unit id="PropertyPartOfSet" translate="yes" xml:space="preserve">
+          <source>Part of set</source>
+          <target state="new">Part of set</target>
+        </trans-unit>
+        <trans-unit id="AskCredentialDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>OK</source>
+          <target state="new">OK</target>
+        </trans-unit>
+        <trans-unit id="AskCredentialDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="AskCredentialDialog.Title" translate="yes" xml:space="preserve">
+          <source>Credential Required</source>
+          <target state="new">Credential Required</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogAnonymous.Content" translate="yes" xml:space="preserve">
+          <source>Anonymous</source>
+          <target state="new">Anonymous</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogDescription.Text" translate="yes" xml:space="preserve">
+          <source>Provide your credential:</source>
+          <target state="new">Provide your credential:</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogPassword.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Password</source>
+          <target state="new">Password</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogUserName.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>UserName</source>
+          <target state="new">UserName</target>
+        </trans-unit>
       </group>
     </body>
   </file>

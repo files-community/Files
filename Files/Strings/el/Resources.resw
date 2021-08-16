@@ -2638,7 +2638,13 @@
   <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
     <value>Κλείσιμο</value>
   </data>
+  <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
+    <value>Άνοιγμα δίσκου</value>
+  </data>
+  <data name="InsertDiscDialog.Text" xml:space="preserve">
+    <value>Τοποθετήστε ένα δίσκο στη μονάδα {0}</value>
+  </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
-    <value>Εισαγάγετε ένα δίσκο</value>
+    <value>Τοποθετήστε ένα δίσκο</value>
   </data>
 </root>

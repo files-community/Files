@@ -2638,7 +2638,13 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
   <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
     <value>Fechar</value>
   </data>
+  <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
+    <value>Abrir Drive</value>
+  </data>
+  <data name="InsertDiscDialog.Text" xml:space="preserve">
+    <value>Por favor insira um disco na unidade {0}</value>
+  </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
-    <value>Inserir um disco</value>
+    <value>Insira um disco</value>
   </data>
 </root>
