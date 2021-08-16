@@ -2096,6 +2096,7 @@ namespace Files.ViewModels
             };
             await search.SearchAsync(results, searchCancellationToken.Token);
 
+            filesAndFolders = new List<ListedItem>(results);
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
 
