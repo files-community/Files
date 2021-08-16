@@ -746,17 +746,20 @@ namespace Files.Views
 
         public async void Refresh_Click()
         {
-
             NavToolbarViewModel.CanRefresh = false;
 
             if (InstanceViewModel.IsPageTypeSearchResults)
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
-                    SetLoadingIndicatorForTabs(true);
-                    await FilesystemViewModel.SearchAsync(previousSearchInstance);
-                    SetLoadingIndicatorForTabs(false);
-                    NavToolbarViewModel.CanRefresh = true;
+                    var searchInstance = new FolderSearch
+                    {
+                        Query = InstanceViewModel.CurrentSearchQuery,
+                        Folder = FilesystemViewModel.WorkingDirectory,
+                        ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
+                        SearchUnindexedItems = InstanceViewModel.SearchedUnindexedItems
+                    };
+                    await FilesystemViewModel.SearchAsync(searchInstance);
                 });
             }
             else
@@ -985,19 +988,9 @@ namespace Files.Views
             ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
         }
 
-        FolderSearch previousSearchInstance;
-
         public async void SubmitSearch(string query, bool searchUnindexedItems)
         {
-            previousSearchInstance = new FolderSearch
-            {
-                Query = query,
-                Folder = FilesystemViewModel.WorkingDirectory,
-                ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
-                SearchUnindexedItems = searchUnindexedItems
-            };
             FilesystemViewModel.CancelSearch();
-            SetLoadingIndicatorForTabs(true);
             InstanceViewModel.CurrentSearchQuery = query;
             InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
             ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
@@ -1007,8 +1000,14 @@ namespace Files.Views
                 SearchPathParam = FilesystemViewModel.WorkingDirectory,
             });
 
-            await FilesystemViewModel.SearchAsync(previousSearchInstance);
-            SetLoadingIndicatorForTabs(false);
+            var searchInstance = new FolderSearch
+            {
+                Query = query,
+                Folder = FilesystemViewModel.WorkingDirectory,
+                ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
+                SearchUnindexedItems = searchUnindexedItems
+            };
+            await FilesystemViewModel.SearchAsync(searchInstance);
         }
     }
 }

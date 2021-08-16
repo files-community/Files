@@ -322,19 +322,9 @@ namespace Files.Views
             }
         }
 
-        FolderSearch previousSearchInstance;
-
         public async void SubmitSearch(string query, bool searchUnindexedItems)
         {
-            previousSearchInstance = new FolderSearch
-            {
-                Query = query,
-                Folder = FilesystemViewModel.WorkingDirectory,
-                ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
-                SearchUnindexedItems = searchUnindexedItems
-            };
             FilesystemViewModel.CancelSearch();
-            SetLoadingIndicatorForTabs(true);
             InstanceViewModel.CurrentSearchQuery = query;
             InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
             ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
@@ -343,9 +333,14 @@ namespace Files.Views
                 IsSearchResultPage = true,
                 SearchPathParam = FilesystemViewModel.WorkingDirectory,
             });
-
-            await FilesystemViewModel.SearchAsync(previousSearchInstance);
-            SetLoadingIndicatorForTabs(false);
+            var searchInstance = new FolderSearch
+            {
+                Query = InstanceViewModel.CurrentSearchQuery,
+                Folder = FilesystemViewModel.WorkingDirectory,
+                ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
+                SearchUnindexedItems = InstanceViewModel.SearchedUnindexedItems
+            };
+            await FilesystemViewModel.SearchAsync(searchInstance);
         }
 
         private void ModernShellPage_RefreshRequested(object sender, EventArgs e)
@@ -758,7 +753,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
-                    if(NavToolbarViewModel.CanRefresh)
+                    if (NavToolbarViewModel.CanRefresh)
                     {
                         Refresh_Click();
                     }
@@ -809,19 +804,23 @@ namespace Files.Views
 
         public async void Refresh_Click()
         {
-
             NavToolbarViewModel.CanRefresh = false;
 
             if (InstanceViewModel.IsPageTypeSearchResults)
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
-                    SetLoadingIndicatorForTabs(true);
-                    await FilesystemViewModel.SearchAsync(previousSearchInstance);
-                    SetLoadingIndicatorForTabs(false);
-                    NavToolbarViewModel.CanRefresh = true;
+                    var searchInstance = new FolderSearch
+                    {
+                        Query = InstanceViewModel.CurrentSearchQuery,
+                        Folder = FilesystemViewModel.WorkingDirectory,
+                        ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
+                        SearchUnindexedItems = InstanceViewModel.SearchedUnindexedItems
+                    };
+                    await FilesystemViewModel.SearchAsync(searchInstance);
                 });
-            } else
+            }
+            else
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
@@ -987,7 +986,7 @@ namespace Files.Views
                     NavToolbarViewModel.CanRefresh = true;
                     SetLoadingIndicatorForTabs(false);
                     // Select previous directory
-                    if (!string.IsNullOrWhiteSpace(e.PreviousDirectory))
+                    if (!InstanceViewModel.IsPageTypeSearchResults && !string.IsNullOrWhiteSpace(e.PreviousDirectory))
                     {
                         if (e.PreviousDirectory.Contains(e.Path) && !e.PreviousDirectory.Contains("Shell:RecycleBinFolder"))
                         {
@@ -1166,7 +1165,7 @@ namespace Files.Views
         {
             if (IsColumnView)
             {
-                if(!(SlimContentPage as ColumnViewBrowser)?.IsLastColumnBase ?? false) 
+                if (!(SlimContentPage as ColumnViewBrowser)?.IsLastColumnBase ?? false)
                 {
                     return (SlimContentPage as ColumnViewBrowser)?.LastColumnShellPage;
                 }

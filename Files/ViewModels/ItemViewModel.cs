@@ -2077,6 +2077,8 @@ namespace Files.ViewModels
 
         public async Task SearchAsync(FolderSearch search)
         {
+            ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
+            
             CancelSearch();
             searchCancellationToken = new CancellationTokenSource();
             filesAndFolders.Clear();
@@ -2084,6 +2086,8 @@ namespace Files.ViewModels
             IsSearchResults = true;
             await ApplyFilesAndFoldersChangesAsync();
             EmptyTextType = EmptyTextType.None;
+
+            ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
             var results = new List<ListedItem>();
             search.SearchTick += async (s, e) =>
@@ -2098,6 +2102,7 @@ namespace Files.ViewModels
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
 
+            ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete });
             IsLoadingItems = false;
         }
 
