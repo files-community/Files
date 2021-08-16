@@ -757,7 +757,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
-                    if (!InstanceViewModel.IsPageTypeSearchResults)
+                    if(NavToolbarViewModel.CanRefresh)
                     {
                         Refresh_Click();
                     }
