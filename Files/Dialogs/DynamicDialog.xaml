@@ -8,19 +8,19 @@
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="{Binding TitleText, Mode=OneWay}"
+    CloseButtonClick="ContentDialog_CloseButtonClick"
     CloseButtonText="{Binding CloseButtonText, Mode=OneWay}"
     CornerRadius="{StaticResource OverlayCornerRadius}"
     DefaultButton="Primary"
     IsPrimaryButtonEnabled="{Binding IsPrimaryButtonEnabled, Mode=OneWay}"
     IsSecondaryButtonEnabled="{Binding IsSecondaryButtonEnabled, Mode=OneWay}"
+    KeyDown="ContentDialog_KeyDown"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     PrimaryButtonText="{Binding PrimaryButtonText, Mode=OneWay}"
     RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
     SecondaryButtonText="{Binding SecondaryButtonText, Mode=OneWay}"
     Style="{StaticResource DefaultContentDialogStyle}"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
-    CloseButtonClick="ContentDialog_CloseButtonClick"
-    KeyDown="ContentDialog_KeyDown"
     mc:Ignorable="d">
 
     <Grid RowSpacing="20">

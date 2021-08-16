@@ -61,6 +61,10 @@ namespace Files.Helpers
 
         public bool IsPathUnderRecycleBin(string path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                return false;
+            }
             return recycleBinPathRegex.IsMatch(path);
         }
 

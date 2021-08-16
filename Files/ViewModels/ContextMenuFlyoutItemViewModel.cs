@@ -41,6 +41,11 @@ namespace Files.ViewModels
         /// </summary>
         public bool ShowInSearchPage { get; set; }
 
+        /// <summary>
+        /// True if the item is shown in FTP page
+        /// </summary>
+        public bool ShowInFtpPage { get; set; }
+
         public KeyboardAccelerator KeyboardAccelerator { get; set; }
         public bool IsChecked { get; set; }
         public bool IsEnabled { get; set; } = true;

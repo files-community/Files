@@ -1,9 +1,11 @@
 ﻿using Common;
+using ByteSizeLib;
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
 using Files.ViewModels.Properties;
+using FluentFTP;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
@@ -380,6 +382,37 @@ namespace Files.Filesystem
         public string ItemOriginalFolder => Path.IsPathRooted(ItemOriginalPath) ? Path.GetDirectoryName(ItemOriginalPath) : ItemOriginalPath;
 
         public string ItemOriginalFolderName => Path.GetFileName(ItemOriginalFolder);
+    }
+
+    public class FtpItem : ListedItem
+    {
+        public FtpItem(FtpListItem item, string folder, string dateReturnFormat = null) : base(null, dateReturnFormat)
+        {
+            var isFile = item.Type == FtpFileSystemObjectType.File;
+            ItemDateCreatedReal = item.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawCreated;
+            ItemDateModifiedReal = item.RawModified < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawModified;
+            ItemName = item.Name;
+            FileExtension = Path.GetExtension(item.Name);
+            ItemPath = Path.Combine(folder, item.Name);
+            PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
+            ItemPropertiesInitialized = false;
+
+            var itemType = isFile ? "ItemTypeFile".GetLocalized() : "FileFolderListItem".GetLocalized();
+            if (isFile && ItemName.Contains("."))
+            {
+                itemType = FileExtension.Trim('.') + " " + itemType;
+            }
+
+            ItemType = itemType;
+            LoadFolderGlyph = !isFile;
+            FileSizeBytes = item.Size;
+            ContainsFilesOrFolders = !isFile;
+            LoadUnknownTypeGlyph = isFile;
+            FileImage = null;
+            FileSize = ByteSize.FromBytes(FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
+            Opacity = 1;
+            IsHiddenItem = false;
+        }
     }
 
     public class ShortcutItem : ListedItem

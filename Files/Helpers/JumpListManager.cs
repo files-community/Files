@@ -17,10 +17,10 @@ namespace Files.Helpers
 
         public JumpListManager()
         {
-            Initialize();
+            JumpListItemPaths = new List<string>();
         }
 
-        private async void Initialize()
+        public async Task InitializeAsync()
         {
             try
             {
@@ -46,8 +46,11 @@ namespace Files.Helpers
             // In that case app should just catch the error and proceed as usual
             try
             {
-                AddFolder(path);
-                await instance?.SaveAsync();
+                if (instance != null)
+                {
+                    AddFolder(path);
+                    await instance.SaveAsync();
+                }
             }
             catch { }
         }
@@ -109,21 +112,23 @@ namespace Files.Helpers
             // In that case app should just catch the error and proceed as usual
             try
             {
-                if (JumpListItemPaths.Contains(path))
+                if (instance != null)
                 {
-                    JumpListItemPaths.Remove(path);
-                    await UpdateAsync();
+                    if (JumpListItemPaths.Remove(path))
+                    {
+                        await instance.SaveAsync();
+                    }
                 }
             }
             catch { }
         }
 
-        private async Task UpdateAsync()
+        private async Task RefreshAsync()
         {
             if (instance != null)
             {
                 // Clear all items to avoid localization issues
-                instance?.Items.Clear();
+                instance.Items.Clear();
 
                 foreach (string path in JumpListItemPaths)
                 {

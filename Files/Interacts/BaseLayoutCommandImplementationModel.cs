@@ -326,6 +326,10 @@ namespace Files.Interacts
                 if (SlimContentPage != null)
                 {
                     var path = SlimContentPage.SelectedItem != null ? SlimContentPage.SelectedItem.ItemPath : associatedInstance.FilesystemViewModel.WorkingDirectory;
+                    if (FtpHelpers.IsFtpPath(path))
+                    {
+                        path = path.Replace("\\", "/");
+                    }
                     DataPackage data = new DataPackage();
                     data.SetText(path);
                     Clipboard.SetContent(data);
