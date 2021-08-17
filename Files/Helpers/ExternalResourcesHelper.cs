@@ -25,20 +25,6 @@ namespace Files.Helpers
 
         public string CurrentThemeResources { get; set; }
 
-        public Task LoadWindowsVersionStyle()
-        {
-            OperatingSystem osVersion = Environment.OSVersion;
-            int majorVersion = osVersion.Version.Major;
-
-            if (majorVersion == 10) // Windows 10 style
-            {
-                var windows10Style = new ResourceDictionary() { Source = new Uri("ms-appx:///ResourceDictionaries/Windows10Style.xaml") };
-                Application.Current.Resources.MergedDictionaries.Add(windows10Style);
-            }
-
-            return Task.CompletedTask;
-        }
-
         public async Task LoadSelectedTheme()
         {
             if (App.OptionalPackageManager.TryGetOptionalPackage(Constants.OptionalPackages.ThemesOptionalPackagesName, out var package))
