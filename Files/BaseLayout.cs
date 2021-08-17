@@ -708,7 +708,9 @@ namespace Files
             if (openWithSubItems is not null && openWithOverflow is not null)
             {
                 var openWith = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWith") as AppBarButton;
-                var flyout = new MenuFlyout();
+                var flyout = openWithOverflow.Flyout as MenuFlyout;
+                flyout.Items.Clear();
+
                 foreach (var item in openWithSubItems)
                 {
                     flyout.Items.Add(item);

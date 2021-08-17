@@ -605,7 +605,12 @@ namespace Files.Helpers
                     Tag = "OpenWithOverflow",
                     IsHidden = true,
                     CollapseLabel = true,
-                    Items = new List<ContextMenuFlyoutItemViewModel>(),
+                    Items = new List<ContextMenuFlyoutItemViewModel>() {
+                        new() 
+                        {
+                            Text = "Placeholder....."
+                        }
+                    },
                     ShowItem = selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem),
                 },
                 new ContextMenuFlyoutItemViewModel()
