@@ -750,7 +750,7 @@ namespace Files.ViewModels
                         {
                             var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 
-                            using var Thumbnail = await matchingStorageFile.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.UseCurrentScale);
+                            using var Thumbnail = await matchingStorageFile.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ResizeThumbnail);
                             if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
                             {
                                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
@@ -823,7 +823,7 @@ namespace Files.ViewModels
                         {
                             var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 
-                            using var Thumbnail = await matchingStorageFolder.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.UseCurrentScale);
+                            using var Thumbnail = await matchingStorageFolder.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ResizeThumbnail);
                             if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
                             {
                                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
