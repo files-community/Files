@@ -63,7 +63,7 @@ namespace Files.UserControls.Widgets
         {
             Empty.Visibility = Visibility.Collapsed;
 
-            await FilesystemTasks.Wrap(async () =>
+            try
             {
                 var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
 
@@ -95,7 +95,11 @@ namespace Files.UserControls.Widgets
                         System.Diagnostics.Debug.WriteLine(added.ErrorCode);
                     }
                 }
-            });
+            }
+            catch (Exception ex)
+            {
+                App.Logger.Info(ex, "Could not fetch recent items");
+            }
 
             if (recentItemsCollection.Count == 0)
             {
@@ -103,7 +107,7 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private async Task AddItemToRecentListAsync(IStorageItem item, Windows.Storage.AccessCache.AccessListEntry entry)
+        private async Task AddItemToRecentListAsync(IStorageItem item, AccessListEntry entry)
         {
             BitmapImage ItemImage;
             string ItemPath;
