@@ -74,12 +74,12 @@
 
             public static class DetailsLayoutBrowser
             {
-                public const int DetailsViewSize = 28;
+                public const int DetailsViewSize = 32;
             }
 
             public static class ColumnViewBrowser
             {
-                public const int ColumnViewSize = 28;
+                public const int ColumnViewSize = 32;
             }
         }
 

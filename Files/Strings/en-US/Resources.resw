@@ -1384,7 +1384,7 @@
     <value>Search</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Search results in</value>
+    <value>Search results in {1} for {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Search results</value>
@@ -2778,5 +2778,8 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>UserName</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>No items found</value>
   </data>
 </root>

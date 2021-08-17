@@ -178,6 +178,8 @@
                     <CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>
                     <CornerRadius x:Key="GridViewThumbnailCornerRadius">2</CornerRadius>
                     <CornerRadius x:Key="DetailsLayoutThumbnailCornerRadius">2</CornerRadius>
+                    <!--  Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/5441  -->
+                    <x:Double x:Key="MediaTransportControlsMinWidth">50</x:Double>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
