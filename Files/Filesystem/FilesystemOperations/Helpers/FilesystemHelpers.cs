@@ -614,11 +614,11 @@ namespace Files.Filesystem
                     {
                         binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
                         var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
-                        destinations.Add(Path.Combine(destination, matchingItem?.FileName ?? Path.GetFileName(item.Path)));
+                        destinations.Add(Path.Combine(destination, matchingItem?.FileName ?? item.Name));
                     }
                     else
                     {
-                        destinations.Add(Path.Combine(destination, Path.GetFileName(item.Path)));
+                        destinations.Add(Path.Combine(destination, item.Name));
                     }
                 }
 
@@ -835,11 +835,11 @@ namespace Files.Filesystem
                 {
                     binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
                     var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
-                    destinations.Add(Path.Combine(destination, matchingItem?.FileName ?? Path.GetFileName(item.Path)));
+                    destinations.Add(Path.Combine(destination, matchingItem?.FileName ?? item.Name));
                 }
                 else
                 {
-                    destinations.Add(Path.Combine(destination, Path.GetFileName(item.Path)));
+                    destinations.Add(Path.Combine(destination, item.Name));
                 }
             }
 
@@ -930,7 +930,7 @@ namespace Files.Filesystem
 
             source = source.Where(x => !string.IsNullOrEmpty(x.Path));
             var dest = source.Select(x => Path.Combine(destination,
-                string.Format("ShortcutCreateNewSuffix".GetLocalized(), Path.GetFileName(x.Path)) + ".lnk"));
+                string.Format("ShortcutCreateNewSuffix".GetLocalized(), x.Name) + ".lnk"));
 
             var history = await filesystemOperations.CreateShortcutItemsAsync(source, dest, null, errorCode, cancellationToken);
 

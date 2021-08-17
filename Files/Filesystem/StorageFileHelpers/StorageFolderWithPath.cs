@@ -17,6 +17,7 @@ namespace Files.Filesystem
         }
 
         public string Path { get; set; }
+        public string Name => Item?.Name ?? System.IO.Path.GetFileName(Path);
         public IStorageItem Item { get; set; }
         public FilesystemItemType ItemType => FilesystemItemType.Directory;
 
