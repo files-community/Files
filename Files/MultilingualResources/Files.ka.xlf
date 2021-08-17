@@ -720,31 +720,31 @@
         </trans-unit>
         <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
           <source>bytes</source>
-          <target state="translated" state-qualifier="tm-suggestion">ბაიტი</target>
+          <target state="translated" state-qualifier="tm-suggestion">bytes</target>
         </trans-unit>
         <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
           <source>KB</source>
-          <target state="translated" state-qualifier="tm-suggestion">კბაიტი</target>
+          <target state="translated" state-qualifier="tm-suggestion">KB</target>
         </trans-unit>
         <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
           <source>MB</source>
-          <target state="translated" state-qualifier="tm-suggestion">მბაიტი</target>
+          <target state="translated" state-qualifier="tm-suggestion">MB</target>
         </trans-unit>
         <trans-unit id="GigaByteSymbol" translate="yes" xml:space="preserve">
           <source>GB</source>
-          <target state="translated" state-qualifier="tm-suggestion">გბაიტი</target>
+          <target state="translated" state-qualifier="tm-suggestion">GB</target>
         </trans-unit>
         <trans-unit id="TeraByteSymbol" translate="yes" xml:space="preserve">
           <source>TB</source>
-          <target state="translated" state-qualifier="tm-suggestion">ტბაიტი</target>
+          <target state="translated" state-qualifier="tm-suggestion">TB</target>
         </trans-unit>
         <trans-unit id="PetaByteSymbol" translate="yes" xml:space="preserve">
           <source>PB</source>
-          <target state="translated" state-qualifier="tm-suggestion">პბაიტი</target>
+          <target state="translated" state-qualifier="tm-suggestion">PB</target>
         </trans-unit>
         <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
           <source>B</source>
-          <target state="translated" state-qualifier="tm-suggestion">უ</target>
+          <target state="translated" state-qualifier="tm-suggestion">B</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
@@ -1540,7 +1540,7 @@
         </trans-unit>
         <trans-unit id="PropertySectionGPS" translate="yes" xml:space="preserve">
           <source>GPS</source>
-          <target state="translated" state-qualifier="tm-suggestion">GPS</target>
+          <target state="new" state-qualifier="tm-suggestion">GPS</target>
         </trans-unit>
         <trans-unit id="PropertySectionMedia" translate="yes" xml:space="preserve">
           <source>Media</source>
@@ -3324,59 +3324,59 @@
         </trans-unit>
         <trans-unit id="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+A</source>
-          <target state="translated" state-qualifier="tm-suggestion">Ctrl+A</target>
+          <target state="new" state-qualifier="tm-suggestion">Ctrl+A</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Alt+Shift++</source>
-          <target state="translated" state-qualifier="tm-suggestion">Alt + Shift</target>
+          <target state="new" state-qualifier="tm-suggestion">Alt + Shift</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+W</source>
-          <target state="translated" state-qualifier="tm-suggestion">Ctrl+Shift+W</target>
+          <target state="new" state-qualifier="tm-suggestion">Ctrl+Shift+W</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+N</source>
-          <target state="translated" state-qualifier="tm-suggestion">Ctrl+N</target>
+          <target state="new" state-qualifier="tm-suggestion">Ctrl+N</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Alt+Up</source>
-          <target state="translated">Ctrl+Alt+Up</target>
+          <target state="new">Ctrl+Alt+Up</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Alt+Down</source>
-          <target state="translated">Ctrl+Alt+Down</target>
+          <target state="new">Ctrl+Alt+Down</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+1</source>
-          <target state="translated">Ctrl+Shift+1</target>
+          <target state="new">Ctrl+Shift+1</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutTilesView.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+2</source>
-          <target state="translated">Ctrl+Shift+2</target>
+          <target state="new">Ctrl+Shift+2</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutGridViewSmall.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+3</source>
-          <target state="translated">Ctrl+Shift+3</target>
+          <target state="new">Ctrl+Shift+3</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutGridViewMedium.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+4</source>
-          <target state="translated">Ctrl+Shift+4</target>
+          <target state="new">Ctrl+Shift+4</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutGridViewLarge.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+5</source>
-          <target state="translated">Ctrl+Shift+5</target>
+          <target state="new">Ctrl+Shift+5</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+6</source>
-          <target state="translated">Ctrl+Shift+6</target>
+          <target state="new">Ctrl+Shift+6</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+T</source>
-          <target state="translated" state-qualifier="tm-suggestion">Ctrl+T</target>
+          <target state="new" state-qualifier="tm-suggestion">Ctrl+T</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+T</source>
-          <target state="translated" state-qualifier="tm-suggestion">Ctrl+Shift+T</target>
+          <target state="new" state-qualifier="tm-suggestion">Ctrl+Shift+T</target>
         </trans-unit>
         <trans-unit id="ArchiveExtractionCompletedSuccessfullyText" translate="yes" xml:space="preserve">
           <source>The archive extraction completed successfully.</source>
