@@ -457,7 +457,7 @@ namespace Files
                 if (!navigationArguments.IsLayoutSwitch)
                 {
                     var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
-                    ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, $"{"SearchPagePathBoxOverrideText".GetLocalized()} {displayName}");
+                    ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, string.Format("SearchPagePathBoxOverrideText".GetLocalized(), navigationArguments.SearchQuery, displayName));
                     var searchInstance = new Filesystem.Search.FolderSearch
                     {
                         Query = navigationArguments.SearchQuery,

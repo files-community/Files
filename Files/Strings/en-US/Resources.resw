@@ -1384,7 +1384,7 @@
     <value>Search</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Search results in</value>
+    <value>Search results in {1} for {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Search results</value>
