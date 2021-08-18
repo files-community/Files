@@ -1267,7 +1267,7 @@
     <value>Αναζήτηση</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Αποτελέσματα αναζήτησης σε</value>
+    <value>Αποτελέσματα αναζήτησης σε {1} για {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Αποτελέσματα αναζήτησης</value>
@@ -2673,5 +2673,8 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Όνομα χρήστη</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>Δεν βρέθηκαν αντικείμενα</value>
   </data>
 </root>

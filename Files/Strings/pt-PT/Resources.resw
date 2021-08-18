@@ -1156,7 +1156,7 @@
     <value>Centro de Estado</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Resultados da pesquisa em</value>
+    <value>Resultados da pesquisa em {1} para {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Resultados da pesquisa</value>
@@ -2673,5 +2673,8 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nome de Utilizador</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>Nenhum item encontrado</value>
   </data>
 </root>
