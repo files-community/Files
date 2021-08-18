@@ -3475,11 +3475,11 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
-          <target state="translated">File tag</target>
+          <target state="translated">Tag del file</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
-          <target state="translated">File tag</target>
+          <target state="translated">Tag del file</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenParentFolder.Text" translate="yes" xml:space="preserve">
           <source>Open parent folder</source>
@@ -3491,23 +3491,23 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
-          <target state="translated">File tag</target>
+          <target state="translated">Tag del file</target>
         </trans-unit>
         <trans-unit id="SettingsEditFileTags.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Edit file tags</source>
-          <target state="translated">Gestisci i file tag</target>
+          <target state="translated">Gestisci i tag dei file</target>
         </trans-unit>
         <trans-unit id="SettingsEditFileTags.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Edit file tags</source>
-          <target state="translated">Gestissci i file tags</target>
+          <target state="translated">Gestisci i tag dei file</target>
         </trans-unit>
         <trans-unit id="SettingsEditFileTagsExpander.Title" translate="yes" xml:space="preserve">
           <source>Edit file tags</source>
-          <target state="translated">Gestisci i file tags</target>
+          <target state="translated">Gestisci i tag dei file</target>
         </trans-unit>
         <trans-unit id="SettingsEnableFileTags.Title" translate="yes" xml:space="preserve">
           <source>Enable file tags</source>
-          <target state="translated">Abilita i file tags</target>
+          <target state="translated">Abilita i tag dei file</target>
         </trans-unit>
         <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
           <source>Close</source>

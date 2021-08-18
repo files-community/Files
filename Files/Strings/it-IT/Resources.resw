@@ -2609,10 +2609,10 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
     <value>Mostra la sezione Preferiti sulla barra laterale</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
-    <value>File tag</value>
+    <value>Tag del file</value>
   </data>
   <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
-    <value>File tag</value>
+    <value>Tag del file</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Apri cartella superiore</value>
@@ -2621,19 +2621,19 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
     <value>Sconosciuto</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
-    <value>File tag</value>
+    <value>Tag del file</value>
   </data>
   <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
-    <value>Gestisci i file tag</value>
+    <value>Gestisci i tag dei file</value>
   </data>
   <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Gestissci i file tags</value>
+    <value>Gestisci i tag dei file</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
-    <value>Gestisci i file tags</value>
+    <value>Gestisci i tag dei file</value>
   </data>
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
-    <value>Abilita i file tags</value>
+    <value>Abilita i tag dei file</value>
   </data>
   <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
     <value>Chiudi</value>
