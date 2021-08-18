@@ -378,7 +378,8 @@ namespace Files
                         NavPathParam = navigationArguments.NavPathParam,
                         IsSearchResultPage = navigationArguments.IsSearchResultPage,
                         SearchPathParam = navigationArguments.SearchPathParam,
-                        SearchResults = navigationArguments.SearchResults,
+                        SearchQuery = navigationArguments.SearchQuery,
+                        SearchUnindexedItems = navigationArguments.SearchUnindexedItems,
                         IsLayoutSwitch = true,
                         AssociatedTabInstance = ParentShellPageInstance
                     });
@@ -408,7 +409,7 @@ namespace Files
             IsItemSelected = false;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
-            ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
+            ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
             FolderSettings.SetLayoutInformation();
 
             if (!navigationArguments.IsSearchResultPage)
@@ -445,7 +446,7 @@ namespace Files
             }
             else
             {
-                ParentShellPageInstance.NavToolbarViewModel.CanRefresh = false;
+                ParentShellPageInstance.NavToolbarViewModel.CanRefresh = true;
                 ParentShellPageInstance.NavToolbarViewModel.CanGoForward = false;
                 ParentShellPageInstance.NavToolbarViewModel.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
                 ParentShellPageInstance.NavToolbarViewModel.CanNavigateToParent = false;
@@ -455,9 +456,16 @@ namespace Files
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
                 if (!navigationArguments.IsLayoutSwitch)
                 {
-                    await ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(navigationArguments.SearchResults, navigationArguments.SearchPathParam);
                     var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
-                    ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, $"{"SearchPagePathBoxOverrideText".GetLocalized()} {displayName}");
+                    ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, string.Format("SearchPagePathBoxOverrideText".GetLocalized(), navigationArguments.SearchQuery, displayName));
+                    var searchInstance = new Filesystem.Search.FolderSearch
+                    {
+                        Query = navigationArguments.SearchQuery,
+                        Folder = navigationArguments.SearchPathParam,
+                        ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
+                        SearchUnindexedItems = navigationArguments.SearchUnindexedItems
+                    };
+                    _ = ParentShellPageInstance.FilesystemViewModel.SearchAsync(searchInstance);
                 }
             }
 
@@ -700,7 +708,9 @@ namespace Files
             if (openWithSubItems is not null && openWithOverflow is not null)
             {
                 var openWith = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWith") as AppBarButton;
-                var flyout = new MenuFlyout();
+                var flyout = openWithOverflow.Flyout as MenuFlyout;
+                flyout.Items.Clear();
+
                 foreach (var item in openWithSubItems)
                 {
                     flyout.Items.Add(item);
@@ -834,7 +844,7 @@ namespace Files
                 dragOverTimer.Stop();
                 dragOverTimer.Debounce(() =>
                 {
-                    if (dragOverItem != null && !InstanceViewModel.IsPageTypeSearchResults && !dragOverItem.IsExecutable)
+                    if (dragOverItem != null && !dragOverItem.IsExecutable)
                     {
                         dragOverItem = null;
                         dragOverTimer.Stop();
@@ -864,7 +874,7 @@ namespace Files
                 }
 
                 e.Handled = true;
-                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+                if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }

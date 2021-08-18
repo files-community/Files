@@ -70,6 +70,16 @@
                             <StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="LayerFillColorDefaultBrush" />
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+
+                            <!--  Windows 10 style  -->
+                            <contract13NotPresent:SolidColorBrush
+                                x:Key="ListViewItemBackgroundSelected"
+                                Opacity="0.6"
+                                Color="{ThemeResource SystemAccentColorLight1}" />
+                            <contract13NotPresent:SolidColorBrush
+                                x:Key="GridViewItemBackgroundSelected"
+                                Opacity="0.6"
+                                Color="{ThemeResource SystemAccentColorLight1}" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
@@ -112,6 +122,16 @@
                             <StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="LayerFillColorDefaultBrush" />
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+
+                            <!--  Windows 10 style  -->
+                            <contract13NotPresent:SolidColorBrush
+                                x:Key="ListViewItemBackgroundSelected"
+                                Opacity="0.6"
+                                Color="{ThemeResource SystemAccentColorDark1}" />
+                            <contract13NotPresent:SolidColorBrush
+                                x:Key="GridViewItemBackgroundSelected"
+                                Opacity="0.6"
+                                Color="{ThemeResource SystemAccentColorDark1}" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{StaticResource SystemColorWindowColor}" />
@@ -163,6 +183,16 @@
                             <StaticResource x:Key="SidebarContentBackgroundBrush" ResourceKey="LayerFillColorDefaultBrush" />
                             <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="Transparent" />
                             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="#0F000000" />
+
+                            <!--  Windows 10 style  -->
+                            <contract13NotPresent:SolidColorBrush
+                                x:Key="ListViewItemBackgroundSelected"
+                                Opacity="0.6"
+                                Color="{ThemeResource SystemAccentColor}" />
+                            <contract13NotPresent:SolidColorBrush
+                                x:Key="GridViewItemBackgroundSelected"
+                                Opacity="0.6"
+                                Color="{ThemeResource SystemAccentColor}" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                     <LinearGradientBrush x:Key="ControlElevationBorderBrush" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,3">
@@ -178,6 +208,8 @@
                     <CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>
                     <CornerRadius x:Key="GridViewThumbnailCornerRadius">2</CornerRadius>
                     <CornerRadius x:Key="DetailsLayoutThumbnailCornerRadius">2</CornerRadius>
+                    <!--  Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/5441  -->
+                    <x:Double x:Key="MediaTransportControlsMinWidth">50</x:Double>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

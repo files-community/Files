@@ -1695,8 +1695,8 @@
           <target state="translated" state-qualifier="tm-suggestion">Search</target>
         </trans-unit>
         <trans-unit id="SearchPagePathBoxOverrideText" translate="yes" xml:space="preserve">
-          <source>Search results in</source>
-          <target state="translated">Search results in</target>
+          <source>Search results in {1} for {0}</source>
+          <target state="translated">Search results in {1} for {0}</target>
         </trans-unit>
         <trans-unit id="SearchTabHeaderText" translate="yes" xml:space="preserve">
           <source>Search results</source>
@@ -3559,6 +3559,10 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="CredentialDialogUserName.PlaceholderText" translate="yes" xml:space="preserve">
           <source>UserName</source>
           <target state="translated">Username</target>
+        </trans-unit>
+        <trans-unit id="NoSearchResultsFound" translate="yes" xml:space="preserve">
+          <source>No items found</source>
+          <target state="translated">No items found</target>
         </trans-unit>
       </group>
     </body>
