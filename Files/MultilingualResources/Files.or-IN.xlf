@@ -2430,11 +2430,11 @@
           <source>Open with</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଏଥିରେ ଖୋଲନ୍ତୁ</target>
         </trans-unit>
-        <trans-unit id="NavToolbarGroupByRadioButtons.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarGroupByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Group By</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଏହା ଦ୍ଵାରା ଗୋଷ୍ଠୀ</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortByRadioButtons.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSortByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Sort By</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଏହା ଦ୍ୱାରା ସର୍ଟ୍‌ କରନ୍ତୁ</target>
         </trans-unit>

@@ -2433,11 +2433,11 @@
           <source>Open with</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">다른 프로그램으로 열기</target>
         </trans-unit>
-        <trans-unit id="NavToolbarGroupByRadioButtons.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarGroupByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Group By</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">그룹화 방법</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortByRadioButtons.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSortByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Sort By</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">정렬 기준</target>
         </trans-unit>

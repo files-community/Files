@@ -2614,11 +2614,11 @@
           <source>Sort</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Sort</target>
         </trans-unit>
-        <trans-unit id="NavToolbarGroupByRadioButtons.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarGroupByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Group By</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Group by</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortByRadioButtons.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSortByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Sort By</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Sort By:</target>
         </trans-unit>
