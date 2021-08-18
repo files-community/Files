@@ -313,7 +313,7 @@
                 </AppBarButton.Content>
                 <AppBarButton.Flyout>
                     <MenuFlyout Placement="Bottom" ShouldConstrainToRootBounds="False">
-                        <MenuFlyoutSubItem Text="Sort by">
+                        <MenuFlyoutSubItem x:Uid="NavToolbarSortByRadioButtons" Text="Sort by">
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionName"
                                 IsChecked="{x:Bind ViewModel.IsSortedByName, Mode=TwoWay}"
@@ -355,7 +355,7 @@
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
                                 Text="Date deleted" />
                         </MenuFlyoutSubItem>
-                        <MenuFlyoutSubItem Text="Group by">
+                        <MenuFlyoutSubItem x:Uid="NavToolbarGroupByRadioButtons" Text="Group by">
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarGroupByOptionNone"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByNone, Mode=TwoWay}"
