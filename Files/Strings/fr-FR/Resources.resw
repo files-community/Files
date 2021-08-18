@@ -1156,7 +1156,7 @@
     <value>Rechercher</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Résultats de recherche dans</value>
+    <value>Résultats de la recherche dans {1} pour {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Résultats de recherche</value>
@@ -2673,5 +2673,8 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nom d'utilisateur</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>Aucun élément trouvé</value>
   </data>
 </root>
