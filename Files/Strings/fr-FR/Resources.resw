@@ -888,11 +888,17 @@
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
     <value>Latitude décimale</value>
   </data>
+  <data name="PropertyLatitudeRef" xml:space="preserve">
+    <value>Réf. Latitude</value>
+  </data>
   <data name="PropertyLongitude" xml:space="preserve">
     <value>Longitude</value>
   </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
     <value>Longitude décimale</value>
+  </data>
+  <data name="PropertyLongitudeRef" xml:space="preserve">
+    <value>Réf. Longitude</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>Altitude</value>
@@ -2632,7 +2638,40 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
   <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
     <value>Fermer</value>
   </data>
+  <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
+    <value>Ouvrir le Disque</value>
+  </data>
+  <data name="InsertDiscDialog.Text" xml:space="preserve">
+    <value>Veuillez insérer un disque dans le lecteur {0}</value>
+  </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Insérer un disque</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Appliquer à tous</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Partie de l'ensemble</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>Informations d'identification requises</value>
+  </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>Anonyme</value>
+  </data>
+  <data name="CredentialDialogDescription.Text" xml:space="preserve">
+    <value>Fournissez votre identifiant :</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>Mot de passe</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>Nom d'utilisateur</value>
   </data>
 </root>
