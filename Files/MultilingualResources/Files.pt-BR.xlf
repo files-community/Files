@@ -3563,7 +3563,7 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
         </trans-unit>
         <trans-unit id="NoSearchResultsFound" translate="yes" xml:space="preserve">
           <source>No items found</source>
-          <target state="new">No items found</target>
+          <target state="translated">Nenhum item encontrado</target>
         </trans-unit>
       </group>
     </body>
