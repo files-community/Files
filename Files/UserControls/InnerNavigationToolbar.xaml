@@ -72,7 +72,7 @@
                                 Command="{x:Bind ViewModel.CreateNewFolderCommand, Mode=OneWay}"
                                 Text="Folder">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE8B7;" />
+                                    <FontIcon Glyph="&#xF8B7;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator" />
@@ -84,7 +84,7 @@
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                                 Text="File">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE7C3;" />
+                                    <FontIcon Glyph="&#xF7C3;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout>
@@ -92,8 +92,8 @@
 
                     <local:ColoredIcon
                         Margin="0,1,0,-1"
-                        BaseLayerGlyph="&#x0037;"
-                        OverlayLayerGlyph="&#x0038;" />
+                        BaseLayerGlyph="&#xF037;"
+                        OverlayLayerGlyph="&#xF038;" />
                 </AppBarButton>
                 <AppBarSeparator />
                 <AppBarButton
@@ -106,7 +106,7 @@
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutCut/Text')}">
                     <AppBarButton.Content>
-                        <local:ColoredIcon BaseLayerGlyph="&#x003D;" OverlayLayerGlyph="&#x003E;" />
+                        <local:ColoredIcon BaseLayerGlyph="&#xF03D;" OverlayLayerGlyph="&#xF03E;" />
                     </AppBarButton.Content>
                 </AppBarButton>
                 <AppBarButton
@@ -118,7 +118,7 @@
                     Label="Copy"
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="Copy">
-                    <local:ColoredIcon BaseLayerGlyph="&#x0021;" OverlayLayerGlyph="&#x0022;" />
+                    <local:ColoredIcon BaseLayerGlyph="&#xF021;" OverlayLayerGlyph="&#xF022;" />
                 </AppBarButton>
                 <AppBarButton
                     x:Name="PasteButton"
@@ -136,7 +136,7 @@
                             IsEnabled="False"
                             Modifiers="Control" />
                     </AppBarButton.KeyboardAccelerators>
-                    <local:ColoredIcon BaseLayerGlyph="&#x0023;" OverlayLayerGlyph="&#x0024;" />
+                    <local:ColoredIcon BaseLayerGlyph="&#xF023;" OverlayLayerGlyph="&#xF024;" />
                 </AppBarButton>
                 <AppBarButton
                     x:Name="RenameButton"
@@ -149,7 +149,7 @@
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutRename/Text')}">
                     <AppBarButton.Content>
-                        <local:ColoredIcon BaseLayerGlyph="&#x0027;" OverlayLayerGlyph="&#x0028;" />
+                        <local:ColoredIcon BaseLayerGlyph="&#xF027;" OverlayLayerGlyph="&#xF028;" />
                     </AppBarButton.Content>
                 </AppBarButton>
                 <AppBarButton
@@ -163,7 +163,7 @@
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutShare/Text')}">
                     <AppBarButton.Content>
-                        <local:ColoredIcon BaseLayerGlyph="&#x0025;" OverlayLayerGlyph="&#x0026;" />
+                        <local:ColoredIcon BaseLayerGlyph="&#xF025;" OverlayLayerGlyph="&#xF026;" />
                     </AppBarButton.Content>
                 </AppBarButton>
                 <AppBarButton
@@ -177,7 +177,7 @@
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutDelete/Text')}">
                     <AppBarButton.Content>
-                        <local:ColoredIcon BaseLayerGlyph="&#x0035;" OverlayLayerGlyph="&#x0036;" />
+                        <local:ColoredIcon BaseLayerGlyph="&#xF035;" OverlayLayerGlyph="&#xF036;" />
                     </AppBarButton.Content>
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
@@ -256,7 +256,7 @@
                             IsChecked="{x:Bind MainViewModel.MultiselectEnabled, Mode=TwoWay}"
                             Text="Multiselect">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE762;" />
+                                <FontIcon Glyph="&#xF762;" />
                             </MenuFlyoutItem.Icon>
                         </ToggleMenuFlyoutItem>
                         <MenuFlyoutItem
@@ -265,7 +265,7 @@
                             Command="{x:Bind ViewModel.SelectAllContentPageItemsCommand, Mode=OneWay}"
                             Text="Select All">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8B3;" />
+                                <FontIcon Glyph="&#xF8B3;" />
                             </MenuFlyoutItem.Icon>
                             <MenuFlyoutItem.KeyboardAccelerators>
                                 <KeyboardAccelerator
@@ -280,7 +280,7 @@
                             Command="{x:Bind ViewModel.InvertContentPageSelctionCommand, Mode=OneWay}"
                             Text="Invert Selection">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE746;" />
+                                <FontIcon Glyph="&#xF746;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -289,7 +289,7 @@
                             Command="{x:Bind ViewModel.ClearContentPageSelectionCommand, Mode=OneWay}"
                             Text="Clear Selection">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8E6;" />
+                                <FontIcon Glyph="&#xF8E6;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
@@ -570,7 +570,7 @@
                 ToolTipService.ToolTip="Toggle the preview pane (Ctrl+P)"
                 Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
                 <AppBarToggleButton.Content>
-                    <local:ColoredIcon BaseLayerGlyph="&#x003b;" OverlayLayerGlyph="&#x003c;" />
+                    <local:ColoredIcon BaseLayerGlyph="&#xF03b;" OverlayLayerGlyph="&#xF03c;" />
                 </AppBarToggleButton.Content>
             </AppBarToggleButton>
             <CommandBar.SecondaryCommands>
@@ -599,7 +599,7 @@
                     KeyboardAcceleratorTextOverride="Ctrl+Shift+W"
                     Label="Close pane">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE89F;" />
+                        <FontIcon Glyph="&#xF89F;" />
                     </AppBarButton.Icon>
                     <AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator
