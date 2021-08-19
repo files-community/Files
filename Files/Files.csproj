@@ -501,6 +501,7 @@
     <Compile Include="ViewModels\SettingsViewModels\PreferencesViewModel.cs" />
     <Compile Include="ViewModels\Widgets\ICustomWidgetItemModel.cs" />
     <Compile Include="ViewModels\Widgets\IWidgetItemModel.cs" />
+    <Compile Include="ViewModels\Widgets\WidgetsListControlItemViewModel.cs" />
     <Compile Include="ViewModels\Widgets\WidgetsListControlViewModel.cs" />
     <Compile Include="Views\ColumnParam.cs" />
     <Compile Include="Views\ColumnShellPage.xaml.cs">

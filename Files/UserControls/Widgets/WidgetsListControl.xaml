@@ -5,10 +5,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls.Widgets"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vc="using:Files.Converters"
     xmlns:vm="using:Files.ViewModels.Widgets"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <vc:ObjectToControlConverter x:Key="ObjectToControlConverter" />
+    </UserControl.Resources>
 
     <Border>
         <Grid>
@@ -34,6 +39,13 @@
                         </Setter>
                     </Style>
                 </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:WidgetsListControlItemViewModel">
+                        <Grid AutomationProperties.Name="{x:Bind WidgetAutomationProperties, Mode=OneWay}">
+                            <ContentControl Content="{x:Bind WidgetControl, Mode=OneWay}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
         </Grid>
     </Border>
