@@ -122,5 +122,25 @@ namespace Files.Helpers
             }
             return false;
         }
+
+        public async Task<bool> RecycleBinHasItems()
+        {
+            var recycleBinHasItems = false;
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                var value = new ValueSet
+                {
+                    { "Arguments", "RecycleBin" },
+                    { "action", "Query" }
+                };
+                var (status, response) = await connection.SendMessageForResponseAsync(value);
+                if (status == AppServiceResponseStatus.Success && response.TryGetValue("NumItems", out var numItems))
+                {
+                    recycleBinHasItems = (long)numItems > 0;
+                }
+            }
+            return recycleBinHasItems;
+        }
     }
 }

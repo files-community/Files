@@ -399,10 +399,6 @@ namespace Files.ViewModels
                         await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
                     }
                 }
-
-                // Check for required updates
-                AppUpdater updater = new AppUpdater();
-                updater.CheckForUpdatesAsync();
             }
         }
 

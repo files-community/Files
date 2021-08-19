@@ -186,17 +186,14 @@
                 </i:Interaction.Behaviors>
             </KeyboardAccelerator>
         </Grid.KeyboardAccelerators>
-        <TextBlock
-            x:Name="EmptyText"
-            x:Uid="EmptyFolder"
+
+        <uc:FolderEmptyIndicator
             Grid.Row="3"
             Margin="0,125,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
-            x:Load="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed, Mode=OneWay}"
             Canvas.ZIndex="0"
-            Text="This folder is empty."
-            TextWrapping="Wrap" />
+            EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
         <muxc:TeachingTip
             x:Name="FileNameTeachingTip"
@@ -220,7 +217,7 @@
                     tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
                     x:FieldModifier="public"
                     AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                    CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                    CanDragItems="True"
                     ContainerContentChanging="FileList_ContainerContentChanging"
                     DoubleTapped="FileList_DoubleTapped"
                     DragItemsStarting="FileList_DragItemsStarting"

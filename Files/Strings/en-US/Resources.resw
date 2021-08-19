@@ -1384,7 +1384,7 @@
     <value>Search</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Search results in</value>
+    <value>Search results in {1} for {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Search results</value>
@@ -2073,7 +2073,7 @@
   <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
     <value>Sort</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Group By</value>
   </data>
   <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
@@ -2100,7 +2100,7 @@
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>Type</value>
   </data>
-  <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Sort By</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
@@ -2790,5 +2790,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Recent Files Widget</value>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>No items found</value>
   </data>
 </root>

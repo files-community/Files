@@ -1806,10 +1806,10 @@
   <data name="OpenItemsWithCaptionText" xml:space="preserve">
     <value>プログラムから開く</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>グループで表示</value>
   </data>
-  <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>並べ替えて表示</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">

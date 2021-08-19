@@ -322,7 +322,7 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "NavToolbarGroupByRadioButtons/Header".GetLocalized(),
+                    Text = "NavToolbarGroupByRadioButtons/Text".GetLocalized(),
                     Glyph = "\uF168",
                     ShowInRecycleBin = true,
                     ShowInSearchPage = true,
@@ -605,7 +605,12 @@ namespace Files.Helpers
                     Tag = "OpenWithOverflow",
                     IsHidden = true,
                     CollapseLabel = true,
-                    Items = new List<ContextMenuFlyoutItemViewModel>(),
+                    Items = new List<ContextMenuFlyoutItemViewModel>() {
+                        new() 
+                        {
+                            Text = "Placeholder....."
+                        }
+                    },
                     ShowItem = selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem),
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -820,7 +825,7 @@ namespace Files.Helpers
                         OverlayLayerGlyph = "\u0026",
                     },
                     Command = commandsViewModel.ShareItemCommand,
-                    ShowItem = DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem),
+                    ShowItem = DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem || i.IsShortcutItem || i.PrimaryItemAttribute == StorageItemTypes.Folder),
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {

@@ -1267,7 +1267,7 @@
     <value>Αναζήτηση</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Αποτελέσματα αναζήτησης σε</value>
+    <value>Αποτελέσματα αναζήτησης σε {1} για {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Αποτελέσματα αναζήτησης</value>
@@ -1953,10 +1953,10 @@
   <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
     <value>Ταξινόμηση</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Ομάδα από</value>
   </data>
-  <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Ταξινόμηση κατά</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
@@ -2638,7 +2638,43 @@
   <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
     <value>Κλείσιμο</value>
   </data>
+  <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
+    <value>Άνοιγμα δίσκου</value>
+  </data>
+  <data name="InsertDiscDialog.Text" xml:space="preserve">
+    <value>Τοποθετήστε ένα δίσκο στη μονάδα {0}</value>
+  </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
-    <value>Εισαγάγετε ένα δίσκο</value>
+    <value>Τοποθετήστε ένα δίσκο</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Ισχύει για όλους</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Μέρος του σετ</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Εντάξει</value>
+  </data>
+  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Ακύρωση</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>Απαιτούμενα διαπιστευτήρια</value>
+  </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>Ανώνυμος</value>
+  </data>
+  <data name="CredentialDialogDescription.Text" xml:space="preserve">
+    <value>Δώστε τα διαπιστευτήριά σας:</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>Κωδικός πρόσβασης</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>Όνομα χρήστη</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>Δεν βρέθηκαν αντικείμενα</value>
   </data>
 </root>

@@ -1152,10 +1152,10 @@
   <data name="OpenItemsWithCaptionText" xml:space="preserve">
     <value>ଏଥିରେ ଖୋଲନ୍ତୁ</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>ଏହା ଦ୍ଵାରା ଗୋଷ୍ଠୀ</value>
   </data>
-  <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>ଏହା ଦ୍ୱାରା ସର୍ଟ୍‌ କରନ୍ତୁ</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">

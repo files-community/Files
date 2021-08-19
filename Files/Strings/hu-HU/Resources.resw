@@ -1809,10 +1809,10 @@
   <data name="OpenItemsWithCaptionText" xml:space="preserve">
     <value>Társítás</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Csoportosítás</value>
   </data>
-  <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Rendezés</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">

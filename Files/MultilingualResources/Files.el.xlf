@@ -1679,8 +1679,8 @@
           <target state="translated">Αναζήτηση</target>
         </trans-unit>
         <trans-unit id="SearchPagePathBoxOverrideText" translate="yes" xml:space="preserve">
-          <source>Search results in</source>
-          <target state="translated">Αποτελέσματα αναζήτησης σε</target>
+          <source>Search results in {1} for {0}</source>
+          <target state="translated">Αποτελέσματα αναζήτησης σε {1} για {0}</target>
         </trans-unit>
         <trans-unit id="SearchTabHeaderText" translate="yes" xml:space="preserve">
           <source>Search results</source>
@@ -2594,11 +2594,11 @@
           <source>Sort</source>
           <target state="translated">Ταξινόμηση</target>
         </trans-unit>
-        <trans-unit id="NavToolbarGroupByRadioButtons.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarGroupByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Group By</source>
           <target state="translated">Ομάδα από</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortByRadioButtons.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSortByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Sort By</source>
           <target state="translated">Ταξινόμηση κατά</target>
         </trans-unit>
@@ -3523,6 +3523,46 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="InsertDiscDialog.Title" translate="yes" xml:space="preserve">
           <source>Insert a disc</source>
           <target state="translated">Τοποθετήστε ένα δίσκο</target>
+        </trans-unit>
+        <trans-unit id="ConfictingItemsDialogOptionApplyToAll.Text" translate="yes" xml:space="preserve">
+          <source>Apply to all</source>
+          <target state="translated">Ισχύει για όλους</target>
+        </trans-unit>
+        <trans-unit id="PropertyPartOfSet" translate="yes" xml:space="preserve">
+          <source>Part of set</source>
+          <target state="translated">Μέρος του σετ</target>
+        </trans-unit>
+        <trans-unit id="AskCredentialDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>OK</source>
+          <target state="translated">Εντάξει</target>
+        </trans-unit>
+        <trans-unit id="AskCredentialDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">Ακύρωση</target>
+        </trans-unit>
+        <trans-unit id="AskCredentialDialog.Title" translate="yes" xml:space="preserve">
+          <source>Credential Required</source>
+          <target state="translated">Απαιτούμενα διαπιστευτήρια</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogAnonymous.Content" translate="yes" xml:space="preserve">
+          <source>Anonymous</source>
+          <target state="translated">Ανώνυμος</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogDescription.Text" translate="yes" xml:space="preserve">
+          <source>Provide your credential:</source>
+          <target state="translated">Δώστε τα διαπιστευτήριά σας:</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogPassword.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Password</source>
+          <target state="translated">Κωδικός πρόσβασης</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogUserName.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>UserName</source>
+          <target state="translated">Όνομα χρήστη</target>
+        </trans-unit>
+        <trans-unit id="NoSearchResultsFound" translate="yes" xml:space="preserve">
+          <source>No items found</source>
+          <target state="translated">Δεν βρέθηκαν αντικείμενα</target>
         </trans-unit>
       </group>
     </body>

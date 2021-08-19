@@ -54,6 +54,7 @@ namespace Files.ViewModels.SettingsViewModels
         {
             bool hasRecents = false;
             menu.Items.Add(new MenuFlyoutSeparatorViewModel());
+
             try
             {
                 var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;

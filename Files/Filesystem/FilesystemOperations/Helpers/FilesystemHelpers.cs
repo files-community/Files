@@ -192,6 +192,8 @@ namespace Files.Filesystem
             }
             var itemsDeleted = history?.Source.Count() ?? 0;
 
+            source.ForEach(x => App.JumpList.RemoveFolder(x.Path)); // Remove items from jump list
+
             banner.Remove();
             sw.Stop();
 
@@ -351,6 +353,8 @@ namespace Files.Filesystem
                 App.HistoryWrapper.AddHistory(history);
             }
 
+            App.JumpList.RemoveFolder(source.Path); // Remove items from jump list
+
             banner.Remove();
             sw.Stop();
 
@@ -365,85 +369,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> DeleteItemAsync(IStorageItem source, bool showDialog, bool permanently, bool registerHistory)
         {
-            PostedStatusBanner banner;
-            bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
-            var canBeSentToBin = !deleteFromRecycleBin && await recycleBinHelpers.HasRecycleBin(source.Path);
-
-            if (!canBeSentToBin)
-            {
-                permanently = true;
-            }
-
-            if (permanently)
-            {
-                banner = statusCenterViewModel.PostBanner(string.Empty,
-                associatedInstance.FilesystemViewModel.WorkingDirectory,
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Delete);
-            }
-            else
-            {
-                banner = statusCenterViewModel.PostBanner(string.Empty,
-                associatedInstance.FilesystemViewModel.WorkingDirectory,
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Recycle);
-            }
-
-            var returnStatus = ReturnResult.InProgress;
-            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
-
-            if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
-            {
-                List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>
-                {
-                    new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.Path, null)
-                };
-
-                FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
-                    FilesystemOperationType.Delete,
-                    false,
-                    canBeSentToBin ? permanently : true,
-                    canBeSentToBin,
-                    incomingItems,
-                    new List<FilesystemItemsOperationItemModel>()));
-
-                if (UIHelpers.IsAnyContentDialogOpen())
-                {
-                    // Only a single ContentDialog can be open at any time.
-                    return ReturnResult.Cancelled;
-                }
-                ContentDialogResult result = await dialog.ShowAsync();
-
-                if (result != ContentDialogResult.Primary)
-                {
-                    banner.Remove();
-                    return ReturnResult.Cancelled; // Return if the result isn't delete
-                }
-
-                // Delete selected item if the result is Yes
-                permanently = dialog.ViewModel.PermanentlyDelete;
-            }
-
-            var sw = new Stopwatch();
-            sw.Start();
-
-            IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
-            ((IProgress<float>)banner.Progress).Report(100.0f);
-            await Task.Yield();
-
-            if (!permanently && registerHistory)
-            {
-                App.HistoryWrapper.AddHistory(history);
-            }
-
-            banner.Remove();
-            sw.Stop();
-
-            PostBannerHelpers.PostBanner_Delete(returnStatus, permanently ? FileOperationType.Delete : FileOperationType.Recycle, sw, associatedInstance);
-
-            return returnStatus;
+            return await DeleteItemAsync(source.FromStorageItem(), showDialog, permanently, registerHistory);
         }
 
         #endregion Delete
@@ -655,37 +581,6 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
-        {
-            if (!packageView.Contains(StandardDataFormats.StorageItems))
-            {
-                // Happens if you copy some text and then you Ctrl+V in Files
-                return ReturnResult.BadArgumentException;
-            }
-
-            IReadOnlyList<IStorageItem> source;
-            try
-            {
-                source = await packageView.GetStorageItemsAsync();
-            }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-            {
-                // Not supported
-                return ReturnResult.Failed;
-            }
-            catch (Exception ex)
-            {
-                App.Logger.Warn(ex, ex.Message);
-                return ReturnResult.UnknownException;
-            }
-            ReturnResult returnStatus = ReturnResult.InProgress;
-
-            source = source.Where(x => !recycleBinHelpers.IsPathUnderRecycleBin(x.Path)).ToList(); // Can't recycle items already in recyclebin
-            returnStatus = await DeleteItemsAsync(source, showDialog, false, registerHistory);
-
-            return returnStatus;
-        }
-
         public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
             if (packageView.Contains(StandardDataFormats.StorageItems))
@@ -821,6 +716,8 @@ namespace Files.Filesystem
             }
             int itemsMoved = history?.Source.Count() ?? 0;
 
+            source.ForEach(x => App.JumpList.RemoveFolder(x.Path)); // Remove items from jump list
+
             banner.Remove();
             sw.Stop();
 
@@ -898,6 +795,8 @@ namespace Files.Filesystem
                 App.HistoryWrapper.AddHistory(history);
             }
 
+            App.JumpList.RemoveFolder(source.Path); // Remove items from jump list
+
             banner.Remove();
             sw.Stop();
 
@@ -966,19 +865,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory)
         {
-            var returnCode = FileSystemStatusCode.InProgress;
-            var errorCode = new Progress<FileSystemStatusCode>();
-            errorCode.ProgressChanged += (s, e) => returnCode = e;
-
-            IStorageHistory history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
-
-            if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
-            {
-                App.HistoryWrapper.AddHistory(history);
-            }
-
-            await Task.Yield();
-            return returnCode.ToStatus();
+            return await RenameAsync(source.FromStorageItem(), newName, collision, registerHistory);
         }
 
         public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory)
@@ -1024,11 +911,44 @@ namespace Files.Filesystem
                 App.HistoryWrapper.AddHistory(history);
             }
 
+            App.JumpList.RemoveFolder(source.Path); // Remove items from jump list
+
             await Task.Yield();
             return returnCode.ToStatus();
         }
 
         #endregion Rename
+
+        public async Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
+        {
+            if (!packageView.Contains(StandardDataFormats.StorageItems))
+            {
+                // Happens if you copy some text and then you Ctrl+V in Files
+                return ReturnResult.BadArgumentException;
+            }
+
+            IReadOnlyList<IStorageItem> source;
+            try
+            {
+                source = await packageView.GetStorageItemsAsync();
+            }
+            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
+            {
+                // Not supported
+                return ReturnResult.Failed;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.Warn(ex, ex.Message);
+                return ReturnResult.UnknownException;
+            }
+            ReturnResult returnStatus = ReturnResult.InProgress;
+
+            source = source.Where(x => !recycleBinHelpers.IsPathUnderRecycleBin(x.Path)).ToList(); // Can't recycle items already in recyclebin
+            returnStatus = await DeleteItemsAsync(source, showDialog, false, registerHistory);
+
+            return returnStatus;
+        }
 
         #endregion IFilesystemHelpers
 
