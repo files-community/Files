@@ -246,6 +246,9 @@
   <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
     <value>ტერმინალში გახსნა...</value>
   </data>
+  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
+    <value>MD5Hash:</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>ახალი</value>
   </data>
@@ -544,25 +547,25 @@
     <value>სანაგვე ყუთის გასუფთავება</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
-    <value>ბაიტი</value>
+    <value>bytes</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
-    <value>კბაიტი</value>
+    <value>KB</value>
   </data>
   <data name="MegaByteSymbol" xml:space="preserve">
-    <value>მბაიტი</value>
+    <value>MB</value>
   </data>
   <data name="GigaByteSymbol" xml:space="preserve">
-    <value>გბაიტი</value>
+    <value>GB</value>
   </data>
   <data name="TeraByteSymbol" xml:space="preserve">
-    <value>ტბაიტი</value>
+    <value>TB</value>
   </data>
   <data name="PetaByteSymbol" xml:space="preserve">
-    <value>პბაიტი</value>
+    <value>PB</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>უ</value>
+    <value>B</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>ადმინისტრატორის სახელით გაშვება</value>
@@ -939,6 +942,9 @@
   <data name="PropertyColorSpace" xml:space="preserve">
     <value>ფერის სივრცე</value>
   </data>
+  <data name="PropertyColorSpace_Value0" xml:space="preserve">
+    <value>sRGB</value>
+  </data>
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>მიუთითებელი</value>
   </data>
@@ -1130,6 +1136,9 @@
   </data>
   <data name="PropertyFrameRate" xml:space="preserve">
     <value>კადრების სიხშირე</value>
+  </data>
+  <data name="PropertyEncodingBitrate" xml:space="preserve">
+    <value>Encoding Bitrate</value>
   </data>
   <data name="PropertyCompression" xml:space="preserve">
     <value>შეკუმშვა</value>
@@ -1580,6 +1589,9 @@
   </data>
   <data name="DriveTypeNoRootDirectory" xml:space="preserve">
     <value>დაუმონტაჟებელი დისკი</value>
+  </data>
+  <data name="DriveTypeRam" xml:space="preserve">
+    <value>RAM Disk Drive</value>
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
     <value>ამოშლადი შესანახი მოწყობილობა</value>
@@ -2421,6 +2433,9 @@
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
     <value>გვერდითს ზოლის ქსელური დისკების განყოფილების ჩვენება</value>
   </data>
+  <data name="WSL" xml:space="preserve">
+    <value>WSL</value>
+  </data>
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
     <value>{0} განყოფილების დამალვა</value>
   </data>
@@ -2495,6 +2510,30 @@
   </data>
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
+  </data>
+  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Alt+Up</value>
+  </data>
+  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Alt+Down</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+1</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutTilesView.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+2</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutGridViewSmall.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+3</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutGridViewMedium.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+4</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutGridViewLarge.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+5</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+6</value>
   </data>
   <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+T</value>
@@ -2598,7 +2637,16 @@
   <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
     <value>დახურვა</value>
   </data>
+  <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
+    <value>დისკის გახსნა</value>
+  </data>
+  <data name="InsertDiscDialog.Text" xml:space="preserve">
+    <value>გთხოვთ ჩასვათ დისკი {0} დისკში</value>
+  </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
-    <value>დისკის ჩადება</value>
+    <value>დისკის ჩასმა</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>ნაკრების ნაწილი</value>
   </data>
 </root>
