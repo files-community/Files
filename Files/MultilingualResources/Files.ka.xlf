@@ -3532,10 +3532,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Apply to all</source>
           <target state="new">Apply to all</target>
         </trans-unit>
-        <trans-unit id="PropertyPartOfSet" translate="yes" xml:space="preserve">
-          <source>Part of set</source>
-          <target state="new">Part of set</target>
-        </trans-unit>
         <trans-unit id="AskCredentialDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
           <target state="new">OK</target>
