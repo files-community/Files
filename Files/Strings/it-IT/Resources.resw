@@ -1156,7 +1156,7 @@
     <value>Stato delle operazioni</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Cerca risultati in</value>
+    <value>Cerca risultati in {1} per {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Risultati ricerca</value>
@@ -1815,10 +1815,10 @@
   <data name="OpenItemsWithCaptionText" xml:space="preserve">
     <value>Apri con</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Raggruppa per</value>
   </data>
-  <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Ordina per</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
@@ -2526,23 +2526,57 @@
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
   </data>
+  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
+    <value>Applicazioni Terminale</value>
+  </data>
+  <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
+    <value>Estrazione archivio completata con successo.</value>
+  </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
     <value>Estrazione dell'archivio</value>
   </data>
+  <data name="ExtractingCompleteText" xml:space="preserve">
+    <value>Archivio estratto!</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>CTRL+MAIUSC+N</value>
+    <value>Ctrl+Shift+N</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
+    <value>Modifica applicazioni terminale</value>
   </data>
   <data name="SettingsDateFormat.Title" xml:space="preserve">
     <value>Formato data</value>
   </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
+    <value>Chiedi conferma quando si eliminano file o cartelle</value>
+  </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
+    <value>Apri cartelle in una nuova scheda</value>
+  </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Informativa sulla privacy</value>
+  </data>
+  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
+    <value>Fluent UI System Icons</value>
+  </data>
+  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Fluent UI System Icons</value>
+  </data>
+  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
+    <value>
+*Dati personali raccolti*
+Files non raccoglie, archivia, condivide o pubblica nessuna informazione personale.
+
+*Dati non-personali raccolti*
+
+Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e risolvere problemi. Tutte le informazioni inviate ad App Center sono anonime e non contengono dati utente o contestuali.
+  </value>
   </data>
   <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
     <value>Nessuno</value>
   </data>
   <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
-    <value>name</value>
+    <value>Nome</value>
   </data>
   <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
     <value>Data modifica</value>
@@ -2571,13 +2605,76 @@
   <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
     <value>Stato sincronizzazione</value>
   </data>
+  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
+    <value>Mostra la sezione Preferiti sulla barra laterale</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
+    <value>Tag del file</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
+    <value>Tag del file</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
+    <value>Apri cartella superiore</value>
+  </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Sconosciuto</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
+    <value>Tag del file</value>
+  </data>
+  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
+    <value>Gestisci i tag dei file</value>
+  </data>
+  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Gestisci i tag dei file</value>
+  </data>
+  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+    <value>Gestisci i tag dei file</value>
+  </data>
+  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
+    <value>Abilita i tag dei file</value>
   </data>
   <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
     <value>Chiudi</value>
   </data>
+  <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
+    <value>Apri Unità</value>
+  </data>
+  <data name="InsertDiscDialog.Text" xml:space="preserve">
+    <value>Inserisci un disco nell'unità {0}</value>
+  </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Inserire un disco</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Appplica a tutti</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Parte del set</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Annulla</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>Credenziali Richieste</value>
+  </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>Anonimo</value>
+  </data>
+  <data name="CredentialDialogDescription.Text" xml:space="preserve">
+    <value>Inserisci le tue credenziali:</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>Nome utente</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>Nessun elemento trovato</value>
   </data>
 </root>

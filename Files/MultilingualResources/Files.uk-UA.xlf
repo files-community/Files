@@ -2435,11 +2435,11 @@
           <source>Open with</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Відкрити за допомогою</target>
         </trans-unit>
-        <trans-unit id="NavToolbarGroupByRadioButtons.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarGroupByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Group By</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Групувати за</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortByRadioButtons.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSortByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Sort By</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Сортувати за</target>
         </trans-unit>

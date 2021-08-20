@@ -322,7 +322,7 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "NavToolbarGroupByRadioButtons/Header".GetLocalized(),
+                    Text = "NavToolbarGroupByRadioButtons/Text".GetLocalized(),
                     Glyph = "\uF168",
                     ShowInRecycleBin = true,
                     ShowInSearchPage = true,
