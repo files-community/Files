@@ -510,9 +510,6 @@
   <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
     <value>ჟურნალის გახსნა</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButtonText.Text" xml:space="preserve">
-    <value>ჟურნალის გახსნა</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>არჩეული ნივთი</value>
   </data>

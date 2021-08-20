@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
   <file datatype="xml" source-language="en-US" target-language="en-GB" original="FILES/STRINGS/EN-US/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
     <header>
@@ -675,10 +675,6 @@
           <target state="translated">The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
         <trans-unit id="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Open log location</source>
-          <target state="translated">Open log location</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutOpenLogLocationButtonText.Text" translate="yes" xml:space="preserve">
           <source>Open log location</source>
           <target state="translated">Open log location</target>
         </trans-unit>
@@ -3563,6 +3559,30 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="NoSearchResultsFound" translate="yes" xml:space="preserve">
           <source>No items found</source>
           <target state="translated">No items found</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Bundles Widget</source>
+          <target state="new">Bundles Widget</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Drives Widget</source>
+          <target state="new">Drives Widget</target>
+        </trans-unit>
+        <trans-unit id="FolderWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Libraries Widget</source>
+          <target state="new">Libraries Widget</target>
+        </trans-unit>
+        <trans-unit id="RecentFilesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Recent Files Widget</source>
+          <target state="new">Recent Files Widget</target>
+        </trans-unit>
+        <trans-unit id="OpenLogLocation.Title" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
+        </trans-unit>
+        <trans-unit id="OpenLogLocation.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
         </trans-unit>
       </group>
     </body>

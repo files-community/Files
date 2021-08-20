@@ -3258,10 +3258,6 @@
           <source>Open log location</source>
           <target state="new">Open log location</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutOpenLogLocationButtonText.Text" translate="yes" xml:space="preserve">
-          <source>Open log location</source>
-          <target state="new">Open log location</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutPinToFavorites.Text" translate="yes" xml:space="preserve">
           <source>Pin to Favorites</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">よくやり取りする連絡先に固定</target>
@@ -3587,6 +3583,30 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="NoSearchResultsFound" translate="yes" xml:space="preserve">
           <source>No items found</source>
           <target state="new">No items found</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Bundles Widget</source>
+          <target state="new">Bundles Widget</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Drives Widget</source>
+          <target state="new">Drives Widget</target>
+        </trans-unit>
+        <trans-unit id="FolderWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Libraries Widget</source>
+          <target state="new">Libraries Widget</target>
+        </trans-unit>
+        <trans-unit id="RecentFilesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Recent Files Widget</source>
+          <target state="new">Recent Files Widget</target>
+        </trans-unit>
+        <trans-unit id="OpenLogLocation.Title" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
+        </trans-unit>
+        <trans-unit id="OpenLogLocation.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
         </trans-unit>
       </group>
     </body>

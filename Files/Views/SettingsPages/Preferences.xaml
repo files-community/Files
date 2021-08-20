@@ -87,7 +87,6 @@
                             x:Uid="SettingsPreferencesEditTerminalApplications"
                             Height="32"
                             Padding="8,4,8,4"
-                            VerticalAlignment="Bottom"
                             AutomationProperties.Name="Edit terminal applications"
                             Command="{Binding EditTerminalApplicationsCommand}">
                             <FontIcon
