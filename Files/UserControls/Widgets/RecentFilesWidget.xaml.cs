@@ -2,6 +2,7 @@
 using Files.Filesystem;
 using Files.ViewModels;
 using Files.ViewModels.Widgets;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -31,6 +32,8 @@ namespace Files.UserControls.Widgets
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public string WidgetName => nameof(RecentFilesWidget);
+
+        public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalized();
 
         public bool IsWidgetSettingEnabled => App.AppSettings.ShowRecentFilesWidget;
 

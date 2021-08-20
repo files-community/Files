@@ -320,7 +320,7 @@
         </trans-unit>
         <trans-unit id="PropertiesItemMD5Hash.Text" translate="yes" xml:space="preserve">
           <source>MD5Hash:</source>
-          <target state="new">MD5Hash:</target>
+          <target state="translated">MD5Hash:</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNew.Label" translate="yes" xml:space="preserve">
           <source>New</source>
@@ -720,31 +720,31 @@
         </trans-unit>
         <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
           <source>bytes</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ბაიტი</target>
+          <target state="translated" state-qualifier="tm-suggestion">bytes</target>
         </trans-unit>
         <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
           <source>KB</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">კბაიტი</target>
+          <target state="translated" state-qualifier="tm-suggestion">KB</target>
         </trans-unit>
         <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
           <source>MB</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">მბაიტი</target>
+          <target state="translated" state-qualifier="tm-suggestion">MB</target>
         </trans-unit>
         <trans-unit id="GigaByteSymbol" translate="yes" xml:space="preserve">
           <source>GB</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">გბაიტი</target>
+          <target state="translated" state-qualifier="tm-suggestion">GB</target>
         </trans-unit>
         <trans-unit id="TeraByteSymbol" translate="yes" xml:space="preserve">
           <source>TB</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ტბაიტი</target>
+          <target state="translated" state-qualifier="tm-suggestion">TB</target>
         </trans-unit>
         <trans-unit id="PetaByteSymbol" translate="yes" xml:space="preserve">
           <source>PB</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">პბაიტი</target>
+          <target state="translated" state-qualifier="tm-suggestion">PB</target>
         </trans-unit>
         <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
           <source>B</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">უ</target>
+          <target state="translated" state-qualifier="tm-suggestion">B</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
@@ -1248,7 +1248,7 @@
         </trans-unit>
         <trans-unit id="PropertyColorSpace_Value0" translate="yes" xml:space="preserve">
           <source>sRGB</source>
-          <target state="new">sRGB</target>
+          <target state="translated">sRGB</target>
         </trans-unit>
         <trans-unit id="PropertyColorSpace_Value65535" translate="yes" xml:space="preserve">
           <source>Unspecified</source>
@@ -1508,7 +1508,7 @@
         </trans-unit>
         <trans-unit id="PropertyEncodingBitrate" translate="yes" xml:space="preserve">
           <source>Encoding Bitrate</source>
-          <target state="new">Encoding Bitrate</target>
+          <target state="translated">Encoding Bitrate</target>
         </trans-unit>
         <trans-unit id="PropertyCompression" translate="yes" xml:space="preserve">
           <source>Compression</source>
@@ -1540,7 +1540,7 @@
         </trans-unit>
         <trans-unit id="PropertySectionGPS" translate="yes" xml:space="preserve">
           <source>GPS</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">GPS</target>
+          <target state="translated" state-qualifier="tm-suggestion">GPS</target>
         </trans-unit>
         <trans-unit id="PropertySectionMedia" translate="yes" xml:space="preserve">
           <source>Media</source>
@@ -2113,7 +2113,7 @@
         </trans-unit>
         <trans-unit id="DriveTypeRam" translate="yes" xml:space="preserve">
           <source>RAM Disk Drive</source>
-          <target state="new">RAM Disk Drive</target>
+          <target state="translated">RAM Disk Drive</target>
         </trans-unit>
         <trans-unit id="DriveTypeRemovable" translate="yes" xml:space="preserve">
           <source>Removable Storage Device</source>
@@ -3237,7 +3237,7 @@
         </trans-unit>
         <trans-unit id="WSL" translate="yes" xml:space="preserve">
           <source>WSL</source>
-          <target state="new">WSL</target>
+          <target state="translated">WSL</target>
         </trans-unit>
         <trans-unit id="SideBarHideSectionFromSideBar.Text" translate="yes" xml:space="preserve">
           <source>Hide {0} section</source>
@@ -3325,59 +3325,59 @@
         </trans-unit>
         <trans-unit id="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+A</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ctrl+A</target>
+          <target state="translated" state-qualifier="tm-suggestion">Ctrl+A</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Alt+Shift++</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Alt + Shift</target>
+          <target state="translated" state-qualifier="tm-suggestion">Alt + Shift</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+W</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ctrl+Shift+W</target>
+          <target state="translated" state-qualifier="tm-suggestion">Ctrl+Shift+W</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+N</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ctrl+N</target>
+          <target state="translated" state-qualifier="tm-suggestion">Ctrl+N</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Alt+Up</source>
-          <target state="new">Ctrl+Alt+Up</target>
+          <target state="translated">Ctrl+Alt+Up</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Alt+Down</source>
-          <target state="new">Ctrl+Alt+Down</target>
+          <target state="translated">Ctrl+Alt+Down</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+1</source>
-          <target state="new">Ctrl+Shift+1</target>
+          <target state="translated">Ctrl+Shift+1</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutTilesView.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+2</source>
-          <target state="new">Ctrl+Shift+2</target>
+          <target state="translated">Ctrl+Shift+2</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutGridViewSmall.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+3</source>
-          <target state="new">Ctrl+Shift+3</target>
+          <target state="translated">Ctrl+Shift+3</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutGridViewMedium.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+4</source>
-          <target state="new">Ctrl+Shift+4</target>
+          <target state="translated">Ctrl+Shift+4</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutGridViewLarge.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+5</source>
-          <target state="new">Ctrl+Shift+5</target>
+          <target state="translated">Ctrl+Shift+5</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+6</source>
-          <target state="new">Ctrl+Shift+6</target>
+          <target state="translated">Ctrl+Shift+6</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+T</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ctrl+T</target>
+          <target state="translated" state-qualifier="tm-suggestion">Ctrl+T</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+T</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ctrl+Shift+T</target>
+          <target state="translated" state-qualifier="tm-suggestion">Ctrl+Shift+T</target>
         </trans-unit>
         <trans-unit id="ArchiveExtractionCompletedSuccessfullyText" translate="yes" xml:space="preserve">
           <source>The archive extraction completed successfully.</source>
@@ -3393,7 +3393,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+N</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ctrl+Shift+N</target>
+          <target state="translated" state-qualifier="tm-suggestion">Ctrl+Shift+N</target>
         </trans-unit>
         <trans-unit id="SettingsPrivacy.Title" translate="yes" xml:space="preserve">
           <source>Privacy policy</source>
@@ -3510,27 +3510,27 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         </trans-unit>
         <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
           <source>Close</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">დახურვა</target>
+          <target state="translated" state-qualifier="tm-suggestion">დახურვა</target>
         </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
-          <target state="new">Open Drive</target>
+          <target state="translated">დისკის გახსნა</target>
         </trans-unit>
         <trans-unit id="InsertDiscDialog.Text" translate="yes" xml:space="preserve">
           <source>Please insert a disc into drive {0}</source>
-          <target state="new">Please insert a disc into drive {0}</target>
+          <target state="translated">გთხოვთ ჩასვათ დისკი {0} დისკში</target>
         </trans-unit>
         <trans-unit id="InsertDiscDialog.Title" translate="yes" xml:space="preserve">
           <source>Insert a disc</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">დისკის ჩადება</target>
+          <target state="translated">დისკის ჩასმა</target>
+        </trans-unit>
+        <trans-unit id="PropertyPartOfSet" translate="yes" xml:space="preserve">
+          <source>Part of set</source>
+          <target state="translated">ნაკრების ნაწილი</target>
         </trans-unit>
         <trans-unit id="ConfictingItemsDialogOptionApplyToAll.Text" translate="yes" xml:space="preserve">
           <source>Apply to all</source>
           <target state="new">Apply to all</target>
-        </trans-unit>
-        <trans-unit id="PropertyPartOfSet" translate="yes" xml:space="preserve">
-          <source>Part of set</source>
-          <target state="new">Part of set</target>
         </trans-unit>
         <trans-unit id="AskCredentialDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
