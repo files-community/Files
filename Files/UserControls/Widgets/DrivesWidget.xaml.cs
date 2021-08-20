@@ -52,6 +52,8 @@ namespace Files.UserControls.Widgets
 
         public string WidgetName => nameof(DrivesWidget);
 
+        public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalized();
+
         public bool IsWidgetSettingEnabled => App.AppSettings.ShowDrivesWidget;
 
         public DrivesWidget()
