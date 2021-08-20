@@ -73,6 +73,7 @@
                         <GridViewItem
                             x:Name="FeedbackForm"
                             x:Uid="SettingsAboutSubmitFeedbackListViewItem"
+                            Width="204"
                             Padding="8,2"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
@@ -204,7 +205,7 @@
                 AutomationProperties.Name="Open log location"
                 Command="{Binding OpenLogLocationCommand}">
                 <Button.Content>
-                    <Grid HorizontalAlignment="Stretch" ColumnSpacing="16">
+                    <Grid HorizontalAlignment="Left" ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
