@@ -221,6 +221,7 @@ namespace Files.Filesystem
                 return await filesystemOperations.DeleteItemsAsync(source, progress, errorCode, permanently, cancellationToken);
             }
 
+            source = source.DistinctBy(x => x.Path); // #5771
             var deleleFilePaths = source.Select(s => s.Path);
 
             var deleteFromRecycleBin = source.Any() ? recycleBinHelpers.IsPathUnderRecycleBin(source.ElementAt(0).Path) : false;
