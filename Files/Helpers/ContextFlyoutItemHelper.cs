@@ -928,7 +928,7 @@ namespace Files.Helpers
                     Glyph = "\uE840",
                     Command = commandsViewModel.PinItemToStartCommand,
                     ShowOnShift = true,
-                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsItemPinnedToStart),
+                    ShowItem = selectedItems.All(x => !x.IsShortcutItem && x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsItemPinnedToStart),
                     ShowInSearchPage = true,
                     ShowInFtpPage = true,
                     SingleItemOnly = true,
@@ -939,7 +939,7 @@ namespace Files.Helpers
                     Glyph = "\uE77A",
                     Command = commandsViewModel.UnpinItemFromStartCommand,
                     ShowOnShift = true,
-                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsItemPinnedToStart),
+                    ShowItem = selectedItems.All(x => !x.IsShortcutItem && x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsItemPinnedToStart),
                     ShowInSearchPage = true,
                     ShowInFtpPage = true,
                     SingleItemOnly = true,
@@ -1018,7 +1018,5 @@ namespace Files.Helpers
             cachedNewItemItems = list;
             return list;
         }
-
-
     }
 }
