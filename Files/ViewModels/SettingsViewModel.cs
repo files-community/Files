@@ -140,6 +140,15 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// True if only the file preview in the preview pane should be shown
+        /// </summary>
+        public bool ShowPreviewOnly
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         public async void DetectQuickLook()
         {
             // Detect QuickLook

@@ -97,11 +97,14 @@ namespace Files.ViewModels.Previews
             var detailsFull = new List<FileProperty>();
             Item.ItemFile ??= await StorageFile.GetFileFromPathAsync(Item.ItemPath);
             DetailsFromPreview = await LoadPreviewAndDetails();
-            var props = await GetSystemFileProperties();
 
-            // Add the details from the preview function, then the system file properties
-            DetailsFromPreview?.ForEach(i => detailsFull.Add(i));
-            props?.ForEach(i => detailsFull.Add(i));
+            if(!App.AppSettings.ShowPreviewOnly)
+            {
+                // Add the details from the preview function, then the system file properties
+                DetailsFromPreview?.ForEach(i => detailsFull.Add(i));
+                var props = await GetSystemFileProperties();
+                props?.ForEach(i => detailsFull.Add(i));
+            }
 
             Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(detailsFull);
         }
