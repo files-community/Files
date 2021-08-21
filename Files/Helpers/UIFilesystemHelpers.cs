@@ -300,7 +300,7 @@ namespace Files.Helpers
                         created = await FilesystemTasks.Wrap(async () =>
                         {
                             return await associatedInstance.FilesystemHelpers.CreateAsync(
-                                StorageItemHelpers.FromPathAndType(System.IO.Path.Combine(folderRes.Result.Path, userInput), FilesystemItemType.Directory),
+                                StorageItemHelpers.FromPathAndType(PathNormalization.Combine(folderRes.Result.Path, userInput), FilesystemItemType.Directory),
                                 true);
                         });
                         break;
@@ -310,7 +310,7 @@ namespace Files.Helpers
                         created = await FilesystemTasks.Wrap(async () =>
                         {
                             return await associatedInstance.FilesystemHelpers.CreateAsync(
-                                StorageItemHelpers.FromPathAndType(System.IO.Path.Combine(folderRes.Result.Path, userInput + itemInfo?.Extension), FilesystemItemType.File),
+                                StorageItemHelpers.FromPathAndType(PathNormalization.Combine(folderRes.Result.Path, userInput + itemInfo?.Extension), FilesystemItemType.File),
                                 true);
                         });
                         break;

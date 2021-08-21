@@ -155,7 +155,7 @@ namespace Files.ViewModels
 
         public bool IsCreateButtonEnabledInPage
         {
-            get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp;
+            get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults;
         }
 
         public bool CanCopyPathInPage
@@ -165,7 +165,7 @@ namespace Files.ViewModels
 
         public bool CanCreateFileInPage
         {
-            get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp;
+            get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !IsPageTypeFtp;
         }
 
         public bool CanOpenTerminalInPage

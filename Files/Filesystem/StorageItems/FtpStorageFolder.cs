@@ -29,7 +29,7 @@ namespace Files.Filesystem.StorageItems
         {
             DateCreated = ftpItem.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : ftpItem.RawCreated;
             Name = ftpItem.Name;
-            Path = System.IO.Path.Combine(folder, ftpItem.Name);
+            Path = PathNormalization.Combine(folder, ftpItem.Name);
             FtpPath = FtpHelpers.GetFtpPath(Path);
         }
 
@@ -151,7 +151,7 @@ namespace Files.Filesystem.StorageItems
                     return null;
                 }
 
-                var item = await ftpClient.GetObjectInfoAsync(FtpHelpers.GetFtpPath(System.IO.Path.Combine(Path, name)));
+                var item = await ftpClient.GetObjectInfoAsync(FtpHelpers.GetFtpPath(PathNormalization.Combine(Path, name)));
                 if (item != null)
                 {
                     if (item.Type == FtpFileSystemObjectType.File)
@@ -234,7 +234,7 @@ namespace Files.Filesystem.StorageItems
                 }
 
                 if (!await ftpClient.MoveDirectoryAsync(FtpPath,
-                    $"{FtpHelpers.GetFtpDirectoryName(FtpPath)}/{desiredName}",
+                    $"{PathNormalization.GetParentDir(FtpPath)}/{desiredName}",
                     option == NameCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip,
                     cancellationToken))
                 {

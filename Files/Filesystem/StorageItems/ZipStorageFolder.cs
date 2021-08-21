@@ -199,7 +199,7 @@ namespace Files.Filesystem.StorageItems
                             {
                                 if (entry.IsDirectory || split.Length > 1) // Not all folders have a ZipEntry
                                 {
-                                    var itemPath = System.IO.Path.Combine(new string[] { Path, split[0] });
+                                    var itemPath = System.IO.Path.Combine(Path, split[0]);
                                     if (!items.Any(x => x.Path == itemPath))
                                     {
                                         items.Add(new ZipStorageFolder(itemPath, ContainerPath, entry));

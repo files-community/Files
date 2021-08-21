@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Filesystem.StorageItems;
+using Files.Helpers;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace Files.DataModels
 
         public async Task<FilesystemResult<BaseStorageFile>> Create(string filePath, IShellPage associatedInstance)
         {
-            var parentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(filePath));
+            var parentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(filePath));
             if (parentFolder)
             {
                 return await Create(parentFolder, Path.GetFileName(filePath));

@@ -876,7 +876,7 @@ namespace Files.ViewModels
 
         public async void SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
         {
-            if (!string.IsNullOrWhiteSpace(sender.Text))
+            if (!string.IsNullOrWhiteSpace(sender.Text) && shellpage.FilesystemViewModel != null)
             {
                 try
                 {
@@ -904,7 +904,7 @@ namespace Files.ViewModels
                             subPath.Select(x => new ListedItem(null)
                             {
                                 ItemPath = x.Path,
-                                ItemName = Path.Combine(currPath.First().Folder.DisplayName, x.Folder.DisplayName)
+                                ItemName = PathNormalization.Combine(currPath.First().Folder.DisplayName, x.Folder.DisplayName)
                             })).ToList();
                     }
                     else

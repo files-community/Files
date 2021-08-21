@@ -31,7 +31,8 @@ namespace Files.Helpers
             if (!string.IsNullOrEmpty(path))
             {
                 return path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase)
-                    || path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase);
+                    || path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase)
+                    || path.StartsWith("ftpes://", StringComparison.OrdinalIgnoreCase);
             }
             return false;
         }
@@ -100,11 +101,6 @@ namespace Files.Helpers
             var schemaIndex = path.IndexOf("://") + 3;
             var hostIndex = path.IndexOf("/", schemaIndex);
             return hostIndex == -1 ? "/" : path.Substring(hostIndex);
-        }
-
-        public static string GetFtpDirectoryName(string path)
-        {
-            return System.IO.Path.GetDirectoryName(path).Replace("\\", "/");
         }
     }
 }

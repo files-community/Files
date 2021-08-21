@@ -496,20 +496,23 @@ namespace Files.Helpers
                         IsEnabled = false,
                     },
                     Items = GetNewItemItems(commandsViewModel),
+                    ShowInFtpPage = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.PinDirectoryToFavoritesCommand,
-                    ShowItem = !itemViewModel.CurrentFolder.IsPinned & App.AppSettings.ShowFavoritesSection
+                    ShowItem = !itemViewModel.CurrentFolder.IsPinned & App.AppSettings.ShowFavoritesSection,
+                    ShowInFtpPage = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutUnpinFromFavorites/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = commandsViewModel.UnpinDirectoryFromFavoritesCommand,
-                    ShowItem = itemViewModel.CurrentFolder.IsPinned & App.AppSettings.ShowFavoritesSection
+                    ShowItem = itemViewModel.CurrentFolder.IsPinned & App.AppSettings.ShowFavoritesSection,
+                    ShowInFtpPage = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -913,6 +916,7 @@ namespace Files.Helpers
                     Command = commandsViewModel.SidebarPinItemCommand,
                     ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsPinned) & App.AppSettings.ShowFavoritesSection,
                     ShowInSearchPage = true,
+                    ShowInFtpPage = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -921,6 +925,7 @@ namespace Files.Helpers
                     Command = commandsViewModel.SidebarUnpinItemCommand,
                     ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && x.IsPinned) & App.AppSettings.ShowFavoritesSection,
                     ShowInSearchPage = true,
+                    ShowInFtpPage = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -970,6 +975,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutContextFlyoutNewFolder/Text".GetLocalized(),
                     Glyph = "\uE8B7",
                     Command = commandsViewModel.CreateNewFolderCommand,
+                    ShowInFtpPage = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -1018,7 +1024,5 @@ namespace Files.Helpers
             cachedNewItemItems = list;
             return list;
         }
-
-
     }
 }

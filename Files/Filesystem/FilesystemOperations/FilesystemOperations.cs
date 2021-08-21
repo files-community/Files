@@ -5,7 +5,6 @@ using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Interacts;
-using FluentFTP;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;

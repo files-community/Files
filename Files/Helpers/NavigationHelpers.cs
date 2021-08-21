@@ -304,10 +304,6 @@ namespace Files.Helpers
                 {
                     opened = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
                 }
-                if (!opened)
-                {
-                    opened = (FilesystemResult)path.StartsWith("ftp:");
-                }
                 if (opened)
                 {
                     if (App.AppSettings.OpenFoldersNewTab)

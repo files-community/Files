@@ -294,7 +294,7 @@ namespace Files.DataModels
                     locationItem.IconData = iconData;
                     locationItem.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
                 }
-                else
+                if (locationItem.IconData == null)
                 {
                     locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 24u);
                     if (locationItem.IconData != null)
