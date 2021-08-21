@@ -866,7 +866,7 @@ namespace Files.Helpers
                 {
                     Text = "BaseLayoutItemContextFlyoutExtractionOptions".GetLocalized(),
                     Glyph = "\xF11A",
-                    ShowItem = selectedItems.Count == 1 && selectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new [] { ".zip", ".msix", ".msixbundle" }.Contains(selectedItems.First().FileExtension, StringComparer.OrdinalIgnoreCase),
+                    ShowItem = selectedItems.Count == 1 && (selectedItems.First().IsZipItem || (selectedItems.First().PrimaryItemAttribute == StorageItemTypes.File && new [] { ".zip", ".msix", ".msixbundle" }.Contains(selectedItems.First().FileExtension, StringComparer.OrdinalIgnoreCase))),
                     ShowInSearchPage = true,
                     GlyphFontFamilyName = "CustomGlyph",
                     Items = new List<ContextMenuFlyoutItemViewModel>()

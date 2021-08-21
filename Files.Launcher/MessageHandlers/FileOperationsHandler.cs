@@ -158,7 +158,7 @@ namespace FilesFullTrust.MessageHandlers
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
                                         Succeeded = e.Result.Succeeded,
-                                        Source = e.SourceItem.FileSystemPath,
+                                        Source = e.SourceItem.FileSystemPath ?? e.SourceItem.ParsingName,
                                         Destination = e.DestItem?.FileSystemPath,
                                         HRresult = (int)e.Result
                                     });
@@ -224,7 +224,7 @@ namespace FilesFullTrust.MessageHandlers
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
                                         Succeeded = e.Result.Succeeded,
-                                        Source = e.SourceItem.FileSystemPath,
+                                        Source = e.SourceItem.FileSystemPath ?? e.SourceItem.ParsingName,
                                         Destination = !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(e.SourceItem.FileSystemPath), e.Name) : null,
                                         HRresult = (int)e.Result
                                     });
@@ -288,8 +288,8 @@ namespace FilesFullTrust.MessageHandlers
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
                                         Succeeded = e.Result.Succeeded,
-                                        Source = e.SourceItem.FileSystemPath,
-                                        Destination = e.DestFolder != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null,
+                                        Source = e.SourceItem.FileSystemPath ?? e.SourceItem.ParsingName,
+                                        Destination = e.DestFolder?.FileSystemPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null,
                                         HRresult = (int)e.Result
                                     });
                                 };
@@ -363,8 +363,8 @@ namespace FilesFullTrust.MessageHandlers
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
                                         Succeeded = e.Result.Succeeded,
-                                        Source = e.SourceItem.FileSystemPath,
-                                        Destination = e.DestFolder != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null,
+                                        Source = e.SourceItem.FileSystemPath ?? e.SourceItem.ParsingName,
+                                        Destination = e.DestFolder?.FileSystemPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null,
                                         HRresult = (int)e.Result
                                     });
                                 };
@@ -554,8 +554,8 @@ namespace FilesFullTrust.MessageHandlers
                 {
                     "delete" => e.DestItem?.FileSystemPath,
                     "rename" => (!string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(e.SourceItem.FileSystemPath), e.Name) : null),
-                    "copy" => (e.DestFolder != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null),
-                    _ => (e.DestFolder != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null)
+                    "copy" => (e.DestFolder?.FileSystemPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null),
+                    _ => (e.DestFolder?.FileSystemPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null)
                 };
                 if (destination == null)
                 {

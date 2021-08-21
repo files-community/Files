@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -16,19 +17,19 @@ namespace Files.DataModels
         public byte[] Data { get; set; }
         public string Template { get; set; }
 
-        public async Task<FilesystemResult<StorageFile>> Create(string filePath, IShellPage associatedInstance)
+        public async Task<FilesystemResult<BaseStorageFile>> Create(string filePath, IShellPage associatedInstance)
         {
             var parentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(filePath));
             if (parentFolder)
             {
                 return await Create(parentFolder, Path.GetFileName(filePath));
             }
-            return new FilesystemResult<StorageFile>(null, parentFolder.ErrorCode);
+            return new FilesystemResult<BaseStorageFile>(null, parentFolder.ErrorCode);
         }
 
-        public async Task<FilesystemResult<StorageFile>> Create(StorageFolder parentFolder, string fileName)
+        public async Task<FilesystemResult<BaseStorageFile>> Create(BaseStorageFolder parentFolder, string fileName)
         {
-            FilesystemResult<StorageFile> createdFile = null;
+            FilesystemResult<BaseStorageFile> createdFile = null;
             if (!fileName.EndsWith(this.Extension))
             {
                 fileName += this.Extension;
@@ -39,14 +40,19 @@ namespace Files.DataModels
             }
             else
             {
-                createdFile = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Template).AsTask())
+                createdFile = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Template))
                     .OnSuccess(t => t.CopyAsync(parentFolder, fileName, NameCollisionOption.GenerateUniqueName).AsTask());
             }
             if (createdFile)
             {
                 if (this.Data != null)
                 {
-                    await FileIO.WriteBytesAsync(createdFile.Result, this.Data);
+                    //await FileIO.WriteBytesAsync(createdFile.Result, this.Data); // Calls unsupported OpenTransactedWriteAsync
+                    using (var fileStream = await createdFile.Result.OpenStreamForWriteAsync())
+                    {
+                        await fileStream.WriteAsync(Data, 0, Data.Length);
+                        await fileStream.FlushAsync();
+                    }
                 }
             }
             return createdFile;

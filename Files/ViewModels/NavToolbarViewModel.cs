@@ -882,7 +882,7 @@ namespace Files.ViewModels
                 {
                     IList<ListedItem> suggestions = null;
                     var expandedPath = StorageFileExtensions.GetPathWithoutEnvironmentVariable(sender.Text);
-                    var folderPath = Path.GetDirectoryName(expandedPath) ?? expandedPath;
+                    var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
                     var folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
                     var currPath = await folder.Result.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
                     if (currPath.Count() >= maxSuggestions)

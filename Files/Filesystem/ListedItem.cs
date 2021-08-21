@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
+using Files.Filesystem.StorageItems;
 
 namespace Files.Filesystem
 {
@@ -332,13 +333,15 @@ namespace Files.Filesystem
         public bool IsShortcutItem => this is ShortcutItem;
         public bool IsLibraryItem => this is LibraryItem;
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
+        public bool IsFtpItem => this is FtpItem;
+        public bool IsZipItem => this is ZipItem;
 
         public virtual bool IsExecutable => Path.GetExtension(ItemPath)?.ToLower() == ".exe";
         public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 
-        private StorageFile itemFile;
+        private BaseStorageFile itemFile;
 
-        public StorageFile ItemFile
+        public BaseStorageFile ItemFile
         {
             get => itemFile;
             set => SetProperty(ref itemFile, value);
@@ -393,7 +396,7 @@ namespace Files.Filesystem
             ItemDateModifiedReal = item.RawModified < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawModified;
             ItemName = item.Name;
             FileExtension = Path.GetExtension(item.Name);
-            ItemPath = Path.Combine(folder, item.Name);
+            ItemPath = PathNormalization.Combine(folder, item.Name);
             PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
             ItemPropertiesInitialized = false;
 
@@ -433,6 +436,17 @@ namespace Files.Filesystem
         public bool RunAsAdmin { get; set; }
         public bool IsUrl { get; set; }
         public override bool IsExecutable => Path.GetExtension(TargetPath)?.ToLower() == ".exe";
+    }
+
+    public class ZipItem : ListedItem
+    {
+        public ZipItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
+        {
+        }
+
+        // Parameterless constructor for JsonConvert
+        public ZipItem() : base()
+        { }
     }
 
     public class LibraryItem : ListedItem

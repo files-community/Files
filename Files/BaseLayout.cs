@@ -776,10 +776,14 @@ namespace Files
                 {
                     if (item.PrimaryItemAttribute == StorageItemTypes.File)
                     {
-                        selectedStorageItems.Add(await new FtpStorageFile(ParentShellPageInstance.FilesystemViewModel, ftpItem).ToStorageFileAsync());
+                        selectedStorageItems.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
+                    }
+                    else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                    {
+                        selectedStorageItems.Add(new FtpStorageFolder(ftpItem));
                     }
                 }
-                else if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                else if (item.PrimaryItemAttribute == StorageItemTypes.File || item is ZipItem)
                 {
                     await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
                         .OnSuccess(t => selectedStorageItems.Add(t));

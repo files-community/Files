@@ -1,4 +1,5 @@
-﻿using ICSharpCode.SharpZipLib.Zip;
+﻿using Files.Filesystem.StorageItems;
+using ICSharpCode.SharpZipLib.Zip;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +13,7 @@ namespace Files.Helpers
 {
     public static class ZipHelpers
     {
-        public static async Task ExtractArchive(StorageFile archive, StorageFolder destinationFolder, IProgress<float> progressDelegate, CancellationToken cancellationToken)
+        public static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder, IProgress<float> progressDelegate, CancellationToken cancellationToken)
         {
             using (ZipFile zipFile = new ZipFile(await archive.OpenStreamForReadAsync()))
             {
@@ -80,7 +81,7 @@ namespace Files.Helpers
                         return; // TODO: handle error
                     }
 
-                    using (FileStream destinationStream = new FileStream(hFile, FileAccess.ReadWrite))
+                    using (FileStream destinationStream = new FileStream(hFile, FileAccess.Write))
                     {
                         int currentBlockSize = 0;
 

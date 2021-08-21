@@ -1,4 +1,5 @@
 ﻿using Files.Converters;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
@@ -145,9 +146,9 @@ namespace Files.ViewModels.Properties
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        public async Task SaveValueToFile(StorageFile file)
+        public async Task SaveValueToFile(BaseStorageFile file)
         {
-            if (!string.IsNullOrEmpty(Property))
+            if (!string.IsNullOrEmpty(Property) || file.Properties == null)
             {
                 return;
             }
@@ -252,7 +253,7 @@ namespace Files.ViewModels.Properties
         /// <param name="file">The file whose properties you wish to obtain</param>
         /// <param name="path">The path to the json file of properties to be loaded</param>
         /// <returns>A list if FileProperties containing their values</returns>
-        public async static Task<List<FileProperty>> RetrieveAndInitializePropertiesAsync(StorageFile file, string path = Constants.ResourceFilePaths.DetailsPagePropertiesJsonPath)
+        public async static Task<List<FileProperty>> RetrieveAndInitializePropertiesAsync(BaseStorageFile file, string path = Constants.ResourceFilePaths.DetailsPagePropertiesJsonPath)
         {
             var propertiesJsonFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(path));
 
@@ -283,7 +284,10 @@ namespace Files.ViewModels.Properties
                 object val = null;
                 try
                 {
-                    val = (await file.Properties.RetrievePropertiesAsync(new string[] { prop })).First().Value;
+                    if (file.Properties != null)
+                    {
+                        val = (await file.Properties.RetrievePropertiesAsync(new string[] { prop })).First().Value;
+                    }
                 }
                 catch (ArgumentException e)
                 {
@@ -292,7 +296,11 @@ namespace Files.ViewModels.Properties
                 keyValuePairs.Add(prop, val);
             }
 #else
-            var keyValuePairs = await file.Properties.RetrievePropertiesAsync(propsToGet);
+            IDictionary<string, object> keyValuePairs = new Dictionary<string, object>();
+            if (file.Properties != null)
+            {
+                keyValuePairs = await file.Properties.RetrievePropertiesAsync(propsToGet);
+            }
 #endif
             foreach (var prop in list)
             {

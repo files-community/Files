@@ -1,14 +1,16 @@
-﻿using Windows.Storage;
+﻿using Files.Filesystem.StorageItems;
+using Windows.Storage;
+using Windows.Storage.Search;
 
 namespace Files.Filesystem
 {
     public class StorageFolderWithPath : IStorageItemWithPath
     {
-        public StorageFolder Folder
+        public BaseStorageFolder Folder
         {
             get
             {
-                return (StorageFolder)Item;
+                return (BaseStorageFolder)Item;
             }
             set
             {
@@ -20,13 +22,13 @@ namespace Files.Filesystem
         public IStorageItem Item { get; set; }
         public FilesystemItemType ItemType => FilesystemItemType.Directory;
 
-        public StorageFolderWithPath(StorageFolder folder)
+        public StorageFolderWithPath(BaseStorageFolder folder)
         {
             Folder = folder;
             Path = folder.Path;
         }
 
-        public StorageFolderWithPath(StorageFolder folder, string path)
+        public StorageFolderWithPath(BaseStorageFolder folder, string path)
         {
             Folder = folder;
             Path = path;
