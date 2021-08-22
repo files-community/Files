@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
+using Files.UserControls;
 using Files.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -10,6 +11,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -573,7 +575,11 @@ namespace Files.Views.LayoutModes
 
         private void DismissOtherBlades(ListView listView)
         {
-            var blade = listView.FindAscendant<BladeItem>();
+            DismissOtherBlades(listView.FindAscendant<BladeItem>());
+        }
+
+        private void DismissOtherBlades(BladeItem blade)
+        {
             var index = ColumnHost.ActiveBlades.IndexOf(blade);
             if (index == 0)
             {
@@ -765,6 +771,29 @@ namespace Files.Views.LayoutModes
                 {
                     ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(item);
                 }
+            }
+        }
+
+        public void SetSelectedPathOrNavigate(PathNavigationEventArgs e)
+        {
+            var p = e.ItemPath;
+            if(p.EndsWith("\\"))
+            {
+                p = p.Substring(0, p.Length - 1);
+            }
+            if(!IsLastColumnBase)
+            {
+                foreach (var item in ColumnHost.ActiveBlades)
+                {
+                    if ((item.Content as Frame)?.Content is ColumnShellPage s && s.FilesystemViewModel.WorkingDirectory == p)
+                    {
+                        DismissOtherBlades(item);
+                        return;
+                    }
+                }
+            } else if(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory != p)
+            {
+                ParentShellPageInstance.NavigateToPath(e.ItemPath);
             }
         }
 

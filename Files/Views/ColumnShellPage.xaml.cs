@@ -366,11 +366,7 @@ namespace Files.Views
 
         private void ColumnShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
         {
-            ItemDisplayFrame.Navigate(typeof(ColumnViewBase), new NavigationArguments()
-            {
-                NavPathParam = e.ItemPath,
-                AssociatedTabInstance = this
-            });
+            this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(e);
         }
 
         private async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
