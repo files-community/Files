@@ -154,8 +154,6 @@ namespace Files.Views
             {
                 FlowDirection = FlowDirection.RightToLeft;
             }
-            ColumnViewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
-            ColumnViewBase.ItemInvoked += ColumnViewBase_ItemInvoked;
 
             //NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
             //NavigationToolbar.CanGoBack = false;
@@ -163,7 +161,6 @@ namespace Files.Views
             //NavigationToolbar.SearchBox.QueryChanged += ColumnShellPage_QueryChanged;
             //NavigationToolbar.SearchBox.QuerySubmitted += ColumnShellPage_QuerySubmitted;
             //NavigationToolbar.SearchBox.SuggestionChosen += ColumnShellPage_SuggestionChosen;
-
 
             NavToolbarViewModel.ToolbarPathItemInvoked += ColumnShellPage_NavigationRequested;
             NavToolbarViewModel.AddressBarTextEntered += ColumnShellPage_AddressBarTextEntered;
@@ -207,10 +204,6 @@ namespace Files.Views
             NavToolbarViewModel.Share = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShareItemCommand.Execute(null));
             NavToolbarViewModel.DeleteCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DeleteItemCommand.Execute(null));
             NavToolbarViewModel.CutCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.CutItemCommand.Execute(null));
-        }
-
-        private void ColumnViewBase_ItemInvoked(object sender, EventArgs e)
-        {
         }
 
         private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
