@@ -256,7 +256,7 @@
                             IsChecked="{x:Bind MainViewModel.MultiselectEnabled, Mode=TwoWay}"
                             Text="Multiselect">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xF762;" />
+                                <FontIcon Glyph="&#xE762;" />
                             </MenuFlyoutItem.Icon>
                         </ToggleMenuFlyoutItem>
                         <MenuFlyoutItem
@@ -265,7 +265,7 @@
                             Command="{x:Bind ViewModel.SelectAllContentPageItemsCommand, Mode=OneWay}"
                             Text="Select All">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xF8B3;" />
+                                <FontIcon Glyph="&#xE8B3;" />
                             </MenuFlyoutItem.Icon>
                             <MenuFlyoutItem.KeyboardAccelerators>
                                 <KeyboardAccelerator
@@ -280,7 +280,7 @@
                             Command="{x:Bind ViewModel.InvertContentPageSelctionCommand, Mode=OneWay}"
                             Text="Invert Selection">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xF746;" />
+                                <FontIcon Glyph="&#xE746;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -289,7 +289,7 @@
                             Command="{x:Bind ViewModel.ClearContentPageSelectionCommand, Mode=OneWay}"
                             Text="Clear Selection">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xF8E6;" />
+                                <FontIcon Glyph="&#xE8E6;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>

@@ -1088,6 +1088,8 @@ namespace Files.ViewModels
             return groupImage;
         }
 
+        public bool DisableAdaptiveLayout { get; set; }
+
         public void RefreshItems(string previousDir, Action postLoadCallback = null)
         {
             RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, postLoadCallback);
@@ -1153,7 +1155,10 @@ namespace Files.ViewModels
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
                 IsLoadingItems = false;
 
-                AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
+                if(!DisableAdaptiveLayout)
+                {
+                    AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
+                }
 
                 // Find and select README file
                 foreach (var item in filesAndFolders)
