@@ -520,12 +520,12 @@ namespace Files.Views.LayoutModes
                         {
                             Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
                             var textBox = popup.Child as TextBox;
-                            EndRename(textBox);
+                            CommitRename(textBox);
                         }
                         else
                         {
                             var textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
-                            EndRename(textBox);
+                            CommitRename(textBox);
                         }
                     }
                 }
