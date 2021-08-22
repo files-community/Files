@@ -608,9 +608,10 @@ namespace Files.Helpers
                     Items = new List<ContextMenuFlyoutItemViewModel>() {
                         new() 
                         {
-                            Text = "Placeholder....."
+                            Text = "Placeholder"
                         }
                     },
+                    ShowInSearchPage = true,
                     ShowItem = selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem),
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -825,7 +826,7 @@ namespace Files.Helpers
                         OverlayLayerGlyph = "\uF026",
                     },
                     Command = commandsViewModel.ShareItemCommand,
-                    ShowItem = DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem || i.IsShortcutItem || i.PrimaryItemAttribute == StorageItemTypes.Folder),
+                    ShowItem = DataTransferManager.IsSupported() && !selectedItems.Any(i => i.IsHiddenItem || (i.IsShortcutItem && !i.IsLinkItem) || i.PrimaryItemAttribute == StorageItemTypes.Folder),
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
