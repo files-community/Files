@@ -444,7 +444,7 @@ namespace Files.ViewModels
             TabItem tabItem = new TabItem()
             {
                 Header = null,
-                IconSource = fontIconSource,
+                IconSource = null,
                 Description = null
             };
             tabItem.Control.NavigationArguments = new TabItemArguments()
@@ -454,7 +454,9 @@ namespace Files.ViewModels
             };
             tabItem.Control.ContentChanged += Control_ContentChanged;
             await UpdateTabInfo(tabItem, tabViewItemArgs);
-            AppInstances.Insert(atIndex == -1 ? AppInstances.Count : atIndex, tabItem);
+            var index = atIndex == -1 ? AppInstances.Count : atIndex;
+            AppInstances.Insert(index, tabItem);
+            App.MainViewModel.TabStripSelectedIndex = index;
         }
 
         public static async void Control_ContentChanged(object sender, TabItemArguments e)
