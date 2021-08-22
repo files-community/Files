@@ -3589,6 +3589,10 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
           <source>Open log location</source>
           <target state="new">Open log location</target>
         </trans-unit>
+        <trans-unit id="LinkToFolderCaptionText" translate="yes" xml:space="preserve">
+          <source>Create link in {0}</source>
+          <target state="new">Create link in {0}</target>
+        </trans-unit>
       </group>
     </body>
   </file>

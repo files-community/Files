@@ -3589,6 +3589,10 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
           <source>Open log location</source>
           <target state="new">Open log location</target>
         </trans-unit>
+        <trans-unit id="LinkToFolderCaptionText" translate="yes" xml:space="preserve">
+          <source>Create link in {0}</source>
+          <target state="new">Create link in {0}</target>
+        </trans-unit>
       </group>
     </body>
   </file>
