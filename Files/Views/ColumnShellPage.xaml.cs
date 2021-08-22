@@ -873,35 +873,9 @@ namespace Files.Views
             }
         }
 
-        public DataPackageOperation TabItemDragOver(object sender, DragEventArgs e)
-        {
-            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
-            {
-                if (!InstanceViewModel.IsPageTypeSearchResults)
-                {
-                    return DataPackageOperation.Move;
-                }
-            }
-            return DataPackageOperation.None;
-        }
+        public Task TabItemDragOver(object sender, DragEventArgs e) => SlimContentPage?.CommandsViewModel.CommandsModel.DragOver(e);
 
-        public async Task<DataPackageOperation> TabItemDrop(object sender, DragEventArgs e)
-        {
-            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
-            {
-                if (InstanceViewModel.IsPageTypeNotHome && !InstanceViewModel.IsPageTypeSearchResults)
-                {
-                    await FilesystemHelpers.PerformOperationTypeAsync(
-                        DataPackageOperation.Move,
-                        e.DataView,
-                        FilesystemViewModel.WorkingDirectory,
-                        false,
-                        true);
-                    return DataPackageOperation.Move;
-                }
-            }
-            return DataPackageOperation.None;
-        }
+        public Task TabItemDrop(object sender, DragEventArgs e) => SlimContentPage?.CommandsViewModel.CommandsModel.Drop(e);
 
         public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs)
         {

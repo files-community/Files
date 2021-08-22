@@ -54,14 +54,14 @@ namespace Files.UserControls.MultitaskingControl
 
         private async void TabViewItem_Drop(object sender, DragEventArgs e)
         {
-            e.AcceptedOperation = await ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDrop(sender, e);
+            await ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDrop(sender, e);
             HorizontalTabView.CanReorderTabs = true;
             tabHoverTimer.Stop();
         }
 
-        private void TabViewItem_DragEnter(object sender, DragEventArgs e)
+        private async void TabViewItem_DragEnter(object sender, DragEventArgs e)
         {
-            e.AcceptedOperation = ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDragOver(sender, e);
+            await ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDragOver(sender, e);
             if (e.AcceptedOperation != DataPackageOperation.None)
             {
                 HorizontalTabView.CanReorderTabs = false;

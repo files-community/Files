@@ -518,7 +518,7 @@ namespace Files.Interacts
             }
         }
 
-        public virtual async void DragOver(DragEventArgs e)
+        public virtual async Task DragOver(DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
@@ -607,7 +607,7 @@ namespace Files.Interacts
             deferral.Complete();
         }
 
-        public virtual async void Drop(DragEventArgs e)
+        public virtual async Task Drop(DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
