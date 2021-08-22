@@ -138,23 +138,7 @@ namespace Files
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
 
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (!(Window.Current.Content is Frame rootFrame))
-            {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
-                rootFrame.CacheSize = 1;
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    //TODO: Load state from previously suspended application
-                }
-
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
-            }
+            var rootFrame = EnsureWindowIsInitialized();
 
             if (e.PrelaunchActivated == false)
             {
@@ -182,6 +166,58 @@ namespace Files
                 Window.Current.Activate();
                 Window.Current.CoreWindow.Activated += CoreWindow_Activated;
             }
+        }
+
+        protected override async void OnFileActivated(FileActivatedEventArgs e)
+        {
+            await logWriter.InitializeAsync("debug.log");
+            //start tracking app usage
+            SystemInformation.Instance.TrackAppUse(e);
+            await EnsureSettingsAndConfigurationAreBootstrapped();
+
+
+            var rootFrame = EnsureWindowIsInitialized();
+            var index = 0;
+
+            if (rootFrame.Content == null)
+            {
+                // When the navigation stack isn't restored navigate to the first page,
+                // configuring the new page by passing required information as a navigation
+                // parameter
+                rootFrame.Navigate(typeof(MainPage), e.Files.First().Path, new SuppressNavigationTransitionInfo());
+                index = 1;
+            }
+            for (; index < e.Files.Count; index++)
+            {
+                await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Files[index].Path);
+            }
+
+            // Ensure the current window is active
+            Window.Current.Activate();
+            Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+        }
+
+        private Frame EnsureWindowIsInitialized()
+        {
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active
+            if (!(Window.Current.Content is Frame rootFrame))
+            {
+                // Create a Frame to act as the navigation context and navigate to the first page
+                rootFrame = new Frame();
+                rootFrame.CacheSize = 1;
+                rootFrame.NavigationFailed += OnNavigationFailed;
+
+                //if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                //{
+                //    //TODO: Load state from previously suspended application
+                //}
+
+                // Place the frame in the current Window
+                Window.Current.Content = rootFrame;
+            }
+
+            return rootFrame;
         }
 
         private void CoreWindow_Activated(CoreWindow sender, WindowActivatedEventArgs args)
