@@ -34,7 +34,7 @@ namespace Files.UserControls
         private void Model_DependencyPropertyChangedCallback(DependencyObject sender, DependencyProperty dp)
         {
             // try to refresh the model when the instance is switched
-            Model.TryRefresh();
+            Model?.TryRefresh();
         }
 
         public static DependencyProperty IsHorizontalProperty { get; } =

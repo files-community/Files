@@ -1175,6 +1175,11 @@ namespace Files.Views
 
             return this;
         }
+
+        public void RaiseContentChanged(IShellPage instance, TabItemArguments args)
+        {
+            ContentChanged?.Invoke(instance, args);
+        }
     }
 
     public class PathBoxItem

@@ -197,6 +197,7 @@ namespace Files.Views.LayoutModes
             var column = sender as ColumnParam;
 
             var frame = new Frame();
+            frame.Navigated += Frame_Navigated;
             var newblade = new BladeItem();
             newblade.Content = frame;
             ColumnHost.Items.Add(newblade);
@@ -211,6 +212,12 @@ namespace Files.Views.LayoutModes
                 Column = ColumnHost.ActiveBlades.IndexOf(newblade),
                 Path = column.Path
             });
+
+        }
+
+        private void ContentChanged(IShellPage p)
+        {
+            (ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabItemArguments);
         }
 
         private void ListViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
@@ -512,6 +519,7 @@ namespace Files.Views.LayoutModes
                     {
                         listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
                         var frame = new Frame();
+                        frame.Navigated += Frame_Navigated;
                         var blade = new BladeItem();
                         blade.Content = frame;
                         ColumnHost.Items.Add(blade);
@@ -595,6 +603,7 @@ namespace Files.Views.LayoutModes
                 {
                 }
             }
+            ContentChanged(LastColumnShellPage);
         }
 
         private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
@@ -628,6 +637,7 @@ namespace Files.Views.LayoutModes
                     {
                         listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
                         var frame = new Frame();
+                        frame.Navigated += Frame_Navigated;
                         var blade = new BladeItem();
                         blade.Content = frame;
                         ColumnHost.Items.Add(blade);
@@ -666,6 +676,20 @@ namespace Files.Views.LayoutModes
                     }
                 }
             }
+        }
+
+        private void Frame_Navigated(object sender, NavigationEventArgs e)
+        {
+            var f = sender as Frame;
+            f.Navigated -= Frame_Navigated;
+            (f.Content as IShellPage).ContentChanged += ColumnViewBrowser_ContentChanged;
+        }
+
+        private void ColumnViewBrowser_ContentChanged(object sender, UserControls.MultitaskingControl.TabItemArguments e)
+        {
+            var c = sender as IShellPage;
+            c.ContentChanged -= ColumnViewBrowser_ContentChanged;
+            ContentChanged(c);
         }
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -748,6 +772,6 @@ namespace Files.Views.LayoutModes
 
         public IShellPage LastColumnShellPage => IsLastColumnBase ? ParentShellPageInstance : ((ColumnHost.ActiveBlades.Last().Content as Frame).Content as ColumnShellPage);
 
-        public bool IsLastColumnBase => ColumnHost.ActiveBlades.Count == 1;
+        public bool IsLastColumnBase => (ColumnHost?.ActiveBlades is null) || ColumnHost.ActiveBlades.Count == 1;
     }
 }

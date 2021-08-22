@@ -366,7 +366,7 @@ namespace Files
 
         private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {
-            if (ParentShellPageInstance.SlimContentPage != null)
+            if (ParentShellPageInstance.SlimContentPage != null && ParentShellPageInstance is not ColumnShellPage)
             {
                 var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, false);
 

@@ -1,6 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
+using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.ComponentModel;
@@ -132,8 +133,22 @@ namespace Files.Views
                     NotifyPropertyChanged(nameof(ActivePane));
                     NotifyPropertyChanged(nameof(IsLeftPaneActive));
                     NotifyPropertyChanged(nameof(IsRightPaneActive));
+                    NotifyPropertyChanged(nameof(ActivePaneOrColumn));
                     NotifyPropertyChanged(nameof(FilesystemHelpers));
                 }
+            }
+        }
+
+        public IShellPage ActivePaneOrColumn
+        {
+            get
+            {
+                if (ActivePane.IsColumnView)
+                {
+                    return (ActivePane.SlimContentPage as ColumnViewBrowser).LastColumnShellPage;
+                }
+
+                return ActivePane;
             }
         }
 

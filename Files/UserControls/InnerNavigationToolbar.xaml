@@ -72,7 +72,7 @@
                                 Command="{x:Bind ViewModel.CreateNewFolderCommand, Mode=OneWay}"
                                 Text="Folder">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xF8B7;" />
+                                    <FontIcon Glyph="&#xE8B7;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator" />
@@ -84,7 +84,7 @@
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                                 Text="File">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xF7C3;" />
+                                    <FontIcon Glyph="&#xE7C3;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout>

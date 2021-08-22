@@ -486,8 +486,8 @@ namespace Files.Helpers
                     Text = "BaseLayoutContextFlyoutNew/Label".GetLocalized(),
                     ColoredIcon = new ColoredIconModel()
                     {
-                        BaseLayerGlyph = "\uE037",
-                        OverlayLayerGlyph = "\uE038"
+                        BaseLayerGlyph = "\uF037",
+                        OverlayLayerGlyph = "\uF038"
                     },
                     KeyboardAccelerator = new KeyboardAccelerator
                     {
