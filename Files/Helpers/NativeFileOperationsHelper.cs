@@ -1,10 +1,13 @@
-﻿using Microsoft.Win32.SafeHandles;
+﻿using Files.Common;
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 
 namespace Files.Helpers
 {
@@ -303,6 +306,27 @@ namespace Files.Helpers
             }
 
             return result;
+        }
+
+        public static async Task<SafeFileHandle> OpenProtectedFileForRead(string filePath, bool readWrite = false)
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                {
+                    { "Arguments", "FileOperation" },
+                    { "fileop", "GetFileHandle" },
+                    { "filepath", filePath },
+                    { "readwrite", readWrite },
+                    { "processid", System.Diagnostics.Process.GetCurrentProcess().Id },
+                });
+                if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && response.Get("Success", false))
+                {
+                    return new SafeFileHandle(new IntPtr((long)response["Handle"]), true);
+                }
+            }
+            return new SafeFileHandle(new IntPtr(-1), true);
         }
     }
 }

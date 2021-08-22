@@ -47,6 +47,30 @@ namespace FilesFullTrust.MessageHandlers
         {
             switch (message.Get("fileop", ""))
             {
+                case "GetFileHandle":
+                    {
+                        var filePath = (string)message["filepath"];
+                        var readWrite = (bool)message["readwrite"];
+                        using var hFile = Kernel32.CreateFile(filePath, Kernel32.FileAccess.GENERIC_READ | (readWrite ? Kernel32.FileAccess.GENERIC_WRITE : 0), FileShare.ReadWrite, null, FileMode.Open, FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL);
+                        if (hFile.IsInvalid)
+                        {
+                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
+                            return;
+                        }
+                        var processId = (int)(long)message["processid"];
+                        using var uwpProces = System.Diagnostics.Process.GetProcessById(processId);
+                        if (!Kernel32.DuplicateHandle(Kernel32.GetCurrentProcess(), hFile.DangerousGetHandle(), uwpProces.Handle, out var targetHandle, 0, false, Kernel32.DUPLICATE_HANDLE_OPTIONS.DUPLICATE_SAME_ACCESS))
+                        {
+                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
+                            return;
+                        }
+                        await Win32API.SendMessageAsync(connection, new ValueSet() {
+                            { "Success", true },
+                            { "Handle", targetHandle.ToInt64() }
+                        }, message.Get("RequestID", (string)null));
+                    }
+                    break;
+
                 case "Clipboard":
                     await Win32API.StartSTATask(() =>
                     {

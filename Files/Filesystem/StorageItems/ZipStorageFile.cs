@@ -48,7 +48,9 @@ namespace Files.Filesystem.StorageItems
             {
                 try
                 {
-                    var hFile = NativeFileOperationsHelper.OpenFileForRead(ContainerPath); // If called from here it fails with Access Denied?!
+                    // If called from here it fails with Access Denied?!
+                    //var hFile = NativeFileOperationsHelper.OpenFileForRead(ContainerPath);
+                    var hFile = await NativeFileOperationsHelper.OpenProtectedFileForRead(ContainerPath);
                     if (hFile.IsInvalid)
                     {
                         request.FailAndClose(StreamedFileFailureMode.CurrentlyUnavailable);
