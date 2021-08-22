@@ -30,6 +30,7 @@ using static Files.UserControls.INavigationToolbar;
 using SearchBox = Files.UserControls.SearchBox;
 using Files.Interacts;
 using Files.Enums;
+using Files.Filesystem.StorageItems;
 
 namespace Files.ViewModels
 {
@@ -456,6 +457,12 @@ namespace Files.ViewModels
                 Contains(Path.DirectorySeparatorChar)))
             {
                 e.AcceptedOperation = DataPackageOperation.None;
+            }
+            // copy be default when dragging from zip
+            else if (storageItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder))
+            {
+                e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), pathBoxItem.Title);
+                e.AcceptedOperation = DataPackageOperation.Copy;
             }
             else
             {
