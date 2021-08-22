@@ -594,7 +594,7 @@ namespace Files.Views.LayoutModes
                     if (listViewItem != null)
                     {
                         var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-                        EndRename(textBox);
+                        CommitRename(textBox);
                     }
                 }
             }

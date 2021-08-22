@@ -602,6 +602,7 @@ namespace Files.ViewModels
         }
 
         private LayoutPreferences layoutPreference;
+
         public LayoutPreferences LayoutPreference
         {
             get => layoutPreference;

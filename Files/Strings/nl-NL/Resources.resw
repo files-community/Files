@@ -2433,9 +2433,6 @@
   <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
     <value>Open logboek locatie</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButtonText.Text" xml:space="preserve">
-    <value>Open logboek locatie</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>Toevoegen aan favorieten</value>
   </data>

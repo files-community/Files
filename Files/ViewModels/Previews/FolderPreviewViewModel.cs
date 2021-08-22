@@ -64,7 +64,7 @@ namespace Files.ViewModels.Previews
                 }
             };
 
-            if(App.AppSettings.AreFileTagsEnabled)
+            if (App.AppSettings.AreFileTagsEnabled)
             {
                 Item.FileDetails.Add(new FileProperty()
                 {

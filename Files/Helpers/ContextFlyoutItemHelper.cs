@@ -606,7 +606,7 @@ namespace Files.Helpers
                     IsHidden = true,
                     CollapseLabel = true,
                     Items = new List<ContextMenuFlyoutItemViewModel>() {
-                        new() 
+                        new()
                         {
                             Text = "Placeholder"
                         }
@@ -962,6 +962,7 @@ namespace Files.Helpers
                 },
             };
         }
+
         public static List<ContextMenuFlyoutItemViewModel> GetNewItemItems(BaseLayoutCommandsViewModel commandsViewModel)
         {
             var list = new List<ContextMenuFlyoutItemViewModel>()

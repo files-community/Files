@@ -78,7 +78,7 @@ namespace Files.Views
             {
                 return;
             }
-            
+
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 if (propsView == null)

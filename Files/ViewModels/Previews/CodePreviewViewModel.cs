@@ -1,12 +1,10 @@
 ﻿using ColorCode;
-using Files.Extensions;
 using Files.Filesystem;
 using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -19,6 +17,7 @@ namespace Files.ViewModels.Previews
         }
 
         private string textValue;
+
         public string TextValue
         {
             get => textValue;
@@ -26,6 +25,7 @@ namespace Files.ViewModels.Previews
         }
 
         private ILanguage codeLanguage;
+
         public ILanguage CodeLanguage
         {
             get => codeLanguage;

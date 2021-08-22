@@ -1,5 +1,4 @@
 ﻿using Files.Filesystem;
-using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
@@ -57,6 +56,7 @@ namespace Files.ViewModels.Previews
         }
 
         private BitmapImage fileImage;
+
         public BitmapImage FileImage
         {
             get => fileImage;
@@ -76,10 +76,11 @@ namespace Files.ViewModels.Previews
                                                                                             (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
             // adds the value for the file tag
-            if(App.AppSettings.AreFileTagsEnabled)
+            if (App.AppSettings.AreFileTagsEnabled)
             {
                 list.FirstOrDefault(x => x.ID == "filetag").Value = Item.FileTagUI?.TagName;
-            } else
+            }
+            else
             {
                 _ = list.Remove(list.FirstOrDefault(x => x.ID == "filetag"));
             }

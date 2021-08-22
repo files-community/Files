@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -20,7 +19,6 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
-using static Files.App;
 
 namespace Files.ViewModels
 {
@@ -29,6 +27,7 @@ namespace Files.ViewModels
         private CancellationTokenSource loadCancellationTokenSource;
 
         private bool isItemSelected;
+
         public bool IsItemSelected
         {
             get => isItemSelected;
@@ -36,6 +35,7 @@ namespace Files.ViewModels
         }
 
         private ListedItem selectedItem;
+
         public ListedItem SelectedItem
         {
             get => selectedItem;
@@ -43,6 +43,7 @@ namespace Files.ViewModels
         }
 
         private PreviewPaneStates previewPaneState;
+
         public PreviewPaneStates PreviewPaneState
         {
             get => previewPaneState;
@@ -50,6 +51,7 @@ namespace Files.ViewModels
         }
 
         private bool showCloudItemButton;
+
         public bool ShowCloudItemButton
         {
             get => showCloudItemButton;

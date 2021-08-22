@@ -1,19 +1,17 @@
 ﻿using Files.Helpers;
 using Files.ViewModels;
 using FluentFTP;
+using System;
+using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
-using System;
-using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 
 namespace Files.Filesystem.StorageItems
 {
-
-    sealed class FtpStorageFile : IStorageFile
+    internal sealed class FtpStorageFile : IStorageFile
     {
         private readonly ItemViewModel _viewModel;
 
@@ -126,19 +124,19 @@ namespace Files.Filesystem.StorageItems
         public string FtpPath { get; }
 
         public IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode) => throw new NotSupportedException();
-        
+
         public IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync() => throw new NotSupportedException();
 
         public IAsyncOperation<StorageFile> CopyAsync(IStorageFolder destinationFolder)
         {
             return CopyAsync(destinationFolder, Name, NameCollisionOption.FailIfExists);
         }
-        
+
         public IAsyncOperation<StorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName)
         {
             return CopyAsync(destinationFolder, desiredNewName, NameCollisionOption.FailIfExists);
         }
-        
+
         public IAsyncOperation<StorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
         {
             return AsyncInfo.Run(async (cancellationToken) =>
@@ -169,11 +167,15 @@ namespace Files.Filesystem.StorageItems
                 return null;
             });
         }
-        
+
         public IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace) => throw new NotSupportedException();
+
         public IAsyncAction MoveAsync(IStorageFolder destinationFolder) => throw new NotSupportedException();
+
         public IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName) => throw new NotSupportedException();
+
         public IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option) => throw new NotSupportedException();
+
         public IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace) => throw new NotSupportedException();
 
         public string ContentType { get; } = "application/octet-stream";
@@ -181,6 +183,7 @@ namespace Files.Filesystem.StorageItems
         public string FileType { get; }
 
         public IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync() => throw new NotSupportedException();
+
         public IAsyncOperation<IInputStream> OpenSequentialReadAsync() => throw new NotSupportedException();
     }
 }

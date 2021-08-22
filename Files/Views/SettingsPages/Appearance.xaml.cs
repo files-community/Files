@@ -1,14 +1,10 @@
 ﻿using Files.Dialogs;
-using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.UserControls.Settings;
 using Files.ViewModels;
-using Files.ViewModels.SettingsViewModels;
 using Microsoft.Toolkit.Uwp.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using static Files.ViewModels.SettingsViewModels.AppearanceViewModel;
 
 namespace Files.SettingsPages
 {

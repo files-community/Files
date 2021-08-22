@@ -182,7 +182,7 @@ namespace Files.Helpers
                 try
                 {
                     Clipboard.SetContent(dataPackage);
-                    
+
                     if (canFlush)
                     {
                         Clipboard.Flush();

@@ -2433,9 +2433,6 @@
   <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
     <value>Günlük konumunu aç</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButtonText.Text" xml:space="preserve">
-    <value>Günlük konumunu aç</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>Favorilere Sabitle</value>
   </data>

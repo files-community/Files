@@ -1,14 +1,7 @@
-﻿using Files.Filesystem;
-using Files.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using Windows.Foundation;
+﻿using Files.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using static Files.ViewModels.SearchBoxViewModel;
 
 namespace Files.UserControls
 {

@@ -30,13 +30,11 @@
                     <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
                     <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
                     <Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
-
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
                     <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
                     <Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
-
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
                     <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
@@ -440,7 +438,6 @@
                         AutomationProperties.Name="Selected file preview pane"
                         Loading="PreviewPane_Loading" />
                 </Custom:DropShadowPanel>
-
 
                 <Custom:GridSplitter
                     x:Name="PreviewPaneGridSplitter"

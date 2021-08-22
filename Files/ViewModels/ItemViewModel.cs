@@ -9,7 +9,6 @@ using Files.Filesystem.StorageEnumerators;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
 using Files.UserControls;
-using FluentFTP;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -64,11 +63,13 @@ namespace Files.ViewModels
         private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS;
 
         public event EventHandler DirectoryInfoUpdated;
+
         public event EventHandler<List<ListedItem>> OnSelectionRequestedEvent;
 
         private IFileListCache fileListCache = FileListCacheController.GetInstance();
 
         private NamedPipeAsAppServiceConnection connection;
+
         private NamedPipeAsAppServiceConnection Connection
         {
             get => connection;
@@ -167,6 +168,7 @@ namespace Files.ViewModels
         }
 
         private EmptyTextType emptyTextType;
+
         public EmptyTextType EmptyTextType
         {
             get => emptyTextType;
@@ -2079,7 +2081,7 @@ namespace Files.ViewModels
         public async Task SearchAsync(FolderSearch search)
         {
             ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
-            
+
             CancelSearch();
             searchCancellationToken = new CancellationTokenSource();
             filesAndFolders.Clear();

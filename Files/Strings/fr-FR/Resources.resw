@@ -2433,9 +2433,6 @@
   <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
     <value>Ouvrir l'emplacement des logs</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButtonText.Text" xml:space="preserve">
-    <value>Ouvrir l'emplacement des logs</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>Ajouter aux favoris</value>
   </data>

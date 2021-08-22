@@ -4,7 +4,6 @@ using Files.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -16,7 +15,6 @@ namespace Files.ViewModels.Dialogs
 {
     public class FilesystemOperationDialogViewModel : ObservableObject
     {
-
         public ObservableCollection<FilesystemOperationItemViewModel> Items { get; private set; }
 
         public ListViewSelectionMode ItemsSelectionMode
@@ -218,7 +216,7 @@ namespace Files.ViewModels.Dialogs
                         // There are {0} conflicting file names
                         subtitleText = string.Format("ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts".GetLocalized(), itemsData.ConflictingItems.Count);
                     }
-                }    
+                }
                 else
                 {
                     if (nonConflictingItems.Count > 0)
