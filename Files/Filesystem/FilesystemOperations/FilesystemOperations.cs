@@ -2,9 +2,12 @@
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Interacts;
+using FluentFTP;
 using Microsoft.Toolkit.Uwp;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -79,12 +82,6 @@ namespace Files.Filesystem
                             item = await folder.CreateFolderAsync(Path.GetFileName(source.Path));
 
                             break;
-                        }
-
-                    case FilesystemItemType.Symlink:
-                        {
-                            Debugger.Break();
-                            throw new NotImplementedException();
                         }
 
                     default:
@@ -168,7 +165,7 @@ namespace Files.Filesystem
                     }
                     return null;
                 }
-                else
+                else if (!FtpHelpers.IsFtpPath(destination) && !FtpHelpers.IsFtpPath(source.Path))
                 {
                     // CopyFileFromApp only works on file not directories
                     var fsSourceFolder = await source.ToStorageItemResult(associatedInstance);
@@ -215,8 +212,30 @@ namespace Files.Filesystem
                         return null;
                     }
                 }
+                else if (FtpHelpers.IsFtpPath(destination) && !FtpHelpers.IsFtpPath(source.Path))
+                {
+                    var fsSourceFolder = await source.ToStorageItemResult(associatedInstance);
+                    var ftpDestFolder = await new StorageFolderWithPath(null, destination).ToStorageItemResult(associatedInstance);
+                    var fsCopyResult = await FilesystemTasks.Wrap(() => CloneDirectoryToFtpAsync((StorageFolder)fsSourceFolder, (FtpStorageFolder)ftpDestFolder.Result, collision.Convert()));
+
+                    if (fsCopyResult == FileSystemStatusCode.AlreadyExists)
+                    {
+                        errorCode?.Report(FileSystemStatusCode.AlreadyExists);
+                        progress?.Report(100.0f);
+                        return null;
+                    }
+
+                    errorCode?.Report(fsCopyResult ? FileSystemStatusCode.Success : FileSystemStatusCode.Generic);
+                    progress?.Report(100.0f);
+                    return null;
+                }
+                else
+                {
+                    errorCode?.Report(FileSystemStatusCode.Generic);
+                    return null;
+                }
             }
-            else if (source.ItemType == FilesystemItemType.File)
+            else if (source.ItemType == FilesystemItemType.File && !string.IsNullOrEmpty(source.Path) && !FtpHelpers.IsFtpPath(destination))
             {
                 var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.CopyFileFromApp(source.Path, destination, true));
 
@@ -231,7 +250,16 @@ namespace Files.Filesystem
                     if (fsResult)
                     {
                         var file = (StorageFile)sourceResult;
-                        var fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
+                        var fsResultCopy = new FilesystemResult<StorageFile>(null, FileSystemStatusCode.Generic);
+                        if (string.IsNullOrEmpty(file.Path) && collision != NameCollisionOption.ReplaceExisting)
+                        {
+                            // Microsoft bug! When dragging files from .zip, "GenerateUniqueName" option is not respected and the file gets overwritten
+                            fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.FailIfExists).AsTask());
+                        }
+                        else
+                        {
+                            fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
+                        }
 
                         if (fsResultCopy == FileSystemStatusCode.AlreadyExists)
                         {
@@ -264,6 +292,62 @@ namespace Files.Filesystem
                 {
                     return null;
                 }
+            }
+            else if (string.IsNullOrEmpty(source.Path) && !FtpHelpers.IsFtpPath(destination))
+            {
+                var fsResult = source.Item is StorageFile file ? await FilesystemTasks.Wrap(async () =>
+                    await file.CopyAsync(
+                        await StorageFolder.GetFolderFromPathAsync(Path.GetDirectoryName(destination)),
+                        file.Name,
+                        collision)) : new FilesystemResult<StorageFile>(null, FileSystemStatusCode.Generic);
+
+                if (!fsResult)
+                {
+                    errorCode?.Report(fsResult.ErrorCode);
+                    return null;
+                }
+            }
+            else if (FtpHelpers.IsFtpPath(destination))
+            {
+                var ftpClient = associatedInstance.FilesystemViewModel.GetFtpInstance();
+
+                if (!await ftpClient.EnsureConnectedAsync())
+                {
+                    errorCode?.Report(FileSystemStatusCode.Generic);
+                    return null;
+                }
+
+                if (source.Item is StorageFile file)
+                {
+                    void ReportFtpPorgress(object sender, FtpProgress p)
+                    {
+                        progress?.Report((float)p.Progress);
+                    }
+
+                    using var stream = await file.OpenStreamForReadAsync();
+
+                    var ftpProgress = new Progress<FtpProgress>();
+                    ftpProgress.ProgressChanged += ReportFtpPorgress;
+
+                    var result = await ftpClient.UploadAsync(stream, FtpHelpers.GetFtpPath(destination), collision switch
+                    {
+                        NameCollisionOption.ReplaceExisting => FtpRemoteExists.Overwrite,
+                        _ => FtpRemoteExists.Skip,
+                    }, false, ftpProgress, cancellationToken);
+
+                    ftpProgress.ProgressChanged -= ReportFtpPorgress;
+
+                    if (result != FtpStatus.Success)
+                    {
+                        errorCode?.Report(FileSystemStatusCode.Generic);
+                        return null;
+                    }
+                }
+            }
+            else
+            {
+                errorCode?.Report(FileSystemStatusCode.Generic);
+                return null;
             }
 
             if (Path.GetDirectoryName(destination) == associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath())
@@ -521,11 +605,25 @@ namespace Files.Filesystem
                                                        CancellationToken cancellationToken)
         {
             bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
+            bool deleteFromFtp = FtpHelpers.IsFtpPath(source.Path);
 
             FilesystemResult fsResult = FileSystemStatusCode.InProgress;
 
             errorCode?.Report(fsResult);
             progress?.Report(0.0f);
+
+            if (deleteFromFtp)
+            {
+                fsResult = await source.ToStorageItemResult(associatedInstance).OnSuccess(async (t) =>
+                {
+                    await t.DeleteAsync();
+                    return t;
+                });
+
+                errorCode?.Report(fsResult.ErrorCode);
+                progress?.Report(100.0f);
+                return null;
+            }
 
             if (permanently)
             {
@@ -550,7 +648,8 @@ namespace Files.Filesystem
             if (fsResult == FileSystemStatusCode.Unauthorized)
             {
                 // Try again with fulltrust process (non admin: for shortcuts and hidden files)
-                var connection = await AppServiceConnectionHelper.Instance;
+                // Not neeeded if called after trying with ShellFilesystemOperations
+                /*var connection = await AppServiceConnectionHelper.Instance;
                 if (connection != null)
                 {
                     var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
@@ -559,11 +658,14 @@ namespace Files.Filesystem
                         { "fileop", "DeleteItem" },
                         { "operationID", Guid.NewGuid().ToString() },
                         { "filepath", source.Path },
-                        { "permanently", permanently }
+                        { "permanently", permanently },
+                        { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                     });
                     fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
                         && response.Get("Success", false));
-                }
+                    var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", "{\"Items\": []}"));
+                    fsResult &= (FilesystemResult)shellOpResult.Items.All(x => x.Succeeded);
+                }*/
                 if (!fsResult)
                 {
                     fsResult = await PerformAdminOperation(new ValueSet()
@@ -572,7 +674,8 @@ namespace Files.Filesystem
                         { "fileop", "DeleteItem" },
                         { "operationID", Guid.NewGuid().ToString() },
                         { "filepath", source.Path },
-                        { "permanently", permanently }
+                        { "permanently", permanently },
+                        { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                     });
                 }
             }
@@ -854,6 +957,24 @@ namespace Files.Filesystem
             return createdRoot;
         }
 
+        private async static Task CloneDirectoryToFtpAsync(IStorageFolder sourceFolder, FtpStorageFolder destinationFolder, CreationCollisionOption collision = CreationCollisionOption.FailIfExists)
+        {
+            var result = await FilesystemTasks.Wrap(async () => await destinationFolder.CreateFolderAsync(sourceFolder.Name, collision));
+            
+            if (result)
+            {
+                foreach (IStorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())
+                {
+                    await destinationFolder.UploadFileAsync(fileInSourceDir, fileInSourceDir.Name, NameCollisionOption.FailIfExists);
+                }
+
+                foreach (IStorageFolder folderinSourceDir in await sourceFolder.GetFoldersAsync())
+                {
+                    await CloneDirectoryToFtpAsync(folderinSourceDir, destinationFolder.CloneWithPath($"{destinationFolder.Path}/{sourceFolder.Name}"));
+                }
+            }
+        }
+
         private static async Task<StorageFolder> MoveDirectoryAsync(IStorageFolder sourceFolder, IStorageFolder destinationDirectory, string sourceRootName, CreationCollisionOption collision = CreationCollisionOption.FailIfExists, bool deleteSource = false)
         {
             StorageFolder createdRoot = await destinationDirectory.CreateFolderAsync(sourceRootName, collision);
@@ -874,8 +995,6 @@ namespace Files.Filesystem
                 await sourceFolder.DeleteAsync(StorageDeleteOption.Default);
             }
 
-            App.JumpList.RemoveFolder(sourceFolder.Path);
-
             return createdRoot;
         }
 
@@ -893,8 +1012,10 @@ namespace Files.Filesystem
                     if (connection != null)
                     {
                         var (status, response) = await connection.SendMessageForResponseAsync(operation);
-                        return (FilesystemResult)(status == AppServiceResponseStatus.Success
+                        var fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
                             && response.Get("Success", false));
+                        var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", "{\"Items\": []}"));
+                        fsResult &= (FilesystemResult)shellOpResult.Items.All(x => x.Succeeded);
                     }
                 }
             }
@@ -1031,6 +1152,11 @@ namespace Files.Filesystem
                     rawStorageHistory.SelectMany((item) => item.Destination).ToList());
             }
             return null;
+        }
+
+        public Task<IStorageHistory> CreateShortcutItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken token)
+        {
+            throw new NotImplementedException("Cannot create shortcuts in UWP.");
         }
     }
 }

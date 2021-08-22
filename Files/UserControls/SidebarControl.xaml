@@ -14,16 +14,12 @@
     HorizontalAlignment="Stretch"
     d:DesignHeight="768"
     d:DesignWidth="200"
-    CompactModeThresholdWidth="641"
-    ExpandedModeThresholdWidth="641"
     IsBackButtonVisible="Collapsed"
-    IsPaneToggleButtonVisible="False"
     IsSettingsVisible="False"
     IsTitleBarAutoPaddingEnabled="False"
     ItemInvoked="Sidebar_ItemInvoked"
     MenuItemsSource="{x:Bind local:SidebarControl.SideBarItems, Mode=OneWay}"
     OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneTime}"
-    PaneDisplayMode="Auto"
     SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
     mc:Ignorable="d">
     <muxc:NavigationView.Resources>
@@ -98,111 +94,6 @@
 
             <mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
 
-            <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
-                <MenuFlyout.Items>
-                    <MenuFlyoutItem
-                        x:Name="CreateNewLibrary"
-                        x:Uid="SideBarCreateNewLibrary"
-                        x:Load="{x:Bind IsLibrariesHeader, Mode=OneWay}"
-                        Command="{x:Bind CreateLibraryCommand, Mode=OneWay}"
-                        Text="Create new library">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE710;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        x:Name="RestoreLibraries"
-                        x:Uid="SideBarRestoreLibraries"
-                        x:Load="{x:Bind IsLibrariesHeader, Mode=OneWay}"
-                        Command="{x:Bind RestoreLibrariesCommand, Mode=OneWay}"
-                        Text="Restore default libraries">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE10E;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        x:Name="EmptyRecycleBin"
-                        x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
-                        x:Load="{x:Bind ShowEmptyRecycleBin, Mode=OneWay}"
-                        Command="{x:Bind EmptyRecycleBinCommand, Mode=OneWay}"
-                        IsEnabled="{x:Bind RecycleBinHasItems, Mode=OneWay}"
-                        Text="Empty recycle bin">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        x:Name="OpenInNewPane"
-                        x:Uid="SideBarOpenInNewPane"
-                        x:Load="{x:Bind conv:MultiBooleanConverter.AndConvert(IsLocationItem, CanOpenInNewPane), Mode=OneWay}"
-                        Click="OpenInNewPane_Click"
-                        Text="Open in new pane">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        x:Name="OpenInNewTab"
-                        x:Uid="SideBarOpenInNewTab"
-                        x:Load="{x:Bind IsLocationItem, Mode=OneWay}"
-                        Click="OpenInNewTab_Click"
-                        Text="Open in new tab">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF113;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        x:Name="OpenInNewWindow"
-                        x:Uid="SideBarOpenInNewWindow"
-                        x:Load="{x:Bind IsLocationItem, Mode=OneWay}"
-                        Click="OpenInNewWindow_Click"
-                        Text="Open in new window">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE737;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        x:Name="UnpinItem"
-                        x:Uid="SideBarUnpinFromFavorites"
-                        x:Load="{x:Bind ShowUnpinItem, Mode=OneWay}"
-                        Click="{x:Bind UnpinItem_Click}"
-                        Text="Unpin from Favorites">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE77A;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        x:Name="HideSectionItem"
-                        x:Load="{x:Bind ShowHideSection, Mode=OneWay}"
-                        Click="{x:Bind HideSection_Click}"
-                        Text="Hide section">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE77A;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        x:Name="EjectDevice"
-                        x:Uid="SideBarEjectDevice"
-                        x:Load="{x:Bind ShowEjectDevice, Mode=OneWay}"
-                        Click="EjectDevice_Click"
-                        Text="Eject">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10B;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        x:Name="PropertiesFolder"
-                        x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
-                        x:Load="{x:Bind ShowProperties, Mode=OneWay}"
-                        Click="Properties_Click"
-                        Text="Properties">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE946;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                </MenuFlyout.Items>
-            </MenuFlyout>
-
             <Style TargetType="SplitView">
                 <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
                 <Setter Property="BorderThickness" Value="{ThemeResource SplitViewLeftBorderThemeThickness}" />
@@ -233,8 +124,6 @@
                                     Grid.ColumnSpan="2"
                                     VerticalAlignment="Stretch"
                                     Background="{ThemeResource TitlebarContentBackgroundBrush}"
-                                    BorderBrush="{ThemeResource NavigationViewContentGridBorderBrush}"
-                                    BorderThickness="{ThemeResource NavigationViewContentGridBorderThickness}"
                                     CornerRadius="0,0,0,0"
                                     IsHitTestVisible="False" />
 
@@ -299,6 +188,7 @@
                                     AllowFocusOnInteraction="True"
                                     Background="Transparent"
                                     BorderBrush="Transparent"
+                                    DoubleTapped="ResizeElementBorder_DoubleTapped"
                                     ManipulationCompleted="ResizeElementBorder_ManipulationCompleted"
                                     ManipulationDelta="Border_ManipulationDelta"
                                     ManipulationMode="TranslateX"

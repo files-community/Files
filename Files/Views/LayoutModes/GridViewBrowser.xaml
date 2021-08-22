@@ -16,6 +16,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
+    xmlns:uc="using:Files.UserControls"
     x:Name="PageRoot"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -33,7 +34,15 @@
             x:Key="NegatedBoolToVisibilityConverter"
             FalseValue="Visible"
             TrueValue="Collapsed" />
+        <converters:EmptyObjectToObjectConverter
+            x:Key="EmptyObjectToObjectConverter"
+            EmptyValue="Collapsed"
+            NotEmptyValue="Visible" />
 
+        <converters:BoolToObjectConverter
+            x:Key="NegatedBoolToOpacityConverter"
+            FalseValue="1"
+            TrueValue="0" />
         <converters:BoolToVisibilityConverter
             x:Key="BoolToVisibilityConverter"
             FalseValue="Collapsed"
@@ -43,10 +52,12 @@
 
         <DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="local2:ListedItem">
             <Grid
-                Width="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+                x:Name="GridViewBrowserListedItem"
                 Height="Auto"
+                MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
+                tui:FrameworkElementExtensions.EnableActualSizeBinding="True"
                 Background="Transparent"
                 IsRightTapEnabled="True"
                 Loaded="Grid_Loaded"
@@ -58,19 +69,23 @@
                 </Grid.RowDefinitions>
                 <Grid
                     Grid.Row="0"
-                    Width="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+                    Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
                     Height="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                     Opacity="{x:Bind Opacity, Mode=OneWay}"
                     Tag="ItemImage">
-                    <Image
-                        x:Name="Picture"
+                    <ContentPresenter
+                        x:Name="PictureBorder"
                         Margin="12"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                         x:Phase="1"
-                        Source="{x:Bind FileImage, Mode=OneWay}"
-                        Stretch="Uniform" />
+                        CornerRadius="{StaticResource GridViewThumbnailCornerRadius}">
+                        <Image
+                            x:Name="Picture"
+                            Source="{x:Bind FileImage, Mode=OneWay}"
+                            Stretch="Uniform" />
+                    </ContentPresenter>
                     <Viewbox
                         x:Name="FolderGlyphIcon"
                         MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
@@ -141,6 +156,7 @@
                     HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <FontIcon
@@ -153,15 +169,24 @@
                         FontSize="18"
                         Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
                         Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
+                    <Ellipse
+                        Grid.Column="1"
+                        Width="12"
+                        Height="12"
+                        Margin="0,0,5,0"
+                        x:Phase="2"
+                        Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
+                        ToolTipService.ToolTip="{x:Bind FileTagUI.TagName, Mode=OneWay}"
+                        Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                     <TextBlock
                         x:Name="ItemName"
-                        Grid.Column="1"
+                        Grid.Column="2"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        Opacity="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToOpacityConverter}}"
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         TextTrimming="CharacterEllipsis"
-                        TextWrapping="NoWrap"
-                        Visibility="{Binding IsOpen, ElementName=EditPopup, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+                        TextWrapping="NoWrap" />
                 </Grid>
                 <Popup
                     x:Name="EditPopup"
@@ -169,10 +194,11 @@
                     x:Load="False">
                     <TextBox
                         x:Name="GridViewTextBoxItemName"
-                        Width="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+                        Width="{Binding ElementName=GridViewBrowserListedItem, Path=(tui:FrameworkElementExtensions.ActualWidth)}"
                         Margin="0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        Background="{ThemeResource SolidBackgroundFillColorSecondary}"
                         Text="{x:Bind ItemName, Mode=OneWay}"
                         TextAlignment="Center"
                         TextChanged="GridViewTextBoxItemName_TextChanged"
@@ -183,7 +209,6 @@
 
         <DataTemplate x:Name="TilesBrowserTemplate" x:DataType="local2:ListedItem">
             <Grid
-                Width="260"
                 Height="100"
                 Margin="0,0,0,0"
                 Padding="0"
@@ -199,31 +224,50 @@
                     <ColumnDefinition Width="90" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <FontIcon
-                    x:Name="CloudDriveSyncStatusGlyph"
-                    Grid.Column="0"
+                <StackPanel
                     Width="20"
                     Margin="10,0,0,0"
-                    x:Phase="2"
-                    Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
-                    Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
-                    Visibility="{Binding InstanceViewModel.IsPageTypeCloudDrive, ElementName=PageRoot, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <Ellipse
+                        Width="12"
+                        Height="12"
+                        Margin="0,4,0,4"
+                        HorizontalAlignment="Center"
+                        x:Phase="2"
+                        Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
+                        ToolTipService.ToolTip="{x:Bind FileTagUI.TagName, Mode=OneWay}"
+                        Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
+                    <FontIcon
+                        x:Name="CloudDriveSyncStatusGlyph"
+                        Grid.Column="0"
+                        Width="20"
+                        HorizontalAlignment="Center"
+                        x:Phase="2"
+                        Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
+                        Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+                        Visibility="{Binding InstanceViewModel.IsPageTypeCloudDrive, ElementName=PageRoot, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </StackPanel>
                 <Grid
                     Grid.Column="1"
                     Height="Auto"
                     MinHeight="100"
                     Opacity="{x:Bind Opacity, Mode=OneWay}"
                     Tag="ItemImage">
-                    <Image
-                        x:Name="Picture"
-                        Width="74"
+                    <ContentPresenter
+                        x:Name="PictureBorder"
                         Margin="0,12,0,12"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                         x:Phase="1"
-                        Source="{x:Bind FileImage, Mode=OneWay}"
-                        Stretch="Uniform" />
+                        CornerRadius="{StaticResource GridViewThumbnailCornerRadius}">
+                        <Image
+                            x:Name="Picture"
+                            Width="74"
+                            Source="{x:Bind FileImage, Mode=OneWay}"
+                            Stretch="Uniform" />
+                    </ContentPresenter>
                     <FontIcon
                         x:Name="FolderGlyphIcon"
                         HorizontalAlignment="Stretch"
@@ -304,6 +348,7 @@
                         <TextBlock
                             HorizontalAlignment="Left"
                             Opacity="0.6"
+                            Style="{StaticResource CaptionTextBlockStyle}"
                             Text="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             TextAlignment="Left"
                             TextTrimming="CharacterEllipsis"
@@ -311,6 +356,7 @@
                         <TextBlock
                             HorizontalAlignment="Left"
                             Opacity="0.6"
+                            Style="{StaticResource CaptionTextBlockStyle}"
                             Text="{x:Bind FileSize}"
                             TextAlignment="Left"
                             TextTrimming="CharacterEllipsis"
@@ -446,17 +492,14 @@
                 </i:Interaction.Behaviors>
             </KeyboardAccelerator>
         </Grid.KeyboardAccelerators>
-        <TextBlock
-            x:Name="EmptyText"
-            x:Uid="EmptyFolder"
+
+        <uc:FolderEmptyIndicator
             Grid.Row="3"
             Margin="0,125,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
-            x:Load="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed, Mode=OneWay}"
             Canvas.ZIndex="0"
-            Text="This folder is empty."
-            TextWrapping="Wrap" />
+            EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
         <muxc:TeachingTip
             x:Name="FileNameTeachingTip"
@@ -466,7 +509,10 @@
             Subtitle="The file name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |"
             Visibility="Collapsed" />
 
-        <SemanticZoom ViewChangeStarted="SemanticZoom_ViewChangeStarted" Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+        <SemanticZoom
+            CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
+            ViewChangeStarted="SemanticZoom_ViewChangeStarted"
+            Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
             <SemanticZoom.ZoomedInView>
                 <controls:AdaptiveGridView
                     x:Name="FileList"
@@ -476,7 +522,7 @@
                     tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
                     x:FieldModifier="public"
                     AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                    CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                    CanDragItems="True"
                     ContainerContentChanging="FileList_ContainerContentChanging"
                     DesiredWidth="{x:Bind GridViewItemMinWidth, Mode=OneWay}"
                     DoubleTapped="FileList_DoubleTapped"
@@ -484,14 +530,13 @@
                     DragOver="ItemsLayout_DragOver"
                     Drop="ItemsLayout_Drop"
                     IsDoubleTapEnabled="True"
-                    IsItemClickEnabled="True"
-                    ItemClick="FileList_ItemClick"
                     ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
                     PreviewKeyDown="FileList_PreviewKeyDown"
                     ScrollViewer.IsHorizontalScrollChainingEnabled="False"
                     SelectionChanged="FileList_SelectionChanged"
                     SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
-                    StretchContentForSingleRow="False">
+                    StretchContentForSingleRow="False"
+                    Tapped="FileList_ItemTapped">
                     <controls:AdaptiveGridView.GroupStyle>
                         <GroupStyle>
                             <GroupStyle.HeaderTemplate>
@@ -581,7 +626,6 @@
                 <ListView
                     HorizontalAlignment="Stretch"
                     VerticalContentAlignment="Center"
-                    IsItemClickEnabled="True"
                     ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
                     SelectionMode="None">
                     <ListView.ItemTemplate>

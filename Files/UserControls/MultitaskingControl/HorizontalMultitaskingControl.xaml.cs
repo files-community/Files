@@ -4,6 +4,7 @@ using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -47,6 +48,8 @@ namespace Files.UserControls.MultitaskingControl
                     });
                 }
             }
+
+            HorizontalTabView.SelectedIndex = App.MainViewModel.TabStripSelectedIndex;
         }
 
         private async void TabViewItem_Drop(object sender, DragEventArgs e)
@@ -223,7 +226,5 @@ namespace Files.UserControls.MultitaskingControl
         // Using a DependencyProperty as the backing store for TabStripVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TabStripVisibilityProperty =
             DependencyProperty.Register("TabStripVisibility", typeof(Visibility), typeof(HorizontalMultitaskingControl), new PropertyMetadata(Visibility.Visible));
-
-
     }
 }

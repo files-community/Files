@@ -43,7 +43,7 @@ namespace Files
         public static IBundlesSettings BundlesSettings = new BundlesSettingsModel();
         public static SettingsViewModel AppSettings { get; private set; }
         public static MainViewModel MainViewModel { get; private set; }
-        public static JumpListManager JumpList { get; } = new JumpListManager();
+        public static JumpListManager JumpList { get; private set; }
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
         public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
@@ -57,15 +57,7 @@ namespace Files
         private static readonly UniversalLogWriter logWriter = new UniversalLogWriter();
 
         public static StatusCenterViewModel StatusCenterViewModel { get; } = new StatusCenterViewModel();
-
         public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
-
-        public static class AppData
-        {
-            // Get the extensions that are available for this host.
-            // Extensions that declare the same contract string as the host will be recognized.
-            internal static ExtensionManager FilePreviewExtensionManager { get; set; } = new ExtensionManager("com.files.filepreview");
-        }
 
         public App()
         {
@@ -77,9 +69,6 @@ namespace Files
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
-
-            //LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
-            AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
         }
 
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
@@ -92,23 +81,35 @@ namespace Files
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
 
+            JumpList ??= new JumpListManager();
             MainViewModel ??= new MainViewModel();
-            SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
             LibraryManager ??= new LibraryManager();
             DrivesManager ??= new DrivesManager();
             NetworkDrivesManager ??= new NetworkDrivesManager();
             CloudDrivesManager ??= new CloudDrivesManager();
             WSLDistroManager ??= new WSLDistroManager();
+            SidebarPinnedController ??= new SidebarPinnedController();
+        }
 
+        public static async Task LoadOtherStuffAsync()
+        {
             // Start off a list of tasks we need to run before we can continue startup
-            _ = Task.Factory.StartNew(async () =>
+            await Task.Run(async () =>
             {
-                await LibraryManager.EnumerateLibrariesAsync();
-                await DrivesManager.EnumerateDrivesAsync();
-                await CloudDrivesManager.EnumerateDrivesAsync();
-                await NetworkDrivesManager.EnumerateDrivesAsync();
-                await WSLDistroManager.EnumerateDrivesAsync();
+                await Task.WhenAll(
+                    JumpList.InitializeAsync(),
+                    SidebarPinnedController.InitializeAsync(),
+                    DrivesManager.EnumerateDrivesAsync(),
+                    CloudDrivesManager.EnumerateDrivesAsync(),
+                    LibraryManager.EnumerateLibrariesAsync(),
+                    NetworkDrivesManager.EnumerateDrivesAsync(),
+                    WSLDistroManager.EnumerateDrivesAsync(),
+                    ExternalResourcesHelper.LoadOtherThemesAsync()
+                );
             });
+
+            // Check for required updates
+            new AppUpdater().CheckForUpdatesAsync();
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)

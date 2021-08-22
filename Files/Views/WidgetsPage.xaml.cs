@@ -63,7 +63,7 @@ namespace Files.Views
 
             if (shouldReloadFolderWidget && folderWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(folderWidget, 0);
+                Widgets.ViewModel.InsertWidget(new(folderWidget), 0);
 
                 folderWidget.LibraryCardInvoked -= FolderWidget_LibraryCardInvoked;
                 folderWidget.LibraryCardNewPaneInvoked -= FolderWidget_LibraryCardNewPaneInvoked;
@@ -76,7 +76,7 @@ namespace Files.Views
             }
             if (shouldReloadDrivesWidget && drivesWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(drivesWidget, 1);
+                Widgets.ViewModel.InsertWidget(new(drivesWidget), 1);
 
                 drivesWidget.AppInstance = AppInstance;
                 drivesWidget.DrivesWidgetInvoked -= DrivesWidget_DrivesWidgetInvoked;
@@ -86,12 +86,12 @@ namespace Files.Views
             }
             if (shouldReloadBundles && bundlesWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(bundlesWidget, 2);
+                Widgets.ViewModel.InsertWidget(new(bundlesWidget), 2);
                 ViewModel.LoadBundlesCommand.Execute(bundlesWidget.ViewModel);
             }
             if (shouldReloadRecentFiles && recentFilesWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(recentFilesWidget, 3);
+                Widgets.ViewModel.InsertWidget(new(recentFilesWidget), 3);
 
                 recentFilesWidget.RecentFilesOpenLocationInvoked -= RecentFilesWidget_RecentFilesOpenLocationInvoked;
                 recentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;

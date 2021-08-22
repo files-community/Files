@@ -150,12 +150,17 @@
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
                     </StackPanel>
-                    <muxc:ItemsRepeater
+                    <ItemsControl
                         x:Name="FileDetailsRepeater"
                         Margin="8"
                         ItemsSource="{x:Bind Model.SelectedItem.FileDetails, Mode=OneWay}"
                         Visibility="Collapsed">
-                        <muxc:ItemsRepeater.ItemTemplate>
+                        <ItemsControl.ItemContainerTransitions>
+                            <TransitionCollection>
+                                <EntranceThemeTransition IsStaggeringEnabled="False" />
+                            </TransitionCollection>
+                        </ItemsControl.ItemContainerTransitions>
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="properties:FileProperty">
                                 <Grid
                                     Padding="0,0,0,8"
@@ -170,8 +175,7 @@
                                         Grid.Row="0"
                                         Grid.Column="0"
                                         HorizontalAlignment="Stretch"
-                                        FontSize="14"
-                                        Style="{StaticResource HeaderTextBlockStyle}"
+                                        Style="{StaticResource BodyTextBlockStyle}"
                                         Text="{x:Bind Name, Mode=OneWay}" />
 
                                     <TextBlock
@@ -180,17 +184,13 @@
                                         Grid.Column="0"
                                         HorizontalAlignment="Stretch"
                                         IsTextSelectionEnabled="True"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{x:Bind ValueText, Mode=TwoWay}"
                                         TextWrapping="Wrap" />
                                 </Grid>
                             </DataTemplate>
-                        </muxc:ItemsRepeater.ItemTemplate>
-                        <!--<muxc:ItemsRepeater.cont>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            </Style>
-                        </muxc:ItemsRepeater.cont>-->
-                    </muxc:ItemsRepeater>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </StackPanel>
             </ScrollViewer>
         </Grid>

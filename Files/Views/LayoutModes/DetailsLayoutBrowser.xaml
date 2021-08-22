@@ -40,6 +40,10 @@
                 x:Key="NegatedBoolToVisibilityConverter"
                 FalseValue="Visible"
                 TrueValue="Collapsed" />
+            <converters:EmptyObjectToObjectConverter
+                x:Key="EmptyObjectToObjectConverter"
+                EmptyValue="Collapsed"
+                NotEmptyValue="Visible" />
 
             <converters1:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -142,6 +146,21 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <Style TargetType="uc:DataGridHeader">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            </Style>
+
+            <Style
+                x:Key="ColumnContentTextBlock"
+                BasedOn="{StaticResource CaptionTextBlockStyle}"
+                TargetType="TextBlock">
+                <Setter Property="TextWrapping" Value="NoWrap" />
+                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="Opacity" Value="0.6" />
+            </Style>
         </ResourceDictionary>
     </local:BaseLayout.Resources>
 
@@ -167,17 +186,14 @@
                 </i:Interaction.Behaviors>
             </KeyboardAccelerator>
         </Grid.KeyboardAccelerators>
-        <TextBlock
-            x:Name="EmptyText"
-            x:Uid="EmptyFolder"
+
+        <uc:FolderEmptyIndicator
             Grid.Row="3"
             Margin="0,125,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
-            x:Load="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed, Mode=OneWay}"
             Canvas.ZIndex="0"
-            Text="This folder is empty."
-            TextWrapping="Wrap" />
+            EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
         <muxc:TeachingTip
             x:Name="FileNameTeachingTip"
@@ -187,7 +203,10 @@
             Subtitle="The file name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |"
             Visibility="Collapsed" />
 
-        <SemanticZoom ViewChangeStarted="SemanticZoom_ViewChangeStarted" Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+        <SemanticZoom
+            CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
+            ViewChangeStarted="SemanticZoom_ViewChangeStarted"
+            Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
             <SemanticZoom.ZoomedInView>
                 <ListView
                     x:Name="FileList"
@@ -198,21 +217,20 @@
                     tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
                     x:FieldModifier="public"
                     AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                    CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                    CanDragItems="True"
                     ContainerContentChanging="FileList_ContainerContentChanging"
                     DoubleTapped="FileList_DoubleTapped"
                     DragItemsStarting="FileList_DragItemsStarting"
                     DragOver="ItemsLayout_DragOver"
                     Drop="ItemsLayout_Drop"
                     IsDoubleTapEnabled="True"
-                    IsItemClickEnabled="True"
-                    ItemClick="FileList_ItemClick"
                     ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
                     PreviewKeyDown="FileList_PreviewKeyDown"
                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
                     ScrollViewer.HorizontalScrollMode="Auto"
                     SelectionChanged="FileList_SelectionChanged"
                     SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
+                    Tapped="FileList_ItemTapped"
                     Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
                     <ListView.ItemContainerTransitions>
                         <TransitionCollection>
@@ -234,6 +252,12 @@
                             PointerPressed="Grid_PointerPressed">
                             <Grid.ContextFlyout>
                                 <MenuFlyout>
+                                    <ToggleMenuFlyoutItem
+                                        x:Uid="DetailsViewHeaderFlyout_ShowFileTag"
+                                        Click="ToggleMenuFlyoutItem_Click"
+                                        IsChecked="{x:Bind ColumnsViewModel.TagColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+                                        Text="File tag column"
+                                        Visibility="{x:Bind ColumnsViewModel.TagColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
                                     <ToggleMenuFlyoutItem
                                         x:Uid="DetailsViewHeaderFlyout_ShowOriginalPath"
                                         Click="ToggleMenuFlyoutItem_Click"
@@ -285,40 +309,45 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition
                                     x:Name="Column3"
+                                    Width="{x:Bind ColumnsViewModel.TagColumn.Length, Mode=OneWay}"
+                                    MaxWidth="{x:Bind ColumnsViewModel.TagColumn.MaxLength, Mode=OneWay}" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition
+                                    x:Name="Column4"
                                     Width="{x:Bind ColumnsViewModel.OriginalPathColumn.Length, Mode=OneWay}"
                                     MaxWidth="{x:Bind ColumnsViewModel.OriginalPathColumn.MaxLength, Mode=OneWay}" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition
-                                    x:Name="Column4"
+                                    x:Name="Column5"
                                     Width="{x:Bind ColumnsViewModel.DateDeletedColumn.Length, Mode=OneWay}"
                                     MaxWidth="{x:Bind ColumnsViewModel.DateDeletedColumn.MaxLength, Mode=OneWay}" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition
-                                    x:Name="Column5"
+                                    x:Name="Column6"
                                     Width="{x:Bind ColumnsViewModel.StatusColumn.Length, Mode=OneWay}"
                                     MaxWidth="{x:Bind ColumnsViewModel.StatusColumn.MaxLength, Mode=OneWay}" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition
-                                    x:Name="Column6"
+                                    x:Name="Column7"
                                     Width="{x:Bind ColumnsViewModel.DateModifiedColumn.Length, Mode=OneWay}"
                                     MaxWidth="{x:Bind ColumnsViewModel.DateModifiedColumn.MaxLength, Mode=OneWay}" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition
-                                    x:Name="Column7"
+                                    x:Name="Column8"
                                     Width="{x:Bind ColumnsViewModel.DateCreatedColumn.Length, Mode=OneWay}"
                                     MaxWidth="{x:Bind ColumnsViewModel.DateCreatedColumn.MaxLength, Mode=OneWay}" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition
-                                    x:Name="Column8"
+                                    x:Name="Column9"
                                     Width="{x:Bind ColumnsViewModel.ItemTypeColumn.Length, Mode=OneWay}"
                                     MaxWidth="{x:Bind ColumnsViewModel.ItemTypeColumn.MaxLength, Mode=OneWay}" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition
-                                    x:Name="Column9"
+                                    x:Name="Column10"
                                     Width="{x:Bind ColumnsViewModel.SizeColumn.Length, Mode=OneWay}"
                                     MaxWidth="{x:Bind ColumnsViewModel.SizeColumn.MaxLength, Mode=OneWay}" />
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition x:Name="Column10" Width="0" />
+                                <ColumnDefinition x:Name="Column11" Width="0" />
                             </Grid.ColumnDefinitions>
 
                             <Grid Grid.Column="0" />
@@ -339,16 +368,33 @@
                                 Style="{StaticResource HeaderGridSplitterStyle}" />
 
                             <uc:DataGridHeader
+                                x:Name="TagHeader"
+                                x:Uid="tagColumn"
+                                Grid.Column="4"
+                                Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+                                CommandParameter="FileTag"
+                                Header="Tag"
+                                Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
+
+                            <controls:GridSplitter
+                                Grid.Column="5"
+                                DoubleTapped="GridSplitter_DoubleTapped"
+                                ManipulationCompleted="GridSplitter_ManipulationCompleted"
+                                ManipulationDelta="GridSplitter_ManipulationDelta"
+                                Style="{StaticResource HeaderGridSplitterStyle}"
+                                Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
+
+                            <uc:DataGridHeader
                                 x:Name="OriginalPathHeader"
                                 x:Uid="originalPathColumn"
-                                Grid.Column="4"
+                                Grid.Column="6"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="OriginalPath"
                                 Header="Original path"
                                 Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
-                                Grid.Column="5"
+                                Grid.Column="7"
                                 DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
@@ -358,14 +404,14 @@
                             <uc:DataGridHeader
                                 x:Name="DateDeletedHeader"
                                 x:Uid="dateDeletedColumn"
-                                Grid.Column="6"
+                                Grid.Column="8"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="DateDeleted"
                                 Header="Date deleted"
                                 Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
-                                Grid.Column="7"
+                                Grid.Column="9"
                                 DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
@@ -375,14 +421,16 @@
                             <uc:DataGridHeader
                                 x:Name="SyncStatusHeader"
                                 x:Uid="syncStatusColumn"
-                                Grid.Column="8"
+                                Grid.Column="10"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Left"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="SyncStatus"
                                 Header="Status"
                                 Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
-                                Grid.Column="9"
+                                Grid.Column="11"
                                 DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
@@ -392,14 +440,14 @@
                             <uc:DataGridHeader
                                 x:Name="DateModifiedHeader"
                                 x:Uid="dateColumn"
-                                Grid.Column="10"
+                                Grid.Column="12"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="DateModified"
                                 Header="Date modified"
                                 Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
-                                Grid.Column="11"
+                                Grid.Column="13"
                                 DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
@@ -409,14 +457,14 @@
                             <uc:DataGridHeader
                                 x:Name="DateCreatedHeader"
                                 x:Uid="dateCreatedColumn"
-                                Grid.Column="12"
+                                Grid.Column="14"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="DateCreated"
                                 Header="Date created"
                                 Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
-                                Grid.Column="13"
+                                Grid.Column="15"
                                 DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
@@ -426,14 +474,14 @@
                             <uc:DataGridHeader
                                 x:Name="FileTypeHeader"
                                 x:Uid="typeColumn"
-                                Grid.Column="14"
+                                Grid.Column="16"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="FileType"
                                 Header="Type"
                                 Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
-                                Grid.Column="15"
+                                Grid.Column="17"
                                 DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
@@ -443,14 +491,14 @@
                             <uc:DataGridHeader
                                 x:Name="ItemSizeHeader"
                                 x:Uid="sizeColumn"
-                                Grid.Column="16"
+                                Grid.Column="18"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="Size"
                                 Header="Size"
                                 Visibility="{x:Bind ColumnsViewModel.SizeColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter
-                                Grid.Column="17"
+                                Grid.Column="19"
                                 DoubleTapped="GridSplitter_DoubleTapped"
                                 ManipulationCompleted="GridSplitter_ManipulationCompleted"
                                 ManipulationDelta="GridSplitter_ManipulationDelta"
@@ -462,20 +510,22 @@
                         <DataTemplate x:DataType="local2:ListedItem">
                             <Grid
                                 HorizontalAlignment="Stretch"
+                                AutomationProperties.Name="{x:Bind ItemName, Mode=OneWay}"
                                 IsRightTapEnabled="True"
                                 Loaded="Grid_Loaded"
                                 RightTapped="StackPanel_RightTapped"
-                                ToolTipService.ToolTip="{x:Bind ItemName, Mode=OneWay}">
+                                ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.IconColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.NameColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.OriginalPathColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.DateDeletedColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.StatusColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.DateModifiedColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.DateCreatedColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.ItemTypeColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
-                                    <ColumnDefinition Width="{Binding ColumnsViewModel.SizeColumn.Length, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.IconColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.TagColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.OriginalPathColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.DateDeletedColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.StatusColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.DateModifiedColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.DateCreatedColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.ItemTypeColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
+                                    <ColumnDefinition Width="{Binding ColumnsViewModel.SizeColumn.LengthIncludingGridSplitter, ElementName=PageRoot, Mode=OneWay}" />
                                 </Grid.ColumnDefinitions>
                                 <Grid
                                     x:Uid="FileBrowserThumbnailIconColumnGrid"
@@ -488,16 +538,20 @@
                                     Opacity="{x:Bind Opacity, Mode=OneWay}"
                                     TabFocusNavigation="Local"
                                     Tag="ItemImage">
-                                    <Image
-                                        x:Name="Picture"
+                                    <ContentPresenter
+                                        x:Name="PicturePresenter"
                                         Width="20"
                                         Height="20"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                                         x:Phase="1"
-                                        Source="{x:Bind FileImage, Mode=OneWay}"
-                                        Stretch="Uniform" />
+                                        CornerRadius="{StaticResource DetailsLayoutThumbnailCornerRadius}">
+                                        <Image
+                                            x:Name="Picture"
+                                            Source="{x:Bind FileImage, Mode=OneWay}"
+                                            Stretch="Uniform" />
+                                    </ContentPresenter>
                                     <FontIcon
                                         x:Name="FolderGlyphIcon"
                                         Width="20"
@@ -545,11 +599,14 @@
 
                                 <Grid
                                     Grid.Column="1"
-                                    Width="{Binding ColumnsViewModel.NameColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Width="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Tapped="ItemNameGrid_Tapped">
+                                    VerticalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
                                     <TextBlock
                                         x:Name="ItemName"
                                         VerticalAlignment="Center"
@@ -560,42 +617,58 @@
                                         VerticalAlignment="Center"
                                         TextChanged="ListViewTextBoxItemName_TextChanged"
                                         Visibility="Collapsed" />
+                                    <Ellipse
+                                        Grid.Column="1"
+                                        Width="12"
+                                        Height="12"
+                                        Margin="4,0,0,0"
+                                        VerticalAlignment="Center"
+                                        x:Phase="2"
+                                        Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
+                                        Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
+                                </Grid>
+
+                                <Grid
+                                    x:Name="ItemTagGrid"
+                                    Grid.Column="2"
+                                    Width="{Binding ColumnsViewModel.TagColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Padding="12,0,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
+                                    <TextBlock
+                                        Style="{StaticResource ColumnContentTextBlock}"
+                                        Text="{x:Bind FileTagUI.TagName, Mode=OneWay}"
+                                        TextTrimming="CharacterEllipsis"
+                                        Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
                                 </Grid>
 
                                 <Grid
                                     x:Name="ItemOriginalPathGrid"
-                                    Grid.Column="2"
-                                    Width="{Binding ColumnsViewModel.OriginalPathColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Grid.Column="3"
+                                    Width="{Binding ColumnsViewModel.OriginalPathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     x:Load="{x:Bind IsRecycleBinItem}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontWeight="Light"
-                                        Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}" />
                                 </Grid>
 
                                 <Grid
                                     x:Name="ItemDateDeletedGrid"
-                                    Grid.Column="3"
-                                    Width="{Binding ColumnsViewModel.DateDeletedColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Grid.Column="4"
+                                    Width="{Binding ColumnsViewModel.DateDeletedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     x:Load="{x:Bind IsRecycleBinItem}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontWeight="Light"
-                                        Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}" />
                                 </Grid>
 
                                 <Grid
                                     x:Name="ItemStatusGrid"
-                                    Grid.Column="4"
-                                    Width="{Binding ColumnsViewModel.StatusColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Grid.Column="5"
+                                    Width="{Binding ColumnsViewModel.StatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
@@ -611,62 +684,46 @@
 
                                 <Grid
                                     x:Name="ItemDateModifiedGrid"
-                                    Grid.Column="5"
-                                    Width="{Binding ColumnsViewModel.DateModifiedColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Grid.Column="6"
+                                    Width="{Binding ColumnsViewModel.DateModifiedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontWeight="Light"
-                                        Text="{x:Bind ItemDateModified, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind ItemDateModified, Mode=OneWay}" />
                                 </Grid>
 
                                 <Grid
                                     x:Name="ItemDateCreatedGrid"
-                                    Grid.Column="6"
-                                    Width="{Binding ColumnsViewModel.DateCreatedColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Grid.Column="7"
+                                    Width="{Binding ColumnsViewModel.DateCreatedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Visibility="{Binding ColumnsViewModel.DateCreatedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontWeight="Light"
-                                        Text="{x:Bind ItemDateCreated, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind ItemDateCreated, Mode=OneWay}" />
                                 </Grid>
 
                                 <Grid
                                     x:Name="ItemTypeGrid"
-                                    Grid.Column="7"
-                                    Width="{Binding ColumnsViewModel.ItemTypeColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Grid.Column="8"
+                                    Width="{Binding ColumnsViewModel.ItemTypeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontWeight="Light"
-                                        Text="{x:Bind ItemType, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind ItemType, Mode=OneWay}" />
                                 </Grid>
 
                                 <Grid
                                     x:Name="ItemSizeGrid"
-                                    Grid.Column="8"
-                                    Width="{Binding ColumnsViewModel.SizeColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+                                    Grid.Column="9"
+                                    Width="{Binding ColumnsViewModel.SizeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
                                     Padding="12,0,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Visibility="{Binding ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontWeight="Light"
-                                        Text="{x:Bind FileSize, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Style="{StaticResource ColumnContentTextBlock}" Text="{x:Bind FileSize, Mode=OneWay}" />
                                 </Grid>
                             </Grid>
                         </DataTemplate>
@@ -741,6 +798,10 @@
                                                             VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
                                                             ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
                                                             <Grid>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="*" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="Auto" />
                                                                     <ColumnDefinition Width="*" MinWidth="24" />
@@ -748,11 +809,16 @@
                                                                 <ItemsPresenter
                                                                     Padding="{TemplateBinding Padding}"
                                                                     HorizontalAlignment="Stretch"
-                                                                    Footer="{TemplateBinding Footer}"
                                                                     FooterTemplate="{TemplateBinding FooterTemplate}"
                                                                     FooterTransitions="{TemplateBinding FooterTransitions}"
                                                                     HeaderTemplate="{TemplateBinding HeaderTemplate}"
                                                                     HeaderTransitions="{TemplateBinding HeaderTransitions}" />
+
+                                                                <ContentPresenter
+                                                                    Grid.Row="1"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Padding="8,0,8,8"
+                                                                    Content="{TemplateBinding Footer}" />
                                                             </Grid>
                                                         </ScrollViewer>
                                                     </Grid>
@@ -849,7 +915,6 @@
             <SemanticZoom.ZoomedOutView>
                 <ListView
                     HorizontalAlignment="Stretch"
-                    IsItemClickEnabled="True"
                     ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
                     SelectionMode="None">
                     <ListView.ItemTemplate>

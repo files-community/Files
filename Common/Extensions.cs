@@ -22,6 +22,11 @@ namespace Files.Common
             }
         }
 
+        public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> items, Func<T, TKey> property)
+        {
+            return items.GroupBy(property).Select(x => x.First());
+        }
+
         public static async Task<IEnumerable<T>> WhereAsync<T>(this IEnumerable<T> source, Func<T, Task<bool>> predicate)
         {
             var results = await Task.WhenAll(source.Select(async x => (x, await predicate(x))));
@@ -85,6 +90,20 @@ namespace Files.Common
                 return await task;
             }
             return default;
+        }
+
+        public static bool IgnoreExceptions(Action action, Logger logger = null)
+        {
+            try
+            {
+                action();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger?.Info(ex, ex.Message);
+                return false;
+            }
         }
     }
 }

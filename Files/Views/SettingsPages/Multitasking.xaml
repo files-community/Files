@@ -11,74 +11,69 @@
     </Page.Resources>
 
     <Grid>
-        <ScrollViewer>
-            <StackPanel
-                Margin="12,12,8,8"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Spacing="4">
-                <StackPanel.ChildrenTransitions>
-                    <TransitionCollection>
-                        <ReorderThemeTransition />
-                    </TransitionCollection>
-                </StackPanel.ChildrenTransitions>
+        <StackPanel
+            Margin="12,12,8,8"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Spacing="4">
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <ReorderThemeTransition />
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
 
-                <TextBlock
-                    x:Uid="SettingsMultitaskingTitle"
-                    Padding="0,0,0,12"
-                    FontSize="20"
-                    FontWeight="Medium"
-                    Text="Multitasking" />
+            <TextBlock
+                x:Uid="SettingsMultitaskingTitle"
+                Padding="0,0,0,12"
+                FontSize="20"
+                FontWeight="Medium"
+                Text="Multitasking" />
 
-                <TextBlock
-                    x:Uid="SettingsTabCustomization"
-                    FontSize="14"
-                    FontWeight="Medium"
-                    Text="Tab customization" />
+            <TextBlock
+                x:Uid="SettingsTabCustomization"
+                FontSize="14"
+                FontWeight="Medium"
+                Text="Tab customization" />
 
-                <local:SettingsBlockControl
-                    x:Uid="SettingsVerticalTabFlyoutSwitch"
-                    Title="Display the vertical tab flyout on the title bar"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
-                    <local:SettingsBlockControl.Icon>
-                        <FontIcon Glyph="&#xF5ED;" />
-                    </local:SettingsBlockControl.Icon>
-                    <ToggleSwitch IsOn="{x:Bind ViewModel.IsVerticalTabFlyoutEnabled, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                </local:SettingsBlockControl>
+            <local:SettingsBlockControl
+                x:Uid="SettingsVerticalTabFlyoutSwitch"
+                Title="Display the vertical tab flyout on the title bar"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xF5ED;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch IsOn="{x:Bind ViewModel.IsVerticalTabFlyoutEnabled, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
 
-                <TextBlock
-                    x:Uid="SettingsDualPane"
-                    Padding="0,12,0,0"
-                    FontSize="14"
-                    FontWeight="Medium"
-                    Text="Dual pane" />
+            <TextBlock
+                x:Uid="SettingsDualPane"
+                Padding="0,12,0,0"
+                FontSize="14"
+                FontWeight="Medium"
+                Text="Dual pane" />
 
-                <local:SettingsBlockControl
-                    x:Uid="SettingsMultitaskingEnableDualPane"
-                    Title="Enable dual pane view"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
-                    <local:SettingsBlockControl.Icon>
-                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
-                    </local:SettingsBlockControl.Icon>
-                    <ToggleSwitch IsOn="{x:Bind ViewModel.IsDualPaneEnabled, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                </local:SettingsBlockControl>
+            <local:SettingsBlockControl
+                x:Uid="SettingsMultitaskingEnableDualPane"
+                Title="Enable dual pane view"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch IsOn="{x:Bind ViewModel.IsDualPaneEnabled, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
 
-                <local:SettingsBlockControl
-                    x:Uid="SettingsMultitaskingAlwaysOpenDualPane"
-                    Title="Always open new tabs in dual pane mode"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
-                    <local:SettingsBlockControl.Icon>
-                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
-                    </local:SettingsBlockControl.Icon>
-                    <ToggleSwitch
-                        IsEnabled="{x:Bind ViewModel.IsDualPaneEnabled, Mode=OneWay}"
-                        IsOn="{x:Bind ViewModel.AlwaysOpenDualPaneInNewTab, Mode=TwoWay}"
-                        Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                </local:SettingsBlockControl>
-            </StackPanel>
-        </ScrollViewer>
+            <local:SettingsBlockControl
+                x:Uid="SettingsMultitaskingAlwaysOpenDualPane"
+                Title="Always open new tabs in dual pane mode"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF117;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch
+                    IsEnabled="{x:Bind ViewModel.IsDualPaneEnabled, Mode=OneWay}"
+                    IsOn="{x:Bind ViewModel.AlwaysOpenDualPaneInNewTab, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
+        </StackPanel>
     </Grid>
 </Page> 

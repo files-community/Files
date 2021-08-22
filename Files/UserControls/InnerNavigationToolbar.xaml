@@ -8,16 +8,15 @@
     xmlns:local="using:Files.UserControls"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vc="using:Files.Converters"
     xmlns:xh="using:Files.Helpers.XamlHelpers"
-    d:DesignHeight="300"
+    d:DesignHeight="40"
     d:DesignWidth="400"
-    Loaded="UserControl_Loaded"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <Style x:Key="AccentColorFontIconStyle" TargetType="FontIcon" />
             <converters:LayoutModeToBoolConverter x:Key="LayoutModeConverter" />
-            <converters:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
             <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
             <converters1:BoolToVisibilityConverter
                 x:Key="NegatedBoolToVisibilityConverter"
@@ -44,7 +43,6 @@
             Grid.Column="0"
             HorizontalAlignment="Left"
             VerticalAlignment="Stretch"
-            x:Load="False"
             DefaultLabelPosition="Right"
             Loaded="ContextCommandBar_Loaded">
             <CommandBar.Resources>
@@ -58,6 +56,7 @@
                     x:Name="NewEmptySpaceAppBarButton"
                     x:Uid="BaseLayoutContextFlyoutNew"
                     IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
+                    KeyboardAcceleratorTextOverride="Ctrl+Shift+N"
                     Label="New">
                     <AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator
@@ -91,9 +90,36 @@
                         </MenuFlyout>
                     </AppBarButton.Flyout>
 
-                    <local:ColoredIcon BaseLayerGlyph="&#x0033;" OverlayLayerGlyph="&#x0034;" />
+                    <local:ColoredIcon
+                        Margin="0,1,0,-1"
+                        BaseLayerGlyph="&#x0037;"
+                        OverlayLayerGlyph="&#x0038;" />
                 </AppBarButton>
                 <AppBarSeparator />
+                <AppBarButton
+                    x:Name="CutButton"
+                    Width="Auto"
+                    MinWidth="40"
+                    Command="{x:Bind ViewModel.CutCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
+                    Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutCut/Text')}"
+                    LabelPosition="Collapsed"
+                    ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutCut/Text')}">
+                    <AppBarButton.Content>
+                        <local:ColoredIcon BaseLayerGlyph="&#x003D;" OverlayLayerGlyph="&#x003E;" />
+                    </AppBarButton.Content>
+                </AppBarButton>
+                <AppBarButton
+                    x:Uid="NavigationToolbarCopy"
+                    Width="Auto"
+                    MinWidth="40"
+                    Command="{x:Bind ViewModel.CopyCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay}"
+                    Label="Copy"
+                    LabelPosition="Collapsed"
+                    ToolTipService.ToolTip="Copy">
+                    <local:ColoredIcon BaseLayerGlyph="&#x0021;" OverlayLayerGlyph="&#x0022;" />
+                </AppBarButton>
                 <AppBarButton
                     x:Name="PasteButton"
                     x:Uid="NavigationToolbarPaste"
@@ -113,28 +139,45 @@
                     <local:ColoredIcon BaseLayerGlyph="&#x0023;" OverlayLayerGlyph="&#x0024;" />
                 </AppBarButton>
                 <AppBarButton
-                    x:Uid="NavigationToolbarCopy"
+                    x:Name="RenameButton"
+                    x:Uid="NavigationToolbarRename"
                     Width="Auto"
                     MinWidth="40"
-                    Command="{x:Bind ViewModel.CopyCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind ViewModel.CanCopy, Mode=OneWay}"
-                    Label="Copy"
+                    Command="{x:Bind ViewModel.Rename, Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanRename, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
+                    Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutRename/Text')}"
                     LabelPosition="Collapsed"
-                    ToolTipService.ToolTip="Copy">
-                    <local:ColoredIcon BaseLayerGlyph="&#x0021;" OverlayLayerGlyph="&#x0022;" />
+                    ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutRename/Text')}">
+                    <AppBarButton.Content>
+                        <local:ColoredIcon BaseLayerGlyph="&#x0027;" OverlayLayerGlyph="&#x0028;" />
+                    </AppBarButton.Content>
                 </AppBarButton>
                 <AppBarButton
-                    x:Name="CopyPathButton"
-                    x:Uid="NavigationToolbarCopyPath"
+                    x:Name="ShareButton"
+                    x:Uid="NavigationToolbarShare"
                     Width="Auto"
                     MinWidth="40"
-                    Command="{x:Bind ViewModel.CopyPathCommand, Mode=OneWay}"
-                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopyPath, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
-                    Label="Copy location"
+                    Command="{x:Bind ViewModel.Share, Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanShare, ViewModel.InstanceViewModel.CanShareInPage), Mode=OneWay}"
+                    Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutShare/Text')}"
                     LabelPosition="Collapsed"
-                    ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutCopyLocation/Text')}">
+                    ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutShare/Text')}">
                     <AppBarButton.Content>
-                        <local:ColoredIcon BaseLayerGlyph="&#x002F;" OverlayLayerGlyph="&#x0030;" />
+                        <local:ColoredIcon BaseLayerGlyph="&#x0025;" OverlayLayerGlyph="&#x0026;" />
+                    </AppBarButton.Content>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="DeleteButton"
+                    x:Uid="NavigationToolbarDelete"
+                    Width="Auto"
+                    MinWidth="40"
+                    Command="{x:Bind ViewModel.DeleteCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
+                    Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutDelete/Text')}"
+                    LabelPosition="Collapsed"
+                    ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutDelete/Text')}">
+                    <AppBarButton.Content>
+                        <local:ColoredIcon BaseLayerGlyph="&#x0035;" OverlayLayerGlyph="&#x0036;" />
                     </AppBarButton.Content>
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
@@ -144,7 +187,6 @@
             Grid.Column="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
-            x:Load="False"
             DefaultLabelPosition="Right">
             <CommandBar.Resources>
                 <ResourceDictionary>
@@ -206,9 +248,6 @@
                 Label="Select"
                 LabelPosition="Collapsed"
                 ToolTipService.ToolTip="Selection options">
-                <AppBarButton.Icon>
-                    <FontIcon FontSize="10" Glyph="&#xE762;" />
-                </AppBarButton.Icon>
                 <AppBarButton.Flyout>
                     <MenuFlyout Placement="Bottom">
                         <ToggleMenuFlyoutItem
@@ -255,6 +294,8 @@
                         </MenuFlyoutItem>
                     </MenuFlyout>
                 </AppBarButton.Flyout>
+
+                <local:ColoredIcon BaseLayerGlyph="&#xF02B;" OverlayLayerGlyph="&#xF02C;" />
             </AppBarButton>
             <AppBarButton
                 x:Name="ArrangementOptions"
@@ -271,15 +312,104 @@
                     <local:ColoredIcon BaseLayerGlyph="&#xF029;" OverlayLayerGlyph="&#xF02A;" />
                 </AppBarButton.Content>
                 <AppBarButton.Flyout>
-                    <Flyout ShouldConstrainToRootBounds="False">
-                        <local:ArrangementOptions
-                            x:Name="ArrangementOptionsFlyoutContent"
-                            IsPageTypeCloudDrive="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
-                            IsPageTypeRecycleBin="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
-                            SelectedGroupMode="{x:Bind ViewModel.InstanceViewModel.FolderSettings.DirectoryGroupOption, Mode=TwoWay}"
-                            SelectedSortDirection="{x:Bind ViewModel.InstanceViewModel.FolderSettings.DirectorySortDirection, Mode=TwoWay}"
-                            SelectedSortMode="{x:Bind ViewModel.InstanceViewModel.FolderSettings.DirectorySortOption, Mode=TwoWay}" />
-                    </Flyout>
+                    <MenuFlyout Placement="Bottom" ShouldConstrainToRootBounds="False">
+                        <MenuFlyoutSubItem x:Uid="NavToolbarSortByRadioButtons" Text="Sort by">
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionName"
+                                IsChecked="{x:Bind ViewModel.IsSortedByName, Mode=TwoWay}"
+                                Text="Name" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionDateModified"
+                                IsChecked="{x:Bind ViewModel.IsSortedByDateModified, Mode=TwoWay}"
+                                Text="Date modified" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionDateCreated"
+                                IsChecked="{x:Bind ViewModel.IsSortedByDateCreated, Mode=TwoWay}"
+                                Text="Date created" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionSize"
+                                IsChecked="{x:Bind ViewModel.IsSortedBySize, Mode=TwoWay}"
+                                Text="Size" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionType"
+                                IsChecked="{x:Bind ViewModel.IsSortedByType, Mode=TwoWay}"
+                                Text="Type" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionSyncStatus"
+                                IsChecked="{x:Bind ViewModel.IsSortedBySyncStatus, Mode=TwoWay}"
+                                IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
+                                Text="Sync status" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionFileTag"
+                                IsChecked="{x:Bind ViewModel.IsSortedByFileTag, Mode=TwoWay}"
+                                Text="File tag"
+                                Visibility="{x:Bind AppSettings.AreFileTagsEnabled, Mode=OneWay}" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionOriginalFolder"
+                                IsChecked="{x:Bind ViewModel.IsSortedByOriginalFolder, Mode=TwoWay}"
+                                IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
+                                Text="Original folder" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionDateDeleted"
+                                IsChecked="{x:Bind ViewModel.IsSortedByDateDeleted, Mode=TwoWay}"
+                                IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
+                                Text="Date deleted" />
+                        </MenuFlyoutSubItem>
+                        <MenuFlyoutSubItem x:Uid="NavToolbarGroupByRadioButtons" Text="Group by">
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarGroupByOptionNone"
+                                IsChecked="{x:Bind ViewModel.IsGroupedByNone, Mode=TwoWay}"
+                                Text="None" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionName"
+                                IsChecked="{x:Bind ViewModel.IsGroupedByName, Mode=TwoWay}"
+                                Text="Name" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionDateModified"
+                                IsChecked="{x:Bind ViewModel.IsGroupedByDateModified, Mode=TwoWay}"
+                                Text="Date modified" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionDateCreated"
+                                IsChecked="{x:Bind ViewModel.IsGroupedByDateCreated, Mode=TwoWay}"
+                                Text="Date created" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionSize"
+                                IsChecked="{x:Bind ViewModel.IsGroupedBySize, Mode=TwoWay}"
+                                Text="Size" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionType"
+                                IsChecked="{x:Bind ViewModel.IsGroupedByType, Mode=TwoWay}"
+                                Text="Type" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionSyncStatus"
+                                IsChecked="{x:Bind ViewModel.IsGroupedBySyncStatus, Mode=TwoWay}"
+                                IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
+                                Text="Sync status" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionFileTag"
+                                IsChecked="{x:Bind ViewModel.IsGroupedByFileTag, Mode=TwoWay}"
+                                Text="File tag"
+                                Visibility="{x:Bind AppSettings.AreFileTagsEnabled, Mode=OneWay}" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionOriginalFolder"
+                                IsChecked="{x:Bind ViewModel.IsGroupedByOriginalFolder, Mode=TwoWay}"
+                                IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
+                                Text="Original folder" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionDateDeleted"
+                                IsChecked="{x:Bind ViewModel.IsGroupedByDateDeleted, Mode=TwoWay}"
+                                IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
+                                Text="Date deleted" />
+                        </MenuFlyoutSubItem>
+                        <ToggleMenuFlyoutItem
+                            x:Uid="NavToolbarSortDirectionOptionAscending"
+                            IsChecked="{x:Bind ViewModel.IsSortedAscending, Mode=TwoWay}"
+                            Text="Ascending order" />
+                        <ToggleMenuFlyoutItem
+                            x:Uid="NavToolbarSortDirectionOptionDescending"
+                            IsChecked="{x:Bind ViewModel.IsSortedDescending, Mode=TwoWay}"
+                            Text="Descending order" />
+                    </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton
@@ -439,9 +569,9 @@
                 LabelPosition="Collapsed"
                 ToolTipService.ToolTip="Toggle the preview pane (Ctrl+P)"
                 Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
-                <AppBarToggleButton.Icon>
-                    <FontIcon FontSize="10" Glyph="&#xE146;" />
-                </AppBarToggleButton.Icon>
+                <AppBarToggleButton.Content>
+                    <local:ColoredIcon BaseLayerGlyph="&#x003b;" OverlayLayerGlyph="&#x003c;" />
+                </AppBarToggleButton.Content>
             </AppBarToggleButton>
             <CommandBar.SecondaryCommands>
                 <AppBarButton

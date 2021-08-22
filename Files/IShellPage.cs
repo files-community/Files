@@ -49,6 +49,11 @@ namespace Files
         void RemoveLastPageFromBackStack();
 
         void SubmitSearch(string query, bool searchUnindexedItems);
+        
+        /// <summary>
+        /// Used to make commands in the column view work properly
+        /// </summary>
+        public bool IsColumnView { get; } 
     }
 
     public interface IPaneHolder : IDisposable, INotifyPropertyChanged

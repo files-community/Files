@@ -78,10 +78,7 @@ namespace Files.Helpers
                 var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
                     FilesystemItemType.Directory : FilesystemItemType.File;
 
-                if (App.AppSettings.OpenFoldersNewTab)
-                    await OpenPathInNewTab(item.ItemPath);
-                else
-                    await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
+                await OpenPath(item.ItemPath, associatedInstance, type, false, openViaApplicationPicker);
             }
         }
 
@@ -120,21 +117,13 @@ namespace Files.Helpers
         /// <param name="openViaApplicationPicker">Determines whether open file using application picker</param>
         /// <param name="selectItems">List of filenames that are selected upon navigation</param>
         public static async Task<bool> OpenPath(string path, IShellPage associatedInstance, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false, IEnumerable<string> selectItems = null, string args = default)
-        // TODO: This function reliability has not been extensively tested
         {
             string previousDir = associatedInstance.FilesystemViewModel.WorkingDirectory;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
             bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url"); // Determine
             FilesystemResult opened = (FilesystemResult)false;
 
-            // Shortcut item variables
-            string shortcutTargetPath = null;
-            string shortcutArguments = null;
-            string shortcutWorkingDirectory = null;
-            bool shortcutRunAsAdmin = false;
-            bool shortcutIsFolder = false;
-
-
+            var shortcutInfo = new ShortcutItem();
             if (itemType == null || isShortcutItem || isHiddenItem)
             {
                 if (isShortcutItem)
@@ -153,13 +142,13 @@ namespace Files.Helpers
 
                     if (status == AppServiceResponseStatus.Success)
                     {
-                        shortcutTargetPath = response.Get("TargetPath", string.Empty);
-                        shortcutArguments = response.Get("Arguments", string.Empty);
-                        shortcutWorkingDirectory = response.Get("WorkingDirectory", string.Empty);
-                        shortcutRunAsAdmin = response.Get("RunAsAdmin", false);
-                        shortcutIsFolder = response.Get("IsFolder", false);
+                        shortcutInfo.TargetPath = response.Get("TargetPath", string.Empty);
+                        shortcutInfo.Arguments = response.Get("Arguments", string.Empty);
+                        shortcutInfo.WorkingDirectory = response.Get("WorkingDirectory", string.Empty);
+                        shortcutInfo.RunAsAdmin = response.Get("RunAsAdmin", false);
+                        shortcutInfo.PrimaryItemAttribute = response.Get("IsFolder", false) ? StorageItemTypes.Folder : StorageItemTypes.File;
 
-                        itemType = shortcutIsFolder ? FilesystemItemType.Directory : FilesystemItemType.File;
+                        itemType = response.Get("IsFolder", false) ? FilesystemItemType.Directory : FilesystemItemType.File;
                     }
                     else
                     {
@@ -176,223 +165,17 @@ namespace Files.Helpers
                 }
             }
 
-            var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-
-            if (itemType == FilesystemItemType.Library) // OpenLibrary
+            if (itemType == FilesystemItemType.Library)
             {
-                if (isHiddenItem)
-                {
-                    associatedInstance.NavToolbarViewModel.PathControlDisplayText = path;
-                    associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
-                    {
-                        NavPathParam = path,
-                        AssociatedTabInstance = associatedInstance
-                    });
-                    return true;
-                }
-                else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
-                {
-                    opened = (FilesystemResult)await library.CheckDefaultSaveFolderAccess();
-                    if (opened)
-                    {
-                        associatedInstance.NavToolbarViewModel.PathControlDisplayText = library.Text;
-                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
-                        {
-                            NavPathParam = path,
-                            AssociatedTabInstance = associatedInstance,
-                            SelectItems = selectItems,
-                        });
-                    }
-                }
+                opened = await OpenLibrary(path, associatedInstance, selectItems);
             }
-            else if (itemType == FilesystemItemType.Directory) // OpenDirectory
+            else if (itemType == FilesystemItemType.Directory)
             {
-                if (isShortcutItem)
-                {
-                    if (string.IsNullOrEmpty(shortcutTargetPath))
-                    {
-                        await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
-                        return true;
-                    }
-                    else
-                    {
-                        associatedInstance.NavToolbarViewModel.PathControlDisplayText = shortcutTargetPath;
-                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(shortcutTargetPath), new NavigationArguments()
-                        {
-                            NavPathParam = shortcutTargetPath,
-                            AssociatedTabInstance = associatedInstance,
-                            SelectItems = selectItems
-                        });
-
-                        return true;
-                    }
-                }
-                else if (isHiddenItem)
-                {
-                    associatedInstance.NavToolbarViewModel.PathControlDisplayText = path;
-                    associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
-                    {
-                        NavPathParam = path,
-                        AssociatedTabInstance = associatedInstance
-                    });
-
-                    return true;
-                }
-                else
-                {
-                    opened = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(path)
-                        .OnSuccess(childFolder =>
-                        {
-                            // Add location to MRU List
-                            mostRecentlyUsed.Add(childFolder.Folder, childFolder.Path);
-                        });
-                    if (!opened)
-                    {
-                        opened = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
-                    }
-                    if (!opened)
-                    {
-                        opened = (FilesystemResult)path.StartsWith("ftp:");
-                    }
-                    if (opened)
-                    {
-                        associatedInstance.NavToolbarViewModel.PathControlDisplayText = path;
-                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
-                        {
-                            NavPathParam = path,
-                            AssociatedTabInstance = associatedInstance,
-                            SelectItems = selectItems
-                        });
-                    }
-                }
+                opened = await OpenDirectory(path, associatedInstance, selectItems, shortcutInfo);
             }
-            else if (itemType == FilesystemItemType.File) // OpenFile
+            else if (itemType == FilesystemItemType.File)
             {
-                if (isShortcutItem)
-                {
-                    if (string.IsNullOrEmpty(shortcutTargetPath))
-                    {
-                        await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
-                    }
-                    else
-                    {
-                        if (!path.EndsWith(".url"))
-                        {
-                            StorageFileWithPath childFile = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutTargetPath);
-                            if (childFile != null)
-                            {
-                                // Add location to MRU List
-                                mostRecentlyUsed.Add(childFile.File, childFile.Path);
-                            }
-                        }
-                        await Win32Helpers.InvokeWin32ComponentAsync(shortcutTargetPath, associatedInstance, $"{args} {shortcutArguments}", shortcutRunAsAdmin, shortcutWorkingDirectory);
-                    }
-                    opened = (FilesystemResult)true;
-                }
-                else if (isHiddenItem)
-                {
-                    await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
-                }
-                else
-                {
-                    opened = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(path)
-                        .OnSuccess(async childFile =>
-                        {
-                            // Add location to MRU List
-                            mostRecentlyUsed.Add(childFile.File, childFile.Path);
-
-                            if (openViaApplicationPicker)
-                            {
-                                LauncherOptions options = new LauncherOptions
-                                {
-                                    DisplayApplicationPicker = true
-                                };
-                                await Launcher.LaunchFileAsync(childFile.File, options);
-                            }
-                            else
-                            {
-                                //try using launcher first
-                                bool launchSuccess = false;
-
-                                StorageFileQueryResult fileQueryResult = null;
-
-                                //Get folder to create a file query (to pass to apps like Photos, Movies & TV..., needed to scroll through the folder like what Windows Explorer does)
-                                StorageFolder currentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(System.IO.Path.GetDirectoryName(path));
-
-                                if (currentFolder != null)
-                                {
-                                    QueryOptions queryOptions = new QueryOptions(CommonFileQuery.DefaultQuery, null);
-
-                                    //We can have many sort entries
-                                    SortEntry sortEntry = new SortEntry()
-                                    {
-                                        AscendingOrder = associatedInstance.InstanceViewModel.FolderSettings.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending
-                                    };
-
-                                    //Basically we tell to the launched app to follow how we sorted the files in the directory.
-
-                                    var sortOption = associatedInstance.InstanceViewModel.FolderSettings.DirectorySortOption;
-
-                                    switch (sortOption)
-                                    {
-                                        case Enums.SortOption.Name:
-                                            sortEntry.PropertyName = "System.ItemNameDisplay";
-                                            queryOptions.SortOrder.Clear();
-                                            queryOptions.SortOrder.Add(sortEntry);
-                                            break;
-
-                                        case Enums.SortOption.DateModified:
-                                            sortEntry.PropertyName = "System.DateModified";
-                                            queryOptions.SortOrder.Clear();
-                                            queryOptions.SortOrder.Add(sortEntry);
-                                            break;
-
-                                        case Enums.SortOption.DateCreated:
-                                            sortEntry.PropertyName = "System.DateCreated";
-                                            queryOptions.SortOrder.Clear();
-                                            queryOptions.SortOrder.Add(sortEntry);
-                                            break;
-
-                                        //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
-                                        //case Enums.SortOption.Size:
-
-                                        //sortEntry.PropertyName = "System.TotalFileSize";
-                                        //queryOptions.SortOrder.Clear();
-                                        //queryOptions.SortOrder.Add(sortEntry);
-                                        //break;
-
-                                        //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
-                                        //case Enums.SortOption.FileType:
-
-                                        //sortEntry.PropertyName = "System.FileExtension";
-                                        //queryOptions.SortOrder.Clear();
-                                        //queryOptions.SortOrder.Add(sortEntry);
-                                        //break;
-
-                                        //Handle unsupported
-                                        default:
-                                            //keep the default one in SortOrder IList
-                                            break;
-                                    }
-
-                                    fileQueryResult = currentFolder.CreateFileQueryWithOptions(queryOptions);
-
-                                    var options = new LauncherOptions
-                                    {
-                                        NeighboringFilesQuery = fileQueryResult
-                                    };
-
-                                    // Now launch file with options.
-                                    launchSuccess = await Launcher.LaunchFileAsync(childFile.File, options);
-                                }
-
-                                if (!launchSuccess)
-                                {
-                                    await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
-                                }
-                            }
-                        });
-                }
+                opened = await OpenFile(path, associatedInstance, selectItems, shortcutInfo, openViaApplicationPicker, args);
             }
 
             if (opened.ErrorCode == FileSystemStatusCode.NotFound && !openSilent)
@@ -406,6 +189,285 @@ namespace Files.Helpers
                 });
             }
 
+            return opened;
+        }
+
+        private static async Task<FilesystemResult> OpenLibrary(string path, IShellPage associatedInstance, IEnumerable<string> selectItems)
+        {
+            var opened = (FilesystemResult)false;
+            bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
+            if (isHiddenItem)
+            {
+                if (App.AppSettings.OpenFoldersNewTab)
+                {
+                    await OpenPathInNewTab(path);
+                }
+                else
+                {
+                    associatedInstance.NavToolbarViewModel.PathControlDisplayText = path;
+                    associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                    {
+                        NavPathParam = path,
+                        AssociatedTabInstance = associatedInstance
+                    });
+                }
+                opened = (FilesystemResult)true;
+            }
+            else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
+            {
+                opened = (FilesystemResult)await library.CheckDefaultSaveFolderAccess();
+                if (opened)
+                {
+                    if (App.AppSettings.OpenFoldersNewTab)
+                    {
+                        await OpenPathInNewTab(library.Text);
+                    }
+                    else
+                    {
+                        associatedInstance.NavToolbarViewModel.PathControlDisplayText = library.Text;
+                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                        {
+                            NavPathParam = path,
+                            AssociatedTabInstance = associatedInstance,
+                            SelectItems = selectItems,
+                        });
+                    }
+                }
+            }
+            return opened;
+        }
+
+        private static async Task<FilesystemResult> OpenDirectory(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, ShortcutItem shortcutInfo)
+        {
+            var opened = (FilesystemResult)false;
+            bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
+            bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url"); // Determine
+            if (isShortcutItem)
+            {
+                if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
+                {
+                    await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
+                    opened = (FilesystemResult)true;
+                }
+                else
+                {
+                    if (App.AppSettings.OpenFoldersNewTab)
+                    {
+                        await OpenPathInNewTab(shortcutInfo.TargetPath);
+                    }
+                    else
+                    {
+                        associatedInstance.NavToolbarViewModel.PathControlDisplayText = shortcutInfo.TargetPath;
+                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(shortcutInfo.TargetPath), new NavigationArguments()
+                        {
+                            NavPathParam = shortcutInfo.TargetPath,
+                            AssociatedTabInstance = associatedInstance,
+                            SelectItems = selectItems
+                        });
+                    }
+
+                    opened = (FilesystemResult)true;
+                }
+            }
+            else if (isHiddenItem)
+            {
+                if (App.AppSettings.OpenFoldersNewTab)
+                {
+                    await OpenPathInNewTab(path);
+                }
+                else
+                {
+                    associatedInstance.NavToolbarViewModel.PathControlDisplayText = path;
+                    associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                    {
+                        NavPathParam = path,
+                        AssociatedTabInstance = associatedInstance
+                    });
+                }
+
+                opened = (FilesystemResult)true;
+            }
+            else
+            {
+                opened = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(path)
+                    .OnSuccess(childFolder =>
+                    {
+                        // Add location to MRU List
+                        var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
+                        mostRecentlyUsed.Add(childFolder.Folder, childFolder.Path);
+                    });
+                if (!opened)
+                {
+                    opened = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
+                }
+                if (!opened)
+                {
+                    opened = (FilesystemResult)path.StartsWith("ftp:");
+                }
+                if (opened)
+                {
+                    if (App.AppSettings.OpenFoldersNewTab)
+                    {
+                        await OpenPathInNewTab(path);
+                    }
+                    else
+                    {
+                        associatedInstance.NavToolbarViewModel.PathControlDisplayText = path;
+                        associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                        {
+                            NavPathParam = path,
+                            AssociatedTabInstance = associatedInstance,
+                            SelectItems = selectItems
+                        });
+                    }
+                }
+            }
+            return opened;
+        }
+
+        private static async Task<FilesystemResult> OpenFile(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, ShortcutItem shortcutInfo, bool openViaApplicationPicker = false, string args = default)
+        {
+            var opened = (FilesystemResult)false;
+            bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
+            bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url"); // Determine
+            if (isShortcutItem)
+            {
+                if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
+                {
+                    await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
+                }
+                else
+                {
+                    if (!path.EndsWith(".url"))
+                    {
+                        StorageFileWithPath childFile = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutInfo.TargetPath);
+                        if (childFile != null)
+                        {
+                            // Add location to MRU List
+                            var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
+                            mostRecentlyUsed.Add(childFile.File, childFile.Path);
+                        }
+                    }
+                    await Win32Helpers.InvokeWin32ComponentAsync(shortcutInfo.TargetPath, associatedInstance, $"{args} {shortcutInfo.Arguments}", shortcutInfo.RunAsAdmin, shortcutInfo.WorkingDirectory);
+                }
+                opened = (FilesystemResult)true;
+            }
+            else if (isHiddenItem)
+            {
+                await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
+            }
+            else
+            {
+                opened = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(path)
+                    .OnSuccess(async childFile =>
+                    {
+                        // Add location to MRU List
+                        var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
+                        mostRecentlyUsed.Add(childFile.File, childFile.Path);
+
+                        if (openViaApplicationPicker)
+                        {
+                            LauncherOptions options = new LauncherOptions
+                            {
+                                DisplayApplicationPicker = true
+                            };
+                            if (!await Launcher.LaunchFileAsync(childFile.File, options))
+                            {
+                                var connection = await AppServiceConnectionHelper.Instance;
+                                if (connection != null)
+                                {
+                                    await connection.SendMessageAsync(new ValueSet()
+                                    {
+                                        { "Arguments", "InvokeVerb" },
+                                        { "FilePath", path },
+                                        { "Verb", "openas" }
+                                    });
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //try using launcher first
+                            bool launchSuccess = false;
+
+                            StorageFileQueryResult fileQueryResult = null;
+
+                            //Get folder to create a file query (to pass to apps like Photos, Movies & TV..., needed to scroll through the folder like what Windows Explorer does)
+                            StorageFolder currentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(System.IO.Path.GetDirectoryName(path));
+
+                            if (currentFolder != null)
+                            {
+                                QueryOptions queryOptions = new QueryOptions(CommonFileQuery.DefaultQuery, null);
+
+                                //We can have many sort entries
+                                SortEntry sortEntry = new SortEntry()
+                                {
+                                    AscendingOrder = associatedInstance.InstanceViewModel.FolderSettings.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending
+                                };
+
+                                //Basically we tell to the launched app to follow how we sorted the files in the directory.
+                                var sortOption = associatedInstance.InstanceViewModel.FolderSettings.DirectorySortOption;
+
+                                switch (sortOption)
+                                {
+                                    case Enums.SortOption.Name:
+                                        sortEntry.PropertyName = "System.ItemNameDisplay";
+                                        queryOptions.SortOrder.Clear();
+                                        queryOptions.SortOrder.Add(sortEntry);
+                                        break;
+
+                                    case Enums.SortOption.DateModified:
+                                        sortEntry.PropertyName = "System.DateModified";
+                                        queryOptions.SortOrder.Clear();
+                                        queryOptions.SortOrder.Add(sortEntry);
+                                        break;
+
+                                    case Enums.SortOption.DateCreated:
+                                        sortEntry.PropertyName = "System.DateCreated";
+                                        queryOptions.SortOrder.Clear();
+                                        queryOptions.SortOrder.Add(sortEntry);
+                                        break;
+
+                                    //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
+                                    //case Enums.SortOption.Size:
+
+                                    //sortEntry.PropertyName = "System.TotalFileSize";
+                                    //queryOptions.SortOrder.Clear();
+                                    //queryOptions.SortOrder.Add(sortEntry);
+                                    //break;
+
+                                    //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
+                                    //case Enums.SortOption.FileType:
+
+                                    //sortEntry.PropertyName = "System.FileExtension";
+                                    //queryOptions.SortOrder.Clear();
+                                    //queryOptions.SortOrder.Add(sortEntry);
+                                    //break;
+
+                                    //Handle unsupported
+                                    default:
+                                        //keep the default one in SortOrder IList
+                                        break;
+                                }
+
+                                fileQueryResult = currentFolder.CreateFileQueryWithOptions(queryOptions);
+
+                                var options = new LauncherOptions
+                                {
+                                    NeighboringFilesQuery = fileQueryResult
+                                };
+
+                                // Now launch file with options.
+                                launchSuccess = await Launcher.LaunchFileAsync(childFile.File, options);
+                            }
+
+                            if (!launchSuccess)
+                            {
+                                await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
+                            }
+                        }
+                    });
+            }
             return opened;
         }
     }

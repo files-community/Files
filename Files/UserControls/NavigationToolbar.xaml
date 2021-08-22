@@ -24,7 +24,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:LayoutModeToBoolConverter x:Key="LayoutModeConverter" />
-            <converters:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
             <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
             <converters1:BoolToVisibilityConverter
                 x:Key="NegatedBoolToVisibilityConverter"
@@ -458,7 +457,7 @@
                 Text="{x:Bind ViewModel.PathText, Mode=OneWay}"
                 TextChanged="{x:Bind ViewModel.VisiblePath_TextChanged, Mode=OneWay}"
                 TextMemberPath="ItemPath"
-                Visibility="{x:Bind ViewModel.IsSearchBoxVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />
+                Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}" />
 
             <Grid
                 x:Name="ClickablePath"
@@ -473,7 +472,7 @@
                 BorderThickness="1"
                 CornerRadius="{StaticResource ControlCornerRadius}"
                 PointerPressed="ManualPathEntryItem_Click"
-                Visibility="{x:Bind ViewModel.IsSearchBoxVisible, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
+                Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
                 <uc:PathBreadcrumb
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
@@ -485,6 +484,7 @@
                 x:Name="SearchRegion"
                 Grid.Column="2"
                 Width="240"
+                Height="33"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 Canvas.ZIndex="100"
@@ -503,7 +503,7 @@
                     x:Name="SearchButton"
                     x:Uid="NavSearchButton"
                     Width="36"
-                    Height="32"
+                    Height="33"
                     AccessKey="I"
                     AutomationProperties.Name="Search"
                     Background="Transparent"
@@ -521,7 +521,7 @@
                     </Button.KeyboardAccelerators>
                 </Button>
 
-                <Grid x:Name="StatusCenterGrid" Visibility="{x:Bind ShowStatusCenter, Mode=OneWay}">
+                <Grid x:Name="StatusCenterGrid" Visibility="{x:Bind StatusCenterViewModel.AnyOperationsOngoing, Mode=OneWay}">
                     <Button
                         x:Name="StatusCenter"
                         x:Uid="StatusCenter"
@@ -552,7 +552,10 @@
                             </Grid>
                         </Button.Content>
                         <Button.Flyout>
-                            <Flyout x:Uid="StatusCenterFlyout" AutomationProperties.Name="Ongoing tasks flyout">
+                            <Flyout
+                                x:Uid="StatusCenterFlyout"
+                                AutomationProperties.Name="Ongoing tasks flyout"
+                                ShouldConstrainToRootBounds="False">
                                 <uc:StatusCenter
                                     x:Name="OngoingTasksControl"
                                     Width="300"
@@ -571,8 +574,8 @@
                     x:Uid="NavSettingsButton"
                     Width="36"
                     Height="32"
-                    AutomationProperties.Name="Settings"
                     AccessKey="I"
+                    AutomationProperties.Name="Settings"
                     Background="Transparent"
                     Command="{x:Bind SettingsButtonCommand, Mode=OneWay}"
                     Style="{StaticResource ToolBarButtonStyle}"

@@ -12,7 +12,7 @@
     <Grid>
         <Viewbox StretchDirection="DownOnly">
             <ContentPresenter CornerRadius="{StaticResource ControlCornerRadius}">
-                <Image Source="{x:Bind Model.Item.FileImage}" />
+                <Image Source="{x:Bind Model.FileImage}" />
             </ContentPresenter>
         </Viewbox>
     </Grid>

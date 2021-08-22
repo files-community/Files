@@ -1,4 +1,4 @@
-﻿using Files.Enums;
+using Files.Enums;
 using Files.EventArguments;
 using Files.Filesystem;
 using Files.Helpers;
@@ -26,8 +26,6 @@ namespace Files.Views.LayoutModes
 {
     public sealed partial class DetailsLayoutBrowser : BaseLayout
     {
-        public string oldItemName;
-
         private ColumnsViewModel columnsViewModel = new ColumnsViewModel();
 
         public ColumnsViewModel ColumnsViewModel
@@ -45,9 +43,6 @@ namespace Files.Views.LayoutModes
 
         private RelayCommand<string> UpdateSortOptionsCommand { get; set; }
 
-        private DispatcherQueueTimer renameDoubleClickTimer;
-        private DispatcherQueueTimer renameDoubleClickTimeoutTimer;
-
         public DetailsLayoutBrowser() : base()
         {
             InitializeComponent();
@@ -55,8 +50,6 @@ namespace Files.Views.LayoutModes
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
-            renameDoubleClickTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
-            renameDoubleClickTimeoutTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
 
         protected override void HookEvents()
@@ -88,6 +81,7 @@ namespace Files.Views.LayoutModes
             if (SelectedItems.Any())
             {
                 FileList.ScrollIntoView(SelectedItems.Last());
+                (FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
             }
         }
 
@@ -138,6 +132,18 @@ namespace Files.Views.LayoutModes
 
         private void ItemManipulationModel_FocusFileListInvoked(object sender, EventArgs e)
         {
+            FocusFileList();
+        }
+
+        private void FocusFileList()
+        {
+            var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+            if (focusedElement is ListViewItem lvi)
+            {
+                // if an item in the file list is already focused, don't refocus
+                return;
+            }
+
             if (FileList.ContainerFromIndex(0) is ListViewItem item)
             {
                 _ = FocusManager.TryFocusAsync(item, FocusState.Programmatic);
@@ -226,12 +232,12 @@ namespace Files.Views.LayoutModes
             ColumnsViewModel.SetDesiredSize(RootGrid.ActualWidth - 80);
         }
 
-        private void FolderSettings_SortOptionPreferenceUpdated(object sender, EventArgs e)
+        private void FolderSettings_SortOptionPreferenceUpdated(object sender, SortOption e)
         {
             UpdateSortIndicator();
         }
 
-        private void FolderSettings_SortDirectionPreferenceUpdated(object sender, EventArgs e)
+        private void FolderSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
         {
             UpdateSortIndicator();
         }
@@ -239,7 +245,8 @@ namespace Files.Views.LayoutModes
         private void UpdateSortIndicator()
         {
             NameHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Name ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
-            OriginalPathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalPath ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
+            TagHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileTag ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
+            OriginalPathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalFolder ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
             DateDeletedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateDeleted ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
             DateModifiedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateModified ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
             DateCreatedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateCreated ? FolderSettings.DirectorySortDirection : (SortDirection?)null;
@@ -269,6 +276,15 @@ namespace Files.Views.LayoutModes
             else
             {
                 ColumnsViewModel.StatusColumn.Show();
+            }
+
+            if (!App.AppSettings.AreFileTagsEnabled)
+            {
+                ColumnsViewModel.TagColumn.Hide();
+            }
+            else
+            {
+                ColumnsViewModel.TagColumn.Show();
             }
 
             UpdateSortIndicator();
@@ -309,13 +325,15 @@ namespace Files.Views.LayoutModes
             SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
 
-        private ListedItem renamingItem;
-
-        private void StartRenameItem()
+        override public void StartRenameItem()
         {
-            renamingItem = SelectedItem;
-            int extensionLength = renamingItem.FileExtension?.Length ?? 0;
-            ListViewItem listViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
+            RenamingItem = SelectedItem;
+            if (RenamingItem == null)
+            {
+                return;
+            }
+            int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
+            ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
             TextBox textBox = null;
             if (listViewItem == null)
             {
@@ -326,7 +344,7 @@ namespace Files.Views.LayoutModes
             //TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
             //textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
             textBox.Text = textBlock.Text;
-            oldItemName = textBlock.Text;
+            OldItemName = textBlock.Text;
             textBlock.Visibility = Visibility.Collapsed;
             textBox.Visibility = Visibility.Visible;
 
@@ -365,7 +383,7 @@ namespace Files.Views.LayoutModes
             {
                 TextBox textBox = sender as TextBox;
                 textBox.LostFocus -= RenameTextBox_LostFocus;
-                textBox.Text = oldItemName;
+                textBox.Text = OldItemName;
                 EndRename(textBox);
                 e.Handled = true;
             }
@@ -381,7 +399,7 @@ namespace Files.Views.LayoutModes
         private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             // This check allows the user to use the text box context menu without ending the rename
-            if (!(FocusManager.GetFocusedElement() is AppBarButton))
+            if (!(FocusManager.GetFocusedElement() is AppBarButton or Popup))
             {
                 TextBox textBox = e.OriginalSource as TextBox;
                 CommitRename(textBox);
@@ -393,17 +411,17 @@ namespace Files.Views.LayoutModes
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
 
-            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(renamingItem, oldItemName, newItemName, ParentShellPageInstance);
+            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, OldItemName, newItemName, ParentShellPageInstance);
             if (!successful)
             {
-                renamingItem.ItemName = oldItemName;
+                RenamingItem.ItemName = OldItemName;
             }
         }
 
         private void EndRename(TextBox textBox)
         {
-            ListViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
-            if (gridViewItem == null)
+            ListViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+            if (textBox == null || gridViewItem == null)
             {
                 // Navigating away, do nothing
             }
@@ -442,11 +460,11 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
+                    e.Handled = true;
                     if (MainViewModel.IsQuickLookEnabled)
                     {
                         await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
-                    e.Handled = true;
                 }
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
@@ -484,14 +502,18 @@ namespace Files.Views.LayoutModes
                     }
 
                     base.Page_CharacterReceived(sender, args);
-                    FileList.Focus(FocusState.Keyboard);
+                    FocusFileList();
                 }
             }
         }
 
         protected override ListedItem GetItemFromElement(object element)
         {
-            return (element as ListViewItem).DataContext as ListedItem ?? (element as ListViewItem).Content as ListedItem;
+            if (element is ListViewItem item)
+            {
+                return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (FileList.ItemFromContainer(item) as ListedItem);
+            }
+            return null;
         }
 
         private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -541,7 +563,7 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
+        private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
@@ -555,15 +577,31 @@ namespace Files.Views.LayoutModes
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
             {
+                ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected
                 NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+            }
+            else
+            {
+                var clickedItem = e.OriginalSource as FrameworkElement;
+                if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
+                {
+                    CheckRenameDoubleClick(clickedItem?.DataContext);
+                }
+                else if (IsRenamingItem)
+                {
+                    ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+                    if (listViewItem != null)
+                    {
+                        var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
+                        EndRename(textBox);
+                    }
+                }
             }
         }
 
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            ResetDoubleClick();
-
             // Skip opening selected items if the double tap doesn't capture an item
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
@@ -572,8 +610,7 @@ namespace Files.Views.LayoutModes
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
             }
-
-            renameDoubleClickTimer.Stop();
+            ResetRenameDoubleClick();
         }
 
         #region IDisposable
@@ -603,51 +640,6 @@ namespace Files.Views.LayoutModes
             e.Handled = true;
         }
 
-        private void ItemNameGrid_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            CheckDoubleClickToRename();
-        }
-
-        private int clickCount = 0;
-        private void CheckDoubleClickToRename()
-        {
-            if (clickCount < 1)
-            {
-                if (renameDoubleClickTimer.IsRunning || AppSettings.OpenItemsWithOneclick)
-                {
-                    ResetDoubleClick();
-                }
-                else
-                {
-                    clickCount++;
-                    renameDoubleClickTimer.Debounce(() =>
-                    {
-                        renameDoubleClickTimer.Stop();
-                    }, TimeSpan.FromMilliseconds(510));
-
-                    if (!renameDoubleClickTimeoutTimer.IsRunning)
-                    {
-                        renameDoubleClickTimeoutTimer.Debounce(() =>
-                        {
-                            ResetDoubleClick();
-                        }, TimeSpan.FromMilliseconds(2000));
-                    }
-                }
-            }
-            else
-            {
-                ResetDoubleClick();
-                StartRenameItem();
-            }
-        }
-
-        private void ResetDoubleClick()
-        {
-            renameDoubleClickTimeoutTimer.Stop();
-            renameDoubleClickTimer.Stop();
-            clickCount = 0;
-        }
-
         private void GridSplitter_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             UpdateColumnLayout();
@@ -657,13 +649,14 @@ namespace Files.Views.LayoutModes
         {
             ColumnsViewModel.IconColumn.UserLength = new GridLength(Column1.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.NameColumn.UserLength = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.OriginalPathColumn.UserLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.DateDeletedColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.StatusColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.DateModifiedColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.DateCreatedColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column8.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.SizeColumn.UserLength = new GridLength(Column9.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.TagColumn.UserLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.OriginalPathColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.DateDeletedColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.StatusColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.DateModifiedColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.DateCreatedColumn.UserLength = new GridLength(Column8.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column9.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.SizeColumn.UserLength = new GridLength(Column10.ActualWidth, GridUnitType.Pixel);
         }
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -725,28 +718,34 @@ namespace Files.Views.LayoutModes
             var maxItemLength = columnToResize switch
             {
                 1 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemName?.Length ?? 0).Max(), // file name column
-                2 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemOriginalPath?.Length ?? 0).Max(), // original path column
-                3 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
-                4 => 20, // cloud status column
-                5 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
-                6 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
-                7 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
+                2 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagUI?.TagName?.Length ?? 0).Max(), // file tag column
+                3 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemOriginalPath?.Length ?? 0).Max(), // original path column
+                4 => FileList.Items.Cast<RecycleBinItem>().Select(x => x.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
+                5 => 20, // cloud status column
+                6 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
+                7 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
+                8 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
                 _ => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
             };
-            var colunmSizeToFit = columnToResize == 4 ? maxItemLength : MeasureTextColumn(columnToResize, 5, maxItemLength);
+            var colunmSizeToFit = new[] { 5 }.Contains(columnToResize) ? maxItemLength : MeasureTextColumn(columnToResize, 5, maxItemLength);
             if (colunmSizeToFit > 0)
             {
                 var column = columnToResize switch
                 {
                     1 => ColumnsViewModel.NameColumn,
-                    2 => ColumnsViewModel.OriginalPathColumn,
-                    3 => ColumnsViewModel.DateDeletedColumn,
-                    4 => ColumnsViewModel.StatusColumn,
-                    5 => ColumnsViewModel.DateModifiedColumn,
-                    6 => ColumnsViewModel.DateCreatedColumn,
-                    7 => ColumnsViewModel.ItemTypeColumn,
+                    2 => ColumnsViewModel.TagColumn,
+                    3 => ColumnsViewModel.OriginalPathColumn,
+                    4 => ColumnsViewModel.DateDeletedColumn,
+                    5 => ColumnsViewModel.StatusColumn,
+                    6 => ColumnsViewModel.DateModifiedColumn,
+                    7 => ColumnsViewModel.DateCreatedColumn,
+                    8 => ColumnsViewModel.ItemTypeColumn,
                     _ => ColumnsViewModel.SizeColumn
                 };
+                if (columnToResize == 1)
+                {
+                    colunmSizeToFit += AppSettings.AreFileTagsEnabled ? 20 : 0;
+                }
                 column.UserLength = new GridLength(Math.Min(colunmSizeToFit + 30, column.NormalMaxLength), GridUnitType.Pixel);
             }
 

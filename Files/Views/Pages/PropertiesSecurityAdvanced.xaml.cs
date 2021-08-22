@@ -67,6 +67,8 @@ namespace Files.Views
 
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
+            Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
+
             App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {

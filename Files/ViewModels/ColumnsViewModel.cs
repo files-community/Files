@@ -9,12 +9,21 @@ namespace Files.ViewModels
         private ColumnViewModel iconColumn = new ColumnViewModel()
         {
             UserLength = new GridLength(44, GridUnitType.Pixel),
+            IsResizeable = false,
         };
 
+        [JsonIgnore]
         public ColumnViewModel IconColumn
         {
             get => iconColumn;
             set => SetProperty(ref iconColumn, value);
+        }
+
+        private ColumnViewModel tagColumn = new ColumnViewModel();
+        public ColumnViewModel TagColumn
+        {
+            get => tagColumn;
+            set => SetProperty(ref tagColumn, value);
         }
 
         private ColumnViewModel nameColumn = new ColumnViewModel();
@@ -25,8 +34,11 @@ namespace Files.ViewModels
             set => SetProperty(ref nameColumn, value);
         }
 
-
-        private ColumnViewModel statusColumn = new ColumnViewModel();
+        private ColumnViewModel statusColumn = new ColumnViewModel()
+        {
+            UserLength = new GridLength(50),
+            NormalMaxLength = 80,
+        };
 
         public ColumnViewModel StatusColumn
         {
@@ -34,14 +46,12 @@ namespace Files.ViewModels
             set => SetProperty(ref statusColumn, value);
         }
 
-
         private ColumnViewModel dateModifiedColumn = new ColumnViewModel();
         public ColumnViewModel DateModifiedColumn
         {
             get => dateModifiedColumn;
             set => SetProperty(ref dateModifiedColumn, value);
         }
-
 
         private ColumnViewModel originalPathColumn = new ColumnViewModel()
         {
@@ -53,7 +63,6 @@ namespace Files.ViewModels
             set => SetProperty(ref originalPathColumn, value);
         }
 
-
         private ColumnViewModel itemTypeColumn = new ColumnViewModel();
         public ColumnViewModel ItemTypeColumn
         {
@@ -61,14 +70,12 @@ namespace Files.ViewModels
             set => SetProperty(ref itemTypeColumn, value);
         }
 
-
         private ColumnViewModel dateDeletedColumn = new ColumnViewModel();
         public ColumnViewModel DateDeletedColumn
         {
             get => dateDeletedColumn;
             set => SetProperty(ref dateDeletedColumn, value);
         }
-
 
         private ColumnViewModel dateCreatedColumn = new ColumnViewModel()
         {
@@ -81,7 +88,6 @@ namespace Files.ViewModels
             set => SetProperty(ref dateCreatedColumn, value);
         }
 
-
         private ColumnViewModel sizeColumn = new ColumnViewModel();
         public ColumnViewModel SizeColumn
         {
@@ -89,7 +95,7 @@ namespace Files.ViewModels
             set => SetProperty(ref sizeColumn, value);
         }
 
-        public double TotalWidth => IconColumn.Length.Value + NameColumn.Length.Value + StatusColumn.Length.Value + DateModifiedColumn.Length.Value + OriginalPathColumn.Length.Value
+        public double TotalWidth => IconColumn.Length.Value + TagColumn.Length.Value + NameColumn.Length.Value + StatusColumn.Length.Value + DateModifiedColumn.Length.Value + OriginalPathColumn.Length.Value
             + ItemTypeColumn.Length.Value + DateDeletedColumn.Length.Value + DateCreatedColumn.Length.Value + SizeColumn.Length.Value;
 
         public void SetDesiredSize(double width)
@@ -108,6 +114,7 @@ namespace Files.ViewModels
         private void SetColumnSizeProportionally(double factor)
         {
             NameColumn.TryMultiplySize(factor);
+            TagColumn.TryMultiplySize(factor);
             StatusColumn.TryMultiplySize(factor);
             DateModifiedColumn.TryMultiplySize(factor);
             OriginalPathColumn.TryMultiplySize(factor);
@@ -120,14 +127,15 @@ namespace Files.ViewModels
 
     public class ColumnViewModel : ObservableObject
     {
-
         private bool isHidden;
+        [JsonIgnore]
         public bool IsHidden
         {
             get => isHidden;
             set => SetProperty(ref isHidden, value);
         }
 
+        [JsonIgnore]
         public double MaxLength
         {
             get => IsHidden || UserCollapsed ? 0 : NormalMaxLength;
@@ -156,8 +164,10 @@ namespace Files.ViewModels
             }
         }
 
+        [JsonIgnore]
         public double MinLength => IsHidden || UserCollapsed ? 0 : NormalMinLength;
-
+        
+        [JsonIgnore]
         public Visibility Visibility => IsHidden || UserCollapsed ? Visibility.Collapsed : Visibility.Visible;
 
         private bool userCollapsed;
@@ -179,7 +189,16 @@ namespace Files.ViewModels
 
         }
 
+        const int gridSplitterWidth = 1;
+
+        public GridLength LengthIncludingGridSplitter
+        {
+            get => IsHidden || UserCollapsed ? new GridLength(0) : new GridLength(UserLength.Value + (IsResizeable ? gridSplitterWidth : 0));
+        }
+
         [JsonIgnore]
+        public bool IsResizeable { get; set; } = true;
+
         private GridLength userLength = new GridLength(200, GridUnitType.Pixel);
         public GridLength UserLength
         {
@@ -189,6 +208,7 @@ namespace Files.ViewModels
                 if (SetProperty(ref userLength, value))
                 {
                     OnPropertyChanged(nameof(Length));
+                    OnPropertyChanged(nameof(LengthIncludingGridSplitter));
                 }
             }
         }
@@ -214,6 +234,7 @@ namespace Files.ViewModels
         private void UpdateVisibility()
         {
             OnPropertyChanged(nameof(Length));
+            OnPropertyChanged(nameof(LengthIncludingGridSplitter));
             OnPropertyChanged(nameof(MaxLength));
             OnPropertyChanged(nameof(Visibility));
             OnPropertyChanged(nameof(MinLength));

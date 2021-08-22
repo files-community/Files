@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels.Previews
 {
@@ -48,20 +49,18 @@ namespace Files.ViewModels.Previews
         /// <returns>A list of details</returns>
         public async virtual Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
-
-            if (iconData != null)
-            {
-                Item.FileImage = await iconData.ToBitmapAsync();
-            }
-            else
-            {
-                using var icon = await Item.ItemFile.GetThumbnailAsync(ThumbnailMode.SingleItem, 400);
-                Item.FileImage ??= new Windows.UI.Xaml.Media.Imaging.BitmapImage();
-                await Item.FileImage.SetSourceAsync(icon);
-            }
+            using var icon = await Item.ItemFile.GetThumbnailAsync(ThumbnailMode.SingleItem, 400);
+            FileImage ??= new Windows.UI.Xaml.Media.Imaging.BitmapImage();
+            await FileImage.SetSourceAsync(icon);
 
             return new List<FileProperty>();
+        }
+
+        private BitmapImage fileImage;
+        public BitmapImage FileImage
+        {
+            get => fileImage;
+            set => SetProperty(ref fileImage, value);
         }
 
         private async Task<List<FileProperty>> GetSystemFileProperties()
@@ -75,6 +74,16 @@ namespace Files.ViewModels.Previews
 
             list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
                                                                                             (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+
+            // adds the value for the file tag
+            if(App.AppSettings.AreFileTagsEnabled)
+            {
+                list.FirstOrDefault(x => x.ID == "filetag").Value = Item.FileTagUI?.TagName;
+            } else
+            {
+                _ = list.Remove(list.FirstOrDefault(x => x.ID == "filetag"));
+            }
+
             return list.Where(i => i.ValueText != null).ToList();
         }
 

@@ -5,29 +5,58 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     d:DesignHeight="300"
     d:DesignWidth="400"
+    Loading="UserControl_Loading"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="ColoredIconOverlayForeground" Color="{StaticResource SystemAccentColorDark1}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayForeground" Color="{ThemeResource SystemAccentColorDark1}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayForegroundDisabled" Color="{ThemeResource SystemAccentColorLight2}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayForegroundChecked" Color="{ThemeResource SystemAccentColorLight2}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="ColoredIconOverlayForeground" Color="{StaticResource SystemAccentColorLight2}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayForeground" Color="{ThemeResource SystemAccentColorLight2}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayForegroundDisabled" Color="{ThemeResource SystemAccentColorDark1}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayForegroundChecked" Color="{ThemeResource SystemAccentColorDark1}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
-                    <SolidColorBrush x:Key="ColoredIconOverlayForeground" Color="{StaticResource SystemAccentColor}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayForeground" Color="{ThemeResource SystemAccentColor}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayDisabled" Color="{ThemeResource SystemAccentColorDark1}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayForegroundChecked" Color="{ThemeResource SystemAccentColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Margin="-2">
-        <FontIcon FontFamily="{StaticResource ColoredIconFontFamily}" Glyph="{x:Bind BaseLayerGlyph, Mode=OneWay}" />
         <FontIcon
+            x:Name="BaseIcon"
+            FontFamily="{StaticResource ColoredIconFontFamily}"
+            Glyph="{x:Bind BaseLayerGlyph, Mode=OneWay}" />
+        <FontIcon
+            x:Name="OverlayIcon"
             FontFamily="{StaticResource ColoredIconFontFamily}"
             Foreground="{ThemeResource ColoredIconOverlayForeground}"
-            Glyph="{x:Bind OverlayLayerGlyph, Mode=OneWay}" />
+            Glyph="{x:Bind OverlayLayerGlyph, Mode=OneWay}"
+            HighContrastAdjustment="None" />
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="Disabled">
+                    <VisualState.Setters>
+                        <Setter Target="OverlayIcon.Foreground" Value="{ThemeResource ColoredIconOverlayForegroundDisabled}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Checked">
+                    <VisualState.Setters>
+                        <Setter Target="OverlayIcon.Foreground" Value="{ThemeResource ColoredIconOverlayForegroundChecked}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>

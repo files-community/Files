@@ -19,19 +19,36 @@ namespace Files.Dialogs
             this.InitializeComponent();
             SettingsPane.SelectedItem = SettingsPane.MenuItems[0];
             Window.Current.SizeChanged += Current_SizeChanged;
+            UpdateDialogLayout();
         }
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
-            if (Window.Current.Bounds.Width <= 750)
+            UpdateDialogLayout();
+        }
+
+        private void UpdateDialogLayout()
+        {
+            if (Window.Current.Bounds.Width <= 700)
             {
                 SettingsPane.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.LeftCompact;
+                SettingsContentFrame.Width = 410;
                 Column0.Width = new GridLength(60);
             }
             else
             {
                 SettingsPane.PaneDisplayMode = Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Left;
+                SettingsContentFrame.Width = 460;
                 Column0.Width = new GridLength(0, GridUnitType.Auto);
+            }
+
+            if (Window.Current.Bounds.Height <= 600)
+            {
+                ContainerGrid.Height = Window.Current.Bounds.Height;
+            }
+            else
+            {
+                ContainerGrid.Height = 600;
             }
         }
 

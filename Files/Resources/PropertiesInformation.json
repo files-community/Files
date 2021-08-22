@@ -240,6 +240,13 @@
     "ID": null
   },
   {
+    "NameResource": "PropertyPartOfSet",
+    "SectionResource": "PropertySectionMusic",
+    "Property": "System.Music.PartOfSet",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
     "NameResource": "PropertyGenre",
     "SectionResource": "PropertySectionMusic",
     "Property": "System.Music.Genre",

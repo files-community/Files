@@ -122,6 +122,10 @@ namespace Files.Views
                 ViewModel.MultitaskingControls.Add(horizontalMultitaskingControl);
                 ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
+            if (AppSettings.IsVerticalTabFlyoutEnabled)
+            {
+                FindName(nameof(VerticalTabStripInvokeButton));
+            }
         }
 
         public void TabItemContent_ContentChanged(object sender, TabItemArguments e)
@@ -129,7 +133,7 @@ namespace Files.Views
             if (SidebarAdaptiveViewModel.PaneHolder != null)
             {
                 var paneArgs = e.NavigationArg as PaneNavigationArguments;
-                SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ? 
+                SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
                     paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
                 UpdateStatusBarProperties();
                 UpdatePreviewPaneProperties();
@@ -177,7 +181,7 @@ namespace Files.Views
                 NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.NavToolbarViewModel;
             }
 
-            if(InnerNavigationToolbar != null)
+            if (InnerNavigationToolbar != null)
             {
                 InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.NavToolbarViewModel;
                 InnerNavigationToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
@@ -188,7 +192,7 @@ namespace Files.Views
         private void UpdatePreviewPaneProperties()
         {
             LoadPreviewPaneChanged();
-            if(PreviewPane != null)
+            if (PreviewPane != null)
             {
                 PreviewPane.Model = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage?.PreviewPaneViewModel;
             }
@@ -200,28 +204,7 @@ namespace Files.Views
             SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
             SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
             SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
-            SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
             SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
-        }
-
-        private async void SidebarControl_RecycleBinItemRightTapped(object sender, EventArgs e)
-        {
-            var recycleBinHasItems = false;
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var value = new ValueSet
-                {
-                    { "Arguments", "RecycleBin" },
-                    { "action", "Query" }
-                };
-                var (status, response) = await connection.SendMessageForResponseAsync(value);
-                if (status == AppServiceResponseStatus.Success && response.TryGetValue("NumItems", out var numItems))
-                {
-                    recycleBinHasItems = (long)numItems > 0;
-                }
-            }
-            SidebarControl.RecycleBinHasItems = recycleBinHasItems;
         }
 
         private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
@@ -313,16 +296,37 @@ namespace Files.Views
                 SidebarControl.SidebarItemInvoked -= SidebarControl_SidebarItemInvoked;
                 SidebarControl.SidebarItemPropertiesInvoked -= SidebarControl_SidebarItemPropertiesInvoked;
                 SidebarControl.SidebarItemDropped -= SidebarControl_SidebarItemDropped;
-                SidebarControl.RecycleBinItemRightTapped -= SidebarControl_RecycleBinItemRightTapped;
                 SidebarControl.SidebarItemNewPaneInvoked -= SidebarControl_SidebarItemNewPaneInvoked;
             }
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
+
             // Defers the status bar loading until after the page has loaded to improve startup perf
             FindName(nameof(StatusBarControl));
             FindName(nameof(InnerNavigationToolbar));
+            FindName(nameof(horizontalMultitaskingControl));
+            FindName(nameof(NavToolbar));
+
+            // the adaptive triggers do not evaluate on app startup, manually checking and calling GoToState here fixes https://github.com/files-community/Files/issues/5801
+            if (Window.Current.Bounds.Width < CollapseSearchBoxAdaptiveTrigger.MinWindowWidth)
+            {
+                _ = VisualStateManager.GoToState(this, nameof(CollapseSearchBoxState), true);
+            }
+            
+            if(Window.Current.Bounds.Width < MinimalSidebarAdaptiveTrigger.MinWindowWidth)
+            {
+                _ = VisualStateManager.GoToState(this, nameof(MinimalSidebarState), true);
+            }
+            
+            if(Window.Current.Bounds.Width < CollapseHorizontalTabViewTrigger.MinWindowWidth)
+            {
+                _ = VisualStateManager.GoToState(this, nameof(HorizontalTabViewCollapsed), true);
+            }
+
+            App.LoadOtherStuffAsync().ContinueWith(t => App.Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
         }
 
         private void ToggleFullScreenAccelerator(KeyboardAcceleratorInvokedEventArgs e)
@@ -344,7 +348,6 @@ namespace Files.Views
         {
             SidebarAdaptiveViewModel.UpdateTabControlMargin(); // Set the correct tab margin on startup
         }
-
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -474,7 +477,7 @@ namespace Files.Views
             get => isCompactOverlay;
             set
             {
-                if(value != isCompactOverlay)
+                if (value != isCompactOverlay)
                 {
                     isCompactOverlay = value;
                     NotifyPropertyChanged(nameof(IsCompactOverlay));
@@ -485,10 +488,15 @@ namespace Files.Views
         private void RootGrid_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             // prevents the arrow key events from navigating the list instead of switching compact overlay
-            if(EnterCompactOverlayKeyboardAccelerator.CheckIsPressed() || ExitCompactOverlayKeyboardAccelerator.CheckIsPressed())
+            if (EnterCompactOverlayKeyboardAccelerator.CheckIsPressed() || ExitCompactOverlayKeyboardAccelerator.CheckIsPressed())
             {
                 Focus(FocusState.Keyboard);
             }
+        }
+
+        private void NavToolbar_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdateNavToolbarProperties();
         }
     }
 }

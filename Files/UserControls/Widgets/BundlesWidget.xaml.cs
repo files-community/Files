@@ -1,5 +1,6 @@
 ﻿using Files.ViewModels.Widgets;
 using Files.ViewModels.Widgets.Bundles;
+using Microsoft.Toolkit.Uwp;
 using System;
 using Windows.UI.Xaml.Controls;
 
@@ -16,6 +17,8 @@ namespace Files.UserControls.Widgets
         }
 
         public string WidgetName => nameof(BundlesWidget);
+
+        public string AutomationProperties => "BundlesWidgetAutomationProperties/Name".GetLocalized();
 
         public bool IsWidgetSettingEnabled => App.AppSettings.ShowBundlesWidget;
 

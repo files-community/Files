@@ -14,6 +14,11 @@ namespace Files.Helpers.ContextFlyouts
     {
         public static List<MenuFlyoutItemBase> GetMenuFlyoutItemsFromModel(List<ContextMenuFlyoutItemViewModel> items)
         {
+            if (items is null)
+            {
+                return null;
+            }
+
             var flyout = new List<MenuFlyoutItemBase>();
             items.ForEach(i =>
             {
@@ -70,7 +75,7 @@ namespace Files.Helpers.ContextFlyouts
                     Text = item.Text,
                     Tag = item.Tag,
                 };
-                item.Items.ForEach(i =>
+                item.Items?.ForEach(i =>
                 {
                     flyoutSubItem.Items.Add(GetMenuItem(i));
                 });
@@ -149,11 +154,11 @@ namespace Files.Helpers.ContextFlyouts
             {
                 flyoutItem.KeyboardAcceleratorTextOverride = i.KeyboardAcceleratorTextOverride;
             }
-            
+
             return flyoutItem;
         }
 
-        private static ICommandBarElement GetCommandBarItem(ContextMenuFlyoutItemViewModel item)
+        public static ICommandBarElement GetCommandBarItem(ContextMenuFlyoutItemViewModel item)
         {
             return item.ItemType switch
             {
@@ -185,7 +190,7 @@ namespace Files.Helpers.ContextFlyouts
             }
 
             MenuFlyout ctxFlyout = null;
-            if (item.Items.Count > 0 || item.ID == "ItemOverflow")
+            if ((item.Items is not null && item.Items.Count > 0) || item.ID == "ItemOverflow")
             {
                 ctxFlyout = new MenuFlyout();
                 GetMenuFlyoutItemsFromModel(item.Items).ForEach(i => ctxFlyout.Items.Add(i));
@@ -198,10 +203,12 @@ namespace Files.Helpers.ContextFlyouts
                 {
                     Source = item.BitmapIcon,
                 };
-            } else if(item.ColoredIcon.IsValid)
+            }
+            else if (item.ColoredIcon.IsValid)
             {
                 content = item.ColoredIcon.ToColoredIcon();
-            } else if(item.ShowLoadingIndicator)
+            }
+            else if (item.ShowLoadingIndicator)
             {
                 content = new Microsoft.UI.Xaml.Controls.ProgressRing()
                 {

@@ -84,9 +84,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>При запуске</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Стандартный терминал</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Предпочтения</value>
   </data>
@@ -330,9 +327,6 @@
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Экспериментально</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Посмотреть примеры профилей</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Элемент с таким именем уже существует в этой папке.</value>
   </data>
@@ -497,9 +491,6 @@
   </data>
   <data name="ByteSymbol" xml:space="preserve">
     <value>Б</value>
-  </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Узнайте больше о форматах даты</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Разблокировать</value>
@@ -786,12 +777,6 @@
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>Изменить профили терминалов</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Посмотреть образцы профилей</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Терминал</value>
-  </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Поддержать нас</value>
   </data>
@@ -800,12 +785,6 @@
   </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Отказано в доступе</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>Показать диалог при удалении файлов или папок</value>
-  </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>Формат даты</value>
   </data>
   <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
     <value>Текущие операции</value>
@@ -1136,9 +1115,6 @@
   </data>
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Центр операций</value>
-  </data>
-  <data name="SettingsDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>Узнайте больше о форматах даты</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Результаты поиска в </value>
@@ -1767,9 +1743,6 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Дата изменения:</value>
   </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Header" xml:space="preserve">
-    <value>Открывать папки в новой вкладке</value>
-  </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Выделение</value>
   </data>
@@ -1803,44 +1776,14 @@
   <data name="OpenItemsWithCaptionText" xml:space="preserve">
     <value>Открыть с помощью</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Группировка</value>
   </data>
-  <data name="NavToolbarGroupByOption_None.Content" xml:space="preserve">
-    <value>Нет</value>
-  </data>
-  <data name="NavToolbarArrangementOption_Name.Content" xml:space="preserve">
-    <value>Имя</value>
-  </data>
-  <data name="NavToolbarArrangementOption_DateModified.Content" xml:space="preserve">
-    <value>Дата изменения</value>
-  </data>
-  <data name="NavToolbarArrangementOption_DateCreated.Content" xml:space="preserve">
-    <value>Дата создания</value>
-  </data>
-  <data name="NavToolbarArrangementOption_Size.Content" xml:space="preserve">
-    <value>Размер</value>
-  </data>
-  <data name="NavToolbarArrangementOption_DateDeleted.Content" xml:space="preserve">
-    <value>Дата удаления</value>
-  </data>
-  <data name="NavToolbarArrangementOption_OriginalFolder.Content" xml:space="preserve">
-    <value>Исходный путь</value>
-  </data>
-  <data name="NavToolbarArrangementOption_Type.Content" xml:space="preserve">
-    <value>Тип</value>
-  </data>
-  <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Сортировка</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
     <value>Направление сортировки</value>
-  </data>
-  <data name="NavToolbarSortDirectionOption_Ascending.Content" xml:space="preserve">
-    <value>По возрастанию</value>
-  </data>
-  <data name="NavToolbarSortDirectionOption_Descending.Content" xml:space="preserve">
-    <value>По убыванию</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
     <value>Огромный</value>
@@ -2050,9 +1993,6 @@
     <value>Закрыть</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Состояние синхронизации</value>
-  </data>
-  <data name="NavToolbarArrangementOption_SyncStatus.Content" xml:space="preserve">
     <value>Состояние синхронизации</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
@@ -2453,5 +2393,119 @@
   </data>
   <data name="SettingsAboutOpenLogLocationButtonText.Text" xml:space="preserve">
     <value>Открыть расположение лог файла</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+    <value>Закрепить в избранном</value>
+  </data>
+  <data name="NavSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>параметры</value>
+  </data>
+  <data name="NavSettingsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>параметры</value>
+  </data>
+  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="ConsentDialogTitle" xml:space="preserve">
+    <value>Доступны обновления</value>
+  </data>
+  <data name="ConsentDialogContent" xml:space="preserve">
+    <value>Обновления готовы к установке</value>
+  </data>
+  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+    <value>закрыть</value>
+  </data>
+  <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+    <value>Добавить файл</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
+    <value>Добавить папку</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
+    <value>Добавить элемент</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>домашний</value>
+  </data>
+  <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
+    <value>Новая вкладка</value>
+  </data>
+  <data name="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+A</value>
+  </data>
+  <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>ALT+SHIFT</value>
+  </data>
+  <data name="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+W</value>
+  </data>
+  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+N</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+T</value>
+  </data>
+  <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+T</value>
+  </data>
+  <data name="ExtractingArchiveText" xml:space="preserve">
+    <value>Идет распаковка архива</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+N</value>
+  </data>
+  <data name="SettingsDateFormat.Title" xml:space="preserve">
+    <value>Формат даты</value>
+  </data>
+  <data name="SettingsPrivacy.Title" xml:space="preserve">
+    <value>Политика конфиденциальности</value>
+  </data>
+  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+    <value>Дата изменения</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
+    <value>Дата создания</value>
+  </data>
+  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
+    <value>Размер</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
+    <value>Дата удаления</value>
+  </data>
+  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+    <value>Исходная папка</value>
+  </data>
+  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
+    <value>По возрастанию</value>
+  </data>
+  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+    <value>По убыванию</value>
+  </data>
+  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+    <value>Состояние синхронизации</value>
+  </data>
+  <data name="FileTagUnknown" xml:space="preserve">
+    <value>Неизвестно</value>
+  </data>
+  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
+    <value>закрыть</value>
+  </data>
+  <data name="InsertDiscDialog.Title" xml:space="preserve">
+    <value>Вставьте диск.</value>
   </data>
 </root>

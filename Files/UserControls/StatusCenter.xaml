@@ -142,7 +142,7 @@
                         Padding="4"
                         HorizontalAlignment="Stretch"
                         AutomationProperties.Name="{x:Bind FullTitle, Mode=OneWay}"
-                        Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                        Background="{ThemeResource ControlFillColorDefault}"
                         BorderBrush="{x:Bind StrokeColor}"
                         BorderThickness="4,0,0,0"
                         CornerRadius="{StaticResource ControlCornerRadius}">

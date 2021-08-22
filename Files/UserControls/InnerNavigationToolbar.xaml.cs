@@ -89,13 +89,6 @@ namespace Files.UserControls
             }
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            _ = FindName(nameof(BaseCommandBar));
-            _ = FindName(nameof(ContextCommandBar));
-        }
-
-
         public bool ShowPreviewPaneButton
         {
             get { return (bool)GetValue(ShowPreviewPaneButtonProperty); }

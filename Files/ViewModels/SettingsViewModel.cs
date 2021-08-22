@@ -21,8 +21,6 @@ using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
@@ -48,6 +46,8 @@ namespace Files.ViewModels
             }
 
             TerminalController = await TerminalController.CreateInstance();
+
+            FileTagsSettings = new FileTagsSettings();
 
             // Send analytics to AppCenter
             TrackAnalytics();
@@ -240,6 +240,15 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the filetag column should be visible.
+        /// </summary>
+        public bool ShowFileTagColumn
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         #endregion DetailsView Column Settings
 
         #region CommonPaths
@@ -352,6 +361,15 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable file tags feature.
+        /// </summary>
+        public bool AreFileTagsEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         #endregion FilesAndFolder
 
         #region Multitasking
@@ -426,6 +444,15 @@ namespace Files.ViewModels
         #endregion Widgets
 
         #region Sidebar
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to show the Favorites section on the sidebar.
+        /// </summary>
+        public bool ShowFavoritesSection
+        {
+            get => Get(true);
+            set => Set(value);
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to show the library section on the sidebar.
@@ -537,7 +564,7 @@ namespace Files.ViewModels
             {
                 ApplicationLanguages.PrimaryLanguageOverride = value.ID;
             }
-        }        
+        }
 
         #endregion Preferences
 
@@ -658,6 +685,15 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating the default volume on media preview.
+        /// </summary>
+        public double MediaVolume
+        {
+            get => Math.Min(Math.Max(Get(1.0d), 0.0d), 1.0d);
+            set => Set(value);
+        }
+
         public event EventHandler ThemeModeChanged;
 
         public RelayCommand UpdateThemeElements => new RelayCommand(() =>
@@ -691,12 +727,13 @@ namespace Files.ViewModels
             set => Set((byte)value);
         }
 
-
         public GroupOption DefaultDirectoryGroupOption
         {
             get => (GroupOption)Get((byte)GroupOption.None);
             set => Set((byte)value);
         }
+
+        public FileTagsSettings FileTagsSettings { get; private set; }
 
         #region ReadAndSaveSettings
 

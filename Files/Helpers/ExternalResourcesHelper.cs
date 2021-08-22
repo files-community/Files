@@ -52,11 +52,9 @@ namespace Files.Helpers
             {
                 await TryLoadThemeAsync(App.AppSettings.SelectedTheme);
             }
-
-            LoadOtherThemesAsync();
         }
 
-        private async void LoadOtherThemesAsync()
+        public async Task LoadOtherThemesAsync()
         {
             try
             {
@@ -89,15 +87,19 @@ namespace Files.Helpers
 
         public async Task<bool> TryLoadThemeAsync(AppTheme theme)
         {
-
             try
             {
                 var xaml = await TryLoadResourceDictionary(theme);
-                App.Current.Resources.MergedDictionaries.Add(xaml);
-                return true;
+                if (xaml != null)
+                {
+                    App.Current.Resources.MergedDictionaries.Add(xaml);
+                    return true;
+                }
+                return false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                App.Logger.Warn(ex, $"Error loading theme: {theme?.Path}");
                 return false;
             }
         }
@@ -105,6 +107,10 @@ namespace Files.Helpers
         public async Task<ResourceDictionary> TryLoadResourceDictionary(AppTheme theme)
         {
             StorageFile file;
+            if (theme?.Path == null)
+            {
+                return null;
+            }
             if (theme.IsFromOptionalPackage)
             {
                 if (OptionalPackageThemesFolder != null)

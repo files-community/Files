@@ -7,8 +7,8 @@
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-	xmlns:vm="using:Files.ViewModels"
-	d:DesignHeight="300"
+    xmlns:vm="using:Files.ViewModels"
+    d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -73,10 +73,10 @@
                     </MenuFlyout>
                 </ResourceDictionary>
 
-				<ResourceDictionary Source="/ResourceDictionaries/TabView_themeresources.xaml" />
-				<ResourceDictionary Source="/ResourceDictionaries/TabViewItem_shared.xaml" />
+                <ResourceDictionary Source="/ResourceDictionaries/TabView_themeresources.xaml" />
+                <ResourceDictionary Source="/ResourceDictionaries/TabViewItem_shared.xaml" />
 
-			</ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -96,7 +96,7 @@
             CanDragTabs="True"
             DragLeave="TabStrip_DragLeave"
             IsAddTabButtonVisible="False"
-            SelectedIndex="{x:Bind local1:App.MainViewModel.TabStripSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            SelectedIndex="{x:Bind local1:App.MainViewModel.TabStripSelectedIndex, Mode=TwoWay}"
             SelectionChanged="TabStrip_SelectionChanged"
             TabCloseRequested="TabStrip_TabCloseRequested"
             TabDragCompleted="TabStrip_TabDragCompleted"

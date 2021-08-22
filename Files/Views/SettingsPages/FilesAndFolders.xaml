@@ -15,102 +15,93 @@
     </Page.DataContext>
 
     <Grid>
-        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <StackPanel
-                Margin="12,12,8,8"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Spacing="4">
-                <StackPanel.ChildrenTransitions>
-                    <TransitionCollection>
-                        <ReorderThemeTransition />
-                    </TransitionCollection>
-                </StackPanel.ChildrenTransitions>
+        <StackPanel
+            Margin="12,12,8,8"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Spacing="4">
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <ReorderThemeTransition />
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
 
-                <TextBlock
-                    x:Uid="SettingsFilesAndFoldersTitle"
-                    Padding="0,0,0,12"
-                    FontSize="20"
-                    FontWeight="Medium"
-                    Text="Files and Folders" />
+            <TextBlock
+                x:Uid="SettingsFilesAndFoldersTitle"
+                Padding="0,0,0,12"
+                FontSize="20"
+                FontWeight="Medium"
+                Text="Files and Folders" />
 
-                <local:SettingsBlockControl
-                    x:Uid="SettingsFilesAndFoldersShowHiddenItems"
-                    Title="Show hidden files and folders"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
-                    <local:SettingsBlockControl.Icon>
-                        <FontIcon Glyph="&#xE7B3;" />
-                    </local:SettingsBlockControl.Icon>
-                    <ToggleSwitch IsOn="{Binding AreHiddenItemsVisible, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                </local:SettingsBlockControl>
+            <local:SettingsBlockControl
+                x:Uid="SettingsFilesAndFoldersShowHiddenItems"
+                Title="Show hidden files and folders"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE7B3;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch IsOn="{Binding AreHiddenItemsVisible, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
 
-                <local:SettingsBlockControl
-                    x:Uid="SettingsFilesAndFoldersHideSystemItems"
-                    Title="Hide protected operating system files (Recommended)"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
-                    <local:SettingsBlockControl.Icon>
-                        <FontIcon Glyph="&#xED1A;" />
-                    </local:SettingsBlockControl.Icon>
-                    <ToggleSwitch IsOn="{Binding AreSystemItemsHidden, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                </local:SettingsBlockControl>
+            <local:SettingsBlockControl
+                x:Uid="SettingsFilesAndFoldersHideSystemItems"
+                Title="Hide protected operating system files (Recommended)"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xED1A;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch IsOn="{Binding AreSystemItemsHidden, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
 
-                <local:SettingsBlockControl
-                    x:Uid="SettingsFilesAndFoldersShowFileExtensions"
-                    Title="Show extensions for known file types"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
-                    <local:SettingsBlockControl.Icon>
-                        <FontIcon Glyph="&#xE160;" />
-                    </local:SettingsBlockControl.Icon>
-                    <ToggleSwitch IsOn="{Binding ShowFileExtensions, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                </local:SettingsBlockControl>
+            <local:SettingsBlockControl
+                x:Uid="SettingsFilesAndFoldersShowFileExtensions"
+                Title="Show extensions for known file types"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE160;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch IsOn="{Binding ShowFileExtensions, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
 
-                <local:SettingsBlockControl
-                    x:Uid="SettingsOpenItemsWithOneclick"
-                    Title="Open items with a single click"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
-                    <local:SettingsBlockControl.Icon>
-                        <FontIcon Glyph="&#xE8B0;" />
-                    </local:SettingsBlockControl.Icon>
-                    <ToggleSwitch IsOn="{Binding OpenItemsWithOneclick, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                </local:SettingsBlockControl>
+            <local:SettingsBlockControl
+                x:Uid="SettingsOpenItemsWithOneclick"
+                Title="Open items with a single click"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE8B0;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch IsOn="{Binding OpenItemsWithOneclick, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
 
-                <local:SettingsBlockControl
-                    x:Uid="SettingsListAndSortDirectoriesAlongsideFiles"
-                    Title="List and sort directories alongside files"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
-                    <local:SettingsBlockControl.Icon>
-                        <FontIcon Glyph="&#xE174;" />
-                    </local:SettingsBlockControl.Icon>
-                    <ToggleSwitch IsOn="{Binding ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                </local:SettingsBlockControl>
+            <local:SettingsBlockControl
+                x:Uid="SettingsListAndSortDirectoriesAlongsideFiles"
+                Title="List and sort directories alongside files"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE174;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch IsOn="{Binding ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
 
-                <local:SettingsBlockControl
-                    x:Uid="SettingsSearchUnindexedItems"
-                    Title="Show unindexed items when searching for files and folders (searches may take longer)"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
-                    <local:SettingsBlockControl.Icon>
-                        <FontIcon Glyph="&#xE721;" />
-                    </local:SettingsBlockControl.Icon>
-                    <ToggleSwitch IsOn="{Binding SearchUnindexedItems, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                </local:SettingsBlockControl>
+            <local:SettingsBlockControl
+                x:Uid="SettingsSearchUnindexedItems"
+                Title="Show unindexed items when searching for files and folders (searches may take longer)"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE721;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch IsOn="{Binding SearchUnindexedItems, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
 
-                <local:SettingsBlockControl
-                    x:Uid="SettingsEnableLayoutPreferencesPerFolder"
-                    Title="Enable individual preferences for individual directories"
-                    Width="{StaticResource SettingsBlockControlDefaultWidth}"
-                    HorizontalAlignment="Left">
-                    <local:SettingsBlockControl.Icon>
-                        <FontIcon Glyph="&#xE8B7;" />
-                    </local:SettingsBlockControl.Icon>
-                    <ToggleSwitch IsOn="{Binding AreLayoutPreferencesPerFolder, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-                </local:SettingsBlockControl>
-            </StackPanel>
-        </ScrollViewer>
+            <local:SettingsBlockControl
+                x:Uid="SettingsEnableLayoutPreferencesPerFolder"
+                Title="Enable individual preferences for individual directories"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE8B7;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch IsOn="{Binding AreLayoutPreferencesPerFolder, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
+        </StackPanel>
     </Grid>
 </Page>

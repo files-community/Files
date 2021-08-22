@@ -17,140 +17,135 @@
     </Page.Resources>
 
     <Grid>
-        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <StackPanel
-                Margin="12,12,8,8"
-                Orientation="Vertical"
-                Spacing="20">
-                <StackPanel.ChildrenTransitions>
-                    <TransitionCollection>
-                        <ReorderThemeTransition />
-                    </TransitionCollection>
-                </StackPanel.ChildrenTransitions>
+        <StackPanel
+            Margin="12,12,8,8"
+            Orientation="Vertical"
+            Spacing="20">
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <ReorderThemeTransition />
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
 
+            <TextBlock
+                x:Uid="SettingsOnStartupTitle"
+                FontSize="20"
+                FontWeight="Medium"
+                Text="On Startup" />
+
+            <TextBlock
+                x:Uid="SettingsWhenLaunchingFiles"
+                FontSize="16"
+                Text="When launching Files" />
+
+            <RadioButton
+                x:Uid="SettingsOnStartupOpenANewTab"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Content="Open a new tab"
+                GroupName="StartupPageSettingRadioGroup"
+                IsChecked="{Binding OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <RadioButton
+                x:Uid="SettingsOnStartupContinueWhereYouLeftOff"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Content="Continue where you left off"
+                GroupName="StartupPageSettingRadioGroup"
+                IsChecked="{Binding ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <RadioButton
+                x:Name="OpenSpecificPage"
+                x:Uid="SettingsOnStartupOpenASpecificPage"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Content="Open a specific page or pages"
+                GroupName="StartupPageSettingRadioGroup"
+                IsChecked="{Binding OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <Grid HorizontalAlignment="Stretch" Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
                 <TextBlock
-                    x:Uid="SettingsOnStartupTitle"
-                    FontSize="20"
-                    FontWeight="Medium"
-                    Text="On Startup" />
-
-                <TextBlock
-                    x:Uid="SettingsWhenLaunchingFiles"
-                    FontSize="16"
-                    Text="When launching Files" />
-
-                <RadioButton
-                    x:Uid="SettingsOnStartupOpenANewTab"
-                    Grid.Column="0"
-                    VerticalAlignment="Center"
-                    Content="Open a new tab"
-                    GroupName="StartupPageSettingRadioGroup"
-                    IsChecked="{Binding OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                <RadioButton
-                    x:Uid="SettingsOnStartupContinueWhereYouLeftOff"
-                    Grid.Column="0"
-                    VerticalAlignment="Center"
-                    Content="Continue where you left off"
-                    GroupName="StartupPageSettingRadioGroup"
-                    IsChecked="{Binding ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                <RadioButton
-                    x:Name="OpenSpecificPage"
-                    x:Uid="SettingsOnStartupOpenASpecificPage"
-                    Grid.Column="0"
-                    VerticalAlignment="Center"
-                    Content="Open a specific page or pages"
-                    GroupName="StartupPageSettingRadioGroup"
-                    IsChecked="{Binding OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                <Grid
-                    Width="Auto"
+                    x:Uid="SettingsOnStartupPages"
                     HorizontalAlignment="Left"
-                    Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition MinWidth="100" />
-                        <ColumnDefinition MinWidth="240" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <TextBlock
-                        x:Uid="SettingsOnStartupPages"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="Pages: " />
-                    <CommandBar
-                        Grid.Column="1"
-                        Background="Transparent"
-                        DefaultLabelPosition="Right"
-                        IsOpen="False">
-                        <AppBarButton
-                            x:Uid="AppBarButtonAdd"
-                            Icon="Add"
-                            Label="Add">
-                            <AppBarButton.Flyout>
-                                <MenuFlyout helpers:MenuFlyoutHelper.ItemsSource="{Binding AddFlyoutItemsSource}" Placement="Bottom" />
-                            </AppBarButton.Flyout>
-                        </AppBarButton>
-                        <AppBarButton
-                            x:Uid="AppBarButtonEdit"
-                            Command="{Binding ChangePageCommand}"
-                            Icon="Edit"
-                            IsEnabled="{Binding IsPageListEditEnabled}"
-                            Label="Edit" />
-                        <AppBarButton
-                            x:Uid="AppBarButtonRemove"
-                            Command="{Binding RemovePageCommand}"
-                            Icon="Delete"
-                            IsEnabled="{Binding IsPageListEditEnabled}"
-                            Label="Remove" />
-                    </CommandBar>
-
-                    <ListView
-                        x:Name="PagesList"
-                        Grid.Row="1"
-                        Grid.ColumnSpan="2"
-                        Margin="0,10"
-                        HorizontalAlignment="Stretch"
-                        AllowDrop="True"
-                        CanReorderItems="True"
-                        IsItemClickEnabled="True"
-                        ItemsSource="{Binding PagesOnStartupList, Mode=TwoWay}"
-                        SelectedIndex="{Binding SelectedPageIndex, Mode=TwoWay}"
-                        SelectionMode="Single">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock
-                                    Text="{Binding Text}"
-                                    TextTrimming="CharacterEllipsis"
-                                    ToolTipService.ToolTip="{Binding Text}" />
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
-
-                <TextBlock
-                    x:Uid="SettingsOnStartupNewInstanceBehavior"
+                    VerticalAlignment="Center"
                     FontSize="16"
-                    Text="When opening a folder in Files" />
+                    Text="Pages: " />
+                <CommandBar
+                    Grid.Column="1"
+                    Background="Transparent"
+                    DefaultLabelPosition="Right"
+                    IsOpen="False">
+                    <AppBarButton
+                        x:Uid="AppBarButtonAdd"
+                        Icon="Add"
+                        Label="Add">
+                        <AppBarButton.Flyout>
+                            <MenuFlyout helpers:MenuFlyoutHelper.ItemsSource="{Binding AddFlyoutItemsSource}" Placement="Bottom" />
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                    <AppBarButton
+                        x:Uid="AppBarButtonEdit"
+                        Command="{Binding ChangePageCommand}"
+                        Icon="Edit"
+                        IsEnabled="{Binding IsPageListEditEnabled}"
+                        Label="Edit" />
+                    <AppBarButton
+                        x:Uid="AppBarButtonRemove"
+                        Command="{Binding RemovePageCommand}"
+                        Icon="Delete"
+                        IsEnabled="{Binding IsPageListEditEnabled}"
+                        Label="Remove" />
+                </CommandBar>
 
-                <RadioButton
-                    x:Uid="SettingsOnStartupLaunchNewTab"
-                    VerticalAlignment="Center"
-                    Content="Open folder in a new tab"
-                    GroupName="StartupPageLaunchRadioGroup"
-                    IsChecked="{Binding AlwaysOpenANewInstance, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}" />
+                <ListView
+                    x:Name="PagesList"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Margin="0,10"
+                    HorizontalAlignment="Stretch"
+                    AllowDrop="True"
+                    CanReorderItems="True"
+                    IsItemClickEnabled="True"
+                    ItemsSource="{Binding PagesOnStartupList, Mode=TwoWay}"
+                    SelectedIndex="{Binding SelectedPageIndex, Mode=TwoWay}"
+                    SelectionMode="Single">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                Text="{Binding Text}"
+                                TextTrimming="CharacterEllipsis"
+                                ToolTipService.ToolTip="{Binding Text}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
 
-                <RadioButton
-                    x:Uid="SettingsOnStartupLaunchNewInstance"
-                    VerticalAlignment="Center"
-                    Content="Always open a new instance"
-                    GroupName="StartupPageLaunchRadioGroup"
-                    IsChecked="{Binding AlwaysOpenANewInstance, Mode=TwoWay}" />
-            </StackPanel>
-        </ScrollViewer>
+            <TextBlock
+                x:Uid="SettingsOnStartupNewInstanceBehavior"
+                FontSize="16"
+                Text="When opening a folder in Files" />
+
+            <RadioButton
+                x:Uid="SettingsOnStartupLaunchNewTab"
+                VerticalAlignment="Center"
+                Content="Open folder in a new tab"
+                GroupName="StartupPageLaunchRadioGroup"
+                IsChecked="{Binding AlwaysOpenANewInstance, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}" />
+
+            <RadioButton
+                x:Uid="SettingsOnStartupLaunchNewInstance"
+                VerticalAlignment="Center"
+                Content="Always open a new instance"
+                GroupName="StartupPageLaunchRadioGroup"
+                IsChecked="{Binding AlwaysOpenANewInstance, Mode=TwoWay}" />
+        </StackPanel>
     </Grid>
 </Page>

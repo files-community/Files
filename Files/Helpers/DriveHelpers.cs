@@ -58,54 +58,5 @@ namespace Files.Helpers
                     "EjectNotificationErrorDialogBody".GetLocalized());
             }
         }
-
-        public static string GetDriveTypeIcon(System.IO.DriveInfo drive)
-        {
-            string type;
-
-            switch (drive.DriveType)
-            {
-                case System.IO.DriveType.CDRom:
-                    type = "\xE958";
-                    break;
-
-                case System.IO.DriveType.Fixed:
-                    type = "\xEDA2";
-                    break;
-
-                case System.IO.DriveType.Network:
-                    type = "\xE8CE";
-                    break;
-
-                case System.IO.DriveType.NoRootDirectory:
-                    type = "\xED25";
-                    break;
-
-                case System.IO.DriveType.Ram:
-                    type = "\xE950";
-                    break;
-
-                case System.IO.DriveType.Removable:
-                    type = "\xE88E";
-                    break;
-
-                case System.IO.DriveType.Unknown:
-                    if (PathNormalization.NormalizePath(drive.Name) != PathNormalization.NormalizePath("A:") && PathNormalization.NormalizePath(drive.Name) != PathNormalization.NormalizePath("B:"))
-                    {
-                        type = "\xEDA2";
-                    }
-                    else
-                    {
-                        type = "\xE74E"; // Floppy icon
-                    }
-                    break;
-
-                default:
-                    type = "\xEDA2"; // Drive icon
-                    break;
-            }
-
-            return type;
-        }
     }
 }

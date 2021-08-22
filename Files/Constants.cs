@@ -74,12 +74,12 @@
 
             public static class DetailsLayoutBrowser
             {
-                public const int DetailsViewSize = 28;
+                public const int DetailsViewSize = 32;
             }
 
             public static class ColumnViewBrowser
             {
-                public const int ColumnViewSize = 28;
+                public const int ColumnViewSize = 32;
             }
         }
 
@@ -105,6 +105,8 @@
             public const string SettingsFolderName = "settings";
 
             public const string BundlesSettingsFileName = "bundles.json";
+
+            public const string FileTagSettingsFileName = "filetags.json";
         }
 
         public static class PreviewPane

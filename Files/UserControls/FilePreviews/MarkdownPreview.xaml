@@ -7,7 +7,13 @@
     xmlns:local="using:Files.UserControls.FilePreviews"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionaries/TransparentMarkdownTextBlock.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <ScrollViewer>
             <controls:MarkdownTextBlock Text="{x:Bind ViewModel.TextValue, Mode=OneWay}" />

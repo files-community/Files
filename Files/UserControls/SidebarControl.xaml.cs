@@ -2,7 +2,7 @@
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.UserControls.MultitaskingControl;
+using Files.Helpers.ContextFlyouts;
 using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -13,6 +13,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
@@ -22,8 +23,6 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Shapes;
 
 namespace Files.UserControls
 {
@@ -50,8 +49,6 @@ namespace Files.UserControls
         public delegate void SidebarItemDroppedEventHandler(object sender, SidebarItemDroppedEventArgs e);
 
         public event SidebarItemDroppedEventHandler SidebarItemDropped;
-
-        public event EventHandler RecycleBinItemRightTapped;
 
         /// <summary>
         /// The Model for the pinned sidebar items
@@ -120,131 +117,19 @@ namespace Files.UserControls
             }
         }
 
-        /// <summary>
-        /// ShowUnpinItem property indicating whether the unpin button should by displayed when right-clicking an item in the navigation bar
-        /// </summary>
-        private bool showUnpinItem;
+        public bool ShowUnpinItem { get; set; }
 
-        /// <summary>
-        /// Binding property for the MenuFlyoutItem SideBarUnpinFromFavorites
-        /// </summary>
-        public bool ShowUnpinItem
-        {
-            get => showUnpinItem;
-            set
-            {
-                if (value != showUnpinItem)
-                {
-                    showUnpinItem = value;
-                    NotifyPropertyChanged(nameof(ShowUnpinItem));
-                }
-            }
-        }
+        public bool ShowHideSection { get; set; }
 
-        private bool showHideSection;
+        public bool ShowProperties { get; set; }
 
-        public bool ShowHideSection
-        {
-            get => showHideSection;
-            set
-            {
-                if (value != showHideSection)
-                {
-                    showHideSection = value;
-                    NotifyPropertyChanged(nameof(ShowHideSection));
-                }
-            }
-        }
+        public bool ShowEmptyRecycleBin { get; set; }
 
-        private bool showProperties;
+        public bool ShowEjectDevice { get; set; }
 
-        public bool ShowProperties
-        {
-            get => showProperties;
-            set
-            {
-                if (value != showProperties)
-                {
-                    showProperties = value;
-                    NotifyPropertyChanged(nameof(ShowProperties));
-                }
-            }
-        }
+        public bool IsLocationItem { get; set; }
 
-        private bool showEmptyRecycleBin;
-
-        public bool ShowEmptyRecycleBin
-        {
-            get => showEmptyRecycleBin;
-            set
-            {
-                if (value != showEmptyRecycleBin)
-                {
-                    showEmptyRecycleBin = value;
-                    NotifyPropertyChanged(nameof(ShowEmptyRecycleBin));
-                }
-            }
-        }
-
-        private bool showEjectDevice;
-
-        public bool ShowEjectDevice
-        {
-            get => showEjectDevice;
-            set
-            {
-                if (value != showEjectDevice)
-                {
-                    showEjectDevice = value;
-                    NotifyPropertyChanged(nameof(ShowEjectDevice));
-                }
-            }
-        }
-
-        private bool recycleBinHasItems;
-
-        public bool RecycleBinHasItems
-        {
-            get => recycleBinHasItems;
-            set
-            {
-                if (value != recycleBinHasItems)
-                {
-                    recycleBinHasItems = value;
-                    NotifyPropertyChanged(nameof(RecycleBinHasItems));
-                }
-            }
-        }
-
-        private bool isLocationItem;
-
-        public bool IsLocationItem
-        {
-            get => isLocationItem;
-            set
-            {
-                if (value != isLocationItem)
-                {
-                    isLocationItem = value;
-                    NotifyPropertyChanged(nameof(IsLocationItem));
-                }
-            }
-        }
-
-        private bool isLibrariesHeader;
-
-        public bool IsLibrariesHeader
-        {
-            get => isLibrariesHeader;
-            set
-            {
-                if (value != isLibrariesHeader)
-                {
-                    isLibrariesHeader = value;
-                    NotifyPropertyChanged(nameof(IsLibrariesHeader));
-                }
-            }
-        }
+        public bool IsLibrariesHeader { get; set; }
 
         public INavigationControlItem RightClickedItem;
 
@@ -257,7 +142,12 @@ namespace Files.UserControls
 
         public void HideSection_Click(object sender, RoutedEventArgs e)
         {
-            if ("SidebarLibraries".GetLocalized().Equals(RightClickedItem.Text))
+            if ("SidebarFavorites".GetLocalized().Equals(RightClickedItem.Text))
+            {
+                AppSettings.ShowFavoritesSection = false;
+                App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
+            }
+            else if ("SidebarLibraries".GetLocalized().Equals(RightClickedItem.Text))
             {
                 AppSettings.ShowLibrarySection = false;
                 App.LibraryManager.UpdateLibrariesSectionVisibility();
@@ -316,10 +206,16 @@ namespace Files.UserControls
                 return;
             }
 
-            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            if (ctrlPressed && !(args.InvokedItemContainer.Tag is null))
+            string navigationPath = args.InvokedItemContainer.Tag?.ToString();
+
+            if (await CheckEmptyDrive(navigationPath))
             {
-                string navigationPath = args.InvokedItemContainer.Tag.ToString();
+                return;
+            }
+
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            if (ctrlPressed && navigationPath is not null)
+            {
                 await NavigationHelpers.OpenPathInNewTab(navigationPath);
                 return;
             }
@@ -331,16 +227,21 @@ namespace Files.UserControls
         {
             var properties = e.GetCurrentPoint(null).Properties;
             var context = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext;
-            if (properties.IsMiddleButtonPressed && context is INavigationControlItem item)
+            if (properties.IsMiddleButtonPressed && context is INavigationControlItem item && item.Path != null)
             {
+                if (await CheckEmptyDrive(item.Path))
+                {
+                    return;
+                }
                 IsInPointerPressed = true;
-                await NavigationHelpers.OpenPathInNewTab(item.Path);
                 e.Handled = true;
+                await NavigationHelpers.OpenPathInNewTab(item.Path);
             }
         }
 
         private void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
+            var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as LocationItem;
 
@@ -371,7 +272,6 @@ namespace Files.UserControls
 
                 if (string.Equals(item.Path, AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
                     ShowEmptyRecycleBin = true;
                     ShowUnpinItem = true;
                     ShowProperties = false;
@@ -382,9 +282,14 @@ namespace Files.UserControls
                 }
 
                 RightClickedItem = item;
-                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+                var menuItems = GetLocationItemMenuItems();
+                var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+                secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+                itemContextMenuFlyout.ShowAt(sidebarItem, new Windows.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
+
+                LoadShellMenuItems(itemContextMenuFlyout);
             }
-            else if (!favoritesHeader)
+            else
             {
                 IsLocationItem = false;
                 ShowProperties = false;
@@ -394,10 +299,11 @@ namespace Files.UserControls
                 ShowEjectDevice = false;
                 ShowEmptyRecycleBin = false;
 
-                HideSectionItem.Text = string.Format("SideBarHideSectionFromSideBar/Text".GetLocalized(), item.Text);
-
                 RightClickedItem = item;
-                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+                var menuItems = GetLocationItemMenuItems();
+                var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+                secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+                itemContextMenuFlyout.ShowAt(sidebarItem, new Windows.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
             }
 
             e.Handled = true;
@@ -405,6 +311,7 @@ namespace Files.UserControls
 
         private void NavigationViewDriveItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
+            var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as DriveItem;
 
@@ -417,13 +324,19 @@ namespace Files.UserControls
             ShowHideSection = false;
 
             RightClickedItem = item;
-            SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+            var menuItems = GetLocationItemMenuItems();
+            var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+            secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+            itemContextMenuFlyout.ShowAt(sidebarItem, new Windows.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
+
+            LoadShellMenuItems(itemContextMenuFlyout);
 
             e.Handled = true;
         }
 
         private void NavigationViewWSLItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
+            var itemContextMenuFlyout = new Microsoft.UI.Xaml.Controls.CommandBarFlyout();
             var sidebarItem = sender as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             var item = sidebarItem.DataContext as WslDistroItem;
 
@@ -436,18 +349,29 @@ namespace Files.UserControls
             ShowHideSection = false;
 
             RightClickedItem = item;
-            SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+            var menuItems = GetLocationItemMenuItems();
+            var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+            secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+            itemContextMenuFlyout.ShowAt(sidebarItem, new Windows.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
 
             e.Handled = true;
         }
 
         private async void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
+            if (await CheckEmptyDrive(RightClickedItem.Path))
+            {
+                return;
+            }
             await NavigationHelpers.OpenPathInNewTab(RightClickedItem.Path);
         }
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
         {
+            if (await CheckEmptyDrive(RightClickedItem.Path))
+            {
+                return;
+            }
             await NavigationHelpers.OpenPathInNewWindowAsync(RightClickedItem.Path);
         }
 
@@ -531,35 +455,21 @@ namespace Files.UserControls
                 return;
             }
 
-            // If the dragged item is a folder or file from a file system
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            var deferral = e.GetDeferral();
+
+            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
-                var deferral = e.GetDeferral();
                 e.Handled = true;
-                IReadOnlyList<IStorageItem> storageItems;
-                try
-                {
-                    storageItems = await e.DataView.GetStorageItemsAsync();
-                }
-                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-                {
-                    // Handled by FTP
-                    storageItems = new List<IStorageItem>();
-                }
-                catch (Exception ex)
-                {
-                    App.Logger.Warn(ex, ex.Message);
-                    e.AcceptedOperation = DataPackageOperation.None;
-                    deferral.Complete();
-                    return;
-                }
+
+                var (handledByFtp, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
                 if (string.IsNullOrEmpty(locationItem.Path) ||
-                    (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(locationItem.Path)))
+                    (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(locationItem.Path))
+                    || locationItem.Path.StartsWith("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
-                else if (!storageItems.Any())
+                else if (handledByFtp)
                 {
                     if (locationItem.Path.StartsWith(App.AppSettings.RecycleBinPath))
                     {
@@ -572,6 +482,10 @@ namespace Files.UserControls
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                 }
+                else if (!storageItems.Any())
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                }
                 else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
@@ -579,6 +493,11 @@ namespace Files.UserControls
                     {
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Move;
+                    }
+                    else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
+                    {
+                        e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.AcceptedOperation = DataPackageOperation.Link;
                     }
                     else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
                     {
@@ -601,15 +520,14 @@ namespace Files.UserControls
                         e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
                     }
                 }
-
-                deferral.Complete();
             }
             else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
             {
                 // else if the drag over event is called over a location item
-
                 NavigationViewLocationItem_DragOver_SetCaptions(locationItem, sourceLocationItem, e);
             }
+
+            deferral.Complete();
         }
 
         /// <summary>
@@ -645,7 +563,7 @@ namespace Files.UserControls
             }
 
             // If the dropped item is a folder or file from a file system
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
@@ -670,46 +588,40 @@ namespace Files.UserControls
         private async void NavigationViewDriveItem_DragOver(object sender, DragEventArgs e)
         {
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem) ||
-                !e.DataView.Contains(StandardDataFormats.StorageItems))
+                !Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 return;
             }
 
             var deferral = e.GetDeferral();
             e.Handled = true;
-            IReadOnlyList<IStorageItem> storageItems;
-            try
-            {
-                storageItems = await e.DataView.GetStorageItemsAsync();
-            }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-            {
-                // Handled by FTP
-                storageItems = new List<IStorageItem>();
-            }
-            catch (Exception ex)
-            {
-                App.Logger.Warn(ex, ex.Message);
-                e.AcceptedOperation = DataPackageOperation.None;
-                deferral.Complete();
-                return;
-            }
 
+            var (handledByFtp, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+            
             if ("DriveCapacityUnknown".GetLocalized().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
                 (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
             {
                 e.AcceptedOperation = DataPackageOperation.None;
             }
-            else if (!storageItems.Any())
+            else if (handledByFtp)
             {
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), driveItem.Text);
                 e.AcceptedOperation = DataPackageOperation.Copy;
             }
+            else if (!storageItems.Any())
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+            }
             else
             {
                 e.DragUIOverride.IsCaptionVisible = true;
-                if (e.Modifiers.HasFlag(DragDropModifiers.Control))
+                if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
+                {
+                    e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), driveItem.Text);
+                    e.AcceptedOperation = DataPackageOperation.Link;
+                }
+                else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
                 {
                     e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), driveItem.Text);
                     e.AcceptedOperation = DataPackageOperation.Copy;
@@ -758,8 +670,7 @@ namespace Files.UserControls
 
         private void Properties_Click(object sender, RoutedEventArgs e)
         {
-            var item = (sender as MenuFlyoutItem).DataContext;
-            SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(item));
+            SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(RightClickedItem));
         }
 
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
@@ -808,7 +719,8 @@ namespace Files.UserControls
                     SetSize(step, true);
                     e.Handled = true;
                 }
-            } else if(e.Key == VirtualKey.Right)
+            }
+            else if (e.Key == VirtualKey.Right)
             {
                 IsPaneOpen = !IsPaneOpen;
                 return;
@@ -886,10 +798,18 @@ namespace Files.UserControls
             dragging = false;
         }
 
-        private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
+        private void ResizeElementBorder_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            var item = (sender as MenuFlyoutItem).DataContext;
-            SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(item));
+            IsPaneOpen = !IsPaneOpen;
+        }
+
+        private async void OpenInNewPane_Click(object sender, RoutedEventArgs e)
+        {
+            if (await CheckEmptyDrive((RightClickedItem as INavigationControlItem)?.Path))
+            {
+                return;
+            }
+            SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(RightClickedItem));
         }
 
         private void ResizeElementBorder_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
@@ -901,6 +821,147 @@ namespace Files.UserControls
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPressed", true);
                 dragging = true;
             }
+        }
+
+        private async Task<bool> CheckEmptyDrive(string drivePath)
+        {
+            if (drivePath is not null)
+            {
+                var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path));
+                if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
+                {
+                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "InsertDiscDialog/CloseDialogButton".GetLocalized());
+                    if (ejectButton)
+                    {
+                        await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private async void LoadShellMenuItems(Microsoft.UI.Xaml.Controls.CommandBarFlyout itemContextMenuFlyout)
+        {
+            try
+            {
+                if (ShowEmptyRecycleBin)
+                {
+                    var emptyRecycleBinItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "EmptyRecycleBin") as AppBarButton;
+                    if (emptyRecycleBinItem is not null)
+                    {
+                        var binHasItems = await new RecycleBinHelpers().RecycleBinHasItems();
+                        emptyRecycleBinItem.IsEnabled = binHasItems;
+                    }
+                }
+                if (IsLocationItem)
+                {
+                    var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+                    var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await AppServiceConnectionHelper.Instance, currentInstanceViewModel: null, workingDir: null,
+                        new List<ListedItem>() { new ListedItem(null) { ItemPath = RightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false);
+                    var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
+                    var overflowItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
+                    if (overflowItem is not null)
+                    {
+                        overflowItems.ForEach(i => (overflowItem.Flyout as MenuFlyout).Items.Add(i));
+                        overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
+                    }
+                }
+            }
+            catch { }
+        }
+
+        public List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems()
+        {
+            return new List<ContextMenuFlyoutItemViewModel>()
+            {
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarCreateNewLibrary/Text".GetLocalized(),
+                    Glyph = "\uE710",
+                    Command = CreateLibraryCommand,
+                    ShowItem = IsLibrariesHeader
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarRestoreLibraries/Text".GetLocalized(),
+                    Glyph = "\uE10E",
+                    Command = RestoreLibrariesCommand,
+                    ShowItem = IsLibrariesHeader
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutContextFlyoutEmptyRecycleBin/Text".GetLocalized(),
+                    Glyph = "\uEF88",
+                    GlyphFontFamilyName = "RecycleBinIcons",
+                    Command = EmptyRecycleBinCommand,
+                    ShowItem = ShowEmptyRecycleBin,
+                    IsEnabled = false,
+                    ID = "EmptyRecycleBin",
+                    Tag = "EmptyRecycleBin",
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarOpenInNewPane/Text".GetLocalized(),
+                    Glyph = "\uF117",
+                    GlyphFontFamilyName = "CustomGlyph",
+                    Command = new RelayCommand(() => OpenInNewPane_Click(null, null)),
+                    ShowItem = IsLocationItem && CanOpenInNewPane
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarOpenInNewTab/Text".GetLocalized(),
+                    Glyph = "\uF113",
+                    GlyphFontFamilyName = "CustomGlyph",
+                    Command = new RelayCommand(() => OpenInNewTab_Click(null, null)),
+                    ShowItem = IsLocationItem
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarOpenInNewWindow/Text".GetLocalized(),
+                    Glyph = "\uE737",
+                    Command = new RelayCommand(() => OpenInNewWindow_Click(null, null)),
+                    ShowItem = IsLocationItem
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarUnpinFromFavorites/Text".GetLocalized(),
+                    Glyph = "\uE77A",
+                    Command = new RelayCommand(() => UnpinItem_Click(null, null)),
+                    ShowItem = ShowUnpinItem
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = string.Format("SideBarHideSectionFromSideBar/Text".GetLocalized(), RightClickedItem.Text),
+                    Glyph = "\uE77A",
+                    Command = new RelayCommand(() => HideSection_Click(null, null)),
+                    ShowItem = ShowHideSection
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarEjectDevice/Text".GetLocalized(),
+                    Glyph = "\uF10B",
+                    GlyphFontFamilyName = "CustomGlyph",
+                    Command = new RelayCommand(() => EjectDevice_Click(null, null)),
+                    ShowItem = ShowEjectDevice
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutContextFlyoutPropertiesFolder/Text".GetLocalized(),
+                    Glyph = "\uE946",
+                    Command = new RelayCommand(() => Properties_Click(null, null)),
+                    ShowItem = ShowProperties
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "ContextMenuMoreItemsLabel".GetLocalized(),
+                    Glyph = "\xE712",
+                    Items = new List<ContextMenuFlyoutItemViewModel>(),
+                    ID = "ItemOverflow",
+                    Tag = "ItemOverflow",
+                    IsHidden = true,
+                }
+            }.Where(x => x.ShowItem).ToList();
         }
     }
 

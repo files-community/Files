@@ -18,7 +18,7 @@ namespace Files.ViewModels
         public object Tag { get; set; }
         public ItemType ItemType { get; set; }
         public bool IsSubItem { get; set; }
-        public List<ContextMenuFlyoutItemViewModel> Items { get; set; } = new List<ContextMenuFlyoutItemViewModel>();
+        public List<ContextMenuFlyoutItemViewModel> Items { get; set; }
         public BitmapImage BitmapIcon { get; set; }
 
         /// <summary>
@@ -37,9 +37,14 @@ namespace Files.ViewModels
         public bool ShowInRecycleBin { get; set; }
 
         /// <summary>
-        /// True if the item is shown in cloud drive folders
+        /// True if the item is shown in search page
         /// </summary>
-        public bool ShowInCloudDrive { get; set; }
+        public bool ShowInSearchPage { get; set; }
+
+        /// <summary>
+        /// True if the item is shown in FTP page
+        /// </summary>
+        public bool ShowInFtpPage { get; set; }
 
         public KeyboardAccelerator KeyboardAccelerator { get; set; }
         public bool IsChecked { get; set; }

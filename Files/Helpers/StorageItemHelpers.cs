@@ -1,7 +1,7 @@
 using Files.Enums;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -26,19 +26,11 @@ namespace Files.Helpers
             if (path.ToLower().EndsWith(".lnk") || path.ToLower().EndsWith(".url"))
             {
                 // TODO: In the future, when IStorageItemWithPath will inherit from IStorageItem,
-                //      we could implement this code here for getting .lnk files
-                //      for now, we can't
-
+                // we could implement this code here for getting .lnk files
+                // for now, we can't
                 return default;
-
-                if (false) // Prevent unnecessary exceptions
-                {
-                    Debugger.Break();
-                    throw new ArgumentException("Function ToStorageItem<TOut>() does not support converting from .lnk and .url files");
-                }
             }
-
-            if (typeof(IStorageFile).IsAssignableFrom(typeof(TOut)))
+            else if (typeof(IStorageFile).IsAssignableFrom(typeof(TOut)))
             {
                 await GetFile();
             }
@@ -113,13 +105,23 @@ namespace Files.Helpers
             var returnedItem = new FilesystemResult<IStorageItem>(null, FileSystemStatusCode.Generic);
             if (!string.IsNullOrEmpty(item.Path))
             {
-                returnedItem = (item.ItemType == FilesystemItemType.File) ?
-                    ToType<IStorageItem, StorageFile>(associatedInstance != null ?
-                        await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.Path) :
-                        await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path))) :
-                    ToType<IStorageItem, StorageFolder>(associatedInstance != null ?
-                        await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.Path) :
-                        await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path)));
+                if (FtpHelpers.IsFtpPath(item.Path))
+                {
+                    returnedItem = new FilesystemResult<IStorageItem>((item.ItemType == FilesystemItemType.File)
+                        ? new FtpStorageFile(associatedInstance.FilesystemViewModel, item)
+                        : new FtpStorageFolder(associatedInstance.FilesystemViewModel, item),
+                        FileSystemStatusCode.Success);
+                }
+                else
+                {
+                    returnedItem = (item.ItemType == FilesystemItemType.File) ?
+                        ToType<IStorageItem, StorageFile>(associatedInstance != null ?
+                            await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.Path) :
+                            await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path))) :
+                        ToType<IStorageItem, StorageFolder>(associatedInstance != null ?
+                            await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.Path) :
+                            await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path)));
+                }
             }
             if (returnedItem.Result == null && item.Item != null)
             {

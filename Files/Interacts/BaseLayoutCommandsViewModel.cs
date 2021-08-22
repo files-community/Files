@@ -49,6 +49,7 @@ namespace Files.Interacts
             ShowFolderPropertiesCommand = new RelayCommand<RoutedEventArgs>(commandsModel.ShowFolderProperties);
             ShowPropertiesCommand = new RelayCommand<RoutedEventArgs>(commandsModel.ShowProperties);
             OpenFileLocationCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenFileLocation);
+            OpenParentFolderCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenParentFolder);
             OpenItemWithApplicationPickerCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenItemWithApplicationPicker);
             OpenDirectoryInNewTabCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenDirectoryInNewTab);
             OpenDirectoryInNewPaneCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenDirectoryInNewPane);
@@ -117,6 +118,8 @@ namespace Files.Interacts
         public ICommand ShowPropertiesCommand { get; private set; }
 
         public ICommand OpenFileLocationCommand { get; private set; }
+
+        public ICommand OpenParentFolderCommand { get; private set; }
 
         public ICommand OpenItemWithApplicationPickerCommand { get; private set; }
 
