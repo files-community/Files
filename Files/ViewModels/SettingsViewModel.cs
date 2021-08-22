@@ -4,11 +4,14 @@ using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -50,6 +53,7 @@ namespace Files.ViewModels
             FileTagsSettings = new FileTagsSettings();
 
             // Send analytics to AppCenter
+            StartAppCenter();
             TrackAnalytics();
 
             return this;
@@ -63,6 +67,23 @@ namespace Files.ViewModels
 
         private SettingsViewModel()
         {
+        }
+
+        private async void StartAppCenter()
+        {
+            JObject obj;
+            try
+            {
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
+                var lines = await FileIO.ReadTextAsync(file);
+                obj = JObject.Parse(lines);
+            }
+            catch
+            {
+                return;
+            }
+
+            AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
         }
 
         private void TrackAnalytics()

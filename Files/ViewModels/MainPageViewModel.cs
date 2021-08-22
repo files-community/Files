@@ -3,13 +3,9 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
 using Files.Views;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,7 +16,6 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files.ViewModels
@@ -55,8 +50,6 @@ namespace Files.ViewModels
             OpenNewWindowAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
             CloseSelectedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CloseSelectedTabKeyboardAccelerator);
             AddNewInstanceAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(AddNewInstanceAccelerator);
-
-            StartAppCenter();
         }
 
         private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs e)
@@ -127,7 +120,7 @@ namespace Files.ViewModels
                             indexToSelect = AppInstances.Count - 1;
                         }
                     }
-                    
+
                     break;
             }
 
@@ -228,7 +221,7 @@ namespace Files.ViewModels
         {
             string tabLocationHeader;
             var iconSource = new Microsoft.UI.Xaml.Controls.ImageIconSource();
-            
+
             if (currentPath == null || currentPath == "NewTab".GetLocalized() || currentPath == "Home".GetLocalized())
             {
                 tabLocationHeader = "NewTab".GetLocalized();
@@ -462,23 +455,6 @@ namespace Files.ViewModels
                 return;
             }
             await UpdateTabInfo(matchingTabItem, e.NavigationArg);
-        }
-
-        private async void StartAppCenter()
-        {
-            JObject obj;
-            try
-            {
-                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
-                var lines = await FileIO.ReadTextAsync(file);
-                obj = JObject.Parse(lines);
-            }
-            catch
-            {
-                return;
-            }
-
-            AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
         }
     }
 }
