@@ -140,7 +140,7 @@ namespace Files.Views
         {
             InitializeComponent();
 
-            InstanceViewModel = new CurrentInstanceViewModel();
+            InstanceViewModel = new CurrentInstanceViewModel(FolderLayoutModes.ColumnView);
             InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
             cancellationTokenSource = new CancellationTokenSource();
             FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
@@ -175,6 +175,8 @@ namespace Files.Views
             NavToolbarViewModel.EditModeEnabled += NavigationToolbar_EditModeEnabled;
             NavToolbarViewModel.ItemDraggedOverPathItem += ColumnShellPage_NavigationRequested;
             NavToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
+
+            NavToolbarViewModel.InstanceViewModel = InstanceViewModel;
             //NavToolbarViewModel.RefreshWidgetsRequested += refreshwid;
 
             InitToolbarCommands();
@@ -218,7 +220,6 @@ namespace Files.Views
                 (sender as FolderSettingsViewModel).UpdateLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
                 if (e.IsAdaptiveLayoutUpdateRequired)
                 {
-                    AdaptiveLayoutHelpers.PredictLayoutMode(InstanceViewModel.FolderSettings, FilesystemViewModel);
                 }
             }
         }
@@ -517,6 +518,7 @@ namespace Files.Views
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
+            FilesystemViewModel.DisableAdaptiveLayout = true;
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
             FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
             FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;

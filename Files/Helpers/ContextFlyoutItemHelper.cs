@@ -454,7 +454,7 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutPaste/Text".GetLocalized(),
-                    //Glyph = "\uF16D",
+                    // Glyph = "\uF16D",
                     ShowInFtpPage = true,
                     ColoredIcon = new ColoredIconModel()
                     {

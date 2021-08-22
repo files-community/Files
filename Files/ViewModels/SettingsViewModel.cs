@@ -141,7 +141,7 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// True if only the file preview in the preview pane should be shown
+        /// Gets or sets a value indicating if the preview pane should only show the item preview without the details section
         /// </summary>
         public bool ShowPreviewOnly
         {
