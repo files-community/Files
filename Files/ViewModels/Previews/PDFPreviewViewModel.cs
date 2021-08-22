@@ -41,7 +41,6 @@ namespace Files.ViewModels.Previews
             TryLoadPagesAsync(pdf, fileStream);
             var details = new List<FileProperty>
             {
-
                 // Add the number of pages to the details
                 new FileProperty()
                 {

@@ -10,9 +10,9 @@
     mc:Ignorable="d">
 
     <Grid
-        Width="120px"
+        Width="136px"
         Height="120px"
-        Padding="10">
+        Padding="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -198,5 +198,4 @@
             Foreground="{ThemeResource SystemControlBackgroundBaseHighBrush}"
             Text="{x:Bind SampleTheme.Name, Mode=OneWay}" />
     </Grid>
-
 </UserControl>

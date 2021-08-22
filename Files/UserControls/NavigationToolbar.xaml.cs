@@ -1,20 +1,11 @@
-﻿using Files.DataModels;
-using Files.Helpers;
-using Files.Helpers.ContextFlyouts;
-using Files.Helpers.XamlHelpers;
+﻿using Files.Helpers.XamlHelpers;
 using Files.ViewModels;
-using Files.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 using Windows.System;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.UserControls
 {
@@ -33,7 +24,6 @@ namespace Files.UserControls
         public ISearchBox SearchBox => ViewModel.SearchBox;
 
         public MainViewModel MainViewModel => App.MainViewModel;
-
 
         public static readonly DependencyProperty CanPasteInPageProperty = DependencyProperty.Register(
           "CanPasteInPage",
@@ -125,8 +115,8 @@ namespace Files.UserControls
 
         public void SetShellCommandBarContextItems()
         {
-
         }
+
         public bool ShowSearchBox
         {
             get { return (bool)GetValue(ShowSearchBoxProperty); }
@@ -136,7 +126,6 @@ namespace Files.UserControls
         // Using a DependencyProperty as the backing store for CollapseSearchBox.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowSearchBoxProperty =
             DependencyProperty.Register(nameof(ShowSearchBox), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
-
 
         public static readonly DependencyProperty SettingsButtonCommandProperty = DependencyProperty.Register(nameof(SettingsButtonCommand), typeof(ICommand), typeof(NavigationToolbar), new PropertyMetadata(null));
 

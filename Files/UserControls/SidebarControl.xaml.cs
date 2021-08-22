@@ -18,7 +18,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -604,7 +603,7 @@ namespace Files.UserControls
             e.Handled = true;
 
             var (handledByFtp, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-            
+
             if ("DriveCapacityUnknown".GetLocalized().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
                 (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
             {
@@ -739,9 +738,9 @@ namespace Files.UserControls
         /// <summary>
         /// true if the user is currently resizing the sidebar
         /// </summary>
-        bool dragging;
+        private bool dragging;
 
-        double originalSize = 0;
+        private double originalSize = 0;
 
         private void Border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {

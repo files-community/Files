@@ -1,6 +1,7 @@
-﻿using Files.Filesystem;
+﻿using Files.Common;
+using Files.Enums;
+using Files.Filesystem;
 using Files.Helpers;
-using Files.Helpers.XamlHelpers;
 using Files.UserControls;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -10,10 +11,8 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -23,7 +22,6 @@ using Windows.System;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Files.Common;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using static Files.UserControls.INavigationToolbar;
@@ -205,6 +203,7 @@ namespace Files.ViewModels
         }
 
         private bool canCopyPathInPage;
+
         public bool CanCopyPathInPage
         {
             get => canCopyPathInPage;
@@ -212,30 +211,31 @@ namespace Files.ViewModels
         }
 
         private bool canGoBack;
+
         public bool CanGoBack
         {
             get => canGoBack;
             set => SetProperty(ref canGoBack, value);
         }
 
-
         private bool canGoForward;
+
         public bool CanGoForward
         {
             get => canGoForward;
             set => SetProperty(ref canGoForward, value);
         }
 
-
         private bool canNavigateToParent;
+
         public bool CanNavigateToParent
         {
             get => canNavigateToParent;
             set => SetProperty(ref canNavigateToParent, value);
         }
 
-
         private bool previewPaneEnabled;
+
         public bool PreviewPaneEnabled
         {
             get => previewPaneEnabled;
@@ -243,22 +243,23 @@ namespace Files.ViewModels
         }
 
         private bool canRefresh;
+
         public bool CanRefresh
         {
             get => canRefresh;
             set => SetProperty(ref canRefresh, value);
         }
 
-
         private string searchButtonGlyph = "\uE721";
+
         public string SearchButtonGlyph
         {
             get => searchButtonGlyph;
             set => SetProperty(ref searchButtonGlyph, value);
         }
 
-
         private bool isSearchBoxVisible;
+
         public bool IsSearchBoxVisible
         {
             get => isSearchBoxVisible;
@@ -271,8 +272,8 @@ namespace Files.ViewModels
             }
         }
 
-
         private string pathText;
+
         public string PathText
         {
             get => pathText;
@@ -281,13 +282,13 @@ namespace Files.ViewModels
 
         public ObservableCollection<ListedItem> NavigationBarSuggestions = new ObservableCollection<ListedItem>();
 
-
         private CurrentInstanceViewModel instanceViewModel;
+
         public CurrentInstanceViewModel InstanceViewModel
         {
             get => instanceViewModel;
             set
-            { 
+            {
                 if (instanceViewModel != value)
                 {
                     if (instanceViewModel != null)
@@ -319,15 +320,16 @@ namespace Files.ViewModels
         private DispatcherQueueTimer dragOverTimer;
 
         private ISearchBox searchBox = new SearchBoxViewModel();
+
         public ISearchBox SearchBox
         {
             get => searchBox;
             set => SetProperty(ref searchBox, value);
         }
+
         public SearchBoxViewModel SearchBoxViewModel => SearchBox as SearchBoxViewModel;
 
         public bool IsSingleItemOverride { get; set; } = false;
-
 
         private string dragOverPath = null;
 
@@ -398,7 +400,6 @@ namespace Files.ViewModels
             });
             deferral.Complete();
         }
-
 
         public async void PathBoxItem_DragOver(object sender, DragEventArgs e)
         {
@@ -498,8 +499,8 @@ namespace Files.ViewModels
             }
         }
 
-
         private bool manualEntryBoxLoaded;
+
         public bool ManualEntryBoxLoaded
         {
             get => manualEntryBoxLoaded;
@@ -507,14 +508,15 @@ namespace Files.ViewModels
         }
 
         private bool clickablePathLoaded = true;
+
         public bool ClickablePathLoaded
         {
             get => clickablePathLoaded;
             set => SetProperty(ref clickablePathLoaded, value);
         }
 
-
         private string pathControlDisplayText;
+
         public string PathControlDisplayText
         {
             get => pathControlDisplayText;
@@ -588,7 +590,7 @@ namespace Files.ViewModels
             }
         }
 
-        NavigationToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<NavigationToolbar>();
+        private NavigationToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<NavigationToolbar>();
 
         #region YourHome Widgets
 
@@ -668,6 +670,7 @@ namespace Files.ViewModels
         }
 
         private void SearchRegion_SuggestionChosen(ISearchBox sender, SearchBoxSuggestionChosenEventArgs args) => IsSearchBoxVisible = false;
+
         private void SearchRegion_Escaped(object sender, ISearchBox searchBox) => IsSearchBoxVisible = false;
 
         public ICommand SelectAllContentPageItemsCommand { get; set; }
@@ -693,7 +696,7 @@ namespace Files.ViewModels
         public ICommand CopyCommand { get; set; }
 
         public ICommand DeleteCommand { get; set; }
-        
+
         public ICommand Rename { get; set; }
 
         public ICommand Share { get; set; }
@@ -957,13 +960,14 @@ namespace Files.ViewModels
             }
         }
 
-        List<ListedItem> selectedItems;
+        private List<ListedItem> selectedItems;
+
         public List<ListedItem> SelectedItems
         {
             get => selectedItems;
             set
             {
-                if(SetProperty(ref selectedItems, value))
+                if (SetProperty(ref selectedItems, value))
                 {
                     OnPropertyChanged(nameof(CanCopy));
                     OnPropertyChanged(nameof(CanShare));

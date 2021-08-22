@@ -1,17 +1,12 @@
 using ByteSizeLib;
 using Files.Extensions;
-using Files.Filesystem.Permissions;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels
 {
@@ -66,6 +61,7 @@ namespace Files.ViewModels
         }
 
         private byte[] iconData;
+
         public byte[] IconData
         {
             get => iconData;

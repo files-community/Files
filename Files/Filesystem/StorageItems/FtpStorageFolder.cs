@@ -1,6 +1,10 @@
 ﻿using Files.Common;
 using Files.Helpers;
 using FluentFTP;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;

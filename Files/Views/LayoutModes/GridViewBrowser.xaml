@@ -415,7 +415,6 @@
                                 Stroke="{ThemeResource GridViewHeaderItemDividerStroke}"
                                 StrokeThickness="0.5" />
 
-
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal" />
@@ -450,7 +449,6 @@
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
                         </Grid>
-
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

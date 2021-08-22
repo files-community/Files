@@ -7,17 +7,14 @@ using Files.Interacts;
 using Files.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -523,18 +520,18 @@ namespace Files.Views.LayoutModes
                         {
                             Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
                             var textBox = popup.Child as TextBox;
-                            EndRename(textBox);
+                            CommitRename(textBox);
                         }
                         else
                         {
                             var textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
-                            EndRename(textBox);
+                            CommitRename(textBox);
                         }
                     }
                 }
             }
         }
-        
+
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             // Skip opening selected items if the double tap doesn't capture an item

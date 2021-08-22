@@ -7,7 +7,6 @@ using Files.Helpers;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
 using Files.Views;
-using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Foundation;
@@ -715,7 +713,6 @@ namespace Files.Interacts
                     FileOperationType.Extract,
                     extractCancellation);
 
-
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
 
@@ -757,7 +754,6 @@ namespace Files.Interacts
                     ReturnResult.InProgress,
                     FileOperationType.Extract,
                     extractCancellation);
-
 
                 Stopwatch sw = new Stopwatch();
                 sw.Start();

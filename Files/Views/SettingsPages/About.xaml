@@ -73,6 +73,7 @@
                         <GridViewItem
                             x:Name="FeedbackForm"
                             x:Uid="SettingsAboutSubmitFeedbackListViewItem"
+                            Width="204"
                             Padding="8,2"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
@@ -196,30 +197,29 @@
                 </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
 
-            <Button
-                x:Name="OpenLogLocationButton"
-                x:Uid="SettingsAboutOpenLogLocationButton"
-                Padding="20,16,20,16"
-                HorizontalAlignment="Stretch"
-                AutomationProperties.Name="Open log location"
-                Command="{Binding OpenLogLocationCommand}">
-                <Button.Content>
-                    <Grid HorizontalAlignment="Stretch" ColumnSpacing="16">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
+            <local:SettingsBlockControl
+                x:Uid="OpenLogLocation"
+                Title="Open log location"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE838;" />
+                </local:SettingsBlockControl.Icon>
+
+                <Button
+                    x:Name="OpenLogLocationButton"
+                    x:Uid="SettingsAboutOpenLogLocationButton"
+                    Padding="8"
+                    AutomationProperties.Name="Open log location"
+                    Command="{Binding OpenLogLocationCommand}"
+                    ToolTipService.ToolTip="Open log location">
+                    <Button.Content>
                         <FontIcon
-                            Grid.Column="0"
-                            FontSize="20"
-                            Glyph="&#xE838;" />
-                        <TextBlock
-                            x:Uid="SettingsAboutOpenLogLocationButtonText"
-                            Grid.Column="1"
-                            Text="Open log location" />
-                    </Grid>
-                </Button.Content>
-            </Button>
+                            FontSize="14"
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                            Glyph="&#xE2B4;" />
+                    </Button.Content>
+                </Button>
+            </local:SettingsBlockControl>
 
             <TextBlock
                 x:Uid="SettingsAboutThirdPartyLicenses"

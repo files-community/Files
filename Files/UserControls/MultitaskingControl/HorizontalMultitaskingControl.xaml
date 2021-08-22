@@ -75,7 +75,6 @@
 
                 <ResourceDictionary Source="/ResourceDictionaries/TabView_themeresources.xaml" />
                 <ResourceDictionary Source="/ResourceDictionaries/TabViewItem_shared.xaml" />
-
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

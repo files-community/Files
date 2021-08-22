@@ -67,6 +67,7 @@ namespace Files.ViewModels.Previews
         }
 
         private BitmapImage fileImage;
+
         public BitmapImage FileImage
         {
             get => fileImage;

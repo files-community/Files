@@ -513,9 +513,6 @@
   <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
     <value>Ανοιχτή θέση καταγραφής</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButtonText.Text" xml:space="preserve">
-    <value>Ανοιχτή θέση καταγραφής</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>επιλεγμένο στοιχείο</value>
   </data>

@@ -7,11 +7,9 @@ using Files.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
@@ -19,7 +17,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -132,7 +129,8 @@ namespace Files.Views.LayoutModes
             if (IsLastColumnBase)
             {
                 FileList.SelectAll();
-            } else
+            }
+            else
             {
                 var c = ColumnHost.ActiveBlades.Last();
                 ((c.Content as Frame).Content as ColumnShellPage).NavToolbarViewModel.SelectAllContentPageItemsCommand.Execute(null);
@@ -636,7 +634,7 @@ namespace Files.Views.LayoutModes
                         //    NavPathParam = item.ItemPath,
                         //    AssociatedTabInstance = ParentShellPageInstance
                         //});
-                        
+
                         frame.Navigate(typeof(ColumnShellPage), new ColumnParam
                         {
                             Column = 1,
@@ -662,7 +660,7 @@ namespace Files.Views.LayoutModes
                     if (listViewItem != null)
                     {
                         var textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
-                        EndRename(textBox);
+                        CommitRename(textBox);
                     }
                 }
             }

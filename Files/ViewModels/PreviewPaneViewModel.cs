@@ -3,12 +3,10 @@ using Files.UserControls.FilePreviews;
 using Files.ViewModels.Previews;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
@@ -17,7 +15,6 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
-using static Files.App;
 
 namespace Files.ViewModels
 {
@@ -26,6 +23,7 @@ namespace Files.ViewModels
         private CancellationTokenSource loadCancellationTokenSource;
 
         private bool isItemSelected;
+
         public bool IsItemSelected
         {
             get => isItemSelected;
@@ -33,22 +31,23 @@ namespace Files.ViewModels
         }
 
         private ListedItem selectedItem;
+
         public ListedItem SelectedItem
         {
             get => selectedItem;
             set => SetProperty(ref selectedItem, value);
         }
 
-
         private PreviewPaneStates previewPaneState;
+
         public PreviewPaneStates PreviewPaneState
         {
             get => previewPaneState;
             set => SetProperty(ref previewPaneState, value);
         }
 
-
         private bool showCloudItemButton;
+
         public bool ShowCloudItemButton
         {
             get => showCloudItemButton;

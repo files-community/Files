@@ -16,6 +16,7 @@ namespace Files.ViewModels.Previews
         }
 
         private string textValue;
+
         public string TextValue
         {
             get => textValue;
@@ -23,6 +24,7 @@ namespace Files.ViewModels.Previews
         }
 
         private ILanguage codeLanguage;
+
         public ILanguage CodeLanguage
         {
             get => codeLanguage;

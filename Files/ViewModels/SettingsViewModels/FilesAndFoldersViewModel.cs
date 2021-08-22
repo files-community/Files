@@ -11,7 +11,7 @@ namespace Files.ViewModels.SettingsViewModels
         private bool listAndSortDirectoriesAlongsideFiles = App.AppSettings.ListAndSortDirectoriesAlongsideFiles;
         private bool searchUnindexedItems = App.AppSettings.SearchUnindexedItems;
         private bool areLayoutPreferencesPerFolder = App.AppSettings.AreLayoutPreferencesPerFolder;
-        
+
         public bool AreHiddenItemsVisible
         {
             get

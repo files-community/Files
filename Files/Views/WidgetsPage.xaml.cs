@@ -163,7 +163,7 @@ namespace Files.Views
             AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
             {
                 NavPathParam = e.ItemPath,
-                SelectItems = new [] { e.ItemName },
+                SelectItems = new[] { e.ItemName },
                 AssociatedTabInstance = AppInstance
             });
         }

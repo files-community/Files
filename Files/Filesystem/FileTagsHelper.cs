@@ -19,6 +19,7 @@ namespace Files.Filesystem
         public static string FileTagsDbPath => System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
 
         private static FileTagsDb _DbInstance;
+
         public static FileTagsDb DbInstance
         {
             get
@@ -75,6 +76,7 @@ namespace Files.Filesystem
         public string ColorString { get; set; }
 
         private SolidColorBrush color;
+
         [JsonIgnore]
         public SolidColorBrush Color => color ??= new SolidColorBrush(ColorString.ToColor());
 

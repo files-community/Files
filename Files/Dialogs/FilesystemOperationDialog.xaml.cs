@@ -30,10 +30,10 @@ namespace Files.Dialogs
         private void MenuFlyoutItem_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             var t = (sender as MenuFlyoutItem).Tag as string;
-            if(t == "All")
+            if (t == "All")
             {
                 var i = DetailsGrid.SelectedItems.FirstOrDefault() as FilesystemOperationItemViewModel;
-                if(i is not null)
+                if (i is not null)
                 {
                     ViewModel.ApplyConflictOptionToAll(i.ConflictResolveOption);
                 }
@@ -43,7 +43,7 @@ namespace Files.Dialogs
             var op = (FileNameConflictResolveOptionType)int.Parse(t);
             foreach (var item in DetailsGrid.SelectedItems)
             {
-                if(item is FilesystemOperationItemViewModel model)
+                if (item is FilesystemOperationItemViewModel model)
                 {
                     model.TakeAction(op);
                 }
@@ -52,14 +52,14 @@ namespace Files.Dialogs
 
         private void MenuFlyout_Opening(object sender, object e)
         {
-            if(!ViewModel.MustResolveConflicts)
+            if (!ViewModel.MustResolveConflicts)
             {
                 return;
             }
 
             if (((sender as MenuFlyout)?.Target as ListViewItem)?.Content is FilesystemOperationItemViewModel li)
             {
-                if(!DetailsGrid.SelectedItems.Contains(li))
+                if (!DetailsGrid.SelectedItems.Contains(li))
                 {
                     DetailsGrid.SelectedItems.Add(li);
                 }
@@ -69,7 +69,7 @@ namespace Files.Dialogs
             {
                 ApplyToAllOption.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 ApplyToAllSeparator.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            } 
+            }
             else
             {
                 ApplyToAllOption.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
@@ -80,7 +80,7 @@ namespace Files.Dialogs
         private void Grid_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             // if there are conflicts to be resolved, apply the conflict context flyout
-            if(ViewModel.MustResolveConflicts)
+            if (ViewModel.MustResolveConflicts)
             {
                 (sender as Grid).FindAscendant<ListViewItem>().ContextFlyout = ItemContextFlyout;
             }

@@ -15,22 +15,18 @@ using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -131,8 +127,6 @@ namespace Files.Views
         public static readonly DependencyProperty CurrentInstanceBorderThicknessProperty =
             DependencyProperty.Register("CurrentInstanceBorderThickness", typeof(Thickness), typeof(ModernShellPage), new PropertyMetadata(null));
 
-
-
         public static readonly DependencyProperty CurrentInstanceBorderBrushProperty =
             DependencyProperty.Register("CurrentInstanceBorderBrush", typeof(SolidColorBrush), typeof(ModernShellPage), new PropertyMetadata(null));
 
@@ -181,7 +175,6 @@ namespace Files.Views
             NavToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
             NavToolbarViewModel.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
 
-
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
 
@@ -191,7 +184,7 @@ namespace Files.Views
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
         }
 
-        void InitToolbarCommands()
+        private void InitToolbarCommands()
         {
             NavToolbarViewModel.SelectAllContentPageItemsCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.SelectAllItems());
             NavToolbarViewModel.InvertContentPageSelctionCommand = new RelayCommand(() => GetActiveLayout()?.ItemManipulationModel.InvertSelection());
@@ -756,18 +749,23 @@ namespace Files.Views
                 case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(true);
                     break;
+
                 case (true, true, false, _, VirtualKey.Number2): // ctrl+shift+2, tiles view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(true);
                     break;
+
                 case (true, true, false, _, VirtualKey.Number3): // ctrl+shift+3, grid small view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall.Execute(true);
                     break;
+
                 case (true, true, false, _, VirtualKey.Number4): // ctrl+shift+4, grid medium view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium.Execute(true);
                     break;
+
                 case (true, true, false, _, VirtualKey.Number5): // ctrl+shift+5, grid large view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge.Execute(true);
                     break;
+
                 case (true, true, false, _, VirtualKey.Number6): // ctrl+shift+6, column view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView.Execute(true);
                     break;

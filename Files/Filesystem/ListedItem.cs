@@ -1,5 +1,4 @@
-﻿using Common;
-using ByteSizeLib;
+﻿using ByteSizeLib;
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.Cloud;
@@ -12,7 +11,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 using Files.Filesystem.StorageItems;
@@ -93,6 +91,7 @@ namespace Files.Filesystem
         public ulong? FileFRN { get; set; }
 
         private string fileTag;
+
         public string FileTag
         {
             get => fileTag;

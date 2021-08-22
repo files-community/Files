@@ -1,10 +1,8 @@
 ﻿using Files.Helpers;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -203,8 +201,6 @@ namespace Files.UserControls.MultitaskingControl
 
         public override DependencyObject ContainerFromItem(ITabItem item) => HorizontalTabView.ContainerFromItem(item);
 
-
-
         public UIElement ActionsControl
         {
             get { return (UIElement)GetValue(ActionsControlProperty); }
@@ -214,8 +210,6 @@ namespace Files.UserControls.MultitaskingControl
         // Using a DependencyProperty as the backing store for ActionsControl.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ActionsControlProperty =
             DependencyProperty.Register("ActionsControl", typeof(UIElement), typeof(HorizontalMultitaskingControl), new PropertyMetadata(null));
-
-
 
         public Visibility TabStripVisibility
         {

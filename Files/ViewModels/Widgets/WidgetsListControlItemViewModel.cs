@@ -1,11 +1,12 @@
-﻿using System;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System;
 
 namespace Files.ViewModels.Widgets
 {
     public class WidgetsListControlItemViewModel : ObservableObject, IDisposable
     {
         private object widgetControl;
+
         public object WidgetControl
         {
             get => widgetControl;
