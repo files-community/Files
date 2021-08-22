@@ -586,7 +586,7 @@ namespace Files.Interacts
                         e.AcceptedOperation = DataPackageOperation.Move;
                     }
                     else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
-                        || await ZipStorageFolder.FromPathAsync(pwd, false) is not null)
+                        || ZipStorageFolder.IsZipPath(pwd))
                     {
                         e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Copy;

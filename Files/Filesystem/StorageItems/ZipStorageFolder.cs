@@ -428,29 +428,32 @@ namespace Files.Filesystem.StorageItems
             });
         }
 
-        public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path, bool tryOpenFile = true)
+        public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
+        {
+            var marker = path.IndexOf(".zip");
+            if (marker != -1)
+            {
+                var containerPath = path.Substring(0, marker + ".zip".Length);
+                if (CheckAccess(containerPath))
+                {
+                    return Task.FromResult<BaseStorageFolder>(new ZipStorageFolder(path, containerPath)).AsAsyncOperation();
+                }
+            }
+            return Task.FromResult<BaseStorageFolder>(null).AsAsyncOperation();
+        }
+
+        public static bool IsZipPath(string path)
         {
             var marker = path.IndexOf(".zip");
             if (marker != -1)
             {
                 marker += ".zip".Length;
-                var containerPath = path.Substring(0, marker);
-                if (tryOpenFile)
+                if (marker == path.Length || path[marker] == '\\')
                 {
-                    if (CheckAccess(containerPath))
-                    {
-                        return Task.FromResult<BaseStorageFolder>(new ZipStorageFolder(path, containerPath)).AsAsyncOperation();
-                    }
-                }
-                else
-                {
-                    if (marker == path.Length || path[marker] == '\\')
-                    {
-                        return Task.FromResult<BaseStorageFolder>(new ZipStorageFolder(path, containerPath)).AsAsyncOperation();
-                    }
+                    return true;
                 }
             }
-            return Task.FromResult<BaseStorageFolder>(null).AsAsyncOperation();
+            return false;
         }
 
         private static bool CheckAccess(string path)
