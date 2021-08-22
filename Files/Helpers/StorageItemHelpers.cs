@@ -2,7 +2,6 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -27,19 +26,11 @@ namespace Files.Helpers
             if (path.ToLower().EndsWith(".lnk") || path.ToLower().EndsWith(".url"))
             {
                 // TODO: In the future, when IStorageItemWithPath will inherit from IStorageItem,
-                //      we could implement this code here for getting .lnk files
-                //      for now, we can't
-
+                // we could implement this code here for getting .lnk files
+                // for now, we can't
                 return default;
-
-                if (false) // Prevent unnecessary exceptions
-                {
-                    Debugger.Break();
-                    throw new ArgumentException("Function ToStorageItem<TOut>() does not support converting from .lnk and .url files");
-                }
             }
-
-            if (typeof(IStorageFile).IsAssignableFrom(typeof(TOut)))
+            else if (typeof(IStorageFile).IsAssignableFrom(typeof(TOut)))
             {
                 await GetFile();
             }

@@ -9,6 +9,7 @@ using Files.Interacts;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -422,10 +423,12 @@ namespace Files.Filesystem
                     {
                         var items = await packageView.GetStorageItemsAsync();
                         NavigationHelpers.OpenItemsWithExecutable(associatedInstance, items.ToList(), destination);
+                        return ReturnResult.Success;
                     }
-
-                    // TODO: Support link creation
-                    return default;
+                    else
+                    {
+                        return await CreateShortcutFromClipboard(packageView, destination, showDialog, registerHistory);
+                    }
                 }
                 else if (operation.HasFlag(DataPackageOperation.None))
                 {
@@ -582,36 +585,29 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
-            if (packageView.Contains(StandardDataFormats.StorageItems))
+            var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
+
+            if (handledByFtp)
             {
-                IReadOnlyList<IStorageItem> source;
-                try
+                var connection = await ServiceConnection;
+                if (connection != null)
                 {
-                    source = await packageView.GetStorageItemsAsync();
+                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet() {
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "DragDrop" },
+                        { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
+                    return (status == AppServiceResponseStatus.Success && response.Get("Success", false)) ? ReturnResult.Success : ReturnResult.Failed;
                 }
-                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-                {
-                    var connection = await ServiceConnection;
-                    if (connection != null)
-                    {
-                        var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet() {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "DragDrop" },
-                            { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
-                        return (status == AppServiceResponseStatus.Success && response.Get("Success", false)) ? ReturnResult.Success : ReturnResult.Failed;
-                    }
-                    return ReturnResult.Failed;
-                }
-                catch (Exception ex)
-                {
-                    App.Logger.Warn(ex, ex.Message);
-                    return ReturnResult.UnknownException;
-                }
+                return ReturnResult.Failed;
+            }
+
+            if (source.Any())
+            {
                 ReturnResult returnStatus = ReturnResult.InProgress;
 
                 var destinations = new List<string>();
                 List<ShellFileItem> binItems = null;
-                foreach (IStorageItem item in source)
+                foreach (var item in source)
                 {
                     if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
                     {
@@ -814,32 +810,25 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> MoveItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
-            if (!packageView.Contains(StandardDataFormats.StorageItems))
+            if (!HasDraggedStorageItems(packageView))
             {
                 // Happens if you copy some text and then you Ctrl+V in Files
                 return ReturnResult.BadArgumentException;
             }
 
-            IReadOnlyList<IStorageItem> source;
-            try
-            {
-                source = await packageView.GetStorageItemsAsync();
-            }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
+            var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
+
+            if (handledByFtp)
             {
                 // Not supported
                 return ReturnResult.Failed;
             }
-            catch (Exception ex)
-            {
-                App.Logger.Warn(ex, ex.Message);
-                return ReturnResult.UnknownException;
-            }
+
             ReturnResult returnStatus = ReturnResult.InProgress;
 
             var destinations = new List<string>();
             List<ShellFileItem> binItems = null;
-            foreach (IStorageItem item in source)
+            foreach (var item in source)
             {
                 if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
                 {
@@ -918,29 +907,57 @@ namespace Files.Filesystem
 
         #endregion Rename
 
-        public async Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
+        public async Task<ReturnResult> CreateShortcutFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
-            if (!packageView.Contains(StandardDataFormats.StorageItems))
+            if (!HasDraggedStorageItems(packageView))
             {
                 // Happens if you copy some text and then you Ctrl+V in Files
                 return ReturnResult.BadArgumentException;
             }
 
-            IReadOnlyList<IStorageItem> source;
-            try
-            {
-                source = await packageView.GetStorageItemsAsync();
-            }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
+            var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
+
+            if (handledByFtp)
             {
                 // Not supported
                 return ReturnResult.Failed;
             }
-            catch (Exception ex)
+
+            var returnCode = FileSystemStatusCode.InProgress;
+            var errorCode = new Progress<FileSystemStatusCode>();
+            errorCode.ProgressChanged += (s, e) => returnCode = e;
+
+            source = source.Where(x => !string.IsNullOrEmpty(x.Path));
+            var dest = source.Select(x => Path.Combine(destination,
+                string.Format("ShortcutCreateNewSuffix".GetLocalized(), x.Name) + ".lnk"));
+
+            var history = await filesystemOperations.CreateShortcutItemsAsync(source, dest, null, errorCode, cancellationToken);
+
+            if (registerHistory)
             {
-                App.Logger.Warn(ex, ex.Message);
-                return ReturnResult.UnknownException;
+                App.HistoryWrapper.AddHistory(history);
             }
+
+            await Task.Yield();
+            return returnCode.ToStatus();
+        }
+
+        public async Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
+        {
+            if (!HasDraggedStorageItems(packageView))
+            {
+                // Happens if you copy some text and then you Ctrl+V in Files
+                return ReturnResult.BadArgumentException;
+            }
+
+            var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
+
+            if (handledByFtp)
+            {
+                // Not supported
+                return ReturnResult.Failed;
+            }
+
             ReturnResult returnStatus = ReturnResult.InProgress;
 
             source = source.Where(x => !recycleBinHelpers.IsPathUnderRecycleBin(x.Path)).ToList(); // Can't recycle items already in recyclebin
@@ -960,7 +977,7 @@ namespace Files.Filesystem
 
             for (int i = 0; i < source.Count(); i++)
             {
-                var itemPathOrName = string.IsNullOrEmpty(source.ElementAt(i).Path) ? 
+                var itemPathOrName = string.IsNullOrEmpty(source.ElementAt(i).Path) ?
                     (string.IsNullOrEmpty(source.ElementAt(i).Item.Path) ? source.ElementAt(i).Item.Name : source.ElementAt(i).Item.Path) : source.ElementAt(i).Path;
                 incomingItems.Add(new FilesystemItemsOperationItemModel(operationType, itemPathOrName, destination.ElementAt(i)));
                 collisions.Add(incomingItems.ElementAt(i).SourcePath, FileNameConflictResolveOptionType.GenerateNewName);
@@ -1027,104 +1044,39 @@ namespace Files.Filesystem
 
         #region Public Helpers
 
-        public static async Task<long> GetItemSize(IStorageItem item)
+        public static bool HasDraggedStorageItems(DataPackageView packageView)
         {
-            if (item == null)
-            {
-                return 0L;
-            }
-
-            if (item.IsOfType(StorageItemTypes.Folder))
-            {
-                return await CalculateFolderSizeAsync(item.Path);
-            }
-            else
-            {
-                return CalculateFileSize(item.Path);
-            }
+            return packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out var data));
         }
 
-        public static async Task<long> CalculateFolderSizeAsync(string path)
+        public static async Task<(bool handledByFtp, IEnumerable<IStorageItemWithPath> items)> GetDraggedStorageItems(DataPackageView packageView)
         {
-            if (string.IsNullOrEmpty(path))
+            var itemsList = new List<IStorageItemWithPath>();
+            if (packageView.Contains(StandardDataFormats.StorageItems))
             {
-                // In MTP devices calculating folder size would be too slow
-                // Also should use StorageFolder methods instead of FindFirstFileExFromApp
-                return 0;
-            }
-
-            long size = 0;
-            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-            IntPtr hFile = FindFirstFileExFromApp(
-                path + "\\*.*",
-                findInfoLevel,
-                out WIN32_FIND_DATA findData,
-                FINDEX_SEARCH_OPS.FindExSearchNameMatch,
-                IntPtr.Zero,
-                additionalFlags);
-
-            int count = 0;
-            if (hFile.ToInt64() != -1)
-            {
-                do
+                try
                 {
-                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
-                    {
-                        size += findData.GetSize();
-                        ++count;
-                    }
-                    else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
-                    {
-                        if (findData.cFileName != "." && findData.cFileName != "..")
-                        {
-                            string itemPath = Path.Combine(path, findData.cFileName);
-
-                            size += await CalculateFolderSizeAsync(itemPath);
-                            ++count;
-                        }
-                    }
-                } while (FindNextFile(hFile, out findData));
-                FindClose(hFile);
-                return size;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
-        public static long CalculateFileSize(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
-                // In MTP devices calculating folder size would be too slow
-                // Also should use StorageFolder methods instead of FindFirstFileExFromApp
-                return 0;
-            }
-
-            long size = 0;
-            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-            IntPtr hFile = FindFirstFileExFromApp(path, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-                                                  additionalFlags);
-
-            if (hFile.ToInt64() != -1)
-            {
-                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
-                {
-                    size += findData.GetSize();
+                    var source = await packageView.GetStorageItemsAsync();
+                    itemsList.AddRange(source.Select(x => x.FromStorageItem()));
                 }
-                FindClose(hFile);
-                Debug.WriteLine($"Individual file size for Progress UI will be reported as: {size} bytes");
-                return size;
+                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
+                {
+                    return (true, itemsList);
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.Warn(ex, ex.Message);
+                    return (false, itemsList);
+                }
             }
-            else
+            if (packageView.Properties.TryGetValue("FileDrop", out var data))
             {
-                return 0;
+                if (data is List<IStorageItemWithPath> source)
+                {
+                    itemsList.AddRange(source);
+                }
             }
+            return (false, itemsList);
         }
 
         public static bool ContainsRestrictedCharacters(string input)
@@ -1154,20 +1106,6 @@ namespace Files.Filesystem
             }
 
             return false;
-        }
-
-        public async Task OpenShellCommandInExplorerAsync(string shellCommand, NamedPipeAsAppServiceConnection connection)
-        {
-            Debug.WriteLine("Launching shell command in FullTrustProcess");
-            if (connection != null)
-            {
-                ValueSet value = new ValueSet()
-                {
-                    { "ShellCommand", shellCommand },
-                    { "Arguments", "ShellCommand" }
-                };
-                await connection.SendMessageAsync(value);
-            }
         }
 
         #endregion Public Helpers

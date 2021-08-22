@@ -83,12 +83,6 @@ namespace Files.Filesystem
                             break;
                         }
 
-                    case FilesystemItemType.Symlink:
-                        {
-                            Debugger.Break();
-                            throw new NotImplementedException();
-                        }
-
                     default:
                         Debugger.Break();
                         break;
@@ -1030,6 +1024,11 @@ namespace Files.Filesystem
                     rawStorageHistory.SelectMany((item) => item.Destination).ToList());
             }
             return null;
+        }
+
+        public Task<IStorageHistory> CreateShortcutItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken token)
+        {
+            throw new NotImplementedException("Cannot create shortcuts in UWP.");
         }
     }
 }
