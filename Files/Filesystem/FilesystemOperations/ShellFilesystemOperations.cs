@@ -157,6 +157,42 @@ namespace Files.Filesystem
             return await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
         }
 
+        public async Task<IStorageHistory> CreateShortcutItemsAsync(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
+        {
+            var createdSources = new List<IStorageItemWithPath>();
+            var createdDestination = new List<IStorageItemWithPath>();
+
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                var items = source.Zip(destination, (src, dest) => new { src, dest }).Where(x => !string.IsNullOrEmpty(x.src.Path) && !string.IsNullOrEmpty(x.dest));
+                for (int i = 0; i < items.Count(); i++)
+                {
+                    var value = new ValueSet()
+                    {
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "CreateLink" },
+                        { "targetpath", items.ElementAt(i).src.Path },
+                        { "arguments", "" },
+                        { "workingdir", "" },
+                        { "runasadmin", false },
+                        { "filepath", items.ElementAt(i).dest }
+                    };
+                    var (status, response) = await connection.SendMessageForResponseAsync(value);
+                    var success = status == AppServiceResponseStatus.Success && response.Get("Success", false);
+                    if (success)
+                    {
+                        createdSources.Add(items.ElementAt(i).src);
+                        createdDestination.Add(StorageItemHelpers.FromPathAndType(items.ElementAt(i).dest, FilesystemItemType.File));
+                    }
+                    progress?.Report(i / (float)source.Count() * 100.0f);
+                }
+            }
+
+            errorCode?.Report(createdSources.Count() == source.Count() ? FileSystemStatusCode.Success : FileSystemStatusCode.Generic);
+            return new StorageHistory(FileOperationType.CreateLink, createdSources, createdDestination);
+        }
+
         public async Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<float> progress, IProgress<FileSystemStatusCode> errorCode, bool permanently, CancellationToken cancellationToken)
         {
             return await DeleteAsync(source.FromStorageItem(),
@@ -194,7 +230,7 @@ namespace Files.Filesystem
             if (deleteFromRecycleBin)
             {
                 // Recycle bin also stores a file starting with $I for each item
-                deleleFilePaths = deleleFilePaths.Concat(source.Select(x => Path.Combine(Path.GetDirectoryName(x.Path), Path.GetFileName(x.Path).Replace("$R", "$I"))));
+                deleleFilePaths = deleleFilePaths.Concat(source.Select(x => Path.Combine(Path.GetDirectoryName(x.Path), Path.GetFileName(x.Path).Replace("$R", "$I")))).Distinct();
             }
 
             var operationID = Guid.NewGuid().ToString();

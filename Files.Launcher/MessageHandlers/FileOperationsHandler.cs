@@ -464,24 +464,36 @@ namespace FilesFullTrust.MessageHandlers
                 case "UpdateLink":
                     var linkSavePath = (string)message["filepath"];
                     var targetPath = (string)message["targetpath"];
-                    if (linkSavePath.EndsWith(".lnk"))
+                    try
                     {
-                        var arguments = (string)message["arguments"];
-                        var workingDirectory = (string)message["workingdir"];
-                        var runAsAdmin = (bool)message["runasadmin"];
-                        using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
-                        newLink.RunAsAdministrator = runAsAdmin;
-                        newLink.SaveAs(linkSavePath); // Overwrite if exists
-                    }
-                    else if (linkSavePath.EndsWith(".url"))
-                    {
-                        await Win32API.StartSTATask(() =>
+                        bool success = false;
+                        if (linkSavePath.EndsWith(".lnk"))
                         {
-                            var ipf = new Url.IUniformResourceLocator();
-                            ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
-                            (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
-                            return true;
-                        });
+                            var arguments = (string)message["arguments"];
+                            var workingDirectory = (string)message["workingdir"];
+                            var runAsAdmin = (bool)message["runasadmin"];
+                            using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
+                            newLink.RunAsAdministrator = runAsAdmin;
+                            newLink.SaveAs(linkSavePath); // Overwrite if exists
+                            success = true;
+                        }
+                        else if (linkSavePath.EndsWith(".url"))
+                        {
+                            success = await Win32API.StartSTATask(() =>
+                            {
+                                var ipf = new Url.IUniformResourceLocator();
+                                ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
+                                (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
+                                return true;
+                            });
+                        }
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", success } }, message.Get("RequestID", (string)null));
+                    }
+                    catch (Exception ex)
+                    {
+                        // Could not create shortcut
+                        Program.Logger.Warn(ex, ex.Message);
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
                     }
                     break;
 
