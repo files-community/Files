@@ -515,7 +515,7 @@ namespace Files.ViewModels
             }
         }
 
-        #endregion
+        #endregion Sidebar
 
         #region Preferences
 
@@ -593,9 +593,7 @@ namespace Files.ViewModels
 
         #endregion Appearance
 
-        #region Experimental
 
-        #endregion Experimental
 
         #region Startup
 

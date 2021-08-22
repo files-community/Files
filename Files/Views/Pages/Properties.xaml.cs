@@ -5,7 +5,6 @@ using Files.Helpers.XamlHelpers;
 using Files.ViewModels;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading;
 using Windows.ApplicationModel.Core;

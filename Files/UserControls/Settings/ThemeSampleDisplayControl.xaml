@@ -198,5 +198,4 @@
             Foreground="{ThemeResource SystemControlBackgroundBaseHighBrush}"
             Text="{x:Bind SampleTheme.Name, Mode=OneWay}" />
     </Grid>
-
 </UserControl>

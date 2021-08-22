@@ -66,6 +66,7 @@ namespace Files.ViewModels.Properties
         public RelayCommand ReplaceChildPermissionsCommand { get; set; }
 
         private FilePermissionsManager filePermissions;
+
         public FilePermissionsManager FilePermissions
         {
             get => filePermissions;
@@ -85,6 +86,7 @@ namespace Files.ViewModels.Properties
         }
 
         private RulesForUser selectedRuleForUser;
+
         public RulesForUser SelectedRuleForUser
         {
             get => selectedRuleForUser;
@@ -98,6 +100,7 @@ namespace Files.ViewModels.Properties
         }
 
         private List<FileSystemAccessRuleForUI> selectedAccessRules;
+
         public List<FileSystemAccessRuleForUI> SelectedAccessRules
         {
             get => selectedAccessRules;
@@ -114,6 +117,7 @@ namespace Files.ViewModels.Properties
         public FileSystemAccessRuleForUI SelectedAccessRule => SelectedAccessRules?.FirstOrDefault();
 
         private bool isFolder;
+
         public bool IsFolder
         {
             get => isFolder;

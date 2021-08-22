@@ -1,15 +1,12 @@
-﻿using Files.Filesystem;
+﻿using ByteSizeLib;
+using Files.Extensions;
+using Files.Filesystem;
 using Files.ViewModels.Properties;
 using ICSharpCode.SharpZipLib.Zip;
-using System;
+using Microsoft.Toolkit.Uwp;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using Files.Extensions;
-using ByteSizeLib;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp;
 
 namespace Files.ViewModels.Previews
 {
@@ -52,7 +49,7 @@ namespace Files.ViewModels.Previews
                 NameResource = "PropertyItemCount",
                 Value = string.Format("DetailsArchiveItemCount".GetLocalized(), zipFile.Count, fileCount, folderCount),
             });
-            
+
             details.Add(new FileProperty()
             {
                 NameResource = "PropertyUncompressedSize",

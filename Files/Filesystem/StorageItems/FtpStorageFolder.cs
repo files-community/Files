@@ -1,17 +1,17 @@
 ﻿using Files.Helpers;
 using Files.ViewModels;
 using FluentFTP;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using System;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Collections.Generic;
-using System.IO;
 
 namespace Files.Filesystem.StorageItems
 {
-    sealed class FtpStorageFolder : IStorageFolder
+    internal sealed class FtpStorageFolder : IStorageFolder
     {
         private readonly ItemViewModel _viewModel;
 
@@ -50,7 +50,7 @@ namespace Files.Filesystem.StorageItems
 
                 using var stream = await sourceFile.OpenStreamForReadAsync();
                 var result = await ftpClient.UploadAsync(stream, $"{FtpPath}/{desiredNewName}", option == NameCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip);
-                
+
                 if (result == FtpStatus.Success)
                 {
                     return new FtpStorageFile(_viewModel, new StorageFileWithPath(null, $"{Path}/{desiredNewName}"));
@@ -73,7 +73,7 @@ namespace Files.Filesystem.StorageItems
         public IAsyncOperation<StorageFile> CreateFileAsync(string desiredName) => throw new NotSupportedException();
 
         public IAsyncOperation<StorageFile> CreateFileAsync(string desiredName, CreationCollisionOption options) => throw new NotSupportedException();
-        
+
         public IAsyncOperation<StorageFolder> CreateFolderAsync(string desiredName)
         {
             return CreateFolderAsync(desiredName, CreationCollisionOption.FailIfExists);
@@ -94,7 +94,7 @@ namespace Files.Filesystem.StorageItems
                     return null;
                 }
 
-                if (!await ftpClient.CreateDirectoryAsync($"{FtpPath}/{desiredName}", 
+                if (!await ftpClient.CreateDirectoryAsync($"{FtpPath}/{desiredName}",
                     options == CreationCollisionOption.ReplaceExisting,
                     cancellationToken))
                 {
@@ -137,11 +137,15 @@ namespace Files.Filesystem.StorageItems
         }
 
         public IAsyncOperation<StorageFolder> GetFolderAsync(string name) => throw new NotSupportedException();
+
         public IAsyncOperation<IStorageItem> GetItemAsync(string name) => throw new NotSupportedException();
+
         public IAsyncOperation<IReadOnlyList<StorageFile>> GetFilesAsync() => throw new NotSupportedException();
+
         public IAsyncOperation<IReadOnlyList<StorageFolder>> GetFoldersAsync() => throw new NotSupportedException();
+
         public IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync() => throw new NotSupportedException();
-        
+
         public IAsyncAction RenameAsync(string desiredName)
         {
             return RenameAsync(desiredName, NameCollisionOption.FailIfExists);
@@ -188,9 +192,9 @@ namespace Files.Filesystem.StorageItems
         {
             return DeleteAsync();
         }
-        
+
         public IAsyncOperation<BasicProperties> GetBasicPropertiesAsync() => throw new NotSupportedException();
-        
+
         public bool IsOfType(StorageItemTypes type) => type == StorageItemTypes.Folder;
 
         public Windows.Storage.FileAttributes Attributes { get; } = Windows.Storage.FileAttributes.Directory;

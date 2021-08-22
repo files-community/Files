@@ -82,20 +82,20 @@ namespace Files.Filesystem
         /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
         /// </summary>
         Task<IStorageHistory> CopyItemsAsync(IEnumerable<IStorageItem> source,
-                                            IEnumerable<string> destination, 
-                                            IEnumerable<FileNameConflictResolveOptionType> collisions, 
-                                            IProgress<float> progress, 
-                                            IProgress<FileSystemStatusCode> errorCode, 
+                                            IEnumerable<string> destination,
+                                            IEnumerable<FileNameConflictResolveOptionType> collisions,
+                                            IProgress<float> progress,
+                                            IProgress<FileSystemStatusCode> errorCode,
                                             CancellationToken cancellationToken);
 
         /// <summary>
         /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
         /// </summary>
-        Task<IStorageHistory> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source, 
+        Task<IStorageHistory> CopyItemsAsync(IEnumerable<IStorageItemWithPath> source,
                                             IEnumerable<string> destination,
-                                            IEnumerable<FileNameConflictResolveOptionType> collisions, 
-                                            IProgress<float> progress, 
-                                            IProgress<FileSystemStatusCode> errorCode, 
+                                            IEnumerable<FileNameConflictResolveOptionType> collisions,
+                                            IProgress<float> progress,
+                                            IProgress<FileSystemStatusCode> errorCode,
                                             CancellationToken cancellationToken);
 
         /// <summary>
@@ -214,19 +214,19 @@ namespace Files.Filesystem
         /// <summary>
         /// Deletes provided <paramref name="source"/>
         /// </summary>
-        Task<IStorageHistory> DeleteItemsAsync(IEnumerable<IStorageItem> source, 
-                                            IProgress<float> progress, 
-                                            IProgress<FileSystemStatusCode> errorCode, 
-                                            bool permanently, 
+        Task<IStorageHistory> DeleteItemsAsync(IEnumerable<IStorageItem> source,
+                                            IProgress<float> progress,
+                                            IProgress<FileSystemStatusCode> errorCode,
+                                            bool permanently,
                                             CancellationToken cancellationToken);
 
         /// <summary>
         /// Deletes provided <paramref name="source"/>
         /// </summary>
-        Task<IStorageHistory> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, 
-                                            IProgress<float> progress, 
-                                            IProgress<FileSystemStatusCode> errorCode, 
-                                            bool permanently, 
+        Task<IStorageHistory> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source,
+                                            IProgress<float> progress,
+                                            IProgress<FileSystemStatusCode> errorCode,
+                                            bool permanently,
                                             CancellationToken cancellationToken);
 
         /// <summary>

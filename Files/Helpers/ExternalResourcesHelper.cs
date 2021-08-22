@@ -103,7 +103,7 @@ namespace Files.Helpers
                 return false;
             }
         }
-        
+
         public async Task<ResourceDictionary> TryLoadResourceDictionary(AppTheme theme)
         {
             StorageFile file;

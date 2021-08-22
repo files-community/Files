@@ -1,12 +1,10 @@
 ﻿using Files.Filesystem;
 using Files.ViewModels.Properties;
-using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.Data.Pdf;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
@@ -42,7 +40,6 @@ namespace Files.ViewModels.Previews
             TryLoadPagesAsync(pdf);
             var details = new List<FileProperty>
             {
-
                 // Add the number of pages to the details
                 new FileProperty()
                 {
@@ -101,6 +98,7 @@ namespace Files.ViewModels.Previews
             LoadingBarVisibility = Visibility.Collapsed;
         }
     }
+
     public struct PageViewModel
     {
         public int PageNumber { get; set; }

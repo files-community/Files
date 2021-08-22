@@ -1,21 +1,9 @@
 ﻿using Microsoft.Toolkit.Uwp.UI;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Input;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // Il modello di elemento Controllo utente è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -62,7 +50,7 @@ namespace Files.UserControls
         {
             get { return columnSortOption; }
             set
-            {        
+            {
                 if (value != columnSortOption)
                 {
                     switch (value)
@@ -70,9 +58,11 @@ namespace Files.UserControls
                         case SortDirection.Ascending:
                             VisualStateManager.GoToState(this, "SortAscending", true);
                             break;
+
                         case SortDirection.Descending:
                             VisualStateManager.GoToState(this, "SortDescending", true);
                             break;
+
                         default:
                             VisualStateManager.GoToState(this, "Unsorted", true);
                             break;

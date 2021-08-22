@@ -1,11 +1,9 @@
-﻿using Files.Helpers;
-using Files.ViewModels;
+﻿using Files.ViewModels;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.UserControls
@@ -13,6 +11,7 @@ namespace Files.UserControls
     public sealed partial class FileIcon : UserControl
     {
         private SelectedItemsPropertiesViewModel viewModel;
+
         public SelectedItemsPropertiesViewModel ViewModel
         {
             get => viewModel;
@@ -47,12 +46,15 @@ namespace Files.UserControls
         private double LargerItemSize { get; set; }
 
         private static DependencyProperty FileIconImageSourceProperty { get; } = DependencyProperty.Register(nameof(FileIconImageSource), typeof(BitmapImage), typeof(FileIcon), null);
+
         private BitmapImage FileIconImageSource
         {
             get => GetValue(FileIconImageSourceProperty) as BitmapImage;
             set => SetValue(FileIconImageSourceProperty, value);
         }
+
         public static DependencyProperty FileIconImageDataProperty { get; } = DependencyProperty.Register(nameof(FileIconImageData), typeof(byte[]), typeof(FileIcon), null);
+
         public byte[] FileIconImageData
         {
             get => GetValue(FileIconImageDataProperty) as byte[];
@@ -65,6 +67,7 @@ namespace Files.UserControls
                 }
             }
         }
+
         private SvgImageSource CustomIconImageSource { get; set; }
 
         public FileIcon()
