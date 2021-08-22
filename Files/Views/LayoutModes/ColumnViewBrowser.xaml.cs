@@ -763,11 +763,7 @@ namespace Files.Views.LayoutModes
 
         public void SetSelectedPathOrNavigate(PathNavigationEventArgs e)
         {
-            var p = e.ItemPath;
-            if(p.EndsWith("\\"))
-            {
-                p = p.Substring(0, p.Length - 1);
-            }
+            var p = e.ItemPath.TrimEnd('\\');
             if(!IsLastColumnBase)
             {
                 foreach (var item in ColumnHost.ActiveBlades)

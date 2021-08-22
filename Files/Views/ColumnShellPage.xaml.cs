@@ -173,6 +173,10 @@ namespace Files.Views
             NavToolbarViewModel.ItemDraggedOverPathItem += ColumnShellPage_NavigationRequested;
             NavToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
 
+            NavToolbarViewModel.SearchBox.TextChanged += ColumnShellPage_TextChanged;
+            NavToolbarViewModel.SearchBox.SuggestionChosen += ColumnShellPage_SuggestionChosen;
+            NavToolbarViewModel.SearchBox.QuerySubmitted += ColumnShellPage_QuerySubmitted;
+
             NavToolbarViewModel.InstanceViewModel = InstanceViewModel;
             //NavToolbarViewModel.RefreshWidgetsRequested += refreshwid;
 
@@ -778,6 +782,10 @@ namespace Files.Views
             NavToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
             //NavToolbarViewModel.RefreshWidgetsRequested -= ColumnShellPage_RefreshWidgetsRequested;
 
+            NavToolbarViewModel.SearchBox.TextChanged -= ColumnShellPage_TextChanged;
+            NavToolbarViewModel.SearchBox.SuggestionChosen -= ColumnShellPage_SuggestionChosen;
+            NavToolbarViewModel.SearchBox.QuerySubmitted -= ColumnShellPage_QuerySubmitted;
+
             InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
@@ -966,7 +974,7 @@ namespace Files.Views
             FilesystemViewModel.CancelSearch();
             InstanceViewModel.CurrentSearchQuery = query;
             InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
-            ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
+            ItemDisplayFrame.Navigate(typeof(ColumnViewBase), new NavigationArguments()
             {
                 AssociatedTabInstance = this,
                 IsSearchResultPage = true,

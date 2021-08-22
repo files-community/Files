@@ -165,10 +165,11 @@ namespace Files.Views.LayoutModes
             //var viewmodel = new ItemViewModel(FolderSettings);
             //await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(NavParam);
             //await viewmodel.SetWorkingDirectoryAsync(NavParam);
-            FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-            FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             ParentShellPageInstance.IsCurrentInstance = true;
-            ColumnViewBrowser.columnparent.UpdatePathUIToWorkingDirectory(param.NavPathParam);
+            if(!navigationArguments.IsSearchResultPage)
+            {
+                ColumnViewBrowser.columnparent.UpdatePathUIToWorkingDirectory(param.NavPathParam);
+            }
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
             {
@@ -184,7 +185,6 @@ namespace Files.Views.LayoutModes
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
         }
 
         private async void ReloadItemIcons()
@@ -198,10 +198,6 @@ namespace Files.Views.LayoutModes
                     await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, 24);
                 }
             }
-        }
-
-        private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
-        {
         }
 
         override public void StartRenameItem()
@@ -585,6 +581,31 @@ namespace Files.Views.LayoutModes
                 if (args.Item is ListedItem item)
                 {
                     ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(item);
+                }
+            }
+        }
+
+        protected override void BaseFolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
+        {
+            var parent = this.FindAscendant<ModernShellPage>();
+            if (parent != null)
+            {
+                FolderSettings.LayoutMode = e.LayoutMode;
+                var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, false);
+
+                if (layoutType != ParentShellPageInstance.CurrentPageType)
+                {
+                    FolderSettings.IsLayoutModeChanging = true;
+                    parent.NavigateWithArguments(layoutType, new NavigationArguments()
+                    {
+                        NavPathParam = navigationArguments.NavPathParam,
+                        IsSearchResultPage = navigationArguments.IsSearchResultPage,
+                        SearchPathParam = navigationArguments.SearchPathParam,
+                        SearchQuery = navigationArguments.SearchQuery,
+                        SearchUnindexedItems = navigationArguments.SearchUnindexedItems,
+                        IsLayoutSwitch = true,
+                        AssociatedTabInstance = parent
+                    });
                 }
             }
         }
