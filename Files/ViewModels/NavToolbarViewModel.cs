@@ -460,7 +460,8 @@ namespace Files.ViewModels
                 e.AcceptedOperation = DataPackageOperation.None;
             }
             // copy be default when dragging from zip
-            else if (storageItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder))
+            else if (storageItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
+                || ZipStorageFolder.IsZipPath(pathBoxItem.Path))
             {
                 e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), pathBoxItem.Title);
                 e.AcceptedOperation = DataPackageOperation.Copy;
