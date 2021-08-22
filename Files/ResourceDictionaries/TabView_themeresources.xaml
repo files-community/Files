@@ -46,7 +46,6 @@
             <StaticResource x:Key="TabViewBorderBrush" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewItemBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
             <StaticResource x:Key="TabViewSelectedItemBorderBrush" ResourceKey="ControlElevationBorderBrush" />
-
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">
@@ -93,7 +92,6 @@
             <StaticResource x:Key="TabViewBorderBrush" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewItemBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
             <StaticResource x:Key="TabViewSelectedItemBorderBrush" ResourceKey="ControlElevationBorderBrush" />
-
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="HighContrast">
@@ -140,7 +138,6 @@
             <StaticResource x:Key="TabViewBorderBrush" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewItemBorderBrush" ResourceKey="SubtleFillColorTransparentBrush" />
             <StaticResource x:Key="TabViewSelectedItemBorderBrush" ResourceKey="SystemColorHighlightBrush" />
-
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
@@ -155,7 +152,6 @@
     <x:Double x:Key="TabViewItemHeaderFontSize">12</x:Double>
     <x:Double x:Key="TabViewItemHeaderIconSize">16</x:Double>
     <Thickness x:Key="TabViewItemHeaderIconMargin">0,0,10,0</Thickness>
-
 
     <x:Double x:Key="TabViewItemHeaderCloseButtonHeight">24</x:Double>
     <x:Double x:Key="TabViewItemHeaderCloseButtonWidth">32</x:Double>

@@ -960,7 +960,7 @@ namespace Files.Filesystem
         private async static Task CloneDirectoryToFtpAsync(IStorageFolder sourceFolder, FtpStorageFolder destinationFolder, CreationCollisionOption collision = CreationCollisionOption.FailIfExists)
         {
             var result = await FilesystemTasks.Wrap(async () => await destinationFolder.CreateFolderAsync(sourceFolder.Name, collision));
-            
+
             if (result)
             {
                 foreach (IStorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())

@@ -1,5 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
-using System;
+﻿using System;
 using Windows.Foundation;
 using Windows.UI.Input;
 using Windows.UI.Xaml;

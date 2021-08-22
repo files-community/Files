@@ -1,6 +1,5 @@
 ﻿using Files.Helpers;
 using Files.ViewModels;
-using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -146,7 +145,7 @@ namespace Files.UserControls.MultitaskingControl
         public void SetLoadingIndicatorStatus(ITabItem item, bool loading)
         {
             var tabItem = ContainerFromItem(item) as Control;
-            if(tabItem is null)
+            if (tabItem is null)
             {
                 return;
             }

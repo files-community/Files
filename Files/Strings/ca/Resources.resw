@@ -492,9 +492,6 @@
   <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
     <value>Obre històric d'ubicació</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButtonText.Text" xml:space="preserve">
-    <value>Obre històric d'ubicació</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>element seleccionat</value>
   </data>

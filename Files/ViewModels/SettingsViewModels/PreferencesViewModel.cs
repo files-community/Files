@@ -1,6 +1,5 @@
 ﻿using Files.DataModels;
 using Files.Enums;
-using Files.Filesystem;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;

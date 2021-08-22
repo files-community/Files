@@ -78,6 +78,7 @@ namespace Files.ViewModels.Widgets.Bundles
         }
 
         private bool isAddItemOptionEnabled;
+
         public bool IsAddItemOptionEnabled
         {
             get => isAddItemOptionEnabled;

@@ -1,7 +1,5 @@
-﻿using Files.Filesystem;
-using Files.ViewModels;
+﻿using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
-using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -12,8 +10,6 @@ namespace Files.UserControls
 {
     public sealed partial class PreviewPane : UserControl
     {
-
-
         public PreviewPaneViewModel Model
         {
             get => (PreviewPaneViewModel)GetValue(ModelProperty);

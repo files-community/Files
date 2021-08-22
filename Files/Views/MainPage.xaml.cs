@@ -1,5 +1,5 @@
 ﻿using Files.DataModels.NavigationControlItems;
-using Files.Dialogs;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
@@ -8,21 +8,18 @@ using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using Files.Extensions;
 
 namespace Files.Views
 {
@@ -315,13 +312,13 @@ namespace Files.Views
             {
                 _ = VisualStateManager.GoToState(this, nameof(CollapseSearchBoxState), true);
             }
-            
-            if(Window.Current.Bounds.Width < MinimalSidebarAdaptiveTrigger.MinWindowWidth)
+
+            if (Window.Current.Bounds.Width < MinimalSidebarAdaptiveTrigger.MinWindowWidth)
             {
                 _ = VisualStateManager.GoToState(this, nameof(MinimalSidebarState), true);
             }
-            
-            if(Window.Current.Bounds.Width < CollapseHorizontalTabViewTrigger.MinWindowWidth)
+
+            if (Window.Current.Bounds.Width < CollapseHorizontalTabViewTrigger.MinWindowWidth)
             {
                 _ = VisualStateManager.GoToState(this, nameof(HorizontalTabViewCollapsed), true);
             }
@@ -472,6 +469,7 @@ namespace Files.Views
         }
 
         private bool isCompactOverlay;
+
         public bool IsCompactOverlay
         {
             get => isCompactOverlay;

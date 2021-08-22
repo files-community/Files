@@ -1,5 +1,4 @@
-﻿using Files.Helpers;
-using Files.ViewModels;
+﻿using Files.ViewModels;
 using FluentFTP;
 using System;
 using System.Collections.Generic;

@@ -3,7 +3,6 @@ using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
-using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -15,8 +14,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
+
 namespace Files.ViewModels
 {
     public class SidebarViewModel : ObservableObject, IDisposable
@@ -59,6 +58,7 @@ namespace Files.ViewModels
         public ICommand EmptyRecycleBinCommand { get; private set; }
 
         private IPaneHolder paneHolder;
+
         public IPaneHolder PaneHolder
         {
             get => paneHolder;
@@ -191,7 +191,6 @@ namespace Files.ViewModels
             SidebarDisplayMode = args.DisplayMode;
         }
 
-
         public void UpdateTabControlMargin()
         {
             TabControlMargin = SidebarDisplayMode switch
@@ -203,6 +202,7 @@ namespace Files.ViewModels
         }
 
         private GridLength tabControlMargin;
+
         public GridLength TabControlMargin
         {
             get => tabControlMargin;

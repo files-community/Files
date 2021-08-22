@@ -68,7 +68,6 @@
                 </StackPanel>
             </Grid>
         </DataTemplate>
-
     </UserControl.Resources>
 
     <AutoSuggestBox
@@ -90,5 +89,4 @@
             <KeyboardAccelerator Key="Escape" Invoked="SearchRegion_Escaped" />
         </AutoSuggestBox.KeyboardAccelerators>
     </AutoSuggestBox>
-
 </UserControl>

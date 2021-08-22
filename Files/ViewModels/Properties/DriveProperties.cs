@@ -1,5 +1,4 @@
 ﻿using Files.DataModels.NavigationControlItems;
-using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp;

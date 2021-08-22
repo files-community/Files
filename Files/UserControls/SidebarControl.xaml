@@ -939,7 +939,6 @@
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
-
                                     </VisualStateGroup>
                                     <VisualStateGroup x:Name="OverlayVisibilityStates">
                                         <VisualState x:Name="OverlayNotVisible" />
@@ -951,7 +950,6 @@
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
-
                                     </VisualStateGroup>
 
                                     <VisualStateGroup x:Name="ResizerStates">
@@ -978,10 +976,8 @@
                                             </Storyboard>
                                         </VisualState>
                                     </VisualStateGroup>
-
                                 </VisualStateManager.VisualStateGroups>
                             </Grid>
-
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>

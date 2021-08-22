@@ -219,7 +219,6 @@
                             Glyph="&#xE2B4;" />
                     </Button.Content>
                 </Button>
-
             </local:SettingsBlockControl>
 
             <TextBlock

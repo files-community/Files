@@ -1,4 +1,3 @@
-using Files.Common;
 using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
@@ -22,15 +21,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -164,7 +160,6 @@ namespace Files.Views
             //NavigationToolbar.SearchBox.QuerySubmitted += ColumnShellPage_QuerySubmitted;
             //NavigationToolbar.SearchBox.SuggestionChosen += ColumnShellPage_SuggestionChosen;
 
-
             NavToolbarViewModel.ToolbarPathItemInvoked += ColumnShellPage_NavigationRequested;
             NavToolbarViewModel.AddressBarTextEntered += ColumnShellPage_AddressBarTextEntered;
             NavToolbarViewModel.PathBoxItemDropped += ColumnShellPage_PathBoxItemDropped;
@@ -188,7 +183,7 @@ namespace Files.Views
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
         }
 
-        void InitToolbarCommands()
+        private void InitToolbarCommands()
         {
             NavToolbarViewModel.SelectAllContentPageItemsCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.SelectAllItems());
             NavToolbarViewModel.InvertContentPageSelctionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.InvertSelection());

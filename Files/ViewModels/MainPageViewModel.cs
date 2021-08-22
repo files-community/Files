@@ -20,7 +20,6 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files.ViewModels
@@ -127,7 +126,7 @@ namespace Files.ViewModels
                             indexToSelect = AppInstances.Count - 1;
                         }
                     }
-                    
+
                     break;
             }
 
@@ -228,7 +227,7 @@ namespace Files.ViewModels
         {
             string tabLocationHeader;
             var iconSource = new Microsoft.UI.Xaml.Controls.ImageIconSource();
-            
+
             if (currentPath == null || currentPath == "NewTab".GetLocalized() || currentPath == "Home".GetLocalized())
             {
                 tabLocationHeader = "NewTab".GetLocalized();
@@ -259,15 +258,19 @@ namespace Files.ViewModels
                     case "Documents":
                         tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
                         break;
+
                     case "Pictures":
                         tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
                         break;
+
                     case "Music":
                         tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
                         break;
+
                     case "Videos":
                         tabLocationHeader = $"Sidebar{libName}".GetLocalized(); // Show localized name
                         break;
+
                     default:
                         tabLocationHeader = library.Text; // Show original name
                         break;
