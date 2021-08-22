@@ -286,7 +286,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
         private void DragOver(DragEventArgs e)
         {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems) || e.DataView.Contains(StandardDataFormats.Text))
+            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView) || e.DataView.Contains(StandardDataFormats.Text))
             {
                 if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle) // Don't exceed the limit!
                 {
@@ -308,11 +308,11 @@ namespace Files.ViewModels.Widgets.Bundles
             {
                 bool itemsAdded = false;
 
-                if (e.DataView.Contains(StandardDataFormats.StorageItems))
+                if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
                 {
-                    IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
+                    var (_, items) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-                    if (await AddItemsFromPath(items.ToDictionary((item) => item.Path, (item) => item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File)))
+                    if (await AddItemsFromPath(items.ToDictionary((item) => item.Path, (item) => item.ItemType)))
                     {
                         itemsAdded = true;
                     }

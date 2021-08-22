@@ -196,20 +196,18 @@
                     <FontIcon Glyph="&#xE771;" />
                 </local:SettingsBlockControl.Icon>
                 <local:SettingsBlockControl.ExpandableContent>
-                    <StackPanel>
-                        <GridView
-                            x:Name="AppThemeSelectionGridView"
-                            Padding="5"
-                            ItemsSource="{Binding CustomThemes}"
-                            SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
-                            SelectionMode="Single">
-                            <GridView.ItemTemplate>
-                                <DataTemplate>
-                                    <local:ThemeSampleDisplayControl SampleTheme="{Binding Mode=OneWay}" />
-                                </DataTemplate>
-                            </GridView.ItemTemplate>
-                        </GridView>
-                    </StackPanel>
+                    <GridView
+                        x:Name="AppThemeSelectionGridView"
+                        Padding="8"
+                        ItemsSource="{Binding CustomThemes}"
+                        SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
+                        SelectionMode="Single">
+                        <GridView.ItemTemplate>
+                            <DataTemplate>
+                                <local:ThemeSampleDisplayControl SampleTheme="{Binding Mode=OneWay}" />
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
                 </local:SettingsBlockControl.ExpandableContent>
                 <Button
                     x:Name="ThemesLearnMoreButton"
