@@ -800,6 +800,11 @@ namespace Files.Views
                 FilesystemViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
                 FilesystemViewModel.Dispose();
             }
+
+            if (ItemDisplayFrame.Content is IDisposable disposableContent)
+            {
+                disposableContent?.Dispose();
+            }
         }
 
         private void FilesystemViewModel_ItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs e)

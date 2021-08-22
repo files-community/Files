@@ -24,7 +24,7 @@ using static Files.App;
 
 namespace Files.ViewModels
 {
-    public class PreviewPaneViewModel : ObservableObject
+    public class PreviewPaneViewModel : ObservableObject, IDisposable
     {
         private CancellationTokenSource loadCancellationTokenSource;
 
@@ -303,6 +303,11 @@ namespace Files.ViewModels
             {
                 UpdateSelectedItemPreview();
             }
+        }
+
+        public void Dispose()
+        {
+            App.AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
         }
     }
 

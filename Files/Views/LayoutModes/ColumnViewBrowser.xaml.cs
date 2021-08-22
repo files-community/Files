@@ -406,6 +406,7 @@ namespace Files.Views.LayoutModes
 
         public override void Dispose()
         {
+            base.Dispose();
             UnhookEvents();
             CommandsViewModel?.Dispose();
         }

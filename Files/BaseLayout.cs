@@ -970,7 +970,11 @@ namespace Files
 
         public readonly VirtualKey MinusKey = (VirtualKey)189;
 
-        public abstract void Dispose();
+        public virtual void Dispose()
+        {
+            PreviewPaneViewModel?.Dispose();
+            UnhookBaseEvents();
+        }
 
         protected void ItemsLayout_DragOver(object sender, DragEventArgs e)
         {
