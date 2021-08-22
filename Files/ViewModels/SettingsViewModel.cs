@@ -615,8 +615,6 @@ namespace Files.ViewModels
 
         #endregion Appearance
 
-
-
         #region Startup
 
         /// <summary>
