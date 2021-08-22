@@ -3585,6 +3585,10 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
           <source>Open log location</source>
           <target state="new">Open log location</target>
         </trans-unit>
+        <trans-unit id="SettingsAboutOpenLogLocationButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
+        </trans-unit>
       </group>
     </body>
   </file>

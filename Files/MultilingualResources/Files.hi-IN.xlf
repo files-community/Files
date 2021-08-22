@@ -3605,6 +3605,10 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Open log location</source>
           <target state="new">Open log location</target>
         </trans-unit>
+        <trans-unit id="SettingsAboutOpenLogLocationButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
+        </trans-unit>
       </group>
     </body>
   </file>
