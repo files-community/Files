@@ -53,9 +53,7 @@ namespace Files.ViewModels
             FileTagsSettings = new FileTagsSettings();
 
             // Send analytics to AppCenter
-            await StartAppCenter();
-            TrackAnalytics();
-
+            StartAppCenter();
             return this;
         }
 
@@ -69,7 +67,7 @@ namespace Files.ViewModels
         {
         }
 
-        private async Task StartAppCenter()
+        private async void StartAppCenter()
         {
             JObject obj;
             try
@@ -84,10 +82,7 @@ namespace Files.ViewModels
             }
 
             AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
-        }
 
-        private void TrackAnalytics()
-        {
             Analytics.TrackEvent($"{nameof(DisplayedTimeStyle)} {DisplayedTimeStyle}");
             Analytics.TrackEvent($"{nameof(ThemeHelper.RootTheme)} {ThemeHelper.RootTheme}");
             Analytics.TrackEvent($"{nameof(PinRecycleBinToSideBar)} {PinRecycleBinToSideBar}");
