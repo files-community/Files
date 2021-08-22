@@ -53,7 +53,7 @@ namespace Files.ViewModels
             FileTagsSettings = new FileTagsSettings();
 
             // Send analytics to AppCenter
-            StartAppCenter();
+            await StartAppCenter();
             TrackAnalytics();
 
             return this;
@@ -69,7 +69,7 @@ namespace Files.ViewModels
         {
         }
 
-        private async void StartAppCenter()
+        private async Task StartAppCenter()
         {
             JObject obj;
             try
