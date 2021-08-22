@@ -140,6 +140,7 @@ namespace FilesFullTrust.MessageHandlers
                         }
                         return netl;
                     });
+                    networkLocations ??= new ValueSet();
                     networkLocations.Add("Count", networkLocations.Count);
                     await Win32API.SendMessageAsync(connection, networkLocations, message.Get("RequestID", (string)null));
                     break;
