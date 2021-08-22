@@ -27,7 +27,7 @@ namespace Files.ViewModels.Previews
 
         public override async Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            var text = await FileIO.ReadTextAsync(Item.ItemFile);
+            var text = await ReadFileAsText(Item.ItemFile); // await FileIO.ReadTextAsync(Item.ItemFile);
             var displayText = text.Length < Constants.PreviewPane.TextCharacterLimit ? text : text.Remove(Constants.PreviewPane.TextCharacterLimit);
             TextValue = displayText;
 

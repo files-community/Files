@@ -59,6 +59,13 @@
                   </uap5:AppExecutionAlias>
               </uap5:Extension>
               <Extension Category="windows.updateTask" EntryPoint="BackgroundTasks.UpdateTask" />
+              <uap:Extension Category="windows.fileTypeAssociation">
+                <uap:FileTypeAssociation Name="zip">
+                  <uap:SupportedFileTypes>
+                    <uap:FileType>.zip</uap:FileType>
+                  </uap:SupportedFileTypes>
+                </uap:FileTypeAssociation>
+              </uap:Extension>
             </Extensions>
         </Application>
     </Applications>

@@ -1,5 +1,6 @@
 ﻿using Files.Common;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
 using Files.Views;
@@ -296,7 +297,7 @@ namespace Files.ViewModels
                     FilesystemResult<StorageFolderWithPath> rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentPath));
                     if (rootItem)
                     {
-                        StorageFolder currentFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, rootItem));
+                        BaseStorageFolder currentFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, rootItem));
                         if (currentFolder != null && !string.IsNullOrEmpty(currentFolder.DisplayName))
                         {
                             tabLocationHeader = currentFolder.DisplayName;

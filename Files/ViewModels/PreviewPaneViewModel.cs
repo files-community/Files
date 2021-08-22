@@ -202,7 +202,7 @@ namespace Files.ViewModels
         private async Task<UIElement> LoadPreviewControlFromExtension(ListedItem item, Extension extension)
         {
             UIElement control = null;
-            var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
+            var file = await StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath);
             string sharingToken = SharedStorageAccessManager.AddFile(file);
             var result = await extension.Invoke(new ValueSet() { { "token", sharingToken } });
 

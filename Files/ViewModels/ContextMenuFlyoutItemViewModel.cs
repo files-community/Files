@@ -46,6 +46,11 @@ namespace Files.ViewModels
         /// </summary>
         public bool ShowInFtpPage { get; set; }
 
+        /// <summary>
+        /// True if the item is shown in ZIP archive page
+        /// </summary>
+        public bool ShowInZipPage { get; set; }
+
         public KeyboardAccelerator KeyboardAccelerator { get; set; }
         public bool IsChecked { get; set; }
         public bool IsEnabled { get; set; } = true;

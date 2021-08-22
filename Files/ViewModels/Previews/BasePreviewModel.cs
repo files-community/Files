@@ -1,9 +1,13 @@
 ﻿using Files.Filesystem;
+using Files.Filesystem.StorageItems;
+using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -48,9 +52,16 @@ namespace Files.ViewModels.Previews
         /// <returns>A list of details</returns>
         public async virtual Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            using var icon = await Item.ItemFile.GetThumbnailAsync(ThumbnailMode.SingleItem, 400);
-            FileImage ??= new Windows.UI.Xaml.Media.Imaging.BitmapImage();
-            await FileImage.SetSourceAsync(icon);
+            var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Item.ItemFile, 400, ThumbnailMode.SingleItem);
+            iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
+            if (iconData != null)
+            {
+                FileImage = await iconData.ToBitmapAsync();
+            }
+            else
+            {
+                FileImage ??= new BitmapImage();
+            }
 
             return new List<FileProperty>();
         }
@@ -96,7 +107,7 @@ namespace Files.ViewModels.Previews
         public virtual async Task LoadAsync()
         {
             var detailsFull = new List<FileProperty>();
-            Item.ItemFile ??= await StorageFile.GetFileFromPathAsync(Item.ItemPath);
+            Item.ItemFile ??= await StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath);
             DetailsFromPreview = await LoadPreviewAndDetails();
             var props = await GetSystemFileProperties();
 
@@ -124,6 +135,22 @@ namespace Files.ViewModels.Previews
             public override Task<List<FileProperty>> LoadPreviewAndDetails()
             {
                 return Task.FromResult(DetailsFromPreview);
+            }
+        }
+
+        public static async Task<string> ReadFileAsText(BaseStorageFile file, int maxLength = 10 * 1024 * 1024)
+        {
+            using (var stream = await file.OpenStreamForReadAsync())
+            {
+                var result = new StringBuilder();
+                var bytesRead = 0;
+                do
+                {
+                    var buffer = new byte[maxLength];
+                    bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                    result.Append(Encoding.UTF8.GetString(buffer));
+                } while (bytesRead > 0 && result.Length <= maxLength);
+                return result.ToString();
             }
         }
     }

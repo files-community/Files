@@ -20,8 +20,8 @@ namespace Files.Helpers
 
         public static async Task<TOut> ToStorageItem<TOut>(string path, IShellPage associatedInstance = null) where TOut : IStorageItem
         {
-            FilesystemResult<StorageFile> file = null;
-            FilesystemResult<StorageFolder> folder = null;
+            FilesystemResult<BaseStorageFile> file = null;
+            FilesystemResult<BaseStorageFolder> folder = null;
 
             if (path.ToLower().EndsWith(".lnk") || path.ToLower().EndsWith(".url"))
             {
@@ -73,7 +73,8 @@ namespace Files.Helpers
             {
                 if (associatedInstance == null)
                 {
-                    file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+                    var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+                    file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path, rootItem));
                 }
                 else
                 {
@@ -85,7 +86,8 @@ namespace Files.Helpers
             {
                 if (associatedInstance == null)
                 {
-                    folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+                    var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+                    folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, rootItem));
                 }
                 else
                 {
@@ -103,25 +105,16 @@ namespace Files.Helpers
         public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItemWithPath item, IShellPage associatedInstance = null)
         {
             var returnedItem = new FilesystemResult<IStorageItem>(null, FileSystemStatusCode.Generic);
+            var rootItem = associatedInstance == null ? await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(item.Path)) : null;
             if (!string.IsNullOrEmpty(item.Path))
             {
-                if (FtpHelpers.IsFtpPath(item.Path))
-                {
-                    returnedItem = new FilesystemResult<IStorageItem>((item.ItemType == FilesystemItemType.File)
-                        ? new FtpStorageFile(associatedInstance.FilesystemViewModel, item)
-                        : new FtpStorageFolder(associatedInstance.FilesystemViewModel, item),
-                        FileSystemStatusCode.Success);
-                }
-                else
-                {
-                    returnedItem = (item.ItemType == FilesystemItemType.File) ?
-                        ToType<IStorageItem, StorageFile>(associatedInstance != null ?
-                            await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.Path) :
-                            await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path))) :
-                        ToType<IStorageItem, StorageFolder>(associatedInstance != null ?
-                            await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.Path) :
-                            await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path)));
-                }
+                returnedItem = (item.ItemType == FilesystemItemType.File) ?
+                    ToType<IStorageItem, BaseStorageFile>(associatedInstance != null ?
+                        await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.Path) :
+                        await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path, rootItem))) :
+                    ToType<IStorageItem, BaseStorageFolder>(associatedInstance != null ?
+                        await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.Path) :
+                        await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path, rootItem)));
             }
             if (returnedItem.Result == null && item.Item != null)
             {
@@ -157,11 +150,11 @@ namespace Files.Helpers
             }
             else if (item.IsOfType(StorageItemTypes.File))
             {
-                return new StorageFileWithPath(item as StorageFile, string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
+                return new StorageFileWithPath(item.AsBaseStorageFile(), string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
             }
             else if (item.IsOfType(StorageItemTypes.Folder))
             {
-                return new StorageFolderWithPath(item as StorageFolder, string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
+                return new StorageFolderWithPath(item.AsBaseStorageFolder(), string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
             }
             return null;
         }

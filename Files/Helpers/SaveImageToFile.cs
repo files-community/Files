@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.Filesystem.StorageItems;
+using System;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
@@ -15,7 +16,7 @@ namespace Files.Helpers
         /// <param name="outputFile"></param>
         /// <param name="encoderId">The guid of the image encoder type</param>
         /// <returns></returns>
-        public static async Task SaveSoftwareBitmapToFile(SoftwareBitmap softwareBitmap, StorageFile outputFile, Guid encoderId)
+        public static async Task SaveSoftwareBitmapToFile(SoftwareBitmap softwareBitmap, BaseStorageFile outputFile, Guid encoderId)
         {
             using IRandomAccessStream stream = await outputFile.OpenAsync(FileAccessMode.ReadWrite);
             // Create an encoder with the desired format

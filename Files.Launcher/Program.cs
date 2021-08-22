@@ -1,5 +1,4 @@
 using Files.Common;
-using FilesFullTrust.Helpers;
 using FilesFullTrust.MessageHandlers;
 using Newtonsoft.Json;
 using System;
@@ -235,7 +234,7 @@ namespace FilesFullTrust
                     {
                         await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", -1 } }, message.Get("RequestID", (string)null));
                     }
-                    break;                
+                    break;
 
                 default:
                     foreach (var mh in messageHandlers)

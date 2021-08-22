@@ -1,5 +1,6 @@
 ﻿using Files.Enums;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using System;
 using Windows.Storage;
 using Windows.System.UserProfile;
@@ -13,20 +14,20 @@ namespace Files.Helpers
             if (UserProfilePersonalizationSettings.IsSupported())
             {
                 // Get the path of the selected file
-                StorageFile sourceFile = await StorageItemHelpers.ToStorageItem<StorageFile>(filePath, associatedInstance);
+                BaseStorageFile sourceFile = await StorageItemHelpers.ToStorageItem<BaseStorageFile>(filePath, associatedInstance);
                 if (sourceFile == null)
                 {
                     return;
                 }
 
                 // Get the app's local folder to use as the destination folder.
-                StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+                BaseStorageFolder localFolder = ApplicationData.Current.LocalFolder;
 
                 // the file to the destination folder.
                 // Generate unique name if the file already exists.
                 // If the file you are trying to set as the wallpaper has the same name as the current wallpaper,
                 // the system will ignore the request and no-op the operation
-                StorageFile file = await FilesystemTasks.Wrap(() => sourceFile.CopyAsync(localFolder, sourceFile.Name, NameCollisionOption.GenerateUniqueName).AsTask());
+                BaseStorageFile file = await FilesystemTasks.Wrap(() => sourceFile.CopyAsync(localFolder, sourceFile.Name, NameCollisionOption.GenerateUniqueName).AsTask());
                 if (file == null)
                 {
                     return;
@@ -36,12 +37,12 @@ namespace Files.Helpers
                 if (type == WallpaperType.Desktop)
                 {
                     // Set the desktop background
-                    await profileSettings.TrySetWallpaperImageAsync(file);
+                    await profileSettings.TrySetWallpaperImageAsync(await file.ToStorageFileAsync());
                 }
                 else if (type == WallpaperType.LockScreen)
                 {
                     // Set the lockscreen background
-                    await profileSettings.TrySetLockScreenImageAsync(file);
+                    await profileSettings.TrySetLockScreenImageAsync(await file.ToStorageFileAsync());
                 }
             }
         }

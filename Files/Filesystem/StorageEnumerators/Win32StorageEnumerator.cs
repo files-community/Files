@@ -306,25 +306,50 @@ namespace Files.Filesystem.StorageEnumerators
                     opacity = Constants.UI.DimItemOpacity;
                 }
 
-                return new ListedItem(null, dateReturnFormat)
+                if (itemFileExtension == ".zip")
                 {
-                    PrimaryItemAttribute = StorageItemTypes.File,
-                    FileExtension = itemFileExtension,
-                    LoadUnknownTypeGlyph = itemEmptyImgVis,
-                    FileImage = null,
-                    LoadFileIcon = itemThumbnailImgVis,
-                    LoadFolderGlyph = itemFolderImgVis,
-                    ItemName = itemName,
-                    IsHiddenItem = isHidden,
-                    Opacity = opacity,
-                    ItemDateModifiedReal = itemModifiedDate,
-                    ItemDateAccessedReal = itemLastAccessDate,
-                    ItemDateCreatedReal = itemCreatedDate,
-                    ItemType = itemType,
-                    ItemPath = itemPath,
-                    FileSize = itemSize,
-                    FileSizeBytes = itemSizeBytes
-                };
+                    return new ZipItem(null, dateReturnFormat)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.Folder, // Treat zip files as folders
+                        FileExtension = itemFileExtension,
+                        LoadUnknownTypeGlyph = itemEmptyImgVis,
+                        FileImage = null,
+                        LoadFileIcon = itemThumbnailImgVis,
+                        LoadFolderGlyph = itemFolderImgVis,
+                        ItemName = itemName,
+                        IsHiddenItem = isHidden,
+                        Opacity = opacity,
+                        ItemDateModifiedReal = itemModifiedDate,
+                        ItemDateAccessedReal = itemLastAccessDate,
+                        ItemDateCreatedReal = itemCreatedDate,
+                        ItemType = itemType,
+                        ItemPath = itemPath,
+                        FileSize = itemSize,
+                        FileSizeBytes = itemSizeBytes
+                    };
+                }
+                else
+                {
+                    return new ListedItem(null, dateReturnFormat)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        FileExtension = itemFileExtension,
+                        LoadUnknownTypeGlyph = itemEmptyImgVis,
+                        FileImage = null,
+                        LoadFileIcon = itemThumbnailImgVis,
+                        LoadFolderGlyph = itemFolderImgVis,
+                        ItemName = itemName,
+                        IsHiddenItem = isHidden,
+                        Opacity = opacity,
+                        ItemDateModifiedReal = itemModifiedDate,
+                        ItemDateAccessedReal = itemLastAccessDate,
+                        ItemDateCreatedReal = itemCreatedDate,
+                        ItemType = itemType,
+                        ItemPath = itemPath,
+                        FileSize = itemSize,
+                        FileSizeBytes = itemSizeBytes
+                    };
+                }
             }
             return null;
         }
