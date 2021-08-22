@@ -1,4 +1,5 @@
 ﻿using Files.EventArguments;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
@@ -132,7 +133,8 @@ namespace Files.Views.LayoutModes
             if (IsLastColumnBase)
             {
                 FileList.SelectAll();
-            } else
+            }
+            else
             {
                 var c = ColumnHost.ActiveBlades.Last();
                 ((c.Content as Frame).Content as ColumnShellPage).NavToolbarViewModel.SelectAllContentPageItemsCommand.Execute(null);
@@ -174,16 +176,13 @@ namespace Files.Views.LayoutModes
             {
                 //_ = VisualStateManager.GoToState(listViewItem, "NotCurrentItem", true);
             }
-            else
+            else if (index > 0)
             {
-                try
+                Common.Extensions.IgnoreExceptions(() =>
                 {
-                    var listview = ColumnHost.ActiveBlades[index].FindDescendant("FileList") as ListView;
-                    ListViewItem listViewItem2 = listview.ContainerFromItem((listview.SelectedItem) as ListedItem) as ListViewItem;
-                }
-                catch
-                {
-                }
+                    //var listview = ColumnHost.ActiveBlades[index].FindDescendant("FileList") as ListView;
+                    //var listViewItem = listview.ContainerFromItem((listview.SelectedItem) as ListedItem) as ListViewItem;
+                });
             }
         }
 
@@ -406,6 +405,7 @@ namespace Files.Views.LayoutModes
         public override void Dispose()
         {
             base.Dispose();
+            ColumnHost.ActiveBlades.Select(x => (x.Content as Frame)?.Content).OfType<IDisposable>().ForEach(x => x.Dispose());
             UnhookEvents();
             CommandsViewModel?.Dispose();
         }
@@ -575,33 +575,20 @@ namespace Files.Views.LayoutModes
         {
             var blade = listView.FindAscendant<BladeItem>();
             var index = ColumnHost.ActiveBlades.IndexOf(blade);
-            if (index == 0)
+            if (index >= 0)
             {
-                try
-                {
-                    while (ColumnHost.ActiveBlades.Count > 1)
-                    {
-                        ColumnHost.Items.RemoveAt(1);
-                        ColumnHost.ActiveBlades.RemoveAt(1);
-                    }
-                }
-                catch
-                {
-                }
-            }
-            else
-            {
-                try
+                Common.Extensions.IgnoreExceptions(() =>
                 {
                     while (ColumnHost.ActiveBlades.Count > index + 1)
                     {
+                        if ((ColumnHost.ActiveBlades[index + 1].Content as Frame)?.Content is IDisposable disposableContent)
+                        {
+                            disposableContent.Dispose();
+                        }
                         ColumnHost.Items.RemoveAt(index + 1);
                         ColumnHost.ActiveBlades.RemoveAt(index + 1);
                     }
-                }
-                catch
-                {
-                }
+                });
             }
             ContentChanged(LastColumnShellPage);
         }
@@ -646,7 +633,7 @@ namespace Files.Views.LayoutModes
                         //    NavPathParam = item.ItemPath,
                         //    AssociatedTabInstance = ParentShellPageInstance
                         //});
-                        
+
                         frame.Navigate(typeof(ColumnShellPage), new ColumnParam
                         {
                             Column = 1,
