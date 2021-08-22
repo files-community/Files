@@ -428,15 +428,26 @@ namespace Files.Filesystem.StorageItems
             });
         }
 
-        public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
+        public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path, bool tryOpenFile = true)
         {
             var marker = path.IndexOf(".zip");
             if (marker != -1)
             {
-                var containerPath = path.Substring(0, marker + ".zip".Length);
-                if (CheckAccess(containerPath))
+                marker += ".zip".Length;
+                var containerPath = path.Substring(0, marker);
+                if (tryOpenFile)
                 {
-                    return Task.FromResult<BaseStorageFolder>(new ZipStorageFolder(path, containerPath)).AsAsyncOperation();
+                    if (CheckAccess(containerPath))
+                    {
+                        return Task.FromResult<BaseStorageFolder>(new ZipStorageFolder(path, containerPath)).AsAsyncOperation();
+                    }
+                }
+                else
+                {
+                    if (marker == path.Length || path[marker] == '\\')
+                    {
+                        return Task.FromResult<BaseStorageFolder>(new ZipStorageFolder(path, containerPath)).AsAsyncOperation();
+                    }
                 }
             }
             return Task.FromResult<BaseStorageFolder>(null).AsAsyncOperation();

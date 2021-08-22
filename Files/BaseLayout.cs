@@ -911,6 +911,12 @@ namespace Files
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
                         e.AcceptedOperation = DataPackageOperation.Move;
                     }
+                    else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
+                        || await ZipStorageFolder.FromPathAsync(item.ItemPath, false) is not null)
+                    {
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
+                        e.AcceptedOperation = DataPackageOperation.Copy;
+                    }
                     else if (draggedItems.AreItemsInSameDrive(item.ItemPath))
                     {
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
