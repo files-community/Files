@@ -67,7 +67,7 @@ namespace Files.Filesystem.StorageItems
                     zipFile.CommitUpdate();
 
                     var wnt = new WindowsNameTransform(ContainerPath);
-                    return new ZipStorageFile(wnt.TransformFile(zipDesiredName), ContainerPath, entry);
+                    return new ZipStorageFile(wnt.TransformFile(zipDesiredName), ContainerPath);
                 }
             });
         }
@@ -108,7 +108,7 @@ namespace Files.Filesystem.StorageItems
                     zipFile.CommitUpdate();
 
                     var wnt = new WindowsNameTransform(ContainerPath);
-                    return new ZipStorageFolder(wnt.TransformFile(zipDesiredName), ContainerPath, entry);
+                    return new ZipStorageFolder(wnt.TransformFile(zipDesiredName), ContainerPath);
                 }
             });
         }
