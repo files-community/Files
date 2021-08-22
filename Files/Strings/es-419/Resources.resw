@@ -1851,10 +1851,10 @@
   <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
     <value>Organizar por</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Agrupar por</value>
   </data>
-  <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Ordenar por</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
@@ -2419,9 +2419,6 @@
     <value>Copiar</value>
   </data>
   <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Abrir ubicación de archivo de registro (Log)</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButtonText.Text" xml:space="preserve">
     <value>Abrir ubicación de archivo de registro (Log)</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">

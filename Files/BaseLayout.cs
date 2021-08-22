@@ -3,6 +3,7 @@ using Files.EventArguments;
 using Files.Events;
 using Files.Extensions;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.ContextFlyouts;
 using Files.Interacts;
@@ -239,7 +240,11 @@ namespace Files
                         {
                             SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemSelected/Text".GetLocalized()}";
                             SelectedItemsPropertiesViewModel.ItemSize = SelectedItem.FileSize;
-                            preRenamingItem = SelectedItem;
+                            DispatcherQueue.GetForCurrentThread().EnqueueAsync(async () =>
+                            {
+                                await Task.Delay(50); // Tapped event must be executed first
+                                preRenamingItem = SelectedItem;
+                            });
                         }
                         else
                         {
@@ -373,7 +378,8 @@ namespace Files
                         NavPathParam = navigationArguments.NavPathParam,
                         IsSearchResultPage = navigationArguments.IsSearchResultPage,
                         SearchPathParam = navigationArguments.SearchPathParam,
-                        SearchResults = navigationArguments.SearchResults,
+                        SearchQuery = navigationArguments.SearchQuery,
+                        SearchUnindexedItems = navigationArguments.SearchUnindexedItems,
                         IsLayoutSwitch = true,
                         AssociatedTabInstance = ParentShellPageInstance
                     });
@@ -403,7 +409,7 @@ namespace Files
             IsItemSelected = false;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
-            ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
+            ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
             FolderSettings.SetLayoutInformation();
 
             if (!navigationArguments.IsSearchResultPage)
@@ -426,6 +432,7 @@ namespace Files
 
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
                 ParentShellPageInstance.NavToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
                 if (!navigationArguments.IsLayoutSwitch)
@@ -439,18 +446,26 @@ namespace Files
             }
             else
             {
-                ParentShellPageInstance.NavToolbarViewModel.CanRefresh = false;
+                ParentShellPageInstance.NavToolbarViewModel.CanRefresh = true;
                 ParentShellPageInstance.NavToolbarViewModel.CanGoForward = false;
                 ParentShellPageInstance.NavToolbarViewModel.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
                 ParentShellPageInstance.NavToolbarViewModel.CanNavigateToParent = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
                 if (!navigationArguments.IsLayoutSwitch)
                 {
-                    await ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(navigationArguments.SearchResults, navigationArguments.SearchPathParam);
                     var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
-                    ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, $"{"SearchPagePathBoxOverrideText".GetLocalized()} {displayName}");
+                    ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, string.Format("SearchPagePathBoxOverrideText".GetLocalized(), navigationArguments.SearchQuery, displayName));
+                    var searchInstance = new Filesystem.Search.FolderSearch
+                    {
+                        Query = navigationArguments.SearchQuery,
+                        Folder = navigationArguments.SearchPathParam,
+                        ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
+                        SearchUnindexedItems = navigationArguments.SearchUnindexedItems
+                    };
+                    _ = ParentShellPageInstance.FilesystemViewModel.SearchAsync(searchInstance);
                 }
             }
 
@@ -604,7 +619,7 @@ namespace Files
             secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250); // Set menu min width
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 
-            if (AppSettings.AreFileTagsEnabled && !InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin)
+            if (AppSettings.AreFileTagsEnabled && !InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin && !InstanceViewModel.IsPageTypeFtp)
             {
                 AddFileTagsItemToMenu(ItemContextMenuFlyout);
             }
@@ -693,7 +708,9 @@ namespace Files
             if (openWithSubItems is not null && openWithOverflow is not null)
             {
                 var openWith = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "OpenWith") as AppBarButton;
-                var flyout = new MenuFlyout();
+                var flyout = openWithOverflow.Flyout as MenuFlyout;
+                flyout.Items.Clear();
+
                 foreach (var item in openWithSubItems)
                 {
                     flyout.Items.Add(item);
@@ -744,27 +761,45 @@ namespace Files
         protected async void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
             List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
+            var result = (FilesystemResult)false;
 
-            foreach (var itemObj in e.Items)
+            e.Items.OfType<ListedItem>().ForEach(item => SelectedItems.Add(item));
+
+            foreach (var item in e.Items.OfType<ListedItem>())
             {
-                var item = itemObj as ListedItem;
-                if (item == null || item is ShortcutItem)
+                if (item is FtpItem ftpItem)
                 {
-                    // Can't drag shortcut items
-                    continue;
+                    if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                    {
+                        selectedStorageItems.Add(await new FtpStorageFile(ParentShellPageInstance.FilesystemViewModel, ftpItem).ToStorageFileAsync());
+                    }
                 }
-
-                SelectedItems.Add(item);
-                if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                else if (item.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
+                    result = await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
                         .OnSuccess(t => selectedStorageItems.Add(t));
+                    if (!result)
+                    {
+                        break;
+                    }
                 }
                 else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
+                    result = await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
                         .OnSuccess(t => selectedStorageItems.Add(t));
+                    if (!result)
+                    {
+                        break;
+                    }
                 }
+            }
+
+            if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
+            {
+                var itemList = e.Items.OfType<ListedItem>().Select(x => StorageItemHelpers.FromPathAndType(
+                    x.ItemPath, x.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+                e.Data.Properties["FileDrop"] = itemList.ToList();
+                return;
             }
 
             if (selectedStorageItems.Count == 1)
@@ -820,7 +855,7 @@ namespace Files
                 dragOverTimer.Stop();
                 dragOverTimer.Debounce(() =>
                 {
-                    if (dragOverItem != null && !InstanceViewModel.IsPageTypeSearchResults && !dragOverItem.IsExecutable)
+                    if (dragOverItem != null && !dragOverItem.IsExecutable)
                     {
                         dragOverItem = null;
                         dragOverTimer.Stop();
@@ -829,36 +864,25 @@ namespace Files
                 }, TimeSpan.FromMilliseconds(1000), false);
             }
 
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
-                IReadOnlyList<IStorageItem> draggedItems;
-                try
-                {
-                    draggedItems = await e.DataView.GetStorageItemsAsync();
-                }
-                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-                {
-                    // Handled by FTP
-                    draggedItems = new List<IStorageItem>();
-                }
-                catch (Exception ex)
-                {
-                    App.Logger.Warn(ex, ex.Message);
-                    e.AcceptedOperation = DataPackageOperation.None;
-                    deferral.Complete();
-                    return;
-                }
-
                 e.Handled = true;
-                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+
+                var (handledByFtp, draggedItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+
+                if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
-                else if (!draggedItems.Any())
+                else if (handledByFtp)
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
                     e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
                     e.AcceptedOperation = DataPackageOperation.Copy;
+                }
+                else if (!draggedItems.Any())
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
                 }
                 else
                 {
@@ -868,6 +892,11 @@ namespace Files
                         e.DragUIOverride.Caption = $"{"OpenItemsWithCaptionText".GetLocalized()} {item.ItemName}";
                         e.AcceptedOperation = DataPackageOperation.Link;
                     } // Items from the same drive as this folder are dragged into this folder, so we move the items instead of copy
+                    else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
+                    {
+                        e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), item.ItemName);
+                        e.AcceptedOperation = DataPackageOperation.Link;
+                    }
                     else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
                     {
                         e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);

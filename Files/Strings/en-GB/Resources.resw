@@ -16,7 +16,7 @@
     <value>Open in new tab</value>
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
-    <value>Open in New Window</value>
+    <value>Open in new window</value>
   </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>New window</value>
@@ -37,7 +37,7 @@
     <value>Paste</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>Browse...</value>
+    <value>Browse</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>Drives</value>
@@ -54,17 +54,29 @@
   <data name="sizeColumn.Header" xml:space="preserve">
     <value>Size</value>
   </data>
+  <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
+    <value>Open in Terminal...</value>
+  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>Created</value>
+    <value>Created:</value>
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Item Name</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Path</value>
+    <value>Path:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
-    <value>Size</value>
+    <value>Size:</value>
+  </data>
+  <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
+    <value>This action cannot be done</value>
+  </data>
+  <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
+    <value>The destination folder</value>
+  </data>
+  <data name="ErrorDialogIsASubfolder" xml:space="preserve">
+    <value>is a subfolder of the source folder</value>
   </data>
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Skip</value>
@@ -73,7 +85,7 @@
     <value>Cancel</value>
   </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Item type</value>
+    <value>Item type:</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
     <value>Select All</value>
@@ -82,28 +94,40 @@
     <value>Invert Selection</value>
   </data>
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
-    <value>Clear selection</value>
+    <value>Clear Selection</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
     <value>Details View</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>Modified</value>
+    <value>Modified:</value>
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Accessed:</value>
   </data>
+  <data name="RecentItemClearAll.Text" xml:space="preserve">
+    <value>Clear all items</value>
+  </data>
+  <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
+    <value>Enter a path</value>
+  </data>
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
-    <value>Search orders</value>
+    <value>Search</value>
+  </data>
+  <data name="RecentItemDescription.Text" xml:space="preserve">
+    <value>Files you've previously accessed will show up here</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
     <value>Open file location</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Remove this item?</value>
+    <value>Remove this item</value>
   </data>
   <data name="RecentFilesHeader.Text" xml:space="preserve">
     <value>Recent Files</value>
+  </data>
+  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
+    <value>Useful links</value>
   </data>
   <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
     <value>Copy</value>
@@ -111,11 +135,14 @@
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Submit feedback</value>
   </data>
+  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
+    <value>Third party licenses</value>
+  </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>About</value>
   </data>
   <data name="SettingsDateFormat.Title" xml:space="preserve">
-    <value>Date format.</value>
+    <value>Date format</value>
   </data>
   <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
     <value>Choose your colour</value>
@@ -123,8 +150,14 @@
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Appearance</value>
   </data>
+  <data name="SettingsFilesAndFoldersShowFileExtensions.Title" xml:space="preserve">
+    <value>Show extensions for known file types</value>
+  </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
     <value>Show hidden files and folders</value>
+  </data>
+  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
+    <value>Files &amp; Folders</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimental</value>
@@ -135,11 +168,32 @@
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Appearance</value>
   </data>
+  <data name="SettingsNavExperimental.Content" xml:space="preserve">
+    <value>Experimental</value>
+  </data>
+  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
+    <value>Files &amp; Folders</value>
+  </data>
+  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
+    <value>On Startup</value>
+  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferences</value>
   </data>
+  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
+    <value>WARNING: EXPERIMENTAL FEATURES AHEAD!</value>
+  </data>
+  <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
+    <value>Continue where you left off</value>
+  </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Open a new tab</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
+    <value>Open a specific page or pages</value>
+  </data>
+  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
+    <value>On Startup</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferences</value>
@@ -154,13 +208,13 @@
     <value>Downloads</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
-    <value>Home email address</value>
+    <value>Home</value>
   </data>
   <data name="SidebarMusic" xml:space="preserve">
     <value>Music</value>
   </data>
   <data name="SidebarPictures" xml:space="preserve">
-    <value>folder</value>
+    <value>Pictures</value>
   </data>
   <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
     <value>Unpin from Favourites</value>
@@ -169,7 +223,7 @@
     <value>Videos</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
-    <value>Sort by:</value>
+    <value>Sort by</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
     <value>Name</value>
@@ -195,8 +249,14 @@
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Paste</value>
   </data>
+  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
+    <value>Open in Terminal...</value>
+  </data>
+  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
+    <value>MD5Hash:</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
-    <value>New...</value>
+    <value>New</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Folder</value>
@@ -211,7 +271,7 @@
     <value>Properties</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
-    <value>Extract...</value>
+    <value>Extract</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
     <value>Open</value>
@@ -220,7 +280,7 @@
     <value>Open in new tab</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
-    <value>Open in New Window</value>
+    <value>Open in new window</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
     <value>Set as desktop background</value>
@@ -246,8 +306,14 @@
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Properties</value>
   </data>
+  <data name="WelcomeDialog.Title" xml:space="preserve">
+    <value>Welcome to Files!</value>
+  </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Grant Permission</value>
+  </data>
+  <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
+    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>File folder</value>
@@ -255,8 +321,14 @@
   <data name="ItemTypeFile" xml:space="preserve">
     <value>File</value>
   </data>
+  <data name="RenameDialog.Title" xml:space="preserve">
+    <value>Enter an item name</value>
+  </data>
+  <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
+    <value>Enter an item name</value>
+  </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Set name:</value>
+    <value>Set Name</value>
   </data>
   <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
     <value>Cancel</value>
@@ -265,7 +337,7 @@
     <value>New tab</value>
   </data>
   <data name="SystemTheme" xml:space="preserve">
-    <value>DEFAULT</value>
+    <value>Default</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Light</value>
@@ -289,34 +361,91 @@
     <value>This folder is empty.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Back	Alt+Left Arrow</value>
+    <value>Back	(Alt+Left Arrow)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Forward	Alt+Right Arrow</value>
+    <value>Forward (Alt+Right Arrow)</value>
+  </data>
+  <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Up (Alt+Up Arrow)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Refresh (F5)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Search (Ctrl + F)</value>
+    <value>Search (Ctrl+F)</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Properties</value>
   </data>
   <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Attributes</value>
+    <value>Attributes:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Properties</value>
   </data>
+  <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
+    <value>An item with this name already exists in this directory.</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Generate new name</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Replace existing item</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
+    <value>Item already exists</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+    <value>Set as lockscreen background</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
+    <value>Grid View (Large)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
+    <value>Grid View (Medium)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
+    <value>Grid View (Small)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
+    <value>Tiles View</value>
+  </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
+    <value>We weren't able to delete this item</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Access denied</value>
+    <value>Access Denied</value>
+  </data>
+  <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
+    <value>Please insert the necessary drive to access this item.</value>
+  </data>
+  <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
+    <value>Drive Unplugged</value>
+  </data>
+  <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>The file you are attempting to access may have been moved or deleted.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>File Not Found</value>
+  </data>
+  <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
+    <value>The file you are attempting to preview may have been moved or deleted.</value>
+  </data>
+  <data name="FolderNotFoundDialog.Text" xml:space="preserve">
+    <value>The folder you are attempting to access may have been moved or deleted.</value>
+  </data>
+  <data name="FolderNotFoundDialog.Title" xml:space="preserve">
+    <value>Did you delete this folder?</value>
+  </data>
+  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
+    <value>The file you're trying to delete is currently being used by an another application.</value>
+  </data>
+  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
+    <value>File is in use</value>
   </data>
   <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
     <value>Try again</value>
@@ -364,37 +493,58 @@
     <value>{0} seconds ago</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
-    <value>New &amp;Tab</value>
+    <value>New Tab</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
-    <value>The requested operation is not supported.</value>
+    <value>The requested operation is not supported</value>
+  </data>
+  <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
+    <value>{0} free of {1}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Open With…</value>
+    <value>Open With</value>
+  </data>
+  <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
+    <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
+    <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Open log location</value>
+  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
-    <value>%@ item selected</value>
+    <value>item selected</value>
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>%@ items selected</value>
+    <value>items selected</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
     <value>item</value>
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
-    <value>Items</value>
+    <value>items</value>
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Deleting files</value>
+  </data>
+  <data name="PasteInProgress.Title" xml:space="preserve">
+    <value>Pasting files</value>
+  </data>
+  <data name="RecycleInProgress.Title" xml:space="preserve">
+    <value>Moving files to the Recycle Bin</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>Yes</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to permanently delete all these items?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Empty recycle bin</value>
@@ -429,29 +579,56 @@
   <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="BitlockerDialog.Title" xml:space="preserve">
+    <value>Enter password to unlock the drive</value>
+  </data>
   <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
+    <value>Please check the password and try again.</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
+    <value>BitLocker error</value>
+  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
-    <value>Contains</value>
+    <value>Contains:</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
+    <value>{0:#,##0} files, {1:#,##0} folders</value>
+  </data>
+  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
+    <value>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Run as another user</value>
+  </data>
+  <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
+    <value>All type of {0}</value>
+  </data>
+  <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
+    <value>Different types</value>
+  </data>
+  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+    <value>All in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Used space:</value>
   </data>
   <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
-    <value>Free space</value>
+    <value>Free space:</value>
   </data>
   <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
-    <value>CAPACITY</value>
+    <value>Capacity:</value>
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
     <value>File system:</value>
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Recent</value>
+  </data>
+  <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
+    <value>Move tab here</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Status</value>
@@ -460,7 +637,16 @@
     <value>Add a new page</value>
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>Pages</value>
+    <value>Pages:</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
+    <value>Always open a new instance</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
+    <value>Open folder in a new tab</value>
+  </data>
+  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
+    <value>When opening a folder in Files</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows default</value>
@@ -468,11 +654,14 @@
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>No results</value>
   </data>
+  <data name="SubDirectoryAccessDenied" xml:space="preserve">
+    <value>Can't access any items to display</value>
+  </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
-    <value>Move to ${0}</value>
+    <value>Move to {0}</value>
   </data>
   <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
-    <value>The source and destination filenames are the same.</value>
+    <value>The source and destination file names are the same.</value>
   </data>
   <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
     <value>The destination folder is the same as the source folder.</value>
@@ -487,10 +676,16 @@
     <value>Open file location</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
-    <value>Arguments</value>
+    <value>Arguments:</value>
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
-    <value>Destination</value>
+    <value>Destination:</value>
+  </data>
+  <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
+    <value>Shortcut type:</value>
+  </data>
+  <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
+    <value>Working directory:</value>
   </data>
   <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
     <value>Application</value>
@@ -513,14 +708,29 @@
   <data name="ShortcutFileType" xml:space="preserve">
     <value>Shortcut</value>
   </data>
+  <data name="ShortcutWebLinkFileType" xml:space="preserve">
+    <value>Internet shortcut</value>
+  </data>
+  <data name="ShortcutCreateNewSuffix" xml:space="preserve">
+    <value>{0} - shortcut</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Open file location</value>
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
     <value>Unknown</value>
   </data>
+  <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
+    <value>Open log location</value>
+  </data>
+  <data name="ExceptionNotificationBody" xml:space="preserve">
+    <value>Files ran into a problem that the developers didn't prepare for yet.</value>
+  </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
-    <value>Something went wrong</value>
+    <value>Something went wrong!</value>
+  </data>
+  <data name="ExceptionNotificationReportButton" xml:space="preserve">
+    <value>Report this issue</value>
   </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Contributors</value>
@@ -528,35 +738,80 @@
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Release notes</value>
   </data>
+  <data name="InvalidItemDialogContent" xml:space="preserve">
+    <value>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</value>
+  </data>
+  <data name="InvalidItemDialogTitle" xml:space="preserve">
+    <value>Invalid item</value>
+  </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
-    <value>Version</value>
+    <value>Version:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
     <value>There’s nothing to share at the moment.</value>
   </data>
+  <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
+    <value>The items you've selected will be shared</value>
+  </data>
+  <data name="ShareDialogSingleItemDescription" xml:space="preserve">
+    <value>The selected item will be shared</value>
+  </data>
   <data name="ShareDialogTitle" xml:space="preserve">
-    <value>Sharing: {0}%</value>
+    <value>Sharing {0}</value>
+  </data>
+  <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
+    <value>Sharing {0} {1}</value>
+  </data>
+  <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
+    <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
+  </data>
+  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
+    <value>Item no longer exists</value>
+  </data>
+  <data name="RenameError.NameInvalid.Text" xml:space="preserve">
+    <value>The name specified was invalid. Please check the desired item name and try again.</value>
+  </data>
+  <data name="RenameError.NameInvalid.Title" xml:space="preserve">
+    <value>Invalid item name</value>
+  </data>
+  <data name="RenameError.TooLong.Text" xml:space="preserve">
+    <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
+  </data>
+  <data name="RenameError.TooLong.Title" xml:space="preserve">
+    <value>Item name was too long</value>
   </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>More</value>
   </data>
   <data name="ButtonNo.Content" xml:space="preserve">
-    <value>Symbol</value>
+    <value>No</value>
   </data>
   <data name="ButtonYes.Content" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="RestartNotificationText.Text" xml:space="preserve">
+    <value>The application needs to be restarted in order to apply these settings, would you like to restart the app?</value>
+  </data>
+  <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
+    <value>Support us</value>
+  </data>
+  <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
+    <value>We weren't able to create this item</value>
   </data>
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Close</value>
   </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
-    <value>Access denied</value>
+    <value>Access Denied</value>
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Cancel</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Add tab</value>
+  </data>
+  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
+    <value>Open tabs</value>
   </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multi-tasking</value>
@@ -568,37 +823,85 @@
     <value>Set as</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
-    <value>Copy Location</value>
+    <value>Copy location</value>
   </data>
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="AddDialog.Title" xml:space="preserve">
+    <value>Create a New Item</value>
+  </data>
+  <data name="AddDialogDescription.Text" xml:space="preserve">
+    <value>Choose a type for this new item below</value>
+  </data>
   <data name="AddDialogListFileHeader" xml:space="preserve">
     <value>File</value>
+  </data>
+  <data name="AddDialogListFileSubHeader" xml:space="preserve">
+    <value>Creates an empty file</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>Folder</value>
   </data>
+  <data name="AddDialogListFolderSubHeader" xml:space="preserve">
+    <value>Creates an empty folder</value>
+  </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Layout mode</value>
   </data>
+  <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Navigate backwards</value>
+  </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Navigate Forward</value>
+    <value>Navigate forward</value>
+  </data>
+  <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Refresh the directory</value>
+  </data>
+  <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Go up one directory</value>
+  </data>
+  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Vertical tab flyout</value>
+  </data>
+  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vertical tab flyout</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
+    <value>Edit terminal applications</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Edit terminal applications</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
+    <value>Terminal applications</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
+    <value>Edit terminal applications</value>
+  </data>
+  <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
+    <value>Move overflow items into a sub menu</value>
+  </data>
   <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
     <value>Pin Recycle Bin to Favourites</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
+    <value>Show a confirmation dialog when deleting files or folders</value>
+  </data>
+  <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
+    <value>There was an issue saving some properties.</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
     <value>Error</value>
   </data>
   <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Try Again</value>
+    <value>Retry</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Close anyway?</value>
+    <value>Close anyway</value>
   </data>
   <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
     <value>Cancel</value>
@@ -606,8 +909,11 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Rating</value>
   </data>
+  <data name="PropertyItemPathDisplay" xml:space="preserve">
+    <value>Item Path</value>
+  </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
-    <value>Item type</value>
+    <value>Item Type</value>
   </data>
   <data name="PropertyTitle" xml:space="preserve">
     <value>Title</value>
@@ -622,13 +928,19 @@
     <value>Copyright</value>
   </data>
   <data name="PropertyDateModified" xml:space="preserve">
-    <value>Date modified</value>
+    <value>Date Modified</value>
   </data>
   <data name="PropertyBitDepth" xml:space="preserve">
     <value>Bit Depth</value>
   </data>
   <data name="PropertyDimensions" xml:space="preserve">
     <value>Dimensions</value>
+  </data>
+  <data name="PropertyHorizontalSize" xml:space="preserve">
+    <value>Horizontal Size</value>
+  </data>
+  <data name="PropertyVerticalSize" xml:space="preserve">
+    <value>Vertical Size</value>
   </data>
   <data name="PropertyHorizontalResolution" xml:space="preserve">
     <value>Horizontal Resolution</value>
@@ -640,7 +952,7 @@
     <value>Compression</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
-    <value>Colour Space:</value>
+    <value>Colour Space</value>
   </data>
   <data name="PropertyColorSpace_Value0" xml:space="preserve">
     <value>sRGB</value>
@@ -648,17 +960,32 @@
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>Unspecified</value>
   </data>
+  <data name="PropertyLongitudeDecimal" xml:space="preserve">
+    <value>Longitude Decimal</value>
+  </data>
+  <data name="PropertyLatitudeDecimal" xml:space="preserve">
+    <value>Latitude Decimal</value>
+  </data>
   <data name="PropertyLatitude" xml:space="preserve">
     <value>Latitude</value>
   </data>
   <data name="PropertyLongitude" xml:space="preserve">
     <value>Longitude</value>
   </data>
+  <data name="PropertyLatitudeRef" xml:space="preserve">
+    <value>Latitude Ref</value>
+  </data>
+  <data name="PropertyLongitudeRef" xml:space="preserve">
+    <value>Longitude Ref</value>
+  </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>Altitude</value>
   </data>
   <data name="PropertyDateTaken" xml:space="preserve">
-    <value>Date Taken:</value>
+    <value>Date Taken</value>
+  </data>
+  <data name="PropertyCameraManufacturer" xml:space="preserve">
+    <value>Camera Manufacturer</value>
   </data>
   <data name="PropertyCameraModel" xml:space="preserve">
     <value>Camera Model</value>
@@ -671,6 +998,9 @@
   </data>
   <data name="PropertyAperture" xml:space="preserve">
     <value>Aperture</value>
+  </data>
+  <data name="PropertyPeopleNames" xml:space="preserve">
+    <value>People Names</value>
   </data>
   <data name="PropertyChannelCount" xml:space="preserve">
     <value>Channel Count</value>
@@ -693,11 +1023,17 @@
   <data name="PropertyArtist" xml:space="preserve">
     <value>Artist</value>
   </data>
+  <data name="PropertyBeatsPerMinute" xml:space="preserve">
+    <value>Beats Per Minute</value>
+  </data>
   <data name="PropertyComposer" xml:space="preserve">
     <value>Composer</value>
   </data>
   <data name="PropertyConductor" xml:space="preserve">
-    <value>Conductor:</value>
+    <value>Conductor</value>
+  </data>
+  <data name="PropertyDiscNumber" xml:space="preserve">
+    <value>Disc Number</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
     <value>Genre</value>
@@ -706,16 +1042,58 @@
     <value>Track Number</value>
   </data>
   <data name="PropertyDuration" xml:space="preserve">
-    <value>Duration:</value>
+    <value>Duration</value>
+  </data>
+  <data name="PropertyFrameCount" xml:space="preserve">
+    <value>Frame Count</value>
+  </data>
+  <data name="PropertyProtectionType" xml:space="preserve">
+    <value>Protection Type</value>
+  </data>
+  <data name="PropertyAuthorUrl" xml:space="preserve">
+    <value>Author Url</value>
+  </data>
+  <data name="PropertyContentDistributor" xml:space="preserve">
+    <value>Content Distributor</value>
+  </data>
+  <data name="PropertyDateReleased" xml:space="preserve">
+    <value>Date Released</value>
   </data>
   <data name="PropertySeriesName" xml:space="preserve">
-    <value>&amp;Series Name</value>
+    <value>Series Name</value>
+  </data>
+  <data name="PropertySeasonNumber" xml:space="preserve">
+    <value>Season Number</value>
+  </data>
+  <data name="PropertyEpisodeNumber" xml:space="preserve">
+    <value>Episode Number</value>
   </data>
   <data name="PropertyProducer" xml:space="preserve">
     <value>Producer</value>
   </data>
+  <data name="PropertyPromotionUrl" xml:space="preserve">
+    <value>Promotion Url</value>
+  </data>
+  <data name="PropertyProviderStyle" xml:space="preserve">
+    <value>Provider Style</value>
+  </data>
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Publisher</value>
+  </data>
+  <data name="PropertyThumbnailLargePath" xml:space="preserve">
+    <value>Thumbnail Large Path</value>
+  </data>
+  <data name="PropertyThumbnailLargeUri" xml:space="preserve">
+    <value>Thumbnail Large Uri</value>
+  </data>
+  <data name="PropertyThumbnailSmallPath" xml:space="preserve">
+    <value>Thumbnail Small Path</value>
+  </data>
+  <data name="PropertyThumbnailSmallUri" xml:space="preserve">
+    <value>Thumbnail Small Uri</value>
+  </data>
+  <data name="PropertyUserWebUrl" xml:space="preserve">
+    <value>User Web Url</value>
   </data>
   <data name="PropertyWriter" xml:space="preserve">
     <value>Writer</value>
@@ -730,7 +1108,7 @@
     <value>Last Author</value>
   </data>
   <data name="PropertyRevisionNumber" xml:space="preserve">
-    <value>Revision Number:</value>
+    <value>Revision Number</value>
   </data>
   <data name="PropertyVersion" xml:space="preserve">
     <value>Version</value>
@@ -738,11 +1116,14 @@
   <data name="PropertyDateCreated" xml:space="preserve">
     <value>Date Created</value>
   </data>
+  <data name="PropertyDateSaved" xml:space="preserve">
+    <value>Date Saved</value>
+  </data>
   <data name="PropertyDatePrinted" xml:space="preserve">
-    <value>Date printed</value>
+    <value>Date Printed</value>
   </data>
   <data name="PropertyTotalEditingTime" xml:space="preserve">
-    <value>Total Editing Time:</value>
+    <value>Total Editing Time</value>
   </data>
   <data name="PropertyTemplate" xml:space="preserve">
     <value>Template</value>
@@ -753,14 +1134,32 @@
   <data name="PropertyCharacterCount" xml:space="preserve">
     <value>Character Count</value>
   </data>
+  <data name="PropertyLineCount" xml:space="preserve">
+    <value>Line Count</value>
+  </data>
+  <data name="PropertyParagraphCount" xml:space="preserve">
+    <value>Paragraph Count</value>
+  </data>
   <data name="PropertyPageCount" xml:space="preserve">
     <value>Page Count</value>
+  </data>
+  <data name="PropertySlideCount" xml:space="preserve">
+    <value>Slide Count</value>
   </data>
   <data name="PropertyFrameRate" xml:space="preserve">
     <value>Frame Rate</value>
   </data>
+  <data name="PropertyEncodingBitrate" xml:space="preserve">
+    <value>Encoding Bitrate</value>
+  </data>
   <data name="PropertyCompression" xml:space="preserve">
     <value>Compression</value>
+  </data>
+  <data name="PropertyFrameWidth" xml:space="preserve">
+    <value>Frame Width</value>
+  </data>
+  <data name="PropertyFrameHeight" xml:space="preserve">
+    <value>Frame Height</value>
   </data>
   <data name="PropertyOrientation" xml:space="preserve">
     <value>Orientation</value>
@@ -801,11 +1200,23 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Select</value>
   </data>
+  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
+    <value>Status center</value>
+  </data>
+  <data name="SettingsOpenItemsWithOneclick.Title" xml:space="preserve">
+    <value>Open items with a single click</value>
+  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>File</value>
   </data>
   <data name="FolderItemAutomation" xml:space="preserve">
     <value>Folder</value>
+  </data>
+  <data name="RecycleBinItemAutomation" xml:space="preserve">
+    <value>Recycle bin item</value>
+  </data>
+  <data name="ShortcutItemAutomation" xml:space="preserve">
+    <value>Shortcut item</value>
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
     <value>Drives</value>
@@ -813,38 +1224,86 @@
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>Move here</value>
   </data>
+  <data name="EjectNotificationHeader" xml:space="preserve">
+    <value>Safe to remove hardware</value>
+  </data>
+  <data name="EjectNotificationBody" xml:space="preserve">
+    <value>The device can now be safely removed from the computer.</value>
+  </data>
+  <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
+    <value>Problem Ejecting Device</value>
+  </data>
+  <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
+    <value>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</value>
+  </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Eject</value>
   </data>
   <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
     <value>Duplicate tab</value>
   </data>
+  <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
+    <value>Move tab to new window</value>
+  </data>
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
     <value>New tab</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>New tab	Ctrl+T</value>
+    <value>New tab (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
-    <value>New tab	Ctrl+T</value>
+    <value>New tab (Ctrl+T)</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Close tab	Ctrl+W</value>
+    <value>Close tab (Ctrl+W)</value>
+  </data>
+  <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
+    <value>Some properties may contain personal information.</value>
   </data>
   <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
     <value>Clear</value>
   </data>
+  <data name="ClearPropertiesButton.Content" xml:space="preserve">
+    <value>Clear All Properties</value>
+  </data>
+  <data name="StatusCenterTeachingTip.Subtitle" xml:space="preserve">
+    <value>Check the status of file operations here</value>
+  </data>
+  <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
+    <value>Status Center</value>
+  </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Search orders</value>
+    <value>Search</value>
+  </data>
+  <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
+    <value>Search results in {1} for {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Search results</value>
+  </data>
+  <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>See who contributed to Files</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Find out what's new in Files</value>
+  </data>
+  <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Send the developers an issue report with more information</value>
+  </data>
+  <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Support us on PayPal</value>
+  </data>
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Title" xml:space="preserve">
+    <value>List and sort directories alongside files</value>
   </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Details</value>
   </data>
   <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
-    <value>Symbol</value>
+    <value>No</value>
+  </data>
+  <data name="UpdateConsentDialogContent" xml:space="preserve">
+    <value>Do you want to download and install the latest version of Files?</value>
   </data>
   <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>Yes</value>
@@ -855,8 +1314,20 @@
   <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">
     <value>Hide protected operating system files (Recommended)</value>
   </data>
+  <data name="SettingsSearchUnindexedItems.Title" xml:space="preserve">
+    <value>Show unindexed items when searching for files and folders (searches may take longer)</value>
+  </data>
+  <data name="SettingsEnableLayoutPreferencesPerFolder.Title" xml:space="preserve">
+    <value>Enable individual preferences for individual directories</value>
+  </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Customise the right click context menu</value>
+  </data>
+  <data name="originalPathColumn.Header" xml:space="preserve">
+    <value>Original path</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
+    <value>Original path</value>
   </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Add</value>
@@ -870,8 +1341,35 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Ongoing Tasks</value>
+  </data>
+  <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
+    <value>Ongoing Tasks</value>
+  </data>
+  <data name="SettingsMultitaskingAlwaysOpenDualPane.Title" xml:space="preserve">
+    <value>Always open new tabs in dual pane mode</value>
+  </data>
+  <data name="SettingsMultitaskingEnableDualPane.Title" xml:space="preserve">
+    <value>Enable dual pane view</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
+    <value>Open in secondary pane</value>
+  </data>
+  <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
+    <value>New pane</value>
+  </data>
+  <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
+    <value>Open in secondary pane</value>
+  </data>
+  <data name="SettingsDualPane.Text" xml:space="preserve">
+    <value>Dual pane</value>
+  </data>
   <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Folders</value>
+  </data>
+  <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Details View (Ctrl+Shift+1)</value>
   </data>
   <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>Details View</value>
@@ -891,8 +1389,35 @@
   <data name="PreviewPaneToggle.Label" xml:space="preserve">
     <value>Preview</value>
   </data>
+  <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
+    <value>Grid View (Large)</value>
+  </data>
+  <data name="NavToolbarGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Grid View (Large) (Ctrl+Shift+5)</value>
+  </data>
+  <data name="NavToolbarGridViewMedium.AutomationProperties.Name" xml:space="preserve">
+    <value>Grid View (Medium)</value>
+  </data>
+  <data name="NavToolbarGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Grid View (Medium) (Ctrl+Shift+4)</value>
+  </data>
+  <data name="NavToolbarGridViewSmall.AutomationProperties.Name" xml:space="preserve">
+    <value>Grid View (Small)</value>
+  </data>
+  <data name="NavToolbarGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Grid View (Small) (Ctrl+Shift+3)</value>
+  </data>
+  <data name="NavToolbarTilesView.AutomationProperties.Name" xml:space="preserve">
+    <value>Tiles View</value>
+  </data>
+  <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Tiles View (Ctrl+Shift+2)</value>
+  </data>
   <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
     <value>Show file extensions</value>
+  </data>
+  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
+    <value>Show hidden items</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>Date deleted</value>
@@ -903,20 +1428,68 @@
   <data name="SettingsTabCustomization.Text" xml:space="preserve">
     <value>Tab customisation</value>
   </data>
+  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
+    <value>When launching Files</value>
+  </data>
+  <data name="SidebarCloudDrives" xml:space="preserve">
+    <value>Cloud Drives</value>
+  </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>More options</value>
+    <value>More options...</value>
   </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Confirm</value>
   </data>
+  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
+    <value>Export Bundles</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
+    <value>Import Bundles</value>
+  </data>
+  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
+    <value>Bundle with the same name already exists!</value>
+  </data>
+  <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
+    <value>Input field cannot be empty!</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleItem.Text" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
+  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
+    <value>Enter Bundle name</value>
+  </data>
+  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
+    <value>Enter Bundle name</value>
+  </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
     <value>Open in new tab</value>
+  </data>
+  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
+    <value>Open item location</value>
+  </data>
+  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
+    <value>Remove from bundle</value>
+  </data>
+  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
+    <value>Remove Bundle</value>
+  </data>
+  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+    <value>Bundles</value>
+  </data>
+  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
+    <value>Drag and drop any file or folder here to quickly access it</value>
   </data>
   <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
     <value>Confirm</value>
   </data>
+  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+    <value>Enter Bundle name</value>
+  </data>
   <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
+    <value>Desired name</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>Confirm</value>
@@ -927,14 +1500,32 @@
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>Rename "{0}"</value>
   </data>
+  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
   <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>Confirm</value>
   </data>
+  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
+    <value>Add Bundle</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
+  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
+    <value>Rename Bundle</value>
+  </data>
+  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+    <value>Desired name</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>No preview available</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>No details available</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Item Name</value>
@@ -942,11 +1533,29 @@
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
     <value>Unpin from Favourites</value>
   </data>
+  <data name="SidebarNetworkDrives" xml:space="preserve">
+    <value>Network drives</value>
+  </data>
   <data name="Network" xml:space="preserve">
     <value>Network</value>
   </data>
+  <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
+    <value>File details</value>
+  </data>
+  <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
+    <value>File preview</value>
+  </data>
+  <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
+    <value>Selected file preview pane</value>
+  </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>Documentation</value>
+  </data>
+  <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Visit the Files documentation website</value>
+  </data>
+  <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Ongoing tasks flyout</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>Available when online</value>
@@ -954,8 +1563,14 @@
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>Available offline</value>
   </data>
+  <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
+    <value>Partially available offline</value>
+  </data>
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
-    <value>Syncing...</value>
+    <value>Syncing</value>
+  </data>
+  <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
+    <value>Excluded from sync</value>
   </data>
   <data name="ItemSizeNotCalcluated" xml:space="preserve">
     <value>Not calculated</value>
@@ -963,14 +1578,41 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Unknown</value>
   </data>
+  <data name="NavToolbarMultiselect.Text" xml:space="preserve">
+    <value>Multiselect</value>
+  </data>
+  <data name="RenameFileDialog.Text" xml:space="preserve">
+    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
+  </data>
+  <data name="DriveTypeCDRom" xml:space="preserve">
+    <value>CD ROM Drive</value>
+  </data>
+  <data name="DriveTypeCloudDrive" xml:space="preserve">
+    <value>Cloud Drive</value>
+  </data>
+  <data name="DriveTypeFixed" xml:space="preserve">
+    <value>Fixed Disk Drive</value>
+  </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
     <value>Floppy Disk Drive</value>
   </data>
   <data name="DriveTypeNetwork" xml:space="preserve">
     <value>Network Drive</value>
   </data>
+  <data name="DriveTypeNoRootDirectory" xml:space="preserve">
+    <value>Unmounted Drive</value>
+  </data>
+  <data name="DriveTypeRam" xml:space="preserve">
+    <value>RAM Disk Drive</value>
+  </data>
+  <data name="DriveTypeRemovable" xml:space="preserve">
+    <value>Removable Storage Device</value>
+  </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>Unknown</value>
+  </data>
+  <data name="DriveTypeVirtualDrive" xml:space="preserve">
+    <value>Virtual Drive</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateCreated.Text" xml:space="preserve">
     <value>Date created</value>
@@ -979,13 +1621,19 @@
     <value>Date created</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>More options</value>
+    <value>More options...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Map network drive</value>
   </data>
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Disconnect</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More bundles options</value>
+  </data>
+  <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More drives options</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Favourites</value>
@@ -994,7 +1642,7 @@
     <value>Libraries</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
-    <value>No item selected.</value>
+    <value>No item selected</value>
   </data>
   <data name="PropertyItemTarget" xml:space="preserve">
     <value>Target</value>
@@ -1002,8 +1650,17 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Arguments</value>
   </data>
+  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
+    <value>Open in new Pane</value>
+  </data>
+  <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
+    <value>Show library section on the sidebar</value>
+  </data>
   <data name="DefaultTheme" xml:space="preserve">
-    <value>DEFAULT</value>
+    <value>Default</value>
+  </data>
+  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+    <value>Custom themes</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Item count</value>
@@ -1011,20 +1668,62 @@
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>Close tabs to the right</value>
   </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>Deletion Failed</value>
+  </data>
   <data name="StatusUnknownError" xml:space="preserve">
     <value>An unknown error has occurred.</value>
+  </data>
+  <data name="StatusDeletionComplete" xml:space="preserve">
+    <value>Deletion complete</value>
+  </data>
+  <data name="StatusDeletionCancelled" xml:space="preserve">
+    <value>Deletion cancelled</value>
+  </data>
+  <data name="StatusOperationCompleted" xml:space="preserve">
+    <value>The operation has completed.</value>
+  </data>
+  <data name="StatusRecycleComplete" xml:space="preserve">
+    <value>Recycle complete</value>
+  </data>
+  <data name="StatusMoveComplete" xml:space="preserve">
+    <value>Move complete</value>
   </data>
   <data name="StatusCopyComplete" xml:space="preserve">
     <value>Copy complete</value>
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
-    <value>Symbol</value>
+    <value>No</value>
   </data>
   <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="ElevateConfirmDialog.Title" xml:space="preserve">
+    <value>This action requires administrator rights</value>
+  </data>
+  <data name="ElevateConfirmDialog.Content" xml:space="preserve">
+    <value>Would you like to continue as administrator?</value>
+  </data>
+  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
+    <value>Files is running as administrator</value>
+  </data>
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administrator</value>
+  </data>
+  <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
+    <value>Column View</value>
+  </data>
+  <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Column View (Ctrl+Shift+6)</value>
+  </data>
+  <data name="PinItemToStart.Text" xml:space="preserve">
+    <value>Pin to the Start Menu</value>
+  </data>
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+    <value>Unpin from the Start Menu</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
+    <value>Column View</value>
   </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
     <value>Library</value>
@@ -1036,16 +1735,37 @@
     <value>Library</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
-    <value>Locations</value>
+    <value>Locations:</value>
   </data>
   <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
     <value>Add</value>
   </data>
   <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
-    <value>DEFAULT</value>
+    <value>Default</value>
+  </data>
+  <data name="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Set as default save path</value>
   </data>
   <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
     <value>Remove</value>
+  </data>
+  <data name="LibraryNoLocations.Text" xml:space="preserve">
+    <value>No locations</value>
+  </data>
+  <data name="ErrorInputEmpty" xml:space="preserve">
+    <value>Input field cannot be empty!</value>
+  </data>
+  <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
+    <value>The name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="ErrorNameInputRestricted" xml:space="preserve">
+    <value>Using this name is not allowed!</value>
+  </data>
+  <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
+    <value>Library with the same name already exists!</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
+    <value>Delete Library</value>
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Create</value>
@@ -1056,17 +1776,38 @@
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Open Storage Sense</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Open Storage Sense</value>
+  </data>
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Copy</value>
   </data>
   <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>{0} items will be copied</value>
+  </data>
+  <data name="CopyItemsDialogTitle" xml:space="preserve">
+    <value>Copy item(s)</value>
+  </data>
+  <data name="DeleteItemsDialogTitle" xml:space="preserve">
+    <value>Delete item(s)</value>
+  </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Move</value>
   </data>
   <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>{0} items will be moved</value>
+  </data>
+  <data name="MoveItemsDialogTitle" xml:space="preserve">
+    <value>Move item(s)</value>
   </data>
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Delete</value>
@@ -1075,7 +1816,7 @@
     <value>Cancel</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} items will be deleted.</value>
+    <value>{0} items will be deleted</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Continue</value>
@@ -1083,35 +1824,134 @@
   <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
+    <value>There are {0} conflicting file names, and {1} outgoing item(s).</value>
+  </data>
+  <data name="ConflictingItemsDialogTitle" xml:space="preserve">
+    <value>Conflicting file name(s)</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
+    <value>There is one conflicting file name, and {0} outgoing item(s).</value>
+  </data>
+  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>One item will be copied</value>
+  </data>
+  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>One item will be deleted</value>
+  </data>
+  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>One item will be moved</value>
+  </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Permanently delete?</value>
+    <value>Permanently delete</value>
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO speed</value>
   </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
+    <value>Open folders in new tab</value>
+  </data>
+  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
+    <value>Show Bundles widget</value>
+  </data>
+  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
+    <value>Show Drives widget</value>
+  </data>
+  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
+    <value>Show Folders widget</value>
+  </data>
+  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
+    <value>Show Recent Files widget</value>
+  </data>
+  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Manage Widgets</value>
+  </data>
+  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
+    <value>Manage widgets</value>
+  </data>
+  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
+    <value>Didn't find what you're looking for?</value>
+  </data>
+  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
+    <value>Search unindexed items.</value>
+  </data>
+  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
+    <value>Manage Widgets</value>
+  </data>
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
+    <value>Open themes folder</value>
+  </data>
+  <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
+    <value>Generate new name</value>
+  </data>
+  <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
+    <value>Replace existing</value>
+  </data>
   <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
     <value>Skip</value>
+  </data>
+  <data name="ConflictingItemsDialogOptionGenerateNewName.Text" xml:space="preserve">
+    <value>Generate new name</value>
+  </data>
+  <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
+    <value>Replace existing</value>
   </data>
   <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
     <value>Skip</value>
   </data>
+  <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
+    <value>Generate new name</value>
+  </data>
+  <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
+    <value>Replace existing</value>
+  </data>
   <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
     <value>Skip</value>
+  </data>
+  <data name="ConflictingItemsDialogItemDefaultOption.Content" xml:space="preserve">
+    <value>Generate new name</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
     <value>Undo</value>
   </data>
+  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
+    <value>There are {0} conflicting file names.</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
+    <value>There is one conflicting file name.</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
+    <value>Create folder with selection</value>
+  </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
-    <value>Name</value>
+    <value>Name:</value>
   </data>
   <data name="ToolTipDescriptionType" xml:space="preserve">
-    <value>Type</value>
+    <value>Type:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
-    <value>Date modified</value>
+    <value>Date modified:</value>
   </data>
   <data name="OpenItemsWithCaptionText" xml:space="preserve">
     <value>Open with</value>
+  </data>
+  <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
+    <value>File icon</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
+    <value>Original path column</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
+    <value>Item type column</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
+    <value>Date modified column</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
+    <value>Date deleted column</value>
+  </data>
+  <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
+    <value>Sidebar resizer</value>
   </data>
   <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Sort</value>
@@ -1122,29 +1962,32 @@
   <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
     <value>Sort</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
-    <value>Group by</value>
+  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
+    <value>Group By</value>
   </data>
-  <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
-    <value>Sort By:</value>
+  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
+    <value>Sort By</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
-    <value>Sort &amp;direction</value>
+    <value>Sort direction</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
     <value>Huge</value>
   </data>
+  <data name="ItemSizeText_VeryLarge" xml:space="preserve">
+    <value>Very large</value>
+  </data>
   <data name="ItemSizeText_Large" xml:space="preserve">
-    <value>LARGE</value>
+    <value>Large</value>
   </data>
   <data name="ItemSizeText_Medium" xml:space="preserve">
     <value>Medium</value>
   </data>
   <data name="ItemSizeText_Small" xml:space="preserve">
-    <value>SMALL</value>
+    <value>Small</value>
   </data>
   <data name="ItemSizeText_Tiny" xml:space="preserve">
-    <value>&amp;Tiny</value>
+    <value>Tiny</value>
   </data>
   <data name="ItemTimeText_Today" xml:space="preserve">
     <value>Today</value>
@@ -1171,7 +2014,7 @@
     <value>Older</value>
   </data>
   <data name="ItemTimeText_Before" xml:space="preserve">
-    <value>Before “|0”</value>
+    <value>Before {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} item</value>
@@ -1185,8 +2028,53 @@
   <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
     <value>Privacy policy</value>
   </data>
+  <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>View Files privacy policy</value>
+  </data>
   <data name="RenameFileDialogTitle" xml:space="preserve">
     <value>Rename</value>
+  </data>
+  <data name="StatusMoveCanceled" xml:space="preserve">
+    <value>Move canceled</value>
+  </data>
+  <data name="StatusCopyCanceled" xml:space="preserve">
+    <value>Copy canceled</value>
+  </data>
+  <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
+    <value>Moving {0} item from {1} to {2} was canceled</value>
+  </data>
+  <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
+    <value>Moving {0} items from {1} to {2} was canceled after moving {3} items</value>
+  </data>
+  <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
+    <value>Moving {0} items from {1} to {2} was canceled after moving {3} item</value>
+  </data>
+  <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
+    <value>Moving {0} item from {1} to {2}</value>
+  </data>
+  <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
+    <value>Moving {0} items from {1} to {2}</value>
+  </data>
+  <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
+    <value>Successfully moved {0} item from {1} to {2}</value>
+  </data>
+  <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
+    <value>Successfully moved {0} items from {1} to {2}</value>
+  </data>
+  <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
+    <value>Failed to move {0} item from {1} to {2}</value>
+  </data>
+  <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
+    <value>Failed to move {0} items from {1} to {2}</value>
+  </data>
+  <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
+    <value>Copying {0} item to {1} was canceled</value>
+  </data>
+  <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
+    <value>Copying {0} items to {1} was canceled after copying {2} items</value>
+  </data>
+  <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
+    <value>Copying {0} items to {1} was canceled after copying {2} item</value>
   </data>
   <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
     <value>Copying {0} item to {1}</value>
@@ -1194,17 +2082,56 @@
   <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
     <value>Copying {0} items to {1}</value>
   </data>
+  <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
+    <value>Successfully copied {0} item to {1}</value>
+  </data>
+  <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
+    <value>Successfully copied {0} items to {1}</value>
+  </data>
+  <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
+    <value>Deleting {0} item from {1} was canceled</value>
+  </data>
+  <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
+    <value>Deleting {0} items from {1} was canceled after deleting {3} items</value>
+  </data>
+  <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
+    <value>Deleting {0} items from {1} was canceled after deleting {3} item</value>
+  </data>
   <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
     <value>Deleting {0} item from {1}</value>
   </data>
   <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
     <value>Deleting {0} items from {1}</value>
   </data>
+  <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
+    <value>Successfully deleted {0} item from {1}</value>
+  </data>
+  <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
+    <value>Successfully deleted {0} items from {1}</value>
+  </data>
+  <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
+    <value>Failed to delete {0} item from {1}</value>
+  </data>
+  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
+    <value>Failed to delete {0} items from {1}</value>
+  </data>
+  <data name="TheRecycleBin" xml:space="preserve">
+    <value>the Recycle Bin</value>
+  </data>
   <data name="MoveInProgress" xml:space="preserve">
     <value>Moving items</value>
   </data>
   <data name="CopyInProgress.Title" xml:space="preserve">
     <value>Copying items</value>
+  </data>
+  <data name="StatusRecycleFailed" xml:space="preserve">
+    <value>Recycle failed</value>
+  </data>
+  <data name="StatusRecycleCancelled" xml:space="preserve">
+    <value>Recycle cancelled</value>
+  </data>
+  <data name="StatusCancellingOp" xml:space="preserve">
+    <value>canceling</value>
   </data>
   <data name="StatusCenterDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
     <value>Dismiss</value>
@@ -1218,6 +2145,9 @@
   <data name="StatusCenterCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="NavToolbarWidgets.Label" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
   <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
     <value>Sync status</value>
   </data>
@@ -1225,7 +2155,7 @@
     <value>Security</value>
   </data>
   <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
-    <value>Advanced permissions:</value>
+    <value>Advanced permissions</value>
   </data>
   <data name="SecurityAllowLabel.Text" xml:space="preserve">
     <value>Allow</value>
@@ -1236,17 +2166,23 @@
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Full control</value>
   </data>
+  <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
+    <value>List directory contents</value>
+  </data>
   <data name="SecurityModifyLabel.Text" xml:space="preserve">
     <value>Modify</value>
   </data>
   <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
     <value>Permissions for</value>
   </data>
+  <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
+    <value>Read and execute</value>
+  </data>
   <data name="SecurityReadLabel.Text" xml:space="preserve">
-    <value>read</value>
+    <value>Read</value>
   </data>
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
-    <value>Group or user names:</value>
+    <value>Group or user names</value>
   </data>
   <data name="SecurityWriteLabel.Text" xml:space="preserve">
     <value>Write</value>
@@ -1254,8 +2190,14 @@
   <data name="SecurityUnknownAccount" xml:space="preserve">
     <value>Unknown account</value>
   </data>
+  <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
+    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
+  </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner:</value>
+    <value>Owner</value>
+  </data>
+  <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
+    <value>Unknown owner</value>
   </data>
   <data name="SettingsNavSidebar.Content" xml:space="preserve">
     <value>Sidebar</value>
@@ -1263,17 +2205,44 @@
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>Sidebar</value>
   </data>
+  <data name="SettingsVerticalTabFlyoutSwitch.Title" xml:space="preserve">
+    <value>Display the vertical tab flyout on the title bar</value>
+  </data>
+  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Learn more about custom themes</value>
+  </data>
+  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Learn more about custom themes</value>
+  </data>
   <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
     <value>Custom themes provide a great way for you to personalise Files.</value>
   </data>
+  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
+    <value>View documentation.</value>
+  </data>
+  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
+    <value>Select a destination and extract files</value>
+  </data>
   <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
-    <value>Browse...</value>
+    <value>Browse</value>
+  </data>
+  <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
+    <value>Open destination folder when complete</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
+    <value>Extract files</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
+    <value>Extract here</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
     <value>Extract...</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
+    <value>Extract to {0}\</value>
+  </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
-    <value>Create new library.</value>
+    <value>Create new library</value>
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
     <value>Restore default libraries</value>
@@ -1281,11 +2250,20 @@
   <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
     <value>Restore</value>
   </data>
+  <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
+    <value>Are you sure you want to restore the default libraries? All your files will remain on your storage.</value>
+  </data>
+  <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
+    <value>Restore Libraries</value>
+  </data>
   <data name="PropertyFileOwner" xml:space="preserve">
-    <value>Owner:</value>
+    <value>Owner</value>
+  </data>
+  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
+    <value>Advanced permissions for {0}</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
-    <value>SPECIAL</value>
+    <value>Special</value>
   </data>
   <data name="SecurityAdvancedAccessLabel.Text" xml:space="preserve">
     <value>Access</value>
@@ -1299,11 +2277,17 @@
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>files</value>
   </data>
+  <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
+    <value>this folder</value>
+  </data>
+  <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
+    <value>subfolders</value>
+  </data>
   <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
     <value>Inherited</value>
   </data>
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
-    <value>Symbol</value>
+    <value>No</value>
   </data>
   <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
     <value>Yes</value>
@@ -1314,8 +2298,11 @@
   <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
     <value>Type</value>
   </data>
+  <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
+    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
+  </data>
   <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
-    <value>SPECIAL</value>
+    <value>Special</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>This folder and files</value>
@@ -1323,11 +2310,29 @@
   <data name="SecurityAdvancedFolderSubfoldersFiles.Text" xml:space="preserve">
     <value>This folder, subfolders and files</value>
   </data>
+  <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
+    <value>Only files</value>
+  </data>
+  <data name="SecurityAdvancedOnlySubfolders.Text" xml:space="preserve">
+    <value>Only subfolders</value>
+  </data>
+  <data name="SecurityAdvancedOnlySubfoldersFiles.Text" xml:space="preserve">
+    <value>Only subfolders and files</value>
+  </data>
+  <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
+    <value>Only this folder</value>
+  </data>
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
     <value>This folder and subfolders</value>
   </data>
+  <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
+    <value>Append data</value>
+  </data>
   <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
     <value>Change permission</value>
+  </data>
+  <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
+    <value>Create folders</value>
   </data>
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>Create files</value>
@@ -1335,8 +2340,17 @@
   <data name="SecurityDeleteLabel.Text" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
+    <value>Delete subdirectories and files</value>
+  </data>
+  <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
+    <value>Execute files</value>
+  </data>
   <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
     <value>Read attributes</value>
+  </data>
+  <data name="SecurityReadDataLabel.Text" xml:space="preserve">
+    <value>Read data</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
     <value>Read extended attributes</value>
@@ -1347,8 +2361,14 @@
   <data name="SecurityTakeOwnershipLabel.Text" xml:space="preserve">
     <value>Take ownership</value>
   </data>
+  <data name="SecurityTraverseLabel.Text" xml:space="preserve">
+    <value>Visit folder</value>
+  </data>
   <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
     <value>Write attributes</value>
+  </data>
+  <data name="SecurityWriteDataLabel.Text" xml:space="preserve">
+    <value>Write data</value>
   </data>
   <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
     <value>Write extended attributes</value>
@@ -1356,17 +2376,41 @@
   <data name="SecurityNoneLabel.Text" xml:space="preserve">
     <value>None</value>
   </data>
+  <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
+    <value>Convert inherited permissions into explicit permissions</value>
+  </data>
   <data name="SecurityAdvancedInheritedEnable.Text" xml:space="preserve">
     <value>Enable inheritance</value>
   </data>
+  <data name="SecurityAdvancedInheritedRemove.Text" xml:space="preserve">
+    <value>Remove all inherited permissions</value>
+  </data>
+  <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
+    <value>Reset child permissions</value>
+  </data>
+  <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Replace all child object permissions entries with inheritable permission entries from this object</value>
+  </data>
+  <data name="CreateBundleBtn.AutomationProperties.Name" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
+  <data name="CreateBundleBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Close pane</value>
+  </data>
+  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+    <value>Enter compact overlay</value>
+  </data>
+  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+    <value>Exit compact overlay</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>File description</value>
   </data>
   <data name="PropertyCompany" xml:space="preserve">
-    <value>COMPANY</value>
+    <value>Company</value>
   </data>
   <data name="PropertyLanguage" xml:space="preserve">
     <value>Language</value>
@@ -1379,6 +2423,36 @@
   </data>
   <data name="PropertySyncStatus" xml:space="preserve">
     <value>Sync status</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.Content" xml:space="preserve">
+    <value>Load full preview</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Downloads the item from the cloud and loads the preview</value>
+  </data>
+  <data name="DetailsArchiveItemCount" xml:space="preserve">
+    <value>{0} items ({1} files, {2} folders)</value>
+  </data>
+  <data name="PropertyUncompressedSize" xml:space="preserve">
+    <value>Uncompressed size</value>
+  </data>
+  <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
+    <value>Show cloud drives section on the sidebar</value>
+  </data>
+  <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
+    <value>Show drives section on the sidebar</value>
+  </data>
+  <data name="SettingsShowWslSection.Title" xml:space="preserve">
+    <value>Show WSL section on the sidebar</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
+    <value>Show network drives section on the sidebar</value>
+  </data>
+  <data name="WSL" xml:space="preserve">
+    <value>WSL</value>
+  </data>
+  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
+    <value>Hide {0} section</value>
   </data>
   <data name="NavSettingsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Settings</value>
@@ -1399,7 +2473,7 @@
     <value>Add folder</value>
   </data>
   <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Add item</value>
+    <value>Add item...</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Updates available</value>
@@ -1414,7 +2488,7 @@
     <value>Update</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>Home email address</value>
+    <value>Home</value>
   </data>
   <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
     <value>New tab</value>
@@ -1423,7 +2497,7 @@
     <value>Ctrl+A</value>
   </data>
   <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Alt+Shift</value>
+    <value>Alt+Shift++</value>
   </data>
   <data name="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+W</value>
@@ -1431,17 +2505,66 @@
   <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+N</value>
   </data>
+  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Alt+Up</value>
+  </data>
+  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Alt+Down</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+1</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutTilesView.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+2</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutGridViewSmall.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+3</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutGridViewMedium.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+4</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutGridViewLarge.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+5</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl+Shift+6</value>
+  </data>
   <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+T</value>
   </data>
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>(Ctrl+Shift+T)</value>
   </data>
+  <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
+    <value>The archive extraction completed successfully.</value>
+  </data>
+  <data name="ExtractingArchiveText" xml:space="preserve">
+    <value>Extracting archive</value>
+  </data>
+  <data name="ExtractingCompleteText" xml:space="preserve">
+    <value>Extracting complete!</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Privacy policy</value>
+  </data>
+  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
+    <value>Fluent UI System Icons</value>
+  </data>
+  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Fluent UI System Icons</value>
+  </data>
+  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
+    <value>
+*Personal Information Collection* 
+Files does not collect, store, share or publish any personal information.
+
+*Non-personal Information Collection*
+
+We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
+  </value>
   </data>
   <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
     <value>None</value>
@@ -1461,6 +2584,9 @@
   <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
     <value>Date deleted</value>
   </data>
+  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+    <value>Original folder</value>
+  </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>Type</value>
   </data>
@@ -1473,13 +2599,76 @@
   <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
     <value>Sync status</value>
   </data>
+  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
+    <value>Show Favorites section on the sidebar</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
+    <value>File tag</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
+    <value>File tag</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
+    <value>Open parent folder</value>
+  </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Unknown</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
+    <value>File tag</value>
+  </data>
+  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
+    <value>Edit file tags</value>
+  </data>
+  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Edit file tags</value>
+  </data>
+  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+    <value>Edit file tags</value>
+  </data>
+  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
+    <value>Enable file tags</value>
   </data>
   <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
+    <value>Open Drive</value>
+  </data>
+  <data name="InsertDiscDialog.Text" xml:space="preserve">
+    <value>Please insert a disc into drive {0}</value>
+  </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Insert a disc</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Apply to all</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Part of set</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>Credential Required</value>
+  </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>Anonymous</value>
+  </data>
+  <data name="CredentialDialogDescription.Text" xml:space="preserve">
+    <value>Provide your credential:</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>No items found</value>
   </data>
 </root>

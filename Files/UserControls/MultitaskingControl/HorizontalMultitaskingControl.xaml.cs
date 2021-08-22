@@ -48,6 +48,8 @@ namespace Files.UserControls.MultitaskingControl
                     });
                 }
             }
+
+            HorizontalTabView.SelectedIndex = App.MainViewModel.TabStripSelectedIndex;
         }
 
         private async void TabViewItem_Drop(object sender, DragEventArgs e)
@@ -224,17 +226,5 @@ namespace Files.UserControls.MultitaskingControl
         // Using a DependencyProperty as the backing store for TabStripVisibility.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TabStripVisibilityProperty =
             DependencyProperty.Register("TabStripVisibility", typeof(Visibility), typeof(HorizontalMultitaskingControl), new PropertyMetadata(Visibility.Visible));
-
-        private bool firstLoad = true;
-
-        private void TabViewItem_Loaded(object sender, RoutedEventArgs e)
-        {
-            // fixes issue where tab would not show as selected when opened with path argument
-            if(firstLoad)
-            {
-                firstLoad = false;
-                (sender as TabViewItem).IsSelected = true;
-            }
-        }
     }
 }

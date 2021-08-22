@@ -1562,8 +1562,9 @@
           <target state="translated">Søg</target>
         </trans-unit>
         <trans-unit id="SearchPagePathBoxOverrideText" translate="yes" xml:space="preserve">
-          <source>Search results in</source>
-          <target state="translated">Søgeresultater i</target>
+          <source>Search results in {1} for {0}</source>
+          <target state="needs-review-translation">Søgeresultater i</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SearchTabHeaderText" translate="yes" xml:space="preserve">
           <source>Search results</source>
@@ -2432,11 +2433,11 @@
           <source>Open with</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Åbn med</target>
         </trans-unit>
-        <trans-unit id="NavToolbarGroupByRadioButtons.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarGroupByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Group By</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Gruppér efter</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortByRadioButtons.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSortByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Sort By</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Sortér efter</target>
         </trans-unit>
@@ -3256,10 +3257,6 @@
           <source>Open log location</source>
           <target state="new">Open log location</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutOpenLogLocationButtonText.Text" translate="yes" xml:space="preserve">
-          <source>Open log location</source>
-          <target state="new">Open log location</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutPinToFavorites.Text" translate="yes" xml:space="preserve">
           <source>Pin to Favorites</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Fastgør til Favoritter</target>
@@ -3545,6 +3542,78 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="InsertDiscDialog.Title" translate="yes" xml:space="preserve">
           <source>Insert a disc</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Indsæt en disk</target>
+        </trans-unit>
+        <trans-unit id="ConfictingItemsDialogOptionApplyToAll.Text" translate="yes" xml:space="preserve">
+          <source>Apply to all</source>
+          <target state="new">Apply to all</target>
+        </trans-unit>
+        <trans-unit id="PropertyPartOfSet" translate="yes" xml:space="preserve">
+          <source>Part of set</source>
+          <target state="new">Part of set</target>
+        </trans-unit>
+        <trans-unit id="AskCredentialDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>OK</source>
+          <target state="new">OK</target>
+        </trans-unit>
+        <trans-unit id="AskCredentialDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="AskCredentialDialog.Title" translate="yes" xml:space="preserve">
+          <source>Credential Required</source>
+          <target state="new">Credential Required</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogAnonymous.Content" translate="yes" xml:space="preserve">
+          <source>Anonymous</source>
+          <target state="new">Anonymous</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogDescription.Text" translate="yes" xml:space="preserve">
+          <source>Provide your credential:</source>
+          <target state="new">Provide your credential:</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogPassword.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Password</source>
+          <target state="new">Password</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogUserName.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>UserName</source>
+          <target state="new">UserName</target>
+        </trans-unit>
+        <trans-unit id="NoSearchResultsFound" translate="yes" xml:space="preserve">
+          <source>No items found</source>
+          <target state="new">No items found</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Bundles Widget</source>
+          <target state="new">Bundles Widget</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Drives Widget</source>
+          <target state="new">Drives Widget</target>
+        </trans-unit>
+        <trans-unit id="FolderWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Libraries Widget</source>
+          <target state="new">Libraries Widget</target>
+        </trans-unit>
+        <trans-unit id="RecentFilesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Recent Files Widget</source>
+          <target state="new">Recent Files Widget</target>
+        </trans-unit>
+        <trans-unit id="OpenLogLocation.Title" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
+        </trans-unit>
+        <trans-unit id="OpenLogLocation.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutOpenLogLocationButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
+        </trans-unit>
+        <trans-unit id="LinkToFolderCaptionText" translate="yes" xml:space="preserve">
+          <source>Create link in {0}</source>
+          <target state="new">Create link in {0}</target>
         </trans-unit>
       </group>
     </body>

@@ -34,6 +34,13 @@
                         </Setter>
                     </Style>
                 </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:WidgetsListControlItemViewModel">
+                        <Grid AutomationProperties.Name="{x:Bind WidgetAutomationProperties, Mode=OneWay}">
+                            <ContentControl Content="{x:Bind WidgetControl, Mode=OneWay}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
         </Grid>
     </Border>

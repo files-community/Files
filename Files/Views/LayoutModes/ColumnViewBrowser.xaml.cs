@@ -34,15 +34,10 @@ namespace Files.Views.LayoutModes
         public static IShellPage columnparent;
         private NavigationArguments parameters;
         private ListViewItem listViewItem;
-        public static ColumnViewBrowser ColumnViewBrowser1;
 
         public ColumnViewBrowser() : base()
         {
             this.InitializeComponent();
-            ColumnViewBrowser1 = this;
-            ColumnViewBase.ItemInvoked += ColumnViewBase_ItemInvoked;
-            ColumnViewBase.UnFocusPreviousListView += ColumnViewBase_UnFocusPreviousListView;
-            ColumnViewBase.DismissColumn += ColumnViewBase_DismissColumn;
             //this.DataContext = this;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
         }
@@ -247,6 +242,12 @@ namespace Files.Views.LayoutModes
             //await viewmodel.SetWorkingDirectoryAsync(NavParam);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
+            ColumnViewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
+            ColumnViewBase.ItemInvoked += ColumnViewBase_ItemInvoked;
+            ColumnViewBase.UnFocusPreviousListView -= ColumnViewBase_UnFocusPreviousListView;
+            ColumnViewBase.UnFocusPreviousListView += ColumnViewBase_UnFocusPreviousListView;
+            ColumnViewBase.DismissColumn -= ColumnViewBase_DismissColumn;
+            ColumnViewBase.DismissColumn += ColumnViewBase_DismissColumn;
             columnparent = ParentShellPageInstance;
             parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
@@ -264,6 +265,9 @@ namespace Files.Views.LayoutModes
         {
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+            ColumnViewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
+            ColumnViewBase.UnFocusPreviousListView -= ColumnViewBase_UnFocusPreviousListView;
+            ColumnViewBase.DismissColumn -= ColumnViewBase_DismissColumn;
         }
 
         private async void ReloadItemIcons()
@@ -361,7 +365,7 @@ namespace Files.Views.LayoutModes
 
         private void EndRename(TextBox textBox)
         {
-            if (textBox.Parent == null)
+            if (textBox == null || textBox.Parent == null)
             {
                 // Navigating away, do nothing
             }
@@ -463,11 +467,11 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
+                    e.Handled = true;
                     if (App.MainViewModel.IsQuickLookEnabled)
                     {
                         await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
-                    e.Handled = true;
                 }
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
@@ -593,7 +597,7 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
+        private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
         {
             if (listViewItem != null)
             {
@@ -606,16 +610,12 @@ namespace Files.Views.LayoutModes
             {
                 return;
             }
-            if (IsRenamingItem)
-            {
-                return;
-            }
-            var item = (e.ClickedItem as ListedItem);
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
             {
                 ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected
+                var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
                 if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
                     //var pane = new ModernShellPage();
@@ -651,38 +651,21 @@ namespace Files.Views.LayoutModes
             }
             else
             {
-                CheckRenameDoubleClick(item);
-            }
-        }
-
-        private void ColumnShellPage_NotifyRoot(object sender, EventArgs e)
-        {
-            var column = sender as ColumnParam;
-            try
-            {
-                while (ColumnHost.ActiveBlades.Count > column.Column)
+                var clickedItem = e.OriginalSource as FrameworkElement;
+                if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
                 {
-                    ColumnHost.ActiveBlades.RemoveAt(column.Column + 1);
+                    CheckRenameDoubleClick(clickedItem?.DataContext);
+                }
+                else if (IsRenamingItem)
+                {
+                    ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+                    if (listViewItem != null)
+                    {
+                        var textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
+                        EndRename(textBox);
+                    }
                 }
             }
-            catch
-            {
-            }
-            var frame = new Frame();
-            var blade = new BladeItem();
-            blade.Content = frame;
-            ColumnHost.Items.Add(blade);
-            //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
-            //{
-            //    NavPathParam = item.ItemPath,
-            //    AssociatedTabInstance = ParentShellPageInstance
-            //});
-
-            frame.Navigate(typeof(ColumnShellPage), new ColumnParam
-            {
-                Column = ColumnHost.ActiveBlades.IndexOf(blade),
-                Path = column.Path
-            });
         }
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)

@@ -464,24 +464,36 @@ namespace FilesFullTrust.MessageHandlers
                 case "UpdateLink":
                     var linkSavePath = (string)message["filepath"];
                     var targetPath = (string)message["targetpath"];
-                    if (linkSavePath.EndsWith(".lnk"))
+                    try
                     {
-                        var arguments = (string)message["arguments"];
-                        var workingDirectory = (string)message["workingdir"];
-                        var runAsAdmin = (bool)message["runasadmin"];
-                        using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
-                        newLink.RunAsAdministrator = runAsAdmin;
-                        newLink.SaveAs(linkSavePath); // Overwrite if exists
-                    }
-                    else if (linkSavePath.EndsWith(".url"))
-                    {
-                        await Win32API.StartSTATask(() =>
+                        bool success = false;
+                        if (linkSavePath.EndsWith(".lnk"))
                         {
-                            var ipf = new Url.IUniformResourceLocator();
-                            ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
-                            (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
-                            return true;
-                        });
+                            var arguments = (string)message["arguments"];
+                            var workingDirectory = (string)message["workingdir"];
+                            var runAsAdmin = (bool)message["runasadmin"];
+                            using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
+                            newLink.RunAsAdministrator = runAsAdmin;
+                            newLink.SaveAs(linkSavePath); // Overwrite if exists
+                            success = true;
+                        }
+                        else if (linkSavePath.EndsWith(".url"))
+                        {
+                            success = await Win32API.StartSTATask(() =>
+                            {
+                                var ipf = new Url.IUniformResourceLocator();
+                                ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
+                                (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
+                                return true;
+                            });
+                        }
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", success } }, message.Get("RequestID", (string)null));
+                    }
+                    catch (Exception ex)
+                    {
+                        // Could not create shortcut
+                        Program.Logger.Warn(ex, ex.Message);
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
                     }
                     break;
 
@@ -565,11 +577,11 @@ namespace FilesFullTrust.MessageHandlers
                 {
                     Extensions.IgnoreExceptions(() =>
                     {
-                        using var si = new ShellItem(destination);
                         if (operationType == "copy")
                         {
                             var tag = dbInstance.GetTag(e.SourceItem.FileSystemPath);
-                            dbInstance.SetTag(destination, (ulong?)si.Properties["System.FileFRN"], tag); // copy tag to new files
+                            dbInstance.SetTag(destination, FileTagsHandler.GetFileFRN(destination), tag); // copy tag to new files
+                            using var si = new ShellItem(destination);
                             if (si.IsFolder) // File tag is not copied automatically for folders
                             {
                                 FileTagsHandler.WriteFileTag(destination, tag);
@@ -577,7 +589,7 @@ namespace FilesFullTrust.MessageHandlers
                         }
                         else
                         {
-                            dbInstance.UpdateTag(e.SourceItem.FileSystemPath, (ulong?)si.Properties["System.FileFRN"], destination); // move tag to new files
+                            dbInstance.UpdateTag(e.SourceItem.FileSystemPath, FileTagsHandler.GetFileFRN(destination), destination); // move tag to new files
                         }
                     }, Program.Logger);
                 }
@@ -597,8 +609,7 @@ namespace FilesFullTrust.MessageHandlers
                                 Extensions.IgnoreExceptions(() =>
                                 {
                                     var subPath = t.FilePath.Replace(e.SourceItem.FileSystemPath, destination);
-                                    using var si = new ShellItem(subPath);
-                                    dbInstance.SetTag(subPath, (ulong?)si.Properties["System.FileFRN"], t.Tag);
+                                    dbInstance.SetTag(subPath, FileTagsHandler.GetFileFRN(subPath), t.Tag);
                                 }, Program.Logger);
                             });
                         }
@@ -609,8 +620,7 @@ namespace FilesFullTrust.MessageHandlers
                                 Extensions.IgnoreExceptions(() =>
                                 {
                                     var subPath = t.FilePath.Replace(e.SourceItem.FileSystemPath, destination);
-                                    using var si = new ShellItem(subPath);
-                                    dbInstance.UpdateTag(t.FilePath, (ulong?)si.Properties["System.FileFRN"], subPath);
+                                    dbInstance.UpdateTag(t.FilePath, FileTagsHandler.GetFileFRN(subPath), subPath);
                                 }, Program.Logger);
                             });
                         }

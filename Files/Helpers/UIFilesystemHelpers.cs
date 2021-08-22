@@ -2,6 +2,7 @@
 using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.Interacts;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -25,6 +26,7 @@ namespace Files.Helpers
             };
             List<IStorageItem> items = new List<IStorageItem>();
             FilesystemResult result = (FilesystemResult)false;
+            bool canFlush = true;
 
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {
@@ -33,6 +35,14 @@ namespace Files.Helpers
 
                 foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems.ToList())
                 {
+                    // FTP doesn't support cut, fallback to copy
+                    if (listedItem is FtpItem ftpItem)
+                    {
+                        canFlush = false;
+                        items.Add(await new FtpStorageFile(associatedInstance.FilesystemViewModel, ftpItem).ToStorageFileAsync());
+                        continue;
+                    }
+
                     // Dim opacities accordingly
                     listedItem.Opacity = Constants.UI.DimItemOpacity;
 
@@ -92,7 +102,11 @@ namespace Files.Helpers
             try
             {
                 Clipboard.SetContent(dataPackage);
-                Clipboard.Flush();
+
+                if (canFlush)
+                {
+                    Clipboard.Flush();
+                }
             }
             catch
             {
@@ -111,10 +125,19 @@ namespace Files.Helpers
             string copySourcePath = associatedInstance.FilesystemViewModel.WorkingDirectory;
             FilesystemResult result = (FilesystemResult)false;
 
+            bool canFlush = true;
+
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {
                 foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems.ToList())
                 {
+                    if (listedItem is FtpItem ftpItem)
+                    {
+                        canFlush = false;
+                        items.Add(await new FtpStorageFile(associatedInstance.FilesystemViewModel, ftpItem).ToStorageFileAsync());
+                        continue;
+                    }
+
                     if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
                         result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
@@ -159,7 +182,11 @@ namespace Files.Helpers
                 try
                 {
                     Clipboard.SetContent(dataPackage);
-                    Clipboard.Flush();
+                    
+                    if (canFlush)
+                    {
+                        Clipboard.Flush();
+                    }
                 }
                 catch
                 {

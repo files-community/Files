@@ -283,7 +283,7 @@ namespace Files.Views.LayoutModes
 
         private void EndRename(TextBox textBox)
         {
-            if (textBox.Parent == null)
+            if (textBox == null || textBox.Parent == null)
             {
                 // Navigating away, do nothing
             }
@@ -389,11 +389,11 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
+                    e.Handled = true;
                     if (App.MainViewModel.IsQuickLookEnabled)
                     {
                         await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
-                    e.Handled = true;
                 }
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
@@ -467,7 +467,7 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.SetSelectedItem(objectPressed);
         }
 
-        private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
+        private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
         {
             if (listViewItem != null)
             {
@@ -480,16 +480,12 @@ namespace Files.Views.LayoutModes
             {
                 return;
             }
-            if (IsRenamingItem)
-            {
-                return;
-            }
-            var item = (e.ClickedItem as ListedItem);
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
             {
                 ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected
+                var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
                 if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
                     DismissColumn?.Invoke(sender as ListView, EventArgs.Empty);
@@ -506,7 +502,20 @@ namespace Files.Views.LayoutModes
             }
             else
             {
-                CheckRenameDoubleClick(item);
+                var clickedItem = e.OriginalSource as FrameworkElement;
+                if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
+                {
+                    CheckRenameDoubleClick(clickedItem?.DataContext);
+                }
+                else if (IsRenamingItem)
+                {
+                    ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+                    if (listViewItem != null)
+                    {
+                        var textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
+                        EndRename(textBox);
+                    }
+                }
             }
         }
 

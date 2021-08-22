@@ -43,7 +43,7 @@ namespace Files
         public static IBundlesSettings BundlesSettings = new BundlesSettingsModel();
         public static SettingsViewModel AppSettings { get; private set; }
         public static MainViewModel MainViewModel { get; private set; }
-        public static JumpListManager JumpList { get; } = new JumpListManager();
+        public static JumpListManager JumpList { get; private set; }
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
         public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
@@ -57,8 +57,8 @@ namespace Files
         private static readonly UniversalLogWriter logWriter = new UniversalLogWriter();
 
         public static StatusCenterViewModel StatusCenterViewModel { get; } = new StatusCenterViewModel();
-
         public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
+
         public App()
         {
             // Initialize logger
@@ -81,6 +81,7 @@ namespace Files
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
 
+            JumpList ??= new JumpListManager();
             MainViewModel ??= new MainViewModel();
             LibraryManager ??= new LibraryManager();
             DrivesManager ??= new DrivesManager();
@@ -96,15 +97,19 @@ namespace Files
             await Task.Run(async () =>
             {
                 await Task.WhenAll(
-                   SidebarPinnedController.InitializeAsync(),
-                   DrivesManager.EnumerateDrivesAsync(),
-                   CloudDrivesManager.EnumerateDrivesAsync(),
-                   LibraryManager.EnumerateLibrariesAsync(),
-                   NetworkDrivesManager.EnumerateDrivesAsync(),
-                   WSLDistroManager.EnumerateDrivesAsync(),
-                   ExternalResourcesHelper.LoadOtherThemesAsync()
+                    JumpList.InitializeAsync(),
+                    SidebarPinnedController.InitializeAsync(),
+                    DrivesManager.EnumerateDrivesAsync(),
+                    CloudDrivesManager.EnumerateDrivesAsync(),
+                    LibraryManager.EnumerateLibrariesAsync(),
+                    NetworkDrivesManager.EnumerateDrivesAsync(),
+                    WSLDistroManager.EnumerateDrivesAsync(),
+                    ExternalResourcesHelper.LoadOtherThemesAsync()
                 );
             });
+
+            // Check for required updates
+            new AppUpdater().CheckForUpdatesAsync();
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)

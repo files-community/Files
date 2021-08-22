@@ -165,7 +165,7 @@
                                 tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
                                 x:FieldModifier="public"
                                 AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                                CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                                CanDragItems="True"
                                 ContainerContentChanging="FileList_ContainerContentChanging"
                                 DoubleTapped="FileList_DoubleTapped"
                                 DragItemsStarting="FileList_DragItemsStarting"
@@ -173,15 +173,14 @@
                                 Drop="ItemsLayout_Drop"
                                 Holding="FileList_Holding"
                                 IsDoubleTapEnabled="True"
-                                IsItemClickEnabled="True"
                                 IsRightTapEnabled="True"
-                                ItemClick="FileList_ItemClick"
                                 ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
                                 PreviewKeyDown="FileList_PreviewKeyDown"
                                 RightTapped="FileList_RightTapped"
                                 ScrollViewer.IsScrollInertiaEnabled="True"
                                 SelectionChanged="FileList_SelectionChanged"
-                                SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}">
+                                SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
+                                Tapped="FileList_ItemTapped">
 
                                 <ListView.ItemContainerTransitions>
                                     <TransitionCollection>
@@ -405,7 +404,6 @@
                         <SemanticZoom.ZoomedOutView>
                             <ListView
                                 HorizontalAlignment="Stretch"
-                                IsItemClickEnabled="True"
                                 ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
                                 SelectionMode="None">
                                 <ListView.ItemTemplate>

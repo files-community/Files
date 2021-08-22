@@ -158,7 +158,7 @@
                     Width="Auto"
                     MinWidth="40"
                     Command="{x:Bind ViewModel.Share, Mode=OneWay}"
-                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanShare, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanShare, ViewModel.InstanceViewModel.CanShareInPage), Mode=OneWay}"
                     Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutShare/Text')}"
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutShare/Text')}">
@@ -313,7 +313,7 @@
                 </AppBarButton.Content>
                 <AppBarButton.Flyout>
                     <MenuFlyout Placement="Bottom" ShouldConstrainToRootBounds="False">
-                        <MenuFlyoutSubItem Text="Sort by">
+                        <MenuFlyoutSubItem x:Uid="NavToolbarSortByRadioButtons" Text="Sort by">
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionName"
                                 IsChecked="{x:Bind ViewModel.IsSortedByName, Mode=TwoWay}"
@@ -342,8 +342,8 @@
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionFileTag"
                                 IsChecked="{x:Bind ViewModel.IsSortedByFileTag, Mode=TwoWay}"
-                                Visibility="{x:Bind AppSettings.AreFileTagsEnabled, Mode=OneWay}"
-                                Text="File tag" />
+                                Text="File tag"
+                                Visibility="{x:Bind AppSettings.AreFileTagsEnabled, Mode=OneWay}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionOriginalFolder"
                                 IsChecked="{x:Bind ViewModel.IsSortedByOriginalFolder, Mode=TwoWay}"
@@ -355,7 +355,7 @@
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
                                 Text="Date deleted" />
                         </MenuFlyoutSubItem>
-                        <MenuFlyoutSubItem Text="Group by">
+                        <MenuFlyoutSubItem x:Uid="NavToolbarGroupByRadioButtons" Text="Group by">
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarGroupByOptionNone"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByNone, Mode=TwoWay}"
@@ -388,8 +388,8 @@
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionFileTag"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByFileTag, Mode=TwoWay}"
-                                Visibility="{x:Bind AppSettings.AreFileTagsEnabled, Mode=OneWay}"
-                                Text="File tag" />
+                                Text="File tag"
+                                Visibility="{x:Bind AppSettings.AreFileTagsEnabled, Mode=OneWay}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionOriginalFolder"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByOriginalFolder, Mode=TwoWay}"

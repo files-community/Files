@@ -685,6 +685,15 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating the default volume on media preview.
+        /// </summary>
+        public double MediaVolume
+        {
+            get => Math.Min(Math.Max(Get(1.0d), 0.0d), 1.0d);
+            set => Set(value);
+        }
+
         public event EventHandler ThemeModeChanged;
 
         public RelayCommand UpdateThemeElements => new RelayCommand(() =>
@@ -717,7 +726,6 @@ namespace Files.ViewModels
             get => (SortOption)Get((byte)SortOption.Name);
             set => Set((byte)value);
         }
-
 
         public GroupOption DefaultDirectoryGroupOption
         {

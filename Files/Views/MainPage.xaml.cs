@@ -204,28 +204,7 @@ namespace Files.Views
             SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
             SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
             SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
-            SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
             SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
-        }
-
-        private async void SidebarControl_RecycleBinItemRightTapped(object sender, EventArgs e)
-        {
-            var recycleBinHasItems = false;
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var value = new ValueSet
-                {
-                    { "Arguments", "RecycleBin" },
-                    { "action", "Query" }
-                };
-                var (status, response) = await connection.SendMessageForResponseAsync(value);
-                if (status == AppServiceResponseStatus.Success && response.TryGetValue("NumItems", out var numItems))
-                {
-                    recycleBinHasItems = (long)numItems > 0;
-                }
-            }
-            SidebarControl.RecycleBinHasItems = recycleBinHasItems;
         }
 
         private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
@@ -317,7 +296,6 @@ namespace Files.Views
                 SidebarControl.SidebarItemInvoked -= SidebarControl_SidebarItemInvoked;
                 SidebarControl.SidebarItemPropertiesInvoked -= SidebarControl_SidebarItemPropertiesInvoked;
                 SidebarControl.SidebarItemDropped -= SidebarControl_SidebarItemDropped;
-                SidebarControl.RecycleBinItemRightTapped -= SidebarControl_RecycleBinItemRightTapped;
                 SidebarControl.SidebarItemNewPaneInvoked -= SidebarControl_SidebarItemNewPaneInvoked;
             }
         }
@@ -331,6 +309,22 @@ namespace Files.Views
             FindName(nameof(InnerNavigationToolbar));
             FindName(nameof(horizontalMultitaskingControl));
             FindName(nameof(NavToolbar));
+
+            // the adaptive triggers do not evaluate on app startup, manually checking and calling GoToState here fixes https://github.com/files-community/Files/issues/5801
+            if (Window.Current.Bounds.Width < CollapseSearchBoxAdaptiveTrigger.MinWindowWidth)
+            {
+                _ = VisualStateManager.GoToState(this, nameof(CollapseSearchBoxState), true);
+            }
+            
+            if(Window.Current.Bounds.Width < MinimalSidebarAdaptiveTrigger.MinWindowWidth)
+            {
+                _ = VisualStateManager.GoToState(this, nameof(MinimalSidebarState), true);
+            }
+            
+            if(Window.Current.Bounds.Width < CollapseHorizontalTabViewTrigger.MinWindowWidth)
+            {
+                _ = VisualStateManager.GoToState(this, nameof(HorizontalTabViewCollapsed), true);
+            }
 
             App.LoadOtherStuffAsync().ContinueWith(t => App.Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
         }
@@ -354,7 +348,6 @@ namespace Files.Views
         {
             SidebarAdaptiveViewModel.UpdateTabControlMargin(); // Set the correct tab margin on startup
         }
-
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {

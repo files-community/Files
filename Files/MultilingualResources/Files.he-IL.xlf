@@ -84,7 +84,7 @@
         </trans-unit>
         <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
           <source>Item type:</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏סוג פריט</target>
+          <target state="translated" state-qualifier="tm-suggestion">סוג פריט</target>
         </trans-unit>
         <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
@@ -320,7 +320,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutCopy.Text" translate="yes" xml:space="preserve">
           <source>Copy</source>
-          <target state="translated" state-qualifier="tm-suggestion">עותק</target>
+          <target state="translated" state-qualifier="tm-suggestion">העתק</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutDelete.Text" translate="yes" xml:space="preserve">
           <source>Delete</source>
@@ -348,7 +348,7 @@
         </trans-unit>
         <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
           <source>File folder</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏תיקיית קבצים</target>
+          <target state="translated" state-qualifier="tm-suggestion">תיקיית קבצים</target>
         </trans-unit>
         <trans-unit id="ItemTypeFile" translate="yes" xml:space="preserve">
           <source>File</source>
@@ -401,7 +401,7 @@
         </trans-unit>
         <trans-unit id="EmptyFolder.Text" translate="yes" xml:space="preserve">
           <source>This folder is empty.</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏תיקיה זו ריקה.</target>
+          <target state="translated" state-qualifier="tm-suggestion">תיקיה זו ריקה.</target>
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Back (Alt+Left Arrow)</source>
@@ -440,7 +440,7 @@
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogContent" translate="yes" xml:space="preserve">
           <source>An item with this name already exists in this directory.</source>
-          <target state="translated">פריט עם שם זהה כבר קיים בתיקייה זו</target>
+          <target state="translated">פריט עם שם זהה כבר קיים בתיקיה זו</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
@@ -488,7 +488,7 @@
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Text" translate="yes" xml:space="preserve">
           <source>Please insert the necessary drive to access this item.</source>
-          <target state="translated">אנא חבר את הכוננן הנדרש עבור גישה לפריט זה</target>
+          <target state="translated">אנא חבר את הכונן הנדרש עבור גישה לפריט זה</target>
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Title" translate="yes" xml:space="preserve">
           <source>Drive Unplugged</source>
@@ -500,7 +500,7 @@
         </trans-unit>
         <trans-unit id="FileNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>File Not Found</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏הקובץ לא נמצא</target>
+          <target state="translated" state-qualifier="tm-suggestion">הקובץ לא נמצא</target>
         </trans-unit>
         <trans-unit id="FileNotFoundPreviewDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to preview may have been moved or deleted.</source>
@@ -508,11 +508,11 @@
         </trans-unit>
         <trans-unit id="FolderNotFoundDialog.Text" translate="yes" xml:space="preserve">
           <source>The folder you are attempting to access may have been moved or deleted.</source>
-          <target state="translated">התיקייה אליה אתה מנסה לגשת עשויה להיות מוזזת או מחוקה</target>
+          <target state="translated">התיקיה אליה אתה מנסה לגשת עשויה להיות מוזזת או מחוקה</target>
         </trans-unit>
         <trans-unit id="FolderNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>Did you delete this folder?</source>
-          <target state="translated">האם מחקת תיקייה זו?</target>
+          <target state="translated">האם מחקת תיקיה זו?</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you're trying to delete is currently being used by an another application.</source>
@@ -576,7 +576,7 @@
         </trans-unit>
         <trans-unit id="DriveFreeSpaceAndCapacity" translate="yes" xml:space="preserve">
           <source>{0} free of {1}</source>
-          <target state="new">{0} free of {1}</target>
+          <target state="translated" state-qualifier="tm-suggestion">{0} פנויים מתוך {1}</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith.Text" translate="yes" xml:space="preserve">
           <source>Open With</source>
@@ -616,11 +616,11 @@
         </trans-unit>
         <trans-unit id="PasteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Pasting files</source>
-          <target state="new">Pasting files</target>
+          <target state="translated" state-qualifier="tm-suggestion">מדביק קבצים</target>
         </trans-unit>
         <trans-unit id="RecycleInProgress.Title" translate="yes" xml:space="preserve">
           <source>Moving files to the Recycle Bin</source>
-          <target state="new">Moving files to the Recycle Bin</target>
+          <target state="translated" state-qualifier="tm-suggestion">מעביר קבצים לסל המיחזור</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Yes</source>
@@ -665,7 +665,7 @@
         </trans-unit>
         <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
           <source>B</source>
-          <target state="translated" state-qualifier="tm-suggestion">מ</target>
+          <target state="translated" state-qualifier="tm-suggestion">B</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
@@ -701,7 +701,7 @@
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} files, {1:#,##0} folders</source>
-          <target state="new">{0:#,##0} files, {1:#,##0} folders</target>
+          <target state="translated" state-qualifier="tm-suggestion">{0:#,##0} קבצים, {1:#,##0} תיקיות</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser.Text" translate="yes" xml:space="preserve">
           <source>Run as another user</source>
@@ -745,7 +745,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenAddPageButton.Content" translate="yes" xml:space="preserve">
           <source>Add a new page</source>
-          <target state="translated" state-qualifier="tm-suggestion">הוסף דף חדש.</target>
+          <target state="translated" state-qualifier="tm-suggestion">הוסף דף חדש</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupPages.Text" translate="yes" xml:space="preserve">
           <source>Pages:</source>
@@ -785,11 +785,11 @@
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFile" translate="yes" xml:space="preserve">
           <source>The source and destination file names are the same.</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏שמותיהם של קובץ המקור ושל קובץ היעד זהים.</target>
+          <target state="translated" state-qualifier="tm-suggestion">שמותיהם של קובץ המקור ושל קובץ היעד זהים.</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
           <source>The destination folder is the same as the source folder.</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏תיקיית היעד זהה לתיקיית המקור.</target>
+          <target state="translated" state-qualifier="tm-suggestion">תיקיית היעד זהה לתיקיית המקור.</target>
         </trans-unit>
         <trans-unit id="CopyToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Copy to {0}</source>
@@ -881,7 +881,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutContributors.Text" translate="yes" xml:space="preserve">
           <source>Contributors</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏תורמים</target>
+          <target state="translated" state-qualifier="tm-suggestion">תורמים</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
           <source>Release notes</source>
@@ -902,7 +902,7 @@
         </trans-unit>
         <trans-unit id="ShareDialogFailMessage" translate="yes" xml:space="preserve">
           <source>There's nothing to share right now...</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏אין כרגע פריטים לשיתוף.</target>
+          <target state="translated" state-qualifier="tm-suggestion">אין כרגע פריטים לשיתוף.</target>
         </trans-unit>
         <trans-unit id="ShareDialogMultipleItemsDescription" translate="yes" xml:space="preserve">
           <source>The items you've selected will be shared</source>
@@ -922,7 +922,7 @@
         </trans-unit>
         <trans-unit id="RenameError.ItemDeleted.Text" translate="yes" xml:space="preserve">
           <source>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</source>
-          <target state="translated">הפריט המיועד לעדכון שם אינו קיימם יותר. אנא ודא את המיקם הנכון של הפריט.</target>
+          <target state="translated">הפריט המיועד לעדכון שם אינו קיים יותר. אנא ודא את המיקם הנכון של הפריט.</target>
         </trans-unit>
         <trans-unit id="RenameError.ItemDeleted.Title" translate="yes" xml:space="preserve">
           <source>Item no longer exists</source>
@@ -1007,7 +1007,7 @@
         </trans-unit>
         <trans-unit id="AddDialogListFolderSubHeader" translate="yes" xml:space="preserve">
           <source>Creates an empty folder</source>
-          <target state="translated">מייצר תיקייה ריקה</target>
+          <target state="translated">מייצר תיקיה ריקה</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
@@ -1023,11 +1023,11 @@
         </trans-unit>
         <trans-unit id="NavResfreshButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Refresh the directory</source>
-          <target state="translated">רענן את התיקייה</target>
+          <target state="translated">רענן את התיקיה</target>
         </trans-unit>
         <trans-unit id="NavUpButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Go up one directory</source>
-          <target state="translated">עלה תיקייה אחת למעלה</target>
+          <target state="translated">עלה תיקיה אחת למעלה</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
@@ -1135,7 +1135,7 @@
         </trans-unit>
         <trans-unit id="PropertyAltitude" translate="yes" xml:space="preserve">
           <source>Altitude</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏גובה</target>
+          <target state="translated" state-qualifier="tm-suggestion">גובה</target>
         </trans-unit>
         <trans-unit id="PropertyCameraManufacturer" translate="yes" xml:space="preserve">
           <source>Camera Manufacturer</source>
@@ -1155,7 +1155,7 @@
         </trans-unit>
         <trans-unit id="PropertyAperture" translate="yes" xml:space="preserve">
           <source>Aperture</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏פתח</target>
+          <target state="translated" state-qualifier="tm-suggestion">פתח</target>
         </trans-unit>
         <trans-unit id="PropertyDateTaken" translate="yes" xml:space="preserve">
           <source>Date Taken</source>
@@ -1420,7 +1420,7 @@
         </trans-unit>
         <trans-unit id="PropertySectionDocument" translate="yes" xml:space="preserve">
           <source>Document</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏מסמך</target>
+          <target state="translated" state-qualifier="tm-suggestion">מסמך</target>
         </trans-unit>
         <trans-unit id="StatusCenter.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Status center</source>
@@ -1444,7 +1444,7 @@
         </trans-unit>
         <trans-unit id="PinToSidebarByDraggingCaptionText" translate="yes" xml:space="preserve">
           <source>Move here</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏העבר לכאן</target>
+          <target state="translated" state-qualifier="tm-suggestion">העבר לכאן</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
           <source>Drives</source>
@@ -1468,11 +1468,11 @@
         </trans-unit>
         <trans-unit id="SideBarEjectDevice.Text" translate="yes" xml:space="preserve">
           <source>Eject</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏הוצא</target>
+          <target state="translated" state-qualifier="tm-suggestion">הוצא</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlDuplicateTab.Text" translate="yes" xml:space="preserve">
           <source>Duplicate tab</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏שכפל כרטיסיה</target>
+          <target state="translated" state-qualifier="tm-suggestion">שכפל כרטיסיה</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlMoveTabToNewWindow.Text" translate="yes" xml:space="preserve">
           <source>Move tab to new window</source>
@@ -1497,7 +1497,7 @@
         </trans-unit>
         <trans-unit id="PropertySaveErrorDialog.Title" translate="yes" xml:space="preserve">
           <source>Error</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏ש‏גיאה</target>
+          <target state="translated" state-qualifier="tm-suggestion">שגיאה</target>
         </trans-unit>
         <trans-unit id="PropertySaveErrorDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Retry</source>
@@ -1544,8 +1544,8 @@
           <target state="new">Status Center</target>
         </trans-unit>
         <trans-unit id="SearchPagePathBoxOverrideText" translate="yes" xml:space="preserve">
-          <source>Search results in</source>
-          <target state="new">Search results in</target>
+          <source>Search results in {1} for {0}</source>
+          <target state="new">Search results in {1} for {0}</target>
         </trans-unit>
         <trans-unit id="SearchTabHeaderText" translate="yes" xml:space="preserve">
           <source>Search results</source>
@@ -1601,7 +1601,7 @@
         </trans-unit>
         <trans-unit id="NewFile" translate="yes" xml:space="preserve">
           <source>New File</source>
-          <target state="translated" state-qualifier="tm-suggestion">‏‏קובץ חדש</target>
+          <target state="translated" state-qualifier="tm-suggestion">קובץ חדש</target>
         </trans-unit>
         <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
           <source>Original path</source>
@@ -1679,7 +1679,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarDisplayOptions.Text" translate="yes" xml:space="preserve">
           <source>Display Options</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">אפשרויות &amp;תצוגה</target>
+          <target state="translated" state-qualifier="tm-suggestion">אפשרויות תצוגה</target>
         </trans-unit>
         <trans-unit id="NavToolbarGridViewLarge.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
@@ -1703,7 +1703,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarShowHiddenItems.Header" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
-          <target state="new">Show hidden items</target>
+          <target state="translated" state-qualifier="tm-suggestion">הצג פריטים מוסתרים</target>
         </trans-unit>
         <trans-unit id="NavToolbarDetailsView.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Details View</source>
@@ -1711,15 +1711,15 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted.Text" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">‏‏תאריך מחיקה</target>
+          <target state="translated" state-qualifier="tm-suggestion">תאריך מחיקה</target>
         </trans-unit>
         <trans-unit id="dateDeletedColumn.Header" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">‏‏תאריך מחיקה</target>
+          <target state="translated" state-qualifier="tm-suggestion">תאריך מחיקה</target>
         </trans-unit>
         <trans-unit id="PropertyItemPathDisplay" translate="yes" xml:space="preserve">
           <source>Item Path</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">נתיב פריט</target>
+          <target state="translated" state-qualifier="tm-suggestion">נתיב פריט</target>
         </trans-unit>
         <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Toggle the preview pane (Ctrl+P)</source>
@@ -1895,11 +1895,11 @@
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Online" translate="yes" xml:space="preserve">
           <source>Available when online</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">זמין במצב מקוון</target>
+          <target state="translated" state-qualifier="tm-suggestion">זמין במצב מקוון</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Offline" translate="yes" xml:space="preserve">
           <source>Available offline</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">‏‏זמין במצב לא מקוון</target>
+          <target state="translated" state-qualifier="tm-suggestion">זמין במצב לא מקוון</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_PartialOffline" translate="yes" xml:space="preserve">
           <source>Partially available offline</source>
@@ -1907,7 +1907,7 @@
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Sync" translate="yes" xml:space="preserve">
           <source>Syncing</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">‏‏מתבצע ‏סינכרון</target>
+          <target state="translated" state-qualifier="tm-suggestion">מתבצע סינכרון</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Excluded" translate="yes" xml:space="preserve">
           <source>Excluded from sync</source>
@@ -1943,7 +1943,7 @@
         </trans-unit>
         <trans-unit id="DriveTypeFloppyDisk" translate="yes" xml:space="preserve">
           <source>Floppy Disk Drive</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">‏‏כונן תקליטונים</target>
+          <target state="translated" state-qualifier="tm-suggestion">כונן דיסק נשלף</target>
         </trans-unit>
         <trans-unit id="DriveTypeNetwork" translate="yes" xml:space="preserve">
           <source>Network Drive</source>
@@ -2027,7 +2027,7 @@
         </trans-unit>
         <trans-unit id="SidebarLibraries" translate="yes" xml:space="preserve">
           <source>Libraries</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">‏‏ספריות</target>
+          <target state="translated" state-qualifier="tm-suggestion">ספריות</target>
         </trans-unit>
         <trans-unit id="PropertyItemCount" translate="yes" xml:space="preserve">
           <source>Item count</source>
@@ -2039,7 +2039,7 @@
         </trans-unit>
         <trans-unit id="StatusUnknownError" translate="yes" xml:space="preserve">
           <source>An unknown error has occurred.</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">‏‏אירעה שגיאה לא ידועה.</target>
+          <target state="translated" state-qualifier="tm-suggestion">אירעה שגיאה לא ידועה.</target>
         </trans-unit>
         <trans-unit id="StatusDeletionComplete" translate="yes" xml:space="preserve">
           <source>Deletion complete</source>
@@ -2059,7 +2059,7 @@
         </trans-unit>
         <trans-unit id="StatusCopyComplete" translate="yes" xml:space="preserve">
           <source>Copy complete</source>
-          <target state="new">Copy complete</target>
+          <target state="translated" state-qualifier="tm-suggestion">ההעתקה הושלמה</target>
         </trans-unit>
         <trans-unit id="ElevateConfirmDialog.CloseButtonText" translate="yes" xml:space="preserve">
           <source>No</source>
@@ -2091,11 +2091,11 @@
         </trans-unit>
         <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
           <source>Pin to the Start Menu</source>
-          <target state="new">Pin to the Start Menu</target>
+          <target state="translated" state-qualifier="tm-suggestion">הצמד לתפריט ההתחלה</target>
         </trans-unit>
         <trans-unit id="UnpinItemFromStart.Text" translate="yes" xml:space="preserve">
           <source>Unpin from the Start Menu</source>
-          <target state="new">Unpin from the Start Menu</target>
+          <target state="translated" state-qualifier="tm-suggestion">בטל הצמדה לתפריט ההתחלה</target>
         </trans-unit>
         <trans-unit id="NavToolbarColumnView.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Column View</source>
@@ -2135,7 +2135,7 @@
         </trans-unit>
         <trans-unit id="LibraryLocationsButtonSetDefault.Label" translate="yes" xml:space="preserve">
           <source>Default</source>
-          <target state="new">Default</target>
+          <target state="translated" state-qualifier="tm-suggestion">ברירת מחדל</target>
         </trans-unit>
         <trans-unit id="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Set as default save path</source>
@@ -2195,11 +2195,11 @@
         </trans-unit>
         <trans-unit id="CopyItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Copy</source>
-          <target state="new">Copy</target>
+          <target state="translated" state-qualifier="tm-suggestion">העתק</target>
         </trans-unit>
         <trans-unit id="CopyItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated" state-qualifier="tm-suggestion">ביטול</target>
         </trans-unit>
         <trans-unit id="CopyItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be copied</source>
@@ -2215,7 +2215,7 @@
         </trans-unit>
         <trans-unit id="MoveItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Move</source>
-          <target state="new">Move</target>
+          <target state="translated" state-qualifier="tm-suggestion">העבר</target>
         </trans-unit>
         <trans-unit id="MoveItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
@@ -2255,7 +2255,7 @@
         </trans-unit>
         <trans-unit id="CopyItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
           <source>One item will be copied</source>
-          <target state="new">One item will be copied</target>
+          <target state="translated" state-qualifier="tm-suggestion">פריט אחד יועתק</target>
         </trans-unit>
         <trans-unit id="DeleteItemsDialogSubtitleSingle" translate="yes" xml:space="preserve">
           <source>One item will be deleted</source>
@@ -2425,11 +2425,11 @@
           <source>Open with</source>
           <target state="new">Open with</target>
         </trans-unit>
-        <trans-unit id="NavToolbarGroupByRadioButtons.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarGroupByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Group By</source>
           <target state="new">Group By</target>
         </trans-unit>
-        <trans-unit id="NavToolbarSortByRadioButtons.Header" translate="yes" xml:space="preserve">
+        <trans-unit id="NavToolbarSortByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Sort By</source>
           <target state="new">Sort By</target>
         </trans-unit>
@@ -2519,19 +2519,19 @@
         </trans-unit>
         <trans-unit id="RenameFileDialogTitle" translate="yes" xml:space="preserve">
           <source>Rename</source>
-          <target state="new">Rename</target>
+          <target state="translated" state-qualifier="tm-suggestion">שנה שם</target>
         </trans-unit>
         <trans-unit id="StatusDeletionCancelled" translate="yes" xml:space="preserve">
           <source>Deletion cancelled</source>
-          <target state="new">Deletion cancelled</target>
+          <target state="translated" state-qualifier="tm-suggestion">מחיקה בוטלה</target>
         </trans-unit>
         <trans-unit id="StatusMoveCanceled" translate="yes" xml:space="preserve">
           <source>Move canceled</source>
-          <target state="new">Move canceled</target>
+          <target state="translated" state-qualifier="tm-suggestion">העברה בוטלה</target>
         </trans-unit>
         <trans-unit id="StatusCopyCanceled" translate="yes" xml:space="preserve">
           <source>Copy canceled</source>
-          <target state="new">Copy canceled</target>
+          <target state="translated" state-qualifier="tm-suggestion">העתקה בוטלה</target>
         </trans-unit>
         <trans-unit id="StatusMoveCanceledDetails_Singular" translate="yes" xml:space="preserve">
           <source>Moving {0} item from {1} to {2} was canceled</source>
@@ -2635,11 +2635,11 @@
         </trans-unit>
         <trans-unit id="MoveInProgress" translate="yes" xml:space="preserve">
           <source>Moving items</source>
-          <target state="new">Moving items</target>
+          <target state="translated" state-qualifier="tm-suggestion">מעביר פריטים</target>
         </trans-unit>
         <trans-unit id="CopyInProgress.Title" translate="yes" xml:space="preserve">
           <source>Copying items</source>
-          <target state="new">Copying items</target>
+          <target state="translated" state-qualifier="tm-suggestion">מעתיק פריטים</target>
         </trans-unit>
         <trans-unit id="StatusRecycleFailed" translate="yes" xml:space="preserve">
           <source>Recycle failed</source>
@@ -2727,11 +2727,11 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarCopyPath.Label" translate="yes" xml:space="preserve">
           <source>Copy location</source>
-          <target state="new">Copy location</target>
+          <target state="translated" state-qualifier="tm-suggestion">העתק מיקום</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarPaste.Label" translate="yes" xml:space="preserve">
           <source>Paste</source>
-          <target state="new">Paste</target>
+          <target state="translated" state-qualifier="tm-suggestion">הדבק</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarOpenInTerminal.Label" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
@@ -3249,10 +3249,6 @@
           <source>Open log location</source>
           <target state="new">Open log location</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutOpenLogLocationButtonText.Text" translate="yes" xml:space="preserve">
-          <source>Open log location</source>
-          <target state="new">Open log location</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutPinToFavorites.Text" translate="yes" xml:space="preserve">
           <source>Pin to Favorites</source>
           <target state="translated" state-qualifier="tm-suggestion">הצמד למועדפים</target>
@@ -3538,6 +3534,78 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="InsertDiscDialog.Title" translate="yes" xml:space="preserve">
           <source>Insert a disc</source>
           <target state="new">Insert a disc</target>
+        </trans-unit>
+        <trans-unit id="ConfictingItemsDialogOptionApplyToAll.Text" translate="yes" xml:space="preserve">
+          <source>Apply to all</source>
+          <target state="new">Apply to all</target>
+        </trans-unit>
+        <trans-unit id="PropertyPartOfSet" translate="yes" xml:space="preserve">
+          <source>Part of set</source>
+          <target state="new">Part of set</target>
+        </trans-unit>
+        <trans-unit id="AskCredentialDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>OK</source>
+          <target state="new">OK</target>
+        </trans-unit>
+        <trans-unit id="AskCredentialDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="AskCredentialDialog.Title" translate="yes" xml:space="preserve">
+          <source>Credential Required</source>
+          <target state="new">Credential Required</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogAnonymous.Content" translate="yes" xml:space="preserve">
+          <source>Anonymous</source>
+          <target state="new">Anonymous</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogDescription.Text" translate="yes" xml:space="preserve">
+          <source>Provide your credential:</source>
+          <target state="new">Provide your credential:</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogPassword.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Password</source>
+          <target state="new">Password</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogUserName.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>UserName</source>
+          <target state="new">UserName</target>
+        </trans-unit>
+        <trans-unit id="NoSearchResultsFound" translate="yes" xml:space="preserve">
+          <source>No items found</source>
+          <target state="new">No items found</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Bundles Widget</source>
+          <target state="new">Bundles Widget</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Drives Widget</source>
+          <target state="new">Drives Widget</target>
+        </trans-unit>
+        <trans-unit id="FolderWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Libraries Widget</source>
+          <target state="new">Libraries Widget</target>
+        </trans-unit>
+        <trans-unit id="RecentFilesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Recent Files Widget</source>
+          <target state="new">Recent Files Widget</target>
+        </trans-unit>
+        <trans-unit id="OpenLogLocation.Title" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
+        </trans-unit>
+        <trans-unit id="OpenLogLocation.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutOpenLogLocationButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
+        </trans-unit>
+        <trans-unit id="LinkToFolderCaptionText" translate="yes" xml:space="preserve">
+          <source>Create link in {0}</source>
+          <target state="new">Create link in {0}</target>
         </trans-unit>
       </group>
     </body>

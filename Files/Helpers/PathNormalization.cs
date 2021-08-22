@@ -14,7 +14,7 @@ namespace Files.Helpers
             string rootPath = "";
             try
             {
-                rootPath = new Uri(path).GetLeftPart(UriPartial.Authority);
+                rootPath = new Uri(path.Replace("\\", "/")).GetLeftPart(UriPartial.Authority);
             }
             catch (UriFormatException)
             {
@@ -32,11 +32,7 @@ namespace Files.Helpers
             {
                 return path;
             }
-            if (path.StartsWith("\\\\"))
-            {
-                return path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).ToUpperInvariant();
-            }
-            else if (path.StartsWith("ftp://"))
+            if (path.StartsWith("\\\\") || path.StartsWith("//") || FtpHelpers.IsFtpPath(path))
             {
                 return path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).ToUpperInvariant();
             }

@@ -2,6 +2,7 @@
 using Files.Filesystem;
 using Files.ViewModels;
 using Files.ViewModels.Widgets;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -31,6 +32,8 @@ namespace Files.UserControls.Widgets
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public string WidgetName => nameof(RecentFilesWidget);
+
+        public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalized();
 
         public bool IsWidgetSettingEnabled => App.AppSettings.ShowRecentFilesWidget;
 
@@ -63,7 +66,7 @@ namespace Files.UserControls.Widgets
         {
             Empty.Visibility = Visibility.Collapsed;
 
-            await FilesystemTasks.Wrap(async () =>
+            try
             {
                 var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
 
@@ -95,7 +98,11 @@ namespace Files.UserControls.Widgets
                         System.Diagnostics.Debug.WriteLine(added.ErrorCode);
                     }
                 }
-            });
+            }
+            catch (Exception ex)
+            {
+                App.Logger.Info(ex, "Could not fetch recent items");
+            }
 
             if (recentItemsCollection.Count == 0)
             {
@@ -103,7 +110,7 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private async Task AddItemToRecentListAsync(IStorageItem item, Windows.Storage.AccessCache.AccessListEntry entry)
+        private async Task AddItemToRecentListAsync(IStorageItem item, AccessListEntry entry)
         {
             BitmapImage ItemImage;
             string ItemPath;

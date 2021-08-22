@@ -1817,10 +1817,10 @@
   <data name="OpenItemsWithCaptionText" xml:space="preserve">
     <value>打开方式</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>分组依据</value>
   </data>
-  <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>排序方式</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
@@ -2433,9 +2433,6 @@
     <value>复制</value>
   </data>
   <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>打开日志目录</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButtonText.Text" xml:space="preserve">
     <value>打开日志目录</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">

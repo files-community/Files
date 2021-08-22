@@ -428,7 +428,12 @@ namespace Files.ViewModels
                 }
             }
 
-            if (!e.DataView.Contains(StandardDataFormats.StorageItems))
+            if (!Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+                return;
+            }
+            if (string.IsNullOrEmpty(pathBoxItem.Path)) // In search page
             {
                 e.AcceptedOperation = DataPackageOperation.None;
                 return;
@@ -437,20 +442,9 @@ namespace Files.ViewModels
             e.Handled = true;
             var deferral = e.GetDeferral();
 
-            IReadOnlyList<IStorageItem> storageItems;
-            try
+            var (handledByFtp, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+            if (handledByFtp)
             {
-                storageItems = await e.DataView.GetStorageItemsAsync();
-            }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-            {
-                e.AcceptedOperation = DataPackageOperation.None;
-                deferral.Complete();
-                return;
-            }
-            catch (Exception ex)
-            {
-                App.Logger.Warn(ex, ex.Message);
                 e.AcceptedOperation = DataPackageOperation.None;
                 deferral.Complete();
                 return;
@@ -807,6 +801,10 @@ namespace Files.ViewModels
                         var pathToNavigate = resFolder.Result?.Path ?? currentInput;
                         shellPage.NavigateToPath(pathToNavigate);
                     }
+                    else if (FtpHelpers.IsFtpPath(currentInput))
+                    {
+                        shellPage.NavigateToPath(currentInput);
+                    }
                     else // Not a folder or inaccessible
                     {
                         var resFile = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(currentInput, item));
@@ -968,7 +966,7 @@ namespace Files.ViewModels
         }
 
         public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
-        public bool CanShare => SelectedItems is not null && SelectedItems.Any() && !SelectedItems.All(x => x.IsShortcutItem || x.IsHiddenItem);
+        public bool CanShare => SelectedItems is not null && SelectedItems.Any() && DataTransferManager.IsSupported() && !SelectedItems.Any(x => (x.IsShortcutItem && !x.IsLinkItem) || x.IsHiddenItem || x.PrimaryItemAttribute == StorageItemTypes.Folder);
         public bool CanRename => SelectedItems is not null && SelectedItems.Count == 1;
 
         public void Dispose()

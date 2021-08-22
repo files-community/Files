@@ -888,11 +888,17 @@
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
     <value>Latitude décimale</value>
   </data>
+  <data name="PropertyLatitudeRef" xml:space="preserve">
+    <value>Réf. Latitude</value>
+  </data>
   <data name="PropertyLongitude" xml:space="preserve">
     <value>Longitude</value>
   </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
     <value>Longitude décimale</value>
+  </data>
+  <data name="PropertyLongitudeRef" xml:space="preserve">
+    <value>Réf. Longitude</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>Altitude</value>
@@ -1150,7 +1156,7 @@
     <value>Rechercher</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Résultats de recherche dans</value>
+    <value>Résultats de la recherche dans {1} pour {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Résultats de recherche</value>
@@ -1809,10 +1815,10 @@
   <data name="OpenItemsWithCaptionText" xml:space="preserve">
     <value>Ouvrir avec</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Groupe par</value>
   </data>
-  <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Trier par</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
@@ -2427,9 +2433,6 @@
   <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
     <value>Ouvrir l'emplacement des logs</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButtonText.Text" xml:space="preserve">
-    <value>Ouvrir l'emplacement des logs</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>Ajouter aux favoris</value>
   </data>
@@ -2632,7 +2635,43 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
   <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
     <value>Fermer</value>
   </data>
+  <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
+    <value>Ouvrir le Disque</value>
+  </data>
+  <data name="InsertDiscDialog.Text" xml:space="preserve">
+    <value>Veuillez insérer un disque dans le lecteur {0}</value>
+  </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Insérer un disque</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Appliquer à tous</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Partie de l'ensemble</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>Informations d'identification requises</value>
+  </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>Anonyme</value>
+  </data>
+  <data name="CredentialDialogDescription.Text" xml:space="preserve">
+    <value>Fournissez votre identifiant :</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>Mot de passe</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>Nom d'utilisateur</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>Aucun élément trouvé</value>
   </data>
 </root>

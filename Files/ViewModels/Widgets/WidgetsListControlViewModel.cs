@@ -9,13 +9,13 @@ namespace Files.ViewModels.Widgets
     {
         public event EventHandler WidgetListRefreshRequestedInvoked;
 
-        public ObservableCollection<object> Widgets { get; private set; } = new ObservableCollection<object>();
+        public ObservableCollection<WidgetsListControlItemViewModel> Widgets { get; private set; } = new ObservableCollection<WidgetsListControlItemViewModel>();
 
         public void RefreshWidgetList()
         {
             for (int i = 0; i < Widgets.Count; i++)
             {
-                if (!(Widgets[i] as IWidgetItemModel).IsWidgetSettingEnabled)
+                if (!Widgets[i].WidgetItemModel.IsWidgetSettingEnabled)
                 {
                     RemoveWidgetAt(i);
                 }
@@ -24,15 +24,15 @@ namespace Files.ViewModels.Widgets
             WidgetListRefreshRequestedInvoked?.Invoke(this, EventArgs.Empty);
         }
 
-        public bool AddWidget(object widgetModel)
+        public bool AddWidget(WidgetsListControlItemViewModel widgetModel)
         {
             return InsertWidget(widgetModel, Widgets.Count + 1);
         }
 
-        public bool InsertWidget(object widgetModel, int atIndex)
+        public bool InsertWidget(WidgetsListControlItemViewModel widgetModel, int atIndex)
         {
             // The widget must not be null and must implement IWidgetItemModel
-            if (!(widgetModel is IWidgetItemModel widgetItemModel))
+            if (widgetModel.WidgetItemModel is not IWidgetItemModel widgetItemModel)
             {
                 return false;
             }
@@ -57,7 +57,7 @@ namespace Files.ViewModels.Widgets
 
         public bool CanAddWidget(string widgetName)
         {
-            return !(Widgets.Any((item) => (item as IWidgetItemModel).WidgetName == widgetName));
+            return !(Widgets.Any((item) => item.WidgetItemModel.WidgetName == widgetName));
         }
 
         public void RemoveWidgetAt(int index)
@@ -67,7 +67,7 @@ namespace Files.ViewModels.Widgets
                 return;
             }
 
-            (Widgets[index] as IDisposable)?.Dispose();
+            Widgets[index].Dispose();
             Widgets.RemoveAt(index);
         }
 
@@ -77,7 +77,7 @@ namespace Files.ViewModels.Widgets
 
             for (int i = 0; i < Widgets.Count; i++)
             {
-                if (typeof(TWidget).IsAssignableFrom(Widgets[i].GetType()))
+                if (typeof(TWidget).IsAssignableFrom(Widgets[i].WidgetControl.GetType()))
                 {
                     // Found matching types
                     indexToRemove = i;
@@ -88,7 +88,7 @@ namespace Files.ViewModels.Widgets
             RemoveWidgetAt(indexToRemove);
         }
 
-        public void ReorderWidget(object widgetModel, int place)
+        public void ReorderWidget(WidgetsListControlItemViewModel widgetModel, int place)
         {
             int widgetIndex = Widgets.IndexOf(widgetModel);
             Widgets.Move(widgetIndex, place);
@@ -98,11 +98,10 @@ namespace Files.ViewModels.Widgets
         {
             for (int i = 0; i < Widgets.Count; i++)
             {
-                (Widgets[i] as IDisposable)?.Dispose();
+                Widgets[i].Dispose();
             }
 
             Widgets.Clear();
-            Widgets = null;
         }
     }
 }
