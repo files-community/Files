@@ -129,10 +129,10 @@ namespace Files
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             await logWriter.InitializeAsync("debug.log");
+            Logger.Info($"App launched. Prelaunch: {e.PrelaunchActivated}");
+
             //start tracking app usage
             SystemInformation.Instance.TrackAppUse(e);
-
-            Logger.Info("App launched");
 
             bool canEnablePrelaunch = ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
 
@@ -171,14 +171,16 @@ namespace Files
         protected override async void OnFileActivated(FileActivatedEventArgs e)
         {
             await logWriter.InitializeAsync("debug.log");
+            Logger.Info("App activated by file");
+
             //start tracking app usage
             SystemInformation.Instance.TrackAppUse(e);
+
             await EnsureSettingsAndConfigurationAreBootstrapped();
 
-
             var rootFrame = EnsureWindowIsInitialized();
-            var index = 0;
 
+            var index = 0;
             if (rootFrame.Content == null)
             {
                 // When the navigation stack isn't restored navigate to the first page,
@@ -237,20 +239,12 @@ namespace Files
         protected override async void OnActivated(IActivatedEventArgs args)
         {
             await logWriter.InitializeAsync("debug.log");
-
-            Logger.Info("App activated");
+            Logger.Info($"App activated by {args.Kind.ToString()}");
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
 
-            // Window management
-            if (!(Window.Current.Content is Frame rootFrame))
-            {
-                rootFrame = new Frame();
-                rootFrame.CacheSize = 1;
-                Window.Current.Content = rootFrame;
-            }
+            var rootFrame = EnsureWindowIsInitialized();
 
-            var currentView = SystemNavigationManager.GetForCurrentView();
             switch (args.Kind)
             {
                 case ActivationKind.Protocol:
