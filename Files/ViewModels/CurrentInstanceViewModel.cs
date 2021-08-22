@@ -18,10 +18,10 @@ namespace Files.ViewModels
         {
             FolderSettings = new FolderSettingsViewModel();
         }
-
-        public CurrentInstanceViewModel(FolderLayoutModes modeOverride)
+        
+        public CurrentInstanceViewModel(FolderLayoutModes rootLayoutMode)
         {
-            FolderSettings = new FolderSettingsViewModel(modeOverride);
+            FolderSettings = new FolderSettingsViewModel(rootLayoutMode);
         }
 
         private bool isPageTypeSearchResults = false;

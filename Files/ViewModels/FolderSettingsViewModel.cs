@@ -28,14 +28,15 @@ namespace Files.ViewModels
         
         public FolderSettingsViewModel(FolderLayoutModes modeOverride)
         {
+            rootLayoutMode = modeOverride;
             this.LayoutPreference = new LayoutPreferences();
-
-            SetLayoutInformation(modeOverride);
         }
+
+        private readonly FolderLayoutModes? rootLayoutMode;
 
         public FolderLayoutModes LayoutMode
         {
-            get => LayoutPreference.LayoutMode;
+            get => rootLayoutMode ?? LayoutPreference.LayoutMode;
             set
             {
                 if (SetProperty(ref LayoutPreference.LayoutMode, value, nameof(LayoutMode)))
