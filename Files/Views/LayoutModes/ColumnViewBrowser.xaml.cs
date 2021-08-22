@@ -212,7 +212,6 @@ namespace Files.Views.LayoutModes
                 Column = ColumnHost.ActiveBlades.IndexOf(newblade),
                 Path = column.Path
             });
-
         }
 
         private void ContentChanged(IShellPage p)

@@ -62,7 +62,6 @@ namespace Files.ViewModels.Previews
             set => SetProperty(ref pageCount, value);
         }
 
-
         public async void TryLoadPagesAsync(PdfDocument pdf)
         {
             try
@@ -111,6 +110,7 @@ namespace Files.ViewModels.Previews
             LoadingBarVisibility = Visibility.Collapsed;
         }
     }
+
     public struct PageViewModel
     {
         public int PageNumber { get; set; }

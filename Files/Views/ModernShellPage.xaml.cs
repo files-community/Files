@@ -1129,36 +1129,7 @@ namespace Files.Views
         {
             ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
         }
-
-        /// <summary>
-        /// workaround that allows retrieving the current column if the layout is in column view
-        /// </summary>
-        private IBaseLayout GetActiveLayout()
-        {
-            if (IsColumnView)
-            {
-                return (SlimContentPage as ColumnViewBrowser)?.LastColumnBrowser;
-            }
-
-            return SlimContentPage;
-        }
-
-        /// <summary>
-        /// workaround that allows retrieving the current column shell page if the layout is in column view or self otherwise
-        /// </summary>
-        private IShellPage GetActiveShellPage()
-        {
-            if (IsColumnView)
-            {
-                if (!(SlimContentPage as ColumnViewBrowser)?.IsLastColumnBase ?? false)
-                {
-                    return (SlimContentPage as ColumnViewBrowser)?.LastColumnShellPage;
-                }
-            }
-
-            return this;
-        }
-
+        
         public void RaiseContentChanged(IShellPage instance, TabItemArguments args)
         {
             ContentChanged?.Invoke(instance, args);

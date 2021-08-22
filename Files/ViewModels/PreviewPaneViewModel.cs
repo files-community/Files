@@ -42,14 +42,12 @@ namespace Files.ViewModels
             set => SetProperty(ref selectedItem, value);
         }
 
-
         private PreviewPaneStates previewPaneState;
         public PreviewPaneStates PreviewPaneState
         {
             get => previewPaneState;
             set => SetProperty(ref previewPaneState, value);
         }
-
 
         private bool showCloudItemButton;
         public bool ShowCloudItemButton
