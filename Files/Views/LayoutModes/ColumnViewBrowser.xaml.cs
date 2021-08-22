@@ -761,6 +761,14 @@ namespace Files.Views.LayoutModes
             }
         }
 
+        public void UpColumn()
+        {
+            if(!IsLastColumnBase)
+            {
+                DismissOtherBlades(ColumnHost.ActiveBlades[ColumnHost.ActiveBlades.Count-2]);
+            }
+        }
+
         public void SetSelectedPathOrNavigate(PathNavigationEventArgs e)
         {
             var p = e.ItemPath.TrimEnd('\\');
