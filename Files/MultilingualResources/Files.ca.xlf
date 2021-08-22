@@ -178,10 +178,6 @@
           <source>About</source>
           <target state="translated">Sobre</target>
         </trans-unit>
-        <trans-unit id="SettingsDateFormat.Header" translate="yes" xml:space="preserve">
-          <source>Date format</source>
-          <target state="translated">Format de la data</target>
-        </trans-unit>
         <trans-unit id="SettingsAppearanceTheme.Title" translate="yes" xml:space="preserve">
           <source>Choose your color</source>
           <target state="translated">Tria el teu color</target>
@@ -502,10 +498,6 @@
           <source>Properties</source>
           <target state="translated">Propietats</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>View sample profiles</source>
-          <target state="translated">Veure perfils de mostra</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogContent" translate="yes" xml:space="preserve">
           <source>An item with this name already exists in this directory.</source>
           <target state="translated">Un element amb aquest nom ja existeix a aquest directori.</target>
@@ -761,10 +753,6 @@
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
           <target state="translated">Executa com a administrador</target>
-        </trans-unit>
-        <trans-unit id="SettingsDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Learn more about date formats</source>
-          <target state="translated">Més opcions pel format de la data</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Unlock</source>
@@ -1166,17 +1154,9 @@
           <source>Edit terminal applications</source>
           <target state="translated">Edita aplicacions de terminal</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>View sample profiles</source>
-          <target state="translated">Mira perfils de mostra</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Title" translate="yes" xml:space="preserve">
           <source>Language</source>
           <target state="translated">Idioma</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
-          <source>Terminal applications</source>
-          <target state="translated">Aplicacions de terminal</target>
         </trans-unit>
         <trans-unit id="SettingsContextMenuOverflowSwitch.Title" translate="yes" xml:space="preserve">
           <source>Move overflow items into a sub menu</source>
@@ -1185,14 +1165,6 @@
         <trans-unit id="SettingsRecycleBinSwitch.Title" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to Favorites</source>
           <target state="translated">Ancora la papelera a favorits</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">Ensenya un diàleg de confirmació quan esborris arxius o carpetes</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
-          <source>Terminal Applications</source>
-          <target state="translated">Aplicacions del terminal</target>
         </trans-unit>
         <trans-unit id="PropertySaveErrorMessage.Text" translate="yes" xml:space="preserve">
           <source>There was an issue saving some properties.</source>
@@ -1702,17 +1674,13 @@
           <source>Status Center</source>
           <target state="new">Status Center</target>
         </trans-unit>
-        <trans-unit id="SettingsDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Learn more about date formats</source>
-          <target state="new">Learn more about date formats</target>
-        </trans-unit>
         <trans-unit id="NavSearchButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Search</source>
           <target state="new">Search</target>
         </trans-unit>
         <trans-unit id="SearchPagePathBoxOverrideText" translate="yes" xml:space="preserve">
-          <source>Search results in</source>
-          <target state="new">Search results in</target>
+          <source>Search results in {1} for {0}</source>
+          <target state="new">Search results in {1} for {0}</target>
         </trans-unit>
         <trans-unit id="SearchTabHeaderText" translate="yes" xml:space="preserve">
           <source>Search results</source>
@@ -2478,10 +2446,6 @@
           <source>ISO speed</source>
           <target state="new">ISO speed</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Header" translate="yes" xml:space="preserve">
-          <source>Open folders in new tab</source>
-          <target state="new">Open folders in new tab</target>
-        </trans-unit>
         <trans-unit id="NavToolbarShowBundlesWidget.Header" translate="yes" xml:space="preserve">
           <source>Show Bundles widget</source>
           <target state="new">Show Bundles widget</target>
@@ -2630,57 +2594,9 @@
           <source>Sort</source>
           <target state="new">Sort</target>
         </trans-unit>
-        <trans-unit id="NavToolbarGroupByRadioButtons.Header" translate="yes" xml:space="preserve">
-          <source>Group By</source>
-          <target state="new">Group By</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarGroupByOption_None.Content" translate="yes" xml:space="preserve">
-          <source>None</source>
-          <target state="new">None</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_Name.Content" translate="yes" xml:space="preserve">
-          <source>Name</source>
-          <target state="new">Name</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_DateModified.Content" translate="yes" xml:space="preserve">
-          <source>Date modified</source>
-          <target state="new">Date modified</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_DateCreated.Content" translate="yes" xml:space="preserve">
-          <source>Date created</source>
-          <target state="new">Date created</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_Size.Content" translate="yes" xml:space="preserve">
-          <source>Size</source>
-          <target state="new">Size</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_DateDeleted.Content" translate="yes" xml:space="preserve">
-          <source>Date deleted</source>
-          <target state="new">Date deleted</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_OriginalFolder.Content" translate="yes" xml:space="preserve">
-          <source>Original folder</source>
-          <target state="new">Original folder</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_Type.Content" translate="yes" xml:space="preserve">
-          <source>Type</source>
-          <target state="new">Type</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarSortByRadioButtons.Header" translate="yes" xml:space="preserve">
-          <source>Sort By</source>
-          <target state="new">Sort By</target>
-        </trans-unit>
         <trans-unit id="NavToolbarSortDirectionRadioButtons.Header" translate="yes" xml:space="preserve">
           <source>Sort direction</source>
           <target state="new">Sort direction</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOption_Ascending.Content" translate="yes" xml:space="preserve">
-          <source>Ascending</source>
-          <target state="new">Ascending</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarSortDirectionOption_Descending.Content" translate="yes" xml:space="preserve">
-          <source>Descending</source>
-          <target state="new">Descending</target>
         </trans-unit>
         <trans-unit id="ItemSizeText_Huge" translate="yes" xml:space="preserve">
           <source>Huge</source>
@@ -2919,10 +2835,6 @@
           <target state="new">Widgets</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="new">Sync status</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarArrangementOption_SyncStatus.Content" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="new">Sync status</target>
         </trans-unit>
@@ -3437,6 +3349,240 @@
         <trans-unit id="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+T</source>
           <target state="new">Ctrl+Shift+T</target>
+        </trans-unit>
+        <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
+          <source>Date format</source>
+          <target state="new">Date format</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTerminalApplications.Title" translate="yes" xml:space="preserve">
+          <source>Terminal applications</source>
+          <target state="new">Terminal applications</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesEditTerminalApplicationsExpander.Title" translate="yes" xml:space="preserve">
+          <source>Edit terminal applications</source>
+          <target state="new">Edit terminal applications</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
+          <source>Show a confirmation dialog when deleting files or folders</source>
+          <target state="new">Show a confirmation dialog when deleting files or folders</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Title" translate="yes" xml:space="preserve">
+          <source>Open folders in new tab</source>
+          <target state="new">Open folders in new tab</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarGroupByRadioButtons.Text" translate="yes" xml:space="preserve">
+          <source>Group By</source>
+          <target state="new">Group By</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarGroupByOptionNone.Text" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="new">None</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionName.Text" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="new">Name</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionDateModified.Text" translate="yes" xml:space="preserve">
+          <source>Date modified</source>
+          <target state="new">Date modified</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionDateCreated.Text" translate="yes" xml:space="preserve">
+          <source>Date created</source>
+          <target state="new">Date created</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionSize.Text" translate="yes" xml:space="preserve">
+          <source>Size</source>
+          <target state="new">Size</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionDateDeleted.Text" translate="yes" xml:space="preserve">
+          <source>Date deleted</source>
+          <target state="new">Date deleted</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionOriginalFolder.Text" translate="yes" xml:space="preserve">
+          <source>Original folder</source>
+          <target state="new">Original folder</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionType.Text" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <target state="new">Type</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSortByRadioButtons.Text" translate="yes" xml:space="preserve">
+          <source>Sort By</source>
+          <target state="new">Sort By</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSortDirectionOptionAscending.Text" translate="yes" xml:space="preserve">
+          <source>Ascending</source>
+          <target state="new">Ascending</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
+          <source>Descending</source>
+          <target state="new">Descending</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+          <source>Sync status</source>
+          <target state="new">Sync status</target>
+        </trans-unit>
+        <trans-unit id="ArchiveExtractionCompletedSuccessfullyText" translate="yes" xml:space="preserve">
+          <source>The archive extraction completed successfully.</source>
+          <target state="new">The archive extraction completed successfully.</target>
+        </trans-unit>
+        <trans-unit id="ExtractingArchiveText" translate="yes" xml:space="preserve">
+          <source>Extracting archive</source>
+          <target state="new">Extracting archive</target>
+        </trans-unit>
+        <trans-unit id="ExtractingCompleteText" translate="yes" xml:space="preserve">
+          <source>Extracting complete!</source>
+          <target state="new">Extracting complete!</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+          <source>Ctrl+Shift+N</source>
+          <target state="new">Ctrl+Shift+N</target>
+        </trans-unit>
+        <trans-unit id="SettingsPrivacy.Title" translate="yes" xml:space="preserve">
+          <source>Privacy policy</source>
+          <target state="new">Privacy policy</target>
+        </trans-unit>
+        <trans-unit id="SettingsFluentUISystemIconsLicenseButton.Content" translate="yes" xml:space="preserve">
+          <source>Fluent UI System Icons</source>
+          <target state="new">Fluent UI System Icons</target>
+        </trans-unit>
+        <trans-unit id="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Fluent UI System Icons</source>
+          <target state="new">Fluent UI System Icons</target>
+        </trans-unit>
+        <trans-unit id="SettingsPrivacyPolicyMarkdownBlock.Text" translate="yes" xml:space="preserve">
+          <source>
+*Personal Information Collection* 
+Files does not collect, store, share or publish any personal information.
+
+*Non-personal Information Collection*
+
+We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
+  </source>
+          <target state="new">
+*Personal Information Collection* 
+Files does not collect, store, share or publish any personal information.
+
+*Non-personal Information Collection*
+
+We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
+  </target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByFileTag.Text" translate="yes" xml:space="preserve">
+          <source>File tag</source>
+          <target state="new">File tag</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionFileTag.Text" translate="yes" xml:space="preserve">
+          <source>File tag</source>
+          <target state="new">File tag</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenParentFolder.Text" translate="yes" xml:space="preserve">
+          <source>Open parent folder</source>
+          <target state="new">Open parent folder</target>
+        </trans-unit>
+        <trans-unit id="FileTagUnknown" translate="yes" xml:space="preserve">
+          <source>Unknown</source>
+          <target state="new">Unknown</target>
+        </trans-unit>
+        <trans-unit id="DetailsViewHeaderFlyout_ShowFileTag.Text" translate="yes" xml:space="preserve">
+          <source>File tag</source>
+          <target state="new">File tag</target>
+        </trans-unit>
+        <trans-unit id="SettingsEditFileTags.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Edit file tags</source>
+          <target state="new">Edit file tags</target>
+        </trans-unit>
+        <trans-unit id="SettingsEditFileTags.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Edit file tags</source>
+          <target state="new">Edit file tags</target>
+        </trans-unit>
+        <trans-unit id="SettingsEditFileTagsExpander.Title" translate="yes" xml:space="preserve">
+          <source>Edit file tags</source>
+          <target state="new">Edit file tags</target>
+        </trans-unit>
+        <trans-unit id="SettingsEnableFileTags.Title" translate="yes" xml:space="preserve">
+          <source>Enable file tags</source>
+          <target state="new">Enable file tags</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowFavoritesSection.Title" translate="yes" xml:space="preserve">
+          <source>Show Favorites section on the sidebar</source>
+          <target state="new">Show Favorites section on the sidebar</target>
+        </trans-unit>
+        <trans-unit id="ConfictingItemsDialogOptionApplyToAll.Text" translate="yes" xml:space="preserve">
+          <source>Apply to all</source>
+          <target state="new">Apply to all</target>
+        </trans-unit>
+        <trans-unit id="PropertyPartOfSet" translate="yes" xml:space="preserve">
+          <source>Part of set</source>
+          <target state="new">Part of set</target>
+        </trans-unit>
+        <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
+          <source>Close</source>
+          <target state="new">Close</target>
+        </trans-unit>
+        <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
+          <source>Open Drive</source>
+          <target state="new">Open Drive</target>
+        </trans-unit>
+        <trans-unit id="InsertDiscDialog.Text" translate="yes" xml:space="preserve">
+          <source>Please insert a disc into drive {0}</source>
+          <target state="new">Please insert a disc into drive {0}</target>
+        </trans-unit>
+        <trans-unit id="InsertDiscDialog.Title" translate="yes" xml:space="preserve">
+          <source>Insert a disc</source>
+          <target state="new">Insert a disc</target>
+        </trans-unit>
+        <trans-unit id="AskCredentialDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>OK</source>
+          <target state="new">OK</target>
+        </trans-unit>
+        <trans-unit id="AskCredentialDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="AskCredentialDialog.Title" translate="yes" xml:space="preserve">
+          <source>Credential Required</source>
+          <target state="new">Credential Required</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogAnonymous.Content" translate="yes" xml:space="preserve">
+          <source>Anonymous</source>
+          <target state="new">Anonymous</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogDescription.Text" translate="yes" xml:space="preserve">
+          <source>Provide your credential:</source>
+          <target state="new">Provide your credential:</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogPassword.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Password</source>
+          <target state="new">Password</target>
+        </trans-unit>
+        <trans-unit id="CredentialDialogUserName.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>UserName</source>
+          <target state="new">UserName</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Bundles Widget</source>
+          <target state="new">Bundles Widget</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Drives Widget</source>
+          <target state="new">Drives Widget</target>
+        </trans-unit>
+        <trans-unit id="FolderWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Libraries Widget</source>
+          <target state="new">Libraries Widget</target>
+        </trans-unit>
+        <trans-unit id="RecentFilesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Recent Files Widget</source>
+          <target state="new">Recent Files Widget</target>
+        </trans-unit>
+        <trans-unit id="NoSearchResultsFound" translate="yes" xml:space="preserve">
+          <source>No items found</source>
+          <target state="new">No items found</target>
+        </trans-unit>
+        <trans-unit id="LinkToFolderCaptionText" translate="yes" xml:space="preserve">
+          <source>Create link in {0}</source>
+          <target state="new">Create link in {0}</target>
         </trans-unit>
       </group>
     </body>

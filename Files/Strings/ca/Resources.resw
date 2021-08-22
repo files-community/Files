@@ -141,9 +141,6 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Sobre</value>
   </data>
-  <data name="SettingsDateFormat.Header" xml:space="preserve">
-    <value>Format de la data</value>
-  </data>
   <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
     <value>Tria el teu color</value>
   </data>
@@ -372,9 +369,6 @@
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Propietats</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Veure perfils de mostra</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Un element amb aquest nom ja existeix a aquest directori.</value>
   </data>
@@ -536,9 +530,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Executa com a administrador</value>
-  </data>
-  <data name="SettingsDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Més opcions pel format de la data</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Desbloqueja</value>
@@ -837,26 +828,14 @@
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>Edita aplicacions de terminal</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Mira perfils de mostra</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Idioma</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Aplicacions de terminal</value>
   </data>
   <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
     <value>Move overflow items into a sub menu</value>
   </data>
   <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
     <value>Ancora la papelera a favorits</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>Ensenya un diàleg de confirmació quan esborris arxius o carpetes</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Aplicacions del terminal</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Ha hagut un problema desant algunes propietats.</value>
