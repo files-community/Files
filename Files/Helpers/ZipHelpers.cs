@@ -71,6 +71,11 @@ namespace Files.Helpers
                     {
                         return;
                     }
+                    if (entry.IsCrypted)
+                    {
+                        App.Logger.Info($"Skipped encrypted zip entry: {entry.Name}");
+                        continue; // TODO: support password protected archives
+                    }
 
                     string filePath = wnt.TransformFile(entry.Name);
 
