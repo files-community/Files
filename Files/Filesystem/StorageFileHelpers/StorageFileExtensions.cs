@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.DataModels.NavigationControlItems;
 using Files.Extensions;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.UserControls;
 using Files.ViewModels;
@@ -80,7 +81,7 @@ namespace Files.Filesystem
 
                     var component = value.Substring(lastIndex, i - lastIndex);
                     var path = value.Substring(0, i + 1);
-                    if (!path.Equals("ftp:/", StringComparison.OrdinalIgnoreCase))
+                    if (!new[] { "ftp:/", "ftps:/", "ftpes:/" }.Contains(path, StringComparer.OrdinalIgnoreCase))
                     {
                         pathBoxItems.Add(GetPathItem(component, path));
                     }
@@ -110,7 +111,7 @@ namespace Files.Filesystem
                     foreach (var component in currComponents.ExceptBy(prevComponents, c => c.Path))
                     {
                         folder = await folder.GetFolderAsync(component.Title);
-                        path = Path.Combine(path, folder.Name);
+                        path = PathNormalization.Combine(path, folder.Name);
                     }
                     return new StorageFolderWithPath(folder, path);
                 }
@@ -121,7 +122,7 @@ namespace Files.Filesystem
                     foreach (var component in currComponents.Skip(1))
                     {
                         folder = await folder.GetFolderAsync(component.Title);
-                        path = Path.Combine(path, folder.Name);
+                        path = PathNormalization.Combine(path, folder.Name);
                     }
                     return new StorageFolderWithPath(folder, path);
                 }
@@ -131,15 +132,15 @@ namespace Files.Filesystem
             {
                 // Relative path
                 var fullPath = Path.GetFullPath(Path.Combine(parentFolder.Path, value));
-                return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(fullPath));
+                return new StorageFolderWithPath(await BaseStorageFolder.GetFolderFromPathAsync(fullPath));
             }
             else
             {
-                return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(value));
+                return new StorageFolderWithPath(await BaseStorageFolder.GetFolderFromPathAsync(value));
             }
         }
 
-        public async static Task<StorageFolder> DangerousGetFolderFromPathAsync(string value,
+        public async static Task<BaseStorageFolder> DangerousGetFolderFromPathAsync(string value,
                                                                                 StorageFolderWithPath rootFolder = null,
                                                                                 StorageFolderWithPath parentFolder = null)
         {
@@ -162,10 +163,10 @@ namespace Files.Filesystem
                     foreach (var component in currComponents.ExceptBy(prevComponents, c => c.Path).SkipLast(1))
                     {
                         folder = await folder.GetFolderAsync(component.Title);
-                        path = Path.Combine(path, folder.Name);
+                        path = PathNormalization.Combine(path, folder.Name);
                     }
                     var file = await folder.GetFileAsync(currComponents.Last().Title);
-                    path = Path.Combine(path, file.Name);
+                    path = PathNormalization.Combine(path, file.Name);
                     return new StorageFileWithPath(file, path);
                 }
                 else if (value.IsSubPathOf(rootFolder.Path))
@@ -175,10 +176,10 @@ namespace Files.Filesystem
                     foreach (var component in currComponents.Skip(1).SkipLast(1))
                     {
                         folder = await folder.GetFolderAsync(component.Title);
-                        path = Path.Combine(path, folder.Name);
+                        path = PathNormalization.Combine(path, folder.Name);
                     }
                     var file = await folder.GetFileAsync(currComponents.Last().Title);
-                    path = Path.Combine(path, file.Name);
+                    path = PathNormalization.Combine(path, file.Name);
                     return new StorageFileWithPath(file, path);
                 }
             }
@@ -187,15 +188,15 @@ namespace Files.Filesystem
             {
                 // Relative path
                 var fullPath = Path.GetFullPath(Path.Combine(parentFolder.Path, value));
-                return new StorageFileWithPath(await StorageFile.GetFileFromPathAsync(fullPath));
+                return new StorageFileWithPath(await BaseStorageFile.GetFileFromPathAsync(fullPath));
             }
             else
             {
-                return new StorageFileWithPath(await StorageFile.GetFileFromPathAsync(value));
+                return new StorageFileWithPath(await BaseStorageFile.GetFileFromPathAsync(value));
             }
         }
 
-        public async static Task<StorageFile> DangerousGetFileFromPathAsync(string value,
+        public async static Task<BaseStorageFile> DangerousGetFileFromPathAsync(string value,
                                                                             StorageFolderWithPath rootFolder = null,
                                                                             StorageFolderWithPath parentFolder = null)
         {
@@ -205,22 +206,22 @@ namespace Files.Filesystem
         public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
         {
             return (await parentFolder.Folder.GetFoldersAsync(CommonFolderQuery.DefaultQuery, 0, maxNumberOfItems))
-                .Select(x => new StorageFolderWithPath(x, Path.Combine(parentFolder.Path, x.Name))).ToList();
+                .Select(x => new StorageFolderWithPath(x, PathNormalization.Combine(parentFolder.Path, x.Name))).ToList();
         }
 
         public async static Task<IList<StorageFileWithPath>> GetFilesWithPathAsync(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
         {
             return (await parentFolder.Folder.GetFilesAsync(CommonFileQuery.DefaultQuery, 0, maxNumberOfItems))
-                .Select(x => new StorageFileWithPath(x, Path.Combine(parentFolder.Path, x.Name))).ToList();
+                .Select(x => new StorageFileWithPath(x, PathNormalization.Combine(parentFolder.Path, x.Name))).ToList();
         }
 
         public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync(this StorageFolderWithPath parentFolder, string nameFilter, uint maxNumberOfItems = uint.MaxValue)
         {
             var queryOptions = new QueryOptions();
             queryOptions.ApplicationSearchFilter = $"System.FileName:{nameFilter}*";
-            StorageFolderQueryResult queryResult = parentFolder.Folder.CreateFolderQueryWithOptions(queryOptions);
+            BaseStorageFolderQueryResult queryResult = parentFolder.Folder.CreateFolderQueryWithOptions(queryOptions);
 
-            return (await queryResult.GetFoldersAsync(0, maxNumberOfItems)).Select(x => new StorageFolderWithPath(x, Path.Combine(parentFolder.Path, x.Name))).ToList();
+            return (await queryResult.GetFoldersAsync(0, maxNumberOfItems)).Select(x => new StorageFolderWithPath(x, PathNormalization.Combine(parentFolder.Path, x.Name))).ToList();
         }
 
         public static string GetPathWithoutEnvironmentVariable(string path)
@@ -300,6 +301,73 @@ namespace Files.Filesystem
         public static bool AreItemsAlreadyInFolder(this IEnumerable<IStorageItem> storageItems, string destinationPath)
         {
             return storageItems.Select(x => x.Path).AreItemsAlreadyInFolder(destinationPath);
+        }
+
+        public static BaseStorageFolder AsBaseStorageFolder(this IStorageItem item)
+        {
+            if (item == null)
+            {
+                return null;
+            }
+            else if (item.IsOfType(StorageItemTypes.Folder))
+            {
+                if (item is StorageFolder folder)
+                {
+                    return (BaseStorageFolder)folder;
+                }
+                else
+                {
+                    return item as BaseStorageFolder;
+                }
+            }
+            return null;
+        }
+
+        public static BaseStorageFile AsBaseStorageFile(this IStorageItem item)
+        {
+            if (item == null)
+            {
+                return null;
+            }
+            else if (item.IsOfType(StorageItemTypes.File))
+            {
+                if (item is StorageFile file)
+                {
+                    return (BaseStorageFile)file;
+                }
+                else
+                {
+                    return item as BaseStorageFile;
+                }
+            }
+            return null;
+        }
+
+        public static async Task<List<IStorageItem>> ToStandardStorageItemsAsync(this IEnumerable<IStorageItem> items)
+        {
+            var newItems = new List<IStorageItem>();
+            foreach (var item in items)
+            {
+                try
+                {
+                    if (item == null)
+                    {
+                    }
+                    else if (item.IsOfType(StorageItemTypes.File))
+                    {
+                        newItems.Add(await item.AsBaseStorageFile().ToStorageFileAsync());
+                    }
+                    else if (item.IsOfType(StorageItemTypes.Folder))
+                    {
+                        newItems.Add(await item.AsBaseStorageFolder().ToStorageFolderAsync());
+                    }
+                }
+                catch (NotSupportedException)
+                {
+                    // Ignore items that can0t be converted
+                }
+            }
+            return newItems;
         }
     }
 }

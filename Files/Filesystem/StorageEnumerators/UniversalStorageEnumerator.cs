@@ -1,5 +1,6 @@
 ﻿using ByteSizeLib;
 using Files.Extensions;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Views.LayoutModes;
 using System;
@@ -18,7 +19,7 @@ namespace Files.Filesystem.StorageEnumerators
     public static class UniversalStorageEnumerator
     {
         public static async Task<List<ListedItem>> ListEntries(
-            StorageFolder rootFolder,
+            BaseStorageFolder rootFolder,
             StorageFolderWithPath currentStorageFolder,
             string returnformat,
             Type sourcePageType,
@@ -70,7 +71,7 @@ namespace Files.Filesystem.StorageEnumerators
                 {
                     if (item.IsOfType(StorageItemTypes.Folder))
                     {
-                        var folder = await AddFolderAsync(item as StorageFolder, currentStorageFolder, returnformat, cancellationToken);
+                        var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, returnformat, cancellationToken);
                         if (folder != null)
                         {
                             tempList.Add(folder);
@@ -78,8 +79,7 @@ namespace Files.Filesystem.StorageEnumerators
                     }
                     else
                     {
-                        var file = item as StorageFile;
-                        var fileEntry = await AddFileAsync(file, currentStorageFolder, returnformat, true, sourcePageType, cancellationToken);
+                        var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, returnformat, true, sourcePageType, cancellationToken);
                         if (fileEntry != null)
                         {
                             tempList.Add(fileEntry);
@@ -107,7 +107,7 @@ namespace Files.Filesystem.StorageEnumerators
             return tempList;
         }
 
-        private static async Task<IReadOnlyList<IStorageItem>> EnumerateFileByFile(StorageFolder rootFolder, uint startFrom, uint itemsToIterate)
+        private static async Task<IReadOnlyList<IStorageItem>> EnumerateFileByFile(BaseStorageFolder rootFolder, uint startFrom, uint itemsToIterate)
         {
             var tempList = new List<IStorageItem>();
             for (var i = startFrom; i < startFrom + itemsToIterate; i++)
@@ -138,7 +138,7 @@ namespace Files.Filesystem.StorageEnumerators
             return tempList;
         }
 
-        private static async Task<ListedItem> AddFolderAsync(StorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
+        private static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
             if (!cancellationToken.IsCancellationRequested)
@@ -155,7 +155,7 @@ namespace Files.Filesystem.StorageEnumerators
                     LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
-                    ItemPath = string.IsNullOrEmpty(folder.Path) ? Path.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
+                    ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
                     FileSizeBytes = 0
@@ -165,7 +165,7 @@ namespace Files.Filesystem.StorageEnumerators
         }
 
         private static async Task<ListedItem> AddFileAsync(
-            StorageFile file,
+            BaseStorageFile file,
             StorageFolderWithPath currentStorageFolder,
             string dateReturnFormat,
             bool suppressThumbnailLoading,
@@ -179,7 +179,7 @@ namespace Files.Filesystem.StorageEnumerators
                 file.Name : file.DisplayName;
             var itemModifiedDate = basicProperties.DateModified;
             var itemCreatedDate = file.DateCreated;
-            var itemPath = string.IsNullOrEmpty(file.Path) ? Path.Combine(currentStorageFolder.Path, file.Name) : file.Path;
+            var itemPath = string.IsNullOrEmpty(file.Path) ? PathNormalization.Combine(currentStorageFolder.Path, file.Name) : file.Path;
             var itemSize = ByteSize.FromBytes(basicProperties.Size).ToBinaryString().ConvertSizeAbbreviation();
             var itemSizeBytes = basicProperties.Size;
             var itemType = file.DisplayType;

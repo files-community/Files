@@ -97,6 +97,7 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(ShowLibrarySection)} {ShowLibrarySection}");
             Analytics.TrackEvent($"{nameof(ShowBundlesWidget)} {ShowBundlesWidget}");
             Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)} {ListAndSortDirectoriesAlongsideFiles}");
+            Analytics.TrackEvent($"{nameof(AreFileTagsEnabled)} {AreFileTagsEnabled}");
         }
 
         public static async void OpenLogLocation()
@@ -617,8 +618,6 @@ namespace Files.ViewModels
         }
 
         #endregion Appearance
-
-
 
         #region Startup
 

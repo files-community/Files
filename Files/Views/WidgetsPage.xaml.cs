@@ -211,6 +211,8 @@ namespace Files.Views
             AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
             AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
+            AppInstance.InstanceViewModel.IsPageTypeFtp = false;
+            AppInstance.InstanceViewModel.IsPageTypeZipFolder = false;
             AppInstance.NavToolbarViewModel.CanRefresh = false;
             AppInstance.NavToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
             AppInstance.NavToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;

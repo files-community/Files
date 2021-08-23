@@ -36,8 +36,9 @@ namespace Files.ViewModels.Previews
 
         public async override Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            var pdf = await PdfDocument.LoadFromFileAsync(Item.ItemFile);
-            TryLoadPagesAsync(pdf);
+            var fileStream = await Item.ItemFile.OpenReadAsync();
+            var pdf = await PdfDocument.LoadFromStreamAsync(fileStream);
+            TryLoadPagesAsync(pdf, fileStream);
             var details = new List<FileProperty>
             {
                 // Add the number of pages to the details
@@ -59,7 +60,7 @@ namespace Files.ViewModels.Previews
             set => SetProperty(ref pageCount, value);
         }
 
-        public async void TryLoadPagesAsync(PdfDocument pdf)
+        public async void TryLoadPagesAsync(PdfDocument pdf, IRandomAccessStream fileStream)
         {
             try
             {
@@ -68,6 +69,10 @@ namespace Files.ViewModels.Previews
             catch (Exception e)
             {
                 Debug.WriteLine(e);
+            }
+            finally
+            {
+                fileStream.Dispose();
             }
         }
 

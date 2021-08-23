@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.Enums;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Uwp;
@@ -290,19 +291,18 @@ namespace Files.Helpers
             else
             {
                 opened = await associatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(path)
-                    .OnSuccess(childFolder =>
+                    .OnSuccess(async (childFolder) =>
                     {
                         // Add location to MRU List
-                        var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-                        mostRecentlyUsed.Add(childFolder.Folder, childFolder.Path);
+                        if (childFolder.Folder is SystemStorageFolder)
+                        {
+                            var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
+                            mostRecentlyUsed.Add(await childFolder.Folder.ToStorageFolderAsync(), childFolder.Path);
+                        }
                     });
                 if (!opened)
                 {
                     opened = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
-                }
-                if (!opened)
-                {
-                    opened = (FilesystemResult)path.StartsWith("ftp:");
                 }
                 if (opened)
                 {
@@ -344,8 +344,11 @@ namespace Files.Helpers
                         if (childFile != null)
                         {
                             // Add location to MRU List
-                            var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-                            mostRecentlyUsed.Add(childFile.File, childFile.Path);
+                            if (childFile.File is SystemStorageFile)
+                            {
+                                var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
+                                mostRecentlyUsed.Add(await childFile.File.ToStorageFileAsync(), childFile.Path);
+                            }
                         }
                     }
                     await Win32Helpers.InvokeWin32ComponentAsync(shortcutInfo.TargetPath, associatedInstance, $"{args} {shortcutInfo.Arguments}", shortcutInfo.RunAsAdmin, shortcutInfo.WorkingDirectory);
@@ -362,8 +365,11 @@ namespace Files.Helpers
                     .OnSuccess(async childFile =>
                     {
                         // Add location to MRU List
-                        var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-                        mostRecentlyUsed.Add(childFile.File, childFile.Path);
+                        if (childFile.File is SystemStorageFile)
+                        {
+                            var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
+                            mostRecentlyUsed.Add(await childFile.File.ToStorageFileAsync(), childFile.Path);
+                        }
 
                         if (openViaApplicationPicker)
                         {
@@ -390,10 +396,10 @@ namespace Files.Helpers
                             //try using launcher first
                             bool launchSuccess = false;
 
-                            StorageFileQueryResult fileQueryResult = null;
+                            BaseStorageFileQueryResult fileQueryResult = null;
 
                             //Get folder to create a file query (to pass to apps like Photos, Movies & TV..., needed to scroll through the folder like what Windows Explorer does)
-                            StorageFolder currentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(System.IO.Path.GetDirectoryName(path));
+                            BaseStorageFolder currentFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(path));
 
                             if (currentFolder != null)
                             {
@@ -450,15 +456,15 @@ namespace Files.Helpers
                                         break;
                                 }
 
-                                fileQueryResult = currentFolder.CreateFileQueryWithOptions(queryOptions);
-
-                                var options = new LauncherOptions
+                                var options = new LauncherOptions();
+                                if (currentFolder.AreQueryOptionsSupported(queryOptions))
                                 {
-                                    NeighboringFilesQuery = fileQueryResult
-                                };
+                                    fileQueryResult = currentFolder.CreateFileQueryWithOptions(queryOptions);
+                                    options.NeighboringFilesQuery = fileQueryResult.ToStorageFileQueryResult();
+                                }
 
                                 // Now launch file with options.
-                                launchSuccess = await Launcher.LaunchFileAsync(childFile.File, options);
+                                launchSuccess = await Launcher.LaunchFileAsync(await childFile.File.ToStorageFileAsync(), options);
                             }
 
                             if (!launchSuccess)

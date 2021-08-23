@@ -610,11 +610,11 @@ namespace Files.Filesystem
                     {
                         binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
                         var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
-                        destinations.Add(Path.Combine(destination, matchingItem?.FileName ?? item.Name));
+                        destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));
                     }
                     else
                     {
-                        destinations.Add(Path.Combine(destination, item.Name));
+                        destinations.Add(PathNormalization.Combine(destination, item.Name));
                     }
                 }
 
@@ -629,7 +629,7 @@ namespace Files.Filesystem
                 {
                     var imgSource = await packageView.GetBitmapAsync();
                     using var imageStream = await imgSource.OpenReadAsync();
-                    var folder = await StorageFolder.GetFolderFromPathAsync(destination);
+                    var folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(destination);
                     // Set the name of the file to be the current time and date
                     var file = await folder.CreateFileAsync($"{DateTime.Now:mm-dd-yy-HHmmss}.png", CreationCollisionOption.GenerateUniqueName);
 
@@ -831,11 +831,11 @@ namespace Files.Filesystem
                 {
                     binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
                     var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
-                    destinations.Add(Path.Combine(destination, matchingItem?.FileName ?? item.Name));
+                    destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));
                 }
                 else
                 {
-                    destinations.Add(Path.Combine(destination, item.Name));
+                    destinations.Add(PathNormalization.Combine(destination, item.Name));
                 }
             }
 

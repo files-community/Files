@@ -44,8 +44,8 @@ namespace Files.ViewModels.Previews
 
             try
             {
-                item.ItemFile = await StorageFile.GetFileFromPathAsync(item.ItemPath);
-                var text = await FileIO.ReadTextAsync(item.ItemFile);
+                item.ItemFile = await StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath);
+                var text = await ReadFileAsText(item.ItemFile); // await FileIO.ReadTextAsync(item.ItemFile);
 
                 // Check if file is binary
                 if (text.Contains("\0\0\0\0"))
@@ -74,7 +74,8 @@ namespace Files.ViewModels.Previews
 
             try
             {
-                var text = TextValue ?? await FileIO.ReadTextAsync(Item.ItemFile);
+                //var text = TextValue ?? await FileIO.ReadTextAsync(Item.ItemFile);
+                var text = TextValue ?? await ReadFileAsText(Item.ItemFile);
 
                 details.Add(new FileProperty()
                 {

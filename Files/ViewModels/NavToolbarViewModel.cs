@@ -26,6 +26,9 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using static Files.UserControls.INavigationToolbar;
 using SearchBox = Files.UserControls.SearchBox;
+using Files.Interacts;
+using Files.Enums;
+using Files.Filesystem.StorageItems;
 
 namespace Files.ViewModels
 {
@@ -456,6 +459,13 @@ namespace Files.ViewModels
             {
                 e.AcceptedOperation = DataPackageOperation.None;
             }
+            // copy be default when dragging from zip
+            else if (storageItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
+                || ZipStorageFolder.IsZipPath(pathBoxItem.Path))
+            {
+                e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), pathBoxItem.Title);
+                e.AcceptedOperation = DataPackageOperation.Copy;
+            }
             else
             {
                 e.DragUIOverride.IsCaptionVisible = true;
@@ -866,13 +876,13 @@ namespace Files.ViewModels
 
         public async void SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
         {
-            if (!string.IsNullOrWhiteSpace(sender.Text))
+            if (!string.IsNullOrWhiteSpace(sender.Text) && shellpage.FilesystemViewModel != null)
             {
                 try
                 {
                     IList<ListedItem> suggestions = null;
                     var expandedPath = StorageFileExtensions.GetPathWithoutEnvironmentVariable(sender.Text);
-                    var folderPath = Path.GetDirectoryName(expandedPath) ?? expandedPath;
+                    var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
                     var folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
                     var currPath = await folder.Result.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
                     if (currPath.Count() >= maxSuggestions)
@@ -894,7 +904,7 @@ namespace Files.ViewModels
                             subPath.Select(x => new ListedItem(null)
                             {
                                 ItemPath = x.Path,
-                                ItemName = Path.Combine(currPath.First().Folder.DisplayName, x.Folder.DisplayName)
+                                ItemName = PathNormalization.Combine(currPath.First().Folder.DisplayName, x.Folder.DisplayName)
                             })).ToList();
                     }
                     else

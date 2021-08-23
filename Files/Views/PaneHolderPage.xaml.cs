@@ -279,19 +279,9 @@ namespace Files.Views
             };
         }
 
-        public DataPackageOperation TabItemDragOver(object sender, DragEventArgs e)
-        {
-            return ActivePane?.TabItemDragOver(sender, e) ?? DataPackageOperation.None;
-        }
+        public Task TabItemDragOver(object sender, DragEventArgs e) => ActivePane?.TabItemDragOver(sender, e) ?? Task.CompletedTask;
 
-        public async Task<DataPackageOperation> TabItemDrop(object sender, DragEventArgs e)
-        {
-            if (ActivePane != null)
-            {
-                return await ActivePane.TabItemDrop(sender, e);
-            }
-            return DataPackageOperation.None;
-        }
+        public Task TabItemDrop(object sender, DragEventArgs e) => ActivePane?.TabItemDrop(sender, e) ?? Task.CompletedTask;
 
         public void OpenPathInNewPane(string path)
         {

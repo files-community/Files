@@ -159,9 +159,27 @@ namespace Files.ViewModels
             }
         }
 
+        private bool isPageTypeZipFolder = false;
+
+        public bool IsPageTypeZipFolder
+        {
+            get => isPageTypeZipFolder;
+            set
+            {
+                SetProperty(ref isPageTypeZipFolder, value);
+                OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
+                OnPropertyChanged(nameof(CanCreateFileInPage));
+                OnPropertyChanged(nameof(CanPasteInPage));
+                OnPropertyChanged(nameof(CanOpenTerminalInPage));
+                OnPropertyChanged(nameof(CanCopyPathInPage));
+                OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
+                OnPropertyChanged(nameof(CanShareInPage));
+            }
+        }
+
         public bool IsCreateButtonEnabledInPage
         {
-            get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp;
+            get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults;
         }
 
         public bool CanCopyPathInPage
@@ -171,12 +189,12 @@ namespace Files.ViewModels
 
         public bool CanCreateFileInPage
         {
-            get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp;
+            get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp && !isPageTypeZipFolder;
         }
 
         public bool CanOpenTerminalInPage
         {
-            get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp;
+            get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp && !isPageTypeZipFolder;
         }
 
         public bool CanPasteInPage
@@ -186,7 +204,7 @@ namespace Files.ViewModels
 
         public bool CanShareInPage
         {
-            get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeFtp;
+            get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeFtp && !isPageTypeZipFolder;
         }
     }
 }

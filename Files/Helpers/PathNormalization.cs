@@ -68,8 +68,17 @@ namespace Files.Helpers
             {
                 return string.Empty;
             }
-            var index = path.LastIndexOf("\\");
+            var index = path.Contains("/") ? path.LastIndexOf("/") : path.LastIndexOf("\\");
             return path.Substring(0, index != -1 ? index : path.Length);
+        }
+
+        public static string Combine(string folder, string name)
+        {
+            if (string.IsNullOrEmpty(folder))
+            {
+                return name;
+            }
+            return folder.Contains("/") ? Path.Combine(folder, name).Replace("\\", "/") : Path.Combine(folder, name);
         }
     }
 }

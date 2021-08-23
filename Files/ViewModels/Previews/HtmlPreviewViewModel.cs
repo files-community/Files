@@ -29,7 +29,7 @@ namespace Files.ViewModels.Previews
 
         public async override Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            TextValue = await FileIO.ReadTextAsync(Item.ItemFile);
+            TextValue = await ReadFileAsText(Item.ItemFile); // await FileIO.ReadTextAsync(Item.ItemFile);
             return new List<FileProperty>();
         }
     }

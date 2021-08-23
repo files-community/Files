@@ -1,6 +1,7 @@
 ﻿using ByteSizeLib;
 using Files.Enums;
 using Files.Extensions;
+using Files.Filesystem.StorageItems;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace Files.ViewModels.Properties
 
         public abstract void GetSpecialProperties();
 
-        public async void GetOtherProperties(StorageItemContentProperties properties)
+        public async void GetOtherProperties(IStorageItemExtraProperties properties)
         {
             string dateAccessedProperty = "System.DateAccessed";
             List<string> propertiesName = new List<string>();

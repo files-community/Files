@@ -1,6 +1,7 @@
 ﻿using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.ContextFlyouts;
 using Files.ViewModels;
@@ -507,6 +508,12 @@ namespace Files.UserControls
                     {
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Move;
+                    }
+                    else if (storageItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
+                        || ZipStorageFolder.IsZipPath(locationItem.Path))
+                    {
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
+                        e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                     else if (storageItems.AreItemsInSameDrive(locationItem.Path) || locationItem.IsDefaultLocation)
                     {

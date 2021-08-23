@@ -1,5 +1,6 @@
 ﻿using Files.DataModels;
 using System;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 
@@ -81,9 +82,9 @@ namespace Files.Interacts
 
         void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e);
 
-        void DragOver(DragEventArgs e);
+        Task DragOver(DragEventArgs e);
 
-        void Drop(DragEventArgs e);
+        Task Drop(DragEventArgs e);
 
         void RefreshItems(RoutedEventArgs e);
 

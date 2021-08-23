@@ -1,6 +1,7 @@
 ﻿using ByteSizeLib;
 using Files.Common;
 using Files.Extensions;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -96,7 +97,7 @@ namespace Files.Filesystem.Search
             return results;
         }
 
-        private async Task SearchAsync(StorageFolder folder, IList<ListedItem> results, CancellationToken token)
+        private async Task SearchAsync(BaseStorageFolder folder, IList<ListedItem> results, CancellationToken token)
         {
             //var sampler = new IntervalSampler(500);
             uint index = 0;
@@ -185,8 +186,8 @@ namespace Files.Filesystem.Search
                 {
                     try
                     {
-                        IStorageItem item = (StorageFile)await GetStorageFileAsync(match.FilePath);
-                        item ??= (StorageFolder)await GetStorageFolderAsync(match.FilePath);
+                        IStorageItem item = (BaseStorageFile)await GetStorageFileAsync(match.FilePath);
+                        item ??= (BaseStorageFolder)await GetStorageFolderAsync(match.FilePath);
                         results.Add(await GetListedItemAsync(item));
                     }
                     catch (Exception ex)
@@ -343,7 +344,7 @@ namespace Files.Filesystem.Search
             }
             if (listedItem != null && MaxItemCount > 0) // Only load icon for searchbox suggestions
             {
-                _ = FileThumbnailHelper.LoadIconWithoutOverlayAsync(listedItem.ItemPath, ThumbnailSize)
+                _ = FileThumbnailHelper.LoadIconFromPathAsync(listedItem.ItemPath, ThumbnailSize, ThumbnailMode.ListView)
                     .ContinueWith((t) =>
                     {
                         if (t.IsCompletedSuccessfully && t.Result != null)
@@ -366,10 +367,10 @@ namespace Files.Filesystem.Search
         private async Task<ListedItem> GetListedItemAsync(IStorageItem item)
         {
             ListedItem listedItem = null;
-            var props = await item.GetBasicPropertiesAsync();
             if (item.IsOfType(StorageItemTypes.Folder))
             {
-                var folder = (StorageFolder)item;
+                var folder = item.AsBaseStorageFolder();
+                var props = await folder.GetBasicPropertiesAsync();
                 listedItem = new ListedItem(null)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
@@ -384,7 +385,8 @@ namespace Files.Filesystem.Search
             }
             else if (item.IsOfType(StorageItemTypes.File))
             {
-                var file = (StorageFile)item;
+                var file = item.AsBaseStorageFile();
+                var props = await file.GetBasicPropertiesAsync();
                 string itemFileExtension = null;
                 string itemType = null;
                 if (file.Name.Contains("."))
@@ -449,10 +451,10 @@ namespace Files.Filesystem.Search
             return query;
         }
 
-        private static async Task<FilesystemResult<StorageFolder>> GetStorageFolderAsync(string path)
+        private static async Task<FilesystemResult<BaseStorageFolder>> GetStorageFolderAsync(string path)
             => await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
 
-        private static async Task<FilesystemResult<StorageFile>> GetStorageFileAsync(string path)
+        private static async Task<FilesystemResult<BaseStorageFile>> GetStorageFileAsync(string path)
             => await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
     }
 }

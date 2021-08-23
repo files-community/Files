@@ -1,10 +1,13 @@
-﻿using Microsoft.Win32.SafeHandles;
+﻿using Files.Common;
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 
 namespace Files.Helpers
 {
@@ -76,6 +79,12 @@ namespace Files.Helpers
         {
             return new SafeFileHandle(CreateFileFromApp(filePath,
                 GENERIC_WRITE, 0, IntPtr.Zero, overwrite ? CREATE_ALWAYS : OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
+        }
+
+        public static SafeFileHandle OpenFileForRead(string filePath, bool readWrite = false)
+        {
+            return new SafeFileHandle(CreateFileFromApp(filePath,
+                GENERIC_READ | (readWrite ? GENERIC_WRITE : 0), FILE_SHARE_READ | FILE_SHARE_WRITE, IntPtr.Zero, OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
         }
 
         [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
@@ -297,6 +306,27 @@ namespace Files.Helpers
             }
 
             return result;
+        }
+
+        public static async Task<SafeFileHandle> OpenProtectedFileForRead(string filePath, bool readWrite = false)
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                {
+                    { "Arguments", "FileOperation" },
+                    { "fileop", "GetFileHandle" },
+                    { "filepath", filePath },
+                    { "readwrite", readWrite },
+                    { "processid", System.Diagnostics.Process.GetCurrentProcess().Id },
+                });
+                if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && response.Get("Success", false))
+                {
+                    return new SafeFileHandle(new IntPtr((long)response["Handle"]), true);
+                }
+            }
+            return new SafeFileHandle(new IntPtr(-1), true);
         }
     }
 }

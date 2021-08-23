@@ -433,6 +433,7 @@ namespace Files
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
                 ParentShellPageInstance.NavToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
                 if (!navigationArguments.IsLayoutSwitch)
@@ -453,6 +454,7 @@ namespace Files
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
                 if (!navigationArguments.IsLayoutSwitch)
                 {
@@ -588,7 +590,10 @@ namespace Files
                         return;
                     }
 
-                    AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
+                    if (!InstanceViewModel.IsPageTypeZipFolder)
+                    {
+                        AddShellItemsToMenu(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
+                    }
                 }
             }
             catch (Exception error)
@@ -619,7 +624,7 @@ namespace Files
             secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250); // Set menu min width
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 
-            if (AppSettings.AreFileTagsEnabled && !InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin && !InstanceViewModel.IsPageTypeFtp)
+            if (AppSettings.AreFileTagsEnabled && !InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin && !InstanceViewModel.IsPageTypeFtp && !InstanceViewModel.IsPageTypeZipFolder)
             {
                 AddFileTagsItemToMenu(ItemContextMenuFlyout);
             }
@@ -630,7 +635,10 @@ namespace Files
                 return;
             }
 
-            AddShellItemsToMenu(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
+            if (!InstanceViewModel.IsPageTypeZipFolder)
+            {
+                AddShellItemsToMenu(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
+            }
         }
 
         private void AddFileTagsItemToMenu(Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenu)
@@ -771,10 +779,14 @@ namespace Files
                 {
                     if (item.PrimaryItemAttribute == StorageItemTypes.File)
                     {
-                        selectedStorageItems.Add(await new FtpStorageFile(ParentShellPageInstance.FilesystemViewModel, ftpItem).ToStorageFileAsync());
+                        selectedStorageItems.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
+                    }
+                    else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                    {
+                        selectedStorageItems.Add(new FtpStorageFolder(ftpItem));
                     }
                 }
-                else if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                else if (item.PrimaryItemAttribute == StorageItemTypes.File || item is ZipItem)
                 {
                     result = await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
                         .OnSuccess(t => selectedStorageItems.Add(t));
@@ -906,6 +918,12 @@ namespace Files
                     {
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
                         e.AcceptedOperation = DataPackageOperation.Move;
+                    }
+                    else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
+                        || ZipStorageFolder.IsZipPath(item.ItemPath))
+                    {
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
+                        e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                     else if (draggedItems.AreItemsInSameDrive(item.ItemPath))
                     {

@@ -6,9 +6,11 @@ using Files.Filesystem;
 using Files.Filesystem.Cloud;
 using Files.Filesystem.Search;
 using Files.Filesystem.StorageEnumerators;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
 using Files.UserControls;
+using FluentFTP;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -147,12 +149,12 @@ namespace Files.ViewModels
             OnPropertyChanged(nameof(WorkingDirectory));
         }
 
-        public async Task<FilesystemResult<StorageFolder>> GetFolderFromPathAsync(string value)
+        public async Task<FilesystemResult<BaseStorageFolder>> GetFolderFromPathAsync(string value)
         {
             return await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(value, workingRoot, currentStorageFolder));
         }
 
-        public async Task<FilesystemResult<StorageFile>> GetFileFromPathAsync(string value)
+        public async Task<FilesystemResult<BaseStorageFile>> GetFileFromPathAsync(string value)
         {
             return await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(value, workingRoot, currentStorageFolder));
         }
@@ -730,7 +732,7 @@ namespace Files.ViewModels
         private async Task LoadItemThumbnail(ListedItem item, uint thumbnailSize = 20, IStorageItem matchingStorageItem = null, bool forceReload = false)
         {
             var wasIconLoaded = false;
-            if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File)
+            if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
             {
                 if (!forceReload && item.CustomIconData != null)
                 {
@@ -747,7 +749,7 @@ namespace Files.ViewModels
                 {
                     if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                     {
-                        var matchingStorageFile = (StorageFile)matchingStorageItem ?? await GetFileFromPathAsync(item.ItemPath);
+                        var matchingStorageFile = (BaseStorageFile)matchingStorageItem ?? await GetFileFromPathAsync(item.ItemPath);
                         if (matchingStorageFile != null)
                         {
                             var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
@@ -820,7 +822,7 @@ namespace Files.ViewModels
                 {
                     if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                     {
-                        var matchingStorageFolder = (StorageFolder)matchingStorageItem ?? await GetFolderFromPathAsync(item.ItemPath);
+                        var matchingStorageFolder = (BaseStorageFolder)matchingStorageItem ?? await GetFolderFromPathAsync(item.ItemPath);
                         if (matchingStorageFolder != null)
                         {
                             var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
@@ -928,14 +930,14 @@ namespace Files.ViewModels
                 try
                 {
                     bool isFileTypeGroupMode = folderSettings.DirectoryGroupOption == GroupOption.FileType;
-                    StorageFile matchingStorageFile = null;
+                    BaseStorageFile matchingStorageFile = null;
                     if (item.Key != null && FilesAndFolders.IsGrouped && FilesAndFolders.GetExtendedGroupHeaderInfo != null)
                     {
                         gp = FilesAndFolders.GroupedCollection.Where(x => x.Model.Key == item.Key).FirstOrDefault();
                         loadGroupHeaderInfo = !(gp is null) && !gp.Model.Initialized && !(gp.GetExtendedGroupHeaderInfo is null);
                     }
 
-                    if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File)
+                    if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
                     {
                         if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                         {
@@ -968,7 +970,7 @@ namespace Files.ViewModels
                     {
                         if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                         {
-                            StorageFolder matchingStorageFolder = await GetFolderFromPathAsync(item.ItemPath);
+                            BaseStorageFolder matchingStorageFolder = await GetFolderFromPathAsync(item.ItemPath);
                             if (matchingStorageFolder != null)
                             {
                                 await LoadItemThumbnail(item, thumbnailSize, matchingStorageFolder, true);
@@ -1045,12 +1047,12 @@ namespace Files.ViewModels
             });
         }
 
-        private async Task<ImageSource> GetItemTypeGroupIcon(ListedItem item, StorageFile matchingStorageItem = null)
+        private async Task<ImageSource> GetItemTypeGroupIcon(ListedItem item, BaseStorageFile matchingStorageItem = null)
         {
             ImageSource groupImage = null;
             if (item.PrimaryItemAttribute != StorageItemTypes.Folder)
             {
-                var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, 76);
+                var headerIconInfo = await FileThumbnailHelper.LoadIconFromPathAsync(item.ItemPath, 76, ThumbnailMode.ListView);
                 if (headerIconInfo != null && !item.IsShortcutItem)
                 {
                     groupImage = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => headerIconInfo.ToBitmapAsync(), Windows.System.DispatcherQueuePriority.Low);
@@ -1331,38 +1333,10 @@ namespace Files.ViewModels
                     return;
                 }
 
-                var client = this.GetFtpInstance();
-                var host = FtpHelpers.GetFtpHost(path);
-                var port = FtpHelpers.GetFtpPort(path);
-
-                if (!client.IsConnected || client.Host != host || port != client.Port)
-                {
-                    if (UIHelpers.IsAnyContentDialogOpen()) return;
-
-                    if (client.IsConnected)
-                    {
-                        await client.DisconnectAsync();
-                    }
-
-                    client.Host = host;
-                    client.Port = port;
-
-                    var dialog = new CredentialDialog();
-
-                    if (await dialog.ShowAsync() == Windows.UI.Xaml.Controls.ContentDialogResult.Primary)
-                    {
-                        var result = await dialog.Result;
-
-                        if (!result.Anonymous)
-                        {
-                            client.Credentials = new NetworkCredential(result.UserName, result.Password);
-                        }
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
+                using var client = new FtpClient();
+                client.Host = FtpHelpers.GetFtpHost(path);
+                client.Port = FtpHelpers.GetFtpPort(path);
+                client.Credentials = FtpManager.Credentials.Get(client.Host, FtpManager.Anonymous);
 
                 await Task.Run(async () =>
                 {
@@ -1370,8 +1344,34 @@ namespace Files.ViewModels
                     {
                         if (!client.IsConnected && await client.AutoConnectAsync() is null)
                         {
+                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                            {
+                                if (UIHelpers.IsAnyContentDialogOpen())
+                                {
+                                    return;
+                                }
+                                var dialog = new CredentialDialog();
+
+                                if (await dialog.ShowAsync() == Windows.UI.Xaml.Controls.ContentDialogResult.Primary)
+                                {
+                                    var result = await dialog.Result;
+
+                                    if (!result.Anonymous)
+                                    {
+                                        client.Credentials = new NetworkCredential(result.UserName, result.Password);
+                                    }
+                                }
+                                else
+                                {
+                                    return;
+                                }
+                            });
+                        }
+                        if (!client.IsConnected && await client.AutoConnectAsync() is null)
+                        {
                             throw new InvalidOperationException();
                         }
+                        FtpManager.Credentials[client.Host] = client.Credentials;
 
                         var sampler = new IntervalSampler(500);
                         var list = await client.GetListingAsync(FtpHelpers.GetFtpPath(path));
@@ -1390,6 +1390,7 @@ namespace Files.ViewModels
                     catch
                     {
                         // network issue
+                        FtpManager.Credentials.Remove(client.Host);
                     }
                 });
             }
@@ -1401,7 +1402,7 @@ namespace Files.ViewModels
             bool enumFromStorageFolder =
                 path == App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\'); // Use storage folder for Box Drive (#4629)
 
-            StorageFolder rootFolder = null;
+            BaseStorageFolder rootFolder = null;
 
             if (FolderHelpers.CheckFolderAccessWithWin32(path))
             {
@@ -1454,7 +1455,7 @@ namespace Files.ViewModels
 
             if (Path.IsPathRooted(path) && Path.GetPathRoot(path) == path)
             {
-                rootFolder ??= await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(path).AsTask());
+                rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
                 if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
                 {
                     if (Connection != null)
@@ -1578,7 +1579,7 @@ namespace Files.ViewModels
             }
         }
 
-        private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, StorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, Type sourcePageType, CancellationToken cancellationToken)
+        private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, Type sourcePageType, CancellationToken cancellationToken)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -1610,14 +1611,14 @@ namespace Files.ViewModels
         private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
         {
             int? syncStatus = null;
-            if (item is StorageFile)
+            if (item is BaseStorageFile file && file.Properties != null)
             {
-                IDictionary<string, object> extraProperties = await ((StorageFile)item).Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus" });
+                IDictionary<string, object> extraProperties = await (file.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus" }));
                 syncStatus = (int?)(uint?)extraProperties["System.FilePlaceholderStatus"];
             }
-            else if (item is StorageFolder)
+            else if (item is BaseStorageFolder folder && folder.Properties != null)
             {
-                IDictionary<string, object> extraProperties = await ((StorageFolder)item).Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus" });
+                IDictionary<string, object> extraProperties = await (folder.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus" }));
                 syncStatus = (int?)(uint?)extraProperties["System.FileOfflineAvailabilityStatus"];
                 // If no FileOfflineAvailabilityStatus, check FilePlaceholderStatus
                 syncStatus = syncStatus ?? (int?)(uint?)extraProperties["System.FilePlaceholderStatus"];
@@ -1633,7 +1634,7 @@ namespace Files.ViewModels
 
         private IAsyncOperation<IReadOnlyList<IStorageItem>> watchedItemsOperation;
 
-        private async void WatchForStorageFolderChanges(StorageFolder rootFolder)
+        private async void WatchForStorageFolderChanges(BaseStorageFolder rootFolder)
         {
             if (rootFolder == null)
             {
@@ -1648,9 +1649,12 @@ namespace Files.ViewModels
                 };
                 options.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
                 options.SetThumbnailPrefetch(ThumbnailMode.ListView, 0, ThumbnailOptions.ReturnOnlyIfCached);
-                itemQueryResult = rootFolder.CreateItemQueryWithOptions(options);
-                itemQueryResult.ContentsChanged += ItemQueryResult_ContentsChanged;
-                watchedItemsOperation = itemQueryResult.GetItemsAsync(0, 1); // Just get one item to start getting notifications
+                if (rootFolder.AreQueryOptionsSupported(options))
+                {
+                    itemQueryResult = rootFolder.CreateItemQueryWithOptions(options).ToStorageItemQueryResult();
+                    itemQueryResult.ContentsChanged += ItemQueryResult_ContentsChanged;
+                    watchedItemsOperation = itemQueryResult.GetItemsAsync(0, 1); // Just get one item to start getting notifications
+                }
             });
         }
 

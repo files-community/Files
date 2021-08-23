@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Files.Extensions;
 using Files.Helpers;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
@@ -140,6 +141,12 @@ namespace Files.UserControls
 
         private void NewEmptySpace_Opening(object sender, object e)
         {
+            if (!ViewModel.InstanceViewModel.CanCreateFileInPage)
+            {
+                var shell = NewEmptySpace.Items.Where(x => (x.Tag as string) == "CreateNewFile").Reverse().ToList();
+                shell.ForEach(x => NewEmptySpace.Items.Remove(x));
+                return;
+            }
             if (cachedNewContextMenuEntries == null)
             {
                 return;
