@@ -28,7 +28,7 @@
         </trans-unit>
         <trans-unit id="SidebarDrives" translate="yes" xml:space="preserve">
           <source>Drives</source>
-          <target state="translated">Dispositivos e Unidades</target>
+          <target state="translated">Unidades</target>
         </trans-unit>
         <trans-unit id="nameColumn.Header" translate="yes" xml:space="preserve">
           <source>Name</source>
@@ -1532,8 +1532,7 @@
         </trans-unit>
         <trans-unit id="SearchPagePathBoxOverrideText" translate="yes" xml:space="preserve">
           <source>Search results in {1} for {0}</source>
-          <target state="needs-review-translation">Resultados da pesquisa em</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Resultados da pesquisa em {1} para {0}</target>
         </trans-unit>
         <trans-unit id="SearchTabHeaderText" translate="yes" xml:space="preserve">
           <source>Search results</source>
@@ -3157,11 +3156,11 @@
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show cloud drives section on the sidebar</source>
-          <target state="translated">Mostrar seção de drives em nuvem na barra lateral</target>
+          <target state="translated">Mostrar seção de unidades de nuvem na barra lateral</target>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show drives section on the sidebar</source>
-          <target state="translated">Mostrar seção de drives na barra lateral</target>
+          <target state="translated">Mostrar seção de unidades na barra lateral</target>
         </trans-unit>
         <trans-unit id="SettingsShowWslSection.Title" translate="yes" xml:space="preserve">
           <source>Show WSL section on the sidebar</source>
@@ -3169,7 +3168,7 @@
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show network drives section on the sidebar</source>
-          <target state="translated">Mostrar seção de drives de rede na barra lateral</target>
+          <target state="translated">Mostrar seção de unidades de rede na barra lateral</target>
         </trans-unit>
         <trans-unit id="SettingsRecycleBinSwitch.Title" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to Favorites</source>
@@ -3563,11 +3562,11 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
         </trans-unit>
         <trans-unit id="BundlesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Bundles Widget</source>
-          <target state="translated">Pacotes de Widget</target>
+          <target state="translated">Widget de Pacotes</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Drives Widget</source>
-          <target state="translated">Widget de Drives</target>
+          <target state="translated">Widget de Unidades</target>
         </trans-unit>
         <trans-unit id="FolderWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Libraries Widget</source>
