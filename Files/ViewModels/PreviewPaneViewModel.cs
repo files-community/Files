@@ -68,7 +68,6 @@ namespace Files.ViewModels
 
         public PreviewPaneViewModel()
         {
-            App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
         }
 
         private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
@@ -278,16 +277,6 @@ namespace Files.ViewModels
 
         public ICommand ShowPreviewOnlyInvoked => new RelayCommand(() => UpdateSelectedItemPreview());
 
-        private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(App.AppSettings.ShowPreviewOnly):
-                    // the preview will need refreshing as the file details won't be accurate
-                    needsRefresh = true;
-                    break;
-            }
-        }
 
         /// <summary>
         /// true if the content needs to be refreshed the next time the model is used
@@ -307,7 +296,6 @@ namespace Files.ViewModels
 
         public void Dispose()
         {
-            App.AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
         }
     }
 
