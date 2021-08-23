@@ -140,7 +140,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
-          <target state="translated">Filesについて</target>
+          <target state="translated">だいたい</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
           <source>Appearance</source>
@@ -744,7 +744,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
           <source>When opening a folder in Files</source>
-          <target state="translated">フォルダーを開くときの設定</target>
+          <target state="translated">Filesでフォルダを開くとき</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
           <source>Always open a new instance</source>
@@ -860,7 +860,7 @@
         </trans-unit>
         <trans-unit id="ExceptionNotificationBody" translate="yes" xml:space="preserve">
           <source>Files ran into a problem that the developers didn't prepare for yet.</source>
-          <target state="translated">ファイルは、開発者がまだ準備していない問題に遭遇しました。</target>
+          <target state="translated">Filesは、開発者がまだ準備していない問題に遭遇しました。</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationHeader" translate="yes" xml:space="preserve">
           <source>Something went wrong!</source>
@@ -1708,7 +1708,7 @@
         </trans-unit>
         <trans-unit id="SettingsWhenLaunchingFiles.Text" translate="yes" xml:space="preserve">
           <source>When launching Files</source>
-          <target state="translated">起動時の設定</target>
+          <target state="translated">Filesを起動するとき</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleConfirm.Content" translate="yes" xml:space="preserve">
           <source>Confirm</source>
@@ -2820,7 +2820,7 @@
         </trans-unit>
         <trans-unit id="SettingsThemesTeachingTipHeader.Text" translate="yes" xml:space="preserve">
           <source>Custom themes provide a great way for you to personalize Files.</source>
-          <target state="translated">カスタムテーマは、ファイルをパーソナライズするための優れた方法を提供します。</target>
+          <target state="translated">カスタムテーマは、Filesをパーソナライズするための優れた方法を提供します。</target>
         </trans-unit>
         <trans-unit id="SettingsThemesTeachingTipHyperlinkText.Text" translate="yes" xml:space="preserve">
           <source>View documentation.</source>
@@ -3413,7 +3413,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </source>
           <target state="translated">
 *個人情報の収集* 
-ファイルは、個人情報を収集、保存、共有、または公開することはありません。
+Filesは、個人情報を収集、保存、共有、または公開することはありません。
 
 *非個人情報の収集*
 
