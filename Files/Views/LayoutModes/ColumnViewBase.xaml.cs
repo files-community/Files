@@ -422,12 +422,8 @@ namespace Files.Views.LayoutModes
                 if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
                     DismissColumn?.Invoke(sender as ListView, EventArgs.Empty);
-                    if (item.ContainsFilesOrFolders)
-                    {
-                        listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
-
-                        ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
-                    }
+                    listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
+                    ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
                 }
                 else
                 {
@@ -486,11 +482,8 @@ namespace Files.Views.LayoutModes
                 if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
                     DismissColumn?.Invoke(sender as ListView, EventArgs.Empty);
-                    if (item.ContainsFilesOrFolders)
-                    {
-                        listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
-                        ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
-                    }
+                    listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
+                    ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
                 }
                 else
                 {
