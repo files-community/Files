@@ -2,13 +2,13 @@
     x:Class="Files.UserControls.InnerNavigationToolbar"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
     xmlns:converters="using:Files.Converters"
     xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vc="using:Files.Converters"
     xmlns:xh="using:Files.Helpers.XamlHelpers"
     d:DesignHeight="40"
     d:DesignWidth="400"
@@ -209,7 +209,7 @@
                     <FontIcon FontSize="10" Glyph="&#xF246;" />
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
-                    <Flyout Placement="Bottom" ShouldConstrainToRootBounds="False">
+                    <Flyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
                         <StackPanel Spacing="12">
                             <TextBlock
                                 x:Uid="NavToolbarManageWidgetsFlyoutHeader"
@@ -312,7 +312,7 @@
                     <local:ColoredIcon BaseLayerGlyph="&#xF029;" OverlayLayerGlyph="&#xF02A;" />
                 </AppBarButton.Content>
                 <AppBarButton.Flyout>
-                    <MenuFlyout Placement="Bottom" ShouldConstrainToRootBounds="False">
+                    <MenuFlyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
                         <MenuFlyoutSubItem x:Uid="NavToolbarSortByRadioButtons" Text="Sort by">
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionName"
@@ -427,7 +427,7 @@
                     <FontIcon FontSize="10" Glyph="&#xE152;" />
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
-                    <Flyout Placement="Bottom" ShouldConstrainToRootBounds="False">
+                    <Flyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
                         <StackPanel Spacing="12">
                             <TextBlock
                                 x:Uid="NavToolbarLayout"

@@ -3,13 +3,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
     xmlns:controls="using:Files.UserControls"
     xmlns:converters="using:Files.Converters"
     xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:usercontrols="using:Files.UserControls.MultitaskingControl"
@@ -351,8 +351,8 @@
                                     <Button.Flyout>
                                         <Flyout
                                             x:Name="VerticalTabViewFlyout"
-                                            Placement="Bottom"
-                                            ShouldConstrainToRootBounds="False">
+                                            contract8Present:ShouldConstrainToRootBounds="False"
+                                            Placement="Bottom">
                                             <usercontrols:VerticalTabViewControl
                                                 x:Name="VerticalTabs"
                                                 HorizontalAlignment="Stretch"

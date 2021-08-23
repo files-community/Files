@@ -80,6 +80,7 @@ namespace Files.Helpers
                         return; // TODO: handle error
                     }
 
+                    // We don't close hFile because FileStream.Dispose() already does that
                     using (FileStream destinationStream = new FileStream(hFile, FileAccess.Write))
                     {
                         int currentBlockSize = 0;
@@ -97,7 +98,6 @@ namespace Files.Helpers
                             }
                         }
                     }
-                    // We don't close handleContext because FileStream.Dispose() already does that
 
                     entriesFinished++;
                     float percentage = (float)((float)entriesFinished / (float)entriesAmount) * 100.0f;
