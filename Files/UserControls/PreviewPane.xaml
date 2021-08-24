@@ -61,6 +61,12 @@
             AutomationProperties.Name="File preview">
             <Grid.ContextFlyout>
                 <MenuFlyout>
+                    <ToggleMenuFlyoutItem
+                        x:Uid="PreviewPaneShowPreviewOnly"
+                        Command="{x:Bind Model.ShowPreviewOnlyInvoked, Mode=OneWay}"
+                        IsChecked="{x:Bind AppSettings.ShowPreviewOnly, Mode=TwoWay}"
+                        Text="Show preview only" />
+
                     <MenuFlyoutItem
                         x:Uid="PreviewPaneLoadCloudItemButton"
                         HorizontalAlignment="Stretch"
@@ -267,6 +273,24 @@
                         <Setter Target="DetailsListHeader.Visibility" Value="Visible" />
                         <Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
                         <Setter Target="PreviewLoadingIndicator.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind AppSettings.ShowPreviewOnly, Mode=OneWay}" To="False" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind AppSettings.ShowPreviewOnly, Mode=OneWay}" To="True" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="RootPropertiesGrid.Visibility" Value="Collapsed" />
+                        <Setter Target="RootPropertiesGrid.Visibility" Value="Collapsed" />
+                        <Setter Target="RootPreviewGrid.(RowSpan)" Value="2" />
+                        <Setter Target="RootPreviewGrid.(ColumnSpan)" Value="2" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
