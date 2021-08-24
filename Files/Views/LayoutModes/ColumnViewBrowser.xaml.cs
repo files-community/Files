@@ -514,7 +514,19 @@ namespace Files.Views.LayoutModes
                     //pane.IsPageMainPane = false;
                     //pane.NavParams = item.ItemPath;
                     DismissOtherBlades(sender as ListView);
-                    if (item.ContainsFilesOrFolders)
+
+                    listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
+                    var frame = new Frame();
+                    var blade = new BladeItem();
+                    blade.Content = frame;
+                    ColumnHost.Items.Add(blade);
+                    //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
+                    //{
+                    //    NavPathParam = item.ItemPath,
+                    //    AssociatedTabInstance = ParentShellPageInstance
+                    //});
+
+                    frame.Navigate(typeof(ColumnShellPage), new ColumnParam
                     {
                         listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
                         var frame = new Frame();
@@ -623,7 +635,19 @@ namespace Files.Views.LayoutModes
                     //pane.IsPageMainPane = false;
                     //pane.NavParams = item.ItemPath;
                     DismissOtherBlades(sender as ListView);
-                    if (item.ContainsFilesOrFolders)
+
+                    listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
+                    var frame = new Frame();
+                    var blade = new BladeItem();
+                    blade.Content = frame;
+                    ColumnHost.Items.Add(blade);
+                    //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
+                    //{
+                    //    NavPathParam = item.ItemPath,
+                    //    AssociatedTabInstance = ParentShellPageInstance
+                    //});
+
+                    frame.Navigate(typeof(ColumnShellPage), new ColumnParam
                     {
                         listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
                         var frame = new Frame();

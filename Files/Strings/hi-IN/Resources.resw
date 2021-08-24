@@ -345,16 +345,16 @@
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>लॉकस्क्रीन पृष्ठभूमि के रूप में सेट करें</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
     <value>ग्रिड व्यू (बड़े)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
     <value>ग्रिड व्यू (मध्यम)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>ग्रिड व्यू (छोटा)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
     <value>टाइल्स व्यू</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
@@ -963,7 +963,7 @@
   <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>फ़ोल्डर्स</value>
   </data>
-  <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>विवरण दृश्‍य</value>
   </data>
   <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
@@ -975,7 +975,7 @@
   <data name="PropertyItemPathDisplay" xml:space="preserve">
     <value>मद पथ</value>
   </data>
-  <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>विवरण दृश्‍य</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
