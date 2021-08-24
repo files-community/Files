@@ -234,6 +234,41 @@ namespace Files.DataModels
         }
 
         /// <summary>
+        /// Moves the item in the favorites section from the old position to the new position
+        /// </summary>
+        /// <param name="locationItem">Location item to move</param>
+        /// <param name="oldIndex">The old position index of the location item</param>
+        /// <param name="newIndex">The new position index of the location item (-1 to move to the last position)</param>
+        /// <returns>True if the move was successful</returns>
+        public bool MoveFavoritesItem(INavigationControlItem locationItem, int oldIndex, int newIndex)
+        {
+            if (locationItem == null)
+            {
+                return false;
+            }
+
+            if (oldIndex >= 1 && newIndex >= 1 && newIndex <= FavoriteItems.Count())
+            {
+                FavoriteItems.RemoveAt(oldIndex - 1);
+                FavoriteItems.Insert(newIndex - 1, locationItem.Path);
+                Save();
+                MoveItem(locationItem, oldIndex, newIndex);
+                return true;
+            }
+            else if (oldIndex >= 1 && newIndex == -1)
+            {
+                newIndex = FavoriteItems.Count();
+                FavoriteItems.RemoveAt(oldIndex - 1);
+                FavoriteItems.Insert(newIndex - 1, locationItem.Path);
+                Save();
+                MoveItem(locationItem, oldIndex, newIndex);
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Returns the index of the location item in the navigation sidebar
         /// </summary>
         /// <param name="locationItem">The location item</param>

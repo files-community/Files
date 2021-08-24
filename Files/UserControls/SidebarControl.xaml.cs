@@ -186,6 +186,42 @@ namespace Files.UserControls
             }
         }
 
+        public void MoveItemToTop_Click(object sender, RoutedEventArgs e)
+        {
+            if (RightClickedItem.Section == SectionType.Favorites)
+            {
+                int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
+                App.SidebarPinnedController.Model.MoveFavoritesItem(RightClickedItem, oldIndex, 1);
+            }
+        }
+
+        public void MoveItemUp_Click(object sender, RoutedEventArgs e)
+        {
+            if (RightClickedItem.Section == SectionType.Favorites)
+            {
+                int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
+                App.SidebarPinnedController.Model.MoveFavoritesItem(RightClickedItem, oldIndex, oldIndex - 1);
+            }
+        }
+
+        public void MoveItemDown_Click(object sender, RoutedEventArgs e)
+        {
+            if (RightClickedItem.Section == SectionType.Favorites)
+            {
+                int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
+                App.SidebarPinnedController.Model.MoveFavoritesItem(RightClickedItem, oldIndex, oldIndex + 1);
+            }
+        }
+
+        public void MoveItemToBottom_Click(object sender, RoutedEventArgs e)
+        {
+            if (RightClickedItem.Section == SectionType.Favorites)
+            {
+                int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
+                App.SidebarPinnedController.Model.MoveFavoritesItem(RightClickedItem, oldIndex, -1);
+            }
+        }
+
         public static GridLength GetSidebarCompactSize()
         {
             if (App.Current.Resources.TryGetValue("NavigationViewCompactPaneLength", out object paneLength))
@@ -928,6 +964,34 @@ namespace Files.UserControls
                     Glyph = "\uE737",
                     Command = new RelayCommand(() => OpenInNewWindow_Click(null, null)),
                     ShowItem = IsLocationItem
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarFavoritesMoveToTop/Text".GetLocalized(),
+                    Glyph = "\uE11C",
+                    Command = new RelayCommand(() => MoveItemToTop_Click(null, null)),
+                    ShowItem = ShowUnpinItem
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarFavoritesMoveOneUp/Text".GetLocalized(),
+                    Glyph = "\uE70E",
+                    Command = new RelayCommand(() => MoveItemUp_Click(null, null)),
+                    ShowItem = ShowUnpinItem
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarFavoritesMoveOneDown/Text".GetLocalized(),
+                    Glyph = "\uE70D",
+                    Command = new RelayCommand(() => MoveItemDown_Click(null, null)),
+                    ShowItem = ShowUnpinItem
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarFavoritesMoveToBottom/Text".GetLocalized(),
+                    Glyph = "\uE118",
+                    Command = new RelayCommand(() => MoveItemToBottom_Click(null, null)),
+                    ShowItem = ShowUnpinItem
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {

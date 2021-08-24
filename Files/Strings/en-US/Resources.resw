@@ -2803,4 +2803,16 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Create link in {0}</value>
   </data>
+  <data name="SideBarFavoritesMoveOneDown.Text" xml:space="preserve">
+    <value>Move one down</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneUp.Text" xml:space="preserve">
+    <value>Move one up</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom.Text" xml:space="preserve">
+    <value>Move to bottom</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop.Text" xml:space="preserve">
+    <value>Move to top</value>
+  </data>
 </root>
