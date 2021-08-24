@@ -146,9 +146,8 @@
             <controls:BladeItem x:Name="FirstBlade" Background="Transparent">
                 <Grid>
                     <uc:FolderEmptyIndicator
-                        Margin="0,125,0,0"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
+                        VerticalAlignment="Center"
                         Canvas.ZIndex="0"
                         EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 

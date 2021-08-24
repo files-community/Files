@@ -127,9 +127,8 @@
     </local:BaseLayout.Resources>
     <Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
         <uc:FolderEmptyIndicator
-            Margin="0,125,0,0"
             HorizontalAlignment="Center"
-            VerticalAlignment="Top"
+            VerticalAlignment="Center"
             Canvas.ZIndex="0"
             EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
