@@ -81,7 +81,7 @@ namespace FilesFullTrust.MessageHandlers
                     var library = ShellItem.Open(newPath) as ShellLibrary;
                     if (library == null)
                     {
-                        Program.Logger.Error($"Failed to open library after {changeType}: {newPath}");
+                        Program.Logger.Warn($"Failed to open library after {changeType}: {newPath}");
                         return;
                     }
                     response["Item"] = JsonConvert.SerializeObject(ShellFolderExtensions.GetShellLibraryItem(library, newPath));
@@ -118,7 +118,7 @@ namespace FilesFullTrust.MessageHandlers
                         }
                         catch (Exception e)
                         {
-                            Program.Logger.Error(e);
+                            Program.Logger.Warn(e);
                         }
                         return response;
                     });
@@ -137,7 +137,7 @@ namespace FilesFullTrust.MessageHandlers
                         }
                         catch (Exception e)
                         {
-                            Program.Logger.Error(e);
+                            Program.Logger.Warn(e);
                         }
                         return response;
                     });
@@ -200,7 +200,7 @@ namespace FilesFullTrust.MessageHandlers
                         }
                         catch (Exception e)
                         {
-                            Program.Logger.Error(e);
+                            Program.Logger.Warn(e);
                         }
                         return response;
                     });

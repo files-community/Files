@@ -119,8 +119,9 @@
           <target state="translated">Quitar Selección</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutDetails.Text" translate="yes" xml:space="preserve">
-          <source>Details View</source>
-          <target state="translated">Detalles</target>
+          <source>Details</source>
+          <target state="needs-review-translation">Detalles</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="PropertiesModified.Text" translate="yes" xml:space="preserve">
           <source>Modified:</source>
@@ -486,21 +487,25 @@
           <source>Set as lockscreen background</source>
           <target state="translated">Fondo de pantalla de bloqueo</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewLarge.Text" translate="yes" xml:space="preserve">
-          <source>Grid View (Large)</source>
-          <target state="translated">Iconos grandes</target>
+        <trans-unit id="BaseLayoutContextFlyoutLargeIcons.Text" translate="yes" xml:space="preserve">
+          <source>Large Icons</source>
+          <target state="needs-review-translation">Iconos grandes</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewMedium.Text" translate="yes" xml:space="preserve">
-          <source>Grid View (Medium)</source>
-          <target state="translated">Iconos medianos</target>
+        <trans-unit id="BaseLayoutContextFlyoutMediumIcons.Text" translate="yes" xml:space="preserve">
+          <source>Medium Icons</source>
+          <target state="needs-review-translation">Iconos medianos</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewSmall.Text" translate="yes" xml:space="preserve">
-          <source>Grid View (Small)</source>
-          <target state="translated">Iconos pequeños</target>
+        <trans-unit id="BaseLayoutContextFlyoutSmallIcons.Text" translate="yes" xml:space="preserve">
+          <source>Small Icons</source>
+          <target state="needs-review-translation">Iconos pequeños</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutTilesView.Text" translate="yes" xml:space="preserve">
-          <source>Tiles View</source>
-          <target state="translated">Mosaicos</target>
+        <trans-unit id="BaseLayoutContextFlyoutTiles.Text" translate="yes" xml:space="preserve">
+          <source>Tiles</source>
+          <target state="needs-review-translation">Mosaicos</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="PropertiesDialogOKButton.Content" translate="yes" xml:space="preserve">
           <source>OK</source>
@@ -1707,13 +1712,14 @@
           <source>Folders</source>
           <target state="translated">Carpetas</target>
         </trans-unit>
-        <trans-unit id="NavToolbarDetailsView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Details View (Ctrl+Shift+1)</source>
+        <trans-unit id="NavToolbarDetails.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Details (Ctrl+Shift+1)</source>
           <target state="translated">Detalles (Ctrl+Mayús+1)</target>
         </trans-unit>
-        <trans-unit id="NavToolbarDetailsView.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Details View</source>
-          <target state="translated">Detalles</target>
+        <trans-unit id="NavToolbarDetails.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Details</source>
+          <target state="needs-review-translation">Detalles</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavToolbarDisplayOptions.Text" translate="yes" xml:space="preserve">
           <source>Display Options</source>
@@ -1735,36 +1741,40 @@
           <source>Preview</source>
           <target state="translated">Vista previa</target>
         </trans-unit>
-        <trans-unit id="NavToolbarGridViewLarge.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Grid View (Large)</source>
-          <target state="translated">Iconos grandes</target>
+        <trans-unit id="NavToolbarLargeIcons.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Large Icons</source>
+          <target state="needs-review-translation">Iconos grandes</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="NavToolbarGridViewLarge.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Grid View (Large) (Ctrl+Shift+5)</source>
+        <trans-unit id="NavToolbarLargeIcons.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Large Icons (Ctrl+Shift+5)</source>
           <target state="translated">Iconos grandes (Ctrl+Mayús+5)</target>
         </trans-unit>
-        <trans-unit id="NavToolbarGridViewMedium.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Grid View (Medium)</source>
-          <target state="translated">Iconos medianos</target>
+        <trans-unit id="NavToolbarMediumIcons.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Medium Icons</source>
+          <target state="needs-review-translation">Iconos medianos</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="NavToolbarGridViewMedium.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Grid View (Medium) (Ctrl+Shift+4)</source>
+        <trans-unit id="NavToolbarMediumIcons.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Medium Icons (Ctrl+Shift+4)</source>
           <target state="translated">Iconos medianos (Ctrl+Mayús+4)</target>
         </trans-unit>
-        <trans-unit id="NavToolbarGridViewSmall.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Grid View (Small)</source>
-          <target state="translated">Iconos pequeños</target>
+        <trans-unit id="NavToolbarSmallIcons.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Small Icons</source>
+          <target state="needs-review-translation">Iconos pequeños</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="NavToolbarGridViewSmall.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Grid View (Small) (Ctrl+Shift+3)</source>
+        <trans-unit id="NavToolbarSmallIcons.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Small Icons (Ctrl+Shift+3)</source>
           <target state="translated">Iconos pequeños (Ctrl+Mayús+3)</target>
         </trans-unit>
-        <trans-unit id="NavToolbarTilesView.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Tiles View</source>
-          <target state="translated">Mosaicos</target>
+        <trans-unit id="NavToolbarTiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Tiles</source>
+          <target state="needs-review-translation">Mosaicos</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="NavToolbarTilesView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Tiles View (Ctrl+Shift+2)</source>
+        <trans-unit id="NavToolbarTiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Tiles (Ctrl+Shift+2)</source>
           <target state="translated">Mosaicos (Ctrl+Mayús+2)</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFileExtensions.Header" translate="yes" xml:space="preserve">
@@ -2148,11 +2158,12 @@
           <target state="translated">Administrador</target>
         </trans-unit>
         <trans-unit id="NavToolbarColumnView.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Column View</source>
-          <target state="translated">Columnas</target>
+          <source>Columns</source>
+          <target state="needs-review-translation">Columnas</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavToolbarColumnView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Column View (Ctrl+Shift+6)</source>
+          <source>Columns (Ctrl+Shift+6)</source>
           <target state="translated">Columnas (Ctrl+Mayús+6)</target>
         </trans-unit>
         <trans-unit id="PinItemToStart.Text" translate="yes" xml:space="preserve">
@@ -2164,8 +2175,9 @@
           <target state="translated">Desanclar de Inicio</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutColumn.Text" translate="yes" xml:space="preserve">
-          <source>Column View</source>
-          <target state="translated">Columnas</target>
+          <source>Columns</source>
+          <target state="needs-review-translation">Columnas</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ItemTypeLibrary" translate="yes" xml:space="preserve">
           <source>Library</source>
@@ -3327,19 +3339,19 @@
           <source>Ctrl+Shift+1</source>
           <target state="translated">Ctrl+Mayús+1</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutTilesView.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+2</source>
           <target state="translated">Ctrl+Mayús+2</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewSmall.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+3</source>
           <target state="translated">Ctrl+Mayús+3</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewMedium.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+4</source>
           <target state="translated">Ctrl+Mayús+4</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutGridViewLarge.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+5</source>
           <target state="translated">Ctrl+Mayús+5</target>
         </trans-unit>
@@ -3592,6 +3604,30 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
         <trans-unit id="LinkToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Create link in {0}</source>
           <target state="new">Create link in {0}</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarColumnsHeader.Text" translate="yes" xml:space="preserve">
+          <source>Columns</source>
+          <target state="new">Columns</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarDetailsHeader.Text" translate="yes" xml:space="preserve">
+          <source>Details</source>
+          <target state="new">Details</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarLargeIconsHeader.Text" translate="yes" xml:space="preserve">
+          <source>Large Icons</source>
+          <target state="new">Large Icons</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarMediumIconsHeader.Text" translate="yes" xml:space="preserve">
+          <source>Medium Icons</source>
+          <target state="new">Medium Icons</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarSmallIconsHeader.Text" translate="yes" xml:space="preserve">
+          <source>Small Icons</source>
+          <target state="new">Small Icons</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarTilesHeader.Text" translate="yes" xml:space="preserve">
+          <source>Tiles</source>
+          <target state="new">Tiles</target>
         </trans-unit>
       </group>
     </body>
