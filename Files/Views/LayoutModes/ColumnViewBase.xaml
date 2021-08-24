@@ -13,6 +13,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
+    xmlns:uc="using:Files.UserControls"
     x:Name="PageRoot"
     mc:Ignorable="d">
     <local:BaseLayout.Resources>
@@ -125,6 +126,13 @@
         </Style>
     </local:BaseLayout.Resources>
     <Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+        <uc:FolderEmptyIndicator
+            Margin="0,125,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Canvas.ZIndex="0"
+            EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
+
         <muxc:TeachingTip
             x:Name="FileNameTeachingTip"
             x:Uid="FileNameTeachingTip"
