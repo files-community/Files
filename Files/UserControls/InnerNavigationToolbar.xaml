@@ -434,9 +434,23 @@
                                 FontWeight="Medium"
                                 Text="Layout" />
 
-                            <StackPanel Orientation="Horizontal" Spacing="4">
+                            <Grid ColumnSpacing="8" RowSpacing="8">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition MinHeight="30" />
+                                    <RowDefinition MinHeight="30" />
+                                    <RowDefinition MinHeight="30" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+
                                 <RadioButton
                                     x:Uid="NavToolbarDetailsView"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
@@ -451,8 +465,18 @@
                                     ToolTipService.ToolTip="Details View (Ctrl+Shift+1)">
                                     <FontIcon FontSize="16" Glyph="&#xE179;" />
                                 </RadioButton>
+
+                                <TextBlock
+                                    x:Uid="NavToolbarDetailsHeader"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Text="Details" />
+
                                 <RadioButton
                                     x:Uid="NavToolbarTilesView"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
@@ -467,14 +491,22 @@
                                     ToolTipService.ToolTip="Tiles View (Ctrl+Shift+2)">
                                     <FontIcon FontSize="16" Glyph="&#xE15C;" />
                                 </RadioButton>
+
+                                <TextBlock
+                                    x:Uid="NavToolbarTilesHeader"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Text="Tiles" />
+
                                 <RadioButton
                                     x:Uid="NavToolbarGridViewSmall"
+                                    Grid.Row="2"
+                                    Grid.Column="0"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
                                     Padding="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall, Mode=OneWay}"
@@ -485,8 +517,18 @@
                                     ToolTipService.ToolTip="Grid View (Small) (Ctrl+Shift+3)">
                                     <FontIcon FontSize="16" Glyph="&#xE80A;" />
                                 </RadioButton>
+
+                                <TextBlock
+                                    x:Uid="NavToolbarSmallIconsHeader"
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Text="Small Icons" />
+
                                 <RadioButton
                                     x:Uid="NavToolbarGridViewMedium"
+                                    Grid.Row="0"
+                                    Grid.Column="2"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
@@ -501,8 +543,18 @@
                                     ToolTipService.ToolTip="Grid View (Medium) (Ctrl+Shift+4)">
                                     <FontIcon FontSize="16" Glyph="&#xF0E2;" />
                                 </RadioButton>
+
+                                <TextBlock
+                                    x:Uid="NavToolbarMediumIconsHeader"
+                                    Grid.Row="0"
+                                    Grid.Column="3"
+                                    VerticalAlignment="Center"
+                                    Text="Medium Icons" />
+
                                 <RadioButton
                                     x:Uid="NavToolbarGridViewLarge"
+                                    Grid.Row="1"
+                                    Grid.Column="2"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
@@ -517,8 +569,18 @@
                                     ToolTipService.ToolTip="Grid View (Large) (Ctrl+Shift+5)">
                                     <FontIcon FontSize="16" Glyph="&#xE739;" />
                                 </RadioButton>
+
+                                <TextBlock
+                                    x:Uid="NavToolbarLargeIconsHeader"
+                                    Grid.Row="1"
+                                    Grid.Column="3"
+                                    VerticalAlignment="Center"
+                                    Text="Large Icons" />
+
                                 <RadioButton
                                     x:Uid="NavToolbarColumnView"
+                                    Grid.Row="2"
+                                    Grid.Column="2"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
@@ -536,7 +598,14 @@
                                         FontSize="16"
                                         Glyph="&#xF115;" />
                                 </RadioButton>
-                            </StackPanel>
+
+                                <TextBlock
+                                    x:Uid="NavToolbarColumnsHeader"
+                                    Grid.Row="2"
+                                    Grid.Column="3"
+                                    VerticalAlignment="Center"
+                                    Text="Columns" />
+                            </Grid>
 
                             <TextBlock
                                 x:Uid="NavToolbarDisplayOptions"
