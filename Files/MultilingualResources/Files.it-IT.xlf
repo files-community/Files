@@ -1645,7 +1645,6 @@
         <trans-unit id="NavToolbarDetailsView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Details View (Ctrl+Shift+1)</source>
           <target state="translated">Dettagli (Ctrl + Shift + 1)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavToolbarGridViewLarge.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Grid View (Large) (Ctrl+Shift+5)</source>
@@ -3414,6 +3413,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </source>
           <target state="translated">
 *Dati personali raccolti*
+
 Files non raccoglie, archivia, condivide o pubblica nessuna informazione personale.
 
 *Dati non-personali raccolti*
@@ -3563,35 +3563,35 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
         </trans-unit>
         <trans-unit id="BundlesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Bundles Widget</source>
-          <target state="new">Bundles Widget</target>
+          <target state="translated">Widget Gruppi</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Drives Widget</source>
-          <target state="new">Drives Widget</target>
+          <target state="translated">Widget Risorse</target>
         </trans-unit>
         <trans-unit id="FolderWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Libraries Widget</source>
-          <target state="new">Libraries Widget</target>
+          <target state="translated">Widget Raccolte</target>
         </trans-unit>
         <trans-unit id="RecentFilesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Recent Files Widget</source>
-          <target state="new">Recent Files Widget</target>
+          <target state="translated">Widget File Recenti</target>
         </trans-unit>
         <trans-unit id="OpenLogLocation.Title" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="new">Open log location</target>
+          <target state="translated">Apri cartella dei log</target>
         </trans-unit>
         <trans-unit id="OpenLogLocation.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="new">Open log location</target>
+          <target state="translated">Apri cartella dei log</target>
         </trans-unit>
         <trans-unit id="SettingsAboutOpenLogLocationButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="new">Open log location</target>
+          <target state="translated">Apri cartella dei log</target>
         </trans-unit>
         <trans-unit id="LinkToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Create link in {0}</source>
-          <target state="new">Create link in {0}</target>
+          <target state="translated">Crea link in {0}</target>
         </trans-unit>
       </group>
     </body>
