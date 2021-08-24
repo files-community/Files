@@ -434,109 +434,184 @@
                                 FontWeight="Medium"
                                 Text="Layout" />
 
-                            <StackPanel Orientation="Horizontal" Spacing="4">
+                            <Grid ColumnSpacing="8" RowSpacing="8">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition MinHeight="30" />
+                                    <RowDefinition MinHeight="30" />
+                                    <RowDefinition MinHeight="30" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+
                                 <RadioButton
-                                    x:Uid="NavToolbarDetailsView"
+                                    x:Uid="NavToolbarDetails"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
+                                    AutomationProperties.Name="Details"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
                                     IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
-                                    ToolTipService.ToolTip="Details View (Ctrl+Shift+1)">
+                                    ToolTipService.ToolTip="Details (Ctrl+Shift+1)">
                                     <FontIcon FontSize="16" Glyph="&#xE179;" />
                                 </RadioButton>
+
+                                <TextBlock
+                                    x:Uid="NavToolbarDetailsHeader"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Text="Details" />
+
                                 <RadioButton
-                                    x:Uid="NavToolbarTilesView"
+                                    x:Uid="NavToolbarTiles"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
+                                    AutomationProperties.Name="Tiles"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeTiles, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
                                     IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
-                                    ToolTipService.ToolTip="Tiles View (Ctrl+Shift+2)">
+                                    ToolTipService.ToolTip="Tiles (Ctrl+Shift+2)">
                                     <FontIcon FontSize="16" Glyph="&#xE15C;" />
                                 </RadioButton>
+
+                                <TextBlock
+                                    x:Uid="NavToolbarTilesHeader"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Text="Tiles" />
+
                                 <RadioButton
-                                    x:Uid="NavToolbarGridViewSmall"
+                                    x:Uid="NavToolbarSmallIcons"
+                                    Grid.Row="2"
+                                    Grid.Column="0"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
                                     Padding="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
+                                    AutomationProperties.Name="Small Icons"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
                                     IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
-                                    ToolTipService.ToolTip="Grid View (Small) (Ctrl+Shift+3)">
+                                    ToolTipService.ToolTip="Small Icons (Ctrl+Shift+3)">
                                     <FontIcon FontSize="16" Glyph="&#xE80A;" />
                                 </RadioButton>
+
+                                <TextBlock
+                                    x:Uid="NavToolbarSmallIconsHeader"
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Text="Small Icons" />
+
                                 <RadioButton
-                                    x:Uid="NavToolbarGridViewMedium"
+                                    x:Uid="NavToolbarMediumIcons"
+                                    Grid.Row="0"
+                                    Grid.Column="2"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
+                                    AutomationProperties.Name="Medium Icons"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
                                     IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
-                                    ToolTipService.ToolTip="Grid View (Medium) (Ctrl+Shift+4)">
+                                    ToolTipService.ToolTip="Medium Icons (Ctrl+Shift+4)">
                                     <FontIcon FontSize="16" Glyph="&#xF0E2;" />
                                 </RadioButton>
+
+                                <TextBlock
+                                    x:Uid="NavToolbarMediumIconsHeader"
+                                    Grid.Row="0"
+                                    Grid.Column="3"
+                                    VerticalAlignment="Center"
+                                    Text="Medium Icons" />
+
                                 <RadioButton
-                                    x:Uid="NavToolbarGridViewLarge"
+                                    x:Uid="NavToolbarLargeIcons"
+                                    Grid.Row="1"
+                                    Grid.Column="2"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
+                                    AutomationProperties.Name="Large Icons"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
                                     IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
-                                    ToolTipService.ToolTip="Grid View (Large) (Ctrl+Shift+5)">
+                                    ToolTipService.ToolTip="Large Icons (Ctrl+Shift+5)">
                                     <FontIcon FontSize="16" Glyph="&#xE739;" />
                                 </RadioButton>
+
+                                <TextBlock
+                                    x:Uid="NavToolbarLargeIconsHeader"
+                                    Grid.Row="1"
+                                    Grid.Column="3"
+                                    VerticalAlignment="Center"
+                                    Text="Large Icons" />
+
                                 <RadioButton
                                     x:Uid="NavToolbarColumnView"
+                                    Grid.Row="2"
+                                    Grid.Column="2"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
                                     Padding="0"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
+                                    AutomationProperties.Name="Columns"
                                     Command="{x:Bind ViewModel.InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView, Mode=OneWay}"
                                     CommandParameter="{xh:SystemTypeToXaml Bool=True}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
                                     IsChecked="{x:Bind ViewModel.InstanceViewModel.FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeConverter}, Mode=OneWay, ConverterParameter=ColumnInfo}"
                                     Style="{StaticResource DefaultToggleButtonStyle}"
-                                    ToolTipService.ToolTip="Column View (Ctrl+Shift+6)">
+                                    ToolTipService.ToolTip="Columns (Ctrl+Shift+6)">
                                     <FontIcon
                                         FontFamily="{StaticResource CustomGlyph}"
                                         FontSize="16"
                                         Glyph="&#xF115;" />
                                 </RadioButton>
-                            </StackPanel>
+
+                                <TextBlock
+                                    x:Uid="NavToolbarColumnsHeader"
+                                    Grid.Row="2"
+                                    Grid.Column="3"
+                                    VerticalAlignment="Center"
+                                    Text="Columns" />
+                            </Grid>
 
                             <TextBlock
                                 x:Uid="NavToolbarDisplayOptions"
