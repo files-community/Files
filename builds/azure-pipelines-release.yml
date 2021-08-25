@@ -2,7 +2,7 @@ trigger: none
 pr: none
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'windows-2022'
 
 variables:
 - group: BuildPipelineVariables
