@@ -90,8 +90,8 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Files.FullTrust\Files.FullTrust.csproj" />
     <ProjectReference Include="..\Files\Files.csproj" />
-    <ProjectReference Include="..\Files.Launcher\Files.Launcher.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AppTiles\BadgeLogo.scale-100.png" />
