@@ -252,6 +252,7 @@ namespace Files.ViewModels
                             var basicModel = new BasicPreviewViewModel(SelectedItem);
                             await basicModel.LoadAsync();
                             PreviewPaneContent = new BasicPreview(basicModel);
+                            PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
                             return;
                         }
                         catch (Exception ex)
