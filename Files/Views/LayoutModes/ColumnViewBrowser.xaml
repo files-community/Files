@@ -15,6 +15,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
+    xmlns:uc="using:Files.UserControls"
     x:Name="PageRoot"
     mc:Ignorable="d">
     <i:Interaction.Behaviors>
@@ -144,6 +145,12 @@
             </controls:BladeView.ItemContainerTransitions>
             <controls:BladeItem x:Name="FirstBlade" Background="Transparent">
                 <Grid>
+                    <uc:FolderEmptyIndicator
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Canvas.ZIndex="0"
+                        EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
+
                     <muxc:TeachingTip
                         x:Name="FileNameTeachingTip"
                         x:Uid="FileNameTeachingTip"

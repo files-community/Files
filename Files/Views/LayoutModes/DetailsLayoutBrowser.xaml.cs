@@ -766,5 +766,19 @@ namespace Files.Views.LayoutModes
             }
             return widthPerLetter.Average() * maxItemLength;
         }
+
+        private void FileList_Loaded(object sender, RoutedEventArgs e)
+        {
+            var contentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
+            contentScroller.ViewChanged -= ContentScroller_ViewChanged;
+            contentScroller.ViewChanged += ContentScroller_ViewChanged;
+        }
+
+        private void ContentScroller_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            //var headerScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "HeaderScrollViewer");
+            var headerScroller = ((sender as ScrollViewer).Parent as Grid).Children[0] as ScrollViewer;
+            headerScroller.ChangeView((sender as ScrollViewer).HorizontalOffset, null, null, true);
+        }
     }
 }
