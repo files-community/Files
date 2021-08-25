@@ -42,7 +42,6 @@
         <muxc:PipsPager
             x:Name="FlipViewPipsPager"
             Grid.Row="1"
-            Margin="0,12,0,0"
             HorizontalAlignment="Center"
             NumberOfPages="{x:Bind ViewModel.PageCount, Mode=OneWay}"
             SelectedPageIndex="{x:Bind Path=PageList.SelectedIndex, Mode=TwoWay}" />
