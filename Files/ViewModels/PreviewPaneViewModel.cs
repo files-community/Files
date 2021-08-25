@@ -114,6 +114,13 @@ namespace Files.ViewModels
                 return new BasicPreview(model);
             }
 
+            if (SelectedItem.IsZipItem)
+            {
+                var model = new ArchivePreviewViewModel(item);
+                await model.LoadAsync();
+                return new BasicPreview(model);
+            }
+
             if (SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
                 var model = new FolderPreviewViewModel(SelectedItem);
@@ -187,13 +194,6 @@ namespace Files.ViewModels
                 var model = new CodePreviewViewModel(item);
                 await model.LoadAsync();
                 return new CodePreview(model);
-            }
-
-            if (ArchivePreviewViewModel.Extensions.Contains(ext))
-            {
-                var model = new ArchivePreviewViewModel(item);
-                await model.LoadAsync();
-                return new BasicPreview(model);
             }
 
             var control = await TextPreviewViewModel.TryLoadAsTextAsync(SelectedItem);
