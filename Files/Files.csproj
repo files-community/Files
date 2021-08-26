@@ -1036,10 +1036,10 @@
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
     <None Include="Resources\PreviewPanePropertiesInformation.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\PropertiesInformation.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <PRIResource Include="Strings\lv-LV\Resources.resw" />
     <PRIResource Include="Strings\sv-SE\Resources.resw" />
