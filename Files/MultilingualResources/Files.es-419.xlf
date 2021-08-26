@@ -3571,10 +3571,6 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
           <source>Open log location</source>
           <target state="translated">Abrir ubicación de registro (Log)</target>
         </trans-unit>
-        <trans-unit id="OpenLogLocation.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Open log location</source>
-          <target state="translated">Abrir ubicación de registro (Log)</target>
-        </trans-unit>
         <trans-unit id="LinkToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Create link in {0}</source>
           <target state="translated">Crear vínculo en {0}</target>

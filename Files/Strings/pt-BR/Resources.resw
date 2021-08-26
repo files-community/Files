@@ -2677,9 +2677,6 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Abrir local de log</value>
   </data>
-  <data name="OpenLogLocation.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Abrir local de log</value>
-  </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Criar link em {0}</value>
   </data>

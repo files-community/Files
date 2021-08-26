@@ -3584,10 +3584,6 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
           <source>Open log location</source>
           <target state="translated">Abrir local de log</target>
         </trans-unit>
-        <trans-unit id="OpenLogLocation.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Open log location</source>
-          <target state="translated">Abrir local de log</target>
-        </trans-unit>
         <trans-unit id="LinkToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Create link in {0}</source>
           <target state="translated">Criar link em {0}</target>

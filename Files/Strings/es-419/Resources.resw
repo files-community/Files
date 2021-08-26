@@ -2665,9 +2665,6 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Abrir ubicación de registro (Log)</value>
   </data>
-  <data name="OpenLogLocation.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Abrir ubicación de registro (Log)</value>
-  </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Crear vínculo en {0}</value>
   </data>
