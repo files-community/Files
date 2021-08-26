@@ -637,7 +637,7 @@
                                     x:Uid="NavToolbarShowHiddenItems"
                                     Grid.Row="0"
                                     Grid.Column="1"
-                                    Header="Show hidden items"
+                                    AutomationProperties.Name="Show hidden items"
                                     IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
 
                                 <TextBlock
@@ -648,7 +648,7 @@
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowFileExtensions"
                                     Grid.Column="1"
-                                    Header="Show file extensions"
+                                    AutomationProperties.Name="Show file extensions"
                                     IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}"
                                     Rotation="1" />
                             </Grid>
