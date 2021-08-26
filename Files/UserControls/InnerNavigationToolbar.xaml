@@ -632,11 +632,13 @@
                                     x:Uid="NavToolbarShowHiddenItemsHeader"
                                     Grid.Row="0"
                                     Grid.Column="0"
+                                    VerticalAlignment="Center"
                                     Text="Show hidden items" />
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowHiddenItems"
                                     Grid.Row="0"
                                     Grid.Column="1"
+                                    HorizontalAlignment="Right"
                                     AutomationProperties.Name="Show hidden items"
                                     IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
 
@@ -644,10 +646,13 @@
                                     x:Uid="NavToolbarShowFileExtensionsHeader"
                                     Grid.Row="1"
                                     Grid.Column="0"
+                                    VerticalAlignment="Center"
                                     Text="Show file extensions" />
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowFileExtensions"
+                                    Grid.Row="1"
                                     Grid.Column="1"
+                                    HorizontalAlignment="Right"
                                     AutomationProperties.Name="Show file extensions"
                                     IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}"
                                     Rotation="1" />
