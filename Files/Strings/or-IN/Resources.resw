@@ -930,9 +930,6 @@
   <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>ଫୋଲ୍ଡରଗୁଡିକ</value>
   </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>ପ୍ରଦର୍ଶନ ବିକଳ୍ପ</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>ତାରିଖ ବିଲୋପିତ ହୋଇଛି</value>
   </data>

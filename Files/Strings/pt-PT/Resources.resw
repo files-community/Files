@@ -1254,9 +1254,6 @@
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mosaicos (Ctrl + Shift + 2)</value>
   </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>Opções de Exibição</value>
-  </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
     <value>Ícones grandes</value>
   </data>
@@ -1268,12 +1265,6 @@
   </data>
   <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
     <value>Mosaicos</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
-    <value>Mostrar extensões de ficheiros</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
-    <value>Mostrar itens ocultos</value>
   </data>
   <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Detalhes</value>
@@ -2385,7 +2376,7 @@
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
     <value>Mostrar secção unidades de rede na barra lateral</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
     <value>Afixar Reciclagem nos Favoritos</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">

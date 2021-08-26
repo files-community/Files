@@ -1254,9 +1254,6 @@
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tegelweergave (Ctrl+Shift+2)</value>
   </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>Weergaveopties</value>
-  </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
     <value>Rasterweergave (groot)</value>
   </data>
@@ -1268,12 +1265,6 @@
   </data>
   <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
     <value>Tegelweergave</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
-    <value>Bestandsextensies weergeven</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
-    <value>Verborgen items weergeven</value>
   </data>
   <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Detailweergave</value>
@@ -2385,7 +2376,7 @@
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
     <value>Toon netwerkstations sectie op de zijbalk</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
     <value>Prullenbak aan favorieten vastmaken</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">

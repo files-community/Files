@@ -873,7 +873,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
     <value>Di chuyển những mục chảy ra vào một thực đơn con</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
     <value>Gắn Thùng rác vào Ưa thích</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
@@ -1341,9 +1341,6 @@
   <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Xem thông tin chi tiết</value>
   </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>Xem thông tin chi tiết</value>
-  </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Bố trí</value>
   </data>
@@ -1376,12 +1373,6 @@
   </data>
   <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
     <value>Chế độ xem gạch</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
-    <value>Chế độ xem gạch (Ctrl+Shift+2)</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
-    <value>Hiển thị mục giấu</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>Ngày xóa</value>

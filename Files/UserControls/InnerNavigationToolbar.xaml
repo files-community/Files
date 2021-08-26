@@ -30,6 +30,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
                 <ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
+                <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -442,9 +443,10 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40" />
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition MaxWidth="100" />
                                     <ColumnDefinition Width="40" />
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition MaxWidth="100" />
                                 </Grid.ColumnDefinitions>
 
                                 <RadioButton
@@ -528,10 +530,19 @@
                                     VerticalAlignment="Center"
                                     Text="Small Icons" />
 
+                                <Border
+                                    Grid.RowSpan="3"
+                                    Grid.Column="2"
+                                    Height="100"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+                                    BorderThickness="1" />
+
                                 <RadioButton
                                     x:Uid="NavToolbarMediumIcons"
                                     Grid.Row="0"
-                                    Grid.Column="2"
+                                    Grid.Column="3"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
@@ -551,14 +562,14 @@
                                 <TextBlock
                                     x:Uid="NavToolbarMediumIconsHeader"
                                     Grid.Row="0"
-                                    Grid.Column="3"
+                                    Grid.Column="4"
                                     VerticalAlignment="Center"
                                     Text="Medium Icons" />
 
                                 <RadioButton
                                     x:Uid="NavToolbarLargeIcons"
                                     Grid.Row="1"
-                                    Grid.Column="2"
+                                    Grid.Column="3"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
@@ -578,14 +589,14 @@
                                 <TextBlock
                                     x:Uid="NavToolbarLargeIconsHeader"
                                     Grid.Row="1"
-                                    Grid.Column="3"
+                                    Grid.Column="4"
                                     VerticalAlignment="Center"
                                     Text="Large Icons" />
 
                                 <RadioButton
                                     x:Uid="NavToolbarColumnView"
                                     Grid.Row="2"
-                                    Grid.Column="2"
+                                    Grid.Column="3"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
@@ -608,25 +619,57 @@
                                 <TextBlock
                                     x:Uid="NavToolbarColumnsHeader"
                                     Grid.Row="2"
-                                    Grid.Column="3"
+                                    Grid.Column="4"
                                     VerticalAlignment="Center"
                                     Text="Columns" />
                             </Grid>
 
-                            <TextBlock
-                                x:Uid="NavToolbarDisplayOptions"
-                                FontWeight="Medium"
-                                Text="Display Options" />
-                            <StackPanel Spacing="4">
+                            <Border
+                                Margin="-20,0"
+                                HorizontalAlignment="Stretch"
+                                BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+                                BorderThickness="1" />
+
+                            <Grid RowSpacing="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition MinHeight="30" />
+                                    <RowDefinition MinHeight="30" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    x:Uid="NavToolbarShowHiddenItemsHeader"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Text="Show hidden items" />
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowHiddenItems"
-                                    Header="Show hidden items"
-                                    IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    AutomationProperties.Name="Show hidden items"
+                                    IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}"
+                                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+
+                                <TextBlock
+                                    x:Uid="NavToolbarShowFileExtensionsHeader"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Text="Show file extensions" />
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowFileExtensions"
-                                    Header="Show file extensions"
-                                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
-                            </StackPanel>
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    AutomationProperties.Name="Show file extensions"
+                                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}"
+                                    Rotation="1"
+                                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                            </Grid>
                         </StackPanel>
                     </Flyout>
                 </AppBarButton.Flyout>

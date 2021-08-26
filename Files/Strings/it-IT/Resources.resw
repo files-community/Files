@@ -1254,9 +1254,6 @@
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Riquadri (Ctrl + Shift + 2)</value>
   </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>Opzioni</value>
-  </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
     <value>Icone (Grandi)</value>
   </data>
@@ -1268,12 +1265,6 @@
   </data>
   <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
     <value>Riquadri</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
-    <value>Mostra estensione file</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
-    <value>Mostra elementi nascosti</value>
   </data>
   <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Dettagli</value>
@@ -2385,7 +2376,7 @@
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
     <value>Mostra la sezione dischi di rete nella barra laterale</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
     <value>Aggiungi il Cestino ai preferiti</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">

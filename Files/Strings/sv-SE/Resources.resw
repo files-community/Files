@@ -1251,9 +1251,6 @@
   <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Detaljvy</value>
   </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>Visningsalternativ</value>
-  </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
     <value>Rutnätsvy (Stor)</value>
   </data>
@@ -1277,12 +1274,6 @@
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Panelvy</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
-    <value>Visa filnamnstillägg</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
-    <value>Visa dolda objekt</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>Borttagningsdatum</value>

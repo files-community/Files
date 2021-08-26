@@ -1242,15 +1242,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Zobrazení podrobností</value>
   </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>&amp;Možnosti zobrazení</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
-    <value>Zobrazovat přípony souborů</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
-    <value>Zobrazit skryté položky</value>
-  </data>
   <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Zobrazení podrobností</value>
   </data>

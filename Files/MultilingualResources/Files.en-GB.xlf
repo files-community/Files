@@ -1175,9 +1175,10 @@
           <source>Move overflow items into a sub menu</source>
           <target state="translated">Move overflow items into a sub menu</target>
         </trans-unit>
-        <trans-unit id="SettingsRecycleBinSwitch.Title" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to Favorites</source>
-          <target state="translated">Pin Recycle Bin to Favourites</target>
+        <trans-unit id="SettingsPinRecycleBin.Title" translate="yes" xml:space="preserve">
+          <source>Pin Recycle Bin to favorites</source>
+          <target state="needs-review-translation">Pin Recycle Bin to Favourites</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
@@ -1828,10 +1829,6 @@
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Details View</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="NavToolbarDisplayOptions.Text" translate="yes" xml:space="preserve">
-          <source>Display Options</source>
-          <target state="translated" state-qualifier="tm-suggestion">Display Options</target>
-        </trans-unit>
         <trans-unit id="NavToolbarLayoutOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Layout</source>
           <target state="translated" state-qualifier="tm-suggestion">Layout</target>
@@ -1883,14 +1880,6 @@
         <trans-unit id="NavToolbarTiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Tiles (Ctrl+Shift+2)</source>
           <target state="translated">Tiles (Ctrl+Shift+2)</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarShowFileExtensions.Header" translate="yes" xml:space="preserve">
-          <source>Show file extensions</source>
-          <target state="translated" state-qualifier="tm-suggestion">Show file extensions</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarShowHiddenItems.Header" translate="yes" xml:space="preserve">
-          <source>Show hidden items</source>
-          <target state="translated">Show hidden items</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted.Text" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
@@ -2209,8 +2198,9 @@
           <target state="translated">Open in new Pane</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
-          <source>Show library section on the sidebar</source>
-          <target state="translated">Show library section on the sidebar</target>
+          <source>Show library section</source>
+          <target state="needs-review-translation">Show library section on the sidebar</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
           <source>Default</source>
@@ -3255,20 +3245,24 @@
           <target state="translated">Uncompressed size</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show cloud drives section on the sidebar</source>
-          <target state="translated">Show cloud drives section on the sidebar</target>
+          <source>Show cloud drives section</source>
+          <target state="needs-review-translation">Show cloud drives section on the sidebar</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show drives section on the sidebar</source>
-          <target state="translated">Show drives section on the sidebar</target>
+          <source>Show drives section</source>
+          <target state="needs-review-translation">Show drives section on the sidebar</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowWslSection.Title" translate="yes" xml:space="preserve">
-          <source>Show WSL section on the sidebar</source>
-          <target state="translated">Show WSL section on the sidebar</target>
+          <source>Show WSL section</source>
+          <target state="needs-review-translation">Show WSL section on the sidebar</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show network drives section on the sidebar</source>
-          <target state="translated">Show network drives section on the sidebar</target>
+          <source>Show network section</source>
+          <target state="needs-review-translation">Show network drives section on the sidebar</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="WSL" translate="yes" xml:space="preserve">
           <source>WSL</source>
@@ -3477,8 +3471,9 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <target state="translated" state-qualifier="tm-suggestion">Sync status</target>
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show Favorites section on the sidebar</source>
-          <target state="translated">Show Favorites section on the sidebar</target>
+          <source>Show favorites section</source>
+          <target state="needs-review-translation">Show Favorites section on the sidebar</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
@@ -3627,6 +3622,74 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="NavToolbarTilesHeader.Text" translate="yes" xml:space="preserve">
           <source>Tiles</source>
           <target state="new">Tiles</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowFileExtensionsHeader.Text" translate="yes" xml:space="preserve">
+          <source>Show file extensions</source>
+          <target state="new">Show file extensions</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show hidden items</source>
+          <target state="new">Show hidden items</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowFileExtensions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show file extensions</source>
+          <target state="new">Show file extensions</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowHiddenItemsHeader.Text" translate="yes" xml:space="preserve">
+          <source>Show hidden items</source>
+          <target state="new">Show hidden items</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show favorites section</source>
+          <target state="new">Show favorites section</target>
+        </trans-unit>
+        <trans-unit id="SettingsPinRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Pin Recycle Bin to favorites</source>
+          <target state="new">Pin Recycle Bin to favorites</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show cloud drives section</source>
+          <target state="new">Show cloud drives section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show drives section</source>
+          <target state="new">Show drives section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show library section</source>
+          <target state="new">Show library section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show network section</source>
+          <target state="new">Show network section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowWslSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show WSL section</source>
+          <target state="new">Show WSL section</target>
+        </trans-unit>
+        <trans-unit id="SettingsDateFormatComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Date format</source>
+          <target state="new">Date format</target>
+        </trans-unit>
+        <trans-unit id="SettingsDialogCloseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Close</source>
+          <target state="new">Close</target>
+        </trans-unit>
+        <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Open folders in new tab</source>
+          <target state="new">Open folders in new tab</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Language</source>
+          <target state="new">Language</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show a confirmation dialog when deleting files or folders</source>
+          <target state="new">Show a confirmation dialog when deleting files or folders</target>
+        </trans-unit>
+        <trans-unit id="TerminalApplicationsComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Terminal application</source>
+          <target state="new">Terminal application</target>
         </trans-unit>
       </group>
     </body>

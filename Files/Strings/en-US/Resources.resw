@@ -990,8 +990,8 @@
   <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
     <value>Move overflow items into a sub menu</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
-    <value>Pin Recycle Bin to Favorites</value>
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
+    <value>Pin Recycle Bin to favorites</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>Show a confirmation dialog when deleting files or folders</value>
@@ -1479,9 +1479,6 @@
   <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Details</value>
   </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>Display Options</value>
-  </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Layout</value>
   </data>
@@ -1518,10 +1515,10 @@
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tiles (Ctrl+Shift+2)</value>
   </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
     <value>Show file extensions</value>
   </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
+  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
     <value>Show hidden items</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
@@ -1762,7 +1759,7 @@
     <value>Open in new Pane</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>Show library section on the sidebar</value>
+    <value>Show library section</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>Default</value>
@@ -2578,16 +2575,16 @@
     <value>Uncompressed size</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>Show cloud drives section on the sidebar</value>
+    <value>Show cloud drives section</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>Show drives section on the sidebar</value>
+    <value>Show drives section</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>Show WSL section on the sidebar</value>
+    <value>Show WSL section</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>Show network drives section on the sidebar</value>
+    <value>Show network section</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
@@ -2735,7 +2732,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
     <value>Enable file tags</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>Show Favorites section on the sidebar</value>
+    <value>Show favorites section</value>
   </data>
   <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
     <value>Apply to all</value>
@@ -2820,5 +2817,50 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
     <value>Tiles</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>Show file extensions</value>
+  </data>
+  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
+    <value>Show hidden items</value>
+  </data>
+  <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show favorites section</value>
+  </data>
+  <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Date format</value>
+  </data>
+  <data name="SettingsDialogCloseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Open folders in new tab</value>
+  </data>
+  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Pin Recycle Bin to favorites</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show cloud drives section</value>
+  </data>
+  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show a confirmation dialog when deleting files or folders</value>
+  </data>
+  <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show drives section</value>
+  </data>
+  <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show library section</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show network section</value>
+  </data>
+  <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show WSL section</value>
+  </data>
+  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Terminal application</value>
   </data>
 </root>

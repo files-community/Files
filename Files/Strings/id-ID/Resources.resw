@@ -1278,9 +1278,6 @@
   <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Tampilan Rinci</value>
   </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>Opsi Tampilan</value>
-  </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Tata letak</value>
   </data>
@@ -1316,12 +1313,6 @@
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tampilan Ubin (Ctrl+Shift+2)</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
-    <value>Perlihatkan ekstensi file</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
-    <value>Tampilkan file tersembunyi</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>Tanggal dihapus</value>
