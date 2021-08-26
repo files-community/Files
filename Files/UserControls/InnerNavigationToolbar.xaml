@@ -619,16 +619,39 @@
                                 BorderBrush="{ThemeResource ControlStrokeColorDefault}"
                                 BorderThickness="1" />
 
-                            <StackPanel Spacing="4">
+                            <Grid RowSpacing="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition MinHeight="30" />
+                                    <RowDefinition MinHeight="30" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    x:Uid="NavToolbarShowHiddenItemsHeader"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Text="Show hidden items" />
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowHiddenItems"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
                                     Header="Show hidden items"
                                     IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
+
+                                <TextBlock
+                                    x:Uid="NavToolbarShowFileExtensionsHeader"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Text="Show file extensions" />
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowFileExtensions"
+                                    Grid.Column="1"
                                     Header="Show file extensions"
-                                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
-                            </StackPanel>
+                                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}"
+                                    Rotation="1" />
+                            </Grid>
                         </StackPanel>
                     </Flyout>
                 </AppBarButton.Flyout>

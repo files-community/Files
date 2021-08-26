@@ -1515,10 +1515,10 @@
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tiles (Ctrl+Shift+2)</value>
   </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
     <value>Show file extensions</value>
   </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
+  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
     <value>Show hidden items</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
@@ -2817,5 +2817,11 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
     <value>Tiles</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>Show file extensions</value>
+  </data>
+  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
+    <value>Show hidden items</value>
   </data>
 </root>
