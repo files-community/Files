@@ -1592,10 +1592,6 @@
           <source>Select</source>
           <target state="translated" state-qualifier="tm-suggestion">Select</target>
         </trans-unit>
-        <trans-unit id="StatusCenter.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Status center</source>
-          <target state="translated">Status center</target>
-        </trans-unit>
         <trans-unit id="SettingsOpenItemsWithOneclick.Title" translate="yes" xml:space="preserve">
           <source>Open items with a single click</source>
           <target state="translated">Open items with a single click</target>
@@ -1680,11 +1676,11 @@
           <source>Clear All Properties</source>
           <target state="translated">Clear All Properties</target>
         </trans-unit>
-        <trans-unit id="StatusCenterTeachingTip.Subtitle" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksTeachingTip.Subtitle" translate="yes" xml:space="preserve">
           <source>Check the status of file operations here</source>
           <target state="translated">Check the status of file operations here</target>
         </trans-unit>
-        <trans-unit id="StatusCenterTeachingTip.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Status Center</source>
           <target state="translated">Status Center</target>
         </trans-unit>
@@ -1780,11 +1776,7 @@
           <source>Cancel</source>
           <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
         </trans-unit>
-        <trans-unit id="StatusCenter.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Ongoing Tasks</source>
-          <target state="translated">Ongoing Tasks</target>
-        </trans-unit>
-        <trans-unit id="StatusCenterFlyoutTitle.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksFlyoutTitle.Text" translate="yes" xml:space="preserve">
           <source>Ongoing Tasks</source>
           <target state="translated">Ongoing Tasks</target>
         </trans-unit>
@@ -2061,7 +2053,7 @@
           <source>Visit the Files documentation website</source>
           <target state="translated">Visit the Files documentation website</target>
         </trans-unit>
-        <trans-unit id="StatusCenterFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Ongoing tasks flyout</source>
           <target state="translated">Ongoing tasks flyout</target>
         </trans-unit>
@@ -2836,19 +2828,19 @@
           <source>canceling</source>
           <target state="translated">canceling</target>
         </trans-unit>
-        <trans-unit id="StatusCenterDismissBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksDismissBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Dismiss</source>
           <target state="translated" state-qualifier="tm-suggestion">Dismiss</target>
         </trans-unit>
-        <trans-unit id="StatusCenterDismissBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Dismiss</source>
           <target state="translated" state-qualifier="tm-suggestion">Dismiss</target>
         </trans-unit>
-        <trans-unit id="StatusCenterCancelBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksCancelBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
         </trans-unit>
-        <trans-unit id="StatusCenterCancelBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
         </trans-unit>
@@ -3268,11 +3260,7 @@
           <source>Hide {0} section</source>
           <target state="translated">Hide {0} section</target>
         </trans-unit>
-        <trans-unit id="NavSettingsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="translated" state-qualifier="tm-suggestion">Settings</target>
-        </trans-unit>
-        <trans-unit id="NavSettingsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavSettingsButton" translate="yes" xml:space="preserve">
           <source>Settings</source>
           <target state="translated" state-qualifier="tm-suggestion">Settings</target>
         </trans-unit>
@@ -3678,6 +3666,10 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="TerminalApplicationsComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Terminal application</source>
           <target state="new">Terminal application</target>
+        </trans-unit>
+        <trans-unit id="OngoingTasks" translate="yes" xml:space="preserve">
+          <source>Ongoing Tasks</source>
+          <target state="new">Ongoing Tasks</target>
         </trans-unit>
       </group>
     </body>

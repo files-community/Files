@@ -786,9 +786,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Отказано в доступе</value>
   </data>
-  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
-    <value>Текущие операции</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Файл</value>
   </data>
@@ -1110,10 +1107,10 @@
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>Не указано</value>
   </data>
-  <data name="StatusCenterTeachingTip.Subtitle" xml:space="preserve">
+  <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
     <value>Проверить статус файловых операций здесь</value>
   </data>
-  <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
+  <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
     <value>Центр операций</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
@@ -1179,10 +1176,7 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Отмена</value>
   </data>
-  <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Текущие операции</value>
-  </data>
-  <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
+  <data name="OngoingTasksFlyoutTitle.Text" xml:space="preserve">
     <value>Текущие операции</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -1365,7 +1359,7 @@
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
     <value>Свойства</value>
   </data>
-  <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
+  <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>Всплывающее меню текущих задач</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
@@ -1938,16 +1932,16 @@
   <data name="StatusCancellingOp" xml:space="preserve">
     <value>идет отмена</value>
   </data>
-  <data name="StatusCenterDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
     <value>Закрыть</value>
   </data>
-  <data name="StatusCenterDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Закрыть</value>
   </data>
-  <data name="StatusCenterCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
     <value>Отмена</value>
   </data>
-  <data name="StatusCenterCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Отмена</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
@@ -2382,10 +2376,7 @@
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>Закрепить в избранном</value>
   </data>
-  <data name="NavSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>параметры</value>
-  </data>
-  <data name="NavSettingsButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavSettingsButton" xml:space="preserve">
     <value>параметры</value>
   </data>
   <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">

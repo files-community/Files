@@ -786,9 +786,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>拒绝访问</value>
   </data>
-  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
-    <value>状态中心</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>文件</value>
   </data>
@@ -1149,10 +1146,10 @@
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>未指定</value>
   </data>
-  <data name="StatusCenterTeachingTip.Subtitle" xml:space="preserve">
+  <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
     <value>在此处检查文件操作状态</value>
   </data>
-  <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
+  <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
     <value>状态中心</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
@@ -1218,10 +1215,7 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>取消</value>
   </data>
-  <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
-    <value>正在进行的任务</value>
-  </data>
-  <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
+  <data name="OngoingTasksFlyoutTitle.Text" xml:space="preserve">
     <value>正在进行的任务</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -1404,7 +1398,7 @@
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>访问 Files 文档网站</value>
   </data>
-  <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
+  <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>正在进行的任务弹窗</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
@@ -1979,16 +1973,16 @@
   <data name="StatusCancellingOp" xml:space="preserve">
     <value>正在取消</value>
   </data>
-  <data name="StatusCenterDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
     <value>消除</value>
   </data>
-  <data name="StatusCenterDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>消除</value>
   </data>
-  <data name="StatusCenterCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
     <value>取消</value>
   </data>
-  <data name="StatusCenterCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>取消</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
@@ -2432,10 +2426,7 @@
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
     <value>从收藏夹取消固定</value>
   </data>
-  <data name="NavSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>设置</value>
-  </data>
-  <data name="NavSettingsButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavSettingsButton" xml:space="preserve">
     <value>设置</value>
   </data>
   <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">

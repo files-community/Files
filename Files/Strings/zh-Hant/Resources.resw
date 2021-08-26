@@ -786,9 +786,6 @@
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>編輯終端機應用程式</value>
   </data>
-  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
-    <value>狀態中心</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>檔案</value>
   </data>
@@ -1149,10 +1146,10 @@
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>未指定</value>
   </data>
-  <data name="StatusCenterTeachingTip.Subtitle" xml:space="preserve">
+  <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
     <value>在此檢查檔案操作的狀態</value>
   </data>
-  <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
+  <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
     <value>狀態中心</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
@@ -1218,10 +1215,7 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>取消</value>
   </data>
-  <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
-    <value>執行中的檔案操作</value>
-  </data>
-  <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
+  <data name="OngoingTasksFlyoutTitle.Text" xml:space="preserve">
     <value>執行中的檔案操作</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -1389,7 +1383,7 @@
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
     <value>內容</value>
   </data>
-  <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
+  <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>執行中的檔案操作</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
@@ -1974,16 +1968,16 @@
   <data name="StatusCancellingOp" xml:space="preserve">
     <value>取消中</value>
   </data>
-  <data name="StatusCenterDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
     <value>關閉</value>
   </data>
-  <data name="StatusCenterDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>關閉</value>
   </data>
-  <data name="StatusCenterCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
     <value>取消</value>
   </data>
-  <data name="StatusCenterCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>取消</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
@@ -2427,10 +2421,7 @@
   <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
     <value>取消釘選</value>
   </data>
-  <data name="NavSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>設定</value>
-  </data>
-  <data name="NavSettingsButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavSettingsButton" xml:space="preserve">
     <value>設定</value>
   </data>
   <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">

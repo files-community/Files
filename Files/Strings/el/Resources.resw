@@ -1185,9 +1185,6 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Επιλέξτε</value>
   </data>
-  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
-    <value>Κέντρο κατάστασης</value>
-  </data>
   <data name="SettingsOpenItemsWithOneclick.Title" xml:space="preserve">
     <value>Άνοιγμα αντικειμένων με ένα μόνο κλικ</value>
   </data>
@@ -1251,10 +1248,10 @@
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
     <value>Εκκαθάριση όλων των ιδιοτήτων</value>
   </data>
-  <data name="StatusCenterTeachingTip.Subtitle" xml:space="preserve">
+  <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
     <value>Ελέγξτε την κατάσταση των λειτουργιών αρχείων εδώ</value>
   </data>
-  <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
+  <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
     <value>Κέντρο κατάστασης</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
@@ -1326,10 +1323,7 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Ακύρωση</value>
   </data>
-  <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Συνεχιζόμενα καθήκοντα</value>
-  </data>
-  <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
+  <data name="OngoingTasksFlyoutTitle.Text" xml:space="preserve">
     <value>Συνεχιζόμενα καθήκοντα</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
@@ -1533,7 +1527,7 @@
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Επισκεφθείτε τον ιστότοπο τεκμηρίωσης του Files</value>
   </data>
-  <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
+  <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>Flyout συνεχιζόμενων εργασιών</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
@@ -2109,16 +2103,16 @@
   <data name="StatusCancellingOp" xml:space="preserve">
     <value>ακύρωση</value>
   </data>
-  <data name="StatusCenterDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
     <value>Απόρριψη</value>
   </data>
-  <data name="StatusCenterDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Απόρριψη</value>
   </data>
-  <data name="StatusCenterCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
     <value>Ακύρωση</value>
   </data>
-  <data name="StatusCenterCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ακύρωση</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
@@ -2430,10 +2424,7 @@
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
     <value>Απόκρυψη {0} τμήματος</value>
   </data>
-  <data name="NavSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Ρυθμίσεις</value>
-  </data>
-  <data name="NavSettingsButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavSettingsButton" xml:space="preserve">
     <value>Ρυθμίσεις</value>
   </data>
   <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">

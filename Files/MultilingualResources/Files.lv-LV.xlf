@@ -1479,10 +1479,6 @@
           <source>Address</source>
           <target state="translated">Adrese</target>
         </trans-unit>
-        <trans-unit id="StatusCenter.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Status center</source>
-          <target state="translated">Statusa centrs</target>
-        </trans-unit>
         <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
           <source>File</source>
           <target state="translated">Fails</target>
@@ -1551,11 +1547,11 @@
           <source>Clear All Properties</source>
           <target state="translated">Notīrīt visus rekvizītus</target>
         </trans-unit>
-        <trans-unit id="StatusCenterTeachingTip.Subtitle" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksTeachingTip.Subtitle" translate="yes" xml:space="preserve">
           <source>Check the status of file operations here</source>
           <target state="translated">Pārbaudīt failu darbību statusu šeit</target>
         </trans-unit>
-        <trans-unit id="StatusCenterTeachingTip.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Status Center</source>
           <target state="translated">Statusa centrs</target>
         </trans-unit>
@@ -1636,11 +1632,7 @@
           <source>Cancel</source>
           <target state="translated">Atcelt</target>
         </trans-unit>
-        <trans-unit id="StatusCenter.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Ongoing Tasks</source>
-          <target state="translated">Notiekošās darbības</target>
-        </trans-unit>
-        <trans-unit id="StatusCenterFlyoutTitle.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksFlyoutTitle.Text" translate="yes" xml:space="preserve">
           <source>Ongoing Tasks</source>
           <target state="translated">Notiekošās darbības</target>
         </trans-unit>
@@ -1885,7 +1877,7 @@
           <source>Visit the Files documentation website</source>
           <target state="translated">Apmeklējiet Failu dokumentācijas vietni</target>
         </trans-unit>
-        <trans-unit id="StatusCenterFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Ongoing tasks flyout</source>
           <target state="translated">Notiekošo uzdevumu logs</target>
         </trans-unit>
@@ -2639,19 +2631,19 @@
           <source>canceling</source>
           <target state="translated">tiek atcelts</target>
         </trans-unit>
-        <trans-unit id="StatusCenterDismissBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksDismissBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Dismiss</source>
           <target state="translated">Noraidīt</target>
         </trans-unit>
-        <trans-unit id="StatusCenterDismissBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Dismiss</source>
           <target state="translated">Noraidīt</target>
         </trans-unit>
-        <trans-unit id="StatusCenterCancelBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksCancelBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">Atcelt</target>
         </trans-unit>
-        <trans-unit id="StatusCenterCancelBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">Atcelt</target>
         </trans-unit>
@@ -3249,11 +3241,7 @@
           <source>Unpin from Favorites</source>
           <target state="translated">Atspraust no favorītiem</target>
         </trans-unit>
-        <trans-unit id="NavSettingsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="translated">Iestatījumi</target>
-        </trans-unit>
-        <trans-unit id="NavSettingsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavSettingsButton" translate="yes" xml:space="preserve">
           <source>Settings</source>
           <target state="translated">Iestatījumi</target>
         </trans-unit>
@@ -3678,6 +3666,10 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
         <trans-unit id="TerminalApplicationsComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Terminal application</source>
           <target state="new">Terminal application</target>
+        </trans-unit>
+        <trans-unit id="OngoingTasks" translate="yes" xml:space="preserve">
+          <source>Ongoing Tasks</source>
+          <target state="new">Ongoing Tasks</target>
         </trans-unit>
       </group>
     </body>

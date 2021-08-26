@@ -1043,10 +1043,6 @@
           <source>Access Denied</source>
           <target state="translated">Acesso Negado</target>
         </trans-unit>
-        <trans-unit id="StatusCenter.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Status center</source>
-          <target state="translated">Centro de status</target>
-        </trans-unit>
         <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
           <source>File</source>
           <target state="translated">Arquivo</target>
@@ -1527,11 +1523,11 @@
           <source>Unspecified</source>
           <target state="translated">Não especificada</target>
         </trans-unit>
-        <trans-unit id="StatusCenterTeachingTip.Subtitle" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksTeachingTip.Subtitle" translate="yes" xml:space="preserve">
           <source>Check the status of file operations here</source>
           <target state="translated">Verifique o status das operações dos arquivos aqui</target>
         </trans-unit>
-        <trans-unit id="StatusCenterTeachingTip.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Status Center</source>
           <target state="translated">Centro de Status</target>
         </trans-unit>
@@ -1620,11 +1616,7 @@
           <source>Cancel</source>
           <target state="translated">Cancelar</target>
         </trans-unit>
-        <trans-unit id="StatusCenter.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Ongoing Tasks</source>
-          <target state="translated">Tarefas em Andamento</target>
-        </trans-unit>
-        <trans-unit id="StatusCenterFlyoutTitle.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksFlyoutTitle.Text" translate="yes" xml:space="preserve">
           <source>Ongoing Tasks</source>
           <target state="translated">Tarefas em Andamento</target>
         </trans-unit>
@@ -1828,7 +1820,7 @@
           <source>Visit the Files documentation website</source>
           <target state="translated">Visite o site de documentação do Files</target>
         </trans-unit>
-        <trans-unit id="StatusCenterFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Ongoing tasks flyout</source>
           <target state="translated">Flyout das tarefas em andamento</target>
         </trans-unit>
@@ -2639,19 +2631,19 @@
           <source>canceling</source>
           <target state="translated">cancelando</target>
         </trans-unit>
-        <trans-unit id="StatusCenterDismissBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksDismissBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Dismiss</source>
           <target state="translated">Dispensar</target>
         </trans-unit>
-        <trans-unit id="StatusCenterDismissBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Dismiss</source>
           <target state="translated">Dispensar</target>
         </trans-unit>
-        <trans-unit id="StatusCenterCancelBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksCancelBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">Cancelar</target>
         </trans-unit>
-        <trans-unit id="StatusCenterCancelBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">Cancelar</target>
         </trans-unit>
@@ -3249,11 +3241,7 @@
           <source>Unpin from Favorites</source>
           <target state="translated">Desafixar dos Favoritos</target>
         </trans-unit>
-        <trans-unit id="NavSettingsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="translated">Configurações</target>
-        </trans-unit>
-        <trans-unit id="NavSettingsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="NavSettingsButton" translate="yes" xml:space="preserve">
           <source>Settings</source>
           <target state="translated">Configurações</target>
         </trans-unit>
@@ -3679,6 +3667,10 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
         <trans-unit id="TerminalApplicationsComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Terminal application</source>
           <target state="new">Terminal application</target>
+        </trans-unit>
+        <trans-unit id="OngoingTasks" translate="yes" xml:space="preserve">
+          <source>Ongoing Tasks</source>
+          <target state="new">Ongoing Tasks</target>
         </trans-unit>
       </group>
     </body>
