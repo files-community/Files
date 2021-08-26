@@ -3156,28 +3156,33 @@
           <target state="translated">Mostra il pulsante barra delle schede verticale nella barra del titolo</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show cloud drives section on the sidebar</source>
-          <target state="translated">Mostra la sezione archivi cloud nella barra laterale</target>
+          <source>Show cloud drives section</source>
+          <target state="needs-review-translation">Mostra la sezione archivi cloud nella barra laterale</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show drives section on the sidebar</source>
-          <target state="translated">Mostra la sezione dischi nella barra laterale</target>
+          <source>Show drives section</source>
+          <target state="needs-review-translation">Mostra la sezione dischi nella barra laterale</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowWslSection.Title" translate="yes" xml:space="preserve">
-          <source>Show WSL section on the sidebar</source>
-          <target state="translated">Mostra la sezione WSL nella barra laterale</target>
+          <source>Show WSL section</source>
+          <target state="needs-review-translation">Mostra la sezione WSL nella barra laterale</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show network drives section on the sidebar</source>
-          <target state="translated">Mostra la sezione dischi di rete nella barra laterale</target>
+          <source>Show network drives section</source>
+          <target state="needs-review-translation">Mostra la sezione dischi di rete nella barra laterale</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBin.Title" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to Favorites</source>
           <target state="translated">Aggiungi il Cestino ai preferiti</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
-          <source>Show library section on the sidebar</source>
-          <target state="translated">Mostra la sezione librerie nella barra laterale</target>
+          <source>Show library section</source>
+          <target state="needs-review-translation">Mostra la sezione librerie nella barra laterale</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTheme.Title" translate="yes" xml:space="preserve">
           <source>Choose your color</source>
@@ -3466,7 +3471,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
           <target state="translated">Stato sincronizzazione</target>
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show favorites section on the sidebar</source>
+          <source>Show favorites section</source>
           <target state="needs-review-translation">Mostra la sezione Preferiti sulla barra laterale</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>

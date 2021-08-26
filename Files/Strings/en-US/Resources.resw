@@ -1759,7 +1759,7 @@
     <value>Open in new Pane</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>Show library section on the sidebar</value>
+    <value>Show library section</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>Default</value>
@@ -2575,16 +2575,16 @@
     <value>Uncompressed size</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>Show cloud drives section on the sidebar</value>
+    <value>Show cloud drives section</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>Show drives section on the sidebar</value>
+    <value>Show drives section</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>Show WSL section on the sidebar</value>
+    <value>Show WSL section</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>Show network drives section on the sidebar</value>
+    <value>Show network drives section</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
@@ -2732,7 +2732,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
     <value>Enable file tags</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>Show favorites section on the sidebar</value>
+    <value>Show favorites section</value>
   </data>
   <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
     <value>Apply to all</value>

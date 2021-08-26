@@ -2176,8 +2176,8 @@
           <target state="new">Open in new Pane</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
-          <source>Show library section on the sidebar</source>
-          <target state="new">Show library section on the sidebar</target>
+          <source>Show library section</source>
+          <target state="new">Show library section</target>
         </trans-unit>
         <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
           <source>Default</source>
@@ -3208,20 +3208,20 @@
           <target state="new">Uncompressed size</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show cloud drives section on the sidebar</source>
-          <target state="new">Show cloud drives section on the sidebar</target>
+          <source>Show cloud drives section</source>
+          <target state="new">Show cloud drives section</target>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show drives section on the sidebar</source>
-          <target state="new">Show drives section on the sidebar</target>
+          <source>Show drives section</source>
+          <target state="new">Show drives section</target>
         </trans-unit>
         <trans-unit id="SettingsShowWslSection.Title" translate="yes" xml:space="preserve">
-          <source>Show WSL section on the sidebar</source>
-          <target state="new">Show WSL section on the sidebar</target>
+          <source>Show WSL section</source>
+          <target state="new">Show WSL section</target>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show network drives section on the sidebar</source>
-          <target state="new">Show network drives section on the sidebar</target>
+          <source>Show network drives section</source>
+          <target state="new">Show network drives section</target>
         </trans-unit>
         <trans-unit id="WSL" translate="yes" xml:space="preserve">
           <source>WSL</source>
@@ -3494,8 +3494,8 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <target state="new">Enable file tags</target>
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show favorites section on the sidebar</source>
-          <target state="new">Show favorites section on the sidebar</target>
+          <source>Show favorites section</source>
+          <target state="new">Show favorites section</target>
         </trans-unit>
         <trans-unit id="ConfictingItemsDialogOptionApplyToAll.Text" translate="yes" xml:space="preserve">
           <source>Apply to all</source>

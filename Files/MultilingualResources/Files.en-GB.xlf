@@ -2197,8 +2197,9 @@
           <target state="translated">Open in new Pane</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
-          <source>Show library section on the sidebar</source>
-          <target state="translated">Show library section on the sidebar</target>
+          <source>Show library section</source>
+          <target state="needs-review-translation">Show library section on the sidebar</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
           <source>Default</source>
@@ -3243,20 +3244,24 @@
           <target state="translated">Uncompressed size</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show cloud drives section on the sidebar</source>
-          <target state="translated">Show cloud drives section on the sidebar</target>
+          <source>Show cloud drives section</source>
+          <target state="needs-review-translation">Show cloud drives section on the sidebar</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show drives section on the sidebar</source>
-          <target state="translated">Show drives section on the sidebar</target>
+          <source>Show drives section</source>
+          <target state="needs-review-translation">Show drives section on the sidebar</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowWslSection.Title" translate="yes" xml:space="preserve">
-          <source>Show WSL section on the sidebar</source>
-          <target state="translated">Show WSL section on the sidebar</target>
+          <source>Show WSL section</source>
+          <target state="needs-review-translation">Show WSL section on the sidebar</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show network drives section on the sidebar</source>
-          <target state="translated">Show network drives section on the sidebar</target>
+          <source>Show network drives section</source>
+          <target state="needs-review-translation">Show network drives section on the sidebar</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="WSL" translate="yes" xml:space="preserve">
           <source>WSL</source>
@@ -3465,7 +3470,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <target state="translated" state-qualifier="tm-suggestion">Sync status</target>
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show favorites section on the sidebar</source>
+          <source>Show favorites section</source>
           <target state="needs-review-translation">Show Favorites section on the sidebar</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>

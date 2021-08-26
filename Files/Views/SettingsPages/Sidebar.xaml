@@ -122,7 +122,7 @@
 
             <local:SettingsBlockControl
                 x:Uid="SettingsShowWslSection"
-                Title="Show WSL section"
+                Title="Show WSL section on the sidebar"
                 HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xEC7A;" />

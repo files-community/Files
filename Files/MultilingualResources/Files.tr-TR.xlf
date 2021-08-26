@@ -3155,28 +3155,33 @@
           <target state="translated">Başlık çubuğunda dikey sekme açılır penceresini görüntüleyin</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show cloud drives section on the sidebar</source>
-          <target state="translated">Kenar çubuğunda bulut sürücüleri bölümünü göster</target>
+          <source>Show cloud drives section</source>
+          <target state="needs-review-translation">Kenar çubuğunda bulut sürücüleri bölümünü göster</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show drives section on the sidebar</source>
-          <target state="translated">Kenar çubuğunda sürücüler bölümünü göster</target>
+          <source>Show drives section</source>
+          <target state="needs-review-translation">Kenar çubuğunda sürücüler bölümünü göster</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowWslSection.Title" translate="yes" xml:space="preserve">
-          <source>Show WSL section on the sidebar</source>
-          <target state="translated">Kenar çubuğunda WSL bölümünü göster</target>
+          <source>Show WSL section</source>
+          <target state="needs-review-translation">Kenar çubuğunda WSL bölümünü göster</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show network drives section on the sidebar</source>
-          <target state="translated">Kenar çubuğunda ağ sürücüleri bölümünü göster</target>
+          <source>Show network drives section</source>
+          <target state="needs-review-translation">Kenar çubuğunda ağ sürücüleri bölümünü göster</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBin.Title" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to Favorites</source>
           <target state="translated">Geri Dönüşüm Kutusu'nu Sık Kullanılanlara Sabitle</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
-          <source>Show library section on the sidebar</source>
-          <target state="translated">Kenar çubuğunda kitaplık bölümünü göster</target>
+          <source>Show library section</source>
+          <target state="needs-review-translation">Kenar çubuğunda kitaplık bölümünü göster</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTheme.Title" translate="yes" xml:space="preserve">
           <source>Choose your color</source>
@@ -3464,7 +3469,7 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
           <target state="translated" state-qualifier="tm-suggestion">Senkronizasyon durumu</target>
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show favorites section on the sidebar</source>
+          <source>Show favorites section</source>
           <target state="needs-review-translation">Kenar çubuğunda Favoriler bölümünü göster</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>

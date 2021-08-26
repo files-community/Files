@@ -3160,28 +3160,28 @@
           <target state="new">Display the vertical tab flyout on the title bar</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show cloud drives section on the sidebar</source>
-          <target state="new">Show cloud drives section on the sidebar</target>
+          <source>Show cloud drives section</source>
+          <target state="new">Show cloud drives section</target>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show drives section on the sidebar</source>
-          <target state="new">Show drives section on the sidebar</target>
+          <source>Show drives section</source>
+          <target state="new">Show drives section</target>
         </trans-unit>
         <trans-unit id="SettingsShowWslSection.Title" translate="yes" xml:space="preserve">
-          <source>Show WSL section on the sidebar</source>
-          <target state="new">Show WSL section on the sidebar</target>
+          <source>Show WSL section</source>
+          <target state="new">Show WSL section</target>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show network drives section on the sidebar</source>
-          <target state="new">Show network drives section on the sidebar</target>
+          <source>Show network drives section</source>
+          <target state="new">Show network drives section</target>
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBin.Title" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to Favorites</source>
           <target state="new">Pin Recycle Bin to Favorites</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
-          <source>Show library section on the sidebar</source>
-          <target state="new">Show library section on the sidebar</target>
+          <source>Show library section</source>
+          <target state="new">Show library section</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTheme.Title" translate="yes" xml:space="preserve">
           <source>Choose your color</source>
@@ -3470,8 +3470,8 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <target state="new">Sync status</target>
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show favorites section on the sidebar</source>
-          <target state="new">Show favorites section on the sidebar</target>
+          <source>Show favorites section</source>
+          <target state="new">Show favorites section</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>

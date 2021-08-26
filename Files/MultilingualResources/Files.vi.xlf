@@ -2182,8 +2182,9 @@
           <target state="translated">Mở trong màn mới</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
-          <source>Show library section on the sidebar</source>
-          <target state="translated">Hiển thị phần thư viện trên thanh bên</target>
+          <source>Show library section</source>
+          <target state="needs-review-translation">Hiển thị phần thư viện trên thanh bên</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="DefaultTheme" translate="yes" xml:space="preserve">
           <source>Default</source>
@@ -3216,20 +3217,24 @@
           <target state="translated">Cỡ không nén</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show cloud drives section on the sidebar</source>
-          <target state="translated">Hiển thị phần ổ lưu trữ đám mây trong thanh bên</target>
+          <source>Show cloud drives section</source>
+          <target state="needs-review-translation">Hiển thị phần ổ lưu trữ đám mây trong thanh bên</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show drives section on the sidebar</source>
-          <target state="translated">Hiển thị phần ổ lưu trữ trong thanh bên</target>
+          <source>Show drives section</source>
+          <target state="needs-review-translation">Hiển thị phần ổ lưu trữ trong thanh bên</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowWslSection.Title" translate="yes" xml:space="preserve">
-          <source>Show WSL section on the sidebar</source>
-          <target state="translated">Hiển thị phần WSL trong thanh bên</target>
+          <source>Show WSL section</source>
+          <target state="needs-review-translation">Hiển thị phần WSL trong thanh bên</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show network drives section on the sidebar</source>
-          <target state="translated">Hiển thị phần ổ lưu trữ mạng trong thanh bên</target>
+          <source>Show network drives section</source>
+          <target state="needs-review-translation">Hiển thị phần ổ lưu trữ mạng trong thanh bên</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="WSL" translate="yes" xml:space="preserve">
           <source>WSL</source>
@@ -3502,8 +3507,8 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <target state="new">Enable file tags</target>
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show favorites section on the sidebar</source>
-          <target state="new">Show favorites section on the sidebar</target>
+          <source>Show favorites section</source>
+          <target state="new">Show favorites section</target>
         </trans-unit>
         <trans-unit id="ConfictingItemsDialogOptionApplyToAll.Text" translate="yes" xml:space="preserve">
           <source>Apply to all</source>
