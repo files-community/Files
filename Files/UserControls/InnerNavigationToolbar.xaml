@@ -30,6 +30,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
                 <ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
+                <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -621,8 +622,8 @@
 
                             <Grid RowSpacing="4">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition MinHeight="30" />
@@ -640,7 +641,8 @@
                                     Grid.Column="1"
                                     HorizontalAlignment="Right"
                                     AutomationProperties.Name="Show hidden items"
-                                    IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
+                                    IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}"
+                                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 
                                 <TextBlock
                                     x:Uid="NavToolbarShowFileExtensionsHeader"
@@ -655,7 +657,8 @@
                                     HorizontalAlignment="Right"
                                     AutomationProperties.Name="Show file extensions"
                                     IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}"
-                                    Rotation="1" />
+                                    Rotation="1"
+                                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                             </Grid>
                         </StackPanel>
                     </Flyout>
