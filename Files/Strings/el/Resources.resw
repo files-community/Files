@@ -873,7 +873,7 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Γλώσσα</value>
   </data>
-  <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
+  <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Μετακίνηση στοιχείων υπερχείλισης σε υπομενού</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
@@ -1641,7 +1641,7 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>Προεπιλογή</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
     <value>Προσαρμοσμένα θέματα</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">

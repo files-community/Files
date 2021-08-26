@@ -3204,11 +3204,11 @@
           <source>Choose your color</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">اختر اللون الخاص بك</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceCustomThemes.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsAppearanceCustomThemes" translate="yes" xml:space="preserve">
           <source>Custom themes</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">النُسق المخصصة</target>
         </trans-unit>
-        <trans-unit id="SettingsContextMenuOverflowSwitch.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsContextMenuOverflow" translate="yes" xml:space="preserve">
           <source>Move overflow items into a sub menu</source>
           <target state="new">Move overflow items into a sub menu</target>
         </trans-unit>

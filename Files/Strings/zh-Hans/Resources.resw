@@ -2387,10 +2387,10 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>选择颜色</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
     <value>自定义主题</value>
   </data>
-  <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
+  <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>将溢出项移动到子菜单中</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">

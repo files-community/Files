@@ -1159,7 +1159,7 @@
           <source>Language</source>
           <target state="translated">Ngôn ngữ</target>
         </trans-unit>
-        <trans-unit id="SettingsContextMenuOverflowSwitch.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsContextMenuOverflow" translate="yes" xml:space="preserve">
           <source>Move overflow items into a sub menu</source>
           <target state="translated">Di chuyển những mục chảy ra vào một thực đơn con</target>
         </trans-unit>
@@ -2191,7 +2191,7 @@
           <source>Default</source>
           <target state="translated">Mặc định</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceCustomThemes.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsAppearanceCustomThemes" translate="yes" xml:space="preserve">
           <source>Custom themes</source>
           <target state="translated">Chủ đề tùy chỉnh</target>
         </trans-unit>

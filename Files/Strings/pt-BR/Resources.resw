@@ -2385,10 +2385,10 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Escolha a sua cor</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
     <value>Visuais personalizados</value>
   </data>
-  <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
+  <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Mova os itens restantes para um submenu</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">

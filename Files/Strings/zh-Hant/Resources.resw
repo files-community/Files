@@ -2382,10 +2382,10 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>選擇您的顏色配置</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
     <value>客製化主題</value>
   </data>
-  <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
+  <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>將右鍵選單溢出的選項移至子選單中</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">

@@ -1992,7 +1992,7 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Vælg din farve.</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
     <value>Brugerdefinerede temaer</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">

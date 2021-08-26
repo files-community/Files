@@ -186,10 +186,7 @@
                     SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}" />
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl
-                x:Uid="SettingsAppearanceCustomThemes"
-                Title="Custom themes"
-                HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{str:ResourceString Name=SettingsAppearanceCustomThemes}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE771;" />
                 </local:SettingsBlockControl.Icon>
@@ -229,14 +226,14 @@
                 FontWeight="Medium"
                 Text="Customize the right click context menu" />
 
-            <local:SettingsBlockControl
-                x:Uid="SettingsContextMenuOverflowSwitch"
-                Title="Move overflow items into a sub menu"
-                HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{str:ResourceString Name=SettingsContextMenuOverflow}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE10C;" />
                 </local:SettingsBlockControl.Icon>
-                <ToggleSwitch IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                <ToggleSwitch
+                    AutomationProperties.Name="{str:ResourceString Name=SettingsContextMenuOverflow}"
+                    IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
         </StackPanel>
 

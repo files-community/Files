@@ -870,7 +870,7 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>ენა</value>
   </data>
-  <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
+  <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>გადავსებული ნივთების ქვემენიუში გადატანა</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
@@ -1635,7 +1635,7 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>ნაგულისხმევი</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
     <value>მორგებული თემები</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">

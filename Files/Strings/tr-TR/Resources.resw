@@ -2385,10 +2385,10 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Renginizi seçin</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
     <value>Özel temalar</value>
   </data>
-  <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
+  <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Taşma öğelerini bir alt menüye taşı</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">

@@ -3190,11 +3190,11 @@
           <source>Choose your color</source>
           <target state="translated">Kies uw kleur</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceCustomThemes.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsAppearanceCustomThemes" translate="yes" xml:space="preserve">
           <source>Custom themes</source>
           <target state="translated">Aangepaste thema's</target>
         </trans-unit>
-        <trans-unit id="SettingsContextMenuOverflowSwitch.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsContextMenuOverflow" translate="yes" xml:space="preserve">
           <source>Move overflow items into a sub menu</source>
           <target state="translated">Verplaats overlopende items naar een sub menu</target>
         </trans-unit>

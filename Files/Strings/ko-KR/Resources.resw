@@ -2016,7 +2016,7 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>색상 선택</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
     <value>사용자 지정 테마</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">

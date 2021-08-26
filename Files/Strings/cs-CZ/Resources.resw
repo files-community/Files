@@ -1860,7 +1860,7 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Vyberte si barvu</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
     <value>Vlastní motivy</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">

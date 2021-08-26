@@ -1986,7 +1986,7 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Wybierz kolor</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
     <value>Motywy niestandardowe</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">

@@ -1171,7 +1171,7 @@
           <source>Edit terminal applications</source>
           <target state="translated">Edit terminal applications</target>
         </trans-unit>
-        <trans-unit id="SettingsContextMenuOverflowSwitch.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsContextMenuOverflow" translate="yes" xml:space="preserve">
           <source>Move overflow items into a sub menu</source>
           <target state="translated">Move overflow items into a sub menu</target>
         </trans-unit>
@@ -2206,7 +2206,7 @@
           <source>Default</source>
           <target state="translated" state-qualifier="tm-suggestion">Default</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceCustomThemes.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsAppearanceCustomThemes" translate="yes" xml:space="preserve">
           <source>Custom themes</source>
           <target state="translated">Custom themes</target>
         </trans-unit>

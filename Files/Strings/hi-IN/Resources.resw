@@ -1485,7 +1485,7 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>अपना रंग चुनें</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
     <value>कस्टम थीम्स</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">

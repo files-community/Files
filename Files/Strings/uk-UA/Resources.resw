@@ -1905,7 +1905,7 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Вибір кольору</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
     <value>Користувацькі теми</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">

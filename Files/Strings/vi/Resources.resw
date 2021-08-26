@@ -870,7 +870,7 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Ngôn ngữ</value>
   </data>
-  <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
+  <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Di chuyển những mục chảy ra vào một thực đơn con</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
@@ -1617,7 +1617,7 @@
   <data name="DefaultTheme" xml:space="preserve">
     <value>Mặc định</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
     <value>Chủ đề tùy chỉnh</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">

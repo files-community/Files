@@ -2343,10 +2343,10 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Выберите тему</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
     <value>Пользовательские скины</value>
   </data>
-  <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
+  <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Переносить не помещающиеся пункты в подменю</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
