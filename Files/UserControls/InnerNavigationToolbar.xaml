@@ -444,6 +444,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40" />
                                     <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="20" />
                                     <ColumnDefinition Width="40" />
                                     <ColumnDefinition Width="100" />
                                 </Grid.ColumnDefinitions>
@@ -529,10 +530,19 @@
                                     VerticalAlignment="Center"
                                     Text="Small Icons" />
 
+                                <Border
+                                    Grid.RowSpan="3"
+                                    Grid.Column="2"
+                                    Height="80"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+                                    BorderThickness="1" />
+
                                 <RadioButton
                                     x:Uid="NavToolbarMediumIcons"
                                     Grid.Row="0"
-                                    Grid.Column="2"
+                                    Grid.Column="3"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
@@ -552,14 +562,14 @@
                                 <TextBlock
                                     x:Uid="NavToolbarMediumIconsHeader"
                                     Grid.Row="0"
-                                    Grid.Column="3"
+                                    Grid.Column="4"
                                     VerticalAlignment="Center"
                                     Text="Medium Icons" />
 
                                 <RadioButton
                                     x:Uid="NavToolbarLargeIcons"
                                     Grid.Row="1"
-                                    Grid.Column="2"
+                                    Grid.Column="3"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
@@ -579,14 +589,14 @@
                                 <TextBlock
                                     x:Uid="NavToolbarLargeIconsHeader"
                                     Grid.Row="1"
-                                    Grid.Column="3"
+                                    Grid.Column="4"
                                     VerticalAlignment="Center"
                                     Text="Large Icons" />
 
                                 <RadioButton
                                     x:Uid="NavToolbarColumnView"
                                     Grid.Row="2"
-                                    Grid.Column="2"
+                                    Grid.Column="3"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
@@ -609,7 +619,7 @@
                                 <TextBlock
                                     x:Uid="NavToolbarColumnsHeader"
                                     Grid.Row="2"
-                                    Grid.Column="3"
+                                    Grid.Column="4"
                                     VerticalAlignment="Center"
                                     Text="Columns" />
                             </Grid>
