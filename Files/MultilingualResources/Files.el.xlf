@@ -1776,11 +1776,11 @@
           <source>Ongoing Tasks</source>
           <target state="translated">Συνεχιζόμενα καθήκοντα</target>
         </trans-unit>
-        <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane" translate="yes" xml:space="preserve">
           <source>Always open new tabs in dual pane mode</source>
           <target state="translated">Ανοίγετε πάντα νέες καρτέλες σε λειτουργία διπλού παραθύρου</target>
         </trans-unit>
-        <trans-unit id="SettingsMultitaskingEnableDualPane.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsMultitaskingEnableDualPane" translate="yes" xml:space="preserve">
           <source>Enable dual pane view</source>
           <target state="translated">Ενεργοποίηση προβολής διπλού παραθύρου</target>
         </trans-unit>
@@ -2916,7 +2916,7 @@
           <source>Sidebar</source>
           <target state="translated">Πλαϊνή μπάρα</target>
         </trans-unit>
-        <trans-unit id="SettingsVerticalTabFlyoutSwitch.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsVerticalTabFlyout" translate="yes" xml:space="preserve">
           <source>Display the vertical tab flyout on the title bar</source>
           <target state="translated">Εμφάνιση της κατακόρυφης πτυσσόμενης καρτέλας στη γραμμή τίτλου</target>
         </trans-unit>

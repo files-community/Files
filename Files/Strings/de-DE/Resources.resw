@@ -2355,13 +2355,13 @@
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
     <value>Sektion {0} verstecken</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Neue Tabs immer im Zwei-Panel-Modus öffnen</value>
   </data>
-  <data name="SettingsMultitaskingEnableDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
     <value>Zwei-Panel-Ansicht aktivieren</value>
   </data>
-  <data name="SettingsVerticalTabFlyoutSwitch.Title" xml:space="preserve">
+  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
     <value>Das Flyout für vert. Tabs in der Titleleiste anzeigen</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">

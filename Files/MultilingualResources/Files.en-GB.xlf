@@ -1792,11 +1792,11 @@
           <source>Ongoing Tasks</source>
           <target state="translated">Ongoing Tasks</target>
         </trans-unit>
-        <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane" translate="yes" xml:space="preserve">
           <source>Always open new tabs in dual pane mode</source>
           <target state="translated">Always open new tabs in dual pane mode</target>
         </trans-unit>
-        <trans-unit id="SettingsMultitaskingEnableDualPane.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsMultitaskingEnableDualPane" translate="yes" xml:space="preserve">
           <source>Enable dual pane view</source>
           <target state="translated">Enable dual pane view</target>
         </trans-unit>
@@ -2936,7 +2936,7 @@
           <source>Sidebar</source>
           <target state="translated" state-qualifier="tm-suggestion">Sidebar</target>
         </trans-unit>
-        <trans-unit id="SettingsVerticalTabFlyoutSwitch.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsVerticalTabFlyout" translate="yes" xml:space="preserve">
           <source>Display the vertical tab flyout on the title bar</source>
           <target state="translated">Display the vertical tab flyout on the title bar</target>
         </trans-unit>

@@ -1332,10 +1332,10 @@
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>მიმდინარე დავალებები</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>ახალი ჩანართების ყოველთვის გახსნა ორმაგი სარკმლის რეჟიმში</value>
   </data>
-  <data name="SettingsMultitaskingEnableDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
     <value>ორმაგი სარკმლის ხედის ჩართვა</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -2178,7 +2178,7 @@
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>გვერდითა ზოლი</value>
   </data>
-  <data name="SettingsVerticalTabFlyoutSwitch.Title" xml:space="preserve">
+  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
     <value>ვერტიკალური ჩანართის გამოფრენის ჩვენება სათაურის ზოლზე</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">

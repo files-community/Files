@@ -1777,11 +1777,11 @@
           <source>Ongoing Tasks</source>
           <target state="translated">Nhiệm vụ đang xảy ra</target>
         </trans-unit>
-        <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane" translate="yes" xml:space="preserve">
           <source>Always open new tabs in dual pane mode</source>
           <target state="needs-review-translation">Mở tab mới bằng chế độ hai phần luôn luôn</target>
         </trans-unit>
-        <trans-unit id="SettingsMultitaskingEnableDualPane.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsMultitaskingEnableDualPane" translate="yes" xml:space="preserve">
           <source>Enable dual pane view</source>
           <target state="translated">Bật hiển thị hai phần</target>
         </trans-unit>
@@ -2909,7 +2909,7 @@
           <source>Sidebar</source>
           <target state="translated">Thanh bên</target>
         </trans-unit>
-        <trans-unit id="SettingsVerticalTabFlyoutSwitch.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsVerticalTabFlyout" translate="yes" xml:space="preserve">
           <source>Display the vertical tab flyout on the title bar</source>
           <target state="translated">Hiển thị thực đơn bay ra dọc trên thanh tiểu đề.</target>
         </trans-unit>

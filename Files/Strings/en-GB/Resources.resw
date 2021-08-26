@@ -1347,10 +1347,10 @@
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Ongoing Tasks</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Always open new tabs in dual pane mode</value>
   </data>
-  <data name="SettingsMultitaskingEnableDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
     <value>Enable dual pane view</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -2196,7 +2196,7 @@
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>Sidebar</value>
   </data>
-  <data name="SettingsVerticalTabFlyoutSwitch.Title" xml:space="preserve">
+  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
     <value>Display the vertical tab flyout on the title bar</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">

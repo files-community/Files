@@ -2355,13 +2355,13 @@
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
     <value>{0} bölümünü gizle</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Çift bölme modunda her zaman yeni sekmeler açın</value>
   </data>
-  <data name="SettingsMultitaskingEnableDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
     <value>Çift bölmeli görünümü etkinleştir</value>
   </data>
-  <data name="SettingsVerticalTabFlyoutSwitch.Title" xml:space="preserve">
+  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
     <value>Başlık çubuğunda dikey sekme açılır penceresini görüntüleyin</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">

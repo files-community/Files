@@ -2355,13 +2355,13 @@
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
     <value>Esconder {0} seção</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Sempre abra novas guias no modo de painel duplo</value>
   </data>
-  <data name="SettingsMultitaskingEnableDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
     <value>Ativar visualização de painel duplo</value>
   </data>
-  <data name="SettingsVerticalTabFlyoutSwitch.Title" xml:space="preserve">
+  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
     <value>Exibe o menu da guia vertical na barra de título</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">

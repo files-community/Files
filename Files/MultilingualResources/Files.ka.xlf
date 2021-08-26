@@ -1772,11 +1772,11 @@
           <source>Ongoing Tasks</source>
           <target state="translated">მიმდინარე დავალებები</target>
         </trans-unit>
-        <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane" translate="yes" xml:space="preserve">
           <source>Always open new tabs in dual pane mode</source>
           <target state="translated">ახალი ჩანართების ყოველთვის გახსნა ორმაგი სარკმლის რეჟიმში</target>
         </trans-unit>
-        <trans-unit id="SettingsMultitaskingEnableDualPane.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsMultitaskingEnableDualPane" translate="yes" xml:space="preserve">
           <source>Enable dual pane view</source>
           <target state="translated">ორმაგი სარკმლის ხედის ჩართვა</target>
         </trans-unit>
@@ -2908,7 +2908,7 @@
           <source>Sidebar</source>
           <target state="translated">გვერდითა ზოლი</target>
         </trans-unit>
-        <trans-unit id="SettingsVerticalTabFlyoutSwitch.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsVerticalTabFlyout" translate="yes" xml:space="preserve">
           <source>Display the vertical tab flyout on the title bar</source>
           <target state="translated">ვერტიკალური ჩანართის გამოფრენის ჩვენება სათაურის ზოლზე</target>
         </trans-unit>

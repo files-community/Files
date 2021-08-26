@@ -1335,10 +1335,10 @@
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Συνεχιζόμενα καθήκοντα</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Ανοίγετε πάντα νέες καρτέλες σε λειτουργία διπλού παραθύρου</value>
   </data>
-  <data name="SettingsMultitaskingEnableDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
     <value>Ενεργοποίηση προβολής διπλού παραθύρου</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -2184,7 +2184,7 @@
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>Πλαϊνή μπάρα</value>
   </data>
-  <data name="SettingsVerticalTabFlyoutSwitch.Title" xml:space="preserve">
+  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
     <value>Εμφάνιση της κατακόρυφης πτυσσόμενης καρτέλας στη γραμμή τίτλου</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">

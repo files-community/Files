@@ -2357,13 +2357,13 @@
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
     <value>隐藏 {0} 部分</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>始终以双窗格模式打开新选项卡</value>
   </data>
-  <data name="SettingsMultitaskingEnableDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
     <value>启用双窗格视图</value>
   </data>
-  <data name="SettingsVerticalTabFlyoutSwitch.Title" xml:space="preserve">
+  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
     <value>在标题栏上显示垂直选项卡弹出按钮</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">

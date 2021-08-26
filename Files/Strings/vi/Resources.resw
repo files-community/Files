@@ -1314,10 +1314,10 @@
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Nhiệm vụ đang xảy ra</value>
   </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Mở tab mới bằng chế độ hai phần luôn luôn</value>
   </data>
-  <data name="SettingsMultitaskingEnableDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
     <value>Bật hiển thị hai phần</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -2148,7 +2148,7 @@
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>Thanh bên</value>
   </data>
-  <data name="SettingsVerticalTabFlyoutSwitch.Title" xml:space="preserve">
+  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
     <value>Hiển thị thực đơn bay ra dọc trên thanh tiểu đề.</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">

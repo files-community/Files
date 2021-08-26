@@ -5,11 +5,11 @@
     xmlns:UserControls="using:Files.UserControls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
-    xmlns:str="using:Files.Helpers"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -175,18 +175,18 @@
                 FontWeight="Medium"
                 Text="Appearance" />
 
-            <local:SettingsBlockControl Title="{str:ResourceString Name=SettingsAppearanceTheme}" HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceTheme}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE790;" />
                 </local:SettingsBlockControl.Icon>
                 <ComboBox
                     x:Name="ThemeChooser"
-                    AutomationProperties.Name="{str:ResourceString Name=SettingsAppearanceTheme}"
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsAppearanceTheme}"
                     ItemsSource="{Binding Themes}"
                     SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}" />
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl Title="{str:ResourceString Name=SettingsAppearanceCustomThemes}" HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceCustomThemes}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE771;" />
                 </local:SettingsBlockControl.Icon>
@@ -226,12 +226,12 @@
                 FontWeight="Medium"
                 Text="Customize the right click context menu" />
 
-            <local:SettingsBlockControl Title="{str:ResourceString Name=SettingsContextMenuOverflow}" HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsContextMenuOverflow}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE10C;" />
                 </local:SettingsBlockControl.Icon>
                 <ToggleSwitch
-                    AutomationProperties.Name="{str:ResourceString Name=SettingsContextMenuOverflow}"
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsContextMenuOverflow}"
                     IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}"
                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
