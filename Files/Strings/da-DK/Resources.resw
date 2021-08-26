@@ -1989,7 +1989,7 @@
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
     <value>Pak ud</value>
   </data>
-  <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Vælg din farve.</value>
   </data>
   <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">

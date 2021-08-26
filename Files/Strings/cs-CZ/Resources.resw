@@ -1857,7 +1857,7 @@
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
   </data>
-  <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Vyberte si barvu</value>
   </data>
   <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">

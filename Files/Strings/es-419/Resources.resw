@@ -814,7 +814,7 @@
     <value>Crea una carpeta vacía</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>Modo de diseño</value>
+    <value>Ver</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Navegar hacia atrás</value>
@@ -1201,7 +1201,7 @@
     <value>Búsqueda</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Resultados de búsqueda en</value>
+    <value>Resultados de la búsqueda en {1} para {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Resultados de búsqueda</value>
@@ -1741,7 +1741,7 @@
     <value>Mostrar unidades</value>
   </data>
   <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
-    <value>Mostrar bibliotecas</value>
+    <value>Mostrar carpetas</value>
   </data>
   <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
     <value>Mostrar archivos recientes</value>
@@ -2370,7 +2370,7 @@
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>Mostrar Bibliotecas en la barra lateral</value>
   </data>
-  <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Elige tu color</value>
   </data>
   <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
@@ -2584,10 +2584,115 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
     <value>Mostrar Favoritos en la barra lateral</value>
   </data>
+  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
+    <value>Etiqueta de archivo</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
+    <value>Etiqueta de archivo</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
+    <value>Abrir carpeta principal</value>
+  </data>
   <data name="FileTagUnknown" xml:space="preserve">
-    <value>desconocido</value>
+    <value>Desconocido</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
+    <value>Etiqueta de archivo</value>
+  </data>
+  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
+    <value>Editar etiquetas de archivo</value>
+  </data>
+  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Editar etiquetas de archivo</value>
+  </data>
+  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+    <value>Editar etiquetas de archivo</value>
+  </data>
+  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
+    <value>Habilitar etiquetas de archivo</value>
   </data>
   <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>cerrar</value>
+    <value>Cerrar</value>
+  </data>
+  <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
+    <value>Abrir unidad</value>
+  </data>
+  <data name="InsertDiscDialog.Text" xml:space="preserve">
+    <value>Inserte un disco en la unidad {0}</value>
+  </data>
+  <data name="InsertDiscDialog.Title" xml:space="preserve">
+    <value>Inserte un disco</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Aplicar a todos</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Parte del conjunto</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
+  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>Credenciales requeridas</value>
+  </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>Anónimo</value>
+  </data>
+  <data name="CredentialDialogDescription.Text" xml:space="preserve">
+    <value>Proporcione su credencial:</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>Nombre de usuario</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>No se encontraron elementos</value>
+  </data>
+  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Widget de Contenedores</value>
+  </data>
+  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Widget de Unidades</value>
+  </data>
+  <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Widget de Carpetas</value>
+  </data>
+  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Widget de Archivos recientes</value>
+  </data>
+  <data name="OpenLogLocation.Title" xml:space="preserve">
+    <value>Abrir ubicación de registro (Log)</value>
+  </data>
+  <data name="OpenLogLocation.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Abrir ubicación de registro (Log)</value>
+  </data>
+  <data name="SettingsAboutOpenLogLocationButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Abrir ubicación de registro (Log)</value>
+  </data>
+  <data name="LinkToFolderCaptionText" xml:space="preserve">
+    <value>Crear vínculo en {0}</value>
+  </data>
+  <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
+    <value>Columnas</value>
+  </data>
+  <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
+    <value>Detalles</value>
+  </data>
+  <data name="NavToolbarLargeIconsHeader.Text" xml:space="preserve">
+    <value>Iconos grandes</value>
+  </data>
+  <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
+    <value>Iconos medianos</value>
+  </data>
+  <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
+    <value>Iconos pequeños</value>
+  </data>
+  <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
+    <value>Mosaicos</value>
   </data>
 </root>

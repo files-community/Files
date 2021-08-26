@@ -3205,7 +3205,7 @@
           <source>Show library section</source>
           <target state="new">Show library section</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceTheme.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsAppearanceTheme" translate="yes" xml:space="preserve">
           <source>Choose your color</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Wybierz kolor</target>
         </trans-unit>

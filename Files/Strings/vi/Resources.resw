@@ -141,7 +141,7 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Giới thiệu</value>
   </data>
-  <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Chọn màu của bạn</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">

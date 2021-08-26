@@ -1410,7 +1410,7 @@
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
     <value>ବହିଷ୍କାର...</value>
   </data>
-  <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>ଆପଣଙ୍କ ରଙ୍ଗ ବାଛନ୍ତୁ</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">

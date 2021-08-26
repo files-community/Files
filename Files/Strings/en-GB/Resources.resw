@@ -144,7 +144,7 @@
   <data name="SettingsDateFormat.Title" xml:space="preserve">
     <value>Date format</value>
   </data>
-  <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Choose your colour</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">

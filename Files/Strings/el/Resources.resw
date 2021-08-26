@@ -141,7 +141,7 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Σχετικά με το</value>
   </data>
-  <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Επιλέξτε το χρώμα σας</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">

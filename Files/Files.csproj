@@ -187,6 +187,7 @@
     <Compile Include="Filesystem\StorageItems\SystemStorageFolder.cs" />
     <Compile Include="Filesystem\StorageItems\ZipStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\ZipStorageFolder.cs" />
+    <Compile Include="Helpers\ResourceHelpers.cs" />
     <Compile Include="Helpers\FtpHelpers.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupedCollection.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupingHelper.cs" />

@@ -3186,7 +3186,7 @@
           <target state="needs-review-translation">於側邊欄顯示媒體櫃選項</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceTheme.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsAppearanceTheme" translate="yes" xml:space="preserve">
           <source>Choose your color</source>
           <target state="translated">選擇您的顏色配置</target>
         </trans-unit>

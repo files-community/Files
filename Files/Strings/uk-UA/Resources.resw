@@ -1902,7 +1902,7 @@
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
     <value>Вилучити</value>
   </data>
-  <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Вибір кольору</value>
   </data>
   <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">

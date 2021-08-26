@@ -1947,7 +1947,7 @@
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
     <value>Extrahera</value>
   </data>
-  <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Välj färg</value>
   </data>
   <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">

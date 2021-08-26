@@ -2382,7 +2382,7 @@
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>Kenar çubuğunda kitaplık bölümünü göster</value>
   </data>
-  <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Renginizi seçin</value>
   </data>
   <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">

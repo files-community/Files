@@ -1872,7 +1872,7 @@
   <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
     <value>استخراج...</value>
   </data>
-  <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>اختر اللون الخاص بك</value>
   </data>
   <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">

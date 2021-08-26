@@ -2379,7 +2379,7 @@
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>Rādīt bibliotēkas sekciju sānu joslā</value>
   </data>
-  <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Izvēlēties krāsu</value>
   </data>
   <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">

@@ -2384,7 +2384,7 @@
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>在侧边栏上显示库部分</value>
   </data>
-  <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>选择颜色</value>
   </data>
   <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
