@@ -59,7 +59,7 @@ steps:
     platform: 'x64'
     solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)";MSBuildExtensionsPath="$(ProgramFiles)\Microsoft Visual Studio\2022\Preview\Msbuild"'
+    msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)";WapProjPath="$(ProgramFiles)\Microsoft Visual Studio\2022\Preview\Msbuild\Microsoft\DesktopBridge\"'
     maximumCpuCount: true
 
 - task: CopyFiles@2
