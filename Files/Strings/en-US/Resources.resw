@@ -991,7 +991,7 @@
     <value>Move overflow items into a sub menu</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Pin Recycle Bin to Favorites</value>
+    <value>Pin Recycle Bin to favorites</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
     <value>Show a confirmation dialog when deleting files or folders</value>
@@ -2584,7 +2584,7 @@
     <value>Show WSL section</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>Show network drives section</value>
+    <value>Show network section</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
@@ -2837,7 +2837,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
     <value>Open folders in new tab</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Pin Recycle Bin to the favorites section</value>
+    <value>Pin Recycle Bin to favorites</value>
   </data>
   <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Language</value>

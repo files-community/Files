@@ -3181,12 +3181,12 @@
           <target state="new">Show WSL section</target>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show network drives section</source>
-          <target state="new">Show network drives section</target>
+          <source>Show network section</source>
+          <target state="new">Show network section</target>
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBin.Title" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to Favorites</source>
-          <target state="new">Pin Recycle Bin to Favorites</target>
+          <source>Pin Recycle Bin to favorites</source>
+          <target state="new">Pin Recycle Bin to favorites</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
           <source>Show library section</source>
@@ -3651,8 +3651,8 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <target state="new">Show favorites section</target>
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to the favorites section</source>
-          <target state="new">Pin Recycle Bin to the favorites section</target>
+          <source>Pin Recycle Bin to favorites</source>
+          <target state="new">Pin Recycle Bin to favorites</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show cloud drives section</source>

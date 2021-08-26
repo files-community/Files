@@ -1164,8 +1164,9 @@
           <target state="translated">Move overflow items into a sub menu</target>
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBin.Title" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to Favorites</source>
-          <target state="translated">Ancora la papelera a favorits</target>
+          <source>Pin Recycle Bin to favorites</source>
+          <target state="needs-review-translation">Ancora la papelera a favorits</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="PropertySaveErrorMessage.Text" translate="yes" xml:space="preserve">
           <source>There was an issue saving some properties.</source>
@@ -3220,8 +3221,8 @@
           <target state="new">Show WSL section</target>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show network drives section</source>
-          <target state="new">Show network drives section</target>
+          <source>Show network section</source>
+          <target state="new">Show network section</target>
         </trans-unit>
         <trans-unit id="WSL" translate="yes" xml:space="preserve">
           <source>WSL</source>
@@ -3630,8 +3631,8 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <target state="new">Show favorites section</target>
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to the favorites section</source>
-          <target state="new">Pin Recycle Bin to the favorites section</target>
+          <source>Pin Recycle Bin to favorites</source>
+          <target state="new">Pin Recycle Bin to favorites</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show cloud drives section</source>

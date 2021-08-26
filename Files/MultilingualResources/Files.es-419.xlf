@@ -3171,13 +3171,14 @@
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show network drives section</source>
+          <source>Show network section</source>
           <target state="needs-review-translation">Mostrar unidades de red en la barra lateral</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBin.Title" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to Favorites</source>
-          <target state="translated">Mostrar la Papelera de reciclaje en Favoritos</target>
+          <source>Pin Recycle Bin to favorites</source>
+          <target state="needs-review-translation">Mostrar la Papelera de reciclaje en Favoritos</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
           <source>Show library section</source>
@@ -3644,8 +3645,8 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
           <target state="new">Show favorites section</target>
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to the favorites section</source>
-          <target state="new">Pin Recycle Bin to the favorites section</target>
+          <source>Pin Recycle Bin to favorites</source>
+          <target state="new">Pin Recycle Bin to favorites</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show cloud drives section</source>

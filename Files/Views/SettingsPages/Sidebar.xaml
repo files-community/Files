@@ -51,7 +51,7 @@
 
             <local:SettingsBlockControl
                 x:Uid="SettingsPinRecycleBin"
-                Title="Pin Recycle Bin to the favorites section"
+                Title="Pin Recycle Bin to favorites"
                 HorizontalAlignment="Stretch"
                 IsEnabled="{Binding ShowFavoritesSection}">
                 <local:SettingsBlockControl.Icon>
@@ -59,7 +59,7 @@
                 </local:SettingsBlockControl.Icon>
                 <ToggleSwitch
                     x:Uid="SettingsPinRecycleBinSwitch"
-                    AutomationProperties.Name="Pin Recycle Bin to the favorites section"
+                    AutomationProperties.Name="Pin Recycle Bin to favorites"
                     IsOn="{Binding PinRecycleBinToSideBar, Mode=TwoWay}"
                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
