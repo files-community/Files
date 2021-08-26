@@ -613,10 +613,12 @@
                                     Text="Columns" />
                             </Grid>
 
-                            <TextBlock
-                                x:Uid="NavToolbarDisplayOptions"
-                                FontWeight="Medium"
-                                Text="Display Options" />
+                            <Border
+                                Margin="-20,0"
+                                HorizontalAlignment="Stretch"
+                                BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+                                BorderThickness="1" />
+
                             <StackPanel Spacing="4">
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowHiddenItems"
