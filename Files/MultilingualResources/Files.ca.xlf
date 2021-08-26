@@ -1163,7 +1163,7 @@
           <source>Move overflow items into a sub menu</source>
           <target state="translated">Move overflow items into a sub menu</target>
         </trans-unit>
-        <trans-unit id="SettingsRecycleBinSwitch.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsPinRecycleBin.Title" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to Favorites</source>
           <target state="translated">Ancora la papelera a favorits</target>
         </trans-unit>
@@ -1811,10 +1811,6 @@
           <source>Details</source>
           <target state="new">Details</target>
         </trans-unit>
-        <trans-unit id="NavToolbarDisplayOptions.Text" translate="yes" xml:space="preserve">
-          <source>Display Options</source>
-          <target state="new">Display Options</target>
-        </trans-unit>
         <trans-unit id="NavToolbarLayoutOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Layout</source>
           <target state="new">Layout</target>
@@ -1862,14 +1858,6 @@
         <trans-unit id="NavToolbarTiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Tiles (Ctrl+Shift+2)</source>
           <target state="new">Tiles (Ctrl+Shift+2)</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarShowFileExtensions.Header" translate="yes" xml:space="preserve">
-          <source>Show file extensions</source>
-          <target state="new">Show file extensions</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarShowHiddenItems.Header" translate="yes" xml:space="preserve">
-          <source>Show hidden items</source>
-          <target state="new">Show hidden items</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted.Text" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
@@ -3506,8 +3494,8 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <target state="new">Enable file tags</target>
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show Favorites section on the sidebar</source>
-          <target state="new">Show Favorites section on the sidebar</target>
+          <source>Show favorites section on the sidebar</source>
+          <target state="new">Show favorites section on the sidebar</target>
         </trans-unit>
         <trans-unit id="ConfictingItemsDialogOptionApplyToAll.Text" translate="yes" xml:space="preserve">
           <source>Apply to all</source>
@@ -3620,6 +3608,50 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="NavToolbarTilesHeader.Text" translate="yes" xml:space="preserve">
           <source>Tiles</source>
           <target state="new">Tiles</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowFileExtensionsHeader.Text" translate="yes" xml:space="preserve">
+          <source>Show file extensions</source>
+          <target state="new">Show file extensions</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show hidden items</source>
+          <target state="new">Show hidden items</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowFileExtensions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show file extensions</source>
+          <target state="new">Show file extensions</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowHiddenItemsHeader.Text" translate="yes" xml:space="preserve">
+          <source>Show hidden items</source>
+          <target state="new">Show hidden items</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show favorites section</source>
+          <target state="new">Show favorites section</target>
+        </trans-unit>
+        <trans-unit id="SettingsPinRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Pin Recycle Bin to the favorites section</source>
+          <target state="new">Pin Recycle Bin to the favorites section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show cloud drives section</source>
+          <target state="new">Show cloud drives section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show drives section</source>
+          <target state="new">Show drives section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show library section</source>
+          <target state="new">Show library section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show network section</source>
+          <target state="new">Show network section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowWslSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show WSL section</source>
+          <target state="new">Show WSL section</target>
         </trans-unit>
       </group>
     </body>

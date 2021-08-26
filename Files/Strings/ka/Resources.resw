@@ -873,7 +873,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
     <value>გადავსებული ნივთების ქვემენიუში გადატანა</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
     <value>სანაგვე ურნის ჩამაგრება გვერდითა ზოლში</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
@@ -1359,9 +1359,6 @@
   <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>დეტალების ხედი</value>
   </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>ჩვენების პარამეტრები</value>
-  </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>განლაგება</value>
   </data>
@@ -1397,12 +1394,6 @@
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>ფილების ხედი (Ctrl+Shift+2)</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
-    <value>ფაილის გაფართოებების ჩვენება</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
-    <value>დამალული ელემენტების ჩვენება</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>წაშლის თარიღი</value>

@@ -966,12 +966,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>विवरण दृश्‍य</value>
   </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>विकल्प प्रदर्शित करें</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
-    <value>फ़ाइल एक्स्टेंशन्स दिखाएँ</value>
-  </data>
   <data name="PropertyItemPathDisplay" xml:space="preserve">
     <value>मद पथ</value>
   </data>

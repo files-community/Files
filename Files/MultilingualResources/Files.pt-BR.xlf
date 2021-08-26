@@ -1977,10 +1977,6 @@
           <target state="needs-review-translation">Detalhado</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="NavToolbarDisplayOptions.Text" translate="yes" xml:space="preserve">
-          <source>Display Options</source>
-          <target state="translated">Opções de Visualização</target>
-        </trans-unit>
         <trans-unit id="NavToolbarLargeIcons.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
           <target state="needs-review-translation">Ícones grandes</target>
@@ -2016,14 +2012,6 @@
         <trans-unit id="NavToolbarTiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Tiles (Ctrl+Shift+2)</source>
           <target state="translated">Blocos (Ctrl+Shift+2)</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarShowFileExtensions.Header" translate="yes" xml:space="preserve">
-          <source>Show file extensions</source>
-          <target state="translated">Mostrar extensões de arquivo</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarShowHiddenItems.Header" translate="yes" xml:space="preserve">
-          <source>Show hidden items</source>
-          <target state="translated">Mostrar itens ocultos</target>
         </trans-unit>
         <trans-unit id="SidebarLibraries" translate="yes" xml:space="preserve">
           <source>Libraries</source>
@@ -3183,7 +3171,7 @@
           <source>Show network drives section on the sidebar</source>
           <target state="translated">Mostrar seção de drives de rede na barra lateral</target>
         </trans-unit>
-        <trans-unit id="SettingsRecycleBinSwitch.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsPinRecycleBin.Title" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to Favorites</source>
           <target state="translated">Fixar Lixeira nos Favoritos</target>
         </trans-unit>
@@ -3478,8 +3466,9 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
           <target state="translated">Status de sincronização</target>
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show Favorites section on the sidebar</source>
-          <target state="translated">Mostrar seção de favoritos na barra lateral</target>
+          <source>Show favorites section on the sidebar</source>
+          <target state="needs-review-translation">Mostrar seção de favoritos na barra lateral</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
@@ -3628,6 +3617,50 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
         <trans-unit id="NavToolbarTilesHeader.Text" translate="yes" xml:space="preserve">
           <source>Tiles</source>
           <target state="new">Tiles</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowFileExtensionsHeader.Text" translate="yes" xml:space="preserve">
+          <source>Show file extensions</source>
+          <target state="new">Show file extensions</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show hidden items</source>
+          <target state="new">Show hidden items</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowFileExtensions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show file extensions</source>
+          <target state="new">Show file extensions</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowHiddenItemsHeader.Text" translate="yes" xml:space="preserve">
+          <source>Show hidden items</source>
+          <target state="new">Show hidden items</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show favorites section</source>
+          <target state="new">Show favorites section</target>
+        </trans-unit>
+        <trans-unit id="SettingsPinRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Pin Recycle Bin to the favorites section</source>
+          <target state="new">Pin Recycle Bin to the favorites section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show cloud drives section</source>
+          <target state="new">Show cloud drives section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show drives section</source>
+          <target state="new">Show drives section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show library section</source>
+          <target state="new">Show library section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show network section</source>
+          <target state="new">Show network section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowWslSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show WSL section</source>
+          <target state="new">Show WSL section</target>
         </trans-unit>
       </group>
     </body>

@@ -990,7 +990,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
     <value>Move overflow items into a sub menu</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
     <value>Pin Recycle Bin to Favorites</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
@@ -2732,7 +2732,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
     <value>Enable file tags</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>Show Favorites section on the sidebar</value>
+    <value>Show favorites section on the sidebar</value>
   </data>
   <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
     <value>Apply to all</value>
@@ -2823,5 +2823,26 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
     <value>Show hidden items</value>
+  </data>
+  <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show favorites section</value>
+  </data>
+  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Pin Recycle Bin to the favorites section</value>
+  </data>
+  <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show cloud drives section</value>
+  </data>
+  <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show drives section</value>
+  </data>
+  <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show library section</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show network section</value>
+  </data>
+  <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Show WSL section</value>
   </data>
 </root>

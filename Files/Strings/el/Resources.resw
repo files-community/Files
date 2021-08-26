@@ -876,7 +876,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
     <value>Μετακίνηση στοιχείων υπερχείλισης σε υπομενού</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
     <value>Καρφίτσωμα κάδου ανακύκλωσης στα αγαπημένα</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
@@ -1362,9 +1362,6 @@
   <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Λεπτομέρειες Προβολή</value>
   </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>Επιλογές εμφάνισης</value>
-  </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Διάταξη</value>
   </data>
@@ -1400,12 +1397,6 @@
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Προβολή πλακιδίων (Ctrl+Shift+2)</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
-    <value>Εμφάνιση επεκτάσεων αρχείων</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
-    <value>Εμφάνιση κρυφών στοιχείων</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>Ημερομηνία διαγραφής</value>

@@ -1251,9 +1251,6 @@
   <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>자세히</value>
   </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>보기 옵션</value>
-  </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
     <value>격자 (대)</value>
   </data>
@@ -1277,12 +1274,6 @@
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>타일</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
-    <value>파일 확장명 표시</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
-    <value>숨긴 항목 표시</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>삭제된 날짜</value>

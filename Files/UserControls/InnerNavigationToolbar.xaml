@@ -443,10 +443,10 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40" />
-                                    <ColumnDefinition Width="100" />
-                                    <ColumnDefinition Width="20" />
+                                    <ColumnDefinition MaxWidth="100" />
                                     <ColumnDefinition Width="40" />
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition MaxWidth="100" />
                                 </Grid.ColumnDefinitions>
 
                                 <RadioButton
@@ -533,7 +533,7 @@
                                 <Border
                                     Grid.RowSpan="3"
                                     Grid.Column="2"
-                                    Height="80"
+                                    Height="100"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     BorderBrush="{ThemeResource ControlStrokeColorDefault}"

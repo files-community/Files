@@ -1254,9 +1254,6 @@
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Iconos (Ctrl+Mayús+2)</value>
   </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>Mostrar u ocultar</value>
-  </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
     <value>Iconos grandes</value>
   </data>
@@ -1268,12 +1265,6 @@
   </data>
   <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
     <value>Iconos</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
-    <value>Mostrar extensión de archivos</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
-    <value>Mostrar elementos ocultos</value>
   </data>
   <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Detalles</value>
@@ -2385,7 +2376,7 @@
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
     <value>Mostrar unidades de red en la barra lateral</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
     <value>Anclar la Papelera de reciclaje a Favoritos</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">

@@ -1245,9 +1245,6 @@
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>タイルビュー</value>
   </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>表示オプション</value>
-  </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
     <value>グリッドビュー (大)</value>
   </data>
@@ -1259,12 +1256,6 @@
   </data>
   <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
     <value>タイルビュー</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
-    <value>拡張子を表示</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
-    <value>隠しファイルを表示</value>
   </data>
   <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>詳細ビュー</value>

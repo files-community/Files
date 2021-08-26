@@ -1254,9 +1254,6 @@
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Vue tuiles (Ctrl+Shift+2)</value>
   </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>Options d'affichage</value>
-  </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
     <value>Vue grille (Grande)</value>
   </data>
@@ -1268,12 +1265,6 @@
   </data>
   <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
     <value>Vue tuiles</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
-    <value>Afficher les extensions de fichier</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
-    <value>Afficher les éléments cachés</value>
   </data>
   <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Vue détaillée</value>
@@ -2385,7 +2376,7 @@
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
     <value>Afficher la section disques réseau dans la barre latérale</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
     <value>Ajouter la Corbeille aux Favoris</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">

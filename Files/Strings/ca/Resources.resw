@@ -831,7 +831,7 @@
   <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
     <value>Move overflow items into a sub menu</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
     <value>Ancora la papelera a favorits</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">

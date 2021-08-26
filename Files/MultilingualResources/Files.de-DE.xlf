@@ -1672,10 +1672,6 @@
           <source>Tiles (Ctrl+Shift+2)</source>
           <target state="translated">Kachelansicht (Strg + Shift + 2)</target>
         </trans-unit>
-        <trans-unit id="NavToolbarDisplayOptions.Text" translate="yes" xml:space="preserve">
-          <source>Display Options</source>
-          <target state="translated">Anzeigeoptionen</target>
-        </trans-unit>
         <trans-unit id="NavToolbarLargeIcons.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
           <target state="needs-review-translation">Rasteransicht (Groß)</target>
@@ -1695,14 +1691,6 @@
           <source>Tiles</source>
           <target state="needs-review-translation">Kachelansicht</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
-        </trans-unit>
-        <trans-unit id="NavToolbarShowFileExtensions.Header" translate="yes" xml:space="preserve">
-          <source>Show file extensions</source>
-          <target state="translated">Dateierweiterungen anzeigen</target>
-        </trans-unit>
-        <trans-unit id="NavToolbarShowHiddenItems.Header" translate="yes" xml:space="preserve">
-          <source>Show hidden items</source>
-          <target state="translated">Versteckte Dateien und Ordner anzeigen</target>
         </trans-unit>
         <trans-unit id="NavToolbarDetails.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Details</source>
@@ -3189,7 +3177,7 @@
           <source>Show network drives section on the sidebar</source>
           <target state="translated">Netzwerklaufwerke anzeigen</target>
         </trans-unit>
-        <trans-unit id="SettingsRecycleBinSwitch.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsPinRecycleBin.Title" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to Favorites</source>
           <target state="translated">Papierkorp zu Favoriten hinzufügen</target>
         </trans-unit>
@@ -3484,8 +3472,8 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Synchronisierungsstatus</target>
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSection.Title" translate="yes" xml:space="preserve">
-          <source>Show Favorites section on the sidebar</source>
-          <target state="new">Show Favorites section on the sidebar</target>
+          <source>Show favorites section on the sidebar</source>
+          <target state="new">Show favorites section on the sidebar</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
@@ -3634,6 +3622,50 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="NavToolbarTilesHeader.Text" translate="yes" xml:space="preserve">
           <source>Tiles</source>
           <target state="new">Tiles</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowFileExtensionsHeader.Text" translate="yes" xml:space="preserve">
+          <source>Show file extensions</source>
+          <target state="new">Show file extensions</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show hidden items</source>
+          <target state="new">Show hidden items</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowFileExtensions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show file extensions</source>
+          <target state="new">Show file extensions</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarShowHiddenItemsHeader.Text" translate="yes" xml:space="preserve">
+          <source>Show hidden items</source>
+          <target state="new">Show hidden items</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show favorites section</source>
+          <target state="new">Show favorites section</target>
+        </trans-unit>
+        <trans-unit id="SettingsPinRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Pin Recycle Bin to the favorites section</source>
+          <target state="new">Pin Recycle Bin to the favorites section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show cloud drives section</source>
+          <target state="new">Show cloud drives section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show drives section</source>
+          <target state="new">Show drives section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show library section</source>
+          <target state="new">Show library section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show network section</source>
+          <target state="new">Show network section</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowWslSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show WSL section</source>
+          <target state="new">Show WSL section</target>
         </trans-unit>
       </group>
     </body>
