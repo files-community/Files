@@ -43,7 +43,9 @@
                     <FontIcon Glyph="&#xF2B7;" />
                 </local:SettingsBlockControl.Icon>
                 <ComboBox
+                    x:Uid="SettingsPreferencesAppLanguageComboBox"
                     HorizontalAlignment="Left"
+                    AutomationProperties.Name="Language"
                     ItemsSource="{Binding DefaultLanguages}"
                     SelectedIndex="{Binding SelectedLanguageIndex, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
@@ -63,8 +65,10 @@
                 </local:SettingsBlockControl.Icon>
                 <ComboBox
                     x:Name="TerminalApplicationsComboBox"
+                    x:Uid="TerminalApplicationsComboBox"
                     Width="Auto"
                     MaxWidth="140"
+                    AutomationProperties.Name="Terminal application"
                     ItemsSource="{Binding Terminals}"
                     SelectedItem="{Binding SelectedTerminal, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
@@ -107,6 +111,8 @@
                 </local:SettingsBlockControl.Icon>
                 <ComboBox
                     x:Name="DateFormatChooser"
+                    x:Uid="SettingsDateFormatComboBox"
+                    AutomationProperties.Name="Date format"
                     ItemsSource="{Binding DateFormats}"
                     SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
             </local:SettingsBlockControl>
@@ -120,6 +126,8 @@
                 </local:SettingsBlockControl.Icon>
                 <ToggleSwitch
                     x:Name="ShowConfirmDeleteDialogSwitch"
+                    x:Uid="SettingsShowConfirmDeleteDialogToggleSwitch"
+                    AutomationProperties.Name="Show a confirmation dialog when deleting files or folders"
                     IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}"
                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
@@ -133,6 +141,8 @@
                 </local:SettingsBlockControl.Icon>
                 <ToggleSwitch
                     x:Name="OpenFoldersNewTab"
+                    x:Uid="SettingsOpenFoldersNewTabToggleSwitch"
+                    AutomationProperties.Name="Open folders in new tab"
                     IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}"
                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
