@@ -1218,9 +1218,6 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Annullér</value>
   </data>
-  <data name="OngoingTasksFlyoutTitle.Text" xml:space="preserve">
-    <value>Igangværende opgaver</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Åbn i sekundærrude</value>
   </data>

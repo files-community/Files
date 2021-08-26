@@ -1776,10 +1776,6 @@
           <source>Cancel</source>
           <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
         </trans-unit>
-        <trans-unit id="OngoingTasksFlyoutTitle.Text" translate="yes" xml:space="preserve">
-          <source>Ongoing Tasks</source>
-          <target state="translated">Ongoing Tasks</target>
-        </trans-unit>
         <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane" translate="yes" xml:space="preserve">
           <source>Always open new tabs in dual pane mode</source>
           <target state="translated">Always open new tabs in dual pane mode</target>

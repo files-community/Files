@@ -1215,9 +1215,6 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>取消</value>
   </data>
-  <data name="OngoingTasksFlyoutTitle.Text" xml:space="preserve">
-    <value>執行中的檔案操作</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>在副畫面中開啟</value>
   </data>

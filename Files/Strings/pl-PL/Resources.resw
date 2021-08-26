@@ -1209,9 +1209,6 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Anuluj</value>
   </data>
-  <data name="OngoingTasksFlyoutTitle.Text" xml:space="preserve">
-    <value>Bieżące zadania</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Otwórz w drugim panelu</value>
   </data>

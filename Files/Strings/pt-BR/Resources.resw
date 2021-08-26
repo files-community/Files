@@ -1215,9 +1215,6 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Cancelar</value>
   </data>
-  <data name="OngoingTasksFlyoutTitle.Text" xml:space="preserve">
-    <value>Tarefas em Andamento</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Abrir no painel secundário</value>
   </data>

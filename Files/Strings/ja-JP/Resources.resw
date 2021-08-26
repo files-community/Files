@@ -1206,9 +1206,6 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>キャンセル</value>
   </data>
-  <data name="OngoingTasksFlyoutTitle.Text" xml:space="preserve">
-    <value>進行中の処理</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>セカンダリ ペインで開く</value>
   </data>

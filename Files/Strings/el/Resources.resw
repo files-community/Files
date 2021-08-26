@@ -1323,9 +1323,6 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Ακύρωση</value>
   </data>
-  <data name="OngoingTasksFlyoutTitle.Text" xml:space="preserve">
-    <value>Συνεχιζόμενα καθήκοντα</value>
-  </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Ανοίγετε πάντα νέες καρτέλες σε λειτουργία διπλού παραθύρου</value>
   </data>

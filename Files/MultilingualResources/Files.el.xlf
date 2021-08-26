@@ -1760,10 +1760,6 @@
           <source>Cancel</source>
           <target state="translated">Ακύρωση</target>
         </trans-unit>
-        <trans-unit id="OngoingTasksFlyoutTitle.Text" translate="yes" xml:space="preserve">
-          <source>Ongoing Tasks</source>
-          <target state="translated">Συνεχιζόμενα καθήκοντα</target>
-        </trans-unit>
         <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane" translate="yes" xml:space="preserve">
           <source>Always open new tabs in dual pane mode</source>
           <target state="translated">Ανοίγετε πάντα νέες καρτέλες σε λειτουργία διπλού παραθύρου</target>

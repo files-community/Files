@@ -8,11 +8,11 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls
 {
-    public sealed partial class OngoingTasks : UserControl
+    public sealed partial class OngoingTasksFlyout : UserControl
     {
         public OngoingTasksViewModel OngoingTasksViewModel { get; set; }
 
-        public OngoingTasks()
+        public OngoingTasksFlyout()
         {
             this.InitializeComponent();
         }

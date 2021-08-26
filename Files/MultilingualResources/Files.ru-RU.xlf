@@ -1618,10 +1618,6 @@
           <source>Cancel</source>
           <target state="translated">Отмена</target>
         </trans-unit>
-        <trans-unit id="OngoingTasksFlyoutTitle.Text" translate="yes" xml:space="preserve">
-          <source>Ongoing Tasks</source>
-          <target state="translated">Текущие операции</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
           <target state="translated">Открыть на дополнительной панели</target>

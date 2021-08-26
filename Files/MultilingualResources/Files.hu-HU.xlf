@@ -1619,10 +1619,6 @@
           <source>Cancel</source>
           <target state="translated">Mégse</target>
         </trans-unit>
-        <trans-unit id="OngoingTasksFlyoutTitle.Text" translate="yes" xml:space="preserve">
-          <source>Ongoing Tasks</source>
-          <target state="translated">Folyamatban lévő műveletek</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
           <target state="translated">Megnyitás a jobb oldali panelen</target>

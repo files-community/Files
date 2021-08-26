@@ -474,8 +474,8 @@
     <Compile Include="UserControls\StatusBarControl.xaml.cs">
       <DependentUpon>StatusBarControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\StatusCenter.xaml.cs">
-      <DependentUpon>StatusCenter.xaml</DependentUpon>
+    <Compile Include="UserControls\OngoingTasksFlyout.xaml.cs">
+      <DependentUpon>OngoingTasksFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MultitaskingControl\TabItem\TabItem.cs" />
     <Compile Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml.cs">
@@ -1312,7 +1312,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\StatusCenter.xaml">
+    <Page Include="UserControls\OngoingTasksFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

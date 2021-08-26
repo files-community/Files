@@ -1635,10 +1635,6 @@
           <source>Cancel</source>
           <target state="translated">Annullér</target>
         </trans-unit>
-        <trans-unit id="OngoingTasksFlyoutTitle.Text" translate="yes" xml:space="preserve">
-          <source>Ongoing Tasks</source>
-          <target state="translated">Igangværende opgaver</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
           <target state="translated">Åbn i sekundærrude</target>

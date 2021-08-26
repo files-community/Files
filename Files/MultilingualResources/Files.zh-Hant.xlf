@@ -1616,10 +1616,6 @@
           <source>Cancel</source>
           <target state="translated" state-qualifier="tm-suggestion">取消</target>
         </trans-unit>
-        <trans-unit id="OngoingTasksFlyoutTitle.Text" translate="yes" xml:space="preserve">
-          <source>Ongoing Tasks</source>
-          <target state="translated">執行中的檔案操作</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
           <target state="translated">在副畫面中開啟</target>

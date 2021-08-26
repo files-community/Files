@@ -1302,9 +1302,6 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Hủy bỏ</value>
   </data>
-  <data name="OngoingTasksFlyoutTitle.Text" xml:space="preserve">
-    <value>Nhiệm vụ đang xảy ra</value>
-  </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Mở tab mới bằng chế độ hai phần luôn luôn</value>
   </data>

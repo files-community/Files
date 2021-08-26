@@ -1320,9 +1320,6 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>გაუქმება</value>
   </data>
-  <data name="OngoingTasksFlyoutTitle.Text" xml:space="preserve">
-    <value>მიმდინარე დავალებები</value>
-  </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>ახალი ჩანართების ყოველთვის გახსნა ორმაგი სარკმლის რეჟიმში</value>
   </data>

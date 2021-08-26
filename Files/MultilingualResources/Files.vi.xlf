@@ -1761,10 +1761,6 @@
           <source>Cancel</source>
           <target state="translated">Hủy bỏ</target>
         </trans-unit>
-        <trans-unit id="OngoingTasksFlyoutTitle.Text" translate="yes" xml:space="preserve">
-          <source>Ongoing Tasks</source>
-          <target state="translated">Nhiệm vụ đang xảy ra</target>
-        </trans-unit>
         <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane" translate="yes" xml:space="preserve">
           <source>Always open new tabs in dual pane mode</source>
           <target state="needs-review-translation">Mở tab mới bằng chế độ hai phần luôn luôn</target>
