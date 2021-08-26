@@ -2423,9 +2423,6 @@
   <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
     <value>复制</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>打开日志目录</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>固定至收藏夹</value>
   </data>

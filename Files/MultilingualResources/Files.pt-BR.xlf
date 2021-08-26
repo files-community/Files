@@ -3237,10 +3237,6 @@
           <source>Copy</source>
           <target state="translated">Copiar</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Open log location</source>
-          <target state="translated">Abrir localização do log</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutPinToFavorites.Text" translate="yes" xml:space="preserve">
           <source>Pin to Favorites</source>
           <target state="translated">Fixar nos Favoritos</target>
@@ -3584,15 +3580,11 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
           <source>Recent Files Widget</source>
           <target state="translated">Widget de Arquivos Recentes</target>
         </trans-unit>
-        <trans-unit id="OpenLogLocation.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="OpenLogLocation" translate="yes" xml:space="preserve">
           <source>Open log location</source>
           <target state="translated">Abrir local de log</target>
         </trans-unit>
         <trans-unit id="OpenLogLocation.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Open log location</source>
-          <target state="translated">Abrir local de log</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutOpenLogLocationButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Open log location</source>
           <target state="translated">Abrir local de log</target>
         </trans-unit>

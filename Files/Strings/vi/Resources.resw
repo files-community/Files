@@ -507,9 +507,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Tên mục không được có những ký tự trong danh sách sau: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Mở vị trí log</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>mục đã chọn</value>
   </data>

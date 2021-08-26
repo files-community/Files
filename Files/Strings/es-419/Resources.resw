@@ -2409,9 +2409,6 @@
   <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
     <value>Copiar</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Abrir ubicación de archivo de registro (Log)</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>Anclar a Favoritos</value>
   </data>
@@ -2665,13 +2662,10 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget de Archivos recientes</value>
   </data>
-  <data name="OpenLogLocation.Title" xml:space="preserve">
+  <data name="OpenLogLocation" xml:space="preserve">
     <value>Abrir ubicación de registro (Log)</value>
   </data>
   <data name="OpenLogLocation.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Abrir ubicación de registro (Log)</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Abrir ubicación de registro (Log)</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">

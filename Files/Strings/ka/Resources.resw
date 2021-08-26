@@ -507,9 +507,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>ნივთის სახელი არ უნდა შეიცავდეს შემდეგ სიმბოლოებს: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>ჟურნალის გახსნა</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>არჩეული ნივთი</value>
   </data>

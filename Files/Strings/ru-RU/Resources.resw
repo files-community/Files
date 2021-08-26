@@ -2379,9 +2379,6 @@
   <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
     <value>Копировать</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Открыть расположение лог файла</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>Закрепить в избранном</value>
   </data>

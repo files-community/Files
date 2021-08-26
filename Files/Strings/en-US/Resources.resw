@@ -618,9 +618,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Open log location</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>item selected</value>
   </data>
@@ -2788,13 +2785,10 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>No items found</value>
   </data>
-  <data name="OpenLogLocation.Title" xml:space="preserve">
+  <data name="OpenLogLocation" xml:space="preserve">
     <value>Open log location</value>
   </data>
   <data name="OpenLogLocation.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Open log location</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Open log location</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">

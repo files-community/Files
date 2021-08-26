@@ -2406,9 +2406,6 @@
   <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
     <value>Másolás</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Naplózás helyének megnyitása</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>Kitűzés a kedvencekhez</value>
   </data>

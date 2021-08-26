@@ -2421,9 +2421,6 @@
   <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
     <value>Kopieren</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Log-Ordner öffnen</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>Zu Favoriten hinzufügen</value>
   </data>

@@ -2421,9 +2421,6 @@
   <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
     <value>Kopyala</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Günlük konumunu aç</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>Favorilere Sabitle</value>
   </data>

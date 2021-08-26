@@ -2418,9 +2418,6 @@
   <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
     <value>Kopēt</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Atvērt žurnāla atrašanās vietu</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
     <value>Piespraust pie favorītiem</value>
   </data>

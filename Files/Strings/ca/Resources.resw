@@ -489,9 +489,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>El nom de l'element no pot tenir els següents caràcters: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Obre històric d'ubicació</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>element seleccionat</value>
   </data>
