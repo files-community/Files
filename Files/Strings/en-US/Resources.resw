@@ -2550,7 +2550,7 @@
   <data name="PropertySyncStatus" xml:space="preserve">
     <value>Sync status</value>
   </data>
-  <data name="PreviewPaneLoadCloudItemButton.Content" xml:space="preserve">
+  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
     <value>Load full preview</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
@@ -2773,7 +2773,16 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>No items found</value>
   </data>
+  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
+    <value>Show preview only</value>
+  </data>
   <data name="OpenLogLocation" xml:space="preserve">
+    <value>Open log location</value>
+  </data>
+  <data name="OpenLogLocation.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Open log location</value>
+  </data>
+  <data name="SettingsAboutOpenLogLocationButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Open log location</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">

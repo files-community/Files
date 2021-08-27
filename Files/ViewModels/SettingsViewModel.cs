@@ -157,6 +157,15 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating if the preview pane should only show the item preview without the details section
+        /// </summary>
+        public bool ShowPreviewOnly
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         public async void DetectQuickLook()
         {
             // Detect QuickLook

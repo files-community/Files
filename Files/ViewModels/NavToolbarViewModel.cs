@@ -74,13 +74,13 @@ namespace Files.ViewModels
 
         public bool IsSortedAscending
         {
-            get => InstanceViewModel.FolderSettings.DirectorySortDirection == SortDirection.Ascending;
+            get => InstanceViewModel?.FolderSettings.DirectorySortDirection == SortDirection.Ascending;
             set { if (value) InstanceViewModel.FolderSettings.DirectorySortDirection = SortDirection.Ascending; }
         }
 
         public bool IsSortedDescending
         {
-            get => InstanceViewModel.FolderSettings.DirectorySortDirection == SortDirection.Descending;
+            get => InstanceViewModel?.FolderSettings.DirectorySortDirection == SortDirection.Descending;
             set { if (value) InstanceViewModel.FolderSettings.DirectorySortDirection = SortDirection.Descending; }
         }
 
