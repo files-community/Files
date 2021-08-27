@@ -85,23 +85,23 @@
 		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
 		<Prefer32Bit>true</Prefer32Bit>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|arm64'">
 		<DebugSymbols>true</DebugSymbols>
-		<OutputPath>bin\ARM64\Debug\</OutputPath>
+		<OutputPath>bin\arm64\Debug\</OutputPath>
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
 		<DebugType>full</DebugType>
-		<PlatformTarget>ARM64</PlatformTarget>
+		<PlatformTarget>arm64</PlatformTarget>
 		<LangVersion>10.0</LangVersion>
 		<ErrorReport>prompt</ErrorReport>
 		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
 		<Prefer32Bit>true</Prefer32Bit>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
-		<OutputPath>bin\ARM64\Release\</OutputPath>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|arm64'">
+		<OutputPath>bin\arm64\Release\</OutputPath>
 		<DefineConstants>TRACE</DefineConstants>
 		<Optimize>true</Optimize>
 		<DebugType>pdbonly</DebugType>
-		<PlatformTarget>ARM64</PlatformTarget>
+		<PlatformTarget>arm64</PlatformTarget>
 		<LangVersion>10.0</LangVersion>
 		<ErrorReport>prompt</ErrorReport>
 		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
