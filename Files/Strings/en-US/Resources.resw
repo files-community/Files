@@ -2779,12 +2779,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Open log location</value>
   </data>
-  <data name="OpenLogLocation.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Open log location</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Open log location</value>
-  </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Create link in {0}</value>
   </data>

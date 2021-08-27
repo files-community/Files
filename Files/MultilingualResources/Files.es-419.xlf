@@ -3659,14 +3659,6 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
           <source>Show preview only</source>
           <target state="new">Show preview only</target>
         </trans-unit>
-        <trans-unit id="OpenLogLocation.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Open log location</source>
-          <target state="new">Open log location</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutOpenLogLocationButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Open log location</source>
-          <target state="new">Open log location</target>
-        </trans-unit>
       </group>
     </body>
   </file>

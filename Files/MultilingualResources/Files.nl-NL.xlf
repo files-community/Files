@@ -3673,14 +3673,6 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
           <source>Show preview only</source>
           <target state="new">Show preview only</target>
         </trans-unit>
-        <trans-unit id="OpenLogLocation.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Open log location</source>
-          <target state="new">Open log location</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutOpenLogLocationButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Open log location</source>
-          <target state="new">Open log location</target>
-        </trans-unit>
       </group>
     </body>
   </file>
