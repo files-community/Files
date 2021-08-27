@@ -2301,9 +2301,6 @@
   <data name="PropertySyncStatus" xml:space="preserve">
     <value>Estado de sicronização</value>
   </data>
-  <data name="PreviewPaneLoadCloudItemButton.Content" xml:space="preserve">
-    <value>Carregar pré-visualização completa</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Transferir o item da nuvem e carregar a pré-visualização</value>
   </data>

@@ -2259,9 +2259,6 @@
   <data name="PropertySyncStatus" xml:space="preserve">
     <value>Состояние синхронизации</value>
   </data>
-  <data name="PreviewPaneLoadCloudItemButton.Content" xml:space="preserve">
-    <value>Загрузить полный предварительный просмотр</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Загружает объект из облака и загружает предварительный просмотр</value>
   </data>

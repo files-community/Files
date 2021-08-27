@@ -2391,9 +2391,6 @@
   <data name="PropertySyncStatus" xml:space="preserve">
     <value>Κατάσταση συγχρονισμού</value>
   </data>
-  <data name="PreviewPaneLoadCloudItemButton.Content" xml:space="preserve">
-    <value>Φόρτωση πλήρους προεπισκόπησης</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Λήψη του στοιχείου από το cloud και φόρτωση της προεπισκόπησης</value>
   </data>

@@ -2301,9 +2301,6 @@
   <data name="PropertySyncStatus" xml:space="preserve">
     <value>Sync-Status</value>
   </data>
-  <data name="PreviewPaneLoadCloudItemButton.Content" xml:space="preserve">
-    <value>Vollständige Vorschau laden</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Lädt die Datei aus der Cloud herunter und lädt die Vorschau.</value>
   </data>

@@ -2289,9 +2289,6 @@
   <data name="PropertySyncStatus" xml:space="preserve">
     <value>Szinkronizálás állapota</value>
   </data>
-  <data name="PreviewPaneLoadCloudItemButton.Content" xml:space="preserve">
-    <value>Teljes előnézet betöltése</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Elem letöltése a felhőből, majd előnézet betöltése</value>
   </data>

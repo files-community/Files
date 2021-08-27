@@ -2385,9 +2385,6 @@
   <data name="PropertySyncStatus" xml:space="preserve">
     <value>სინქრონიზაციის სტატუსი</value>
   </data>
-  <data name="PreviewPaneLoadCloudItemButton.Content" xml:space="preserve">
-    <value>სრული გადახედვის ჩატვირთვა</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ჩამოტვირთავს ნივთს ღრუბლიდან და ჩატვირთავს გადახედვას</value>
   </data>

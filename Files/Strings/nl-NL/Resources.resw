@@ -2301,9 +2301,6 @@
   <data name="PropertySyncStatus" xml:space="preserve">
     <value>Synchronisatie status</value>
   </data>
-  <data name="PreviewPaneLoadCloudItemButton.Content" xml:space="preserve">
-    <value>Volledig voorbeeld laden</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Downloadt het item van de cloud en laadt een voorbeeld</value>
   </data>

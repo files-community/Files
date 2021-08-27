@@ -2355,9 +2355,6 @@
   <data name="PropertySyncStatus" xml:space="preserve">
     <value>Trạng thái đồng bộ</value>
   </data>
-  <data name="PreviewPaneLoadCloudItemButton.Content" xml:space="preserve">
-    <value>Tải nguyên xem trước</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tải mục từ đám mây và tải xem trước</value>
   </data>

@@ -2303,9 +2303,6 @@
   <data name="PropertySyncStatus" xml:space="preserve">
     <value>同步状态</value>
   </data>
-  <data name="PreviewPaneLoadCloudItemButton.Content" xml:space="preserve">
-    <value>加载完整预览</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>从云端下载项并加载预览</value>
   </data>

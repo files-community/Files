@@ -2298,9 +2298,6 @@
   <data name="PropertySyncStatus" xml:space="preserve">
     <value>同步狀態</value>
   </data>
-  <data name="PreviewPaneLoadCloudItemButton.Content" xml:space="preserve">
-    <value>載入完整預覽</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>從雲端下載檔案並載入預覽</value>
   </data>
