@@ -20,7 +20,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
                 <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
