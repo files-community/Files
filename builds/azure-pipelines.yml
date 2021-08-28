@@ -9,6 +9,7 @@ variables:
   buildPlatform: 'x64'
   buildConfiguration: 'Release'
   appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
+  WapPath: 'C:\Program Files\Microsoft Visual Studio\2022\Preview\Msbuild\Microsoft\DesktopBridge'
 
 steps:
 - task: PowerShell@2
@@ -59,7 +60,7 @@ steps:
     platform: 'x64'
     solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)"'
+    msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)";WapProjPath="$(WapPath)"'
     maximumCpuCount: true
 
 - task: CopyFiles@2
