@@ -29,7 +29,10 @@ namespace Files.ViewModels
         public FolderSettingsViewModel(FolderLayoutModes modeOverride)
         {
             rootLayoutMode = modeOverride;
+
             this.LayoutPreference = new LayoutPreferences();
+
+            SetLayoutInformation();
         }
 
         private readonly FolderLayoutModes? rootLayoutMode;
@@ -94,15 +97,6 @@ namespace Files.ViewModels
             LayoutModeInformation = new FolderLayoutInformation()
             {
                 Mode = LayoutMode,
-                SizeKind = GridViewSizeKind
-            };
-        }
-
-        public void SetLayoutInformation(FolderLayoutModes mode)
-        {
-            LayoutModeInformation = new FolderLayoutInformation()
-            {
-                Mode = mode,
                 SizeKind = GridViewSizeKind
             };
         }
