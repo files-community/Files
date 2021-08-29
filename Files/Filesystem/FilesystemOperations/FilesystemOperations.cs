@@ -54,7 +54,7 @@ namespace Files.Filesystem
 
         public async Task<(IStorageHistory, IStorageItem)> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
-            IStorageItem item = null;
+            IStorageItemWithPath item = null;
             try
             {
                 switch (source.ItemType)
@@ -64,12 +64,52 @@ namespace Files.Filesystem
                             var newEntryInfo = await RegistryHelper.GetNewContextMenuEntryForType(Path.GetExtension(source.Path));
                             if (newEntryInfo == null)
                             {
-                                BaseStorageFolder folder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(source.Path));
-                                item = await folder.CreateFileAsync(Path.GetFileName(source.Path));
+                                var fsFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(source.Path));
+                                var fsResult = (FilesystemResult)false;
+                                if (fsFolderResult)
+                                {
+                                    var fsCreateResult = await FilesystemTasks.Wrap(() => fsFolderResult.Result.CreateFileAsync(Path.GetFileName(source.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
+                                    fsResult = fsCreateResult;
+                                    item = fsCreateResult.Result.FromStorageItem();
+                                }
+                                if (fsResult == FileSystemStatusCode.Unauthorized)
+                                {
+                                    (var fsAdminResult, var shellOpRes) = await PerformAdminOperation(new ValueSet()
+                                    {
+                                        { "Arguments", "FileOperation" },
+                                        { "fileop", "CreateFile" },
+                                        { "filepath", source.Path }
+                                    });
+                                    if (fsAdminResult)
+                                    {
+                                        fsResult = fsAdminResult;
+                                        item = StorageItemHelpers.FromPathAndType(shellOpRes.Items.SingleOrDefault()?.Destination, FilesystemItemType.File);
+                                    }
+                                }
                             }
                             else
                             {
-                                item = (await newEntryInfo.Create(source.Path, associatedInstance)).Result;
+                                var fsCreateResult = await newEntryInfo.Create(source.Path, associatedInstance);
+                                if (fsCreateResult)
+                                {
+                                    item = fsCreateResult.Result.FromStorageItem();
+                                }
+                                var fsResult = (FilesystemResult)fsCreateResult.ErrorCode;
+                                if (fsResult == FileSystemStatusCode.Unauthorized)
+                                {
+                                    (var fsAdminResult, var shellOpRes) = await PerformAdminOperation(new ValueSet()
+                                    {
+                                        { "Arguments", "FileOperation" },
+                                        { "fileop", "CreateFile" },
+                                        { "filepath", source.Path },
+                                        { "template", newEntryInfo.Template }
+                                    });
+                                    if (fsAdminResult && shellOpRes.Items.Count == 1)
+                                    {
+                                        fsResult = fsAdminResult;
+                                        item = StorageItemHelpers.FromPathAndType(shellOpRes.Items.Single().Destination, FilesystemItemType.File);
+                                    }
+                                }
                             }
 
                             break;
@@ -77,9 +117,28 @@ namespace Files.Filesystem
 
                     case FilesystemItemType.Directory:
                         {
-                            BaseStorageFolder folder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(source.Path));
-                            item = await folder.CreateFolderAsync(Path.GetFileName(source.Path));
-
+                            var fsFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(source.Path));
+                            var fsResult = (FilesystemResult)false;
+                            if (fsFolderResult)
+                            {
+                                var fsCreateResult = await FilesystemTasks.Wrap(() => fsFolderResult.Result.CreateFolderAsync(Path.GetFileName(source.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
+                                fsResult = fsCreateResult;
+                                item = fsCreateResult.Result.FromStorageItem();
+                            }
+                            if (fsResult == FileSystemStatusCode.Unauthorized)
+                            {
+                                (var fsAdminResult, var shellOpRes) = await PerformAdminOperation(new ValueSet()
+                                {
+                                    { "Arguments", "FileOperation" },
+                                    { "fileop", "CreateFolder" },
+                                    { "filepath", source.Path }
+                                });
+                                if (fsAdminResult && shellOpRes.Items.Count == 1)
+                                {
+                                    fsResult = fsAdminResult;
+                                    item = StorageItemHelpers.FromPathAndType(shellOpRes.Items.Single().Destination, FilesystemItemType.Directory);
+                                }
+                            }
                             break;
                         }
 
@@ -89,7 +148,11 @@ namespace Files.Filesystem
                 }
 
                 errorCode?.Report(FileSystemStatusCode.Success);
-                return (new StorageHistory(FileOperationType.CreateNew, source.CreateEnumerable(), null), item);
+                if (item != null)
+                {
+                    return (new StorageHistory(FileOperationType.CreateNew, item.CreateEnumerable(), null), item.Item);
+                }
+                return (null, null);
             }
             catch (Exception e)
             {
@@ -195,7 +258,7 @@ namespace Files.Filesystem
                     }
                     if (fsResult == FileSystemStatusCode.Unauthorized)
                     {
-                        fsResult = await PerformAdminOperation(new ValueSet()
+                        (fsResult, _) = await PerformAdminOperation(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "CopyItem" },
@@ -253,7 +316,7 @@ namespace Files.Filesystem
                     }
                     if (fsResult == FileSystemStatusCode.Unauthorized)
                     {
-                        fsResult = await PerformAdminOperation(new ValueSet()
+                        (fsResult, _) = await PerformAdminOperation(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "CopyItem" },
@@ -418,7 +481,7 @@ namespace Files.Filesystem
                         }
                         if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
                         {
-                            fsResult = await PerformAdminOperation(new ValueSet()
+                            (fsResult, _) = await PerformAdminOperation(new ValueSet()
                             {
                                 { "Arguments", "FileOperation" },
                                 { "fileop", "MoveItem" },
@@ -464,7 +527,7 @@ namespace Files.Filesystem
                     }
                     if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
                     {
-                        fsResult = await PerformAdminOperation(new ValueSet()
+                        (fsResult, _) = await PerformAdminOperation(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "MoveItem" },
@@ -558,7 +621,7 @@ namespace Files.Filesystem
                 // not neeeded if called after trying with ShellFilesystemOperations
                 if (!fsResult)
                 {
-                    fsResult = await PerformAdminOperation(new ValueSet()
+                    (fsResult, _) = await PerformAdminOperation(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "DeleteItem" },
@@ -674,7 +737,7 @@ namespace Files.Filesystem
                     }
                     else
                     {
-                        var fsResult = await PerformAdminOperation(new ValueSet()
+                        var (fsResult, _) = await PerformAdminOperation(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "RenameItem" },
@@ -785,7 +848,7 @@ namespace Files.Filesystem
                 }
                 if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
                 {
-                    fsResult = await PerformAdminOperation(new ValueSet()
+                    (fsResult, _) = await PerformAdminOperation(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "MoveItem" },
@@ -870,7 +933,7 @@ namespace Files.Filesystem
             return createdRoot;
         }
 
-        private async Task<FilesystemResult> PerformAdminOperation(ValueSet operation)
+        private async Task<(FilesystemResult, ShellOperationResult)> PerformAdminOperation(ValueSet operation)
         {
             var elevateConfirmDialog = new Files.Dialogs.ElevateConfirmDialog();
             var elevateConfirmResult = await elevateConfirmDialog.ShowAsync();
@@ -888,11 +951,11 @@ namespace Files.Filesystem
                             && response.Get("Success", false));
                         var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", "{\"Items\": []}"));
                         fsResult &= (FilesystemResult)shellOpResult.Items.All(x => x.Succeeded);
-                        return fsResult;
+                        return (fsResult, shellOpResult);
                     }
                 }
             }
-            return (FilesystemResult)false;
+            return ((FilesystemResult)false, null);
         }
 
         #endregion Helpers

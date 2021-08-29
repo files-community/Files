@@ -140,6 +140,57 @@ namespace FilesFullTrust.MessageHandlers
                     await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
                     break;
 
+                case "CreateFile":
+                case "CreateFolder":
+                    {
+                        var filePath = (string)message["filepath"];
+                        var template = message.Get("template", (string)null);
+                        var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
+                        {
+                            using (var op = new ShellFileOperations())
+                            {
+                                op.Options = ShellFileOperations.OperationFlags.Silent
+                                            | ShellFileOperations.OperationFlags.NoConfirmMkDir
+                                            | ShellFileOperations.OperationFlags.RenameOnCollision
+                                            | ShellFileOperations.OperationFlags.NoErrorUI;
+
+                                var shellOperationResult = new ShellOperationResult();
+
+                                using var shd = new ShellFolder(Path.GetDirectoryName(filePath));
+                                op.QueueNewItemOperation(shd, Path.GetFileName(filePath), 
+                                    (string)message["fileop"] == "CreateFolder" ? FileAttributes.Directory : FileAttributes.Normal, template);
+
+                                var createTcs = new TaskCompletionSource<bool>();
+                                op.PostNewItem += (s, e) =>
+                                {
+                                    shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                    {
+                                        Succeeded = e.Result.Succeeded,
+                                        Destination = e.DestItem?.FileSystemPath,
+                                        HRresult = (int)e.Result
+                                    });
+                                };
+                                op.FinishOperations += (s, e) => createTcs.TrySetResult(e.Result.Succeeded);
+
+                                try
+                                {
+                                    op.PerformOperations();
+                                }
+                                catch
+                                {
+                                    createTcs.TrySetResult(false);
+                                }
+
+                                return (await createTcs.Task, shellOperationResult);
+                            }
+                        });
+                        await Win32API.SendMessageAsync(connection, new ValueSet() {
+                            { "Success", success },
+                            { "Result", JsonConvert.SerializeObject(shellOperationResult) }
+                        }, message.Get("RequestID", (string)null));
+                    }
+                    break;
+
                 case "DeleteItem":
                     {
                         var fileToDeletePath = ((string)message["filepath"]).Split('|');
