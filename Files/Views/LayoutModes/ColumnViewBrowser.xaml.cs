@@ -163,25 +163,18 @@ namespace Files.Views.LayoutModes
 
         private void ColumnViewBase_DismissColumn(object sender, EventArgs e)
         {
+            if ((sender as ListView).FindAscendant<ColumnViewBrowser>() != this)
+            {
+                return;
+            }
             DismissOtherBlades(sender as ListView);
         }
 
         private void ColumnViewBase_UnFocusPreviousListView(object sender, EventArgs e)
         {
-            var list = sender as ListView;
-            var blade = list.FindAscendant<BladeItem>();
-            var index = ColumnHost.ActiveBlades.IndexOf(blade) - 1;
-            if (index == 0)
+            if ((sender as ListView).FindAscendant<ColumnViewBrowser>() != this)
             {
-                //_ = VisualStateManager.GoToState(listViewItem, "NotCurrentItem", true);
-            }
-            else if (index > 0)
-            {
-                Common.Extensions.IgnoreExceptions(() =>
-                {
-                    //var listview = ColumnHost.ActiveBlades[index].FindDescendant("FileList") as ListView;
-                    //var listViewItem = listview.ContainerFromItem((listview.SelectedItem) as ListedItem) as ListViewItem;
-                });
+                return;
             }
         }
 
@@ -193,6 +186,10 @@ namespace Files.Views.LayoutModes
         private void ColumnViewBase_ItemInvoked(object sender, EventArgs e)
         {
             var column = sender as ColumnParam;
+            if (column.ListView.FindAscendant<ColumnViewBrowser>() != this)
+            {
+                return;
+            }
 
             var frame = new Frame();
             frame.Navigated += Frame_Navigated;

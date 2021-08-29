@@ -352,6 +352,16 @@ namespace Files.Views
             // Can only close right pane atm
             IsRightPaneVisible = false;
         }
+
+        private void PaneLeft_Loaded(object sender, RoutedEventArgs e)
+        {
+            (sender as UIElement).AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(PaneLeft_PointerPressed), true);
+        }
+
+        private void PaneRight_Loaded(object sender, RoutedEventArgs e)
+        {
+            (sender as UIElement).AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(PaneRight_PointerPressed), true);
+        }
     }
 
     public class PaneNavigationArguments

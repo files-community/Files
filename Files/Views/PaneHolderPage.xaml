@@ -114,11 +114,11 @@
                 <local:ModernShellPage
                     x:Name="PaneLeft"
                     ContentChanged="Pane_ContentChanged"
-                    CurrentInstanceBorderThickness="0,0,2,0"
+                    CurrentInstanceBorderThickness="0,0,0,2"
                     IsPageMainPane="True"
+                    Loaded="PaneLeft_Loaded"
                     NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
-                    PaneHolder="{x:Bind}"
-                    PointerPressed="PaneLeft_PointerPressed" />
+                    PaneHolder="{x:Bind}" />
             </Border>
 
             <Border
@@ -132,11 +132,11 @@
                 <local:ModernShellPage
                     x:Name="PaneRight"
                     ContentChanged="Pane_ContentChanged"
-                    CurrentInstanceBorderThickness="2,0,0,0"
+                    CurrentInstanceBorderThickness="0,0,0,2"
                     IsPageMainPane="False"
+                    Loaded="PaneRight_Loaded"
                     NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
-                    PaneHolder="{x:Bind}"
-                    PointerPressed="PaneRight_PointerPressed" />
+                    PaneHolder="{x:Bind}" />
 
                 <animations:Implicit.ShowAnimations>
                     <animations:ScalarAnimation

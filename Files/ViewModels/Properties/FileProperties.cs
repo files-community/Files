@@ -217,7 +217,7 @@ namespace Files.ViewModels.Properties
             // Reverse geocode the specified geographic location.
 
             var result = await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
-            return result != null ? result.Locations[0].DisplayName : null;
+            return result?.Locations?.FirstOrDefault()?.DisplayName;
         }
 
         public async Task SyncPropertyChangesAsync()

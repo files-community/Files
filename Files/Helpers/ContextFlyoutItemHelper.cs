@@ -629,7 +629,7 @@ namespace Files.Helpers
                     Tag = "OpenWith",
                     CollapseLabel = true,
                     ShowInSearchPage = true,
-                    ShowItem = selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem),
+                    ShowItem = selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem && !i.IsExecutable),
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
@@ -645,7 +645,7 @@ namespace Files.Helpers
                         }
                     },
                     ShowInSearchPage = true,
-                    ShowItem = selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem),
+                    ShowItem = selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem && !i.IsExecutable),
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
