@@ -580,6 +580,7 @@ namespace Files.Views.LayoutModes
 
                 if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {
+                    parent.FolderSettings.LayoutMode = e.LayoutMode;
                     parent.FolderSettings.IsLayoutModeChanging = true;
                     parent.NavigateWithArguments(layoutType, new NavigationArguments()
                     {

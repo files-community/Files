@@ -402,6 +402,9 @@ namespace Files.Views.LayoutModes
             ColumnHost.ActiveBlades.Select(x => (x.Content as Frame)?.Content).OfType<IDisposable>().ForEach(x => x.Dispose());
             UnhookEvents();
             CommandsViewModel?.Dispose();
+            ColumnViewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
+            ColumnViewBase.UnFocusPreviousListView -= ColumnViewBase_UnFocusPreviousListView;
+            ColumnViewBase.DismissColumn -= ColumnViewBase_DismissColumn;
         }
 
         #endregion IDisposable
