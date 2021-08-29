@@ -163,11 +163,19 @@ namespace Files.Views.LayoutModes
 
         private void ColumnViewBase_DismissColumn(object sender, EventArgs e)
         {
+            if ((sender as ListView).FindAscendant<ColumnViewBrowser>() != this)
+            {
+                return;
+            }
             DismissOtherBlades(sender as ListView);
         }
 
         private void ColumnViewBase_UnFocusPreviousListView(object sender, EventArgs e)
         {
+            if ((sender as ListView).FindAscendant<ColumnViewBrowser>() != this)
+            {
+                return;
+            }
         }
 
         private void FileList_GotFocus(object sender, RoutedEventArgs e)
@@ -178,6 +186,10 @@ namespace Files.Views.LayoutModes
         private void ColumnViewBase_ItemInvoked(object sender, EventArgs e)
         {
             var column = sender as ColumnParam;
+            if (column.ListView.FindAscendant<ColumnViewBrowser>() != this)
+            {
+                return;
+            }
 
             var frame = new Frame();
             frame.Navigated += Frame_Navigated;
