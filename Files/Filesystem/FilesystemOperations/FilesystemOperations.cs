@@ -102,7 +102,8 @@ namespace Files.Filesystem
                                         { "Arguments", "FileOperation" },
                                         { "fileop", "CreateFile" },
                                         { "filepath", source.Path },
-                                        { "template", newEntryInfo.Template }
+                                        { "template", newEntryInfo.Template },
+                                        { "data", newEntryInfo.Data }
                                     });
                                     if (fsAdminResult && shellOpRes.Items.Count == 1)
                                     {

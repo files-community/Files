@@ -145,6 +145,7 @@ namespace FilesFullTrust.MessageHandlers
                     {
                         var filePath = (string)message["filepath"];
                         var template = message.Get("template", (string)null);
+                        var dataStr = message.Get("data", (string)null);
                         var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
                             using (var op = new ShellFileOperations())
@@ -179,6 +180,19 @@ namespace FilesFullTrust.MessageHandlers
                                 catch
                                 {
                                     createTcs.TrySetResult(false);
+                                }
+
+                                if (dataStr != null && (shellOperationResult.Items.SingleOrDefault()?.Succeeded ?? false))
+                                {
+                                    Extensions.IgnoreExceptions(() =>
+                                    {
+                                        var dataBytes = Convert.FromBase64String(dataStr);
+                                        using (var fs = new FileStream(shellOperationResult.Items.Single().Destination, FileMode.Open))
+                                        {
+                                            fs.Write(dataBytes, 0, dataBytes.Length);
+                                            fs.Flush();
+                                        }
+                                    }, Program.Logger);
                                 }
 
                                 return (await createTcs.Task, shellOperationResult);
