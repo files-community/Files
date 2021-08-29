@@ -888,6 +888,7 @@ namespace Files.Filesystem
                             && response.Get("Success", false));
                         var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", "{\"Items\": []}"));
                         fsResult &= (FilesystemResult)shellOpResult.Items.All(x => x.Succeeded);
+                        return fsResult;
                     }
                 }
             }

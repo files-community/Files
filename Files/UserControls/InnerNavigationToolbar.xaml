@@ -30,6 +30,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
                 <ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
+                <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -92,8 +93,8 @@
 
                     <local:ColoredIcon
                         Margin="0,1,0,-1"
-                        BaseLayerGlyph="&#x0037;"
-                        OverlayLayerGlyph="&#x0038;" />
+                        BaseLayerGlyph="&#xF037;"
+                        OverlayLayerGlyph="&#xF038;" />
                 </AppBarButton>
                 <AppBarSeparator />
                 <AppBarButton
@@ -106,7 +107,7 @@
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutCut/Text')}">
                     <AppBarButton.Content>
-                        <local:ColoredIcon BaseLayerGlyph="&#x003D;" OverlayLayerGlyph="&#x003E;" />
+                        <local:ColoredIcon BaseLayerGlyph="&#xF03D;" OverlayLayerGlyph="&#xF03E;" />
                     </AppBarButton.Content>
                 </AppBarButton>
                 <AppBarButton
@@ -118,7 +119,7 @@
                     Label="Copy"
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="Copy">
-                    <local:ColoredIcon BaseLayerGlyph="&#x0021;" OverlayLayerGlyph="&#x0022;" />
+                    <local:ColoredIcon BaseLayerGlyph="&#xF021;" OverlayLayerGlyph="&#xF022;" />
                 </AppBarButton>
                 <AppBarButton
                     x:Name="PasteButton"
@@ -136,7 +137,7 @@
                             IsEnabled="False"
                             Modifiers="Control" />
                     </AppBarButton.KeyboardAccelerators>
-                    <local:ColoredIcon BaseLayerGlyph="&#x0023;" OverlayLayerGlyph="&#x0024;" />
+                    <local:ColoredIcon BaseLayerGlyph="&#xF023;" OverlayLayerGlyph="&#xF024;" />
                 </AppBarButton>
                 <AppBarButton
                     x:Name="RenameButton"
@@ -149,7 +150,7 @@
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutRename/Text')}">
                     <AppBarButton.Content>
-                        <local:ColoredIcon BaseLayerGlyph="&#x0027;" OverlayLayerGlyph="&#x0028;" />
+                        <local:ColoredIcon BaseLayerGlyph="&#xF027;" OverlayLayerGlyph="&#xF028;" />
                     </AppBarButton.Content>
                 </AppBarButton>
                 <AppBarButton
@@ -163,7 +164,7 @@
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutShare/Text')}">
                     <AppBarButton.Content>
-                        <local:ColoredIcon BaseLayerGlyph="&#x0025;" OverlayLayerGlyph="&#x0026;" />
+                        <local:ColoredIcon BaseLayerGlyph="&#xF025;" OverlayLayerGlyph="&#xF026;" />
                     </AppBarButton.Content>
                 </AppBarButton>
                 <AppBarButton
@@ -177,7 +178,7 @@
                     LabelPosition="Collapsed"
                     ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutDelete/Text')}">
                     <AppBarButton.Content>
-                        <local:ColoredIcon BaseLayerGlyph="&#x0035;" OverlayLayerGlyph="&#x0036;" />
+                        <local:ColoredIcon BaseLayerGlyph="&#xF035;" OverlayLayerGlyph="&#xF036;" />
                     </AppBarButton.Content>
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
@@ -442,9 +443,10 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40" />
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition MaxWidth="100" />
                                     <ColumnDefinition Width="40" />
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition MaxWidth="100" />
                                 </Grid.ColumnDefinitions>
 
                                 <RadioButton
@@ -528,10 +530,19 @@
                                     VerticalAlignment="Center"
                                     Text="Small Icons" />
 
+                                <Border
+                                    Grid.RowSpan="3"
+                                    Grid.Column="2"
+                                    Height="100"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+                                    BorderThickness="1" />
+
                                 <RadioButton
                                     x:Uid="NavToolbarMediumIcons"
                                     Grid.Row="0"
-                                    Grid.Column="2"
+                                    Grid.Column="3"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
@@ -551,14 +562,14 @@
                                 <TextBlock
                                     x:Uid="NavToolbarMediumIconsHeader"
                                     Grid.Row="0"
-                                    Grid.Column="3"
+                                    Grid.Column="4"
                                     VerticalAlignment="Center"
                                     Text="Medium Icons" />
 
                                 <RadioButton
                                     x:Uid="NavToolbarLargeIcons"
                                     Grid.Row="1"
-                                    Grid.Column="2"
+                                    Grid.Column="3"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
@@ -578,14 +589,14 @@
                                 <TextBlock
                                     x:Uid="NavToolbarLargeIconsHeader"
                                     Grid.Row="1"
-                                    Grid.Column="3"
+                                    Grid.Column="4"
                                     VerticalAlignment="Center"
                                     Text="Large Icons" />
 
                                 <RadioButton
                                     x:Uid="NavToolbarColumnView"
                                     Grid.Row="2"
-                                    Grid.Column="2"
+                                    Grid.Column="3"
                                     Width="36"
                                     Height="32"
                                     MinWidth="0"
@@ -608,25 +619,57 @@
                                 <TextBlock
                                     x:Uid="NavToolbarColumnsHeader"
                                     Grid.Row="2"
-                                    Grid.Column="3"
+                                    Grid.Column="4"
                                     VerticalAlignment="Center"
                                     Text="Columns" />
                             </Grid>
 
-                            <TextBlock
-                                x:Uid="NavToolbarDisplayOptions"
-                                FontWeight="Medium"
-                                Text="Display Options" />
-                            <StackPanel Spacing="4">
+                            <Border
+                                Margin="-20,0"
+                                HorizontalAlignment="Stretch"
+                                BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+                                BorderThickness="1" />
+
+                            <Grid RowSpacing="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition MinHeight="30" />
+                                    <RowDefinition MinHeight="30" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    x:Uid="NavToolbarShowHiddenItemsHeader"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Text="Show hidden items" />
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowHiddenItems"
-                                    Header="Show hidden items"
-                                    IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    AutomationProperties.Name="Show hidden items"
+                                    IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}"
+                                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+
+                                <TextBlock
+                                    x:Uid="NavToolbarShowFileExtensionsHeader"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Text="Show file extensions" />
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowFileExtensions"
-                                    Header="Show file extensions"
-                                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
-                            </StackPanel>
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    AutomationProperties.Name="Show file extensions"
+                                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}"
+                                    Rotation="1"
+                                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                            </Grid>
                         </StackPanel>
                     </Flyout>
                 </AppBarButton.Flyout>
@@ -645,7 +688,7 @@
                 ToolTipService.ToolTip="Toggle the preview pane (Ctrl+P)"
                 Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
                 <AppBarToggleButton.Content>
-                    <local:ColoredIcon BaseLayerGlyph="&#x003b;" OverlayLayerGlyph="&#x003c;" />
+                    <local:ColoredIcon BaseLayerGlyph="&#xF03b;" OverlayLayerGlyph="&#xF03c;" />
                 </AppBarToggleButton.Content>
             </AppBarToggleButton>
             <CommandBar.SecondaryCommands>
@@ -674,7 +717,7 @@
                     KeyboardAcceleratorTextOverride="Ctrl+Shift+W"
                     Label="Close pane">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE89F;" />
+                        <FontIcon Glyph="&#xF89F;" />
                     </AppBarButton.Icon>
                     <AppBarButton.KeyboardAccelerators>
                         <KeyboardAccelerator

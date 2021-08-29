@@ -161,6 +161,7 @@
             Margin="12"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
+            AutomationProperties.Name="Close"
             Click="ButtonClose_Click"
             CornerRadius="20"
             ToolTipService.ToolTip="Close">

@@ -1,6 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
+using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.ComponentModel;
@@ -132,8 +133,22 @@ namespace Files.Views
                     NotifyPropertyChanged(nameof(ActivePane));
                     NotifyPropertyChanged(nameof(IsLeftPaneActive));
                     NotifyPropertyChanged(nameof(IsRightPaneActive));
+                    NotifyPropertyChanged(nameof(ActivePaneOrColumn));
                     NotifyPropertyChanged(nameof(FilesystemHelpers));
                 }
+            }
+        }
+
+        public IShellPage ActivePaneOrColumn
+        {
+            get
+            {
+                if (ActivePane.IsColumnView)
+                {
+                    return (ActivePane.SlimContentPage as ColumnViewBrowser).LastColumnShellPage;
+                }
+
+                return ActivePane;
             }
         }
 
@@ -336,6 +351,16 @@ namespace Files.Views
         {
             // Can only close right pane atm
             IsRightPaneVisible = false;
+        }
+
+        private void PaneLeft_Loaded(object sender, RoutedEventArgs e)
+        {
+            (sender as UIElement).AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(PaneLeft_PointerPressed), true);
+        }
+
+        private void PaneRight_Loaded(object sender, RoutedEventArgs e)
+        {
+            (sender as UIElement).AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(PaneRight_PointerPressed), true);
         }
     }
 

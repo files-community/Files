@@ -7,6 +7,7 @@ using Files.Views;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
@@ -74,7 +75,7 @@ namespace Files.Helpers
             {
                 return;
             }
-            foreach (ListedItem item in associatedInstance.SlimContentPage.SelectedItems)
+            foreach (ListedItem item in associatedInstance.SlimContentPage.SelectedItems.ToList())
             {
                 var type = item.PrimaryItemAttribute == StorageItemTypes.Folder ?
                     FilesystemItemType.Directory : FilesystemItemType.File;
