@@ -25,6 +25,11 @@ namespace Files.ViewModels
 
         private float medianOperationProgressValue = 0.0f;
 
+        public OngoingTasksViewModel()
+        {
+            StatusBannersSource.CollectionChanged += (s, e) => OnPropertyChanged(nameof(AnyBannersPresent));
+        }
+
         public float MedianOperationProgressValue
         {
             get => medianOperationProgressValue;
@@ -52,6 +57,11 @@ namespace Files.ViewModels
         public bool AnyOperationsOngoing
         {
             get => OngoingOperationsCount > 0;
+        }
+
+        public bool AnyBannersPresent
+        {
+            get => StatusBannersSource.Any();
         }
 
         #endregion Public Properties
