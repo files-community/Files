@@ -18,7 +18,7 @@ namespace Files.ViewModels.Previews
         }
 
         public static List<string> Extensions => new List<string>() {
-            ".html", ".htm", ".svg",
+            ".html", ".htm",
         };
 
         public string TextValue

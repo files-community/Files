@@ -3,16 +3,12 @@ using Files.UserControls.FilePreviews;
 using Files.ViewModels.Previews;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -22,7 +18,7 @@ using Windows.UI.Xaml.Markup;
 
 namespace Files.ViewModels
 {
-    public class PreviewPaneViewModel : ObservableObject, IDisposable
+    public class PreviewPaneViewModel : ObservableObject
     {
         private CancellationTokenSource loadCancellationTokenSource;
 
@@ -68,7 +64,6 @@ namespace Files.ViewModels
 
         public PreviewPaneViewModel()
         {
-            App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
         }
 
         private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
@@ -104,19 +99,17 @@ namespace Files.ViewModels
 
         private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item, bool downloadItem)
         {
+            if (item.SyncStatusUI.SyncStatus == Enums.CloudDriveSyncStatus.FileOnline && !downloadItem)
+            {
+                ShowCloudItemButton = true;
+                return null;
+            }
 
             ShowCloudItemButton = false;
 
             if (item.IsShortcutItem)
             {
                 var model = new ShortcutPreviewViewModel(SelectedItem);
-                await model.LoadAsync();
-                return new BasicPreview(model);
-            }
-
-            if (SelectedItem.IsZipItem)
-            {
-                var model = new ArchivePreviewViewModel(item);
                 await model.LoadAsync();
                 return new BasicPreview(model);
             }
@@ -130,12 +123,6 @@ namespace Files.ViewModels
 
             if (item.FileExtension == null)
             {
-                return null;
-            }
-
-            if (item.SyncStatusUI.SyncStatus == Enums.CloudDriveSyncStatus.FileOnline && !downloadItem)
-            {
-                ShowCloudItemButton = true;
                 return null;
             }
 
@@ -196,6 +183,13 @@ namespace Files.ViewModels
                 return new CodePreview(model);
             }
 
+            if (ArchivePreviewViewModel.Extensions.Contains(ext))
+            {
+                var model = new ArchivePreviewViewModel(item);
+                await model.LoadAsync();
+                return new BasicPreview(model);
+            }
+
             var control = await TextPreviewViewModel.TryLoadAsTextAsync(SelectedItem);
             if (control != null)
             {
@@ -252,7 +246,6 @@ namespace Files.ViewModels
                             var basicModel = new BasicPreviewViewModel(SelectedItem);
                             await basicModel.LoadAsync();
                             PreviewPaneContent = new BasicPreview(basicModel);
-                            PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
                             return;
                         }
                         catch (Exception ex)
@@ -275,40 +268,6 @@ namespace Files.ViewModels
                 PreviewPaneContent = null;
                 PreviewPaneState = PreviewPaneStates.NoItemSelected;
             }
-        }
-
-        public ICommand ShowPreviewOnlyInvoked => new RelayCommand(() => UpdateSelectedItemPreview());
-
-        private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(App.AppSettings.ShowPreviewOnly):
-                    // the preview will need refreshing as the file details won't be accurate
-                    needsRefresh = true;
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// true if the content needs to be refreshed the next time the model is used
-        /// </summary>
-        private bool needsRefresh = false;
-
-        /// <summary>
-        /// refreshes the content if it needs to be refreshed, does nothing otherwise
-        /// </summary>
-        public void TryRefresh()
-        {
-            if(needsRefresh)
-            {
-                UpdateSelectedItemPreview();
-            }
-        }
-
-        public void Dispose()
-        {
-            App.AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
         }
     }
 

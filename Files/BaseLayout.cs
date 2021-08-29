@@ -990,7 +990,7 @@ namespace Files
 
         public virtual void Dispose()
         {
-            PreviewPaneViewModel?.Dispose();
+            //PreviewPaneViewModel?.Dispose();
             UnhookBaseEvents();
         }
 

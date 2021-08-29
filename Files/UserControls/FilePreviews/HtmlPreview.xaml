@@ -12,8 +12,7 @@
     <Grid
         x:Name="RootGrid"
         HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        CornerRadius="{StaticResource ControlCornerRadius}">
+        VerticalAlignment="Stretch">
         <WebView
             x:Name="WebViewControl"
             HorizontalAlignment="Stretch"

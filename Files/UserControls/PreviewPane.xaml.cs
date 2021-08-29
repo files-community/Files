@@ -10,8 +10,6 @@ namespace Files.UserControls
 {
     public sealed partial class PreviewPane : UserControl
     {
-        public SettingsViewModel AppSettings => App.AppSettings;
-        
         public PreviewPaneViewModel Model
         {
             get => (PreviewPaneViewModel)GetValue(ModelProperty);
@@ -22,18 +20,9 @@ namespace Files.UserControls
         public static readonly DependencyProperty ModelProperty =
             DependencyProperty.Register(nameof(Model), typeof(PreviewPaneViewModel), typeof(PreviewPane), new PropertyMetadata(null));
 
-        private long modelChangedCallbackToken;
-
         public PreviewPane()
         {
             InitializeComponent();
-            modelChangedCallbackToken = RegisterPropertyChangedCallback(ModelProperty, Model_DependencyPropertyChangedCallback);
-        }
-
-        private void Model_DependencyPropertyChangedCallback(DependencyObject sender, DependencyProperty dp)
-        {
-            // try to refresh the model when the instance is switched
-            Model?.TryRefresh();
         }
 
         public static DependencyProperty IsHorizontalProperty { get; } =
@@ -65,7 +54,6 @@ namespace Files.UserControls
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            UnregisterPropertyChangedCallback(ModelProperty, modelChangedCallbackToken);
             PreviewControlPresenter.Content = null;
             Model = null;
             this.Bindings.StopTracking();

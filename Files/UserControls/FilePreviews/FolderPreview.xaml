@@ -9,12 +9,11 @@
     d:DesignWidth="400"
     mc:Ignorable="d">
 
-    <Grid
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"
-        CornerRadius="{StaticResource ControlCornerRadius}">
+    <Grid>
         <Viewbox StretchDirection="DownOnly">
-            <Image Source="{x:Bind Model.Thumbnail}" />
+            <ContentPresenter CornerRadius="{StaticResource ControlCornerRadius}">
+                <Image Source="{x:Bind Model.Thumbnail}" />
+            </ContentPresenter>
         </Viewbox>
     </Grid>
 </UserControl>

@@ -52,14 +52,6 @@ namespace Files.ViewModels.Previews
             return details;
         }
 
-        // the pips pager will crash when binding directly to Pages.Count, so count the pages here
-        private int pageCount;
-        public int PageCount
-        {
-            get => pageCount;
-            set => SetProperty(ref pageCount, value);
-        }
-
         public async void TryLoadPagesAsync(PdfDocument pdf, IRandomAccessStream fileStream)
         {
             try
@@ -107,7 +99,6 @@ namespace Files.ViewModels.Previews
                     PageImageSB = sw,
                 };
                 Pages.Add(pageData);
-                PageCount++;
             }
             LoadingBarVisibility = Visibility.Collapsed;
         }
