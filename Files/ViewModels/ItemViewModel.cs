@@ -1169,7 +1169,7 @@ namespace Files.ViewModels
                     // Find and select README file
                     foreach (var item in filesAndFolders)
                     {
-                        if (item.ItemName.Contains("readme", StringComparison.InvariantCultureIgnoreCase))
+                        if (item.PrimaryItemAttribute == StorageItemTypes.File && item.ItemName.Contains("readme", StringComparison.InvariantCultureIgnoreCase))
                         {
                             OnSelectionRequestedEvent?.Invoke(this, new List<ListedItem>() { item });
                             break;
