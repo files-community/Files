@@ -212,7 +212,10 @@ namespace Files.Views.LayoutModes
 
             UpdateSortOptionsCommand = new RelayCommand<string>(x =>
             {
-                var val = Enum.Parse<SortOption>(x);
+                if (!Enum.TryParse<SortOption>(x, out var val))
+                {
+                    return;
+                }
                 if (FolderSettings.DirectorySortOption == val)
                 {
                     FolderSettings.DirectorySortDirection = (SortDirection)(((int)FolderSettings.DirectorySortDirection + 1) % 2);

@@ -168,21 +168,6 @@ namespace Files.Views.LayoutModes
 
         private void ColumnViewBase_UnFocusPreviousListView(object sender, EventArgs e)
         {
-            var list = sender as ListView;
-            var blade = list.FindAscendant<BladeItem>();
-            var index = ColumnHost.ActiveBlades.IndexOf(blade) - 1;
-            if (index == 0)
-            {
-                //_ = VisualStateManager.GoToState(listViewItem, "NotCurrentItem", true);
-            }
-            else if (index > 0)
-            {
-                Common.Extensions.IgnoreExceptions(() =>
-                {
-                    //var listview = ColumnHost.ActiveBlades[index].FindDescendant("FileList") as ListView;
-                    //var listViewItem = listview.ContainerFromItem((listview.SelectedItem) as ListedItem) as ListViewItem;
-                });
-            }
         }
 
         private void FileList_GotFocus(object sender, RoutedEventArgs e)
