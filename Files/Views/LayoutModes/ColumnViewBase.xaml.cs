@@ -163,10 +163,6 @@ namespace Files.Views.LayoutModes
             //await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(NavParam);
             //await viewmodel.SetWorkingDirectoryAsync(NavParam);
             ParentShellPageInstance.IsCurrentInstance = true;
-            if(!navigationArguments.IsSearchResultPage)
-            {
-                ColumnViewBrowser.columnparent.UpdatePathUIToWorkingDirectory(param.NavPathParam);
-            }
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
             {
@@ -580,12 +576,12 @@ namespace Files.Views.LayoutModes
             var parent = this.FindAscendant<ModernShellPage>();
             if (parent != null)
             {
-                FolderSettings.LayoutMode = e.LayoutMode;
                 var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, false);
 
                 if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {
-                    FolderSettings.IsLayoutModeChanging = true;
+                    parent.FolderSettings.LayoutMode = e.LayoutMode;
+                    parent.FolderSettings.IsLayoutModeChanging = true;
                     parent.NavigateWithArguments(layoutType, new NavigationArguments()
                     {
                         NavPathParam = navigationArguments.NavPathParam,
@@ -596,6 +592,9 @@ namespace Files.Views.LayoutModes
                         IsLayoutSwitch = true,
                         AssociatedTabInstance = parent
                     });
+
+                    // Remove old layout from back stack
+                    parent.RemoveLastPageFromBackStack();
                 }
             }
         }

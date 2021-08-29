@@ -31,7 +31,6 @@ namespace Files.Views.LayoutModes
     /// </summary>
     public sealed partial class ColumnViewBrowser : BaseLayout
     {
-        public static IShellPage columnparent;
         private NavigationArguments parameters;
         private ListViewItem listViewItem;
 
@@ -249,7 +248,6 @@ namespace Files.Views.LayoutModes
             ColumnViewBase.UnFocusPreviousListView += ColumnViewBase_UnFocusPreviousListView;
             ColumnViewBase.DismissColumn -= ColumnViewBase_DismissColumn;
             ColumnViewBase.DismissColumn += ColumnViewBase_DismissColumn;
-            columnparent = ParentShellPageInstance;
             parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
             {
@@ -404,6 +402,9 @@ namespace Files.Views.LayoutModes
             ColumnHost.ActiveBlades.Select(x => (x.Content as Frame)?.Content).OfType<IDisposable>().ForEach(x => x.Dispose());
             UnhookEvents();
             CommandsViewModel?.Dispose();
+            ColumnViewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
+            ColumnViewBase.UnFocusPreviousListView -= ColumnViewBase_UnFocusPreviousListView;
+            ColumnViewBase.DismissColumn -= ColumnViewBase_DismissColumn;
         }
 
         #endregion IDisposable
@@ -749,28 +750,35 @@ namespace Files.Views.LayoutModes
 
         public void UpColumn()
         {
-            if(!IsLastColumnBase)
+            if (!IsLastColumnBase)
             {
-                DismissOtherBlades(ColumnHost.ActiveBlades[ColumnHost.ActiveBlades.Count-2]);
+                DismissOtherBlades(ColumnHost.ActiveBlades[ColumnHost.ActiveBlades.Count - 2]);
             }
         }
 
         public void SetSelectedPathOrNavigate(PathNavigationEventArgs e)
         {
-            var p = e.ItemPath.TrimEnd('\\');
-            if(!IsLastColumnBase)
+            if (!IsLastColumnBase)
             {
                 foreach (var item in ColumnHost.ActiveBlades)
                 {
-                    if ((item.Content as Frame)?.Content is ColumnShellPage s && s.FilesystemViewModel.WorkingDirectory == p)
+                    if ((item.Content as Frame)?.Content is ColumnShellPage s && 
+                        Helpers.PathNormalization.NormalizePath(s.FilesystemViewModel.WorkingDirectory) == 
+                        Helpers.PathNormalization.NormalizePath(e.ItemPath))
                     {
                         DismissOtherBlades(item);
                         return;
                     }
                 }
-            } else if(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory != p)
+            }
+            if (Helpers.PathNormalization.NormalizePath(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory) != 
+                Helpers.PathNormalization.NormalizePath(e.ItemPath))
             {
                 ParentShellPageInstance.NavigateToPath(e.ItemPath);
+            }
+            else
+            {
+                DismissOtherBlades(FirstBlade);
             }
         }
 
