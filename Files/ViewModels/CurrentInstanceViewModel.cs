@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Files.Enums;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace Files.ViewModels
 {
@@ -16,6 +17,11 @@ namespace Files.ViewModels
         public CurrentInstanceViewModel()
         {
             FolderSettings = new FolderSettingsViewModel();
+        }
+        
+        public CurrentInstanceViewModel(FolderLayoutModes rootLayoutMode)
+        {
+            FolderSettings = new FolderSettingsViewModel(rootLayoutMode);
         }
 
         private bool isPageTypeSearchResults = false;

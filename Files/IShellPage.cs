@@ -59,6 +59,7 @@ namespace Files
     public interface IPaneHolder : IDisposable, INotifyPropertyChanged
     {
         public IShellPage ActivePane { get; set; }
+        public IShellPage ActivePaneOrColumn { get; } // if column view, returns the last column shell page, otherwise returns the active pane normally
         public IFilesystemHelpers FilesystemHelpers { get; }
         public TabItemArguments TabItemArguments { get; set; }
 

@@ -10,10 +10,11 @@
     Unloaded="{x:Bind ViewModel.PreviewControlBase_Unloaded}"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid CornerRadius="{StaticResource ControlCornerRadius}">
         <MediaPlayerElement
             x:Name="PlayerContext"
             AreTransportControlsEnabled="True"
+            Background="Transparent"
             Foreground="Transparent"
             Source="{x:Bind ViewModel.Source, Mode=OneWay}">
             <MediaPlayerElement.TransportControls>

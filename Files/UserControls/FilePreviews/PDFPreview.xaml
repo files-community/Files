@@ -10,31 +10,40 @@
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <DataTemplate x:Key="PageTemplate" x:DataType="vms:PageViewModel">
+            <Grid
+                Margin="4"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                CornerRadius="{StaticResource ControlCornerRadius}">
+                <Viewbox
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    StretchDirection="DownOnly">
+                    <Image
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Source="{x:Bind PageImage}" />
+                </Viewbox>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ListView
+        <FlipView
             x:Name="PageList"
-            ItemsSource="{x:Bind ViewModel.Pages, Mode=OneWay}"
-            SelectionMode="None">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="vms:PageViewModel">
-                    <Grid>
-                        <Viewbox Margin="0,5,0,5" StretchDirection="DownOnly">
-                            <ContentPresenter CornerRadius="{StaticResource ControlCornerRadius}">
-                                <Image Source="{x:Bind PageImage}" />
-                            </ContentPresenter>
-                        </Viewbox>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <muxc:ProgressBar
+            Background="Transparent"
+            ItemTemplate="{StaticResource PageTemplate}"
+            ItemsSource="{x:Bind ViewModel.Pages, Mode=OneWay}" />
+        <muxc:PipsPager
+            x:Name="FlipViewPipsPager"
             Grid.Row="1"
-            HorizontalAlignment="Stretch"
-            IsIndeterminate="True"
-            Visibility="{x:Bind ViewModel.LoadingBarVisibility, Mode=OneWay}" />
+            HorizontalAlignment="Center"
+            NumberOfPages="{x:Bind ViewModel.PageCount, Mode=OneWay}"
+            SelectedPageIndex="{x:Bind Path=PageList.SelectedIndex, Mode=TwoWay}" />
     </Grid>
 </UserControl>
