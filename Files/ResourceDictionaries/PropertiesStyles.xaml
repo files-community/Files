@@ -15,7 +15,7 @@
     <!--  Might be used for Expander control  -->
     <SolidColorBrush x:Key="SystemControlBackgroundBaseHighBrush" Color="Transparent" />
 
-    <!-- Splitview Pane -->
+    <!--  Splitview Pane  -->
     <SolidColorBrush x:Key="SplitViewBackgroundBrush" Color="#2e7dbf" />
     <SolidColorBrush x:Key="SplitViewForegroundBrush" Color="#718DA5" />
 

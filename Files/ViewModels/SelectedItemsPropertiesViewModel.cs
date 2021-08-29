@@ -288,8 +288,7 @@ namespace Files.ViewModels
             {
                 SetProperty(ref driveUsedSpaceValue, value);
                 DriveUsedSpace = $"{ByteSize.FromBytes(DriveUsedSpaceValue).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(DriveUsedSpaceValue).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
-                var angle = ((DriveUsedSpaceValue * (ulong)DriveMaxCapacityDoubleValue) / DriveCapacityValue);
-                DriveUsedSpaceDoubleValue = Convert.ToDouble(((angle * 100) / (ulong)DriveMaxCapacityDoubleValue));
+                OnPropertyChanged(nameof(DrivePercentageValue));
             }
         }
 
@@ -422,6 +421,7 @@ namespace Files.ViewModels
             {
                 SetProperty(ref driveCapacityValue, value);
                 DriveCapacity = $"{ByteSize.FromBytes(DriveCapacityValue).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(DriveCapacityValue).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
+                OnPropertyChanged(nameof(DrivePercentageValue));
             }
         }
 
@@ -445,25 +445,9 @@ namespace Files.ViewModels
             set => SetProperty(ref driveCapacityVisibiity, value);
         }
 
-        private const int driveMaxCapacityDoubleValue = 360;
-
-        public int DriveMaxCapacityDoubleValue
+        public double DrivePercentageValue
         {
-            get => driveMaxCapacityDoubleValue;
-        }
-
-        private const int driveMinCapacityDoubleValue = 0;
-        public int DriveMinCapacityDoubleValue
-        {
-            get => driveMinCapacityDoubleValue;
-        }
-
-        private double driveUsedSpaceDoubleValue;
-
-        public double DriveUsedSpaceDoubleValue
-        {
-            get => driveUsedSpaceDoubleValue;
-            set => SetProperty(ref driveUsedSpaceDoubleValue, value);
+            get => DriveCapacityValue > 0 ? (double)DriveUsedSpaceValue / (double)DriveCapacityValue * 100 : 0;
         }
 
         private Visibility itemAttributesVisibility = Visibility.Visible;
