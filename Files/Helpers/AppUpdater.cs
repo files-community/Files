@@ -78,6 +78,7 @@ namespace Files.Helpers
                 context = await Task.Run(() => StoreContext.GetDefault());
             }
 
+            App.SaveSessionTabs(); // save the tabs so they can be restored after the update completes
             var downloadOperation = context.RequestDownloadAndInstallStorePackageUpdatesAsync(updateList);
             return await downloadOperation.AsTask();
         }

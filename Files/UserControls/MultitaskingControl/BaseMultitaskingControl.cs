@@ -41,7 +41,7 @@ namespace Files.UserControls.MultitaskingControl
         public ObservableCollection<TabItem> Items => MainPageViewModel.AppInstances;
 
         // RecentlyClosedTabs is shared between all multitasking controls
-        public static List<ITabItem> RecentlyClosedTabs { get; private set; } = new List<ITabItem>();
+        public static List<TabItemArguments[]> RecentlyClosedTabs { get; private set; } = new List<TabItemArguments[]>();
 
         private void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
         {
@@ -111,9 +111,12 @@ namespace Files.UserControls.MultitaskingControl
             if (!isRestoringClosedTab && RecentlyClosedTabs.Any())
             {
                 isRestoringClosedTab = true;
-                ITabItem lastTab = RecentlyClosedTabs.Last();
+                var lastTab = RecentlyClosedTabs.Last();
                 RecentlyClosedTabs.Remove(lastTab);
-                await MainPageViewModel.AddNewTabByParam(lastTab.TabItemArguments.InitialPageType, lastTab.TabItemArguments.NavigationArg);
+                foreach (var item in lastTab)
+                {
+                    await MainPageViewModel.AddNewTabByParam(item.InitialPageType, item.NavigationArg);
+                }
                 isRestoringClosedTab = false;
             }
         }
@@ -133,7 +136,9 @@ namespace Files.UserControls.MultitaskingControl
             {
                 Items.Remove(tabItem);
                 tabItem?.Unload(); // Dispose and save tab arguments
-                RecentlyClosedTabs.Add((ITabItem)tabItem);
+                RecentlyClosedTabs.Add(new TabItemArguments[] {
+                    tabItem.TabItemArguments
+                });
             }
         }
 
