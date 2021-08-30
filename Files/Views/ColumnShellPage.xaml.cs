@@ -136,7 +136,7 @@ namespace Files.Views
         {
             InitializeComponent();
 
-            InstanceViewModel = new CurrentInstanceViewModel();
+            InstanceViewModel = new CurrentInstanceViewModel(FolderLayoutModes.ColumnView);
             InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
             cancellationTokenSource = new CancellationTokenSource();
             FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
@@ -150,8 +150,6 @@ namespace Files.Views
             {
                 FlowDirection = FlowDirection.RightToLeft;
             }
-            ColumnViewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
-            ColumnViewBase.ItemInvoked += ColumnViewBase_ItemInvoked;
 
             //NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
             //NavigationToolbar.CanGoBack = false;
@@ -161,6 +159,8 @@ namespace Files.Views
             //NavigationToolbar.SearchBox.SuggestionChosen += ColumnShellPage_SuggestionChosen;
 
             NavToolbarViewModel.ToolbarPathItemInvoked += ColumnShellPage_NavigationRequested;
+            NavToolbarViewModel.ToolbarFlyoutOpened += ColumnShellPage_ToolbarFlyoutOpened;
+            NavToolbarViewModel.ToolbarPathItemLoaded += ColumnShellPage_ToolbarPathItemLoaded;
             NavToolbarViewModel.AddressBarTextEntered += ColumnShellPage_AddressBarTextEntered;
             NavToolbarViewModel.PathBoxItemDropped += ColumnShellPage_PathBoxItemDropped;
             NavToolbarViewModel.BackRequested += ColumnShellPage_BackNavRequested;
@@ -170,6 +170,12 @@ namespace Files.Views
             NavToolbarViewModel.EditModeEnabled += NavigationToolbar_EditModeEnabled;
             NavToolbarViewModel.ItemDraggedOverPathItem += ColumnShellPage_NavigationRequested;
             NavToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
+
+            NavToolbarViewModel.SearchBox.TextChanged += ColumnShellPage_TextChanged;
+            NavToolbarViewModel.SearchBox.SuggestionChosen += ColumnShellPage_SuggestionChosen;
+            NavToolbarViewModel.SearchBox.QuerySubmitted += ColumnShellPage_QuerySubmitted;
+
+            NavToolbarViewModel.InstanceViewModel = InstanceViewModel;
             //NavToolbarViewModel.RefreshWidgetsRequested += refreshwid;
 
             InitToolbarCommands();
@@ -181,6 +187,16 @@ namespace Files.Views
             SystemNavigationManager.GetForCurrentView().BackRequested += ColumnShellPage_BackRequested;
 
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
+        }
+
+        private async void ColumnShellPage_ToolbarPathItemLoaded(object sender, ToolbarPathItemLoadedEventArgs e)
+        {
+            await NavToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, e.Item, this);
+        }
+
+        private async void ColumnShellPage_ToolbarFlyoutOpened(object sender, ToolbarFlyoutOpenedEventArgs e)
+        {
+            await NavToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, (e.OpenedFlyout.Target as FontIcon).DataContext as PathBoxItem, this);
         }
 
         private void InitToolbarCommands()
@@ -202,20 +218,8 @@ namespace Files.Views
             NavToolbarViewModel.CutCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.CutItemCommand.Execute(null));
         }
 
-        private void ColumnViewBase_ItemInvoked(object sender, EventArgs e)
-        {
-        }
-
         private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
         {
-            if (FilesystemViewModel != null)
-            {
-                (sender as FolderSettingsViewModel).UpdateLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
-                if (e.IsAdaptiveLayoutUpdateRequired)
-                {
-                    AdaptiveLayoutHelpers.PredictLayoutMode(InstanceViewModel.FolderSettings, FilesystemViewModel);
-                }
-            }
         }
 
         /*
@@ -360,11 +364,7 @@ namespace Files.Views
 
         private void ColumnShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
         {
-            ItemDisplayFrame.Navigate(typeof(ColumnViewBase), new NavigationArguments()
-            {
-                NavPathParam = e.ItemPath,
-                AssociatedTabInstance = this
-            });
+            this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(e);
         }
 
         private async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
@@ -512,6 +512,7 @@ namespace Files.Views
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
+            FilesystemViewModel.DisableAdaptiveLayout = true;
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
             FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
             FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
@@ -746,14 +747,51 @@ namespace Files.Views
 
         public void Back_Click()
         {
+            NavToolbarViewModel.CanGoBack = false;
+            if (ItemDisplayFrame.CanGoBack)
+            {
+                var previousPageContent = ItemDisplayFrame.BackStack[ItemDisplayFrame.BackStack.Count - 1];
+                var previousPageNavPath = previousPageContent.Parameter as NavigationArguments;
+                previousPageNavPath.IsLayoutSwitch = false;
+                if (previousPageContent.SourcePageType != typeof(WidgetsPage))
+                {
+                    // Update layout type
+                    InstanceViewModel.FolderSettings.GetLayoutType(previousPageNavPath.IsSearchResultPage ? previousPageNavPath.SearchPathParam : previousPageNavPath.NavPathParam);
+                }
+                SelectSidebarItemFromPath(previousPageContent.SourcePageType);
+
+                if (previousPageContent.SourcePageType == typeof(WidgetsPage))
+                {
+                    ItemDisplayFrame.GoBack(new EntranceNavigationTransitionInfo());
+                }
+                else
+                {
+                    ItemDisplayFrame.GoBack();
+                }
+            }
         }
 
         public void Forward_Click()
         {
+            NavToolbarViewModel.CanGoForward = false;
+            if (ItemDisplayFrame.CanGoForward)
+            {
+                var incomingPageContent = ItemDisplayFrame.ForwardStack[ItemDisplayFrame.ForwardStack.Count - 1];
+                var incomingPageNavPath = incomingPageContent.Parameter as NavigationArguments;
+                incomingPageNavPath.IsLayoutSwitch = false;
+                if (incomingPageContent.SourcePageType != typeof(WidgetsPage))
+                {
+                    // Update layout type
+                    InstanceViewModel.FolderSettings.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam);
+                }
+                SelectSidebarItemFromPath(incomingPageContent.SourcePageType);
+                ItemDisplayFrame.GoForward();
+            }
         }
 
         public void Up_Click()
         {
+            this.FindAscendant<ColumnViewBrowser>().UpColumn();
         }
 
         private void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
@@ -771,6 +809,8 @@ namespace Files.Views
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
 
             NavToolbarViewModel.ToolbarPathItemInvoked -= ColumnShellPage_NavigationRequested;
+            NavToolbarViewModel.ToolbarFlyoutOpened -= ColumnShellPage_ToolbarFlyoutOpened;
+            NavToolbarViewModel.ToolbarPathItemLoaded -= ColumnShellPage_ToolbarPathItemLoaded;
             NavToolbarViewModel.AddressBarTextEntered -= ColumnShellPage_AddressBarTextEntered;
             NavToolbarViewModel.PathBoxItemDropped -= ColumnShellPage_PathBoxItemDropped;
             NavToolbarViewModel.BackRequested -= ColumnShellPage_BackNavRequested;
@@ -781,6 +821,10 @@ namespace Files.Views
             NavToolbarViewModel.ItemDraggedOverPathItem -= ColumnShellPage_NavigationRequested;
             NavToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
             //NavToolbarViewModel.RefreshWidgetsRequested -= ColumnShellPage_RefreshWidgetsRequested;
+
+            NavToolbarViewModel.SearchBox.TextChanged -= ColumnShellPage_TextChanged;
+            NavToolbarViewModel.SearchBox.SuggestionChosen -= ColumnShellPage_SuggestionChosen;
+            NavToolbarViewModel.SearchBox.QuerySubmitted -= ColumnShellPage_QuerySubmitted;
 
             InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
@@ -794,6 +838,11 @@ namespace Files.Views
                 FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
                 FilesystemViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
                 FilesystemViewModel.Dispose();
+            }
+
+            if (ItemDisplayFrame.Content is IDisposable disposableContent)
+            {
+                disposableContent?.Dispose();
             }
         }
 
@@ -939,7 +988,7 @@ namespace Files.Views
             FilesystemViewModel.CancelSearch();
             InstanceViewModel.CurrentSearchQuery = query;
             InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
-            ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
+            ItemDisplayFrame.Navigate(typeof(ColumnViewBase), new NavigationArguments()
             {
                 AssociatedTabInstance = this,
                 IsSearchResultPage = true,

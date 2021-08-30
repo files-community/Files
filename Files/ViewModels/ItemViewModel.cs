@@ -356,6 +356,23 @@ namespace Files.ViewModels
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
+            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
+        }
+
+        private async void AppSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(AppSettings.ShowFileExtensions):
+                case nameof(AppSettings.AreHiddenItemsVisible):
+                case nameof(AppSettings.AreSystemItemsHidden):
+                case nameof(AppSettings.AreFileTagsEnabled):
+                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                    {
+                        RefreshItems(null);
+                    });
+                    break;
+            }
         }
 
         private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<NamedPipeAsAppServiceConnection> e)
@@ -1092,6 +1109,8 @@ namespace Files.ViewModels
             return groupImage;
         }
 
+        public bool DisableAdaptiveLayout { get; set; }
+
         public void RefreshItems(string previousDir, Action postLoadCallback = null)
         {
             RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, postLoadCallback);
@@ -1157,15 +1176,21 @@ namespace Files.ViewModels
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
                 IsLoadingItems = false;
 
-                AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
-
-                // Find and select README file
-                foreach (var item in filesAndFolders)
+                if(!DisableAdaptiveLayout)
                 {
-                    if (item.ItemName.Contains("readme", StringComparison.InvariantCultureIgnoreCase))
+                    AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
+                }
+
+                if (AppSettings.PreviewPaneEnabled)
+                {
+                    // Find and select README file
+                    foreach (var item in filesAndFolders)
                     {
-                        OnSelectionRequestedEvent?.Invoke(this, new List<ListedItem>() { item });
-                        break;
+                        if (item.PrimaryItemAttribute == StorageItemTypes.File && item.ItemName.Contains("readme", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            OnSelectionRequestedEvent?.Invoke(this, new List<ListedItem>() { item });
+                            break;
+                        }
                     }
                 }
             }
@@ -2123,6 +2148,7 @@ namespace Files.ViewModels
                 Connection.RequestReceived -= Connection_RequestReceived;
             }
             AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
+            AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
         }
     }
 

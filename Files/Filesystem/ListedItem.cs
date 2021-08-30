@@ -14,6 +14,7 @@ using System.IO;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 using Files.Filesystem.StorageItems;
+using System.Linq;
 
 namespace Files.Filesystem
 {
@@ -335,7 +336,7 @@ namespace Files.Filesystem
         public bool IsFtpItem => this is FtpItem;
         public bool IsZipItem => this is ZipItem;
 
-        public virtual bool IsExecutable => Path.GetExtension(ItemPath)?.ToLower() == ".exe";
+        public virtual bool IsExecutable => new[] { ".exe", ".bat", ".cmd" }.Contains(Path.GetExtension(ItemPath), StringComparer.OrdinalIgnoreCase);
         public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 
         private BaseStorageFile itemFile;

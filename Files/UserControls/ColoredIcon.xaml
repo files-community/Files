@@ -25,7 +25,7 @@
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
                     <SolidColorBrush x:Key="ColoredIconOverlayForeground" Color="{ThemeResource SystemAccentColor}" />
-                    <SolidColorBrush x:Key="ColoredIconOverlayDisabled" Color="{ThemeResource SystemAccentColorDark1}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayForegroundDisabled" Color="{ThemeResource SystemAccentColorDark1}" />
                     <SolidColorBrush x:Key="ColoredIconOverlayForegroundChecked" Color="{ThemeResource SystemAccentColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>

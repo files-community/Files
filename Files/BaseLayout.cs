@@ -111,7 +111,7 @@ namespace Files
             }
         }
 
-        private NavigationArguments navigationArguments;
+        protected NavigationArguments navigationArguments;
 
         private bool isItemSelected = false;
 
@@ -364,7 +364,7 @@ namespace Files
 
         protected abstract ListedItem GetItemFromElement(object element);
 
-        private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
+        protected virtual void BaseFolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
         {
             if (ParentShellPageInstance.SlimContentPage != null)
             {
@@ -407,7 +407,7 @@ namespace Files
             InitializeCommandsViewModel();
 
             IsItemSelected = false;
-            FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
+            FolderSettings.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
             FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
             ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
             FolderSettings.SetLayoutInformation();
@@ -436,7 +436,7 @@ namespace Files
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
                 ParentShellPageInstance.NavToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
-                if (!navigationArguments.IsLayoutSwitch)
+                if (!navigationArguments.IsLayoutSwitch || previousDir != workingDir)
                 {
                     ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir, SetSelectedItemsOnNavigation);
                 }
@@ -523,7 +523,7 @@ namespace Files
             base.OnNavigatingFrom(e);
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
-            FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+            FolderSettings.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
             FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
             ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
             BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
@@ -988,7 +988,11 @@ namespace Files
 
         public readonly VirtualKey MinusKey = (VirtualKey)189;
 
-        public abstract void Dispose();
+        public virtual void Dispose()
+        {
+            PreviewPaneViewModel?.Dispose();
+            UnhookBaseEvents();
+        }
 
         protected void ItemsLayout_DragOver(object sender, DragEventArgs e)
         {

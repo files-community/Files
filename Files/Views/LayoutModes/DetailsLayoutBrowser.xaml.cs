@@ -212,7 +212,10 @@ namespace Files.Views.LayoutModes
 
             UpdateSortOptionsCommand = new RelayCommand<string>(x =>
             {
-                var val = Enum.Parse<SortOption>(x);
+                if (!Enum.TryParse<SortOption>(x, out var val))
+                {
+                    return;
+                }
                 if (FolderSettings.DirectorySortOption == val)
                 {
                     FolderSettings.DirectorySortDirection = (SortDirection)(((int)FolderSettings.DirectorySortDirection + 1) % 2);
@@ -617,6 +620,7 @@ namespace Files.Views.LayoutModes
 
         public override void Dispose()
         {
+            base.Dispose();
             UnhookEvents();
             CommandsViewModel?.Dispose();
         }
@@ -754,7 +758,7 @@ namespace Files.Views.LayoutModes
 
         private double MeasureTextColumn(int columnIndex, int measureItems, int maxItemLength)
         {
-            var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(x => Grid.GetColumn(x.Parent as Grid) == columnIndex);
+            var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(x => x.Parent is Grid && Grid.GetColumn((Grid)x.Parent) == columnIndex);
             var widthPerLetter = tbs.Where(tb => !string.IsNullOrEmpty(tb.Text)).Take(measureItems).Select(tb =>
             {
                 tb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));

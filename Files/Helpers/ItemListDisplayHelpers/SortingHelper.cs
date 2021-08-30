@@ -52,6 +52,17 @@ namespace Files.Helpers
                         ordered = filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(orderFunc, naturalStringComparer);
                     }
                 }
+                else if (directorySortOption == SortOption.FileTag)
+                {
+                    if (App.AppSettings.ListAndSortDirectoriesAlongsideFiles)
+                    {
+                        ordered = filesAndFolders.OrderBy(x => string.IsNullOrEmpty(orderFunc(x) as string)).ThenBy(orderFunc);
+                    }
+                    else
+                    {
+                        ordered = filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(x => string.IsNullOrEmpty(orderFunc(x) as string)).ThenBy(orderFunc);
+                    }
+                }
                 else
                 {
                     if (App.AppSettings.ListAndSortDirectoriesAlongsideFiles)
@@ -75,6 +86,17 @@ namespace Files.Helpers
                     else
                     {
                         ordered = filesAndFolders.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
+                    }
+                }
+                else if (directorySortOption == SortOption.FileTag)
+                {
+                    if (App.AppSettings.ListAndSortDirectoriesAlongsideFiles)
+                    {
+                        ordered = filesAndFolders.OrderBy(x => string.IsNullOrEmpty(orderFunc(x) as string)).ThenByDescending(orderFunc);
+                    }
+                    else
+                    {
+                        ordered = filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(x => string.IsNullOrEmpty(orderFunc(x) as string)).ThenByDescending(orderFunc);
                     }
                 }
                 else
