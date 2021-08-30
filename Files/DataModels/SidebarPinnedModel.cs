@@ -176,9 +176,9 @@ namespace Files.DataModels
             {
                 FavoriteItems.RemoveAt(oldIndex - 1);
                 FavoriteItems.Insert(newIndex - 1, locationItem.Path);
-                Save();
                 favoriteSection.ChildItems.RemoveAt(oldIndex);
                 favoriteSection.ChildItems.Insert(newIndex, locationItem);
+                Save();
                 return true;
             }
 

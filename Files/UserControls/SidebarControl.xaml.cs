@@ -194,8 +194,20 @@ namespace Files.UserControls
         {
             if (RightClickedItem.Section == SectionType.Favorites)
             {
+                bool isSelectedSidebarItem = false;
+
+                if (SelectedSidebarItem == RightClickedItem)
+                {
+                    isSelectedSidebarItem = true;
+                }
+
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
                 App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, 1);
+
+                if (isSelectedSidebarItem)
+                {
+                    SetValue(SelectedSidebarItemProperty, RightClickedItem);
+                }
             }
         }
 
@@ -203,8 +215,20 @@ namespace Files.UserControls
         {
             if (RightClickedItem.Section == SectionType.Favorites)
             {
+                bool isSelectedSidebarItem = false;
+
+                if (SelectedSidebarItem == RightClickedItem)
+                {
+                    isSelectedSidebarItem = true;
+                }
+
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
                 App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, oldIndex - 1);
+
+                if (isSelectedSidebarItem)
+                {
+                    SetValue(SelectedSidebarItemProperty, RightClickedItem);
+                }
             }
         }
 
@@ -212,8 +236,20 @@ namespace Files.UserControls
         {
             if (RightClickedItem.Section == SectionType.Favorites)
             {
+                bool isSelectedSidebarItem = false;
+
+                if (SelectedSidebarItem == RightClickedItem)
+                {
+                    isSelectedSidebarItem = true;
+                }
+
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
                 App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, oldIndex + 1);
+
+                if (isSelectedSidebarItem)
+                {
+                    SetValue(SelectedSidebarItemProperty, RightClickedItem);
+                }
             }
         }
 
@@ -221,8 +257,20 @@ namespace Files.UserControls
         {
             if (RightClickedItem.Section == SectionType.Favorites)
             {
+                bool isSelectedSidebarItem = false;
+
+                if (SelectedSidebarItem == RightClickedItem)
+                {
+                    isSelectedSidebarItem = true;
+                }
+
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
                 App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count());
+
+                if (isSelectedSidebarItem)
+                {
+                    SetValue(SelectedSidebarItemProperty, RightClickedItem);
+                }
             }
         }
 
