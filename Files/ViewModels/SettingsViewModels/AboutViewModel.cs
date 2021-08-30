@@ -57,7 +57,7 @@ namespace Files.ViewModels.SettingsViewModels
                     break;
 
                 case "Documentation":
-                    await Launcher.LaunchUriAsync(new Uri(@"https://files-community.github.io/docs"));
+                    await Launcher.LaunchUriAsync(new Uri(@"https://files.community/docs"));
                     break;
 
                 case "Contributors":
