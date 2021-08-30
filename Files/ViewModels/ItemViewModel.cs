@@ -356,6 +356,23 @@ namespace Files.ViewModels
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
+            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
+        }
+
+        private async void AppSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(AppSettings.ShowFileExtensions):
+                case nameof(AppSettings.AreHiddenItemsVisible):
+                case nameof(AppSettings.AreSystemItemsHidden):
+                case nameof(AppSettings.AreFileTagsEnabled):
+                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                    {
+                        RefreshItems(null);
+                    });
+                    break;
+            }
         }
 
         private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<NamedPipeAsAppServiceConnection> e)
@@ -1164,13 +1181,16 @@ namespace Files.ViewModels
                     AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
                 }
 
-                // Find and select README file
-                foreach (var item in filesAndFolders)
+                if (AppSettings.PreviewPaneEnabled)
                 {
-                    if (item.ItemName.Contains("readme", StringComparison.InvariantCultureIgnoreCase))
+                    // Find and select README file
+                    foreach (var item in filesAndFolders)
                     {
-                        OnSelectionRequestedEvent?.Invoke(this, new List<ListedItem>() { item });
-                        break;
+                        if (item.PrimaryItemAttribute == StorageItemTypes.File && item.ItemName.Contains("readme", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            OnSelectionRequestedEvent?.Invoke(this, new List<ListedItem>() { item });
+                            break;
+                        }
                     }
                 }
             }
@@ -2128,6 +2148,7 @@ namespace Files.ViewModels
                 Connection.RequestReceived -= Connection_RequestReceived;
             }
             AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
+            AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
         }
     }
 

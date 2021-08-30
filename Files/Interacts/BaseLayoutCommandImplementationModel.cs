@@ -655,7 +655,7 @@ namespace Files.Interacts
                     }
 
                     CancellationTokenSource extractCancellation = new CancellationTokenSource();
-                    PostedStatusBanner banner = App.StatusCenterViewModel.PostOperationBanner(
+                    PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
                         string.Empty,
                         "ExtractingArchiveText".GetLocalized(),
                         0,
@@ -669,7 +669,11 @@ namespace Files.Interacts
                     if (destinationFolder == null)
                     {
                         BaseStorageFolder parentFolder = await StorageItemHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path));
-                        destinationFolder = await parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName);
+                        destinationFolder = await FilesystemTasks.Wrap(() => parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName).AsTask());
+                    }
+                    if (destinationFolder == null)
+                    {
+                        return; // Could not create dest folder
                     }
 
                     Stopwatch sw = new Stopwatch();
@@ -682,7 +686,7 @@ namespace Files.Interacts
 
                     if (sw.Elapsed.TotalSeconds >= 6)
                     {
-                        App.StatusCenterViewModel.PostBanner(
+                        App.OngoingTasksViewModel.PostBanner(
                             "ExtractingCompleteText".GetLocalized(),
                             "ArchiveExtractionCompletedSuccessfullyText".GetLocalized(),
                             0,
@@ -706,7 +710,7 @@ namespace Files.Interacts
             if (archive != null && currentFolder != null)
             {
                 CancellationTokenSource extractCancellation = new CancellationTokenSource();
-                PostedStatusBanner banner = App.StatusCenterViewModel.PostOperationBanner(
+                PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
                     string.Empty,
                     "ExtractingArchiveText".GetLocalized(),
                     0,
@@ -724,7 +728,7 @@ namespace Files.Interacts
 
                 if (sw.Elapsed.TotalSeconds >= 6)
                 {
-                    App.StatusCenterViewModel.PostBanner(
+                    App.OngoingTasksViewModel.PostBanner(
                         "ExtractingCompleteText".GetLocalized(),
                         "ArchiveExtractionCompletedSuccessfullyText".GetLocalized(),
                         0,
@@ -742,13 +746,13 @@ namespace Files.Interacts
 
             if (currentFolder != null)
             {
-                destinationFolder = await currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.OpenIfExists);
+                destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.OpenIfExists).AsTask());
             }
 
             if (archive != null && destinationFolder != null)
             {
                 CancellationTokenSource extractCancellation = new CancellationTokenSource();
-                PostedStatusBanner banner = App.StatusCenterViewModel.PostOperationBanner(
+                PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
                     string.Empty,
                     "ExtractingArchiveText".GetLocalized(),
                     0,
@@ -766,7 +770,7 @@ namespace Files.Interacts
 
                 if (sw.Elapsed.TotalSeconds >= 6)
                 {
-                    App.StatusCenterViewModel.PostBanner(
+                    App.OngoingTasksViewModel.PostBanner(
                         "ExtractingCompleteText".GetLocalized(),
                         "ArchiveExtractionCompletedSuccessfullyText".GetLocalized(),
                         0,

@@ -436,7 +436,7 @@ namespace Files
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
                 ParentShellPageInstance.NavToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
-                if (!navigationArguments.IsLayoutSwitch)
+                if (!navigationArguments.IsLayoutSwitch || previousDir != workingDir)
                 {
                     ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir, SetSelectedItemsOnNavigation);
                 }

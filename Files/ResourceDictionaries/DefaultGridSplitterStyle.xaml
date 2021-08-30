@@ -11,6 +11,7 @@
         <Setter Property="IsFocusEngagementEnabled" Value="True" />
         <Setter Property="MinWidth" Value="2" />
         <Setter Property="MinHeight" Value="2" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SplitterBorderBrush}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="GripperForeground" Value="Transparent" />
         <Setter Property="Template">
@@ -19,7 +20,7 @@
                     <Grid
                         x:Name="RootGrid"
                         Background="Transparent"
-                        BorderBrush="{ThemeResource SystemBaseLowColor}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="1,0,0,0">
                         <ContentPresenter
                             HorizontalContentAlignment="Stretch"
@@ -28,7 +29,11 @@
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="GridSplitterStates">
                                 <VisualState x:Name="Normal" />
-
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.Background" Value="Transparent" />
+                                    </VisualState.Setters>
+                                </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
                                         <Setter Target="RootGrid.Background" Value="Transparent" />
@@ -42,26 +47,25 @@
         </Setter>
     </Style>
 
-    <Style x:Key="PaneGridSplitter" TargetType="controls:GridSplitter">
-        <Setter Property="IsTabStop" Value="True" />
-        <Setter Property="UseSystemFocusVisuals" Value="True" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="VerticalAlignment" Value="Stretch" />
-        <Setter Property="IsFocusEngagementEnabled" Value="True" />
-        <Setter Property="MinWidth" Value="2" />
-        <Setter Property="MinHeight" Value="2" />
-        <Setter Property="Background" Value="{ThemeResource SystemBaseLowColor}" />
-        <Setter Property="GripperForeground" Value="{ThemeResource SystemBaseLowColor}" />
+    <Style
+        x:Key="InvisibleGridSplitterStyle"
+        BasedOn="{StaticResource DefaultGridSplitterStyle}"
+        TargetType="controls:GridSplitter">
+        <Setter Property="BorderBrush" Value="{ThemeResource TransparentSplitterBorderBrush}" />
     </Style>
+
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
-            <SolidColorBrush x:Key="SidebarBorderBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="TransparentSplitterBorderBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="SplitterBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
-            <SolidColorBrush x:Key="SidebarBorderBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="TransparentSplitterBorderBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="SplitterBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="HighContrast">
-            <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+            <SolidColorBrush x:Key="TransparentSplitterBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+            <SolidColorBrush x:Key="SplitterBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

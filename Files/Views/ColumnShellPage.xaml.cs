@@ -159,6 +159,8 @@ namespace Files.Views
             //NavigationToolbar.SearchBox.SuggestionChosen += ColumnShellPage_SuggestionChosen;
 
             NavToolbarViewModel.ToolbarPathItemInvoked += ColumnShellPage_NavigationRequested;
+            NavToolbarViewModel.ToolbarFlyoutOpened += ColumnShellPage_ToolbarFlyoutOpened;
+            NavToolbarViewModel.ToolbarPathItemLoaded += ColumnShellPage_ToolbarPathItemLoaded;
             NavToolbarViewModel.AddressBarTextEntered += ColumnShellPage_AddressBarTextEntered;
             NavToolbarViewModel.PathBoxItemDropped += ColumnShellPage_PathBoxItemDropped;
             NavToolbarViewModel.BackRequested += ColumnShellPage_BackNavRequested;
@@ -187,6 +189,16 @@ namespace Files.Views
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
         }
 
+        private async void ColumnShellPage_ToolbarPathItemLoaded(object sender, ToolbarPathItemLoadedEventArgs e)
+        {
+            await NavToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, e.Item, this);
+        }
+
+        private async void ColumnShellPage_ToolbarFlyoutOpened(object sender, ToolbarFlyoutOpenedEventArgs e)
+        {
+            await NavToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, (e.OpenedFlyout.Target as FontIcon).DataContext as PathBoxItem, this);
+        }
+
         private void InitToolbarCommands()
         {
             NavToolbarViewModel.SelectAllContentPageItemsCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.SelectAllItems());
@@ -208,13 +220,6 @@ namespace Files.Views
 
         private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
         {
-            if (FilesystemViewModel != null)
-            {
-                (sender as FolderSettingsViewModel).UpdateLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
-                if (e.IsAdaptiveLayoutUpdateRequired)
-                {
-                }
-            }
         }
 
         /*
@@ -804,6 +809,8 @@ namespace Files.Views
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
 
             NavToolbarViewModel.ToolbarPathItemInvoked -= ColumnShellPage_NavigationRequested;
+            NavToolbarViewModel.ToolbarFlyoutOpened -= ColumnShellPage_ToolbarFlyoutOpened;
+            NavToolbarViewModel.ToolbarPathItemLoaded -= ColumnShellPage_ToolbarPathItemLoaded;
             NavToolbarViewModel.AddressBarTextEntered -= ColumnShellPage_AddressBarTextEntered;
             NavToolbarViewModel.PathBoxItemDropped -= ColumnShellPage_PathBoxItemDropped;
             NavToolbarViewModel.BackRequested -= ColumnShellPage_BackNavRequested;
