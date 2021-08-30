@@ -1027,28 +1027,28 @@ namespace Files.UserControls
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarFavoritesMoveToTop/Text".GetLocalized(),
+                    Text = "SideBarFavoritesMoveToTop".GetLocalized(),
                     Glyph = "\uE11C",
                     Command = new RelayCommand(() => MoveItemToTop_Click(null, null)),
                     ShowItem = ShowMoveItemUp
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarFavoritesMoveOneUp/Text".GetLocalized(),
+                    Text = "SideBarFavoritesMoveOneUp".GetLocalized(),
                     Glyph = "\uE70E",
                     Command = new RelayCommand(() => MoveItemUp_Click(null, null)),
                     ShowItem = ShowMoveItemUp
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarFavoritesMoveOneDown/Text".GetLocalized(),
+                    Text = "SideBarFavoritesMoveOneDown".GetLocalized(),
                     Glyph = "\uE70D",
                     Command = new RelayCommand(() => MoveItemDown_Click(null, null)),
                     ShowItem = ShowMoveItemDown
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "SideBarFavoritesMoveToBottom/Text".GetLocalized(),
+                    Text = "SideBarFavoritesMoveToBottom".GetLocalized(),
                     Glyph = "\uE118",
                     Command = new RelayCommand(() => MoveItemToBottom_Click(null, null)),
                     ShowItem = ShowMoveItemDown
