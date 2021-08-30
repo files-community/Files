@@ -53,6 +53,7 @@
     value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
+
     mimetype: application/x-microsoft.net.object.bytearray.base64
     value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
@@ -2680,7 +2681,7 @@
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
-*Personal Information Collection*
+*Personal Information Collection* 
 Files does not collect, store, share or publish any personal information.
 
 *Non-personal Information Collection*
