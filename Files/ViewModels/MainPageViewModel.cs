@@ -330,6 +330,18 @@ namespace Files.ViewModels
                 {
                     try
                     {
+                        // add last session
+                        if(!App.AppSettings.ResumeAfterRestart)
+                        {
+                            var items = new TabItemArguments[App.AppSettings.LastSessionPages.Length];
+                            for(int i = 0; i < items.Length; i++)
+                            {
+                                var tabArgs = TabItemArguments.Deserialize(App.AppSettings.LastSessionPages[i]);
+                                items[i] = tabArgs;
+                            }
+                            BaseMultitaskingControl.RecentlyClosedTabs.Add(items);
+                        }
+
                         if (App.AppSettings.ResumeAfterRestart)
                         {
                             App.AppSettings.ResumeAfterRestart = false;
