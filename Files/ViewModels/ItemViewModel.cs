@@ -356,6 +356,23 @@ namespace Files.ViewModels
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
+            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
+        }
+
+        private async void AppSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(AppSettings.ShowFileExtensions):
+                case nameof(AppSettings.AreHiddenItemsVisible):
+                case nameof(AppSettings.AreSystemItemsHidden):
+                case nameof(AppSettings.AreFileTagsEnabled):
+                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                    {
+                        RefreshItems(null);
+                    });
+                    break;
+            }
         }
 
         private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<NamedPipeAsAppServiceConnection> e)
@@ -2131,6 +2148,7 @@ namespace Files.ViewModels
                 Connection.RequestReceived -= Connection_RequestReceived;
             }
             AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
+            AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
         }
     }
 

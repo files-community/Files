@@ -515,7 +515,7 @@
                     </Button.KeyboardAccelerators>
                 </Button>
 
-                <Grid x:Name="OngoingTasksGrid" Visibility="{x:Bind OngoingTasksViewModel.AnyOperationsOngoing, Mode=OneWay}">
+                <Grid x:Name="OngoingTasksGrid" Visibility="{x:Bind OngoingTasksViewModel.AnyBannersPresent, Mode=OneWay}">
                     <Button
                         x:Name="OngoingTasks"
                         Width="36"
