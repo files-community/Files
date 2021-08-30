@@ -159,7 +159,7 @@ namespace Files.DataModels
         }
 
         /// <summary>
-        /// Moves the location item in the navigation sidebar from the old position to the new position
+        /// Moves the location item in the Favorites sidebar section from the old position to the new position
         /// </summary>
         /// <param name="locationItem">Location item to move</param>
         /// <param name="oldIndex">The old position index of the location item</param>
@@ -172,8 +172,11 @@ namespace Files.DataModels
                 return false;
             }
 
-            if (oldIndex >= 0 && newIndex >= 0)
+            if (oldIndex >= 1 && newIndex >= 1 && newIndex <= FavoriteItems.Count())
             {
+                FavoriteItems.RemoveAt(oldIndex - 1);
+                FavoriteItems.Insert(newIndex - 1, locationItem.Path);
+                Save();
                 favoriteSection.ChildItems.RemoveAt(oldIndex);
                 favoriteSection.ChildItems.Insert(newIndex, locationItem);
                 return true;
@@ -231,41 +234,6 @@ namespace Files.DataModels
                 this.RemoveStaleSidebarItems();
                 _ = this.AddAllItemsToSidebar();
             }
-        }
-
-        /// <summary>
-        /// Moves the item in the favorites section from the old position to the new position
-        /// </summary>
-        /// <param name="locationItem">Location item to move</param>
-        /// <param name="oldIndex">The old position index of the location item</param>
-        /// <param name="newIndex">The new position index of the location item (-1 to move to the last position)</param>
-        /// <returns>True if the move was successful</returns>
-        public bool MoveFavoritesItem(INavigationControlItem locationItem, int oldIndex, int newIndex)
-        {
-            if (locationItem == null)
-            {
-                return false;
-            }
-
-            if (oldIndex >= 1 && newIndex >= 1 && newIndex <= FavoriteItems.Count())
-            {
-                FavoriteItems.RemoveAt(oldIndex - 1);
-                FavoriteItems.Insert(newIndex - 1, locationItem.Path);
-                Save();
-                MoveItem(locationItem, oldIndex, newIndex);
-                return true;
-            }
-            else if (oldIndex >= 1 && newIndex == -1)
-            {
-                newIndex = FavoriteItems.Count();
-                FavoriteItems.RemoveAt(oldIndex - 1);
-                FavoriteItems.Insert(newIndex - 1, locationItem.Path);
-                Save();
-                MoveItem(locationItem, oldIndex, newIndex);
-                return true;
-            }
-
-            return false;
         }
 
         /// <summary>

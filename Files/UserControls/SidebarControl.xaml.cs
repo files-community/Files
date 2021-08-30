@@ -195,7 +195,7 @@ namespace Files.UserControls
             if (RightClickedItem.Section == SectionType.Favorites)
             {
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
-                App.SidebarPinnedController.Model.MoveFavoritesItem(RightClickedItem, oldIndex, 1);
+                App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, 1);
             }
         }
 
@@ -204,7 +204,7 @@ namespace Files.UserControls
             if (RightClickedItem.Section == SectionType.Favorites)
             {
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
-                App.SidebarPinnedController.Model.MoveFavoritesItem(RightClickedItem, oldIndex, oldIndex - 1);
+                App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, oldIndex - 1);
             }
         }
 
@@ -213,7 +213,7 @@ namespace Files.UserControls
             if (RightClickedItem.Section == SectionType.Favorites)
             {
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
-                App.SidebarPinnedController.Model.MoveFavoritesItem(RightClickedItem, oldIndex, oldIndex + 1);
+                App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, oldIndex + 1);
             }
         }
 
@@ -222,7 +222,7 @@ namespace Files.UserControls
             if (RightClickedItem.Section == SectionType.Favorites)
             {
                 int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
-                App.SidebarPinnedController.Model.MoveFavoritesItem(RightClickedItem, oldIndex, -1);
+                App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count());
             }
         }
 
