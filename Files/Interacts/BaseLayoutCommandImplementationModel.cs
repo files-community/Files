@@ -378,7 +378,7 @@ namespace Files.Interacts
                             return;
                         }
                     }
-                    else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                    else if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsZipItem)
                     {
                         if (await StorageItemHelpers.ToStorageItem<BaseStorageFolder>(item.ItemPath, associatedInstance) is BaseStorageFolder folder)
                         {
