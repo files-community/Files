@@ -598,19 +598,22 @@ namespace Files.Filesystem
                 return ReturnResult.Failed;
             }
 
-            if (source.Any())
+            if (!source.IsEmpty())
             {
                 ReturnResult returnStatus = ReturnResult.InProgress;
 
-                var destinations = new List<string>();
-                List<ShellFileItem> binItems = null;
+                List<string> destinations = new List<string>();
                 foreach (var item in source)
                 {
                     if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
                     {
-                        binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
-                        var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
-                        destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));
+                        List<ShellFileItem> binItems = await recycleBinHelpers.EnumerateRecycleBin();
+
+                        if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
+                        {
+                            var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
+                            destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));
+                        }
                     }
                     else
                     {
@@ -824,14 +827,17 @@ namespace Files.Filesystem
             ReturnResult returnStatus = ReturnResult.InProgress;
 
             var destinations = new List<string>();
-            List<ShellFileItem> binItems = null;
             foreach (var item in source)
             {
                 if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
                 {
-                    binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
-                    var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
-                    destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));
+                    List<ShellFileItem> binItems = await recycleBinHelpers.EnumerateRecycleBin();
+
+                    if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
+                    {
+                        var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
+                        destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));
+                    }
                 }
                 else
                 {
@@ -1043,7 +1049,7 @@ namespace Files.Filesystem
 
         public static bool HasDraggedStorageItems(DataPackageView packageView)
         {
-            return packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out var data));
+            return packageView != null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out var data)));
         }
 
         public static async Task<(bool handledByFtp, IEnumerable<IStorageItemWithPath> items)> GetDraggedStorageItems(DataPackageView packageView)

@@ -140,11 +140,14 @@ namespace Files.UserControls.Widgets
 
         private async Task GetItemsAddedIcon()
         {
-            foreach (var item in ItemsAdded.ToList())
+            for (int i = 0; i < ItemsAdded.Count; i++)
             {
-                item.SelectCommand = LibraryCardClicked;
-                item.AutomationProperties = item.Text;
-                await this.LoadLibraryIcon(item);
+                var item = ItemsAdded[i];
+                if (item != null)
+                {
+                    item.AutomationProperties = item.Text;
+                    await this.LoadLibraryIcon(item);
+                }
             }
         }
 
