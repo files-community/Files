@@ -3551,7 +3551,7 @@ Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu e
         </trans-unit>
         <trans-unit id="AskCredentialDialog.Title" translate="yes" xml:space="preserve">
           <source>Credential Required</source>
-          <target state="new">Credential Required</target>
+          <target state="translated">Anmeldedaten benötigt</target>
         </trans-unit>
         <trans-unit id="CredentialDialogAnonymous.Content" translate="yes" xml:space="preserve">
           <source>Anonymous</source>
@@ -3559,7 +3559,7 @@ Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu e
         </trans-unit>
         <trans-unit id="CredentialDialogDescription.Text" translate="yes" xml:space="preserve">
           <source>Provide your credential:</source>
-          <target state="new">Provide your credential:</target>
+          <target state="translated">Gib deine Anmeldedaten an:</target>
         </trans-unit>
         <trans-unit id="CredentialDialogPassword.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Password</source>
@@ -3595,43 +3595,43 @@ Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu e
         </trans-unit>
         <trans-unit id="OpenLogLocation.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="new">Open log location</target>
+          <target state="translated">Ordner mit Protokolldateien öffnen</target>
         </trans-unit>
         <trans-unit id="SettingsAboutOpenLogLocationButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="new">Open log location</target>
+          <target state="translated">Ordner mit Protokolldateien öffnen</target>
         </trans-unit>
         <trans-unit id="LinkToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Create link in {0}</source>
-          <target state="new">Create link in {0}</target>
+          <target state="translated">Link in {0} erstellen</target>
         </trans-unit>
         <trans-unit id="NavToolbarColumnsHeader.Text" translate="yes" xml:space="preserve">
           <source>Columns</source>
-          <target state="new">Columns</target>
+          <target state="translated">Spalten</target>
         </trans-unit>
         <trans-unit id="NavToolbarDetailsHeader.Text" translate="yes" xml:space="preserve">
           <source>Details</source>
-          <target state="new">Details</target>
+          <target state="translated">Details</target>
         </trans-unit>
         <trans-unit id="NavToolbarLargeIconsHeader.Text" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
-          <target state="new">Large Icons</target>
+          <target state="translated">Große Symbole</target>
         </trans-unit>
         <trans-unit id="NavToolbarMediumIconsHeader.Text" translate="yes" xml:space="preserve">
           <source>Medium Icons</source>
-          <target state="new">Medium Icons</target>
+          <target state="translated">Mittelgroße Symbole</target>
         </trans-unit>
         <trans-unit id="NavToolbarSmallIconsHeader.Text" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
-          <target state="new">Small Icons</target>
+          <target state="translated">Kleine Symbole</target>
         </trans-unit>
         <trans-unit id="NavToolbarTilesHeader.Text" translate="yes" xml:space="preserve">
           <source>Tiles</source>
-          <target state="new">Tiles</target>
+          <target state="translated">Kacheln</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFileExtensionsHeader.Text" translate="yes" xml:space="preserve">
           <source>Show file extensions</source>
-          <target state="new">Show file extensions</target>
+          <target state="translated">Dateierweiterungen anzeigen</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
@@ -3683,7 +3683,7 @@ Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu e
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
-          <target state="new">Open folders in new tab</target>
+          <target state="translated">Ordner in neuem Tab öffnen</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Language</source>
@@ -3691,7 +3691,7 @@ Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu e
         </trans-unit>
         <trans-unit id="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="new">Show a confirmation dialog when deleting files or folders</target>
+          <target state="translated">Bestätigungsdialog vor dem Löschen von Dateien und Ordnern anzeigen</target>
         </trans-unit>
         <trans-unit id="TerminalApplicationsComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Terminal application</source>
