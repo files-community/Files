@@ -221,7 +221,19 @@ namespace Files.Filesystem
         }
 
         public string FileExtension { get; set; }
-        public string FileSize { get; set; }
+
+        private string fileSize;
+
+        public string FileSize
+        {
+            get => fileSize;
+            set
+            {
+                SetProperty(ref fileSize, value);
+                OnPropertyChanged(nameof(FileSizeDisplay));
+            }
+        }
+
         public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalcluated".GetLocalized() : FileSize;
         public long FileSizeBytes { get; set; }
         public string ItemDateModified { get; private set; }
@@ -235,6 +247,7 @@ namespace Files.Filesystem
             {
                 ItemDateModified = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateModifiedReal = value;
+                OnPropertyChanged(nameof(ItemDateModified));
             }
         }
 
@@ -247,6 +260,7 @@ namespace Files.Filesystem
             {
                 ItemDateCreated = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateCreatedReal = value;
+                OnPropertyChanged(nameof(ItemDateCreated));
             }
         }
 
@@ -259,6 +273,7 @@ namespace Files.Filesystem
             {
                 ItemDateAccessed = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateAccessedReal = value;
+                OnPropertyChanged(nameof(ItemDateAccessed));
             }
         }
 

@@ -159,7 +159,7 @@ namespace Files.DataModels
         }
 
         /// <summary>
-        /// Moves the location item in the navigation sidebar from the old position to the new position
+        /// Moves the location item in the Favorites sidebar section from the old position to the new position
         /// </summary>
         /// <param name="locationItem">Location item to move</param>
         /// <param name="oldIndex">The old position index of the location item</param>
@@ -172,10 +172,33 @@ namespace Files.DataModels
                 return false;
             }
 
-            if (oldIndex >= 0 && newIndex >= 0)
+            if (oldIndex >= 1 && newIndex >= 1 && newIndex <= FavoriteItems.Count())
             {
-                favoriteSection.ChildItems.RemoveAt(oldIndex);
-                favoriteSection.ChildItems.Insert(newIndex, locationItem);
+                // A backup of the items, because the swapping of items requires removing and inserting them in the correct position
+                var sidebarItemsBackup = new List<string>(FavoriteItems);
+
+                try
+                {
+                    FavoriteItems.RemoveAt(oldIndex - 1);
+                    FavoriteItems.Insert(newIndex - 1, locationItem.Path);
+                    favoriteSection.ChildItems.RemoveAt(oldIndex);
+                    favoriteSection.ChildItems.Insert(newIndex, locationItem);
+                    Save();
+                }
+                catch (Exception ex) when (
+                    ex is ArgumentException // Pinned item was invalid
+                    || ex is FileNotFoundException // Pinned item was deleted
+                    || ex is System.Runtime.InteropServices.COMException // Pinned item's drive was ejected
+                    || (uint)ex.HResult == 0x8007000F // The system cannot find the drive specified
+                    || (uint)ex.HResult == 0x800700A1) // The specified path is invalid (usually an mtp device was disconnected)
+                {
+                    Debug.WriteLine($"An error occurred while moving pinned items in the Favorites sidebar section. {ex.Message}");
+                    FavoriteItems = sidebarItemsBackup;
+                    RemoveStaleSidebarItems();
+                    _ = AddAllItemsToSidebar();
+                    return false;
+                }
+
                 return true;
             }
 
@@ -194,43 +217,11 @@ namespace Files.DataModels
                 return;
             }
 
-            // A backup of the items, because the swapping of items requires removing and inserting them in the correct position
-            var sidebarItemsBackup = new List<string>(this.FavoriteItems);
+            var indexOfFirstItemInMainPage = IndexOfItem(firstLocationItem);
+            var indexOfSecondItemInMainPage = IndexOfItem(secondLocationItem);
 
-            try
-            {
-                var indexOfFirstItemInMainPage = IndexOfItem(firstLocationItem);
-                var indexOfSecondItemInMainPage = IndexOfItem(secondLocationItem);
-
-                // Moves the items in the MainPage
-                var result = MoveItem(firstLocationItem, indexOfFirstItemInMainPage, indexOfSecondItemInMainPage);
-
-                // Moves the items in this model and saves the model
-                if (result == true)
-                {
-                    var indexOfFirstItemInModel = this.FavoriteItems.IndexOf(firstLocationItem.Path);
-                    var indexOfSecondItemInModel = this.FavoriteItems.IndexOf(secondLocationItem.Path);
-                    if (indexOfFirstItemInModel >= 0 && indexOfSecondItemInModel >= 0)
-                    {
-                        this.FavoriteItems.RemoveAt(indexOfFirstItemInModel);
-                        this.FavoriteItems.Insert(indexOfSecondItemInModel, firstLocationItem.Path);
-                    }
-
-                    Save();
-                }
-            }
-            catch (Exception ex) when (
-                ex is ArgumentException // Pinned item was invalid
-                || ex is FileNotFoundException // Pinned item was deleted
-                || ex is System.Runtime.InteropServices.COMException // Pinned item's drive was ejected
-                || (uint)ex.HResult == 0x8007000F // The system cannot find the drive specified
-                || (uint)ex.HResult == 0x800700A1) // The specified path is invalid (usually an mtp device was disconnected)
-            {
-                Debug.WriteLine($"An error occurred while swapping pinned items in the navigation sidebar. {ex.Message}");
-                this.FavoriteItems = sidebarItemsBackup;
-                this.RemoveStaleSidebarItems();
-                _ = this.AddAllItemsToSidebar();
-            }
+            // Moves the items in the MainPage
+            MoveItem(firstLocationItem, indexOfFirstItemInMainPage, indexOfSecondItemInMainPage);
         }
 
         /// <summary>
