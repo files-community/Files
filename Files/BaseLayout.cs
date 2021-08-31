@@ -1,6 +1,5 @@
 ﻿using Files.Enums;
 using Files.EventArguments;
-using Files.Events;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
@@ -24,7 +23,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
-using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;

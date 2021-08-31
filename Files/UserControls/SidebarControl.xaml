@@ -141,10 +141,10 @@
                                     Grid.ColumnSpan="2"
                                     Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.OpenPaneLength}"
                                     HorizontalAlignment="Left"
-                                    CornerRadius="{TemplateBinding CornerRadius}"
                                     Background="{TemplateBinding PaneBackground}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
                                     Visibility="Collapsed">
 
                                     <Grid.BackgroundTransition>

@@ -18,7 +18,7 @@ namespace Files.ViewModels
         {
             FolderSettings = new FolderSettingsViewModel();
         }
-        
+
         public CurrentInstanceViewModel(FolderLayoutModes rootLayoutMode)
         {
             FolderSettings = new FolderSettingsViewModel(rootLayoutMode);
