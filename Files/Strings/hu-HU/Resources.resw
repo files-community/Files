@@ -2532,6 +2532,17 @@
   <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
     <value>Fluent UI System Icons</value>
   </data>
+  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
+    <value>
+*Személyes adatgyűjtés*
+
+A Files nem gyűjt, tárol, továbbít és tesz közzé semmilyen személyes információt.
+
+*Nem személyes adatgyűjtés*
+
+Az App Center szolgáltatásait használjuk az app használatának monitorozására, hibák feltárására és kijavítására. Minden az App Centernek küldött adat név nélküli és felhasználói adatoktól mentes.
+  </value>
+  </data>
   <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
     <value>Egyik sem</value>
   </data>
@@ -2622,6 +2633,9 @@
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Hitelesítés szükséges</value>
   </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>Anonim</value>
+  </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>Adja meg a hitelesítési adatait:</value>
   </data>
@@ -2690,5 +2704,32 @@
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>WSL megjelenítése</value>
+  </data>
+  <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Dátum formátum</value>
+  </data>
+  <data name="SettingsDialogCloseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Bezárás</value>
+  </data>
+  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mappák megnyitása új lapon</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Nyelv</value>
+  </data>
+  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Megerősítés kérése fájlok és mappák törlésekor</value>
+  </data>
+  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Terminál alkalmazások</value>
+  </data>
+  <data name="OngoingTasks" xml:space="preserve">
+    <value>Folyamatban lévő műveletek</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
+    <value>Teljes felbontás</value>
+  </data>
+  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
+    <value>Csak előnézet</value>
   </data>
 </root>
