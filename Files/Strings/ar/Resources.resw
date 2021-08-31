@@ -1872,7 +1872,7 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>اللغة</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>إظهار الملفات والمجلدات المخفية</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">

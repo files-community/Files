@@ -2382,7 +2382,7 @@
   <data name="SettingsFilesAndFoldersShowFileExtensions.Title" xml:space="preserve">
     <value>Rādīt paplašinājumus zināmiem failu tipiem</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Rādīt slēptos failus un mapes</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">

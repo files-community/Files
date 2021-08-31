@@ -2385,7 +2385,7 @@
   <data name="SettingsFilesAndFoldersShowFileExtensions.Title" xml:space="preserve">
     <value>Mostrar extensões para tipos de ficheiros conhecidos</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Mostrar ficheiros e pastas ocultas</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">

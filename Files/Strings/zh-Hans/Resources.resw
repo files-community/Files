@@ -2387,7 +2387,7 @@
   <data name="SettingsFilesAndFoldersShowFileExtensions.Title" xml:space="preserve">
     <value>显示已知文件类型的扩展名</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>显示隐藏的文件和文件夹</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">

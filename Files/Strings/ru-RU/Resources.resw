@@ -2343,7 +2343,7 @@
   <data name="SettingsFilesAndFoldersShowFileExtensions.Title" xml:space="preserve">
     <value>Показать расширения файла для известных типов файлов</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Показывать скрытые файлы и папки</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">

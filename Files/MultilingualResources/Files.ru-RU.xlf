@@ -3191,7 +3191,7 @@
           <source>Show extensions for known file types</source>
           <target state="translated">Показать расширения файла для известных типов файлов</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
           <target state="translated">Показывать скрытые файлы и папки</target>
         </trans-unit>

@@ -3195,7 +3195,7 @@
           <source>Show extensions for known file types</source>
           <target state="translated">Dateitypen in Namen anzeigen</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
           <target state="translated">Versteckte Dateien und Ordner anzeigen</target>
         </trans-unit>

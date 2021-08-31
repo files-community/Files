@@ -150,7 +150,7 @@
   <data name="SettingsFilesAndFoldersShowFileExtensions.Title" xml:space="preserve">
     <value>გაფართოებების ჩვენება ცნობილი ფაილის ნიმუშებისთვის</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>დამალული ფაილების და საქაღალდეების ჩვენება</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">

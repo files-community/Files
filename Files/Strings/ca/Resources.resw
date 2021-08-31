@@ -150,7 +150,7 @@
   <data name="SettingsFilesAndFoldersShowFileExtensions.Title" xml:space="preserve">
     <value>Mostra les extensions per als tipus d'arxius coneguts</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Ensenya arxius i carpetes ocultes</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">

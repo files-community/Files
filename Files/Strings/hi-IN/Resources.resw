@@ -1491,7 +1491,7 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>भाषा</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>छुपी हुई फ़ाइलें और फ़ोल्डर दिखाएँ</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">

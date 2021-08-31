@@ -1902,7 +1902,7 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Мови</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Відображати приховані файли та папки</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">

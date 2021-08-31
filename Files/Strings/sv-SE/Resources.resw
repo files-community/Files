@@ -1947,7 +1947,7 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Språk</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Visa dolda filer och mappar</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">

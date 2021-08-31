@@ -150,7 +150,7 @@
   <data name="SettingsFilesAndFoldersShowFileExtensions.Title" xml:space="preserve">
     <value></value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Hiển thị tệp và thư mục đang giấu</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">

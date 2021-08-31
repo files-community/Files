@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
@@ -33,24 +34,24 @@
                 FontWeight="Medium"
                 Text="Files and Folders" />
 
-            <local:SettingsBlockControl
-                x:Uid="SettingsFilesAndFoldersShowHiddenItems"
-                Title="Show hidden files and folders"
-                HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE7B3;" />
                 </local:SettingsBlockControl.Icon>
-                <ToggleSwitch IsOn="{Binding AreHiddenItemsVisible, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                <ToggleSwitch
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}"
+                    IsOn="{Binding AreHiddenItemsVisible, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl
-                x:Uid="SettingsFilesAndFoldersHideSystemItems"
-                Title="Hide protected operating system files (Recommended)"
-                HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xED1A;" />
                 </local:SettingsBlockControl.Icon>
-                <ToggleSwitch IsOn="{Binding AreSystemItemsHidden, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                <ToggleSwitch
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}"
+                    IsOn="{Binding AreSystemItemsHidden, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
 
             <local:SettingsBlockControl
