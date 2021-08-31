@@ -1905,7 +1905,7 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Відображати приховані файли та папки</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Приховувати захищені системні файли (рекомендовано)</value>
   </data>
   <data name="SettingCopyVersionInfo.Content" xml:space="preserve">

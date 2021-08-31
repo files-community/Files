@@ -147,7 +147,7 @@
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Diện mạo</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value></value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
@@ -1164,7 +1164,7 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Chọn</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Title" xml:space="preserve">
+  <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
     <value>Mở mục bằng một cú nhấp chuột</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1254,7 +1254,7 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Hỗ trợ chúng tôi bằng PayPal</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Title" xml:space="preserve">
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Danh và sắp xếp danh mụch kế bên tệp tin</value>
   </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
@@ -1272,13 +1272,13 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Đã có Bản cập nhật</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Giấu những tệp tin về hệ điều hành đã bảo vể (Khuyến khích)</value>
   </data>
-  <data name="SettingsSearchUnindexedItems.Title" xml:space="preserve">
+  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Hiển thị mục không lục khi tìm kiếm cho tệp tin và thư mục (Có thể lâu hơn để tìm kiếm)</value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Title" xml:space="preserve">
+  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>Bật tùy chọn cá nhân cho danh mục cá nhân</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">

@@ -187,7 +187,7 @@
           <source>Appearance</source>
           <target state="translated">Εμφάνιση</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
           <target state="translated">Εμφάνιση επεκτάσεων για γνωστούς τύπους αρχείων</target>
         </trans-unit>
@@ -1576,7 +1576,7 @@
           <source>Select</source>
           <target state="translated">Επιλέξτε</target>
         </trans-unit>
-        <trans-unit id="SettingsOpenItemsWithOneclick.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsOpenItemsWithOneclick" translate="yes" xml:space="preserve">
           <source>Open items with a single click</source>
           <target state="translated">Άνοιγμα αντικειμένων με ένα μόνο κλικ</target>
         </trans-unit>
@@ -1696,7 +1696,7 @@
           <source>Support us on PayPal</source>
           <target state="translated">Υποστηρίξτε μας στο PayPal</target>
         </trans-unit>
-        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
           <target state="translated">Λίστα και ταξινόμηση καταλόγων μαζί με αρχεία</target>
         </trans-unit>
@@ -1720,15 +1720,15 @@
           <source>Updates Available</source>
           <target state="translated">Διαθέσιμες ενημερώσεις</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersHideSystemItems" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
           <target state="translated">Απόκρυψη προστατευμένων αρχείων λειτουργικού συστήματος (Συνιστάται)</target>
         </trans-unit>
-        <trans-unit id="SettingsSearchUnindexedItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSearchUnindexedItems" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
           <target state="translated">Εμφάνιση μη ευρετηριασμένων στοιχείων κατά την αναζήτηση αρχείων και φακέλων (οι αναζητήσεις μπορεί να διαρκέσουν περισσότερο)</target>
         </trans-unit>
-        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
           <target state="translated">Ενεργοποίηση ατομικών προτιμήσεων για μεμονωμένους καταλόγους</target>
         </trans-unit>

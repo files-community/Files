@@ -2178,7 +2178,7 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Tampilkan file dan folder tersembunyi</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Sembunyikan file sistem operasi terlindung (Disarankan)</value>
   </data>
   <data name="SettingCopyVersionInfo.Content" xml:space="preserve">

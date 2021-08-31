@@ -54,54 +54,54 @@
                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl
-                x:Uid="SettingsFilesAndFoldersShowFileExtensions"
-                Title="Show extensions for known file types"
-                HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE160;" />
                 </local:SettingsBlockControl.Icon>
-                <ToggleSwitch IsOn="{Binding ShowFileExtensions, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                <ToggleSwitch
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}"
+                    IsOn="{Binding ShowFileExtensions, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl
-                x:Uid="SettingsOpenItemsWithOneclick"
-                Title="Open items with a single click"
-                HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenItemsWithOneclick}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE8B0;" />
                 </local:SettingsBlockControl.Icon>
-                <ToggleSwitch IsOn="{Binding OpenItemsWithOneclick, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                <ToggleSwitch
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenItemsWithOneclick}"
+                    IsOn="{Binding OpenItemsWithOneclick, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl
-                x:Uid="SettingsListAndSortDirectoriesAlongsideFiles"
-                Title="List and sort directories alongside files"
-                HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE174;" />
                 </local:SettingsBlockControl.Icon>
-                <ToggleSwitch IsOn="{Binding ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                <ToggleSwitch
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}"
+                    IsOn="{Binding ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl
-                x:Uid="SettingsSearchUnindexedItems"
-                Title="Show unindexed items when searching for files and folders (searches may take longer)"
-                HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsSearchUnindexedItems}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE721;" />
                 </local:SettingsBlockControl.Icon>
-                <ToggleSwitch IsOn="{Binding SearchUnindexedItems, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                <ToggleSwitch
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsSearchUnindexedItems}"
+                    IsOn="{Binding SearchUnindexedItems, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl
-                x:Uid="SettingsEnableLayoutPreferencesPerFolder"
-                Title="Enable individual preferences for individual directories"
-                HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsEnableLayoutPreferencesPerFolder}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE8B7;" />
                 </local:SettingsBlockControl.Icon>
-                <ToggleSwitch IsOn="{Binding AreLayoutPreferencesPerFolder, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+                <ToggleSwitch
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsEnableLayoutPreferencesPerFolder}"
+                    IsOn="{Binding AreLayoutPreferencesPerFolder, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
         </StackPanel>
     </Grid>

@@ -1992,7 +1992,7 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Vis skjulte filer og mapper</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Skjul beskyttede operativsystemfiler (anbefales)</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
