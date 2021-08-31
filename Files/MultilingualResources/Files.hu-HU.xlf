@@ -756,7 +756,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
           <source>When opening a folder in Files</source>
-          <target state="translated">Mappa Filesból való megnyitásakor</target>
+          <target state="translated">Mappa megnyitása</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
           <source>Windows default</source>
@@ -1528,8 +1528,7 @@
         </trans-unit>
         <trans-unit id="SearchPagePathBoxOverrideText" translate="yes" xml:space="preserve">
           <source>Search results in {1} for {0}</source>
-          <target state="needs-review-translation">Keresés eredménye itt:</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">"{0}" keresése itt: {1}</target>
         </trans-unit>
         <trans-unit id="SearchTabHeaderText" translate="yes" xml:space="preserve">
           <source>Search results</source>
@@ -2061,17 +2060,15 @@
         </trans-unit>
         <trans-unit id="NavToolbarColumnView.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Columns</source>
-          <target state="needs-review-translation">Oszlop</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Oszlopok</target>
         </trans-unit>
         <trans-unit id="NavToolbarColumnView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Columns (Ctrl+Shift+6)</source>
-          <target state="translated">Oszlop (Ctrl + Shift + 6)</target>
+          <target state="translated">Oszlopok (Ctrl + Shift + 6)</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutColumn.Text" translate="yes" xml:space="preserve">
           <source>Columns</source>
-          <target state="needs-review-translation">Oszlop nézet</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Oszlopok</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesFoldersAndLocationsCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</source>
@@ -2231,11 +2228,11 @@
         </trans-unit>
         <trans-unit id="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" translate="yes" xml:space="preserve">
           <source>Permanently delete</source>
-          <target state="translated">Végleges törlése</target>
+          <target state="translated">Végleges törlés</target>
         </trans-unit>
         <trans-unit id="SearchUnindexedItemsLabel.Text" translate="yes" xml:space="preserve">
           <source>Didn't find what you're looking for?</source>
-          <target state="translated">Nem találta amire keresett?</target>
+          <target state="translated">Nincs itt amit keresett?</target>
         </trans-unit>
         <trans-unit id="SearchUnindexedItemsButton.Content" translate="yes" xml:space="preserve">
           <source>Search unindexed items.</source>
@@ -2787,19 +2784,19 @@
         </trans-unit>
         <trans-unit id="SettingsAppearanceOpenThemesFolderButton.Content" translate="yes" xml:space="preserve">
           <source>Open themes folder</source>
-          <target state="translated">Kinézetek mappa megnyitása</target>
+          <target state="translated">Témák mappa megnyitása</target>
         </trans-unit>
         <trans-unit id="SettingsThemesLearnMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about custom themes</source>
-          <target state="translated">Tudjon meg többet az alternatív kinézetekről</target>
+          <target state="translated">Tudjon meg többet az egyedi témákról</target>
         </trans-unit>
         <trans-unit id="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about custom themes</source>
-          <target state="translated">Tudjon meg többet az alternatív kinézetekről</target>
+          <target state="translated">Tudjon meg többet az egyedi témákról</target>
         </trans-unit>
         <trans-unit id="SettingsThemesTeachingTipHeader.Text" translate="yes" xml:space="preserve">
           <source>Custom themes provide a great way for you to personalize Files.</source>
-          <target state="translated">Az alternatív kinézetek remek lehetőséget nyújtanak a Files személyre szabására.</target>
+          <target state="translated">Az egyedi témák remek lehetőséget nyújtanak a Files személyre szabására.</target>
         </trans-unit>
         <trans-unit id="SettingsThemesTeachingTipHyperlinkText.Text" translate="yes" xml:space="preserve">
           <source>View documentation.</source>
@@ -3115,7 +3112,7 @@
         </trans-unit>
         <trans-unit id="SideBarHideSectionFromSideBar.Text" translate="yes" xml:space="preserve">
           <source>Hide {0} section</source>
-          <target state="translated">{0} szakasz elrejtése</target>
+          <target state="translated">{0} elrejtése</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane" translate="yes" xml:space="preserve">
           <source>Always open new tabs in dual pane mode</source>
@@ -3131,37 +3128,31 @@
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show cloud drives section</source>
-          <target state="needs-review-translation">Felhőtárhelyek megjelenítése az oldalsávon</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Felhőtárhelyek megjelenítése</target>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show drives section</source>
-          <target state="needs-review-translation">Meghajtók megjelenítése az oldalsávon</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Meghajtók megjelenítése</target>
         </trans-unit>
         <trans-unit id="SettingsShowWslSection.Title" translate="yes" xml:space="preserve">
           <source>Show WSL section</source>
-          <target state="needs-review-translation">WSL megjelenítése az oldalsávon</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">WSL megjelenítése</target>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show network section</source>
-          <target state="needs-review-translation">Hálózati meghajtók megjelenítése az oldalsávon</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Hálózati meghajtók megjelenítése</target>
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBin.Title" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to favorites</source>
-          <target state="needs-review-translation">Lomtár kitűzése a kedvencekhez</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Lomtár a kedvenceknél</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
           <source>Show library section</source>
-          <target state="needs-review-translation">Könyvtárak megjelenítése az oldalsávon</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Könyvtárak megjelenítése</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTheme" translate="yes" xml:space="preserve">
           <source>Choose your color</source>
-          <target state="translated">Téma</target>
+          <target state="translated">Szín</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceCustomThemes" translate="yes" xml:space="preserve">
           <source>Custom themes</source>
@@ -3349,7 +3340,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplicationsExpander.Title" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
-          <target state="translated">Terminál alkalmazások szerkeztése</target>
+          <target state="translated">Terminál alkalmazások szerkesztése</target>
         </trans-unit>
         <trans-unit id="SettingsDateFormat.Title" translate="yes" xml:space="preserve">
           <source>Date format</source>
@@ -3357,7 +3348,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">Megerősítő dialógus megjelenítése fájlok és mappák törlésekor</target>
+          <target state="translated">Megerősítés kérése fájlok és mappák törlésekor</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Title" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
@@ -3395,7 +3386,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         </trans-unit>
         <trans-unit id="NavToolbarGroupByOptionNone.Text" translate="yes" xml:space="preserve">
           <source>None</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Nincs</target>
+          <target state="translated">Egyik sem</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionName.Text" translate="yes" xml:space="preserve">
           <source>Name</source>
@@ -3491,7 +3482,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         </trans-unit>
         <trans-unit id="InsertDiscDialog.Title" translate="yes" xml:space="preserve">
           <source>Insert a disc</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Helyezzen be egy lemezt.</target>
+          <target state="translated">Helyezzen be egy lemezt</target>
         </trans-unit>
         <trans-unit id="ConfictingItemsDialogOptionApplyToAll.Text" translate="yes" xml:space="preserve">
           <source>Apply to all</source>
