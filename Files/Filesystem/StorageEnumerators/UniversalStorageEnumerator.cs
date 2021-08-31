@@ -11,10 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem.StorageEnumerators
 {
@@ -81,7 +78,7 @@ namespace Files.Filesystem.StorageEnumerators
                     }
                     else
                     {
-                        var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, returnformat, true, sourcePageType, cancellationToken);
+                        var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, returnformat, cancellationToken);
                         if (fileEntry != null)
                         {
                             tempList.Add(fileEntry);
@@ -170,8 +167,6 @@ namespace Files.Filesystem.StorageEnumerators
             BaseStorageFile file,
             StorageFolderWithPath currentStorageFolder,
             string dateReturnFormat,
-            bool suppressThumbnailLoading,
-            Type sourcePageType,
             CancellationToken cancellationToken
         )
         {
@@ -187,80 +182,13 @@ namespace Files.Filesystem.StorageEnumerators
             var itemType = file.DisplayType;
             var itemFolderImgVis = false;
             var itemFileExtension = file.FileType;
-
-            async Task<(BitmapImage Icon, byte[] IconData, bool ThumbnailImgVis, bool EmptyImgVis)> GetIconAsync()
-            {
-                BitmapImage icon = new BitmapImage();
-                byte[] iconData = null;
-                bool itemThumbnailImgVis;
-                bool itemEmptyImgVis;
-
-                if (sourcePageType != typeof(GridViewBrowser))
-                {
-                    try
-                    {
-                        using var itemThumbnailImg = suppressThumbnailLoading ? null :
-                            await file.GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.UseCurrentScale);
-                        if (itemThumbnailImg != null)
-                        {
-                            itemEmptyImgVis = false;
-                            itemThumbnailImgVis = true;
-                            icon.DecodePixelWidth = 40;
-                            icon.DecodePixelHeight = 40;
-                            await icon.SetSourceAsync(itemThumbnailImg);
-                            iconData = await itemThumbnailImg.ToByteArrayAsync();
-                        }
-                        else
-                        {
-                            itemEmptyImgVis = true;
-                            itemThumbnailImgVis = false;
-                        }
-                    }
-                    catch
-                    {
-                        itemEmptyImgVis = true;
-                        itemThumbnailImgVis = false;
-                        // Catch here to avoid crash
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        using var itemThumbnailImg = suppressThumbnailLoading ? null :
-                            await file.GetThumbnailAsync(ThumbnailMode.ListView, 80, ThumbnailOptions.UseCurrentScale);
-                        if (itemThumbnailImg != null)
-                        {
-                            itemEmptyImgVis = false;
-                            itemThumbnailImgVis = true;
-                            icon.DecodePixelWidth = 80;
-                            icon.DecodePixelHeight = 80;
-                            await icon.SetSourceAsync(itemThumbnailImg);
-                            iconData = await itemThumbnailImg.ToByteArrayAsync();
-                        }
-                        else
-                        {
-                            itemEmptyImgVis = true;
-                            itemThumbnailImgVis = false;
-                        }
-                    }
-                    catch
-                    {
-                        itemEmptyImgVis = true;
-                        itemThumbnailImgVis = false;
-                    }
-                }
-
-                return (icon, iconData, itemThumbnailImgVis, itemEmptyImgVis);
-            }
+            var itemEmptyImgVis = true;
+            var itemThumbnailImgVis = false;
 
             if (cancellationToken.IsCancellationRequested)
             {
                 return null;
             }
-
-            await CoreApplication.MainView.Dispatcher.YieldAsync(Windows.UI.Core.CoreDispatcherPriority.Normal);
-            var (icon, iconData, itemThumbnailImgVis, itemEmptyImgVis) = await GetIconAsync();
 
             if (file.Name.EndsWith(".lnk") || file.Name.EndsWith(".url"))
             {
@@ -285,8 +213,8 @@ namespace Files.Filesystem.StorageEnumerators
                     IsHiddenItem = false,
                     Opacity = 1,
                     LoadUnknownTypeGlyph = itemEmptyImgVis,
-                    FileImage = icon,
-                    CustomIconData = iconData,
+                    FileImage = null,
+                    CustomIconData = null,
                     LoadFileIcon = itemThumbnailImgVis,
                     LoadFolderGlyph = itemFolderImgVis,
                     ItemName = itemName,
