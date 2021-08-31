@@ -46,7 +46,7 @@
 
             <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
-                    <FontIcon Glyph="&#xED1A;" />
+                    <FontIcon Glyph="&#xE72E;" />
                 </local:SettingsBlockControl.Icon>
                 <ToggleSwitch
                     AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}"

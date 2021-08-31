@@ -499,7 +499,7 @@ namespace Files.Helpers
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutContextFlyoutOpenInTerminal/Text".GetLocalized(),
-                    Glyph = "\uFE56",
+                    Glyph = "\uE756",
                     Command = commandsViewModel.OpenDirectoryInDefaultTerminalCommand,
                 },
                 new ContextMenuFlyoutItemViewModel()
