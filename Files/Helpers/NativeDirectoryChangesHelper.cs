@@ -60,7 +60,6 @@ namespace Files.Helpers
         public const int FILE_NOTIFY_CHANGE_CREATION = 64;
         public const int FILE_NOTIFY_CHANGE_SECURITY = 256;
 
-
         public unsafe struct FILE_NOTIFY_INFORMATION
         {
             public uint NextEntryOffset;

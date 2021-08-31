@@ -220,11 +220,10 @@ namespace Files.Filesystem
             }
         }
 
-        public string FileExtension
-        {
-            get => fileExtension;
-            set => SetProperty(ref fileExtension, value);
-        }
+        public string FileExtension { get; set; }
+
+        private string fileSize;
+
         public string FileSize
         {
             get => fileSize;
@@ -234,6 +233,7 @@ namespace Files.Filesystem
                 OnPropertyChanged(nameof(FileSizeDisplay));
             }
         }
+
         public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalcluated".GetLocalized() : FileSize;
         public long FileSizeBytes { get; set; }
         public string ItemDateModified { get; private set; }
@@ -260,7 +260,7 @@ namespace Files.Filesystem
             {
                 ItemDateCreated = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateCreatedReal = value;
-                OnPropertyChanged(nameof(ItemDateCreatedReal));
+                OnPropertyChanged(nameof(ItemDateCreated));
             }
         }
 
@@ -273,7 +273,7 @@ namespace Files.Filesystem
             {
                 ItemDateAccessed = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateAccessedReal = value;
-                OnPropertyChanged(nameof(ItemDateAccessedReal));
+                OnPropertyChanged(nameof(ItemDateAccessed));
             }
         }
 
@@ -355,8 +355,6 @@ namespace Files.Filesystem
         public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 
         private BaseStorageFile itemFile;
-        private string fileExtension;
-        private string fileSize;
 
         public BaseStorageFile ItemFile
         {
