@@ -2032,17 +2032,17 @@ namespace Files.ViewModels
                 {
                     item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 
-                    if (storageItem is IStorageFile file)
+                    if (storageItem.IsOfType(StorageItemTypes.File))
                     {
-                        var properties = await file.GetBasicPropertiesAsync();
+                        var properties = await storageItem.AsBaseStorageFile().GetBasicPropertiesAsync();
                         item.FileSizeBytes = (long)properties.Size;
                         item.FileSize = ByteSizeLib.ByteSize.FromBytes(item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
                         item.ItemDateModifiedReal = properties.DateModified;
                         item.ItemDateCreatedReal = properties.ItemDate;
                     }
-                    else if (storageItem is IStorageFolder folder)
+                    else if (storageItem.IsOfType(StorageItemTypes.Folder))
                     {
-                        var properties = await folder.GetBasicPropertiesAsync();
+                        var properties = await storageItem.AsBaseStorageFolder().GetBasicPropertiesAsync();
                         item.ItemDateModifiedReal = properties.DateModified;
                         item.ItemDateCreatedReal = properties.ItemDate;
                     }
