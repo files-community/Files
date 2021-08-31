@@ -343,7 +343,7 @@
     <value>Imposta come sfondo della schermata di blocco</value>
   </data>
   <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
-    <value>Icone molto grandi</value>
+    <value>Icone grandi</value>
   </data>
   <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
     <value>Icone medie</value>
@@ -352,7 +352,7 @@
     <value>Icone piccole</value>
   </data>
   <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>Elenco</value>
+    <value>Riquadri</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>OK</value>
@@ -1246,13 +1246,13 @@
     <value>Riquadri (Ctrl + Shift + 2)</value>
   </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Icone (Grandi)</value>
+    <value>Icone Grandi</value>
   </data>
   <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Icone (Medie)</value>
+    <value>Icone Medie</value>
   </data>
   <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Icone (Piccole)</value>
+    <value>Icone Piccole</value>
   </data>
   <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
     <value>Riquadri</value>
@@ -2353,22 +2353,22 @@
     <value>Mostra il pulsante barra delle schede verticale nella barra del titolo</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>Mostra la sezione archivi cloud nella barra laterale</value>
+    <value>Mostra la sezione archivi cloud</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>Mostra la sezione dischi nella barra laterale</value>
+    <value>Mostra la sezione dischi</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>Mostra la sezione WSL nella barra laterale</value>
+    <value>Mostra la sezione WSL</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>Mostra la sezione dischi di rete nella barra laterale</value>
+    <value>Mostra la sezione dischi di rete</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Aggiungi il Cestino ai preferiti</value>
+    <value>Pinna il Cestino ai preferiti</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>Mostra la sezione librerie nella barra laterale</value>
+    <value>Mostra la sezione librerie</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Scegli il tuo colore</value>
@@ -2576,7 +2576,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
     <value>Stato sincronizzazione</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>Mostra la sezione Preferiti sulla barra laterale</value>
+    <value>Mostra la sezione Preferiti</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
     <value>Tag del file</value>
@@ -2646,5 +2646,113 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Nessun elemento trovato</value>
+  </data>
+  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Widget Gruppi</value>
+  </data>
+  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Widget Dischi</value>
+  </data>
+  <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Widget Librerie</value>
+  </data>
+  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Widget File Recenti</value>
+  </data>
+  <data name="OpenLogLocation" xml:space="preserve">
+    <value>Apri cartella dei log</value>
+  </data>
+  <data name="LinkToFolderCaptionText" xml:space="preserve">
+    <value>Crea collegamento in {0}</value>
+  </data>
+  <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
+    <value>Colonne</value>
+  </data>
+  <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
+    <value>Dettagli</value>
+  </data>
+  <data name="NavToolbarLargeIconsHeader.Text" xml:space="preserve">
+    <value>Icone Grandi</value>
+  </data>
+  <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
+    <value>Icone Medie</value>
+  </data>
+  <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
+    <value>Icone Piccole</value>
+  </data>
+  <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
+    <value>Riquadri</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>Mostra estensioni file</value>
+  </data>
+  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostra elementi nascosti</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostra estensioni file</value>
+  </data>
+  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
+    <value>Mostra elementi nascosti</value>
+  </data>
+  <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostra sezione preferiti</value>
+  </data>
+  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Pinna il cestino alla barra laterale</value>
+  </data>
+  <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostra la sezione archivi cloud</value>
+  </data>
+  <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostra la sezione dischi</value>
+  </data>
+  <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostra la sezione librerie</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostra la sezione dischi di rete</value>
+  </data>
+  <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostra la sezione WSL</value>
+  </data>
+  <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Formato data</value>
+  </data>
+  <data name="SettingsDialogCloseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Chiudi</value>
+  </data>
+  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Apri cartelle in una nuova scheda</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Lingua</value>
+  </data>
+  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostra una conferma quando si eliminano files e cartelle</value>
+  </data>
+  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Applicazioni terminale</value>
+  </data>
+  <data name="OngoingTasks" xml:space="preserve">
+    <value>Operazioni in corso</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
+    <value>Carica anteprima completa</value>
+  </data>
+  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
+    <value>Mostra solo anteprima</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
+    <value>Sposta giù</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
+    <value>Sposta sù</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>Sposta in fondo</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>Sposta in cima</value>
   </data>
 </root>
