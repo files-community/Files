@@ -161,10 +161,27 @@ namespace Files.Helpers
 
     public class AppTheme
     {
-        public string Name { get; set; }
-        public string Path { get; set; }
-        public string AbsolutePath { get; set; }
-        public bool IsFromOptionalPackage { get; set; }
+        private string name;
+        private string path;
+        private string absolutePath;
+        private bool isFromOptionalPackage;
+
+        public AppTheme()
+        {
+
+        }
+        public AppTheme(string name, string path, string absolutePath, bool isFromOptionalPackage)
+        {
+            this.name = name;
+            this.path = path;
+            this.absolutePath = absolutePath;
+            this.isFromOptionalPackage = isFromOptionalPackage;
+        }
+
+        public string Name { get { return name; } set { name = value; } }
+        public string Path { get { return path; } set { path = value; } }
+        public string AbsolutePath { get { return absolutePath; } set { absolutePath = value; } }
+        public bool IsFromOptionalPackage { get { return isFromOptionalPackage; } set { isFromOptionalPackage = value; } }
         public string Key => $"{Name}-{IsFromOptionalPackage}";
     }
 }

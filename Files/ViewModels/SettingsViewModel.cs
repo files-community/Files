@@ -100,6 +100,31 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(AreFileTagsEnabled)} {AreFileTagsEnabled}");
         }
 
+        public async void ClearSettings()
+        {
+            SelectedTheme = new AppTheme(string.Empty, string.Empty, string.Empty, false);
+
+            AreFileTagsEnabled = AreHiddenItemsVisible = AreSystemItemsHidden = ShowFileExtensions = OpenItemsWithOneclick = ListAndSortDirectoriesAlongsideFiles = SearchUnindexedItems = 
+            AreLayoutPreferencesPerFolder = IsVerticalTabFlyoutEnabled = IsDualPaneEnabled = AlwaysOpenDualPaneInNewTab = OpenNewTabPageOnStartup = ContinueLastSessionOnStartUp = 
+            OpenASpecificPageOnStartup = AlwaysOpenANewInstance = IsSidebarOpen = PreviewPaneEnabled = ShowPreviewOnly = ShowConfirmDeleteDialog = PinRecycleBinToSideBar =
+            ShowDrivesWidget = ShowLibrarySection = ShowBundlesWidget = ShowDateColumn = ShowDateCreatedColumn = ShowTypeColumn = ShowSizeColumn = ShowFileTagColumn = 
+            AdaptiveLayoutEnabled = ShowFolderWidgetWidget = ShowRecentFilesWidget = ShowFavoritesSection = ShowDrivesSection = ShowCloudDrivesSection = ShowNetworkDrivesSection = 
+            ShowWslSection = OpenFoldersNewTab = ShowOngoingTasksTeachingTip = ResumeAfterRestart = HideConfirmElevateDialog = MoveOverflowMenuItemsToSubMenu = false;
+
+            MediaVolume = DefaultGridViewSize = 0;
+
+            SidebarWidth = new GridLength();
+            PreviewPaneSizeHorizontal = new GridLength();
+            PreviewPaneSizeVertical = new GridLength();
+            DisplayedTimeStyle = new TimeStyle();
+            DefaultDirectoryGroupOption = new GroupOption();
+            DefaultDirectorySortOption = new SortOption();
+            DefaultDirectorySortDirection = new SortDirection();
+
+            CurrentLanguage.ID = CurrentLanguage.Name = string.Empty;
+            OpenASpecificPageOnStartupPath = DesktopPath = DownloadsPath = TempPath = HomePath = RecycleBinPath = NetworkFolderPath = string.Empty;
+        }
+
         public static async void OpenLogLocation()
         {
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);

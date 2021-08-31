@@ -67,6 +67,7 @@ namespace Files.Dialogs
                 5 => SettingsContentFrame.Navigate(typeof(FilesAndFolders)),
                 6 => SettingsContentFrame.Navigate(typeof(Experimental)),
                 7 => SettingsContentFrame.Navigate(typeof(About)),
+                8 => SettingsContentFrame.Navigate(typeof(ImportAndExport)),
                 _ => SettingsContentFrame.Navigate(typeof(Appearance))
             };
         }

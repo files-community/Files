@@ -123,8 +123,17 @@
                         <FontIcon Glyph="&#xF1AD;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem
+                    x:Uid="SettingsNavImportExport"
+                    AccessKey="R"
+                    Content="Import/Export"
+                    Tag="8">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon FontSize="16" Glyph="&#xE946;" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>
-
+            
             <muxc:NavigationView.FooterMenuItems>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavAbout"

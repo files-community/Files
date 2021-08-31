@@ -338,6 +338,7 @@
     <Compile Include="ViewModels\Previews\ArchivePreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
     <Compile Include="ViewModels\Properties\SecurityProperties.cs" />
+    <Compile Include="ViewModels\SettingsViewModels\ImportAndExportViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\SidebarViewModel.cs" />
     <Compile Include="ViewModels\SearchBoxViewModel.cs" />
     <Compile Include="ViewModels\SidebarViewModel.cs" />
@@ -572,6 +573,9 @@
     </Compile>
     <Compile Include="Views\SettingsPages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsPages\ImportAndExport.xaml.cs">
+      <DependentUpon>ImportAndExport.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPages\OnStartup.xaml.cs">
       <DependentUpon>OnStartup.xaml</DependentUpon>
@@ -1355,6 +1359,10 @@
     <Page Include="Views\SettingsPages\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsPages\ImportAndExport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SettingsPages\OnStartup.xaml">
       <Generator>MSBuild:Compile</Generator>
