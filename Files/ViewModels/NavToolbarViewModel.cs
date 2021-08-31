@@ -443,6 +443,8 @@ namespace Files.ViewModels
             var deferral = e.GetDeferral();
 
             var (handledByFtp, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+            storageItems ??= new List<IStorageItemWithPath>();
+
             if (handledByFtp)
             {
                 e.AcceptedOperation = DataPackageOperation.None;

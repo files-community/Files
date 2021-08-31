@@ -558,6 +558,7 @@ namespace Files.UserControls
                 e.Handled = true;
 
                 var (handledByFtp, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+                storageItems ??= new List<IStorageItemWithPath>();
 
                 if (string.IsNullOrEmpty(locationItem.Path) ||
                     (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(locationItem.Path))
@@ -699,6 +700,7 @@ namespace Files.UserControls
             e.Handled = true;
 
             var (handledByFtp, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+            storageItems ??= new List<IStorageItemWithPath>();
 
             if ("DriveCapacityUnknown".GetLocalized().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
                 (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
