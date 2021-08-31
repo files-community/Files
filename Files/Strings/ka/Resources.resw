@@ -97,7 +97,7 @@
     <value>მონიშვნების გასუფთავება</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
-    <value>დეტალების მიმოხილვა</value>
+    <value>დეტალები</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>განახლდა:</value>
@@ -394,16 +394,16 @@
     <value>ჩაკეტილი ეკრანის ფონად დაყენება</value>
   </data>
   <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
-    <value>ქსელის ხედი (დიდი)</value>
+    <value>მსხვილი ხატულები</value>
   </data>
   <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
-    <value>ქსელის ხედი (საშუალო)</value>
+    <value>საშუალო ხატულები</value>
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
-    <value>ქსელის ხედი (პატარა)</value>
+    <value>პატარა ხატულები</value>
   </data>
   <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>ფილების ხედი</value>
+    <value>ფილები</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>კარგი</value>
@@ -871,7 +871,7 @@
     <value>გადავსებული ნივთების ქვემენიუში გადატანა</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>სანაგვე ურნის ჩამაგრება გვერდითა ზოლში</value>
+    <value>სანაგვე ურნის ჩამაგრება ფავორიტებში</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>გარკვეული თვისებების დამახსოვრებისას მოხდა შეცდომა.</value>
@@ -1345,7 +1345,7 @@
     <value>დეტალების ხედი (Ctrl+Shift+1)</value>
   </data>
   <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>დეტალების ხედი</value>
+    <value>დეტალები</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>განლაგება</value>
@@ -1360,28 +1360,28 @@
     <value>გადახედვა</value>
   </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>ქსელის ხედი (დიდი)</value>
+    <value>მსხვილი ხატულები</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>ქსელის ხედი (დიდი) (Ctrl+Shift+5)</value>
   </data>
   <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>ქსელის ხედი (საშუალო)</value>
+    <value>საშუალო ხატულები</value>
   </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>ქსელის ხედი (საშუალო) (Ctrl+Shift+4)</value>
   </data>
   <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>ქსელის ხედი (პატარა)</value>
+    <value>პატარა ხატულები</value>
   </data>
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ქსელის ხედი (პატარა) (Ctrl+Shift+3)</value>
+    <value>პატარა ხატულები (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
-    <value>ფილების ხედი</value>
+    <value>ფილები</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ფილების ხედი (Ctrl+Shift+2)</value>
+    <value>ფილები (Ctrl+Shift+2)</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>წაშლის თარიღი</value>
@@ -1618,7 +1618,7 @@
     <value>ახალ სარკმელში გახსნა</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>გვერდითა ზოლზე ბიბლიოთეკის განყოფილების ჩვენება</value>
+    <value>ბიბლიოთეკის განყოფილების ჩვენება</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>ნაგულისხმევი</value>
@@ -1675,10 +1675,10 @@
     <value>ადმინისტრატორი</value>
   </data>
   <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
-    <value>სვეტის ხედი</value>
+    <value>სვეტები</value>
   </data>
   <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>სვეტის ხედი (Ctrl+Shift+6)</value>
+    <value>სვეტები (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
     <value>საწყის მენიუში ჩამაგრება</value>
@@ -1687,7 +1687,7 @@
     <value>საწყისი მენიუდან ჩამაგრების მოხსნა</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
-    <value>სვეტის ხედი</value>
+    <value>სვეტები</value>
   </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
     <value>ბიბლიოთეკა</value>
@@ -2395,16 +2395,16 @@
     <value>შეუკუმშავი ზომა</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>გვერდითა ზოლზე ღრუბლოვანი დისკების მონაკვეთის ჩვენება</value>
+    <value>ღრუბლოვანი დისკების განყოფილების ჩვენება</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>გვერდითა ზოლზე დისკების მონაკვეთის ჩვენება</value>
+    <value>დისკების განყოფილების ჩვენება</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>WSL განყოფილების ჩვენება გვერდითა ზოლზე</value>
+    <value>WSL განყოფილების ჩვენება</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>გვერდითს ზოლის ქსელური დისკების განყოფილების ჩვენება</value>
+    <value>ქსელური დისკების განყოფილების ჩვენება</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
@@ -2575,7 +2575,7 @@
     <value>სინქრონიზაციის სტატუსი</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>ფავორიტების განყოფილების ჩვენება გვერდითა ზოლზე</value>
+    <value>ფავორიტების განყოფილების ჩვენება</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
     <value>ფაილის იარლიყი</value>
@@ -2645,5 +2645,101 @@
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>ნივთები ვერ მოიძებნა</value>
+  </data>
+  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>შეკვრათა ვიჯეტი</value>
+  </data>
+  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>დისკთა ვიჯეტი</value>
+  </data>
+  <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>ბიბლიოთეკათა ვიჯეტი</value>
+  </data>
+  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>ბოლოდროინდელი ფაილების ვიჯეტი</value>
+  </data>
+  <data name="OpenLogLocation" xml:space="preserve">
+    <value>ჟურნალის ადგილმდებარეობის გახსნა</value>
+  </data>
+  <data name="LinkToFolderCaptionText" xml:space="preserve">
+    <value>ბმულის შექმნა {0} -ში</value>
+  </data>
+  <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
+    <value>სვეტები</value>
+  </data>
+  <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
+    <value>დეტალები</value>
+  </data>
+  <data name="NavToolbarLargeIconsHeader.Text" xml:space="preserve">
+    <value>მსხვილი ხატულები</value>
+  </data>
+  <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
+    <value>საშუალო ხატულები</value>
+  </data>
+  <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
+    <value>პატარა ხატულები</value>
+  </data>
+  <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
+    <value>ფილები</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>ფაილის გაფართოებების ჩვენება</value>
+  </data>
+  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>დამალული ნივთების ჩვენება</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>ფაილის გაფართოებების ჩვენება</value>
+  </data>
+  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
+    <value>დამალული ნივთების ჩვენება</value>
+  </data>
+  <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>ფავორიტების განყოფილების ჩვენება</value>
+  </data>
+  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>სანაგვე ურნის ჩამაგრება ფავორიტებში</value>
+  </data>
+  <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>ღრუბლოვანი დისკების განყოფილების ჩვენება</value>
+  </data>
+  <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>დისკების განყოფილების ჩვენება</value>
+  </data>
+  <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>ბიბლიოთეკის განყოფილების ჩვენება</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>ქსელური განყოფილების ჩვენება</value>
+  </data>
+  <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>WSL განყოფილების ჩვენება</value>
+  </data>
+  <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>თარიღის ფორმატი</value>
+  </data>
+  <data name="SettingsDialogCloseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>დახურვა</value>
+  </data>
+  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>საქაღალდეების ახალ ჩანართში გახსნა</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>ენა</value>
+  </data>
+  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>ფაილების ან საქაღალდეების წაშლისას, დადასტურების დიალოგის ჩვენება</value>
+  </data>
+  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>ტერმინალის აპლიკაცია</value>
+  </data>
+  <data name="OngoingTasks" xml:space="preserve">
+    <value>მიმდინარე დავალებები</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
+    <value>სრული გადახედვის ჩატვირთვა</value>
+  </data>
+  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
+    <value>მხოლოდ გადახედვის ჩვენება</value>
   </data>
 </root>
