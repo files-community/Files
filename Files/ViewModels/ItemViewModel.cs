@@ -766,7 +766,7 @@ namespace Files.ViewModels
                 {
                     if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                     {
-                        var matchingStorageFile = (BaseStorageFile)matchingStorageItem ?? await GetFileFromPathAsync(item.ItemPath);
+                        var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
                         if (matchingStorageFile != null)
                         {
                             var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
@@ -839,7 +839,7 @@ namespace Files.ViewModels
                 {
                     if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                     {
-                        var matchingStorageFolder = (BaseStorageFolder)matchingStorageItem ?? await GetFolderFromPathAsync(item.ItemPath);
+                        var matchingStorageFolder = matchingStorageItem.AsBaseStorageFolder() ?? await GetFolderFromPathAsync(item.ItemPath);
                         if (matchingStorageFolder != null)
                         {
                             var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
