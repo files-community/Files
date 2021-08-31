@@ -1715,7 +1715,7 @@ namespace Files.ViewModels
                 byte[] buff = new byte[4096];
                 var rand = Guid.NewGuid();
                 buff = new byte[4096];
-                int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME;
+                int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE;
 
                 if (syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown)
                 {
@@ -2028,9 +2028,24 @@ namespace Files.ViewModels
             if (storageItem != null)
             {
                 var syncStatus = await CheckCloudDriveSyncStatusAsync(storageItem);
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                 {
                     item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+
+                    if (storageItem is IStorageFile file)
+                    {
+                        var properties = await file.GetBasicPropertiesAsync();
+                        item.FileSizeBytes = (long)properties.Size;
+                        item.FileSize = ByteSizeLib.ByteSize.FromBytes(item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
+                        item.ItemDateModifiedReal = properties.DateModified;
+                        item.ItemDateCreatedReal = properties.ItemDate;
+                    }
+                    else if (storageItem is IStorageFolder folder)
+                    {
+                        var properties = await folder.GetBasicPropertiesAsync();
+                        item.ItemDateModifiedReal = properties.DateModified;
+                        item.ItemDateCreatedReal = properties.ItemDate;
+                    }
                 });
             }
         }
