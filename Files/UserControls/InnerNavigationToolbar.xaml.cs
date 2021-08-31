@@ -1,5 +1,4 @@
 ﻿using Files.DataModels;
-using Files.Extensions;
 using Files.Helpers;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;

@@ -3186,31 +3186,31 @@
           <source>Language</source>
           <target state="translated">Taal</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
           <target state="translated">Extensies tonen voor bekende bestandstypes</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
           <target state="translated">Verborgen bestanden en mappen weergeven</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersHideSystemItems" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
           <target state="translated">Verberg beveiligde besturingssysteembestanden (aanbevolen)</target>
         </trans-unit>
-        <trans-unit id="SettingsOpenItemsWithOneclick.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsOpenItemsWithOneclick" translate="yes" xml:space="preserve">
           <source>Open items with a single click</source>
           <target state="translated">Open items met een enkele klik</target>
         </trans-unit>
-        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
           <target state="translated">Som op en sorteer mappen naast bestanden</target>
         </trans-unit>
-        <trans-unit id="SettingsSearchUnindexedItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSearchUnindexedItems" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
           <target state="translated">Toon niet-geïndexeerde items bij het zoeken naar bestanden en mappen (zoekopdrachten kunnen langer duren)</target>
         </trans-unit>
-        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
           <target state="translated">Schakel individuele voorkeuren in voor individuele mappen</target>
         </trans-unit>

@@ -2382,25 +2382,25 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Dilim</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Bilinen dosya türleri için uzantıları göster</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Gizli dosya ve klasörleri göster</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Korunan işletim sistemi dosyalarını gizle (Önerilen)</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Title" xml:space="preserve">
+  <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
     <value>Öğeleri tek bir tıklamayla açın</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Title" xml:space="preserve">
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Dosyaların yanında dizinleri listeleyin ve sıralayın</value>
   </data>
-  <data name="SettingsSearchUnindexedItems.Title" xml:space="preserve">
+  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Dosya ve klasör ararken dizine eklenmemiş öğeleri göster (aramalar daha uzun sürebilir)</value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Title" xml:space="preserve">
+  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>Bireysel dizinler için bireysel tercihleri etkinleştirin</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">

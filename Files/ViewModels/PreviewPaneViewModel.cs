@@ -4,7 +4,6 @@ using Files.ViewModels.Previews;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -300,7 +299,7 @@ namespace Files.ViewModels
         /// </summary>
         public void TryRefresh()
         {
-            if(needsRefresh)
+            if (needsRefresh)
             {
                 UpdateSelectedItemPreview();
             }

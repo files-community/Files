@@ -5,7 +5,6 @@ using System.IO;
 using System.IO.Pipes;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 using Windows.Storage;
 
 namespace FilesFullTrust.MessageHandlers

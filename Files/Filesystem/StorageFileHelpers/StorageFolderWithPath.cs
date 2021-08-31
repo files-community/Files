@@ -1,6 +1,5 @@
 ﻿using Files.Filesystem.StorageItems;
 using Windows.Storage;
-using Windows.Storage.Search;
 
 namespace Files.Filesystem
 {

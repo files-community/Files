@@ -2223,10 +2223,10 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>言語</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>すべてのファイルとフォルダーを表示する</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>保護されたオペレーティング システム ファイルを表示しない (推奨)</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">

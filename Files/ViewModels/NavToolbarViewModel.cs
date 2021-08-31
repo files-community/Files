@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.Enums;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.UserControls;
 using Files.Views;
@@ -26,9 +27,6 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using static Files.UserControls.INavigationToolbar;
 using SearchBox = Files.UserControls.SearchBox;
-using Files.Interacts;
-using Files.Enums;
-using Files.Filesystem.StorageItems;
 
 namespace Files.ViewModels
 {

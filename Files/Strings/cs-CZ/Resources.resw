@@ -1857,10 +1857,10 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Jazyk</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Zobrazovat skryté soubory a složky</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Skrýt chráněné soubory operačního systému (doporučeno)</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">

@@ -147,10 +147,10 @@
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>შესახედაობა</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>გაფართოებების ჩვენება ცნობილი ფაილის ნიმუშებისთვის</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>დამალული ფაილების და საქაღალდეების ჩვენება</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
@@ -1182,7 +1182,7 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>არჩევა</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Title" xml:space="preserve">
+  <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
     <value>ელემენტების გახსნა ერთი დაჭერით</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1272,7 +1272,7 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>დაგვიჭირეთ მხარი PayPal -ზე</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Title" xml:space="preserve">
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>კატალოგების ჩამომწკრივება და დალაგება ფაილებთან ერთად</value>
   </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
@@ -1290,13 +1290,13 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>განახლებები ხელმისაწვდომია</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>დაცული ოპერაციული სისტემის ფაილების დამალვა (რეკომენდირებულია)</value>
   </data>
-  <data name="SettingsSearchUnindexedItems.Title" xml:space="preserve">
+  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>ფაილებისა და საქაღალდეების ძებნისას გამოუქვეყნებელი ელემენტების ჩვენება (ძიებას შეიძლება უფრო დიდი დრო დასჭირდეს)</value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Title" xml:space="preserve">
+  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>ინდივიდუალური თვისებების ჩართვა ინდივიდუალური კატალოგებისთვის</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
