@@ -1983,10 +1983,10 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Język</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Pokaż ukryte pliki i foldery</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Ukryj chronione pliki systemu operacyjnego (zalecane)</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">

@@ -3184,31 +3184,31 @@
           <source>Language</source>
           <target state="translated">Langue</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
           <target state="translated">Afficher les extensions des types de fichiers connus</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
           <target state="translated">Afficher les fichiers et dossiers cachés</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersHideSystemItems" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
           <target state="translated">Masquer les fichiers protégés du système d'exploitation (Recommandé)</target>
         </trans-unit>
-        <trans-unit id="SettingsOpenItemsWithOneclick.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsOpenItemsWithOneclick" translate="yes" xml:space="preserve">
           <source>Open items with a single click</source>
           <target state="translated">Ouvrir des éléments en un seul clic</target>
         </trans-unit>
-        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
           <target state="translated">Lister et trier les répertoires avec les fichiers</target>
         </trans-unit>
-        <trans-unit id="SettingsSearchUnindexedItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSearchUnindexedItems" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
           <target state="translated">Afficher les éléments non indexés lors de la recherche de fichiers et de dossiers (les recherches peuvent être plus longues)</target>
         </trans-unit>
-        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
           <target state="translated">Activer les préférences individuelles pour les répertoires individuels</target>
         </trans-unit>

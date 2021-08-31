@@ -484,7 +484,6 @@
                 VerticalAlignment="Center"
                 Canvas.ZIndex="100"
                 CornerRadius="{StaticResource ControlCornerRadius}"
-                IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 LostFocus="SearchRegion_LostFocus"
                 SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}"
                 Visibility="{x:Bind converters:MultiBooleanConverter.OrConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
@@ -516,7 +515,7 @@
                     </Button.KeyboardAccelerators>
                 </Button>
 
-                <Grid x:Name="OngoingTasksGrid" Visibility="{x:Bind OngoingTasksViewModel.AnyOperationsOngoing, Mode=OneWay}">
+                <Grid x:Name="OngoingTasksGrid" Visibility="{x:Bind OngoingTasksViewModel.AnyBannersPresent, Mode=OneWay}">
                     <Button
                         x:Name="OngoingTasks"
                         Width="36"

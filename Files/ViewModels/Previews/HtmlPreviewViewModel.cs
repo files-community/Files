@@ -1,9 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.ViewModels.Properties;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.Storage;
 
 namespace Files.ViewModels.Previews
 {

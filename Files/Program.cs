@@ -60,7 +60,7 @@ namespace Files
                         return;
                     }
                 }
-                else if(activatedArgs is FileActivatedEventArgs)
+                else if (activatedArgs is FileActivatedEventArgs)
                 {
                     var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
                     var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());

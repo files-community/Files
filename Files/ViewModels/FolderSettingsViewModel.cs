@@ -25,7 +25,7 @@ namespace Files.ViewModels
 
             SetLayoutInformation();
         }
-        
+
         public FolderSettingsViewModel(FolderLayoutModes modeOverride)
         {
             rootLayoutMode = modeOverride;

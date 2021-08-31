@@ -61,7 +61,11 @@ namespace Files.Filesystem.Search
             {
                 if (App.LibraryManager.TryGetLibrary(Folder, out var library))
                 {
-                    await AddItemsAsync(library, results, token);
+                    await AddItemsAsyncForLibrary(library, results, token);
+                }
+                else if (Folder == "Home".GetLocalized())
+                {
+                    await AddItemsAsyncForHome(results, token);
                 }
                 else
                 {
@@ -74,6 +78,14 @@ namespace Files.Filesystem.Search
             }
         }
 
+        private async Task AddItemsAsyncForHome(IList<ListedItem> results, CancellationToken token)
+        {
+            foreach (var drive in App.DrivesManager.Drives.Where(x => !x.IsNetwork))
+            {
+                await AddItemsAsync(drive.Path, results, token);
+            }
+        }
+
         public async Task<ObservableCollection<ListedItem>> SearchAsync()
         {
             ObservableCollection<ListedItem> results = new ObservableCollection<ListedItem>();
@@ -82,7 +94,11 @@ namespace Files.Filesystem.Search
                 var token = new CancellationTokenSource().Token;
                 if (App.LibraryManager.TryGetLibrary(Folder, out var library))
                 {
-                    await AddItemsAsync(library, results, token);
+                    await AddItemsAsyncForLibrary(library, results, token);
+                }
+                else if (Folder == "Home".GetLocalized())
+                {
+                    await AddItemsAsyncForHome(results, token);
                 }
                 else
                 {
@@ -137,7 +153,7 @@ namespace Files.Filesystem.Search
             }
         }
 
-        private async Task AddItemsAsync(LibraryLocationItem library, IList<ListedItem> results, CancellationToken token)
+        private async Task AddItemsAsyncForLibrary(LibraryLocationItem library, IList<ListedItem> results, CancellationToken token)
         {
             foreach (var folder in library.Folders)
             {

@@ -4,7 +4,6 @@ using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
-using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
 
