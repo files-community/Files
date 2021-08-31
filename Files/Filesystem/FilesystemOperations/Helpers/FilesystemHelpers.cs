@@ -603,11 +603,12 @@ namespace Files.Filesystem
                 ReturnResult returnStatus = ReturnResult.InProgress;
 
                 var destinations = new List<string>();
-                List<ShellFileItem> binItems = await recycleBinHelpers.EnumerateRecycleBin();
+                List<ShellFileItem> binItems = null;
                 foreach (var item in source)
                 {
                     if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
                     {
+                        binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
                         if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
                         {
                             var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
@@ -826,11 +827,12 @@ namespace Files.Filesystem
             ReturnResult returnStatus = ReturnResult.InProgress;
 
             var destinations = new List<string>();
-            List<ShellFileItem> binItems = await recycleBinHelpers.EnumerateRecycleBin();
+            List<ShellFileItem> binItems = null;
             foreach (var item in source)
             {
                 if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
                 {
+                    binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
                     if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
                     {
                         var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name

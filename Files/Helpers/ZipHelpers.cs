@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage;
 
 namespace Files.Helpers
 {
@@ -52,9 +51,14 @@ namespace Files.Helpers
                             NativeFileOperationsHelper.CreateDirectoryFromApp(dirName, IntPtr.Zero);
                         }
                     }
+
+                    if (cancellationToken.IsCancellationRequested) // Check if canceled
+                    {
+                        return;
+                    }
                 }
 
-                if (cancellationToken.IsCancellationRequested) // Check if cancelled
+                if (cancellationToken.IsCancellationRequested) // Check if canceled
                 {
                     return;
                 }
@@ -67,7 +71,7 @@ namespace Files.Helpers
 
                 foreach (var entry in fileEntries)
                 {
-                    if (cancellationToken.IsCancellationRequested) // Check if cancelled
+                    if (cancellationToken.IsCancellationRequested) // Check if canceled
                     {
                         return;
                     }
