@@ -79,7 +79,7 @@ namespace Files.Filesystem.StorageItems
             return Task.CompletedTask.AsAsyncAction();
         }
     }
-    
+
     public class BaseBasicStorageItemExtraProperties : BaseStorageItemExtraProperties
     {
         private IStorageItem item;

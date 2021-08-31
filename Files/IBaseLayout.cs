@@ -1,10 +1,8 @@
-﻿using Files.Events;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.Interacts;
 using Files.ViewModels;
 using System;
 using System.Collections.Generic;
-using Windows.Foundation;
 
 namespace Files
 {

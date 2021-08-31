@@ -11,7 +11,7 @@ namespace Files.UserControls
     public sealed partial class PreviewPane : UserControl
     {
         public SettingsViewModel AppSettings => App.AppSettings;
-        
+
         public PreviewPaneViewModel Model
         {
             get => (PreviewPaneViewModel)GetValue(ModelProperty);

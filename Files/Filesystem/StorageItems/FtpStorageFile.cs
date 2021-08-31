@@ -1,18 +1,15 @@
 ﻿using Files.Common;
 using Files.Helpers;
 using FluentFTP;
-using System;
-using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Storage;
-using Windows.Storage.FileProperties;
-using Windows.Storage.Streams;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp;
+using Windows.Foundation;
+using Windows.Storage;
+using Windows.Storage.FileProperties;
+using Windows.Storage.Streams;
 
 namespace Files.Filesystem.StorageItems
 {

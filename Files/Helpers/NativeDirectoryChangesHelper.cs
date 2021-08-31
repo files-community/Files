@@ -54,6 +54,11 @@ namespace Files.Helpers
         public const int FILE_NOTIFY_CHANGE_FILE_NAME = 1;
         public const int FILE_NOTIFY_CHANGE_DIR_NAME = 2;
         public const int FILE_NOTIFY_CHANGE_ATTRIBUTES = 4;
+        public const int FILE_NOTIFY_CHANGE_SIZE = 8;
+        public const int FILE_NOTIFY_CHANGE_LAST_WRITE = 16;
+        public const int FILE_NOTIFY_CHANGE_LAST_ACCESS = 32;
+        public const int FILE_NOTIFY_CHANGE_CREATION = 64;
+        public const int FILE_NOTIFY_CHANGE_SECURITY = 256;
 
         public unsafe struct FILE_NOTIFY_INFORMATION
         {

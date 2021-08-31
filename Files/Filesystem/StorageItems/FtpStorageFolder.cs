@@ -1,21 +1,17 @@
 ﻿using Files.Common;
 using Files.Helpers;
 using FluentFTP;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using System;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Collections.Generic;
-using System.IO;
 using Windows.Storage.Search;
-using System.Threading.Tasks;
-using System.Linq;
-using Microsoft.Toolkit.Uwp;
 
 namespace Files.Filesystem.StorageItems
 {
@@ -293,7 +289,7 @@ namespace Files.Filesystem.StorageItems
                     return new FtpFolderBasicProperties(item);
                 }
                 return new BaseBasicProperties();
-            }); 
+            });
         }
 
         public override bool IsOfType(StorageItemTypes type) => type == StorageItemTypes.Folder;

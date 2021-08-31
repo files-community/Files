@@ -10,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
@@ -110,7 +109,7 @@ namespace Files.ViewModels.Previews
             Item.ItemFile ??= await StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath);
             DetailsFromPreview = await LoadPreviewAndDetails();
 
-            if(!App.AppSettings.ShowPreviewOnly)
+            if (!App.AppSettings.ShowPreviewOnly)
             {
                 // Add the details from the preview function, then the system file properties
                 DetailsFromPreview?.ForEach(i => detailsFull.Add(i));

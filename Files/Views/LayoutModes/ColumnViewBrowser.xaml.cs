@@ -11,7 +11,6 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.System;
@@ -762,8 +761,8 @@ namespace Files.Views.LayoutModes
             {
                 foreach (var item in ColumnHost.ActiveBlades)
                 {
-                    if ((item.Content as Frame)?.Content is ColumnShellPage s && 
-                        Helpers.PathNormalization.NormalizePath(s.FilesystemViewModel.WorkingDirectory) == 
+                    if ((item.Content as Frame)?.Content is ColumnShellPage s &&
+                        Helpers.PathNormalization.NormalizePath(s.FilesystemViewModel.WorkingDirectory) ==
                         Helpers.PathNormalization.NormalizePath(e.ItemPath))
                     {
                         DismissOtherBlades(item);
@@ -771,7 +770,7 @@ namespace Files.Views.LayoutModes
                     }
                 }
             }
-            if (Helpers.PathNormalization.NormalizePath(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory) != 
+            if (Helpers.PathNormalization.NormalizePath(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory) !=
                 Helpers.PathNormalization.NormalizePath(e.ItemPath))
             {
                 ParentShellPageInstance.NavigateToPath(e.ItemPath);

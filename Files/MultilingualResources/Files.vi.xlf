@@ -187,11 +187,11 @@
           <source>Appearance</source>
           <target state="translated">Diện mạo</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
           <target state="needs-review-translation"></target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
           <target state="translated">Hiển thị tệp và thư mục đang giấu</target>
         </trans-unit>
@@ -1576,7 +1576,7 @@
           <source>Select</source>
           <target state="translated">Chọn</target>
         </trans-unit>
-        <trans-unit id="SettingsOpenItemsWithOneclick.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsOpenItemsWithOneclick" translate="yes" xml:space="preserve">
           <source>Open items with a single click</source>
           <target state="translated">Mở mục bằng một cú nhấp chuột</target>
         </trans-unit>
@@ -1697,7 +1697,7 @@
           <source>Support us on PayPal</source>
           <target state="translated">Hỗ trợ chúng tôi bằng PayPal</target>
         </trans-unit>
-        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
           <target state="translated">Danh và sắp xếp danh mụch kế bên tệp tin</target>
         </trans-unit>
@@ -1721,15 +1721,15 @@
           <source>Updates Available</source>
           <target state="translated">Đã có Bản cập nhật</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersHideSystemItems" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
           <target state="translated">Giấu những tệp tin về hệ điều hành đã bảo vể (Khuyến khích)</target>
         </trans-unit>
-        <trans-unit id="SettingsSearchUnindexedItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSearchUnindexedItems" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
           <target state="translated">Hiển thị mục không lục khi tìm kiếm cho tệp tin và thư mục (Có thể lâu hơn để tìm kiếm)</target>
         </trans-unit>
-        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
           <target state="translated">Bật tùy chọn cá nhân cho danh mục cá nhân</target>
         </trans-unit>

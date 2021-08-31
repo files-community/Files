@@ -357,7 +357,7 @@
                             HorizontalAlignment="Left"
                             Opacity="0.6"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind FileSize}"
+                            Text="{x:Bind FileSize, Mode=OneWay}"
                             TextAlignment="Left"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />

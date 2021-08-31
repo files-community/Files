@@ -2,6 +2,7 @@
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.Cloud;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.ViewModels.Properties;
 using FluentFTP;
@@ -11,10 +12,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
-using Files.Filesystem.StorageItems;
-using System.Linq;
 
 namespace Files.Filesystem
 {
@@ -221,7 +221,19 @@ namespace Files.Filesystem
         }
 
         public string FileExtension { get; set; }
-        public string FileSize { get; set; }
+
+        private string fileSize;
+
+        public string FileSize
+        {
+            get => fileSize;
+            set
+            {
+                SetProperty(ref fileSize, value);
+                OnPropertyChanged(nameof(FileSizeDisplay));
+            }
+        }
+
         public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalcluated".GetLocalized() : FileSize;
         public long FileSizeBytes { get; set; }
         public string ItemDateModified { get; private set; }
@@ -235,6 +247,7 @@ namespace Files.Filesystem
             {
                 ItemDateModified = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateModifiedReal = value;
+                OnPropertyChanged(nameof(ItemDateModified));
             }
         }
 
@@ -247,6 +260,7 @@ namespace Files.Filesystem
             {
                 ItemDateCreated = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateCreatedReal = value;
+                OnPropertyChanged(nameof(ItemDateCreated));
             }
         }
 
@@ -259,6 +273,7 @@ namespace Files.Filesystem
             {
                 ItemDateAccessed = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateAccessedReal = value;
+                OnPropertyChanged(nameof(ItemDateAccessed));
             }
         }
 

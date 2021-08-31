@@ -245,7 +245,7 @@
             <StackPanel Spacing="12">
                 <TextBlock TextWrapping="Wrap">
                     <Run x:Uid="SettingsThemesTeachingTipHeader" Text="Custom themes provide a great way for you to personalize Files." />
-                    <Hyperlink NavigateUri="https://files-community.github.io/docs/#/articles/custom-themes">
+                    <Hyperlink NavigateUri="https://files.community/docs/configuring/custom-themes">
                         <Run x:Uid="SettingsThemesTeachingTipHyperlinkText" Text="View documentation." />
                     </Hyperlink>
                 </TextBlock>

@@ -2013,10 +2013,10 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>언어</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>숨김 파일 및 폴더 표시</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>보호된 운영 체제 파일 숨기기(권장)</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">

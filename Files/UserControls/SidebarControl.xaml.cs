@@ -117,6 +117,10 @@ namespace Files.UserControls
             }
         }
 
+        public bool ShowMoveItemUp { get; set; }
+
+        public bool ShowMoveItemDown { get; set; }
+
         public bool ShowUnpinItem { get; set; }
 
         public bool ShowHideSection { get; set; }
@@ -183,6 +187,90 @@ namespace Files.UserControls
             else if (RightClickedItem.Section == SectionType.Favorites)
             {
                 App.SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
+            }
+        }
+
+        public void MoveItemToTop_Click(object sender, RoutedEventArgs e)
+        {
+            if (RightClickedItem.Section == SectionType.Favorites)
+            {
+                bool isSelectedSidebarItem = false;
+
+                if (SelectedSidebarItem == RightClickedItem)
+                {
+                    isSelectedSidebarItem = true;
+                }
+
+                int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
+                App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, 1);
+
+                if (isSelectedSidebarItem)
+                {
+                    SetValue(SelectedSidebarItemProperty, RightClickedItem);
+                }
+            }
+        }
+
+        public void MoveItemUp_Click(object sender, RoutedEventArgs e)
+        {
+            if (RightClickedItem.Section == SectionType.Favorites)
+            {
+                bool isSelectedSidebarItem = false;
+
+                if (SelectedSidebarItem == RightClickedItem)
+                {
+                    isSelectedSidebarItem = true;
+                }
+
+                int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
+                App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, oldIndex - 1);
+
+                if (isSelectedSidebarItem)
+                {
+                    SetValue(SelectedSidebarItemProperty, RightClickedItem);
+                }
+            }
+        }
+
+        public void MoveItemDown_Click(object sender, RoutedEventArgs e)
+        {
+            if (RightClickedItem.Section == SectionType.Favorites)
+            {
+                bool isSelectedSidebarItem = false;
+
+                if (SelectedSidebarItem == RightClickedItem)
+                {
+                    isSelectedSidebarItem = true;
+                }
+
+                int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
+                App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, oldIndex + 1);
+
+                if (isSelectedSidebarItem)
+                {
+                    SetValue(SelectedSidebarItemProperty, RightClickedItem);
+                }
+            }
+        }
+
+        public void MoveItemToBottom_Click(object sender, RoutedEventArgs e)
+        {
+            if (RightClickedItem.Section == SectionType.Favorites)
+            {
+                bool isSelectedSidebarItem = false;
+
+                if (SelectedSidebarItem == RightClickedItem)
+                {
+                    isSelectedSidebarItem = true;
+                }
+
+                int oldIndex = App.SidebarPinnedController.Model.IndexOfItem(RightClickedItem);
+                App.SidebarPinnedController.Model.MoveItem(RightClickedItem, oldIndex, App.SidebarPinnedController.Model.FavoriteItems.Count());
+
+                if (isSelectedSidebarItem)
+                {
+                    SetValue(SelectedSidebarItemProperty, RightClickedItem);
+                }
             }
         }
 
@@ -262,6 +350,8 @@ namespace Files.UserControls
                 ShowProperties = true;
                 IsLibrariesHeader = false;
                 ShowUnpinItem = ((library || favorite) && !item.IsDefaultLocation);
+                ShowMoveItemUp = ShowUnpinItem && App.SidebarPinnedController.Model.IndexOfItem(item) > 1;
+                ShowMoveItemDown = ShowUnpinItem && App.SidebarPinnedController.Model.IndexOfItem(item) < App.SidebarPinnedController.Model.FavoriteItems.Count();
                 ShowHideSection = false;
                 ShowEjectDevice = false;
 
@@ -295,6 +385,8 @@ namespace Files.UserControls
                 ShowProperties = false;
                 IsLibrariesHeader = librariesHeader;
                 ShowUnpinItem = false;
+                ShowMoveItemUp = false;
+                ShowMoveItemDown = false;
                 ShowHideSection = true;
                 ShowEjectDevice = false;
                 ShowEmptyRecycleBin = false;
@@ -319,6 +411,8 @@ namespace Files.UserControls
             IsLibrariesHeader = false;
             ShowEjectDevice = item.IsRemovable;
             ShowUnpinItem = false;
+            ShowMoveItemUp = false;
+            ShowMoveItemDown = false;
             ShowEmptyRecycleBin = false;
             ShowProperties = true;
             ShowHideSection = false;
@@ -344,6 +438,8 @@ namespace Files.UserControls
             IsLibrariesHeader = false;
             ShowEjectDevice = false;
             ShowUnpinItem = false;
+            ShowMoveItemUp = false;
+            ShowMoveItemDown = false;
             ShowEmptyRecycleBin = false;
             ShowProperties = false;
             ShowHideSection = false;
@@ -928,6 +1024,34 @@ namespace Files.UserControls
                     Glyph = "\uE737",
                     Command = new RelayCommand(() => OpenInNewWindow_Click(null, null)),
                     ShowItem = IsLocationItem
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarFavoritesMoveToTop".GetLocalized(),
+                    Glyph = "\uE11C",
+                    Command = new RelayCommand(() => MoveItemToTop_Click(null, null)),
+                    ShowItem = ShowMoveItemUp
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarFavoritesMoveOneUp".GetLocalized(),
+                    Glyph = "\uE70E",
+                    Command = new RelayCommand(() => MoveItemUp_Click(null, null)),
+                    ShowItem = ShowMoveItemUp
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarFavoritesMoveOneDown".GetLocalized(),
+                    Glyph = "\uE70D",
+                    Command = new RelayCommand(() => MoveItemDown_Click(null, null)),
+                    ShowItem = ShowMoveItemDown
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "SideBarFavoritesMoveToBottom".GetLocalized(),
+                    Glyph = "\uE118",
+                    Command = new RelayCommand(() => MoveItemToBottom_Click(null, null)),
+                    ShowItem = ShowMoveItemDown
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
