@@ -583,6 +583,7 @@ namespace Files.Filesystem
         public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
             var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
+            source ??= new List<IStorageItemWithPath>();
 
             if (handledByFtp)
             {
@@ -814,6 +815,7 @@ namespace Files.Filesystem
             }
 
             var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
+            source ??= new List<IStorageItemWithPath>();
 
             if (handledByFtp)
             {
@@ -913,6 +915,7 @@ namespace Files.Filesystem
             }
 
             var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
+            source ??= new List<IStorageItemWithPath>();
 
             if (handledByFtp)
             {
@@ -948,6 +951,7 @@ namespace Files.Filesystem
             }
 
             var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
+            source ??= new List<IStorageItemWithPath>();
 
             if (handledByFtp)
             {

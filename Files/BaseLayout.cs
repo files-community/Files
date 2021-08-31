@@ -879,6 +879,7 @@ namespace Files
                 e.Handled = true;
 
                 var (handledByFtp, draggedItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+                draggedItems ??= new List<IStorageItemWithPath>();
 
                 if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {
