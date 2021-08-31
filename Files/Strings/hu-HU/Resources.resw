@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
@@ -2526,6 +2526,12 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Adatvédelmi szabályzat</value>
   </data>
+  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
+    <value>Fluent UI System Icons</value>
+  </data>
+  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Fluent UI System Icons</value>
+  </data>
   <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
     <value>Egyik sem</value>
   </data>
@@ -2592,6 +2598,9 @@
   <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
     <value>Bezárás</value>
   </data>
+  <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
+    <value>Kinyitás</value>
+  </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
     <value>Helyezzen be egy lemezt a(z) {0} meghajtóba</value>
   </data>
@@ -2624,5 +2633,62 @@
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Nincs a keresésnek megfelelő elem</value>
+  </data>
+  <data name="OpenLogLocation" xml:space="preserve">
+    <value>Naplózás helyének megnyitása</value>
+  </data>
+  <data name="LinkToFolderCaptionText" xml:space="preserve">
+    <value>Parancsikon létrehozása itt: {0}</value>
+  </data>
+  <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
+    <value>Oszlopok</value>
+  </data>
+  <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
+    <value>Részletek</value>
+  </data>
+  <data name="NavToolbarLargeIconsHeader.Text" xml:space="preserve">
+    <value>Nagy ikonok</value>
+  </data>
+  <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
+    <value>Közepes ikonok</value>
+  </data>
+  <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
+    <value>Kis ikonok</value>
+  </data>
+  <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
+    <value>Lista</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>Fájlkiterjesztések megjelenítése</value>
+  </data>
+  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Rejtett fájlok és mappák megjelenítése</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>Fájlkiterjesztések megjelenítése</value>
+  </data>
+  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
+    <value>Rejtett fájlok és mappák megjelenítése</value>
+  </data>
+  <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Kedvencek megjelenítése</value>
+  </data>
+  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Lomtár megjelenítése a kedvenceknél</value>
+  </data>
+  <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Felhőtárhelyek megjelenítése</value>
+  </data>
+  <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Meghajtók megjelenítése</value>
+  </data>
+  <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Könyvtárak megjelenítése</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Hálózati meghajtók megjelenítése</value>
+  </data>
+  <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>WSL megjelenítése</value>
   </data>
 </root>
