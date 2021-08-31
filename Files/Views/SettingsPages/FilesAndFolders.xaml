@@ -7,6 +7,8 @@
     xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
+    xmlns:contract13NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,13)"
+    xmlns:contract13Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,13)"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
@@ -46,7 +48,7 @@
 
             <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
-                    <FontIcon Glyph="&#xE72E;" />
+                    <FontIcon contract13NotPresent:Glyph="&#xE72E;" contract13Present:Glyph="&#xED1A;" />
                 </local:SettingsBlockControl.Icon>
                 <ToggleSwitch
                     AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersHideSystemItems}"
