@@ -1614,6 +1614,12 @@
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Törlés</value>
   </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Tárterületsegéd megnyitása</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Tárterületsegéd megnyitása</value>
+  </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO sebesség</value>
   </data>
@@ -2103,6 +2109,12 @@
   <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
     <value>Dokumentáció megtekintése.</value>
   </data>
+  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Függőleges lap menü</value>
+  </data>
+  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Függőleges lap menü</value>
+  </data>
   <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
     <value>Új lap (Ctrl + T)</value>
   </data>
@@ -2388,6 +2400,9 @@
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Nem indexelt elemek megjelenítése a fájlok és mappák keresésekor (hoszabb keresési idő)</value>
   </data>
+  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
+    <value>Beállítások megjegyzése mappánként</value>
+  </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>Hasznos linkek</value>
   </data>
@@ -2529,6 +2544,9 @@
   <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
     <value>Törlés dátuma</value>
   </data>
+  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+    <value>Eredeti mappa</value>
+  </data>
   <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
     <value>Típus</value>
   </data>
@@ -2541,13 +2559,70 @@
   <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
     <value>Szinkronizálás állapota</value>
   </data>
+  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
+    <value>Kedvencek megjelenítése</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
+    <value>Címke</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
+    <value>Címke</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
+    <value>Tartalmazó mappa megnyitása</value>
+  </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Ismeretlen</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
+    <value>Címke</value>
+  </data>
+  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
+    <value>Címkék szerkesztése</value>
+  </data>
+  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Címkék szerkesztése</value>
+  </data>
+  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+    <value>Címkék szerkesztése</value>
+  </data>
+  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
+    <value>Címkék engedélyezése</value>
   </data>
   <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
     <value>Bezárás</value>
   </data>
+  <data name="InsertDiscDialog.Text" xml:space="preserve">
+    <value>Helyezzen be egy lemezt a(z) {0} meghajtóba</value>
+  </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Helyezzen be egy lemezt</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Mindegyikre</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Gyűjtemény eleme</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Mégse</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>Hitelesítés szükséges</value>
+  </data>
+  <data name="CredentialDialogDescription.Text" xml:space="preserve">
+    <value>Adja meg a hitelesítési adatait:</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>Jelszó</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>Felhasználónév</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>Nincs a keresésnek megfelelő elem</value>
   </data>
 </root>
