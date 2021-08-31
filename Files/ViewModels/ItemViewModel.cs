@@ -489,19 +489,19 @@ namespace Files.ViewModels
             {
                 if (filesAndFolders == null || filesAndFolders.Count == 0)
                 {
-                    Action action = () =>
+                    void ClearDisplay()
                     {
                         FilesAndFolders.Clear();
                         UpdateEmptyTextType();
                         DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
-                    };
+                    }
                     if (CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
                     {
-                        action();
+                        ClearDisplay();
                     }
                     else
                     {
-                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(action);
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(ClearDisplay);
                     }
                     return;
                 }
@@ -517,7 +517,7 @@ namespace Files.ViewModels
                 // After calling BeginBulkOperation, ObservableCollection.CollectionChanged is suppressed
                 // so modifies to FilesAndFolders won't trigger UI updates, hence below operations can be
                 // run safely without needs of dispatching to UI thread
-                Action applyChangesAction = () =>
+                void ApplyChanges()
                 {
                     var startIndex = -1;
                     var tempList = new List<ListedItem>();
@@ -572,26 +572,26 @@ namespace Files.ViewModels
                     {
                         OrderGroups();
                     }
-                };
+                }
 
-                Action updateUIAction = () =>
+                void UpdateUI()
                 {
                     // trigger CollectionChanged with NotifyCollectionChangedAction.Reset
                     // once loading is completed so that UI can be updated
                     FilesAndFolders.EndBulkOperation();
                     UpdateEmptyTextType();
                     DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
-                };
+                }
 
                 if (CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
                 {
-                    await Task.Run(applyChangesAction);
-                    updateUIAction();
+                    await Task.Run(ApplyChanges);
+                    UpdateUI();
                 }
                 else
                 {
-                    applyChangesAction();
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(updateUIAction);
+                    ApplyChanges();
+                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(UpdateUI);
                 }
             }
             catch (Exception ex)
@@ -608,7 +608,7 @@ namespace Files.ViewModels
                 return Task.CompletedTask;
             }
 
-            Action action = () =>
+            void OrderEntries()
             {
                 if (filesAndFolders.Count == 0)
                 {
@@ -616,15 +616,15 @@ namespace Files.ViewModels
                 }
 
                 filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection).ToList();
-            };
+            }
 
             if (CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
             {
-                return Task.Run(action);
+                return Task.Run(OrderEntries);
             }
             else
             {
-                action();
+                OrderEntries();
                 return Task.CompletedTask;
             }
         }
@@ -1584,16 +1584,20 @@ namespace Files.ViewModels
                 }
                 else
                 {
-                    List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, returnformat, hFile, findData, Connection, cancellationToken, -1, intermediateAction: async (intermediateList) =>
+                    await Task.Run(async () =>
                     {
-                        filesAndFolders.AddRange(intermediateList);
+                        List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, returnformat, hFile, findData, Connection, cancellationToken, -1, intermediateAction: async (intermediateList) =>
+                        {
+                            filesAndFolders.AddRange(intermediateList);
+                            await OrderFilesAndFoldersAsync();
+                            await ApplyFilesAndFoldersChangesAsync();
+                        });
+
+                        filesAndFolders.AddRange(fileList);
                         await OrderFilesAndFoldersAsync();
                         await ApplyFilesAndFoldersChangesAsync();
                     });
 
-                    filesAndFolders.AddRange(fileList);
-                    await OrderFilesAndFoldersAsync();
-                    await ApplyFilesAndFoldersChangesAsync();
                     return 0;
                 }
             }
@@ -1607,22 +1611,25 @@ namespace Files.ViewModels
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
 
-            List<ListedItem> finalList = await UniversalStorageEnumerator.ListEntries(
-                rootFolder,
-                currentStorageFolder,
-                returnformat,
-                sourcePageType,
-                cancellationToken,
-                -1,
-                async (intermediateList) =>
+            await Task.Run(async () =>
             {
-                filesAndFolders.AddRange(intermediateList);
+                List<ListedItem> finalList = await UniversalStorageEnumerator.ListEntries(
+                    rootFolder,
+                    currentStorageFolder,
+                    returnformat,
+                    sourcePageType,
+                    cancellationToken,
+                    -1,
+                    async (intermediateList) =>
+                {
+                    filesAndFolders.AddRange(intermediateList);
+                    await OrderFilesAndFoldersAsync();
+                    await ApplyFilesAndFoldersChangesAsync();
+                });
+                filesAndFolders.AddRange(finalList);
                 await OrderFilesAndFoldersAsync();
                 await ApplyFilesAndFoldersChangesAsync();
             });
-            filesAndFolders.AddRange(finalList);
-            await OrderFilesAndFoldersAsync();
-            await ApplyFilesAndFoldersChangesAsync();
 
             stopwatch.Stop();
             Debug.WriteLine($"Enumerating items in {path} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");

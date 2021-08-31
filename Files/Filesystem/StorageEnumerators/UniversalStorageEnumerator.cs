@@ -3,6 +3,7 @@ using Files.Extensions;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Views.LayoutModes;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml.Media.Imaging;
@@ -186,70 +188,79 @@ namespace Files.Filesystem.StorageEnumerators
             var itemFolderImgVis = false;
             var itemFileExtension = file.FileType;
 
-            BitmapImage icon = new BitmapImage();
-            byte[] iconData = null;
-            bool itemThumbnailImgVis;
-            bool itemEmptyImgVis;
+            async Task<(BitmapImage Icon, byte[] IconData, bool ThumbnailImgVis, bool EmptyImgVis)> GetIconAsync()
+            {
+                BitmapImage icon = new BitmapImage();
+                byte[] iconData = null;
+                bool itemThumbnailImgVis;
+                bool itemEmptyImgVis;
 
-            if (sourcePageType != typeof(GridViewBrowser))
-            {
-                try
+                if (sourcePageType != typeof(GridViewBrowser))
                 {
-                    using var itemThumbnailImg = suppressThumbnailLoading ? null :
-                        await file.GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.UseCurrentScale);
-                    if (itemThumbnailImg != null)
+                    try
                     {
-                        itemEmptyImgVis = false;
-                        itemThumbnailImgVis = true;
-                        icon.DecodePixelWidth = 40;
-                        icon.DecodePixelHeight = 40;
-                        await icon.SetSourceAsync(itemThumbnailImg);
-                        iconData = await itemThumbnailImg.ToByteArrayAsync();
+                        using var itemThumbnailImg = suppressThumbnailLoading ? null :
+                            await file.GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.UseCurrentScale);
+                        if (itemThumbnailImg != null)
+                        {
+                            itemEmptyImgVis = false;
+                            itemThumbnailImgVis = true;
+                            icon.DecodePixelWidth = 40;
+                            icon.DecodePixelHeight = 40;
+                            await icon.SetSourceAsync(itemThumbnailImg);
+                            iconData = await itemThumbnailImg.ToByteArrayAsync();
+                        }
+                        else
+                        {
+                            itemEmptyImgVis = true;
+                            itemThumbnailImgVis = false;
+                        }
                     }
-                    else
+                    catch
+                    {
+                        itemEmptyImgVis = true;
+                        itemThumbnailImgVis = false;
+                        // Catch here to avoid crash
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        using var itemThumbnailImg = suppressThumbnailLoading ? null :
+                            await file.GetThumbnailAsync(ThumbnailMode.ListView, 80, ThumbnailOptions.UseCurrentScale);
+                        if (itemThumbnailImg != null)
+                        {
+                            itemEmptyImgVis = false;
+                            itemThumbnailImgVis = true;
+                            icon.DecodePixelWidth = 80;
+                            icon.DecodePixelHeight = 80;
+                            await icon.SetSourceAsync(itemThumbnailImg);
+                            iconData = await itemThumbnailImg.ToByteArrayAsync();
+                        }
+                        else
+                        {
+                            itemEmptyImgVis = true;
+                            itemThumbnailImgVis = false;
+                        }
+                    }
+                    catch
                     {
                         itemEmptyImgVis = true;
                         itemThumbnailImgVis = false;
                     }
                 }
-                catch
-                {
-                    itemEmptyImgVis = true;
-                    itemThumbnailImgVis = false;
-                    // Catch here to avoid crash
-                }
+
+                return (icon, iconData, itemThumbnailImgVis, itemEmptyImgVis);
             }
-            else
-            {
-                try
-                {
-                    using var itemThumbnailImg = suppressThumbnailLoading ? null :
-                        await file.GetThumbnailAsync(ThumbnailMode.ListView, 80, ThumbnailOptions.UseCurrentScale);
-                    if (itemThumbnailImg != null)
-                    {
-                        itemEmptyImgVis = false;
-                        itemThumbnailImgVis = true;
-                        icon.DecodePixelWidth = 80;
-                        icon.DecodePixelHeight = 80;
-                        await icon.SetSourceAsync(itemThumbnailImg);
-                        iconData = await itemThumbnailImg.ToByteArrayAsync();
-                    }
-                    else
-                    {
-                        itemEmptyImgVis = true;
-                        itemThumbnailImgVis = false;
-                    }
-                }
-                catch
-                {
-                    itemEmptyImgVis = true;
-                    itemThumbnailImgVis = false;
-                }
-            }
+
             if (cancellationToken.IsCancellationRequested)
             {
                 return null;
             }
+
+            await CoreApplication.MainView.Dispatcher.YieldAsync(Windows.UI.Core.CoreDispatcherPriority.Normal);
+            var (icon, iconData, itemThumbnailImgVis, itemEmptyImgVis) = await GetIconAsync();
 
             if (file.Name.EndsWith(".lnk") || file.Name.EndsWith(".url"))
             {
