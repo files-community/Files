@@ -2848,4 +2848,16 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="OngoingTasks" xml:space="preserve">
     <value>Ongoing Tasks</value>
   </data>
+  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
+    <value>Move one down</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
+    <value>Move one up</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>Move to bottom</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>Move to top</value>
+  </data>
 </root>
