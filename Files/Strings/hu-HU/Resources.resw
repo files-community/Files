@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
@@ -2365,7 +2365,7 @@
     <value>Hálózati meghajtók megjelenítése</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Lomtár a kedvenceknél</value>
+    <value>Lomtár megjelenítése a kedvenceknél</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>Könyvtárak megjelenítése</value>
@@ -2731,5 +2731,17 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   </data>
   <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
     <value>Csak előnézet</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
+    <value>Lefelé mozgatás</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
+    <value>Felfelé mozgatás</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>Alulra mozgatás</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>Felülre mozgatás</value>
   </data>
 </root>
