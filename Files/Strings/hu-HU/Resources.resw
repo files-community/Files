@@ -2370,22 +2370,22 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Nyelv</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Fájlkiterjesztések megjelenítése ismert fájltípusoknál</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Rejtett fájlok és mappák megjelenítése</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Védett rendszerfájlok elrejtése (Ajánlott)</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Title" xml:space="preserve">
+  <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
     <value>Elemek megnyitása egy kattintással</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Title" xml:space="preserve">
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Könyvtárak rendezése a fájlokkal együtt</value>
   </data>
-  <data name="SettingsSearchUnindexedItems.Title" xml:space="preserve">
+  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Nem indexelt elemek megjelenítése a fájlok és mappák keresésekor (hoszabb keresési idő)</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">

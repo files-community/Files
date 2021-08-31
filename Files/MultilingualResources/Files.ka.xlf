@@ -186,11 +186,11 @@
           <source>Appearance</source>
           <target state="translated">შესახედაობა</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
           <target state="translated">გაფართოებების ჩვენება ცნობილი ფაილის ნიმუშებისთვის</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
           <target state="translated">დამალული ფაილების და საქაღალდეების ჩვენება</target>
         </trans-unit>
@@ -1566,7 +1566,7 @@
           <source>Select</source>
           <target state="translated">არჩევა</target>
         </trans-unit>
-        <trans-unit id="SettingsOpenItemsWithOneclick.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsOpenItemsWithOneclick" translate="yes" xml:space="preserve">
           <source>Open items with a single click</source>
           <target state="translated">ელემენტების გახსნა ერთი დაჭერით</target>
         </trans-unit>
@@ -1686,7 +1686,7 @@
           <source>Support us on PayPal</source>
           <target state="translated">დაგვიჭირეთ მხარი PayPal -ზე</target>
         </trans-unit>
-        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
           <target state="translated">კატალოგების ჩამომწკრივება და დალაგება ფაილებთან ერთად</target>
         </trans-unit>
@@ -1710,15 +1710,15 @@
           <source>Updates Available</source>
           <target state="translated">განახლებები ხელმისაწვდომია</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersHideSystemItems" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
           <target state="translated">დაცული ოპერაციული სისტემის ფაილების დამალვა (რეკომენდირებულია)</target>
         </trans-unit>
-        <trans-unit id="SettingsSearchUnindexedItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSearchUnindexedItems" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
           <target state="translated">ფაილებისა და საქაღალდეების ძებნისას გამოუქვეყნებელი ელემენტების ჩვენება (ძიებას შეიძლება უფრო დიდი დრო დასჭირდეს)</target>
         </trans-unit>
-        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
           <target state="translated">ინდივიდუალური თვისებების ჩართვა ინდივიდუალური კატალოგებისთვის</target>
         </trans-unit>

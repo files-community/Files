@@ -147,10 +147,10 @@
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Εμφάνιση</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Εμφάνιση επεκτάσεων για γνωστούς τύπους αρχείων</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Εμφάνιση κρυφών αρχείων και φακέλων</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
@@ -1185,7 +1185,7 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Επιλέξτε</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Title" xml:space="preserve">
+  <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
     <value>Άνοιγμα αντικειμένων με ένα μόνο κλικ</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1275,7 +1275,7 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Υποστηρίξτε μας στο PayPal</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Title" xml:space="preserve">
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Λίστα και ταξινόμηση καταλόγων μαζί με αρχεία</value>
   </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
@@ -1293,13 +1293,13 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Διαθέσιμες ενημερώσεις</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Απόκρυψη προστατευμένων αρχείων λειτουργικού συστήματος (Συνιστάται)</value>
   </data>
-  <data name="SettingsSearchUnindexedItems.Title" xml:space="preserve">
+  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Εμφάνιση μη ευρετηριασμένων στοιχείων κατά την αναζήτηση αρχείων και φακέλων (οι αναζητήσεις μπορεί να διαρκέσουν περισσότερο)</value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Title" xml:space="preserve">
+  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>Ενεργοποίηση ατομικών προτιμήσεων για μεμονωμένους καταλόγους</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">

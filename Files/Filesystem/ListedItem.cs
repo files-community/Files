@@ -2,6 +2,7 @@
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.Cloud;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.ViewModels.Properties;
 using FluentFTP;
@@ -11,10 +12,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
-using Files.Filesystem.StorageItems;
-using System.Linq;
 
 namespace Files.Filesystem
 {

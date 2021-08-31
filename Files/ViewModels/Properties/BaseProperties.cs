@@ -1,7 +1,6 @@
 ﻿using ByteSizeLib;
 using Files.Enums;
 using Files.Extensions;
-using Files.Filesystem.StorageItems;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
