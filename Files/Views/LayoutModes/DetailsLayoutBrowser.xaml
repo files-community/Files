@@ -54,6 +54,7 @@
                 TargetType="controls:GridSplitter">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="Width" Value="1" />
+                <Setter Property="Margin" Value="0,4,0,4" />
                 <Setter Property="Opacity" Value="0.8" />
             </Style>
 
@@ -208,7 +209,6 @@
             <SemanticZoom.ZoomedInView>
                 <ListView
                     x:Name="FileList"
-                    Margin="0,4,0,0"
                     Padding="8,0,8,12"
                     HorizontalAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
@@ -242,11 +242,10 @@
                     <ListView.Header>
                         <Grid
                             x:Name="HeaderGrid"
-                            Height="38"
-                            Margin="16,0,0,0"
-                            Padding="0"
+                            Height="40"
+                            Padding="16,0,0,0"
                             Background="{ThemeResource FileBrowserHeaderBackgroundBrush}"
-                            BorderBrush="{ThemeResource SystemChromeHighColor}"
+                            BorderBrush="{ThemeResource ControlStrokeColorDefault}"
                             BorderThickness="0,0,0,1"
                             PointerPressed="Grid_PointerPressed">
                             <Grid.ContextFlyout>
