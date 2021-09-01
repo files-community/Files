@@ -24,7 +24,7 @@ namespace Files.ViewModels.SettingsViewModels
         private int selectedPageIndex = -1;
         private bool isPageListEditEnabled;
         private bool alwaysOpenANewInstance = App.AppSettings.AlwaysOpenANewInstance;
-        private readonly ReadOnlyCollection<IMenuFlyoutItem> addFlyoutItemsSource;
+        private ReadOnlyCollection<IMenuFlyoutItem> addFlyoutItemsSource;
 
         public OnStartupViewModel()
         {
@@ -39,20 +39,22 @@ namespace Files.ViewModels.SettingsViewModels
 
             PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
-            var recentsItem = new MenuFlyoutSubItemViewModel("RecentLocations".GetLocalized());
-            recentsItem.Items.Add(new MenuFlyoutItemViewModel("SidebarHome".GetLocalized(), "Home", AddPageCommand));
-            PopulateRecentItems(recentsItem);
-
-            addFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
-                new MenuFlyoutItemViewModel("Browse".GetLocalized(), null, AddPageCommand),
-                recentsItem,
-            });
+            var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalized());
+            recentsItem.Items.Add(new MenuFlyoutItemViewModel("SidebarHome".GetLocalized(), "Home".GetLocalized(), AddPageCommand));
+            PopulateRecentItems(recentsItem).ContinueWith(_ =>
+            {
+                AddFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
+                    new MenuFlyoutItemViewModel("Browse".GetLocalized(), null, AddPageCommand),
+                    recentsItem,
+                });
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
-        private async void PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
+        private async Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
         {
             bool hasRecents = false;
             menu.Items.Add(new MenuFlyoutSeparatorViewModel());
+
             try
             {
                 var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
@@ -172,6 +174,7 @@ namespace Files.ViewModels.SettingsViewModels
         public ReadOnlyCollection<IMenuFlyoutItem> AddFlyoutItemsSource
         {
             get => addFlyoutItemsSource;
+            set => SetProperty(ref addFlyoutItemsSource, value);
         }
 
         public RelayCommand ChangePageCommand => new RelayCommand(ChangePage);
@@ -248,7 +251,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 get
                 {
-                    if (Path == "Home")
+                    if (Path == "Home".GetLocalized())
                     {
                         return "SidebarHome".GetLocalized();
                     }

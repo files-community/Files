@@ -4,11 +4,14 @@ using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -21,8 +24,6 @@ using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
@@ -49,9 +50,10 @@ namespace Files.ViewModels
 
             TerminalController = await TerminalController.CreateInstance();
 
-            // Send analytics to AppCenter
-            TrackAnalytics();
+            FileTagsSettings = new FileTagsSettings();
 
+            // Send analytics to AppCenter
+            StartAppCenter();
             return this;
         }
 
@@ -65,8 +67,22 @@ namespace Files.ViewModels
         {
         }
 
-        private void TrackAnalytics()
+        private async void StartAppCenter()
         {
+            JObject obj;
+            try
+            {
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
+                var lines = await FileIO.ReadTextAsync(file);
+                obj = JObject.Parse(lines);
+            }
+            catch
+            {
+                return;
+            }
+
+            AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
+
             Analytics.TrackEvent($"{nameof(DisplayedTimeStyle)} {DisplayedTimeStyle}");
             Analytics.TrackEvent($"{nameof(ThemeHelper.RootTheme)} {ThemeHelper.RootTheme}");
             Analytics.TrackEvent($"{nameof(PinRecycleBinToSideBar)} {PinRecycleBinToSideBar}");
@@ -81,6 +97,7 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(ShowLibrarySection)} {ShowLibrarySection}");
             Analytics.TrackEvent($"{nameof(ShowBundlesWidget)} {ShowBundlesWidget}");
             Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)} {ListAndSortDirectoriesAlongsideFiles}");
+            Analytics.TrackEvent($"{nameof(AreFileTagsEnabled)} {AreFileTagsEnabled}");
         }
 
         public static async void OpenLogLocation()
@@ -135,6 +152,15 @@ namespace Files.ViewModels
         /// Gets or sets a value indicating if the preview pane should be open or closed.
         /// </summary>
         public bool PreviewPaneEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the preview pane should only show the item preview without the details section
+        /// </summary>
+        public bool ShowPreviewOnly
         {
             get => Get(false);
             set => Set(value);
@@ -235,6 +261,15 @@ namespace Files.ViewModels
         /// Gets or sets a value indicating whether or not the size column should be visible.
         /// </summary>
         public bool ShowSizeColumn
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the filetag column should be visible.
+        /// </summary>
+        public bool ShowFileTagColumn
         {
             get => Get(true);
             set => Set(value);
@@ -352,6 +387,15 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable file tags feature.
+        /// </summary>
+        public bool AreFileTagsEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         #endregion FilesAndFolder
 
         #region Multitasking
@@ -428,6 +472,15 @@ namespace Files.ViewModels
         #region Sidebar
 
         /// <summary>
+        /// Gets or sets a value indicating whether or not to show the Favorites section on the sidebar.
+        /// </summary>
+        public bool ShowFavoritesSection
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not to show the library section on the sidebar.
         /// </summary>
         public bool ShowLibrarySection
@@ -488,7 +541,7 @@ namespace Files.ViewModels
             }
         }
 
-        #endregion
+        #endregion Sidebar
 
         #region Preferences
 
@@ -537,7 +590,7 @@ namespace Files.ViewModels
             {
                 ApplicationLanguages.PrimaryLanguageOverride = value.ID;
             }
-        }        
+        }
 
         #endregion Preferences
 
@@ -565,10 +618,6 @@ namespace Files.ViewModels
         }
 
         #endregion Appearance
-
-        #region Experimental
-
-        #endregion Experimental
 
         #region Startup
 
@@ -634,7 +683,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not to show a teaching tip informing the user about the status center.
         /// </summary>
-        public bool ShowStatusCenterTeachingTip
+        public bool ShowOngoingTasksTeachingTip
         {
             get => Get(true);
             set => Set(value);
@@ -655,6 +704,15 @@ namespace Files.ViewModels
         public bool HideConfirmElevateDialog
         {
             get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating the default volume on media preview.
+        /// </summary>
+        public double MediaVolume
+        {
+            get => Math.Min(Math.Max(Get(1.0d), 0.0d), 1.0d);
             set => Set(value);
         }
 
@@ -691,12 +749,13 @@ namespace Files.ViewModels
             set => Set((byte)value);
         }
 
-
         public GroupOption DefaultDirectoryGroupOption
         {
             get => (GroupOption)Get((byte)GroupOption.None);
             set => Set((byte)value);
         }
+
+        public FileTagsSettings FileTagsSettings { get; private set; }
 
         #region ReadAndSaveSettings
 

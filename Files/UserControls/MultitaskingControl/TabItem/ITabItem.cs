@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 
 namespace Files.UserControls.MultitaskingControl
@@ -20,9 +19,9 @@ namespace Files.UserControls.MultitaskingControl
 
         public event EventHandler<TabItemArguments> ContentChanged;
 
-        public DataPackageOperation TabItemDragOver(object sender, DragEventArgs e);
+        public Task TabItemDragOver(object sender, DragEventArgs e);
 
-        public Task<DataPackageOperation> TabItemDrop(object sender, DragEventArgs e);
+        public Task TabItemDrop(object sender, DragEventArgs e);
     }
 
     public interface ITabItem

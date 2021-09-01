@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Files.UserControls;
+using System.Collections.Generic;
 using System.Windows.Input;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
@@ -12,11 +13,12 @@ namespace Files.ViewModels
         public object CommandParameter { get; set; }
         public string Glyph { get; set; }
         public string GlyphFontFamilyName { get; set; }
+        public string KeyboardAcceleratorTextOverride { get; set; }
         public string Text { get; set; }
         public object Tag { get; set; }
         public ItemType ItemType { get; set; }
         public bool IsSubItem { get; set; }
-        public List<ContextMenuFlyoutItemViewModel> Items { get; set; } = new List<ContextMenuFlyoutItemViewModel>();
+        public List<ContextMenuFlyoutItemViewModel> Items { get; set; }
         public BitmapImage BitmapIcon { get; set; }
 
         /// <summary>
@@ -35,9 +37,19 @@ namespace Files.ViewModels
         public bool ShowInRecycleBin { get; set; }
 
         /// <summary>
-        /// True if the item is shown in cloud drive folders
+        /// True if the item is shown in search page
         /// </summary>
-        public bool ShowInCloudDrive { get; set; }
+        public bool ShowInSearchPage { get; set; }
+
+        /// <summary>
+        /// True if the item is shown in FTP page
+        /// </summary>
+        public bool ShowInFtpPage { get; set; }
+
+        /// <summary>
+        /// True if the item is shown in ZIP archive page
+        /// </summary>
+        public bool ShowInZipPage { get; set; }
 
         public KeyboardAccelerator KeyboardAccelerator { get; set; }
         public bool IsChecked { get; set; }
@@ -49,6 +61,14 @@ namespace Files.ViewModels
         public string ID { get; set; }
 
         public bool IsPrimary { get; set; }
+
+        public bool CollapseLabel { get; set; }
+
+        public ColoredIconModel ColoredIcon { get; set; }
+
+        public bool ShowLoadingIndicator { get; set; }
+
+        public bool IsHidden { get; set; }
     }
 
     public enum ItemType
@@ -56,5 +76,20 @@ namespace Files.ViewModels
         Item,
         Separator,
         Toggle,
+        SplitButton,
+    }
+
+    public struct ColoredIconModel
+    {
+        public string OverlayLayerGlyph { get; set; }
+        public string BaseLayerGlyph { get; set; }
+
+        public ColoredIcon ToColoredIcon() => new ColoredIcon()
+        {
+            OverlayLayerGlyph = OverlayLayerGlyph,
+            BaseLayerGlyph = BaseLayerGlyph,
+        };
+
+        public bool IsValid => !string.IsNullOrEmpty(BaseLayerGlyph);
     }
 }

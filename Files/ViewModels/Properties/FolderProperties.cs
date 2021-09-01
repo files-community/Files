@@ -2,6 +2,7 @@
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -9,6 +10,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -63,8 +65,8 @@ namespace Files.ViewModels.Properties
                     ViewModel.ShortcutItemArgumentsVisibility = Visibility.Collapsed;
                     ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
                     {
-                        var folderUri = new Uri($"files-uwp:?folder={Path.GetDirectoryName(ViewModel.ShortcutItemPath)}");
-                        await Windows.System.Launcher.LaunchUriAsync(folderUri);
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(
+                            () => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath)));
                     }, () =>
                     {
                         return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
@@ -78,7 +80,7 @@ namespace Files.ViewModels.Properties
             ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
-            var fileIconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 80);
+            var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
             if (fileIconData != null)
             {
                 ViewModel.IconData = fileIconData;
@@ -99,7 +101,7 @@ namespace Files.ViewModels.Properties
                 }
             }
 
-            StorageFolder storageFolder;
+            BaseStorageFolder storageFolder;
             try
             {
                 storageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
@@ -116,7 +118,10 @@ namespace Files.ViewModels.Properties
                 ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
                 string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
                 ViewModel.ItemCreatedTimestamp = storageFolder.DateCreated.GetFriendlyDateFromFormat(returnformat);
-                GetOtherProperties(storageFolder.Properties);
+                if (storageFolder.Properties != null)
+                {
+                    GetOtherProperties(storageFolder.Properties);
+                }
                 GetFolderSize(storageFolder, TokenSource.Token);
             }
             else if (Item.ItemPath.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
@@ -161,7 +166,7 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        private async void GetFolderSize(StorageFolder storageFolder, CancellationToken token)
+        private async void GetFolderSize(BaseStorageFolder storageFolder, CancellationToken token)
         {
             if (string.IsNullOrEmpty(storageFolder.Path))
             {

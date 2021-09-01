@@ -14,7 +14,6 @@
     xmlns:xh="using:Files.Helpers.XamlHelpers"
     d:DesignHeight="40"
     d:DesignWidth="400"
-    Loading="UserControl_Loading"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -27,13 +26,21 @@
     </UserControl.Resources>
 
     <Grid
-        Height="40"
+        Height="32"
         HorizontalAlignment="Stretch"
         Background="{ThemeResource StatusBarBackgroundBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
+
+        <muxc:TeachingTip
+            x:Name="FullTrustStatusTeachingTip"
+            x:Uid="FullTrustStatusTeachingTip"
+            Title="Administrator"
+            Subtitle="Files is running as administrator"
+            Target="{x:Bind FullTrustStatus}"
+            Visibility="Collapsed" />
 
         <StackPanel
             x:Name="SelectionDirectoryInformationPanel"
@@ -47,32 +54,16 @@
             <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
         </StackPanel>
 
-        <muxc:TeachingTip
-            x:Name="StatusCenterTeachingTip"
-            x:Uid="StatusCenterTeachingTip"
-            Title="Status Center"
-            Subtitle="Check the status of file operations here"
-            Target="{x:Bind StatusCenter}"
-            Visibility="Collapsed" />
-
-        <muxc:TeachingTip
-            x:Name="FullTrustStatusTeachingTip"
-            x:Uid="FullTrustStatusTeachingTip"
-            Title="Administrator"
-            Subtitle="Files is running as administrator"
-            Target="{x:Bind FullTrustStatus}"
-            Visibility="Collapsed" />
-
         <StackPanel
             Grid.Column="1"
-            Padding="0,0,8,0"
+            Padding="0,0,2,0"
             HorizontalAlignment="Right"
             Orientation="Horizontal"
             Spacing="4">
 
             <Button
                 x:Name="FullTrustStatus"
-                Width="36"
+                Width="32"
                 Height="32"
                 x:Load="{x:Bind MainViewModel.IsFullTrustElevated, Mode=OneWay}"
                 AccessKey="M"
@@ -80,53 +71,8 @@
                 Click="FullTrustStatus_Click"
                 FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}">
-                <FontIcon FontSize="16" Glyph="&#xEA18;" />
+                <FontIcon FontSize="14" Glyph="&#xEA18;" />
             </Button>
-
-            <Grid x:Name="StatusCenterGrid" Visibility="{x:Bind ShowStatusCenter, Mode=OneWay}">
-                <Button
-                    x:Name="StatusCenter"
-                    x:Uid="StatusCenter"
-                    Width="36"
-                    Height="32"
-                    Padding="0"
-                    AccessKey="T"
-                    AutomationProperties.Name="Status center"
-                    Background="Transparent"
-                    Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Ongoing Tasks"
-                    Visibility="Visible">
-                    <Button.Content>
-                        <Grid>
-                            <FontIcon
-                                x:Name="StatusCenterFontIcon"
-                                FontSize="16"
-                                Glyph="&#xF16A;" />
-                            <muxc:ProgressRing
-                                x:Name="MedianOperationProgressRing"
-                                Width="28"
-                                Height="28"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                x:Load="{x:Bind StatusCenterViewModel.AnyOperationsOngoing, Mode=OneWay}"
-                                IsIndeterminate="False"
-                                Value="{x:Bind StatusCenterViewModel.MedianOperationProgressValue, Mode=OneWay}" />
-                        </Grid>
-                    </Button.Content>
-                    <Button.Flyout>
-                        <Flyout x:Uid="StatusCenterFlyout" AutomationProperties.Name="Ongoing tasks flyout">
-                            <local:StatusCenter
-                                x:Name="OngoingTasksControl"
-                                Width="300"
-                                MinHeight="300"
-                                MaxHeight="400"
-                                x:FieldModifier="public"
-                                IsTabStop="True"
-                                StatusCenterViewModel="{x:Bind StatusCenterViewModel}" />
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
-            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>

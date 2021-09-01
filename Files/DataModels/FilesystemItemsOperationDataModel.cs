@@ -16,11 +16,14 @@ namespace Files.DataModels
 
         public string DestinationPath;
 
-        public FilesystemItemsOperationItemModel(FilesystemOperationType operationType, string sourcePath, string destinationPath)
+        public string DisplayFileName;
+
+        public FilesystemItemsOperationItemModel(FilesystemOperationType operationType, string sourcePath, string destinationPath, string displayFileName = null)
         {
             this.OperationType = operationType;
             this.SourcePath = sourcePath;
             this.DestinationPath = destinationPath;
+            this.DisplayFileName = displayFileName;
         }
     }
 
@@ -63,7 +66,7 @@ namespace Files.DataModels
             // Add conflicting items first
             foreach (var item in ConflictingItems)
             {
-                var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.SourcePath, 64u);
+                var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(item.SourcePath, 64u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
 
                 items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
@@ -71,6 +74,7 @@ namespace Files.DataModels
                     ItemIcon = iconData != null ? await iconData.ToBitmapAsync() : null,
                     SourcePath = item.SourcePath,
                     DestinationPath = item.DestinationPath,
+                    DisplayFileName = item.DisplayFileName,
                     ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName,
                     ItemOperation = item.OperationType,
                     ActionTaken = false
@@ -80,7 +84,7 @@ namespace Files.DataModels
             // Then add non-conflicting items
             foreach (var item in nonConflictingItems)
             {
-                var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.SourcePath, 64u);
+                var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(item.SourcePath, 64u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
 
                 items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
@@ -88,6 +92,7 @@ namespace Files.DataModels
                     ItemIcon = iconData != null ? await iconData.ToBitmapAsync() : null,
                     SourcePath = item.SourcePath,
                     DestinationPath = item.DestinationPath,
+                    DisplayFileName = item.DisplayFileName,
                     ConflictResolveOption = FileNameConflictResolveOptionType.NotAConflict,
                     ItemOperation = item.OperationType,
                     ActionTaken = true

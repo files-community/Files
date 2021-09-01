@@ -1,8 +1,9 @@
 ﻿using Files.DataModels.NavigationControlItems;
-using Files.Extensions;
+using Files.Filesystem;
+using Files.Filesystem.StorageItems;
+using Files.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
-using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
 
@@ -38,23 +39,32 @@ namespace Files.ViewModels.Properties
         public async override void GetSpecialProperties()
         {
             ViewModel.ItemAttributesVisibility = Visibility.Collapsed;
-            StorageFolder diskRoot = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(Drive.Path);
-            if (diskRoot == null)
+            var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(Drive.Path));
+            BaseStorageFolder diskRoot = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(Drive.Path, item));
+
+            if (ViewModel.LoadFileIcon)
             {
+                if (diskRoot != null)
+                {
+                    ViewModel.IconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(diskRoot, 80, ThumbnailMode.SingleItem);
+                }
+                else
+                {
+                    ViewModel.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.Path, 80);
+                }
+            }
+
+            if (diskRoot == null || diskRoot.Properties == null)
+            {
+                ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
                 return;
             }
 
-            string freeSpace = "System.FreeSpace";
-            string capacity = "System.Capacity";
-            string fileSystem = "System.Volume.FileSystem";
-
             try
             {
-                if (ViewModel.LoadFileIcon)
-                {
-                    using var thumbnail = await diskRoot.GetThumbnailAsync(ThumbnailMode.SingleItem, 80, ThumbnailOptions.UseCurrentScale);
-                    ViewModel.IconData = await thumbnail.ToByteArrayAsync();
-                }
+                string freeSpace = "System.FreeSpace";
+                string capacity = "System.Capacity";
+                string fileSystem = "System.Volume.FileSystem";
 
                 var properties = await diskRoot.Properties.RetrievePropertiesAsync(new[] { freeSpace, capacity, fileSystem });
 

@@ -53,7 +53,7 @@
                         </Grid>
                         <FontIcon
                             x:Name="EmptyIconGlyph"
-                            x:Load="{x:Bind LoadUnknownTypeGlyph}"
+                            x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                             Glyph="&#xE7C3;" />
                         <FontIcon
                             x:Name="FolderGlyphIcon"
@@ -68,7 +68,6 @@
                 </StackPanel>
             </Grid>
         </DataTemplate>
-
     </UserControl.Resources>
 
     <AutoSuggestBox
@@ -90,5 +89,4 @@
             <KeyboardAccelerator Key="Escape" Invoked="SearchRegion_Escaped" />
         </AutoSuggestBox.KeyboardAccelerators>
     </AutoSuggestBox>
-
 </UserControl>

@@ -2,7 +2,6 @@
     x:Class="Files.Dialogs.SettingsDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
@@ -13,7 +12,7 @@
     mc:Ignorable="d">
     <ContentDialog.Resources>
         <ResourceDictionary>
-            <x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
+            <x:Double x:Key="ContentDialogMaxWidth">1300</x:Double>
             <Thickness x:Key="ContentDialogPadding">0</Thickness>
             <SolidColorBrush x:Key="ContentDialogTopOverlay" Color="Transparent" />
             <ResourceDictionary.ThemeDictionaries>
@@ -47,7 +46,7 @@
         <muxc:NavigationView
             x:Name="SettingsPane"
             Grid.Column="0"
-            Width="180"
+            Width="200"
             Margin="12,12,0,12"
             IsBackButtonVisible="Collapsed"
             IsBackEnabled="False"
@@ -55,7 +54,7 @@
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
             IsTitleBarAutoPaddingEnabled="False"
-            OpenPaneLength="180"
+            OpenPaneLength="200"
             PaneDisplayMode="Left"
             SelectionChanged="SettingsPane_SelectionChanged">
 
@@ -109,13 +108,13 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavFilesAndFolders"
                     AccessKey="F"
-                    Content="Files and Folders"
+                    Content="Files &amp; Folders"
                     Tag="5">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8B7;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <!--<muxc:NavigationViewItem
+                <muxc:NavigationViewItem
                     x:Uid="SettingsNavExperimental"
                     AccessKey="E"
                     Content="Experimental"
@@ -123,7 +122,7 @@
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF1AD;" />
                     </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>-->
+                </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>
 
             <muxc:NavigationView.FooterMenuItems>
@@ -142,12 +141,15 @@
         <ScrollViewer
             Grid.Column="1"
             Margin="12,0,0,0"
-            Padding="4,12,0,0"
+            Padding="4,12,8,0"
             Background="{ThemeResource SolidBackgroundFillColorBase}"
             HorizontalScrollMode="Disabled"
             VerticalScrollBarVisibility="Auto"
             VerticalScrollMode="Enabled">
-            <Frame x:Name="SettingsContentFrame" Width="380" />
+            <Frame
+                x:Name="SettingsContentFrame"
+                Width="460"
+                Height="Auto" />
         </ScrollViewer>
 
         <Button
@@ -159,6 +161,7 @@
             Margin="12"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
+            AutomationProperties.Name="Close"
             Click="ButtonClose_Click"
             CornerRadius="20"
             ToolTipService.ToolTip="Close">

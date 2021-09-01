@@ -20,6 +20,7 @@ namespace Files.Helpers
                 GroupOption.DateModified => x => x.ItemDateModifiedReal.GetUserSettingsFriendlyTimeSpan().text,
                 GroupOption.FileType => x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsShortcutItem ? x.ItemType : x.FileExtension?.ToLower() ?? " ",
                 GroupOption.SyncStatus => x => x.SyncStatusString,
+                GroupOption.FileTag => x => x.FileTag,
                 GroupOption.OriginalFolder => x => (x as RecycleBinItem)?.ItemOriginalFolder,
                 GroupOption.DateDeleted => x => (x as RecycleBinItem)?.ItemDateDeletedReal.GetUserSettingsFriendlyTimeSpan().text,
                 _ => null,
@@ -85,6 +86,14 @@ namespace Files.Helpers
                     x.Model.ShowCountTextBelow = true;
                     x.Model.Text = first.SyncStatusString;
                     x.Model.Icon = first?.SyncStatusUI.Glyph;
+                }, null),
+
+                GroupOption.FileTag => (x =>
+                {
+                    ListedItem first = x.First();
+                    x.Model.ShowCountTextBelow = true;
+                    x.Model.Text = first.FileTagUI?.TagName ?? "NavToolbarGroupByOptionNone/Text".GetLocalized();
+                    //x.Model.Icon = first?.FileTagUI?.Color;
                 }, null),
 
                 GroupOption.DateDeleted => (x =>

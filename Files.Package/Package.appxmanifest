@@ -9,7 +9,7 @@
          xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
          xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
          IgnorableNamespaces="uap uap5 mp rescap desktop4 desktop">
-    <Identity Name="FilesDev" Publisher="CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7" Version="1.5.45.0" />
+    <Identity Name="FilesDev" Publisher="CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7" Version="2.0.0.0" />
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
         <PublisherDisplayName>Yair A</PublisherDisplayName>
@@ -17,7 +17,7 @@
     </Properties>
     <Dependencies>
         <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
-        <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.14393.0" MaxVersionTested="10.0.14393.0" />
+        <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.17763.0" />
     </Dependencies>
     <Resources>
         <Resource Language="x-generate" />
@@ -40,24 +40,32 @@
                   <uap3:Name>com.files.filepreview</uap3:Name>
                 </uap3:AppExtensionHost>
               </uap3:Extension>
-                <desktop:Extension Category="windows.fullTrustProcess" Executable="Files.Launcher\FilesFullTrust.exe">
-                    <desktop:FullTrustProcess>
-                        <!--<desktop:ParameterGroup GroupId="DesktopAppExeGroup" Parameters="/DesktopApp"/>
-                        <desktop:ParameterGroup GroupId="TerminalGroup" Parameters="/Terminal"/>
-                        <desktop:ParameterGroup GroupId="UserFolderPathsGroup" Parameters="/DetectUserPaths"/>-->
-                    </desktop:FullTrustProcess>
-                </desktop:Extension>
-                <uap:Extension Category="windows.protocol">
-                    <uap:Protocol ReturnResults="none" Name="files-uwp"/>
-                </uap:Extension>
-                <uap5:Extension
-                  Category="windows.appExecutionAlias"
-                  Executable="files.exe"
-                  EntryPoint="files.App">
-                    <uap5:AppExecutionAlias>
-                        <uap5:ExecutionAlias Alias="files.exe"/>
-                    </uap5:AppExecutionAlias>
-                </uap5:Extension>
+              <desktop:Extension Category="windows.fullTrustProcess" Executable="Files.Launcher\FilesFullTrust.exe">
+                  <desktop:FullTrustProcess>
+                      <!--<desktop:ParameterGroup GroupId="DesktopAppExeGroup" Parameters="/DesktopApp"/>
+                      <desktop:ParameterGroup GroupId="TerminalGroup" Parameters="/Terminal"/>
+                      <desktop:ParameterGroup GroupId="UserFolderPathsGroup" Parameters="/DetectUserPaths"/>-->
+                  </desktop:FullTrustProcess>
+              </desktop:Extension>
+              <uap:Extension Category="windows.protocol">
+                  <uap:Protocol ReturnResults="none" Name="files-uwp"/>
+              </uap:Extension>
+              <uap5:Extension
+                Category="windows.appExecutionAlias"
+                Executable="files.exe"
+                EntryPoint="files.App">
+                  <uap5:AppExecutionAlias>
+                      <uap5:ExecutionAlias Alias="files.exe"/>
+                  </uap5:AppExecutionAlias>
+              </uap5:Extension>
+              <Extension Category="windows.updateTask" EntryPoint="BackgroundTasks.UpdateTask" />
+              <uap:Extension Category="windows.fileTypeAssociation">
+                <uap:FileTypeAssociation Name="zip">
+                  <uap:SupportedFileTypes>
+                    <uap:FileType>.zip</uap:FileType>
+                  </uap:SupportedFileTypes>
+                </uap:FileTypeAssociation>
+              </uap:Extension>
             </Extensions>
         </Application>
     </Applications>

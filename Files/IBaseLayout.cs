@@ -24,5 +24,6 @@ namespace Files
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+        public BaseLayoutCommandsViewModel CommandsViewModel { get; }
     }
 }

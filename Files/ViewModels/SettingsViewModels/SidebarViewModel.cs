@@ -1,10 +1,10 @@
-﻿using Files.Filesystem;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace Files.ViewModels.SettingsViewModels
 {
     public class SidebarViewModel : ObservableObject
     {
+        private bool showFavoritesSection = App.AppSettings.ShowFavoritesSection;
         private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
         private bool showLibrarySection = App.AppSettings.ShowLibrarySection;
         private bool showDrivesSection = App.AppSettings.ShowDrivesSection;
@@ -14,6 +14,22 @@ namespace Files.ViewModels.SettingsViewModels
 
         public SidebarViewModel()
         {
+        }
+
+        public bool ShowFavoritesSection
+        {
+            get
+            {
+                return showFavoritesSection;
+            }
+            set
+            {
+                if (SetProperty(ref showFavoritesSection, value))
+                {
+                    App.AppSettings.ShowFavoritesSection = value;
+                    App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
+                }
+            }
         }
 
         public bool PinRecycleBinToSideBar

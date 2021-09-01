@@ -3,7 +3,6 @@ using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
-using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -14,8 +13,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
-using Windows.UI.Core;
+using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
+
 namespace Files.ViewModels
 {
     public class SidebarViewModel : ObservableObject, IDisposable
@@ -23,19 +23,19 @@ namespace Files.ViewModels
         public static async System.Threading.Tasks.Task<IEnumerable<IconFileInfo>> LoadSidebarIconResources()
         {
             const string imageres = @"C:\Windows\System32\imageres.dll";
-            var imageResList = await UIHelpers.LoadSelectedIconsAsync(imageres, new List<int>() {
+            var imageResList = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.LoadSelectedIconsAsync(imageres, new List<int>() {
                     Constants.ImageRes.RecycleBin,
                     Constants.ImageRes.NetworkDrives,
                     Constants.ImageRes.Libraries,
                     Constants.ImageRes.ThisPC,
                     Constants.ImageRes.CloudDrives,
                     Constants.ImageRes.Folder
-                }, 32, false);
+                }, 32, false));
 
             const string shell32 = @"C:\Windows\System32\shell32.dll";
-            var shell32List = await UIHelpers.LoadSelectedIconsAsync(shell32, new List<int>() {
+            var shell32List = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.LoadSelectedIconsAsync(shell32, new List<int>() {
                     Constants.Shell32.QuickAccess
-                }, 32, false);
+                }, 32, false));
 
             if (shell32List != null && imageResList != null)
             {
@@ -58,6 +58,7 @@ namespace Files.ViewModels
         public ICommand EmptyRecycleBinCommand { get; private set; }
 
         private IPaneHolder paneHolder;
+
         public IPaneHolder PaneHolder
         {
             get => paneHolder;
@@ -104,7 +105,7 @@ namespace Files.ViewModels
 
             if (string.IsNullOrEmpty(value))
             {
-                //SidebarSelectedItem = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
+                //SidebarSelectedItem = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalized()));
                 return;
             }
 
@@ -125,7 +126,7 @@ namespace Files.ViewModels
             {
                 if (value == "NewTab".GetLocalized())
                 {
-                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
+                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalized()));
                 }
             }
 
@@ -190,7 +191,6 @@ namespace Files.ViewModels
             SidebarDisplayMode = args.DisplayMode;
         }
 
-
         public void UpdateTabControlMargin()
         {
             TabControlMargin = SidebarDisplayMode switch
@@ -202,6 +202,7 @@ namespace Files.ViewModels
         }
 
         private GridLength tabControlMargin;
+
         public GridLength TabControlMargin
         {
             get => tabControlMargin;

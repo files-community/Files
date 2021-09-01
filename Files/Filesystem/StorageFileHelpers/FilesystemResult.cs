@@ -70,7 +70,7 @@ namespace Files.Filesystem
             }
             else if (ex is ArgumentException) // Item was invalid
             {
-                return (T == typeof(StorageFolder) || T == typeof(StorageFolderWithPath)) ?
+                return (typeof(IStorageFolder).IsAssignableFrom(T) || T == typeof(StorageFolderWithPath)) ?
                     FileSystemStatusCode.NotAFolder : FileSystemStatusCode.NotAFile;
             }
             else if ((uint)ex.HResult == 0x800700B7)

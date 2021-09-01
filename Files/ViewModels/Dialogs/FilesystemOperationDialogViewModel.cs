@@ -4,7 +4,6 @@ using Files.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -16,7 +15,6 @@ namespace Files.ViewModels.Dialogs
 {
     public class FilesystemOperationDialogViewModel : ObservableObject
     {
-
         public ObservableCollection<FilesystemOperationItemViewModel> Items { get; private set; }
 
         public ListViewSelectionMode ItemsSelectionMode
@@ -104,6 +102,8 @@ namespace Files.ViewModels.Dialogs
 
         public ICommand LoadedCommand { get; private set; }
 
+        public ICommand ApplyToAllCommand { get; private set; }
+
         public FilesystemOperationDialogViewModel()
         {
             // Create commands
@@ -113,10 +113,27 @@ namespace Files.ViewModels.Dialogs
             {
                 UpdatePrimaryButtonEnabled();
             });
+
+            ApplyToAllCommand = new RelayCommand<string>(s =>
+            {
+                ApplyConflictOptionToAll((FileNameConflictResolveOptionType)int.Parse(s));
+            });
+        }
+
+        public void ApplyConflictOptionToAll(FileNameConflictResolveOptionType e)
+        {
+            foreach (var item in Items)
+            {
+                if (!item.ActionTaken)
+                {
+                    item.TakeAction(e);
+                }
+            }
         }
 
         private void PrimaryButton()
         {
+            ApplyConflictOptionToAll(FileNameConflictResolveOptionType.GenerateNewName);
             // Something there?
         }
 
@@ -166,14 +183,7 @@ namespace Files.ViewModels.Dialogs
 
         public void UpdatePrimaryButtonEnabled()
         {
-            if (MustResolveConflicts)
-            {
-                PrimaryButtonEnabled = !Items.Any((item) => !item.ActionTaken);
-            }
-            else if (PermanentlyDeleteLoad) // PermanentlyDeleteLoad - is only loaded (`true`) when deleting items
-            {
-                PrimaryButtonEnabled = true;
-            }
+            PrimaryButtonEnabled = true;
         }
 
         public List<IFilesystemOperationItemModel> GetResult()
@@ -206,7 +216,7 @@ namespace Files.ViewModels.Dialogs
                         // There are {0} conflicting file names
                         subtitleText = string.Format("ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts".GetLocalized(), itemsData.ConflictingItems.Count);
                     }
-                }    
+                }
                 else
                 {
                     if (nonConflictingItems.Count > 0)

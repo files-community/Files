@@ -61,6 +61,10 @@ namespace Files.Helpers
 
         public bool IsPathUnderRecycleBin(string path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                return false;
+            }
             return recycleBinPathRegex.IsMatch(path);
         }
 
@@ -96,6 +100,47 @@ namespace Files.Helpers
                     await connection.SendMessageAsync(value);
                 }
             }
+        }
+
+        public async Task<bool> HasRecycleBin(string path)
+        {
+            if (string.IsNullOrEmpty(path) || path.StartsWith(@"\\?\"))
+            {
+                return false;
+            }
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                var value = new ValueSet
+                {
+                    { "Arguments", "RecycleBin" },
+                    { "action", "Query" },
+                    { "drive", path }
+                };
+                var (status, response) = await connection.SendMessageForResponseAsync(value);
+                return status == AppServiceResponseStatus.Success && response.Get("HasRecycleBin", false);
+            }
+            return false;
+        }
+
+        public async Task<bool> RecycleBinHasItems()
+        {
+            var recycleBinHasItems = false;
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                var value = new ValueSet
+                {
+                    { "Arguments", "RecycleBin" },
+                    { "action", "Query" }
+                };
+                var (status, response) = await connection.SendMessageForResponseAsync(value);
+                if (status == AppServiceResponseStatus.Success && response.TryGetValue("NumItems", out var numItems))
+                {
+                    recycleBinHasItems = (long)numItems > 0;
+                }
+            }
+            return recycleBinHasItems;
         }
     }
 }

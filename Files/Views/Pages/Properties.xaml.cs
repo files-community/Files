@@ -5,7 +5,6 @@ using Files.Helpers.XamlHelpers;
 using Files.ViewModels;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading;
 using Windows.ApplicationModel.Core;
@@ -65,11 +64,12 @@ namespace Files.Views
 
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
+            Microsoft.UI.Xaml.Controls.BackdropMaterial.SetApplyToRootOrPageBackground(sender as Control, true);
+
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 // Set window size in the loaded event to prevent flickering
-                ApplicationView.GetForCurrentView().Consolidated += Properties_Consolidated;
                 TitleBar = ApplicationView.GetForCurrentView().TitleBar;
                 TitleBar.ButtonBackgroundColor = Colors.Transparent;
                 TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
@@ -79,18 +79,6 @@ namespace Files.Views
             {
                 propertiesDialog = DependencyObjectHelpers.FindParent<ContentDialog>(this);
                 propertiesDialog.Closed += PropertiesDialog_Closed;
-            }
-        }
-
-        private void Properties_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
-        {
-            AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
-            ApplicationView.GetForCurrentView().Consolidated -= Properties_Consolidated;
-            (contentFrame.Content as PropertiesTab).Dispose();
-            if (tokenSource != null && !tokenSource.IsCancellationRequested)
-            {
-                tokenSource.Cancel();
-                tokenSource = null;
             }
         }
 

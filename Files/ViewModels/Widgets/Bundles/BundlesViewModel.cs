@@ -3,7 +3,6 @@ using Files.Enums;
 using Files.EventArguments.Bundles;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.SettingsInterfaces;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -30,12 +29,6 @@ namespace Files.ViewModels.Widgets.Bundles
     /// </summary>
     public class BundlesViewModel : ObservableObject, IDisposable
     {
-        #region Singleton
-
-        private IBundlesSettings BundlesSettings => App.BundlesSettings;
-
-        #endregion Singleton
-
         #region Private Members
 
         private bool itemAddedInternally;
@@ -99,14 +92,14 @@ namespace Files.ViewModels.Widgets.Bundles
 
         public BundlesViewModel()
         {
+            Items.CollectionChanged += Items_CollectionChanged;
+
             // Create commands
             InputTextKeyDownCommand = new RelayCommand<KeyRoutedEventArgs>(InputTextKeyDown);
-            OpenAddBundleDialogCommand = new RelayCommand(OpenAddBundleDialog);
+            OpenAddBundleDialogCommand = new AsyncRelayCommand(OpenAddBundleDialog);
             AddBundleCommand = new RelayCommand(() => AddBundle(BundleNameTextInput));
-            ImportBundlesCommand = new RelayCommand(ImportBundles);
-            ExportBundlesCommand = new RelayCommand(ExportBundles);
-
-            Items.CollectionChanged += Items_CollectionChanged;
+            ImportBundlesCommand = new AsyncRelayCommand(ImportBundles);
+            ExportBundlesCommand = new AsyncRelayCommand(ExportBundles);
         }
 
         #endregion Constructor
@@ -122,7 +115,7 @@ namespace Files.ViewModels.Widgets.Bundles
             }
         }
 
-        private async void OpenAddBundleDialog()
+        private async Task OpenAddBundleDialog()
         {
             TextBox inputText = new TextBox()
             {
@@ -201,9 +194,9 @@ namespace Files.ViewModels.Widgets.Bundles
             string savedBundleNameTextInput = name;
             BundleNameTextInput = string.Empty;
 
-            if (BundlesSettings.SavedBundles == null || (BundlesSettings.SavedBundles?.ContainsKey(savedBundleNameTextInput) ?? false)) // Init
+            if (App.BundlesSettings.SavedBundles == null || (App.BundlesSettings.SavedBundles?.ContainsKey(savedBundleNameTextInput) ?? false)) // Init
             {
-                BundlesSettings.SavedBundles = new Dictionary<string, List<string>>()
+                App.BundlesSettings.SavedBundles = new Dictionary<string, List<string>>()
                 {
                     { savedBundleNameTextInput, new List<string>() { null } }
                 };
@@ -225,7 +218,7 @@ namespace Files.ViewModels.Widgets.Bundles
             Save();
         }
 
-        private async void ImportBundles()
+        private async Task ImportBundles()
         {
             FileOpenPicker filePicker = new FileOpenPicker();
             filePicker.FileTypeFilter.Add(System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName));
@@ -238,7 +231,7 @@ namespace Files.ViewModels.Widgets.Bundles
                 {
                     string data = NativeFileOperationsHelper.ReadStringFromFile(file.Path);
                     var deserialized = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data);
-                    BundlesSettings.ImportSettings(JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data));
+                    App.BundlesSettings.ImportSettings(JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data));
                     await Load(); // Update the collection
                 }
                 catch // Couldn't deserialize, data is corrupted
@@ -247,7 +240,7 @@ namespace Files.ViewModels.Widgets.Bundles
             }
         }
 
-        private async void ExportBundles()
+        private async Task ExportBundles()
         {
             FileSavePicker filePicker = new FileSavePicker();
             filePicker.FileTypeChoices.Add("Json File", new List<string>() { System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName) });
@@ -256,7 +249,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
             if (file != null)
             {
-                NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)BundlesSettings.ExportSettings());
+                NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)App.BundlesSettings.ExportSettings());
             }
         }
 
@@ -315,7 +308,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
                     if (bundle.Contents.Count == 0)
                     {
-                        bundle.NoBundleContentsTextVisibility = Visibility.Visible;
+                        bundle.NoBundleContentsTextLoad = true;
                     }
                 }
             }
@@ -337,7 +330,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
         public void Save()
         {
-            if (BundlesSettings.SavedBundles != null)
+            if (App.BundlesSettings.SavedBundles != null)
             {
                 Dictionary<string, List<string>> bundles = new Dictionary<string, List<string>>();
 
@@ -358,18 +351,18 @@ namespace Files.ViewModels.Widgets.Bundles
                     bundles.Add(bundle.BundleName, bundleItems);
                 }
 
-                BundlesSettings.SavedBundles = bundles; // Calls Set()
+                App.BundlesSettings.SavedBundles = bundles; // Calls Set()
             }
         }
 
         public async Task Load()
         {
-            if (BundlesSettings.SavedBundles != null)
+            if (App.BundlesSettings.SavedBundles != null)
             {
                 Items.Clear();
 
                 // For every bundle in saved bundle collection:
-                foreach (var bundle in BundlesSettings.SavedBundles)
+                foreach (var bundle in App.BundlesSettings.SavedBundles)
                 {
                     List<BundleItemViewModel> bundleItems = new List<BundleItemViewModel>();
 
@@ -387,14 +380,13 @@ namespace Files.ViewModels.Widgets.Bundles
                                     OpenPath = OpenPathHandle,
                                     OpenPathInNewPane = OpenPathInNewPaneHandle,
                                 });
-                                await bundleItems.Last().UpdateIcon();
                             }
                         }
                     }
 
                     // Fill current bundle with collected bundle items
                     itemAddedInternally = true;
-                    Items.Add(new BundleContainerViewModel()
+                    Items.Add(await new BundleContainerViewModel()
                     {
                         BundleName = bundle.Key,
                         NotifyItemRemoved = NotifyItemRemovedHandle,

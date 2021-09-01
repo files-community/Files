@@ -63,7 +63,7 @@ namespace Files.Views
 
             if (shouldReloadFolderWidget && folderWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(folderWidget, 0);
+                Widgets.ViewModel.InsertWidget(new(folderWidget), 0);
 
                 folderWidget.LibraryCardInvoked -= FolderWidget_LibraryCardInvoked;
                 folderWidget.LibraryCardNewPaneInvoked -= FolderWidget_LibraryCardNewPaneInvoked;
@@ -76,7 +76,7 @@ namespace Files.Views
             }
             if (shouldReloadDrivesWidget && drivesWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(drivesWidget, 1);
+                Widgets.ViewModel.InsertWidget(new(drivesWidget), 1);
 
                 drivesWidget.AppInstance = AppInstance;
                 drivesWidget.DrivesWidgetInvoked -= DrivesWidget_DrivesWidgetInvoked;
@@ -86,12 +86,12 @@ namespace Files.Views
             }
             if (shouldReloadBundles && bundlesWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(bundlesWidget, 2);
+                Widgets.ViewModel.InsertWidget(new(bundlesWidget), 2);
                 ViewModel.LoadBundlesCommand.Execute(bundlesWidget.ViewModel);
             }
             if (shouldReloadRecentFiles && recentFilesWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(recentFilesWidget, 3);
+                Widgets.ViewModel.InsertWidget(new(recentFilesWidget), 3);
 
                 recentFilesWidget.RecentFilesOpenLocationInvoked -= RecentFilesWidget_RecentFilesOpenLocationInvoked;
                 recentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
@@ -163,7 +163,7 @@ namespace Files.Views
             AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
             {
                 NavPathParam = e.ItemPath,
-                SelectItems = new [] { e.ItemName },
+                SelectItems = new[] { e.ItemName },
                 AssociatedTabInstance = AppInstance
             });
         }
@@ -211,13 +211,15 @@ namespace Files.Views
             AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
             AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
+            AppInstance.InstanceViewModel.IsPageTypeFtp = false;
+            AppInstance.InstanceViewModel.IsPageTypeZipFolder = false;
             AppInstance.NavToolbarViewModel.CanRefresh = false;
             AppInstance.NavToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
             AppInstance.NavToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
             AppInstance.NavToolbarViewModel.CanNavigateToParent = false;
 
             // Set path of working directory empty
-            await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
+            await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home".GetLocalized());
 
             // Clear the path UI and replace with Favorites
             AppInstance.NavToolbarViewModel.PathComponents.Clear();

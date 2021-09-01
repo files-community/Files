@@ -1,18 +1,17 @@
-﻿using ICSharpCode.SharpZipLib.Zip;
+﻿using Files.Filesystem.StorageItems;
+using ICSharpCode.SharpZipLib.Zip;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Foundation.Collections;
-using Windows.Storage;
 
 namespace Files.Helpers
 {
     public static class ZipHelpers
     {
-        public static async Task ExtractArchive(StorageFile archive, StorageFolder destinationFolder, IProgress<float> progressDelegate, CancellationToken cancellationToken)
+        public static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder, IProgress<float> progressDelegate, CancellationToken cancellationToken)
         {
             using (ZipFile zipFile = new ZipFile(await archive.OpenStreamForReadAsync()))
             {
@@ -71,6 +70,11 @@ namespace Files.Helpers
                     {
                         return;
                     }
+                    if (entry.IsCrypted)
+                    {
+                        App.Logger.Info($"Skipped encrypted zip entry: {entry.Name}");
+                        continue; // TODO: support password protected archives
+                    }
 
                     string filePath = wnt.TransformFile(entry.Name);
 
@@ -80,7 +84,8 @@ namespace Files.Helpers
                         return; // TODO: handle error
                     }
 
-                    using (FileStream destinationStream = new FileStream(hFile, FileAccess.ReadWrite))
+                    // We don't close hFile because FileStream.Dispose() already does that
+                    using (FileStream destinationStream = new FileStream(hFile, FileAccess.Write))
                     {
                         int currentBlockSize = 0;
 
@@ -97,7 +102,6 @@ namespace Files.Helpers
                             }
                         }
                     }
-                    // We don't close handleContext because FileStream.Dispose() already does that
 
                     entriesFinished++;
                     float percentage = (float)((float)entriesFinished / (float)entriesAmount) * 100.0f;

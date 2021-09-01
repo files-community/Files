@@ -2,11 +2,11 @@
 using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
 using Files.Views;
-using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -155,7 +155,7 @@ namespace Files.Interacts
             NavigationHelpers.OpenSelectedItems(associatedInstance, false);
         }
 
-        public virtual void UnpinDirectoryFromSidebar(RoutedEventArgs e)
+        public virtual void UnpinDirectoryFromFavorites(RoutedEventArgs e)
         {
             App.SidebarPinnedController.Model.RemoveItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
         }
@@ -249,6 +249,18 @@ namespace Files.Interacts
             }
         }
 
+        public virtual void OpenParentFolder(RoutedEventArgs e)
+        {
+            var item = SlimContentPage.SelectedItem;
+            var folderPath = Path.GetDirectoryName(item.ItemPath.TrimEnd('\\'));
+            associatedInstance.NavigateWithArguments(associatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
+            {
+                NavPathParam = folderPath,
+                SelectItems = new[] { item.ItemName },
+                AssociatedTabInstance = associatedInstance
+            });
+        }
+
         public virtual void OpenItemWithApplicationPicker(RoutedEventArgs e)
         {
             NavigationHelpers.OpenSelectedItems(associatedInstance, true);
@@ -313,8 +325,13 @@ namespace Files.Interacts
             {
                 if (SlimContentPage != null)
                 {
+                    var path = SlimContentPage.SelectedItem != null ? SlimContentPage.SelectedItem.ItemPath : associatedInstance.FilesystemViewModel.WorkingDirectory;
+                    if (FtpHelpers.IsFtpPath(path))
+                    {
+                        path = path.Replace("\\", "/");
+                    }
                     DataPackage data = new DataPackage();
-                    data.SetText(SlimContentPage.SelectedItem.ItemPath);
+                    data.SetText(path);
                     Clipboard.SetContent(data);
                     Clipboard.Flush();
                 }
@@ -354,23 +371,23 @@ namespace Files.Interacts
                     {
                         if (item.IsLinkItem)
                         {
-                            dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalized(), items.First().Name);
+                            dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalized(), item.ItemName);
                             dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalized();
                             dataRequest.Data.SetWebLink(new Uri(((ShortcutItem)item).TargetPath));
                             dataRequestDeferral.Complete();
                             return;
                         }
                     }
-                    else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                    else if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsZipItem)
                     {
-                        if (await StorageItemHelpers.ToStorageItem<StorageFolder>(item.ItemPath, associatedInstance) is StorageFolder folder)
+                        if (await StorageItemHelpers.ToStorageItem<BaseStorageFolder>(item.ItemPath, associatedInstance) is BaseStorageFolder folder)
                         {
                             items.Add(folder);
                         }
                     }
                     else
                     {
-                        if (await StorageItemHelpers.ToStorageItem<StorageFile>(item.ItemPath, associatedInstance) is StorageFile file)
+                        if (await StorageItemHelpers.ToStorageItem<BaseStorageFile>(item.ItemPath, associatedInstance) is BaseStorageFile file)
                         {
                             items.Add(file);
                         }
@@ -395,14 +412,14 @@ namespace Files.Interacts
                     dataRequest.Data.Properties.Description = "ShareDialogMultipleItemsDescription".GetLocalized();
                 }
 
-                dataRequest.Data.SetStorageItems(items);
+                dataRequest.Data.SetStorageItems(items, false);
                 dataRequestDeferral.Complete();
 
                 // TODO: Unhook the event somewhere
             }
         }
 
-        public virtual void PinDirectoryToSidebar(RoutedEventArgs e)
+        public virtual void PinDirectoryToFavorites(RoutedEventArgs e)
         {
             App.SidebarPinnedController.Model.AddItem(associatedInstance.FilesystemViewModel.WorkingDirectory);
         }
@@ -500,40 +517,35 @@ namespace Files.Interacts
             }
         }
 
-        public virtual async void DragOver(DragEventArgs e)
+        public virtual async Task DragOver(DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
+            if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults)
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+                deferral.Complete();
+                return;
+            }
+
             itemManipulationModel.ClearSelection();
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+
+            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 e.Handled = true;
-                IEnumerable<IStorageItem> draggedItems;
-                try
-                {
-                    draggedItems = await e.DataView.GetStorageItemsAsync();
-                }
-                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-                {
-                    // Handled by FTP
-                    draggedItems = new List<IStorageItem>();
-                }
-                catch (Exception ex)
-                {
-                    App.Logger.Warn(ex, ex.Message);
-                    e.AcceptedOperation = DataPackageOperation.None;
-                    deferral.Complete();
-                    return;
-                }
+
+                var (handledByFtp, draggedItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+                draggedItems ??= new List<IStorageItemWithPath>();
 
                 var pwd = associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
                 var folderName = (Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd) ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
+
                 // As long as one file doesn't already belong to this folder
                 if (associatedInstance.InstanceViewModel.IsPageTypeSearchResults || (draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(associatedInstance.FilesystemViewModel.WorkingDirectory)))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
-                else if (!draggedItems.Any())
+                else if (handledByFtp)
                 {
                     if (pwd.StartsWith(App.AppSettings.RecycleBinPath))
                     {
@@ -546,6 +558,10 @@ namespace Files.Interacts
                         e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                 }
+                else if (!draggedItems.Any())
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                }
                 else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
@@ -553,6 +569,11 @@ namespace Files.Interacts
                     {
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Move;
+                    }
+                    else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
+                    {
+                        e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalized(), folderName);
+                        e.AcceptedOperation = DataPackageOperation.Link;
                     }
                     else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
                     {
@@ -563,6 +584,12 @@ namespace Files.Interacts
                     {
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Move;
+                    }
+                    else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
+                        || ZipStorageFolder.IsZipPath(pwd))
+                    {
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
+                        e.AcceptedOperation = DataPackageOperation.Copy;
                     }
                     else if (draggedItems.AreItemsInSameDrive(associatedInstance.FilesystemViewModel.WorkingDirectory))
                     {
@@ -580,11 +607,11 @@ namespace Files.Interacts
             deferral.Complete();
         }
 
-        public virtual async void Drop(DragEventArgs e)
+        public virtual async Task Drop(DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
                 e.Handled = true;
@@ -603,14 +630,14 @@ namespace Files.Interacts
             associatedInstance.SubmitSearch(associatedInstance.InstanceViewModel.CurrentSearchQuery, true);
         }
 
-        public void CreateFolderWithSelection(RoutedEventArgs e)
+        public async void CreateFolderWithSelection(RoutedEventArgs e)
         {
-            UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
+            await UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
         }
 
         public async void DecompressArchive()
         {
-            StorageFile archive = await StorageItemHelpers.ToStorageItem<StorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
+            BaseStorageFile archive = await StorageItemHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
 
             if (archive != null)
             {
@@ -629,21 +656,25 @@ namespace Files.Interacts
                     }
 
                     CancellationTokenSource extractCancellation = new CancellationTokenSource();
-                    PostedStatusBanner banner = App.StatusCenterViewModel.PostOperationBanner(
+                    PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
                         string.Empty,
-                        "Extracting archive",
+                        "ExtractingArchiveText".GetLocalized(),
                         0,
                         ReturnResult.InProgress,
                         FileOperationType.Extract,
                         extractCancellation);
 
-                    StorageFolder destinationFolder = decompressArchiveViewModel.DestinationFolder;
+                    BaseStorageFolder destinationFolder = decompressArchiveViewModel.DestinationFolder;
                     string destinationFolderPath = decompressArchiveViewModel.DestinationFolderPath;
 
                     if (destinationFolder == null)
                     {
-                        StorageFolder parentFolder = await StorageItemHelpers.ToStorageItem<StorageFolder>(Path.GetDirectoryName(archive.Path));
-                        destinationFolder = await parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName);
+                        BaseStorageFolder parentFolder = await StorageItemHelpers.ToStorageItem<BaseStorageFolder>(Path.GetDirectoryName(archive.Path));
+                        destinationFolder = await FilesystemTasks.Wrap(() => parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName).AsTask());
+                    }
+                    if (destinationFolder == null)
+                    {
+                        return; // Could not create dest folder
                     }
 
                     Stopwatch sw = new Stopwatch();
@@ -656,9 +687,9 @@ namespace Files.Interacts
 
                     if (sw.Elapsed.TotalSeconds >= 6)
                     {
-                        App.StatusCenterViewModel.PostBanner(
-                            "Extracting complete!",
-                            "The archive extraction completed successfully.",
+                        App.OngoingTasksViewModel.PostBanner(
+                            "ExtractingCompleteText".GetLocalized(),
+                            "ArchiveExtractionCompletedSuccessfullyText".GetLocalized(),
                             0,
                             ReturnResult.Success,
                             FileOperationType.Extract);
@@ -674,20 +705,19 @@ namespace Files.Interacts
 
         public async void DecompressArchiveHere()
         {
-            StorageFile archive = await StorageItemHelpers.ToStorageItem<StorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
-            StorageFolder currentFolder = await StorageItemHelpers.ToStorageItem<StorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
+            BaseStorageFile archive = await StorageItemHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
+            BaseStorageFolder currentFolder = await StorageItemHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 
             if (archive != null && currentFolder != null)
             {
                 CancellationTokenSource extractCancellation = new CancellationTokenSource();
-                PostedStatusBanner banner = App.StatusCenterViewModel.PostOperationBanner(
+                PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
                     string.Empty,
-                    "Extracting archive",
+                    "ExtractingArchiveText".GetLocalized(),
                     0,
                     ReturnResult.InProgress,
                     FileOperationType.Extract,
                     extractCancellation);
-
 
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
@@ -699,9 +729,9 @@ namespace Files.Interacts
 
                 if (sw.Elapsed.TotalSeconds >= 6)
                 {
-                    App.StatusCenterViewModel.PostBanner(
-                        "Extracting complete!",
-                        "The archive extraction completed successfully.",
+                    App.OngoingTasksViewModel.PostBanner(
+                        "ExtractingCompleteText".GetLocalized(),
+                        "ArchiveExtractionCompletedSuccessfullyText".GetLocalized(),
                         0,
                         ReturnResult.Success,
                         FileOperationType.Extract);
@@ -711,26 +741,25 @@ namespace Files.Interacts
 
         public async void DecompressArchiveToChildFolder()
         {
-            StorageFile archive = await StorageItemHelpers.ToStorageItem<StorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
-            StorageFolder currentFolder = await StorageItemHelpers.ToStorageItem<StorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
-            StorageFolder destinationFolder = null;
+            BaseStorageFile archive = await StorageItemHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
+            BaseStorageFolder currentFolder = await StorageItemHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
+            BaseStorageFolder destinationFolder = null;
 
             if (currentFolder != null)
             {
-                destinationFolder = await currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.OpenIfExists);
+                destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.OpenIfExists).AsTask());
             }
 
             if (archive != null && destinationFolder != null)
             {
                 CancellationTokenSource extractCancellation = new CancellationTokenSource();
-                PostedStatusBanner banner = App.StatusCenterViewModel.PostOperationBanner(
+                PostedStatusBanner banner = App.OngoingTasksViewModel.PostOperationBanner(
                     string.Empty,
-                    "Extracting archive",
+                    "ExtractingArchiveText".GetLocalized(),
                     0,
                     ReturnResult.InProgress,
                     FileOperationType.Extract,
                     extractCancellation);
-
 
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
@@ -742,9 +771,9 @@ namespace Files.Interacts
 
                 if (sw.Elapsed.TotalSeconds >= 6)
                 {
-                    App.StatusCenterViewModel.PostBanner(
-                        "Extracting complete!",
-                        "The archive extraction completed successfully.",
+                    App.OngoingTasksViewModel.PostBanner(
+                        "ExtractingCompleteText".GetLocalized(),
+                        "ArchiveExtractionCompletedSuccessfullyText".GetLocalized(),
                         0,
                         ReturnResult.Success,
                         FileOperationType.Extract);

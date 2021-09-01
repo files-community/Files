@@ -8,13 +8,13 @@
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vc="using:Files.Converters"
+    xmlns:vm="using:Files.ViewModels.Widgets.Bundles"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
 
     <UserControl.Resources>
         <!--  Converters  -->
-        <vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
     </UserControl.Resources>
 
@@ -60,7 +60,7 @@
                     <MenuFlyout>
                         <MenuFlyoutItem
                             x:Uid="BundlesWidgetOptionsFlyoutCreateBundleMenuItem"
-                            Command="{Binding OpenAddBundleDialogCommand, Mode=OneWay}"
+                            Command="{x:Bind ViewModel.OpenAddBundleDialogCommand, Mode=OneWay}"
                             Text="Create Bundle">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE710;" />
@@ -69,7 +69,7 @@
                         <MenuFlyoutSeparator />
                         <MenuFlyoutItem
                             x:Uid="BundlesWidgetOptionsFlyoutImportBundlesMenuItem"
-                            Command="{Binding ImportBundlesCommand, Mode=OneWay}"
+                            Command="{x:Bind ViewModel.ImportBundlesCommand, Mode=OneWay}"
                             Text="Import Bundles">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE8B6;" />
@@ -77,7 +77,7 @@
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Uid="BundlesWidgetOptionsFlyoutExportBundlesMenuItem"
-                            Command="{Binding ExportBundlesCommand, Mode=OneWay}"
+                            Command="{x:Bind ViewModel.ExportBundlesCommand, Mode=OneWay}"
                             Text="Export Bundles">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xEDE1;" />
@@ -95,7 +95,7 @@
             x:Load="{x:Bind ViewModel.NoBundlesAddItemLoad, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             AllowDrop="True"
             CanReorderItems="True"
-            ItemsSource="{Binding Items, Mode=OneWay}"
+            ItemsSource="{x:Bind ViewModel.Items}"
             ReorderMode="Enabled"
             SelectionMode="None">
 
@@ -120,7 +120,7 @@
 
             <!--  Container  -->
             <GridView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="vm:BundleContainerViewModel">
                     <Grid
                         Width="280"
                         Height="256"
@@ -131,11 +131,11 @@
                         <i:Interaction.Behaviors>
                             <!--  No need to specify CommandParameter - `e` is passed by default  -->
                             <icore:EventTriggerBehavior EventName="DragOver">
-                                <icore:InvokeCommandAction Command="{Binding DragOverCommand, Mode=OneWay}" />
+                                <icore:InvokeCommandAction Command="{x:Bind DragOverCommand}" />
                             </icore:EventTriggerBehavior>
                             <!--  No need to specify CommandParameter - `e` is passed by default  -->
                             <icore:EventTriggerBehavior EventName="Drop">
-                                <icore:InvokeCommandAction Command="{Binding DropCommand, Mode=OneWay}" />
+                                <icore:InvokeCommandAction Command="{x:Bind DropCommand}" />
                             </icore:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
 
@@ -177,7 +177,7 @@
                                         FontFamily="Segoe UI"
                                         FontWeight="SemiBold"
                                         Opacity="0.9"
-                                        Text="{Binding BundleName, Mode=OneWay}"
+                                        Text="{x:Bind BundleName, Mode=OneWay}"
                                         TextTrimming="CharacterEllipsis" />
                                 </Grid>
 
@@ -198,15 +198,39 @@
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
                                             <MenuFlyoutItem
                                                 x:Uid="BundleOptionsFlyoutRenameBundleMenuItem"
-                                                Command="{Binding RenameBundleCommand, Mode=OneWay}"
+                                                Command="{x:Bind RenameBundleCommand}"
                                                 Text="Rename Bundle">
                                                 <MenuFlyoutItem.Icon>
                                                     <FontIcon Glyph="&#xE8AC;" />
                                                 </MenuFlyoutItem.Icon>
                                             </MenuFlyoutItem>
+                                            <MenuFlyoutSubItem
+                                                x:Uid="BundleOptionsFlyoutAddItemMenuItem"
+                                                IsEnabled="{x:Bind IsAddItemOptionEnabled, Mode=OneWay}"
+                                                Text="Add item...">
+                                                <MenuFlyoutSubItem.Icon>
+                                                    <FontIcon Glyph="&#xE710;" />
+                                                </MenuFlyoutSubItem.Icon>
+                                                <MenuFlyoutItem
+                                                    x:Uid="BundleOptionsFlyoutAddFileMenuItem"
+                                                    Command="{x:Bind AddFileCommand}"
+                                                    Text="Add file">
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon Glyph="&#xE7C3;" />
+                                                    </MenuFlyoutItem.Icon>
+                                                </MenuFlyoutItem>
+                                                <MenuFlyoutItem
+                                                    x:Uid="BundleOptionsFlyoutAddFolderMenuItem"
+                                                    Command="{x:Bind AddFolderCommand}"
+                                                    Text="Add folder">
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon Glyph="&#xE8B7;" />
+                                                    </MenuFlyoutItem.Icon>
+                                                </MenuFlyoutItem>
+                                            </MenuFlyoutSubItem>
                                             <MenuFlyoutItem
                                                 x:Uid="BundleOptionsFlyoutRemoveBundleMenuItem"
-                                                Command="{Binding RemoveBundleCommand, Mode=OneWay}"
+                                                Command="{x:Bind RemoveBundleCommand}"
                                                 Text="Remove Bundle">
                                                 <MenuFlyoutItem.Icon>
                                                     <FontIcon Glyph="&#xE738;" />
@@ -226,18 +250,18 @@
                                 CanDragItems="True"
                                 CanReorderItems="True"
                                 IsItemClickEnabled="True"
-                                ItemsSource="{Binding Contents, Mode=OneWay}"
+                                ItemsSource="{x:Bind Contents}"
                                 ReorderMode="Enabled"
                                 SelectionMode="None">
 
                                 <i:Interaction.Behaviors>
                                     <!--  No need to specify CommandParameter - `e` is passed by default  -->
                                     <icore:EventTriggerBehavior EventName="DragItemsStarting">
-                                        <icore:InvokeCommandAction Command="{Binding DragItemsStartingCommand, Mode=OneWay}" />
+                                        <icore:InvokeCommandAction Command="{x:Bind DragItemsStartingCommand}" />
                                     </icore:EventTriggerBehavior>
                                     <!--  No need to specify CommandParameter - `e` is passed by default  -->
                                     <icore:EventTriggerBehavior EventName="ItemClick">
-                                        <icore:InvokeCommandAction Command="{Binding OpenItemCommand, Mode=OneWay}" />
+                                        <icore:InvokeCommandAction Command="{x:Bind OpenItemCommand}" />
                                     </icore:EventTriggerBehavior>
                                 </i:Interaction.Behaviors>
 
@@ -260,7 +284,7 @@
 
                                 <GridView.ItemTemplate>
                                     <!--  Bundle Item design  -->
-                                    <DataTemplate>
+                                    <DataTemplate x:DataType="vm:BundleItemViewModel">
                                         <Grid>
                                             <Border
                                                 Width="119"
@@ -284,7 +308,7 @@
                                                         Height="20"
                                                         HorizontalAlignment="Left"
                                                         VerticalAlignment="Center"
-                                                        Source="{Binding Icon, Mode=OneWay}" />
+                                                        Source="{x:Bind Icon, Mode=OneWay}" />
 
                                                     <!--  Bundle Item name  -->
                                                     <TextBlock
@@ -293,33 +317,35 @@
                                                         VerticalAlignment="Center"
                                                         FontSize="12"
                                                         MaxLines="1"
-                                                        Text="{Binding Name, Mode=OneWay}"
+                                                        Text="{x:Bind Name, Mode=OneWay}"
                                                         TextTrimming="CharacterEllipsis" />
                                                 </Grid>
 
                                                 <Border.ContextFlyout>
                                                     <MenuFlyout>
                                                         <MenuFlyoutItem
+                                                            x:Name="OpenInNewTab"
                                                             x:Uid="BundleItemFlyouOpenInNewTabMenuItem"
-                                                            Command="{Binding OpenInNewTabCommand, Mode=OneWay}"
-                                                            Text="Open in new tab"
-                                                            Visibility="{Binding OpenInNewTabVisibility, Mode=OneWay}">
+                                                            x:Load="{x:Bind OpenInNewTabLoad, Mode=OneWay}"
+                                                            Command="{x:Bind OpenInNewTabCommand}"
+                                                            Text="Open in new tab">
                                                             <MenuFlyoutItem.Icon>
                                                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
                                                             </MenuFlyoutItem.Icon>
                                                         </MenuFlyoutItem>
                                                         <MenuFlyoutItem
+                                                            x:Name="OpenInNewPane"
                                                             x:Uid="BundlesOpenInNewPane"
-                                                            Command="{Binding OpenInNewPaneCommand, Mode=OneWay}"
-                                                            Text="Open in new Pane"
-                                                            Visibility="{Binding OpenInNewPaneVisibility, Mode=OneWay}">
+                                                            x:Load="{x:Bind OpenInNewPaneLoad, Mode=OneWay}"
+                                                            Command="{x:Bind OpenInNewPaneCommand}"
+                                                            Text="Open in new Pane">
                                                             <MenuFlyoutItem.Icon>
                                                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
                                                             </MenuFlyoutItem.Icon>
                                                         </MenuFlyoutItem>
                                                         <MenuFlyoutItem
                                                             x:Uid="BundleItemFlyouOpenItemLocationMenuItem"
-                                                            Command="{Binding OpenItemLocationCommand, Mode=OneWay}"
+                                                            Command="{x:Bind OpenItemLocationCommand}"
                                                             Text="Open item location">
                                                             <MenuFlyoutItem.Icon>
                                                                 <FontIcon Glyph="&#xED25;" />
@@ -328,7 +354,7 @@
                                                         <MenuFlyoutSeparator />
                                                         <MenuFlyoutItem
                                                             x:Uid="BundleItemFlyouRemoveFromBundleMenuItem"
-                                                            Command="{Binding RemoveItemCommand, Mode=OneWay}"
+                                                            Command="{x:Bind RemoveItemCommand}"
                                                             Text="Remove from bundle">
                                                             <MenuFlyoutItem.Icon>
                                                                 <FontIcon Glyph="&#xE738;" />
@@ -338,7 +364,7 @@
                                                 </Border.ContextFlyout>
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{Binding Path, Mode=OneWay}" />
+                                                    <ToolTip Content="{x:Bind Path, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </Border>
                                         </Grid>
@@ -348,11 +374,12 @@
 
                             <!--  No Bundle contents text info  -->
                             <Grid
+                                x:Name="NoContentsInformation"
                                 Grid.Row="2"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                RowSpacing="5"
-                                Visibility="{Binding NoBundleContentsTextVisibility, Mode=OneWay}">
+                                x:Load="{x:Bind NoBundleContentsTextLoad, Mode=OneWay}"
+                                RowSpacing="5">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
@@ -442,11 +469,11 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     PlaceholderText="Enter Bundle name"
-                                    Text="{Binding BundleNameTextInput, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    Text="{x:Bind ViewModel.BundleNameTextInput, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <i:Interaction.Behaviors>
                                         <!--  No need to specify CommandParameter - `e` is passed by default  -->
                                         <icore:EventTriggerBehavior EventName="KeyDown">
-                                            <icore:InvokeCommandAction Command="{Binding InputTextKeyDownCommand, Mode=OneWay}" />
+                                            <icore:InvokeCommandAction Command="{x:Bind ViewModel.InputTextKeyDownCommand}" />
                                         </icore:EventTriggerBehavior>
                                     </i:Interaction.Behaviors>
                                 </TextBox>
@@ -464,7 +491,7 @@
                                         VerticalAlignment="Center"
                                         FontFamily="Segoe UI"
                                         FontSize="12"
-                                        Text="{Binding AddBundleErrorText, Mode=OneWay}"
+                                        Text="{x:Bind ViewModel.AddBundleErrorText, Mode=OneWay}"
                                         TextWrapping="Wrap" />
 
                                     <!--  Confirmation Button  -->
@@ -475,7 +502,7 @@
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
-                                        Command="{Binding AddBundleCommand, Mode=OneWay}"
+                                        Command="{x:Bind ViewModel.AddBundleCommand}"
                                         Content="Confirm" />
                                 </Grid>
                             </Grid>

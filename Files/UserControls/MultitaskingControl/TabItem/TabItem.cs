@@ -78,10 +78,11 @@ namespace Files.UserControls.MultitaskingControl
 
     public class TabItemArguments
     {
-        static KnownTypesBinder TypesBinder = new KnownTypesBinder
+        private static KnownTypesBinder TypesBinder = new KnownTypesBinder
         {
             KnownTypes = new List<Type> { typeof(PaneNavigationArguments) }
         };
+
         public Type InitialPageType { get; set; }
         public object NavigationArg { get; set; }
 

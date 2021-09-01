@@ -1,7 +1,9 @@
 ﻿using Files.Enums;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.ViewModels;
 using Files.ViewModels.Widgets;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -32,6 +34,8 @@ namespace Files.UserControls.Widgets
 
         public string WidgetName => nameof(RecentFilesWidget);
 
+        public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalized();
+
         public bool IsWidgetSettingEnabled => App.AppSettings.ShowRecentFilesWidget;
 
         public RecentFilesWidget()
@@ -40,14 +44,7 @@ namespace Files.UserControls.Widgets
 
             recentItemsCollection.Clear();
 
-            try
-            {
-                PopulateRecentsList();
-            }
-            catch (Exception ex)
-            {
-                App.Logger.Info(ex, "Could not fetch recent items");
-            }
+            PopulateRecentsList();
         }
 
         private void OpenFileLocation_Click(object sender, RoutedEventArgs e)
@@ -68,37 +65,44 @@ namespace Files.UserControls.Widgets
 
         private async void PopulateRecentsList()
         {
-            var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
-
             Empty.Visibility = Visibility.Collapsed;
 
-            foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
+            try
             {
-                string mruToken = entry.Token;
-                var added = await FilesystemTasks.Wrap(async () =>
+                var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
+
+                foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
                 {
-                    IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
-                    await AddItemToRecentListAsync(item, entry);
-                });
-                if (added == FileSystemStatusCode.Unauthorized)
-                {
-                    // Skip item until consent is provided
-                }
-                // Exceptions include but are not limited to:
-                // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
-                // 0x8007016A -> The cloud file provider is not running
-                // 0x8000000A -> The data necessary to complete this operation is not yet available
-                // 0x80004005 -> Unspecified error
-                // 0x80270301 -> ?
-                else if (!added)
-                {
-                    await FilesystemTasks.Wrap(() =>
+                    string mruToken = entry.Token;
+                    var added = await FilesystemTasks.Wrap(async () =>
                     {
-                        mostRecentlyUsed.Remove(mruToken);
-                        return Task.CompletedTask;
+                        IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
+                        await AddItemToRecentListAsync(item, entry);
                     });
-                    System.Diagnostics.Debug.WriteLine(added.ErrorCode);
+                    if (added == FileSystemStatusCode.Unauthorized)
+                    {
+                        // Skip item until consent is provided
+                    }
+                    // Exceptions include but are not limited to:
+                    // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
+                    // 0x8007016A -> The cloud file provider is not running
+                    // 0x8000000A -> The data necessary to complete this operation is not yet available
+                    // 0x80004005 -> Unspecified error
+                    // 0x80270301 -> ?
+                    else if (!added)
+                    {
+                        await FilesystemTasks.Wrap(() =>
+                        {
+                            mostRecentlyUsed.Remove(mruToken);
+                            return Task.CompletedTask;
+                        });
+                        System.Diagnostics.Debug.WriteLine(added.ErrorCode);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                App.Logger.Info(ex, "Could not fetch recent items");
             }
 
             if (recentItemsCollection.Count == 0)
@@ -107,7 +111,7 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private async Task AddItemToRecentListAsync(IStorageItem item, Windows.Storage.AccessCache.AccessListEntry entry)
+        private async Task AddItemToRecentListAsync(IStorageItem item, AccessListEntry entry)
         {
             BitmapImage ItemImage;
             string ItemPath;
@@ -122,7 +126,7 @@ namespace Files.UserControls.Widgets
                 // This is only needed to remove files opened from a disconnected android/MTP phone
                 if (string.IsNullOrEmpty(item.Path)) // This indicates that the file was open from an MTP device
                 {
-                    using (var inputStream = await ((StorageFile)item).OpenReadAsync())
+                    using (var inputStream = await item.AsBaseStorageFile().OpenReadAsync())
                     using (var classicStream = inputStream.AsStreamForRead())
                     using (var streamReader = new StreamReader(classicStream))
                     {
@@ -135,7 +139,7 @@ namespace Files.UserControls.Widgets
                 ItemPath = string.IsNullOrEmpty(item.Path) ? entry.Metadata : item.Path;
                 ItemType = StorageItemTypes.File;
                 ItemImage = new BitmapImage();
-                StorageFile file = (StorageFile)item;
+                BaseStorageFile file = item.AsBaseStorageFile();
                 using var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
                 if (thumbnail == null)
                 {

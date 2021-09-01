@@ -5,6 +5,7 @@ namespace Files.ViewModels.SettingsViewModels
     public class MultitaskingViewModel : ObservableObject
     {
         private bool isVerticalTabFlyoutEnabled = App.AppSettings.IsVerticalTabFlyoutEnabled;
+
         public bool IsVerticalTabFlyoutEnabled
         {
             get

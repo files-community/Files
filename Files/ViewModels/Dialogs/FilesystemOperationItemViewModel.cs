@@ -8,7 +8,6 @@ using System.Windows.Input;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels.Dialogs
 {
@@ -47,6 +46,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool isConflict;
+
         public bool IsConflict
         {
             get => isConflict;
@@ -54,6 +54,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private ImageSource _ItemIcon;
+
         public ImageSource ItemIcon
         {
             get => _ItemIcon;
@@ -71,9 +72,12 @@ namespace Files.ViewModels.Dialogs
             get => System.IO.Path.GetFileName(System.IO.Path.GetDirectoryName(DestinationPath));
         }
 
+        private string displayFileName;
+
         public string DisplayFileName
         {
-            get => string.IsNullOrEmpty(DestinationPath) ? System.IO.Path.GetFileName(SourcePath) : System.IO.Path.GetFileName(DestinationPath);
+            get => displayFileName ?? (string.IsNullOrEmpty(DestinationPath) ? System.IO.Path.GetFileName(SourcePath) : System.IO.Path.GetFileName(DestinationPath));
+            set => displayFileName = value;
         }
 
         public string TakenActionText
@@ -114,6 +118,7 @@ namespace Files.ViewModels.Dialogs
         public FileNameConflictResolveOptionType ConflictResolveOption { get; set; }
 
         private bool actionTaken = false;
+
         public bool ActionTaken
         {
             get => actionTaken;

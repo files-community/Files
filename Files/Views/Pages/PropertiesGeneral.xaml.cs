@@ -34,6 +34,8 @@ namespace Files.Views
                 ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
+                    var remDrive = new System.Text.RegularExpressions.Regex(@"\s*\(\w:\)$");
+                    ViewModel.ItemName = remDrive.Replace(ViewModel.ItemName, ""); // Remove "(C:)" from the new label
                     var connection = await AppServiceConnectionHelper.Instance;
                     if (connection != null && AppInstance.FilesystemViewModel != null)
                     {

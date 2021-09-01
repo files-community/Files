@@ -11,6 +11,8 @@ Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Files.Package", "Files.Pack
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{0533133F-2559-4B53-A0FD-0970BC0E312E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundTasks", "BackgroundTasks\BackgroundTasks.csproj", "{3D19293F-0E3A-4946-ADE3-680A1E9123EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -122,6 +124,26 @@ Global
 		{0533133F-2559-4B53-A0FD-0970BC0E312E}.Release|x64.Build.0 = Release|Any CPU
 		{0533133F-2559-4B53-A0FD-0970BC0E312E}.Release|x86.ActiveCfg = Release|Any CPU
 		{0533133F-2559-4B53-A0FD-0970BC0E312E}.Release|x86.Build.0 = Release|Any CPU
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Debug|ARM.ActiveCfg = Debug|ARM
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Debug|ARM.Build.0 = Debug|ARM
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Debug|ARM64.Build.0 = Debug|ARM64
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Debug|x64.ActiveCfg = Debug|x64
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Debug|x64.Build.0 = Debug|x64
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Debug|x86.ActiveCfg = Debug|x86
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Debug|x86.Build.0 = Debug|x86
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Release|ARM.ActiveCfg = Release|ARM
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Release|ARM.Build.0 = Release|ARM
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Release|ARM64.ActiveCfg = Release|ARM64
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Release|ARM64.Build.0 = Release|ARM64
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Release|x64.ActiveCfg = Release|x64
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Release|x64.Build.0 = Release|x64
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Release|x86.ActiveCfg = Release|x86
+		{3D19293F-0E3A-4946-ADE3-680A1E9123EC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

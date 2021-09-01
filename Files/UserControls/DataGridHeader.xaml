@@ -42,7 +42,13 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Style="{ThemeResource NavigationViewItemHeaderTextStyle}" Text="{x:Bind Header, Mode=OneWay}" />
+                <TextBlock
+                    x:Name="HeaderTextBlock"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="{x:Bind HorizontalContentAlignment}"
+                    Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
+                    Text="{x:Bind Header, Mode=OneWay}"
+                    TextTrimming="CharacterEllipsis" />
                 <FontIcon
                     x:Name="SortIcon"
                     Grid.Column="1"
@@ -67,6 +73,7 @@
                 <VisualState x:Name="SortAscending">
                     <VisualState.Setters>
                         <Setter Target="SortIcon.Visibility" Value="Visible" />
+                        <Setter Target="HeaderTextBlock.(Grid.ColumnSpan)" Value="1" />
                     </VisualState.Setters>
                     <Storyboard>
                         <DoubleAnimation
@@ -79,6 +86,7 @@
                 <VisualState x:Name="SortDescending">
                     <VisualState.Setters>
                         <Setter Target="SortIcon.Visibility" Value="Visible" />
+                        <Setter Target="HeaderTextBlock.(Grid.ColumnSpan)" Value="1" />
                     </VisualState.Setters>
                     <Storyboard>
                         <DoubleAnimation

@@ -1,0 +1,64 @@
+name: Feature Request
+description: This project thrives from differentiation from competing apps. Suggest an idea for Files
+labels: [feature_request]
+body:
+  - type: input
+    attributes:
+      label: What's the Problem?
+      description: If your feature request is related to a problem, describe it clearly.
+  - type: textarea
+    attributes:
+      label: Solution/Idea
+      description: Describe your solution/idea.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Alternatives
+      description: Describe alternatives you've considered
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ---
+
+        Please include a list of what the feature should and shouldn't do by filling in the table below.
+
+        'Must' implies that the feature should not ship without this capability.
+        'Should' is something we should push hard for, but is not absolutely required to ship.
+        'Could' is a nice-to-have; a good stretch goal that isn't painful if we don't achieve it.
+        'Won't' is a clear statement that the proposal/feature will intentionally not have that capability.
+
+        This list will evolve and grow as the proposal becomes more refined over time.
+        A good rule of thumb is to start your proposal with no more than 7 high-level requirements.
+  - type: textarea
+    attributes:
+      label: Priorities
+      description: describe all the elements of your idea and how important they are.
+      value: |
+        | Capability | Priority |
+        | :---------- | :------- |
+        | This proposal will allow developers to accomplish W | Must |
+        | This proposal will allow end users to accomplish X | Should |
+        | This proposal will allow developers to accomplish Y | Could |
+        | This proposal will allow end users to accomplish Z | Won't |
+  - type: input
+    id: files-version
+    attributes:
+      label: Files Version
+      description: What version of Files are you using?
+      placeholder: v1.5
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Windows Version
+      description: What version of Windows are you using? Press <kbd>Win</kbd> + <kbd>Pause/Break</kbd> and copy.
+      placeholder: e.g. Windows 10 20H2 19042.804
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional comment
+      description: Add any other comment or screenshots about the feature request here. What device type/UI layout and app version?
