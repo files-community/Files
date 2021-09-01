@@ -208,7 +208,7 @@
             <SemanticZoom.ZoomedInView>
                 <ListView
                     x:Name="FileList"
-                    Margin="0,4,0,0"
+                    Margin="0,2,0,2"
                     Padding="8,0,8,12"
                     HorizontalAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
@@ -242,7 +242,7 @@
                     <ListView.Header>
                         <Grid
                             x:Name="HeaderGrid"
-                            Height="38"
+                            Height="36"
                             Margin="0"
                             Padding="0"
                             Background="{ThemeResource FileBrowserHeaderBackgroundBrush}"
