@@ -243,10 +243,10 @@
                         <Grid
                             x:Name="HeaderGrid"
                             Height="38"
-                            Margin="16,0,0,0"
+                            Margin="0"
                             Padding="0"
                             Background="{ThemeResource FileBrowserHeaderBackgroundBrush}"
-                            BorderBrush="{ThemeResource SystemChromeHighColor}"
+                            BorderBrush="{ThemeResource ControlStrokeColorDefault}"
                             BorderThickness="0,0,0,1"
                             PointerPressed="Grid_PointerPressed">
                             <Grid.ContextFlyout>
