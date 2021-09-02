@@ -136,7 +136,7 @@ namespace Files.Helpers
 
             string copySourcePath = associatedInstance.FilesystemViewModel.WorkingDirectory;
             FilesystemResult result = (FilesystemResult)false;
-            
+
             var canFlush = true;
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {

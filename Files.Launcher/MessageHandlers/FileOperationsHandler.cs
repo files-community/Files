@@ -158,7 +158,7 @@ namespace FilesFullTrust.MessageHandlers
                                 var shellOperationResult = new ShellOperationResult();
 
                                 using var shd = new ShellFolder(Path.GetDirectoryName(filePath));
-                                op.QueueNewItemOperation(shd, Path.GetFileName(filePath), 
+                                op.QueueNewItemOperation(shd, Path.GetFileName(filePath),
                                     (string)message["fileop"] == "CreateFolder" ? FileAttributes.Directory : FileAttributes.Normal, template);
 
                                 var createTcs = new TaskCompletionSource<bool>();

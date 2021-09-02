@@ -2370,25 +2370,25 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Idioma</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Mostrar las extensiones de archivo para tipos de archivo conocidos</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Mostrar todos los archivos y carpetas ocultos</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Ocultar archivos protegidos del sistema operativo (recomendado)</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick.Title" xml:space="preserve">
+  <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
     <value>Abrir elementos con un solo clic</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Title" xml:space="preserve">
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Mostrar y ordenar directorios junto con archivos</value>
   </data>
-  <data name="SettingsSearchUnindexedItems.Title" xml:space="preserve">
+  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Mostrar elementos no indexados al buscar archivos y carpetas (las búsquedas pueden tardar más)</value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Title" xml:space="preserve">
+  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>Habilitar preferencias individuales para directorios individuales</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">

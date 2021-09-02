@@ -22,7 +22,6 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
@@ -743,7 +742,7 @@ namespace Files.Views
                     break;
 
                 case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
-                    await Launcher.LaunchUriAsync(new Uri(@"https://files-community.github.io/docs"));
+                    await Launcher.LaunchUriAsync(new Uri(@"https://files.community/docs"));
                     break;
 
                 case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
@@ -1101,7 +1100,7 @@ namespace Files.Views
         {
             ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
         }
-        
+
         public void RaiseContentChanged(IShellPage instance, TabItemArguments args)
         {
             ContentChanged?.Invoke(instance, args);

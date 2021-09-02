@@ -333,11 +333,11 @@
                         HorizontalContentAlignment="Stretch"
                         x:Load="False"
                         Loaded="NavToolbar_Loaded"
+                        OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
                         SettingsButtonCommand="{x:Bind MainViewModel.OpenSettingsCommand}"
+                        ShowOngoingTasks="True"
                         ShowSearchBox="True"
                         ShowSettingsButton="{x:Bind IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-                        ShowOngoingTasks="True"
-                        OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
                         TabIndex="1" />
                 </Grid>
             </controls:SidebarControl.TabContent>

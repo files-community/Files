@@ -1176,7 +1176,7 @@ namespace Files.ViewModels
                 ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
                 IsLoadingItems = false;
 
-                if(!DisableAdaptiveLayout)
+                if (!DisableAdaptiveLayout)
                 {
                     AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
                 }
@@ -1715,7 +1715,7 @@ namespace Files.ViewModels
                 byte[] buff = new byte[4096];
                 var rand = Guid.NewGuid();
                 buff = new byte[4096];
-                int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME;
+                int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE;
 
                 if (syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown)
                 {
@@ -2028,9 +2028,24 @@ namespace Files.ViewModels
             if (storageItem != null)
             {
                 var syncStatus = await CheckCloudDriveSyncStatusAsync(storageItem);
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                 {
                     item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+
+                    if (storageItem.IsOfType(StorageItemTypes.File))
+                    {
+                        var properties = await storageItem.AsBaseStorageFile().GetBasicPropertiesAsync();
+                        item.FileSizeBytes = (long)properties.Size;
+                        item.FileSize = ByteSizeLib.ByteSize.FromBytes(item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
+                        item.ItemDateModifiedReal = properties.DateModified;
+                        item.ItemDateCreatedReal = properties.ItemDate;
+                    }
+                    else if (storageItem.IsOfType(StorageItemTypes.Folder))
+                    {
+                        var properties = await storageItem.AsBaseStorageFolder().GetBasicPropertiesAsync();
+                        item.ItemDateModifiedReal = properties.DateModified;
+                        item.ItemDateCreatedReal = properties.ItemDate;
+                    }
                 });
             }
         }

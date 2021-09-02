@@ -190,11 +190,11 @@
           <source>Appearance</source>
           <target state="translated" state-qualifier="tm-suggestion">Appearance</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
           <target state="translated">Show extensions for known file types</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
           <target state="translated" state-qualifier="tm-suggestion">Show hidden files and folders</target>
         </trans-unit>
@@ -1586,7 +1586,7 @@
           <source>Select</source>
           <target state="translated" state-qualifier="tm-suggestion">Select</target>
         </trans-unit>
-        <trans-unit id="SettingsOpenItemsWithOneclick.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsOpenItemsWithOneclick" translate="yes" xml:space="preserve">
           <source>Open items with a single click</source>
           <target state="translated">Open items with a single click</target>
         </trans-unit>
@@ -1706,7 +1706,7 @@
           <source>Support us on PayPal</source>
           <target state="translated">Support us on PayPal</target>
         </trans-unit>
-        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
           <target state="translated">List and sort directories alongside files</target>
         </trans-unit>
@@ -1730,15 +1730,15 @@
           <source>Updates Available</source>
           <target state="translated" state-qualifier="tm-suggestion">Updates Available</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsFilesAndFoldersHideSystemItems" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
           <target state="translated" state-qualifier="tm-suggestion">Hide protected operating system files (Recommended)</target>
         </trans-unit>
-        <trans-unit id="SettingsSearchUnindexedItems.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsSearchUnindexedItems" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
           <target state="translated">Show unindexed items when searching for files and folders (searches may take longer)</target>
         </trans-unit>
-        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
           <target state="translated">Enable individual preferences for individual directories</target>
         </trans-unit>

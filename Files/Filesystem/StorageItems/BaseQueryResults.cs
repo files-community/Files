@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Search;
@@ -47,7 +45,7 @@ namespace Files.Filesystem.StorageItems
                         {
                             if (colonSplit[0] == "System.FileName" || colonSplit[0] == "fileName" || colonSplit[0] == "name")
                             {
-                                items = items.Where(x => Regex.IsMatch(x.Name, colonSplit[1].Replace("\"","").Replace("*", "(.*?)"), RegexOptions.IgnoreCase)).ToList();
+                                items = items.Where(x => Regex.IsMatch(x.Name, colonSplit[1].Replace("\"", "").Replace("*", "(.*?)"), RegexOptions.IgnoreCase)).ToList();
                             }
                         }
                         else
