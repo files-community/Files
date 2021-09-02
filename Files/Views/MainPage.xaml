@@ -15,7 +15,7 @@
     xmlns:usercontrols="using:Files.UserControls.MultitaskingControl"
     xmlns:viewmodels="using:Files.ViewModels"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"
-    Background="{ThemeResource RootBackgroundBrush}"
+    Background="Transparent"
     KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
     NavigationCacheMode="Required"
@@ -200,7 +200,7 @@
         </KeyboardAccelerator>
     </Page.KeyboardAccelerators>
 
-    <Border>
+    <Border Background="{ThemeResource RootBackgroundBrush}">
         <controls:SidebarControl
             x:Name="SidebarControl"
             Grid.Column="0"

@@ -126,7 +126,7 @@ namespace Files.UserControls.Widgets
                 // This is only needed to remove files opened from a disconnected android/MTP phone
                 if (string.IsNullOrEmpty(item.Path)) // This indicates that the file was open from an MTP device
                 {
-                    using (var inputStream = await ((BaseStorageFile)item).OpenReadAsync())
+                    using (var inputStream = await item.AsBaseStorageFile().OpenReadAsync())
                     using (var classicStream = inputStream.AsStreamForRead())
                     using (var streamReader = new StreamReader(classicStream))
                     {
@@ -139,7 +139,7 @@ namespace Files.UserControls.Widgets
                 ItemPath = string.IsNullOrEmpty(item.Path) ? entry.Metadata : item.Path;
                 ItemType = StorageItemTypes.File;
                 ItemImage = new BitmapImage();
-                BaseStorageFile file = (BaseStorageFile)item;
+                BaseStorageFile file = item.AsBaseStorageFile();
                 using var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
                 if (thumbnail == null)
                 {
