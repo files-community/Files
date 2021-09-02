@@ -71,14 +71,14 @@ namespace Files.Helpers
 
             async Task GetFile()
             {
-                if (associatedInstance == null)
+                if (associatedInstance == null || associatedInstance.FilesystemViewModel == null)
                 {
                     var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
                     file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path, rootItem));
                 }
                 else
                 {
-                    file = await associatedInstance?.FilesystemViewModel?.GetFileFromPathAsync(path);
+                    file = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(path);
                 }
             }
 

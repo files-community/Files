@@ -132,9 +132,9 @@ namespace Files.Filesystem.StorageItems
 
         public override DateTimeOffset DateCreated => File.DateCreated;
 
-        public override string Name => File.Name;
+        public override string Name => File?.Name;
 
-        public override string Path => File.Path;
+        public override string Path => File?.Path;
 
         public override IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync()
         {
@@ -188,13 +188,13 @@ namespace Files.Filesystem.StorageItems
             });
         }
 
-        public override string DisplayName => File.DisplayName;
+        public override string DisplayName => File?.DisplayName;
 
-        public override string DisplayType => File.DisplayType;
+        public override string DisplayType => File?.DisplayType;
 
-        public override string FolderRelativeId => File.FolderRelativeId;
+        public override string FolderRelativeId => File?.FolderRelativeId;
 
-        public override IStorageItemExtraProperties Properties => File.Properties;
+        public override IStorageItemExtraProperties Properties => File?.Properties;
 
         private class SystemFileBasicProperties : BaseBasicProperties
         {
