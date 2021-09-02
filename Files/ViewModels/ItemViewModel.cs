@@ -2020,7 +2020,7 @@ namespace Files.ViewModels
             await AddFileOrFolderAsync(listedItem);
         }
 
-        private async Task<(ListedItem Item, CloudDriveSyncStatusUI SyncUI, long? Size, DateTimeOffset Created, DateTimeOffset Modified)?> GetFileOrFolderUpdateInfoAsync(ListedItem item, bool hasSyncStatus = false)
+        private async Task<(ListedItem Item, CloudDriveSyncStatusUI SyncUI, long? Size, DateTimeOffset Created, DateTimeOffset Modified)?> GetFileOrFolderUpdateInfoAsync(ListedItem item, bool hasSyncStatus)
         {
             IStorageItem storageItem = null;
             if (item.PrimaryItemAttribute == StorageItemTypes.File)
@@ -2057,7 +2057,7 @@ namespace Files.ViewModels
             return null;
         }
 
-        private async Task UpdateFilesOrFoldersAsync(IEnumerable<string> paths, bool hasSyncStatus = false)
+        private async Task UpdateFilesOrFoldersAsync(IEnumerable<string> paths, bool hasSyncStatus)
         {
             try
             {
