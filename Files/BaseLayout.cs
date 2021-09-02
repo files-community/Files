@@ -343,15 +343,15 @@ namespace Files
 
         public virtual void ResetItemOpacity()
         {
-            IEnumerable<ListedItem> items = GetAllItems();
+            List<ListedItem> items = GetAllItems().ToList();
             if (items == null)
             {
                 return;
             }
 
-            for (int i = 0; i < items.Count(); i++)
+            for (int i = 0; i < items.Count; i++)
             {
-                ListedItem item = items.ElementAt(i);
+                ListedItem item = items[i];
                 if (item == null)
                 {
                     continue;
