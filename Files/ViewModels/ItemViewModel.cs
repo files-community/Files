@@ -2020,7 +2020,7 @@ namespace Files.ViewModels
             await AddFileOrFolderAsync(listedItem);
         }
 
-        private async Task<(ListedItem Item, CloudDriveSyncStatusUI SyncUI, long? Size, DateTimeOffset Created, DateTimeOffset Modified)?> UpdateFileOrFolderAsync(ListedItem item, bool hasSyncStatus = false)
+        private async Task<(ListedItem Item, CloudDriveSyncStatusUI SyncUI, long? Size, DateTimeOffset Created, DateTimeOffset Modified)?> GetFileOrFolderUpdateInfoAsync(ListedItem item, bool hasSyncStatus = false)
         {
             IStorageItem storageItem = null;
             if (item.PrimaryItemAttribute == StorageItemTypes.File)
@@ -2071,7 +2071,7 @@ namespace Files.ViewModels
             try
             {
                 var matchingItems = filesAndFolders.Where(x => paths.Any(p => p.Equals(x.ItemPath, StringComparison.OrdinalIgnoreCase)));
-                var results = await Task.WhenAll(matchingItems.Select(x => UpdateFileOrFolderAsync(x, hasSyncStatus)));
+                var results = await Task.WhenAll(matchingItems.Select(x => GetFileOrFolderUpdateInfoAsync(x, hasSyncStatus)));
 
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                 {
