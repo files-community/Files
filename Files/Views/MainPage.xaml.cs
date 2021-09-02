@@ -357,7 +357,7 @@ namespace Files.Views
         /// </summary>
         private void UpdatePositioning()
         {
-            if (!LoadPreviewPane || PreviewPaneDropShadowPanel is null || PreviewPane is null)
+            if (!LoadPreviewPane || PreviewPane is null || PreviewPane is null)
             {
                 PreviewPaneRow.MinHeight = 0;
                 PreviewPaneRow.Height = new GridLength(0);
@@ -366,12 +366,8 @@ namespace Files.Views
             }
             else if (RootGrid.ActualWidth > 700)
             {
-                PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 1);
-                PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 2);
-
-                PreviewPaneDropShadowPanel.OffsetX = -2;
-                PreviewPaneDropShadowPanel.OffsetY = 0;
-                PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
+                PreviewPane.SetValue(Grid.RowProperty, 1);
+                PreviewPane.SetValue(Grid.ColumnProperty, 2);
 
                 PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 1);
                 PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 1);
@@ -392,12 +388,8 @@ namespace Files.Views
                 PreviewPaneColumn.MinWidth = 0;
                 PreviewPaneColumn.Width = new GridLength(0);
 
-                PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 3);
-                PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 0);
-
-                PreviewPaneDropShadowPanel.OffsetX = 0;
-                PreviewPaneDropShadowPanel.OffsetY = -2;
-                PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
+                PreviewPane.SetValue(Grid.RowProperty, 3);
+                PreviewPane.SetValue(Grid.ColumnProperty, 0);
 
                 PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 2);
                 PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 0);
