@@ -1714,8 +1714,10 @@ namespace Files.ViewModels
                 return;
             }
 
+            var hasSyncStatus = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown;
+
             var cts = new CancellationTokenSource();
-            _ = Windows.System.Threading.ThreadPool.RunAsync((x) => ProcessOperationQueue(cts.Token));
+            _ = Windows.System.Threading.ThreadPool.RunAsync((x) => ProcessOperationQueue(cts.Token, hasSyncStatus));
 
             aWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
             {
@@ -1724,7 +1726,7 @@ namespace Files.ViewModels
                 buff = new byte[4096];
                 int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE;
 
-                if (syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown)
+                if (hasSyncStatus)
                 {
                     notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
                 }
@@ -1804,7 +1806,7 @@ namespace Files.ViewModels
             Debug.WriteLine("Task exiting...");
         }
 
-        private async void ProcessOperationQueue(CancellationToken cancellationToken)
+        private async void ProcessOperationQueue(CancellationToken cancellationToken, bool hasSyncStatus)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
@@ -1816,6 +1818,7 @@ namespace Files.ViewModels
             const uint FILE_ACTION_RENAMED_NEW_NAME = 0x00000005;
 
             var sampler = new IntervalSampler(200);
+            var updateList = new HashSet<string>();
             bool anyEdits = false;
 
             try
@@ -1825,6 +1828,8 @@ namespace Files.ViewModels
                     if (operationEvent.Wait(200, cancellationToken))
                     {
                         operationEvent.Reset();
+
+                    processQueue:
                         while (operationQueue.TryDequeue(out var operation))
                         {
                             if (cancellationToken.IsCancellationRequested) break;
@@ -1839,7 +1844,7 @@ namespace Files.ViewModels
                                         break;
 
                                     case FILE_ACTION_MODIFIED:
-                                        await UpdateFileOrFolderAsync(operation.FileName);
+                                        updateList.Add(operation.FileName);
                                         break;
 
                                     case FILE_ACTION_REMOVED:
@@ -1861,9 +1866,20 @@ namespace Files.ViewModels
                                 anyEdits = false;
                             }
                         }
+
+                        foreach (var entry in updateList.ToList())
+                        {
+                            await UpdateFileOrFolderAsync(entry, hasSyncStatus);
+                            updateList.Remove(entry);
+
+                            if (sampler.CheckNow() && operationQueue.Any(i => i.Action != FILE_ACTION_MODIFIED))
+                            {
+                                goto processQueue;
+                            }
+                        }
                     }
 
-                    if (anyEdits && sampler.CheckNow())
+                    if (anyEdits)
                     {
                         await OrderFilesAndFoldersAsync();
                         await ApplyFilesAndFoldersChangesAsync();
@@ -1959,6 +1975,11 @@ namespace Files.ViewModels
 
         private async Task AddFileOrFolderAsync(ListedItem item)
         {
+            if (item == null)
+            {
+                return;
+            }
+
             try
             {
                 await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
@@ -1968,17 +1989,8 @@ namespace Files.ViewModels
                 return;
             }
 
-            try
-            {
-                if (item != null)
-                {
-                    filesAndFolders.Add(item);
-                }
-            }
-            finally
-            {
-                enumFolderSemaphore.Release();
-            }
+            filesAndFolders.Add(item);
+            enumFolderSemaphore.Release();
         }
 
         private async Task AddFileOrFolderAsync(string fileOrFolderPath, string dateReturnFormat)
@@ -2015,13 +2027,10 @@ namespace Files.ViewModels
                 listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat, Connection, addFilesCTS.Token);
             }
 
-            if (listedItem != null)
-            {
-                filesAndFolders.Add(listedItem);
-            }
+            await AddFileOrFolderAsync(listedItem);
         }
 
-        private async Task UpdateFileOrFolderAsync(ListedItem item)
+        private async Task UpdateFileOrFolderAsync(ListedItem item, bool hasSyncStatus = false)
         {
             IStorageItem storageItem = null;
             if (item.PrimaryItemAttribute == StorageItemTypes.File)
@@ -2034,10 +2043,13 @@ namespace Files.ViewModels
             }
             if (storageItem != null)
             {
-                var syncStatus = await CheckCloudDriveSyncStatusAsync(storageItem);
+                var syncStatus = hasSyncStatus ? await CheckCloudDriveSyncStatusAsync(storageItem) : CloudDriveSyncStatus.NotSynced;
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                 {
-                    item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                    if (hasSyncStatus)
+                    {
+                        item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                    }
 
                     if (storageItem.IsOfType(StorageItemTypes.File))
                     {
@@ -2057,7 +2069,7 @@ namespace Files.ViewModels
             }
         }
 
-        private async Task UpdateFileOrFolderAsync(string path)
+        private async Task UpdateFileOrFolderAsync(string path, bool hasSyncStatus = false)
         {
             try
             {
@@ -2074,7 +2086,7 @@ namespace Files.ViewModels
 
                 if (matchingItem != null)
                 {
-                    await UpdateFileOrFolderAsync(matchingItem);
+                    await UpdateFileOrFolderAsync(matchingItem, hasSyncStatus);
                 }
             }
             finally
