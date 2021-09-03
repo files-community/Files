@@ -275,6 +275,7 @@
     <Compile Include="Helpers\SidebarHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\DependencyObjectHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\SystemTypeToXaml.cs" />
+    <Compile Include="Helpers\AsyncManualResetEvent.cs" />
     <Compile Include="IBaseLayout.cs" />
     <Compile Include="Interacts\BaseLayoutCommandImplementationModel.cs" />
     <Compile Include="Interacts\BaseLayoutCommandsViewModel.cs" />
