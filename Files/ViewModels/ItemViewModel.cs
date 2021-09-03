@@ -1045,7 +1045,7 @@ namespace Files.ViewModels
             }
             catch (OperationCanceledException)
             {
-                // ignored
+                item.ItemPropertiesInitialized = false;
             }
             finally
             {
