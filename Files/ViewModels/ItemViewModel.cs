@@ -1815,6 +1815,8 @@ namespace Files.ViewModels
                     if (await operationEvent.WaitAsync(200, cancellationToken))
                     {
                         operationEvent.Reset();
+                        itemLoadEvent.Reset();
+
                         while (operationQueue.TryDequeue(out var operation))
                         {
                             if (cancellationToken.IsCancellationRequested) break;
@@ -1851,6 +1853,8 @@ namespace Files.ViewModels
                                 anyEdits = false;
                             }
                         }
+
+                        itemLoadEvent.Set();
                     }
 
                     if (anyEdits && sampler.CheckNow())
