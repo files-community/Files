@@ -1598,4 +1598,7 @@
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>வட்டைச் செருகவும்</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
+    <value>Move...</value>
+  </data>
 </root>
