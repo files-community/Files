@@ -47,7 +47,7 @@ namespace Files.ViewModels
         private readonly SemaphoreSlim enumFolderSemaphore;
         private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
         private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
-        private readonly AsyncManualResetEvent operationEvent, loadPropsEvent;
+        private readonly AsyncManualResetEvent operationEvent, itemLoadEvent;
         private IntPtr hWatchDir;
         private IAsyncAction aWatcherAction;
 
@@ -351,7 +351,7 @@ namespace Files.ViewModels
             loadPropsCTS = new CancellationTokenSource();
             operationEvent = new AsyncManualResetEvent();
             enumFolderSemaphore = new SemaphoreSlim(1, 1);
-            loadPropsEvent = new AsyncManualResetEvent();
+            itemLoadEvent = new AsyncManualResetEvent();
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
@@ -915,7 +915,7 @@ namespace Files.ViewModels
             {
                 await Task.Run(async () =>
                 {
-                    await loadPropsEvent.WaitAsync(cts.Token);
+                    await itemLoadEvent.WaitAsync(cts.Token);
 
                     if (itemLoadQueue.TryGetValue(item.ItemPath, out var canceled) && canceled)
                     {
@@ -1130,7 +1130,7 @@ namespace Files.ViewModels
                 return;
             }
 
-            loadPropsEvent.Reset();
+            itemLoadEvent.Reset();
 
             try
             {
@@ -1188,7 +1188,7 @@ namespace Files.ViewModels
             {
                 DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty); // Make sure item count is updated
                 enumFolderSemaphore.Release();
-                loadPropsEvent.Set();
+                itemLoadEvent.Set();
             }
 
             postLoadCallback?.Invoke();
