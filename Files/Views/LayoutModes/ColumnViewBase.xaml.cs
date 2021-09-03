@@ -564,6 +564,10 @@ namespace Files.Views.LayoutModes
             {
                 UninitializeDrag(args.ItemContainer);
                 args.ItemContainer.PointerPressed -= FileListListItem_PointerPressed;
+                if (args.Item is ListedItem item)
+                {
+                    ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(item);
+                }
             }
         }
 

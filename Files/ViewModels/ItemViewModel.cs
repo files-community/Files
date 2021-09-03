@@ -46,6 +46,7 @@ namespace Files.ViewModels
     {
         private readonly SemaphoreSlim enumFolderSemaphore;
         private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
+        private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
         private readonly AsyncManualResetEvent operationEvent, loadPropsEvent;
         private IntPtr hWatchDir;
         private IAsyncAction aWatcherAction;
@@ -344,6 +345,7 @@ namespace Files.ViewModels
             filesAndFolders = new List<ListedItem>();
             FilesAndFolders = new BulkConcurrentObservableCollection<ListedItem>();
             operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
+            itemLoadQueue = new ConcurrentDictionary<string, bool>();
             addFilesCTS = new CancellationTokenSource();
             semaphoreCTS = new CancellationTokenSource();
             loadPropsCTS = new CancellationTokenSource();
@@ -450,6 +452,11 @@ namespace Files.ViewModels
         {
             loadPropsCTS.Cancel();
             loadPropsCTS = new CancellationTokenSource();
+        }
+
+        public void CancelExtendedPropertiesLoadingForItem(ListedItem item)
+        {
+            itemLoadQueue.TryUpdate(item.ItemPath, true, false);
         }
 
         public async Task ApplySingleFileChangeAsync(ListedItem item)
@@ -900,12 +907,18 @@ namespace Files.ViewModels
             }
 
             item.ItemPropertiesInitialized = true;
+            itemLoadQueue[item.ItemPath] = false;
 
             try
             {
                 await Task.Run(async () =>
                 {
                     await loadPropsEvent.WaitAsync(loadPropsCTS.Token);
+
+                    if (itemLoadQueue.TryGetValue(item.ItemPath, out var canceled) && canceled)
+                    {
+                        return;
+                    }
 
                     var wasSyncStatusLoaded = false;
                     ImageSource groupImage = null;
@@ -1031,6 +1044,10 @@ namespace Files.ViewModels
             catch (OperationCanceledException)
             {
                 // ignored
+            }
+            finally
+            {
+                itemLoadQueue.TryRemove(item.ItemPath, out _);
             }
         }
 
