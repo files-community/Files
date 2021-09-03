@@ -1524,4 +1524,7 @@
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>ଏକ ଡିସ୍କ୍ ସନ୍ନିବେଶ କରନ୍ତୁ</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
+    <value>Move...</value>
+  </data>
 </root>
