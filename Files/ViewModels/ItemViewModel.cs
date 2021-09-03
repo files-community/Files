@@ -1869,7 +1869,7 @@ namespace Files.ViewModels
                         await UpdateFilesOrFoldersAsync(updateList, hasSyncStatus);
                     }
 
-                    if (anyEdits)
+                    if (anyEdits && sampler.CheckNow())
                     {
                         await OrderFilesAndFoldersAsync();
                         await ApplyFilesAndFoldersChangesAsync();
