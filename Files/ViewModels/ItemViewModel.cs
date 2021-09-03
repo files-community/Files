@@ -915,13 +915,13 @@ namespace Files.ViewModels
                 await Task.Run(async () =>
                 {
                     await itemLoadEvent.WaitAsync(cts.Token);
-                    item.ItemPropertiesInitialized = true;
 
                     if (itemLoadQueue.TryGetValue(item.ItemPath, out var canceled) && canceled)
                     {
                         return;
                     }
 
+                    item.ItemPropertiesInitialized = true;
                     var wasSyncStatusLoaded = false;
                     ImageSource groupImage = null;
                     bool loadGroupHeaderInfo = false;
