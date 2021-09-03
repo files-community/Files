@@ -218,10 +218,10 @@ namespace Files.Helpers
 
         public static async Task PasteItemAsync(string destinationPath, IShellPage associatedInstance)
         {
-            DataPackageView packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
-            if (packageView != null)
+            FilesystemResult<DataPackageView> packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
+            if (packageView && packageView.Result != null)
             {
-                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, false, true);
+                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.Result.RequestedOperation, packageView, destinationPath, false, true);
                 associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
             }
         }

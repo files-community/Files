@@ -599,7 +599,7 @@ namespace Files.Filesystem
                 return ReturnResult.Failed;
             }
 
-            if (source.Any())
+            if (!source.IsEmpty())
             {
                 ReturnResult returnStatus = ReturnResult.InProgress;
 
@@ -610,8 +610,11 @@ namespace Files.Filesystem
                     if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
                     {
                         binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
-                        var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
-                        destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));
+                        if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
+                        {
+                            var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
+                            destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));
+                        }
                     }
                     else
                     {
@@ -832,8 +835,11 @@ namespace Files.Filesystem
                 if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
                 {
                     binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
-                    var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
-                    destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));
+                    if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
+                    {
+                        var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
+                        destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));
+                    }
                 }
                 else
                 {
@@ -981,7 +987,7 @@ namespace Files.Filesystem
                 var itemPathOrName = string.IsNullOrEmpty(source.ElementAt(i).Path) ?
                     (string.IsNullOrEmpty(source.ElementAt(i).Item.Path) ? source.ElementAt(i).Item.Name : source.ElementAt(i).Item.Path) : source.ElementAt(i).Path;
                 incomingItems.Add(new FilesystemItemsOperationItemModel(operationType, itemPathOrName, destination.ElementAt(i)));
-                collisions.Add(incomingItems.ElementAt(i).SourcePath, FileNameConflictResolveOptionType.GenerateNewName);
+                collisions.AddIfNotPresent(incomingItems.ElementAt(i).SourcePath, FileNameConflictResolveOptionType.GenerateNewName);
 
                 if (destination.Count() > 0 && StorageItemHelpers.Exists(destination.ElementAt(i))) // Same item names in both directories
                 {
@@ -1047,7 +1053,7 @@ namespace Files.Filesystem
 
         public static bool HasDraggedStorageItems(DataPackageView packageView)
         {
-            return packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out var data));
+            return packageView != null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out var data)));
         }
 
         public static async Task<(bool handledByFtp, IEnumerable<IStorageItemWithPath> items)> GetDraggedStorageItems(DataPackageView packageView)

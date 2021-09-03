@@ -381,22 +381,15 @@
                     HorizontalAlignment="Stretch"
                     Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
 
-                <Custom:DropShadowPanel
-                    x:Name="PreviewPaneDropShadowPanel"
+                <controls:PreviewPane
+                    x:Name="PreviewPane"
+                    x:Uid="SelectedFilePreviewPane"
                     Grid.Row="1"
                     Grid.Column="2"
                     HorizontalContentAlignment="Stretch"
                     x:Load="{x:Bind LoadPreviewPane, Mode=OneWay}"
-                    Background="Transparent"
-                    BlurRadius="16"
-                    OffsetX="-4"
-                    ShadowOpacity="0.04">
-                    <controls:PreviewPane
-                        x:Name="PreviewPane"
-                        x:Uid="SelectedFilePreviewPane"
-                        AutomationProperties.Name="Selected file preview pane"
-                        Loading="PreviewPane_Loading" />
-                </Custom:DropShadowPanel>
+                    AutomationProperties.Name="Selected file preview pane"
+                    Loading="PreviewPane_Loading" />
 
                 <Custom:GridSplitter
                     x:Name="PreviewPaneGridSplitter"
@@ -405,7 +398,7 @@
                     x:Load="{x:Bind LoadPreviewPane, Mode=OneWay}"
                     ManipulationCompleted="PreviewPaneGridSplitter_ManipulationCompleted"
                     ResizeBehavior="BasedOnAlignment"
-                    Style="{StaticResource InvisibleGridSplitterStyle}" />
+                    Style="{StaticResource DefaultGridSplitterStyle}" />
 
                 <controls:StatusBarControl
                     x:Name="StatusBarControl"
