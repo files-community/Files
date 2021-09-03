@@ -819,6 +819,13 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
+                    Text = "BaseLayoutItemContextFlyoutMove/Text".GetLocalized(),
+                    Glyph = "\uE8B4",
+                    Command = commandsViewModel.MoveItemCommand,
+                    ShowItem = selectedItems.All(x => !x.IsShortcutItem)
+                },
+                new ContextMenuFlyoutItemViewModel()
+                {
                     Text = "BaseLayoutItemContextFlyoutCreateFolderWithSelection/Text".GetLocalized(),
                     ColoredIcon = new ColoredIconModel()
                     {
