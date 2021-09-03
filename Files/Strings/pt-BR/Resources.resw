@@ -2665,4 +2665,7 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Criar link em {0}</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
+    <value>Move...</value>
+  </data>
 </root>

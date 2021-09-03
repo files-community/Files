@@ -3668,6 +3668,10 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Move to top</source>
           <target state="new">Move to top</target>
         </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutMove.Text" translate="yes" xml:space="preserve">
+          <source>Move...</source>
+          <target state="new" state-qualifier="tm-suggestion">Move...</target>
+        </trans-unit>
       </group>
     </body>
   </file>

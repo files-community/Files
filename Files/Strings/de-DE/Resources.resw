@@ -2734,4 +2734,7 @@ Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu e
   <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Terminal-Anwendung</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
+    <value>Move...</value>
+  </data>
 </root>
