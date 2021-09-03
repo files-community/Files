@@ -45,7 +45,6 @@ namespace Files.Helpers
             Task.Factory.StartNew(s => ((TaskCompletionSource<bool>)s).TrySetResult(true),
                 tcs, CancellationToken.None, TaskCreationOptions.PreferFairness, TaskScheduler.Default);
             tcs.Task.Wait();
-            
         }
 
         public void Reset()
