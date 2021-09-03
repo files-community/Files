@@ -2094,7 +2094,7 @@ namespace Files.ViewModels
                             }
                         }
                     }
-                });
+                }, Windows.System.DispatcherQueuePriority.Low);
             }
             finally
             {
