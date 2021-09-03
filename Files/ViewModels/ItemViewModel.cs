@@ -1787,10 +1787,10 @@ namespace Files.ViewModels
 
                                 operationQueue.Enqueue((action, FileName));
 
-                                operationEvent.Set();
-
                                 offset += notifyInfo.NextEntryOffset;
                             } while (notifyInfo.NextEntryOffset != 0 && x.Status != AsyncStatus.Canceled);
+
+                            operationEvent.Set();
 
                             //ResetEvent(overlapped.hEvent);
                             Debug.WriteLine("Task running...");
