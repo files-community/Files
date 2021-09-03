@@ -14,8 +14,8 @@ namespace Files.Helpers
         public Task WaitAsync(CancellationToken cancellationToken = default)
         {
             var tcs = m_tcs;
-            using (cancellationToken.Register(
-                s => ((TaskCompletionSource<bool>)s).TrySetCanceled(), tcs)) { }
+            cancellationToken.Register(
+                s => ((TaskCompletionSource<bool>)s).TrySetCanceled(), tcs);
 
             return m_tcs.Task;
         }
@@ -24,23 +24,23 @@ namespace Files.Helpers
         {
             var tcs = m_tcs;
 
-            using (cancellationToken.Register(
-                s => ((TaskCompletionSource<bool>)s).TrySetCanceled(), tcs)) { }
+            cancellationToken.Register(
+                s => ((TaskCompletionSource<bool>)s).TrySetCanceled(), tcs);
 
             var cancellationTokenSource = new CancellationTokenSource();
             cancellationTokenSource.CancelAfter(milliseconds);
-            using (cancellationTokenSource.Token.Register(
-                s =>
-                {
-                    var l_tcs = (TaskCompletionSource<bool>)s;
+            cancellationTokenSource.Token.Register(
+                 s =>
+                 {
+                     var l_tcs = (TaskCompletionSource<bool>)s;
 
-                    if (!l_tcs.Task.IsCanceled)
-                    {
-                        l_tcs.TrySetResult(false);
-                    }
+                     if (!l_tcs.Task.IsCanceled)
+                     {
+                         l_tcs.TrySetResult(false);
+                     }
 
-                    cancellationTokenSource.Dispose();
-                }, tcs)) { }
+                     cancellationTokenSource.Dispose();
+                 }, tcs);
 
             return m_tcs.Task;
         }
