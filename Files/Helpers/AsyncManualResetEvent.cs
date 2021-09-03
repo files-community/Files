@@ -11,13 +11,15 @@ namespace Files.Helpers
     {
         private volatile TaskCompletionSource<bool> m_tcs = new TaskCompletionSource<bool>();
 
-        public Task WaitAsync(CancellationToken cancellationToken = default)
+        public async Task WaitAsync(CancellationToken cancellationToken = default)
         {
             var tcs = m_tcs;
-            cancellationToken.Register(
-                s => ((TaskCompletionSource<bool>)s).TrySetCanceled(), tcs);
+            var cancelTcs = new TaskCompletionSource<bool>();
 
-            return m_tcs.Task;
+            cancellationToken.Register(
+                s => ((TaskCompletionSource<bool>)s).TrySetCanceled(), cancelTcs);
+
+            await await Task.WhenAny(tcs.Task, cancelTcs.Task);
         }
 
         private async Task<bool> Delay(int milliseconds)
@@ -26,15 +28,15 @@ namespace Files.Helpers
             return false;
         }
 
-        public Task<bool> WaitAsync(int milliseconds, CancellationToken cancellationToken = default)
+        public async Task<bool> WaitAsync(int milliseconds, CancellationToken cancellationToken = default)
         {
             var tcs = m_tcs;
+            var cancelTcs = new TaskCompletionSource<bool>();
 
             cancellationToken.Register(
-                s => ((TaskCompletionSource<bool>)s).TrySetCanceled(), tcs);
+                s => ((TaskCompletionSource<bool>)s).TrySetCanceled(), cancelTcs);
 
-
-            return Task.WhenAny(m_tcs.Task, Delay(milliseconds)).Result;
+            return await await Task.WhenAny(tcs.Task, cancelTcs.Task, Delay(milliseconds));
         }
 
         public void Set()
@@ -43,6 +45,7 @@ namespace Files.Helpers
             Task.Factory.StartNew(s => ((TaskCompletionSource<bool>)s).TrySetResult(true),
                 tcs, CancellationToken.None, TaskCreationOptions.PreferFairness, TaskScheduler.Default);
             tcs.Task.Wait();
+            
         }
 
         public void Reset()
