@@ -906,7 +906,6 @@ namespace Files.ViewModels
                 return;
             }
 
-            item.ItemPropertiesInitialized = true;
             itemLoadQueue[item.ItemPath] = false;
 
             var cts = loadPropsCTS;
@@ -916,6 +915,7 @@ namespace Files.ViewModels
                 await Task.Run(async () =>
                 {
                     await itemLoadEvent.WaitAsync(cts.Token);
+                    item.ItemPropertiesInitialized = true;
 
                     if (itemLoadQueue.TryGetValue(item.ItemPath, out var canceled) && canceled)
                     {
@@ -1045,7 +1045,7 @@ namespace Files.ViewModels
             }
             catch (OperationCanceledException)
             {
-                item.ItemPropertiesInitialized = false;
+                // ignored
             }
             finally
             {
