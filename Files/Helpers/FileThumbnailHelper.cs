@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 
 namespace Files.Helpers
 {
@@ -85,19 +86,21 @@ namespace Files.Helpers
             return null;
         }
 
-        public static async Task<byte[]> LoadIconFromStorageItemAsync(IStorageItem item, uint thumbnailSize, Windows.Storage.FileProperties.ThumbnailMode thumbnailMode)
+        public static async Task<byte[]> LoadIconFromStorageItemAsync(IStorageItem item, uint thumbnailSize, ThumbnailMode thumbnailMode)
         {
-            if (item is StorageFile file)
+            if (item.IsOfType(StorageItemTypes.File))
             {
-                using var thumbnail = await file.GetThumbnailAsync(thumbnailMode, thumbnailSize, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+                using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(
+                    () => item.AsBaseStorageFile().GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
                 if (thumbnail != null)
                 {
                     return await thumbnail.ToByteArrayAsync();
                 }
             }
-            else if (item is StorageFolder folder)
+            else if (item.IsOfType(StorageItemTypes.Folder))
             {
-                using var thumbnail = await folder.GetThumbnailAsync(thumbnailMode, thumbnailSize, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+                using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(
+                    () => item.AsBaseStorageFolder().GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
                 if (thumbnail != null)
                 {
                     return await thumbnail.ToByteArrayAsync();
@@ -106,23 +109,21 @@ namespace Files.Helpers
             return null;
         }
 
-        public static async Task<byte[]> LoadIconFromPathAsync(string filePath, uint thumbnailSize, Windows.Storage.FileProperties.ThumbnailMode thumbnailMode)
+        public static async Task<byte[]> LoadIconFromPathAsync(string filePath, uint thumbnailSize, ThumbnailMode thumbnailMode)
         {
             if (!filePath.EndsWith(".lnk") && !filePath.EndsWith(".url"))
             {
-                var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(filePath));
-                var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(filePath, item));
-                if (res)
+                var item = await StorageItemHelpers.ToStorageItem<IStorageItem>(filePath);
+                if (item != null)
                 {
-                    return await LoadIconFromStorageItemAsync(res.Result, thumbnailSize, thumbnailMode);
+                    var iconData = await LoadIconFromStorageItemAsync(item, thumbnailSize, thumbnailMode);
+                    if (iconData != null)
+                    {
+                        return iconData;
+                    }
                 }
             }
-            var iconData = await LoadIconWithoutOverlayAsync(filePath, thumbnailSize);
-            if (iconData != null)
-            {
-                return iconData;
-            }
-            return null;
+            return await LoadIconWithoutOverlayAsync(filePath, thumbnailSize);
         }
     }
 }

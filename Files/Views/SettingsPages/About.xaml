@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files.UserControls.Settings"
@@ -73,6 +74,7 @@
                         <GridViewItem
                             x:Name="FeedbackForm"
                             x:Uid="SettingsAboutSubmitFeedbackListViewItem"
+                            Width="204"
                             Padding="8,2"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
@@ -196,30 +198,25 @@
                 </local:SettingsBlockControl.ExpandableContent>
             </local:SettingsBlockControl>
 
-            <Button
-                x:Name="OpenLogLocationButton"
-                x:Uid="SettingsAboutOpenLogLocationButton"
-                Padding="20,16,20,16"
-                HorizontalAlignment="Stretch"
-                AutomationProperties.Name="Open log location"
-                Command="{Binding OpenLogLocationCommand}">
-                <Button.Content>
-                    <Grid HorizontalAlignment="Stretch" ColumnSpacing="16">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=OpenLogLocation}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE838;" />
+                </local:SettingsBlockControl.Icon>
+
+                <Button
+                    x:Name="OpenLogLocationButton"
+                    Padding="8"
+                    AutomationProperties.Name="{helpers:ResourceString Name=OpenLogLocation}"
+                    Command="{Binding OpenLogLocationCommand}"
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=OpenLogLocation}">
+                    <Button.Content>
                         <FontIcon
-                            Grid.Column="0"
-                            FontSize="20"
-                            Glyph="&#xE838;" />
-                        <TextBlock
-                            x:Uid="SettingsAboutOpenLogLocationButtonText"
-                            Grid.Column="1"
-                            Text="Open log location" />
-                    </Grid>
-                </Button.Content>
-            </Button>
+                            FontSize="14"
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                            Glyph="&#xE2B4;" />
+                    </Button.Content>
+                </Button>
+            </local:SettingsBlockControl>
 
             <TextBlock
                 x:Uid="SettingsAboutThirdPartyLicenses"

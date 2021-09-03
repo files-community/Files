@@ -2,6 +2,7 @@
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -67,23 +68,26 @@ namespace Files.ViewModels.Properties
                 ViewModel.LoadFileIcon = true;
             }
 
-            StorageFile libraryFile = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(Library.ItemPath);
+            BaseStorageFile libraryFile = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(Library.ItemPath);
             if (libraryFile != null)
             {
                 ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
                 string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
                 ViewModel.ItemCreatedTimestamp = libraryFile.DateCreated.GetFriendlyDateFromFormat(returnformat);
-                GetOtherProperties(libraryFile.Properties);
+                if (libraryFile.Properties != null)
+                {
+                    GetOtherProperties(libraryFile.Properties);
+                }
             }
 
-            var storageFolders = new List<StorageFolder>();
+            var storageFolders = new List<BaseStorageFolder>();
             if (Library.Folders != null)
             {
                 try
                 {
                     foreach (var path in Library.Folders)
                     {
-                        StorageFolder folder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(path);
+                        BaseStorageFolder folder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(path);
                         if (!string.IsNullOrEmpty(folder.Path))
                         {
                             storageFolders.Add(folder);
@@ -108,7 +112,7 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        private async void GetLibrarySize(List<StorageFolder> storageFolders, CancellationToken token)
+        private async void GetLibrarySize(List<BaseStorageFolder> storageFolders, CancellationToken token)
         {
             ViewModel.ItemSizeVisibility = Visibility.Visible;
             ViewModel.ItemSizeProgressVisibility = Visibility.Visible;

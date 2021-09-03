@@ -161,7 +161,6 @@
                                     </ControlTemplate>
                                 </Thumb.Template>
                             </Thumb>
-
                         </Grid>
 
                         <VisualStateManager.VisualStateGroups>
@@ -427,7 +426,6 @@
                                         </DoubleAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
-
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="ToggleStates">
 
@@ -546,7 +544,6 @@
                                         </DoubleAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
-
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="ContentStates">
                                 <VisualState x:Name="OffContent">
@@ -583,12 +580,9 @@
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
-
                             </VisualStateGroup>
-
                         </VisualStateManager.VisualStateGroups>
                     </Grid>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

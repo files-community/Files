@@ -6,76 +6,31 @@
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:controls="using:Files.UserControls"
     xmlns:converters="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.Views"
-    xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:multitaskingcontrol="using:Files.UserControls.MultitaskingControl"
     Background="{ThemeResource PaneHolderPageBackgroundBrush}"
     mc:Ignorable="d">
 
     <Page.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
                     <SolidColorBrush x:Key="PaneBorderBrush" Color="#FAF9F8" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
                     <SolidColorBrush x:Key="PaneBorderBrush" Color="#323130" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
-                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
                     <SolidColorBrush x:Key="PaneBorderBrush" Color="{ThemeResource SystemColorWindowColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
-
-            <Style x:Key="DefaultGridSplitterStyle" TargetType="Custom:GridSplitter">
-                <Setter Property="IsTabStop" Value="True" />
-                <Setter Property="UseSystemFocusVisuals" Value="True" />
-                <Setter Property="HorizontalAlignment" Value="Stretch" />
-                <Setter Property="VerticalAlignment" Value="Stretch" />
-                <Setter Property="IsFocusEngagementEnabled" Value="True" />
-                <Setter Property="MinWidth" Value="2" />
-                <Setter Property="MinHeight" Value="2" />
-                <Setter Property="Background" Value="Transparent" />
-                <Setter Property="GripperForeground" Value="Transparent" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="Custom:GridSplitter">
-                            <Grid
-                                x:Name="RootGrid"
-                                Background="Transparent"
-                                BorderBrush="{ThemeResource SidebarBorderBrush}"
-                                BorderThickness="1,0,0,0">
-                                <ContentPresenter
-                                    HorizontalContentAlignment="Stretch"
-                                    VerticalContentAlignment="Stretch"
-                                    Content="{TemplateBinding Element}" />
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:Name="GridSplitterStates">
-                                        <VisualState x:Name="Normal" />
-                                        <VisualState x:Name="PointerOver">
-                                            <VisualState.Setters>
-                                                <Setter Target="RootGrid.Background" Value="Transparent" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="Pressed">
-                                            <VisualState.Setters>
-                                                <Setter Target="RootGrid.Background" Value="Transparent" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
 
             <SolidColorBrush x:Key="PaneSelectedBorderBrush" Color="{ThemeResource SystemAccentColorLight1}" />
 
@@ -110,59 +65,29 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Border x:Name="PaneLeftLoader" Grid.Row="1">
-                <local:ModernShellPage
-                    x:Name="PaneLeft"
-                    ContentChanged="Pane_ContentChanged"
-                    CurrentInstanceBorderThickness="0,0,2,0"
-                    IsPageMainPane="True"
-                    NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
-                    PaneHolder="{x:Bind}"
-                    PointerPressed="PaneLeft_PointerPressed" />
-            </Border>
+            <local:ModernShellPage
+                x:Name="PaneLeft"
+                Grid.Row="1"
+                BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+                ContentChanged="Pane_ContentChanged"
+                CurrentInstanceBorderThickness="0,0,0,1"
+                IsPageMainPane="True"
+                Loaded="PaneLeft_Loaded"
+                NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
+                PaneHolder="{x:Bind}" />
 
-            <Border
-                x:Name="PaneRightLoader"
+            <local:ModernShellPage
+                x:Name="PaneRight"
                 Grid.Row="1"
                 Grid.Column="1"
                 x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}"
-                BorderBrush="{ThemeResource PaneBorderBrush}"
-                BorderThickness="2,0,0,0">
-
-                <local:ModernShellPage
-                    x:Name="PaneRight"
-                    ContentChanged="Pane_ContentChanged"
-                    CurrentInstanceBorderThickness="2,0,0,0"
-                    IsPageMainPane="False"
-                    NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
-                    PaneHolder="{x:Bind}"
-                    PointerPressed="PaneRight_PointerPressed" />
-
-                <animations:Implicit.ShowAnimations>
-                    <animations:ScalarAnimation
-                        Target="Translation.X"
-                        From="300"
-                        To="0"
-                        Duration="0:0:0.2" />
-                    <animations:ScalarAnimation
-                        Target="Opacity"
-                        From="0"
-                        To="1"
-                        Duration="0:0:0.2" />
-                </animations:Implicit.ShowAnimations>
-                <animations:Implicit.HideAnimations>
-                    <animations:ScalarAnimation
-                        Target="Translation.X"
-                        From="0"
-                        To="300"
-                        Duration="0:0:0.2" />
-                    <animations:ScalarAnimation
-                        Target="Opacity"
-                        From="1"
-                        To="0"
-                        Duration="0:0:0.2" />
-                </animations:Implicit.HideAnimations>
-            </Border>
+                BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+                ContentChanged="Pane_ContentChanged"
+                CurrentInstanceBorderThickness="0,0,0,1"
+                IsPageMainPane="False"
+                Loaded="PaneRight_Loaded"
+                NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
+                PaneHolder="{x:Bind}" />
 
             <Custom:GridSplitter
                 x:Name="PaneResizer"
@@ -193,24 +118,40 @@
                         PropertyName="CurrentInstanceBorderBrush"
                         TargetObject="{Binding ElementName=PaneLeft}"
                         Value="{StaticResource PaneSelectedBorderBrush}" />
+                    <Core:ChangePropertyAction
+                        PropertyName="CurrentInstanceBorderThickness"
+                        TargetObject="{Binding ElementName=PaneLeft}"
+                        Value="0,0,0,2" />
                 </Core:DataTriggerBehavior>
                 <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsLeftPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="False">
                     <Core:ChangePropertyAction
                         PropertyName="CurrentInstanceBorderBrush"
                         TargetObject="{Binding ElementName=PaneLeft}"
-                        Value="{StaticResource SystemControlTransparentBrush}" />
+                        Value="{StaticResource ControlStrokeColorDefault}" />
+                    <Core:ChangePropertyAction
+                        PropertyName="CurrentInstanceBorderThickness"
+                        TargetObject="{Binding ElementName=PaneLeft}"
+                        Value="0,0,0,1" />
                 </Core:DataTriggerBehavior>
                 <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsRightPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="True">
                     <Core:ChangePropertyAction
                         PropertyName="CurrentInstanceBorderBrush"
                         TargetObject="{Binding ElementName=PaneRight}"
                         Value="{StaticResource PaneSelectedBorderBrush}" />
+                    <Core:ChangePropertyAction
+                        PropertyName="CurrentInstanceBorderThickness"
+                        TargetObject="{Binding ElementName=PaneRight}"
+                        Value="0,0,0,2" />
                 </Core:DataTriggerBehavior>
                 <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsRightPaneActive, IsRightPaneVisible), Mode=OneWay}" Value="False">
                     <Core:ChangePropertyAction
                         PropertyName="CurrentInstanceBorderBrush"
                         TargetObject="{Binding ElementName=PaneRight}"
-                        Value="{StaticResource SystemControlTransparentBrush}" />
+                        Value="{StaticResource ControlStrokeColorDefault}" />
+                    <Core:ChangePropertyAction
+                        PropertyName="CurrentInstanceBorderThickness"
+                        TargetObject="{Binding ElementName=PaneRight}"
+                        Value="0,0,0,1" />
                 </Core:DataTriggerBehavior>
                 <Core:DataTriggerBehavior Binding="{x:Bind IsRightPaneVisible, Mode=OneWay}" Value="True">
                     <Core:ChangePropertyAction

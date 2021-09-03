@@ -1,7 +1,5 @@
-﻿using Files.Enums;
-using Files.Helpers;
+﻿using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -16,6 +14,7 @@ namespace Files.ViewModels.SettingsViewModels
         private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
         private AppTheme selectedTheme = App.AppSettings.SelectedTheme;
         private bool showRestartControl = false;
+
         public AppearanceViewModel()
         {
             Themes = new List<string>()
@@ -72,7 +71,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref selectedTheme, value))
                 {
-                    if(selectedTheme != null)
+                    if (selectedTheme != null)
                     {
                         // Remove the old resource file and load the new file
                         App.ExternalResourcesHelper.UpdateTheme(App.AppSettings.SelectedTheme, selectedTheme);

@@ -57,7 +57,6 @@
                                             x:Name="TabsItemsPresenter"
                                             Padding="{TemplateBinding Padding}"
                                             HorizontalAlignment="Stretch" />
-
                                     </ScrollViewer>
                                 </ControlTemplate>
                             </Setter.Value>
@@ -127,7 +126,6 @@
                     </muxc:TabViewItem>
                 </DataTemplate>
             </muxc:TabView.TabItemTemplate>
-
         </muxc:TabView>
     </Grid>
 </local:BaseMultitaskingControl>

@@ -8,7 +8,7 @@ namespace Files.ViewModels
     {
         private ColumnViewModel iconColumn = new ColumnViewModel()
         {
-            UserLength = new GridLength(44, GridUnitType.Pixel),
+            UserLength = new GridLength(24, GridUnitType.Pixel),
             IsResizeable = false,
         };
 
@@ -20,6 +20,7 @@ namespace Files.ViewModels
         }
 
         private ColumnViewModel tagColumn = new ColumnViewModel();
+
         public ColumnViewModel TagColumn
         {
             get => tagColumn;
@@ -47,6 +48,7 @@ namespace Files.ViewModels
         }
 
         private ColumnViewModel dateModifiedColumn = new ColumnViewModel();
+
         public ColumnViewModel DateModifiedColumn
         {
             get => dateModifiedColumn;
@@ -57,6 +59,7 @@ namespace Files.ViewModels
         {
             NormalMaxLength = 500,
         };
+
         public ColumnViewModel OriginalPathColumn
         {
             get => originalPathColumn;
@@ -64,6 +67,7 @@ namespace Files.ViewModels
         }
 
         private ColumnViewModel itemTypeColumn = new ColumnViewModel();
+
         public ColumnViewModel ItemTypeColumn
         {
             get => itemTypeColumn;
@@ -71,6 +75,7 @@ namespace Files.ViewModels
         }
 
         private ColumnViewModel dateDeletedColumn = new ColumnViewModel();
+
         public ColumnViewModel DateDeletedColumn
         {
             get => dateDeletedColumn;
@@ -89,6 +94,7 @@ namespace Files.ViewModels
         }
 
         private ColumnViewModel sizeColumn = new ColumnViewModel();
+
         public ColumnViewModel SizeColumn
         {
             get => sizeColumn;
@@ -128,6 +134,7 @@ namespace Files.ViewModels
     public class ColumnViewModel : ObservableObject
     {
         private bool isHidden;
+
         [JsonIgnore]
         public bool IsHidden
         {
@@ -142,6 +149,7 @@ namespace Files.ViewModels
         }
 
         private double normalMaxLength = 800;
+
         [JsonIgnore]
         public double NormalMaxLength
         {
@@ -149,8 +157,8 @@ namespace Files.ViewModels
             set => SetProperty(ref normalMaxLength, value);
         }
 
-
         private double normalMinLength = 50;
+
         [JsonIgnore]
         public double NormalMinLength
         {
@@ -166,11 +174,12 @@ namespace Files.ViewModels
 
         [JsonIgnore]
         public double MinLength => IsHidden || UserCollapsed ? 0 : NormalMinLength;
-        
+
         [JsonIgnore]
         public Visibility Visibility => IsHidden || UserCollapsed ? Visibility.Collapsed : Visibility.Visible;
 
         private bool userCollapsed;
+
         public bool UserCollapsed
         {
             get => userCollapsed;
@@ -186,10 +195,9 @@ namespace Files.ViewModels
         public GridLength Length
         {
             get => IsHidden || UserCollapsed ? new GridLength(0) : UserLength;
-
         }
 
-        const int gridSplitterWidth = 1;
+        private const int gridSplitterWidth = 1;
 
         public GridLength LengthIncludingGridSplitter
         {
@@ -200,6 +208,7 @@ namespace Files.ViewModels
         public bool IsResizeable { get; set; } = true;
 
         private GridLength userLength = new GridLength(200, GridUnitType.Pixel);
+
         public GridLength UserLength
         {
             get => userLength;

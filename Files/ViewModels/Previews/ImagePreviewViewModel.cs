@@ -2,7 +2,6 @@
 using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -20,7 +19,7 @@ namespace Files.ViewModels.Previews
         }
 
         public static List<string> Extensions => new List<string>() {
-            ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff", ".ico", ".svg", ".webp"
+            ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff", ".ico", ".webp"
         };
 
         public ImageSource ImageSource

@@ -1,7 +1,9 @@
 ﻿using ByteSizeLib;
 using Files.Extensions;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Views.LayoutModes;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,15 +12,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem.StorageEnumerators
 {
     public static class UniversalStorageEnumerator
     {
         public static async Task<List<ListedItem>> ListEntries(
-            StorageFolder rootFolder,
+            BaseStorageFolder rootFolder,
             StorageFolderWithPath currentStorageFolder,
             string returnformat,
             Type sourcePageType,
@@ -70,7 +70,7 @@ namespace Files.Filesystem.StorageEnumerators
                 {
                     if (item.IsOfType(StorageItemTypes.Folder))
                     {
-                        var folder = await AddFolderAsync(item as StorageFolder, currentStorageFolder, returnformat, cancellationToken);
+                        var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, returnformat, cancellationToken);
                         if (folder != null)
                         {
                             tempList.Add(folder);
@@ -78,8 +78,7 @@ namespace Files.Filesystem.StorageEnumerators
                     }
                     else
                     {
-                        var file = item as StorageFile;
-                        var fileEntry = await AddFileAsync(file, currentStorageFolder, returnformat, true, sourcePageType, cancellationToken);
+                        var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, returnformat, cancellationToken);
                         if (fileEntry != null)
                         {
                             tempList.Add(fileEntry);
@@ -107,7 +106,7 @@ namespace Files.Filesystem.StorageEnumerators
             return tempList;
         }
 
-        private static async Task<IReadOnlyList<IStorageItem>> EnumerateFileByFile(StorageFolder rootFolder, uint startFrom, uint itemsToIterate)
+        private static async Task<IReadOnlyList<IStorageItem>> EnumerateFileByFile(BaseStorageFolder rootFolder, uint startFrom, uint itemsToIterate)
         {
             var tempList = new List<IStorageItem>();
             for (var i = startFrom; i < startFrom + itemsToIterate; i++)
@@ -138,7 +137,7 @@ namespace Files.Filesystem.StorageEnumerators
             return tempList;
         }
 
-        private static async Task<ListedItem> AddFolderAsync(StorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
+        private static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
             if (!cancellationToken.IsCancellationRequested)
@@ -155,7 +154,7 @@ namespace Files.Filesystem.StorageEnumerators
                     LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
-                    ItemPath = string.IsNullOrEmpty(folder.Path) ? Path.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
+                    ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
                     FileSizeBytes = 0
@@ -165,11 +164,9 @@ namespace Files.Filesystem.StorageEnumerators
         }
 
         private static async Task<ListedItem> AddFileAsync(
-            StorageFile file,
+            BaseStorageFile file,
             StorageFolderWithPath currentStorageFolder,
             string dateReturnFormat,
-            bool suppressThumbnailLoading,
-            Type sourcePageType,
             CancellationToken cancellationToken
         )
         {
@@ -179,73 +176,15 @@ namespace Files.Filesystem.StorageEnumerators
                 file.Name : file.DisplayName;
             var itemModifiedDate = basicProperties.DateModified;
             var itemCreatedDate = file.DateCreated;
-            var itemPath = string.IsNullOrEmpty(file.Path) ? Path.Combine(currentStorageFolder.Path, file.Name) : file.Path;
+            var itemPath = string.IsNullOrEmpty(file.Path) ? PathNormalization.Combine(currentStorageFolder.Path, file.Name) : file.Path;
             var itemSize = ByteSize.FromBytes(basicProperties.Size).ToBinaryString().ConvertSizeAbbreviation();
             var itemSizeBytes = basicProperties.Size;
             var itemType = file.DisplayType;
             var itemFolderImgVis = false;
             var itemFileExtension = file.FileType;
+            var itemEmptyImgVis = true;
+            var itemThumbnailImgVis = false;
 
-            BitmapImage icon = new BitmapImage();
-            byte[] iconData = null;
-            bool itemThumbnailImgVis;
-            bool itemEmptyImgVis;
-
-            if (sourcePageType != typeof(GridViewBrowser))
-            {
-                try
-                {
-                    using var itemThumbnailImg = suppressThumbnailLoading ? null :
-                        await file.GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.UseCurrentScale);
-                    if (itemThumbnailImg != null)
-                    {
-                        itemEmptyImgVis = false;
-                        itemThumbnailImgVis = true;
-                        icon.DecodePixelWidth = 40;
-                        icon.DecodePixelHeight = 40;
-                        await icon.SetSourceAsync(itemThumbnailImg);
-                        iconData = await itemThumbnailImg.ToByteArrayAsync();
-                    }
-                    else
-                    {
-                        itemEmptyImgVis = true;
-                        itemThumbnailImgVis = false;
-                    }
-                }
-                catch
-                {
-                    itemEmptyImgVis = true;
-                    itemThumbnailImgVis = false;
-                    // Catch here to avoid crash
-                }
-            }
-            else
-            {
-                try
-                {
-                    using var itemThumbnailImg = suppressThumbnailLoading ? null :
-                        await file.GetThumbnailAsync(ThumbnailMode.ListView, 80, ThumbnailOptions.UseCurrentScale);
-                    if (itemThumbnailImg != null)
-                    {
-                        itemEmptyImgVis = false;
-                        itemThumbnailImgVis = true;
-                        icon.DecodePixelWidth = 80;
-                        icon.DecodePixelHeight = 80;
-                        await icon.SetSourceAsync(itemThumbnailImg);
-                        iconData = await itemThumbnailImg.ToByteArrayAsync();
-                    }
-                    else
-                    {
-                        itemEmptyImgVis = true;
-                        itemThumbnailImgVis = false;
-                    }
-                }
-                catch
-                {
-                    itemEmptyImgVis = true;
-                    itemThumbnailImgVis = false;
-                }
-            }
             if (cancellationToken.IsCancellationRequested)
             {
                 return null;
@@ -274,8 +213,8 @@ namespace Files.Filesystem.StorageEnumerators
                     IsHiddenItem = false,
                     Opacity = 1,
                     LoadUnknownTypeGlyph = itemEmptyImgVis,
-                    FileImage = icon,
-                    CustomIconData = iconData,
+                    FileImage = null,
+                    CustomIconData = null,
                     LoadFileIcon = itemThumbnailImgVis,
                     LoadFolderGlyph = itemFolderImgVis,
                     ItemName = itemName,

@@ -1,6 +1,7 @@
 ﻿using ByteSizeLib;
 using Files.Extensions;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -110,7 +111,7 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemSizeVisibility = Visibility.Visible;
             ViewModel.ItemSize = $"{ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(Item.FileSizeBytes).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
 
-            var fileIconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 80);
+            var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
             if (fileIconData != null)
             {
                 ViewModel.IconData = fileIconData;
@@ -130,7 +131,7 @@ namespace Files.ViewModels.Properties
                 }
             }
 
-            StorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+            BaseStorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
             if (file == null)
             {
                 // Could not access file, can't show any other property
@@ -143,7 +144,10 @@ namespace Files.ViewModels.Properties
                 return;
             }
 
-            GetOtherProperties(file.Properties);
+            if (file.Properties != null)
+            {
+                GetOtherProperties(file.Properties);
+            }
 
             // Get file MD5 hash
             var hashAlgTypeName = HashAlgorithmNames.Md5;
@@ -162,7 +166,7 @@ namespace Files.ViewModels.Properties
 
         public async void GetSystemFileProperties()
         {
-            StorageFile file = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Item.ItemPath).AsTask());
+            BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
             if (file == null)
             {
                 // Could not access file, can't show any other property
@@ -213,12 +217,12 @@ namespace Files.ViewModels.Properties
             // Reverse geocode the specified geographic location.
 
             var result = await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
-            return result != null ? result.Locations[0].DisplayName : null;
+            return result?.Locations?.FirstOrDefault()?.DisplayName;
         }
 
         public async Task SyncPropertyChangesAsync()
         {
-            StorageFile file = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Item.ItemPath).AsTask());
+            BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
             if (file == null)
             {
                 // Could not access file, can't save properties
@@ -237,7 +241,10 @@ namespace Files.ViewModels.Properties
 
                         try
                         {
-                            await file.Properties.SavePropertiesAsync(newDict);
+                            if (file.Properties != null)
+                            {
+                                await file.Properties.SavePropertiesAsync(newDict);
+                            }
                         }
                         catch
                         {
@@ -260,7 +267,7 @@ namespace Files.ViewModels.Properties
         public async Task ClearPropertiesAsync()
         {
             var failedProperties = new List<string>();
-            StorageFile file = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Item.ItemPath).AsTask());
+            BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
             if (file == null)
             {
                 return;
@@ -277,7 +284,10 @@ namespace Files.ViewModels.Properties
 
                         try
                         {
-                            await file.Properties.SavePropertiesAsync(newDict);
+                            if (file.Properties != null)
+                            {
+                                await file.Properties.SavePropertiesAsync(newDict);
+                            }
                         }
                         catch
                         {
@@ -349,7 +359,7 @@ namespace Files.ViewModels.Properties
         private async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, IProgress<float> progress, IShellPage associatedInstance)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
-            StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath, associatedInstance);
+            BaseStorageFile file = await StorageItemHelpers.ToStorageItem<BaseStorageFile>((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath, associatedInstance);
             if (file == null)
             {
                 return "";
@@ -361,17 +371,26 @@ namespace Files.ViewModels.Properties
                 return "";
             }
 
-            var inputStream = stream.AsInputStream();
-            var str = inputStream.AsStreamForRead();
-            var cap = (long)(0.5 * str.Length) / 100;
             uint capacity;
-            if (cap >= uint.MaxValue)
+            var inputStream = stream.AsInputStream();
+            bool isProgressSupported = false;
+
+            try
             {
-                capacity = uint.MaxValue;
+                var cap = (long)(0.5 * stream.Length) / 100;
+                if (cap >= uint.MaxValue)
+                {
+                    capacity = uint.MaxValue;
+                }
+                else
+                {
+                    capacity = Convert.ToUInt32(cap);
+                }
+                isProgressSupported = true;
             }
-            else
+            catch (NotSupportedException)
             {
-                capacity = Convert.ToUInt32(cap);
+                capacity = 64 * 1024;
             }
 
             Windows.Storage.Streams.Buffer buffer = new Windows.Storage.Streams.Buffer(capacity);
@@ -387,7 +406,7 @@ namespace Files.ViewModels.Properties
                 {
                     break;
                 }
-                progress?.Report((float)str.Position / str.Length * 100.0f);
+                progress?.Report(isProgressSupported ? (float)stream.Position / stream.Length * 100.0f : 20);
             }
             inputStream.Dispose();
             stream.Dispose();

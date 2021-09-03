@@ -37,7 +37,7 @@ namespace Files.ViewModels
                 }
                 else
                 {
-                   IsPasteEnabled = false;
+                    IsPasteEnabled = false;
                 }
             }
             catch
@@ -150,7 +150,7 @@ namespace Files.ViewModels
             {
                 SettingsDialog settingsDialog = new SettingsDialog();
                 _ = await settingsDialog.ShowAsync();
-            }           
+            }
         }
     }
 }

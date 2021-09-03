@@ -1,10 +1,9 @@
 ﻿using Files.DataModels.NavigationControlItems;
-using Files.Extensions;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
-using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
 
@@ -41,7 +40,7 @@ namespace Files.ViewModels.Properties
         {
             ViewModel.ItemAttributesVisibility = Visibility.Collapsed;
             var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(Drive.Path));
-            StorageFolder diskRoot = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(Drive.Path, item));
+            BaseStorageFolder diskRoot = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(Drive.Path, item));
 
             if (ViewModel.LoadFileIcon)
             {
@@ -55,7 +54,7 @@ namespace Files.ViewModels.Properties
                 }
             }
 
-            if (diskRoot == null)
+            if (diskRoot == null || diskRoot.Properties == null)
             {
                 ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
                 return;

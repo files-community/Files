@@ -1,0 +1,870 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
+    <value>Obre a una nova pestanya</value>
+  </data>
+  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
+    <value>Obre a una finestra nova</value>
+  </data>
+  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+    <value>Nova finestra</value>
+  </data>
+  <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
+    <value>Carpeta</value>
+  </data>
+  <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
+    <value>Imatge de mapa de bits</value>
+  </data>
+  <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
+    <value>Document de text</value>
+  </data>
+  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+    <value>Copia la ubicació</value>
+  </data>
+  <data name="NavigationToolbarPaste.Label" xml:space="preserve">
+    <value>Enganxa</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Busca</value>
+  </data>
+  <data name="SidebarDrives" xml:space="preserve">
+    <value>Discos</value>
+  </data>
+  <data name="nameColumn.Header" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="dateColumn.Header" xml:space="preserve">
+    <value>Data de modificació</value>
+  </data>
+  <data name="typeColumn.Header" xml:space="preserve">
+    <value>Tipus</value>
+  </data>
+  <data name="sizeColumn.Header" xml:space="preserve">
+    <value>Mida</value>
+  </data>
+  <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
+    <value>Obre a terminal...</value>
+  </data>
+  <data name="PropertiesCreated.Text" xml:space="preserve">
+    <value>Creat:</value>
+  </data>
+  <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
+    <value>Nom de l'element</value>
+  </data>
+  <data name="PropertiesItemPath.Text" xml:space="preserve">
+    <value>Ruta:</value>
+  </data>
+  <data name="PropertiesItemSize.Text" xml:space="preserve">
+    <value>Mida:</value>
+  </data>
+  <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
+    <value>Aquesta acció no pot ser complerta</value>
+  </data>
+  <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
+    <value>La carpeta de destí</value>
+  </data>
+  <data name="ErrorDialogIsASubfolder" xml:space="preserve">
+    <value>és una subcarpeta de la carpeta d'origen</value>
+  </data>
+  <data name="ErrorDialogSkip" xml:space="preserve">
+    <value>Salta</value>
+  </data>
+  <data name="ErrorDialogCancel" xml:space="preserve">
+    <value>Cancel·la</value>
+  </data>
+  <data name="PropertiesItemType.Text" xml:space="preserve">
+    <value>Tipus d'element:</value>
+  </data>
+  <data name="NavToolbarSelectAll.Text" xml:space="preserve">
+    <value>Seleccioneu-lo tot</value>
+  </data>
+  <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
+    <value>Inverteix la selecció</value>
+  </data>
+  <data name="NavToolbarClearSelection.Text" xml:space="preserve">
+    <value>Desfés la selecció</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
+    <value>Vista de detalls</value>
+  </data>
+  <data name="PropertiesModified.Text" xml:space="preserve">
+    <value>Modificat:</value>
+  </data>
+  <data name="PropertiesAccessed.Text" xml:space="preserve">
+    <value>Accedit:</value>
+  </data>
+  <data name="RecentItemClearAll.Text" xml:space="preserve">
+    <value>Eliminar tots els elements</value>
+  </data>
+  <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
+    <value>Introdueix una ruta</value>
+  </data>
+  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+    <value>Busca</value>
+  </data>
+  <data name="RecentItemDescription.Text" xml:space="preserve">
+    <value>Els arxius als que has accedit abans apareixeran aquí</value>
+  </data>
+  <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
+    <value>Obre la ubicació de l'arxiu</value>
+  </data>
+  <data name="RecentItemRemove.Text" xml:space="preserve">
+    <value>Elimina aquest element</value>
+  </data>
+  <data name="RecentFilesHeader.Text" xml:space="preserve">
+    <value>Arxius recents</value>
+  </data>
+  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
+    <value>Enllaços útils</value>
+  </data>
+  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
+    <value>Copia</value>
+  </data>
+  <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
+    <value>Enviar comentaris</value>
+  </data>
+  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
+    <value>Licències de tercers</value>
+  </data>
+  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+    <value>Sobre</value>
+  </data>
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
+    <value>Tria el teu color</value>
+  </data>
+  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+    <value>Aparença</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
+    <value>Mostra les extensions per als tipus d'arxius coneguts</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
+    <value>Ensenya arxius i carpetes ocultes</value>
+  </data>
+  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
+    <value>Arxius &amp; carpetes</value>
+  </data>
+  <data name="SettingsNavAbout.Content" xml:space="preserve">
+    <value>Sobre</value>
+  </data>
+  <data name="SettingsNavAppearance.Content" xml:space="preserve">
+    <value>Aparença</value>
+  </data>
+  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
+    <value>Arxius &amp; carpetes</value>
+  </data>
+  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
+    <value>Al arrencar</value>
+  </data>
+  <data name="SettingsNavPreferences.Content" xml:space="preserve">
+    <value>Preferència</value>
+  </data>
+  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
+    <value>ATENCIÓ: FUNCIONALITATS EXPERIMENTALS!</value>
+  </data>
+  <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
+    <value>Continua des d'on ho vas deixar</value>
+  </data>
+  <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
+    <value>Obre una pestanya nova</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
+    <value>Obre una o vàries pàgines</value>
+  </data>
+  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
+    <value>Al arrencar</value>
+  </data>
+  <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
+    <value>Preferències</value>
+  </data>
+  <data name="SidebarDesktop" xml:space="preserve">
+    <value>Escriptori</value>
+  </data>
+  <data name="SidebarDownloads" xml:space="preserve">
+    <value>Descàrregues</value>
+  </data>
+  <data name="SidebarHome" xml:space="preserve">
+    <value>Inici</value>
+  </data>
+  <data name="SidebarMusic" xml:space="preserve">
+    <value>Música</value>
+  </data>
+  <data name="SidebarPictures" xml:space="preserve">
+    <value>Imatges</value>
+  </data>
+  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
+    <value>Desancora de favorits</value>
+  </data>
+  <data name="SidebarVideos" xml:space="preserve">
+    <value>Vídeos</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
+    <value>Ordena per</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
+    <value>Data de modificació</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
+    <value>Tipus</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
+    <value>Mida</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+    <value>Ascendent</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
+    <value>Descendent</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
+    <value>Actualitza</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
+    <value>Enganxa</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
+    <value>Obre al terminal...</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
+    <value>Nou</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
+    <value>Carpeta</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>Arxiu</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
+    <value>Propietats</value>
+  </data>
+  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
+    <value>Propietats</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
+    <value>Extreu</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+    <value>Obre</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
+    <value>Obre a una pestanya nova</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
+    <value>Obre a una finestra nova</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
+    <value>Estableix com a fons d'escriptori</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+    <value>Comparteix</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
+    <value>Corta</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
+    <value>Copia</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
+    <value>Esborra</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
+    <value>Canvia el nom</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+    <value>Ancora a favorits</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
+    <value>Propietats</value>
+  </data>
+  <data name="WelcomeDialog.Title" xml:space="preserve">
+    <value>Benvingut a Files!</value>
+  </data>
+  <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Concedeix permís</value>
+  </data>
+  <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
+    <value>Per començar hauràs de concedir-nos permís per enseyar els teus arxius. Això obrirà una pàgina de configuració on pots concedir-nos permís. Hauràs de tancar i obrir el programa perquè els canvis tinguin efecte.</value>
+  </data>
+  <data name="FileFolderListItem" xml:space="preserve">
+    <value>Carpeta de l'arxiu</value>
+  </data>
+  <data name="ItemTypeFile" xml:space="preserve">
+    <value>Arxiu</value>
+  </data>
+  <data name="RenameDialog.Title" xml:space="preserve">
+    <value>Escriu el nom d'un element</value>
+  </data>
+  <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
+    <value>Escriu el nom d'un element</value>
+  </data>
+  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Estableix nom</value>
+  </data>
+  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel·la</value>
+  </data>
+  <data name="NewTab" xml:space="preserve">
+    <value>Nova pestanya</value>
+  </data>
+  <data name="SystemTheme" xml:space="preserve">
+    <value>Per defecte</value>
+  </data>
+  <data name="LightTheme" xml:space="preserve">
+    <value>Clar</value>
+  </data>
+  <data name="DarkTheme" xml:space="preserve">
+    <value>Oscur</value>
+  </data>
+  <data name="ApplicationTimeStye" xml:space="preserve">
+    <value>Aplicació</value>
+  </data>
+  <data name="SystemTimeStye" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="NewFolder" xml:space="preserve">
+    <value>Nova carpeta</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Nou arxiu</value>
+  </data>
+  <data name="EmptyFolder.Text" xml:space="preserve">
+    <value>La carpeta és buida.</value>
+  </data>
+  <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Enrere (Alt+Fletxa Esquerra)</value>
+  </data>
+  <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Endavant (Alt+Fletxa Dreta)</value>
+  </data>
+  <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Amunt (Alt+Fletxa Amunt)</value>
+  </data>
+  <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Actualitza (F5)</value>
+  </data>
+  <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Busca (Ctrl+F)</value>
+  </data>
+  <data name="PropertiesTitle" xml:space="preserve">
+    <value>Propietats</value>
+  </data>
+  <data name="PropertiesAttributes.Text" xml:space="preserve">
+    <value>Atributs:</value>
+  </data>
+  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
+    <value>Propietats</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
+    <value>Un element amb aquest nom ja existeix a aquest directori.</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Genera un nom nou</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Reemplaça element existent</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
+    <value>L'element ja existeix</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+    <value>Estableix com a fons de pantalla de bloqueig</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
+    <value>Vista en quadrícula (Gran)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
+    <value>Vista en quadrícula (Mitjana)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
+    <value>Vista en quadrícula (Petita)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
+    <value>Vista en rajoles</value>
+  </data>
+  <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
+    <value>Aquest element no ha pogut ser esborrat</value>
+  </data>
+  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
+    <value>Accés denegat</value>
+  </data>
+  <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
+    <value>Insereix el dispositiu necessari per accedir a aquest element.</value>
+  </data>
+  <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
+    <value>Dispositiu desendollat</value>
+  </data>
+  <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>L'arxiu al que intentes accedir ha sigut mogut o esborrat.</value>
+  </data>
+  <data name="FileNotFoundDialog.Title" xml:space="preserve">
+    <value>No es troba l'arxiu</value>
+  </data>
+  <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
+    <value>L'arxiu que intentes previsualitzar pot haver estat mogut o esborrat.</value>
+  </data>
+  <data name="FolderNotFoundDialog.Text" xml:space="preserve">
+    <value>La carpeta a la que intentes accedir pot haver estat moguda o esborrada.</value>
+  </data>
+  <data name="FolderNotFoundDialog.Title" xml:space="preserve">
+    <value>Vas esborrar aquesta carpeta?</value>
+  </data>
+  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
+    <value>L'arxiu que intentes esborrar està en ús per una altra aplicació.</value>
+  </data>
+  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
+    <value>L'arxiu està en ús</value>
+  </data>
+  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Torna-ho a provar</value>
+  </data>
+  <data name="NavToolbarLayout.Text" xml:space="preserve">
+    <value>Diseny</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Opcions de selecció</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>Només llegir</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>Amagat</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
+    <value>Buida la papelera</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
+    <value>Restaura</value>
+  </data>
+  <data name="DaysAgo" xml:space="preserve">
+    <value>Fa {0} dies</value>
+  </data>
+  <data name="DayAgo" xml:space="preserve">
+    <value>Fa {0} dia</value>
+  </data>
+  <data name="HoursAgo" xml:space="preserve">
+    <value>Fa {0} hores</value>
+  </data>
+  <data name="HourAgo" xml:space="preserve">
+    <value>Fa {0} hora</value>
+  </data>
+  <data name="MinutesAgo" xml:space="preserve">
+    <value>Fa {0} minuts</value>
+  </data>
+  <data name="MinuteAgo" xml:space="preserve">
+    <value>Fa {0} minut</value>
+  </data>
+  <data name="SecondsAgo" xml:space="preserve">
+    <value>Fa {0} segons</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
+    <value>Nova pestanya</value>
+  </data>
+  <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
+    <value>L'operació no està disponible</value>
+  </data>
+  <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
+    <value>{0} lliure de {1}</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
+    <value>Obre amb</value>
+  </data>
+  <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
+    <value>El nom de l'element no pot tenir els següents caràcters: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
+    <value>El nom de l'element no pot tenir els següents caràcters: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="ItemSelected.Text" xml:space="preserve">
+    <value>element seleccionat</value>
+  </data>
+  <data name="ItemsSelected.Text" xml:space="preserve">
+    <value>elements seleccionats</value>
+  </data>
+  <data name="ItemCount.Text" xml:space="preserve">
+    <value>element</value>
+  </data>
+  <data name="ItemsCount.Text" xml:space="preserve">
+    <value>elements</value>
+  </data>
+  <data name="DeleteInProgress.Title" xml:space="preserve">
+    <value>Esborrant arxius</value>
+  </data>
+  <data name="PasteInProgress.Title" xml:space="preserve">
+    <value>Enganxant arxius</value>
+  </data>
+  <data name="RecycleInProgress.Title" xml:space="preserve">
+    <value>Movent arxius a la papelera</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Sí</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel·la</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
+    <value>Estàs segur d'esborrar tots aquests elements permanentment?</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
+    <value>Buida la papelera de reciclatge</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+    <value>Executa com a administrador</value>
+  </data>
+  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Desbloqueja</value>
+  </data>
+  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel·la</value>
+  </data>
+  <data name="BitlockerDialog.Title" xml:space="preserve">
+    <value>Introdueix la contrasenya per desbloquejar el dispositiu</value>
+  </data>
+  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
+    <value>Contrasenya</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
+    <value>Contrasenya incorrecta. Torna-ho a intentar.</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
+    <value>Error de BitLocker</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
+    <value>Conté:</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
+    <value>{0:#,##0} arxius, {1:#,##0} carpetes</value>
+  </data>
+  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
+    <value>{0:#,##0} arxius, {1:#,##0} carpetes de {2:#,##0} ubicacions</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+    <value>Executa com a un/a altre/a usuari/a</value>
+  </data>
+  <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
+    <value>Tot tipus de {0}</value>
+  </data>
+  <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
+    <value>Tipus diferents</value>
+  </data>
+  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+    <value>Tot a {0}</value>
+  </data>
+  <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
+    <value>Espai empleat:</value>
+  </data>
+  <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
+    <value>Espai lliure:</value>
+  </data>
+  <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
+    <value>Capacitat:</value>
+  </data>
+  <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
+    <value>Arxiu de sistema:</value>
+  </data>
+  <data name="JumpListRecentGroupHeader" xml:space="preserve">
+    <value>Recent</value>
+  </data>
+  <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
+    <value>Mou la pestanya aquí</value>
+  </data>
+  <data name="syncStatusColumn.Header" xml:space="preserve">
+    <value>Estatus</value>
+  </data>
+  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
+    <value>Afegeix una pàgina nova</value>
+  </data>
+  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
+    <value>Pàgines:</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
+    <value>Obre sempre un entorn nou</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
+    <value>Obre la carpeta a una pestanya nova</value>
+  </data>
+  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
+    <value>Quan obris una carpeta a Files</value>
+  </data>
+  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
+    <value>Configuració per defecte de Windows</value>
+  </data>
+  <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
+    <value>Sense resultats</value>
+  </data>
+  <data name="SubDirectoryAccessDenied" xml:space="preserve">
+    <value>No es pot mostrar cap element</value>
+  </data>
+  <data name="MoveToFolderCaptionText" xml:space="preserve">
+    <value>Mou a {0}</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
+    <value>El nom de l'arxiu d'origen i de destí és el mateix.</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
+    <value>El nom de la carpeta d'origen i de destí és el mateix.</value>
+  </data>
+  <data name="CopyToFolderCaptionText" xml:space="preserve">
+    <value>Copia a {0}</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+    <value>Crea accés directe</value>
+  </data>
+  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+    <value>Obre ubicació de l'arxiu</value>
+  </data>
+  <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
+    <value>Arguments:</value>
+  </data>
+  <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
+    <value>Destí:</value>
+  </data>
+  <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
+    <value>Tipus d'accés directe:</value>
+  </data>
+  <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
+    <value>Directori en ús:</value>
+  </data>
+  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
+    <value>Aplicació</value>
+  </data>
+  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
+    <value>Arxiu</value>
+  </data>
+  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
+    <value>Carpeta</value>
+  </data>
+  <data name="PropertiesShortcutTypeLink" xml:space="preserve">
+    <value>Enllaç web</value>
+  </data>
+  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+    <value>Accés directe</value>
+  </data>
+  <data name="ShortcutFileType" xml:space="preserve">
+    <value>Accés directe</value>
+  </data>
+  <data name="ShortcutWebLinkFileType" xml:space="preserve">
+    <value>Drecera d'internet</value>
+  </data>
+  <data name="ShortcutCreateNewSuffix" xml:space="preserve">
+    <value>{0} - accés directe</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+    <value>Obre la ubicació de l'arxiu</value>
+  </data>
+  <data name="DriveCapacityUnknown" xml:space="preserve">
+    <value>Desconegut</value>
+  </data>
+  <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
+    <value>Obre històric d'ubicació</value>
+  </data>
+  <data name="ExceptionNotificationBody" xml:space="preserve">
+    <value>Els arxius s'han trobat amb un problema que els desenvolupadors no han esmenat encara.</value>
+  </data>
+  <data name="ExceptionNotificationHeader" xml:space="preserve">
+    <value>Algo ha sortit malament!</value>
+  </data>
+  <data name="ExceptionNotificationReportButton" xml:space="preserve">
+    <value>Informa d'aquest problema</value>
+  </data>
+  <data name="SettingsAboutContributors.Text" xml:space="preserve">
+    <value>Col·laboradores i col·laboradors</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>Notes de la versió</value>
+  </data>
+  <data name="InvalidItemDialogContent" xml:space="preserve">
+    <value>L'element referenciat o és invàlid o inaccessible.(0)Missatge d'error:{0}{1}</value>
+  </data>
+  <data name="InvalidItemDialogTitle" xml:space="preserve">
+    <value>Element invàlid</value>
+  </data>
+  <data name="SettingsAboutVersionTitle" xml:space="preserve">
+    <value>Versió:</value>
+  </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>No n'hi ha res per compartir ara mateix...</value>
+  </data>
+  <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
+    <value>Compartiràs els elements seleccionats</value>
+  </data>
+  <data name="ShareDialogSingleItemDescription" xml:space="preserve">
+    <value>Compartiràs l'element seleccionat</value>
+  </data>
+  <data name="ShareDialogTitle" xml:space="preserve">
+    <value>Compartint {0}</value>
+  </data>
+  <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
+    <value>Compartint {0} {1}</value>
+  </data>
+  <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
+    <value>L'element que estàs intentant renombrar no existeix. Verifica que la ubicació de l'element és correcta.</value>
+  </data>
+  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
+    <value>L'element no existeix</value>
+  </data>
+  <data name="RenameError.NameInvalid.Text" xml:space="preserve">
+    <value>El nom que has especificat és invàlid. Verifica el nom de l'element i torna-ho a intentar.</value>
+  </data>
+  <data name="RenameError.NameInvalid.Title" xml:space="preserve">
+    <value>Nom invalid</value>
+  </data>
+  <data name="RenameError.TooLong.Text" xml:space="preserve">
+    <value>La llargaria del nom de l'element que has introduït excedeix el limit màxim. Comprova el nom desitjat i torna-ho a provar.</value>
+  </data>
+  <data name="RenameError.TooLong.Title" xml:space="preserve">
+    <value>El nom de l'element és massa llarg</value>
+  </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>Més</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>Sí</value>
+  </data>
+  <data name="RestartNotificationText.Text" xml:space="preserve">
+    <value>S'ha de reiniciar l'aplicació per a que es desin els canvis. Voldries reiniciar l'app?</value>
+  </data>
+  <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
+    <value>Recolçan's</value>
+  </data>
+  <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
+    <value>No s'ha pogut crear aquest element</value>
+  </data>
+  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Tanca</value>
+  </data>
+  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+    <value>Accès denegat</value>
+  </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>Cancel·la</value>
+  </data>
+  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
+    <value>Anyadeix pestanya</value>
+  </data>
+  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
+    <value>Obre pestanyes</value>
+  </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>Multitasca</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>Multitasca</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>Establir com a</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+    <value>Copia la ubicació</value>
+  </data>
+  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Cancel·la</value>
+  </data>
+  <data name="AddDialog.Title" xml:space="preserve">
+    <value>Crea un element nou</value>
+  </data>
+  <data name="AddDialogDescription.Text" xml:space="preserve">
+    <value>Tria un tipus per al nou element de sota</value>
+  </data>
+  <data name="AddDialogListFileHeader" xml:space="preserve">
+    <value>Arxiu</value>
+  </data>
+  <data name="AddDialogListFileSubHeader" xml:space="preserve">
+    <value>Crea un arxiu buit</value>
+  </data>
+  <data name="AddDialogListFolderHeader" xml:space="preserve">
+    <value>Carpeta</value>
+  </data>
+  <data name="AddDialogListFolderSubHeader" xml:space="preserve">
+    <value>Crea una carpeta buida</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Mode d'organització</value>
+  </data>
+  <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Navega enrere</value>
+  </data>
+  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Navega endavant</value>
+  </data>
+  <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Actualitza el directori</value>
+  </data>
+  <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Puja un directori</value>
+  </data>
+  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Bocadillo vertical</value>
+  </data>
+  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Bocadillo vertical</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
+    <value>Edita aplicacions de terminal</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Edita aplicacions de terminal</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="SettingsContextMenuOverflow" xml:space="preserve">
+    <value>Move overflow items into a sub menu</value>
+  </data>
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
+    <value>Ancora la papelera a favorits</value>
+  </data>
+  <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
+    <value>Ha hagut un problema desant algunes propietats.</value>
+  </data>
+  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Reintenta-ho</value>
+  </data>
+  <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Tanca de totes maneres</value>
+  </data>
+  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
+    <value>Cancel·la</value>
+  </data>
+  <data name="PropertyRatingText" xml:space="preserve">
+    <value>Estimant</value>
+  </data>
+  <data name="PropertyItemPathDisplay" xml:space="preserve">
+    <value>Ruta de l'element</value>
+  </data>
+  <data name="PropertyItemTypeText" xml:space="preserve">
+    <value>Tipus d'element</value>
+  </data>
+  <data name="PropertyTitle" xml:space="preserve">
+    <value>Títol</value>
+  </data>
+  <data name="PropertySubject" xml:space="preserve">
+    <value>Assumpte</value>
+  </data>
+  <data name="PropertyComment" xml:space="preserve">
+    <value>Comentari</value>
+  </data>
+  <data name="PropertyCopyright" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="PropertyDateModified" xml:space="preserve">
+    <value>Data de modificació</value>
+  </data>
+</root>

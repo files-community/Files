@@ -212,7 +212,10 @@ namespace Files.Views.LayoutModes
 
             UpdateSortOptionsCommand = new RelayCommand<string>(x =>
             {
-                var val = Enum.Parse<SortOption>(x);
+                if (!Enum.TryParse<SortOption>(x, out var val))
+                {
+                    return;
+                }
                 if (FolderSettings.DirectorySortOption == val)
                 {
                     FolderSettings.DirectorySortDirection = (SortDirection)(((int)FolderSettings.DirectorySortDirection + 1) % 2);
@@ -325,17 +328,15 @@ namespace Files.Views.LayoutModes
             SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
         }
 
-        private ListedItem renamingItem;
-
         override public void StartRenameItem()
         {
-            renamingItem = SelectedItem;
-            if (renamingItem == null)
+            RenamingItem = SelectedItem;
+            if (RenamingItem == null)
             {
                 return;
             }
-            int extensionLength = renamingItem.FileExtension?.Length ?? 0;
-            ListViewItem listViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
+            int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
+            ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
             TextBox textBox = null;
             if (listViewItem == null)
             {
@@ -413,17 +414,17 @@ namespace Files.Views.LayoutModes
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
 
-            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(renamingItem, OldItemName, newItemName, ParentShellPageInstance);
+            bool successful = await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, OldItemName, newItemName, ParentShellPageInstance);
             if (!successful)
             {
-                renamingItem.ItemName = OldItemName;
+                RenamingItem.ItemName = OldItemName;
             }
         }
 
         private void EndRename(TextBox textBox)
         {
-            ListViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as ListViewItem;
-            if (gridViewItem == null)
+            ListViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+            if (textBox == null || gridViewItem == null)
             {
                 // Navigating away, do nothing
             }
@@ -462,11 +463,11 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
+                    e.Handled = true;
                     if (MainViewModel.IsQuickLookEnabled)
                     {
                         await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
-                    e.Handled = true;
                 }
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
@@ -565,7 +566,7 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
+        private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
@@ -585,7 +586,20 @@ namespace Files.Views.LayoutModes
             }
             else
             {
-                CheckRenameDoubleClick(e.ClickedItem);
+                var clickedItem = e.OriginalSource as FrameworkElement;
+                if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
+                {
+                    CheckRenameDoubleClick(clickedItem?.DataContext);
+                }
+                else if (IsRenamingItem)
+                {
+                    ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+                    if (listViewItem != null)
+                    {
+                        var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
+                        CommitRename(textBox);
+                    }
+                }
             }
         }
 
@@ -606,6 +620,7 @@ namespace Files.Views.LayoutModes
 
         public override void Dispose()
         {
+            base.Dispose();
             UnhookEvents();
             CommandsViewModel?.Dispose();
         }
@@ -743,7 +758,7 @@ namespace Files.Views.LayoutModes
 
         private double MeasureTextColumn(int columnIndex, int measureItems, int maxItemLength)
         {
-            var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(x => Grid.GetColumn(x.Parent as Grid) == columnIndex);
+            var tbs = DependencyObjectHelpers.FindChildren<TextBlock>(FileList.ItemsPanelRoot).Where(x => x.Parent is Grid && Grid.GetColumn((Grid)x.Parent) == columnIndex);
             var widthPerLetter = tbs.Where(tb => !string.IsNullOrEmpty(tb.Text)).Take(measureItems).Select(tb =>
             {
                 tb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
@@ -754,6 +769,20 @@ namespace Files.Views.LayoutModes
                 return 0;
             }
             return widthPerLetter.Average() * maxItemLength;
+        }
+
+        private void FileList_Loaded(object sender, RoutedEventArgs e)
+        {
+            var contentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
+            contentScroller.ViewChanged -= ContentScroller_ViewChanged;
+            contentScroller.ViewChanged += ContentScroller_ViewChanged;
+        }
+
+        private void ContentScroller_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            //var headerScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "HeaderScrollViewer");
+            var headerScroller = ((sender as ScrollViewer).Parent as Grid).Children[0] as ScrollViewer;
+            headerScroller.ChangeView((sender as ScrollViewer).HorizontalOffset, null, null, true);
         }
     }
 }

@@ -5,7 +5,6 @@ using System.IO;
 using System.IO.Pipes;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 using Windows.Storage;
 
 namespace FilesFullTrust.MessageHandlers
@@ -48,6 +47,24 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
+        public static ulong? GetFileFRN(string filePath)
+        {
+            //using var si = new ShellItem(filePath);
+            //return (ulong?)si.Properties["System.FileFRN"]; // Leaves open file handles
+            using var hFile = Kernel32.CreateFile(filePath, Kernel32.FileAccess.GENERIC_READ, FileShare.ReadWrite, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
+            if (hFile.IsInvalid)
+            {
+                return null;
+            }
+            ulong? frn = null;
+            Extensions.IgnoreExceptions(() =>
+            {
+                var fileID = Kernel32.GetFileInformationByHandleEx<Kernel32.FILE_ID_INFO>(hFile, Kernel32.FILE_INFO_BY_HANDLE_CLASS.FileIdInfo);
+                frn = BitConverter.ToUInt64(fileID.FileId.Identifier, 0);
+            });
+            return frn;
+        }
+
         public void UpdateTagsDb()
         {
             string fileTagsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
@@ -76,8 +93,7 @@ namespace FilesFullTrust.MessageHandlers
                     {
                         if (!Extensions.IgnoreExceptions(() =>
                         {
-                            using var si = new ShellItem(file.FilePath);
-                            var frn = (ulong?)si.Properties["System.FileFRN"];
+                            var frn = GetFileFRN(file.FilePath);
                             dbInstance.UpdateTag(file.FilePath, frn, null);
                             dbInstance.SetTag(file.FilePath, (ulong?)frn, tag);
                         }, Program.Logger))

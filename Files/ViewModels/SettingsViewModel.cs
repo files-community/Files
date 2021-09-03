@@ -4,11 +4,14 @@ using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -50,8 +53,7 @@ namespace Files.ViewModels
             FileTagsSettings = new FileTagsSettings();
 
             // Send analytics to AppCenter
-            TrackAnalytics();
-
+            StartAppCenter();
             return this;
         }
 
@@ -65,8 +67,22 @@ namespace Files.ViewModels
         {
         }
 
-        private void TrackAnalytics()
+        private async void StartAppCenter()
         {
+            JObject obj;
+            try
+            {
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
+                var lines = await FileIO.ReadTextAsync(file);
+                obj = JObject.Parse(lines);
+            }
+            catch
+            {
+                return;
+            }
+
+            AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
+
             Analytics.TrackEvent($"{nameof(DisplayedTimeStyle)} {DisplayedTimeStyle}");
             Analytics.TrackEvent($"{nameof(ThemeHelper.RootTheme)} {ThemeHelper.RootTheme}");
             Analytics.TrackEvent($"{nameof(PinRecycleBinToSideBar)} {PinRecycleBinToSideBar}");
@@ -81,6 +97,7 @@ namespace Files.ViewModels
             Analytics.TrackEvent($"{nameof(ShowLibrarySection)} {ShowLibrarySection}");
             Analytics.TrackEvent($"{nameof(ShowBundlesWidget)} {ShowBundlesWidget}");
             Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)} {ListAndSortDirectoriesAlongsideFiles}");
+            Analytics.TrackEvent($"{nameof(AreFileTagsEnabled)} {AreFileTagsEnabled}");
         }
 
         public static async void OpenLogLocation()
@@ -135,6 +152,15 @@ namespace Files.ViewModels
         /// Gets or sets a value indicating if the preview pane should be open or closed.
         /// </summary>
         public bool PreviewPaneEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the preview pane should only show the item preview without the details section
+        /// </summary>
+        public bool ShowPreviewOnly
         {
             get => Get(false);
             set => Set(value);
@@ -515,7 +541,7 @@ namespace Files.ViewModels
             }
         }
 
-        #endregion
+        #endregion Sidebar
 
         #region Preferences
 
@@ -593,10 +619,6 @@ namespace Files.ViewModels
 
         #endregion Appearance
 
-        #region Experimental
-
-        #endregion Experimental
-
         #region Startup
 
         /// <summary>
@@ -661,7 +683,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not to show a teaching tip informing the user about the status center.
         /// </summary>
-        public bool ShowStatusCenterTeachingTip
+        public bool ShowOngoingTasksTeachingTip
         {
             get => Get(true);
             set => Set(value);
@@ -682,6 +704,15 @@ namespace Files.ViewModels
         public bool HideConfirmElevateDialog
         {
             get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating the default volume on media preview.
+        /// </summary>
+        public double MediaVolume
+        {
+            get => Math.Min(Math.Max(Get(1.0d), 0.0d), 1.0d);
             set => Set(value);
         }
 
@@ -717,7 +748,6 @@ namespace Files.ViewModels
             get => (SortOption)Get((byte)SortOption.Name);
             set => Set((byte)value);
         }
-
 
         public GroupOption DefaultDirectoryGroupOption
         {

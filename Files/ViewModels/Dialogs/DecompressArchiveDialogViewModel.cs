@@ -16,6 +16,7 @@ namespace Files.ViewModels.Dialogs
         public StorageFolder DestinationFolder { get; private set; }
 
         private string destinationFolderPath;
+
         public string DestinationFolderPath
         {
             get => destinationFolderPath;
@@ -23,6 +24,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private bool openDestinationFolderOnCompletion;
+
         public bool OpenDestinationFolderOnCompletion
         {
             get => openDestinationFolderOnCompletion;

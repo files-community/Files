@@ -26,9 +26,20 @@ namespace Files.ViewModels
             SetLayoutInformation();
         }
 
+        public FolderSettingsViewModel(FolderLayoutModes modeOverride)
+        {
+            rootLayoutMode = modeOverride;
+
+            this.LayoutPreference = new LayoutPreferences();
+
+            SetLayoutInformation();
+        }
+
+        private readonly FolderLayoutModes? rootLayoutMode;
+
         public FolderLayoutModes LayoutMode
         {
-            get => LayoutPreference.LayoutMode;
+            get => rootLayoutMode ?? LayoutPreference.LayoutMode;
             set
             {
                 if (SetProperty(ref LayoutPreference.LayoutMode, value, nameof(LayoutMode)))
@@ -180,7 +191,7 @@ namespace Files.ViewModels
 
             LastLayoutModeSelected = FolderLayout.GridViewLarge;
 
-            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
+            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.GridView, GridViewSize));
         });
 
         public RelayCommand<bool> ToggleLayoutModeColumnView => new RelayCommand<bool>((manuallySet) =>
@@ -202,7 +213,7 @@ namespace Files.ViewModels
 
             LastLayoutModeSelected = FolderLayout.ColumnView;
 
-            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
+            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.ColumnView, GridViewSize));
         });
 
         public RelayCommand<bool> ToggleLayoutModeGridViewMedium => new RelayCommand<bool>((manuallySet) =>
@@ -231,7 +242,7 @@ namespace Files.ViewModels
 
             LastLayoutModeSelected = FolderLayout.GridViewMedium;
 
-            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
+            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.GridView, GridViewSize));
         });
 
         public RelayCommand<bool> ToggleLayoutModeGridViewSmall => new RelayCommand<bool>((manuallySet) =>
@@ -260,7 +271,7 @@ namespace Files.ViewModels
 
             LastLayoutModeSelected = FolderLayout.GridViewSmall;
 
-            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
+            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.GridView, GridViewSize));
         });
 
         public RelayCommand<int> ToggleLayoutModeGridView => new RelayCommand<int>((size) =>
@@ -296,7 +307,7 @@ namespace Files.ViewModels
 
             LastLayoutModeSelected = FolderLayout.TilesView;
 
-            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
+            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.TilesView, GridViewSize));
         });
 
         public RelayCommand<bool> ToggleLayoutModeDetailsView => new RelayCommand<bool>((manuallySet) =>
@@ -319,7 +330,7 @@ namespace Files.ViewModels
 
             LastLayoutModeSelected = FolderLayout.DetailsView;
 
-            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(LayoutMode, GridViewSize));
+            LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.DetailsView, GridViewSize));
         });
 
         public GridViewSizeKind GridViewSizeKind
@@ -585,6 +596,7 @@ namespace Files.ViewModels
         }
 
         private LayoutPreferences layoutPreference;
+
         public LayoutPreferences LayoutPreference
         {
             get => layoutPreference;

@@ -1,20 +1,11 @@
-﻿using Files.DataModels;
-using Files.Helpers;
-using Files.Helpers.ContextFlyouts;
-using Files.Helpers.XamlHelpers;
+﻿using Files.Helpers.XamlHelpers;
 using Files.ViewModels;
-using Files.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 using Windows.System;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.UserControls
 {
@@ -33,7 +24,6 @@ namespace Files.UserControls
         public ISearchBox SearchBox => ViewModel.SearchBox;
 
         public MainViewModel MainViewModel => App.MainViewModel;
-
 
         public static readonly DependencyProperty CanPasteInPageProperty = DependencyProperty.Register(
           "CanPasteInPage",
@@ -64,7 +54,7 @@ namespace Files.UserControls
 
         private void NavigationToolbar_Loading(FrameworkElement sender, object args)
         {
-            StatusCenterViewModel.ProgressBannerPosted += StatusCenterActions_ProgressBannerPosted;
+            OngoingTasksViewModel.ProgressBannerPosted += OngoingTasksActions_ProgressBannerPosted;
         }
 
         private void VisiblePath_Loaded(object sender, RoutedEventArgs e)
@@ -125,8 +115,8 @@ namespace Files.UserControls
 
         public void SetShellCommandBarContextItems()
         {
-
         }
+
         public bool ShowSearchBox
         {
             get { return (bool)GetValue(ShowSearchBoxProperty); }
@@ -137,7 +127,6 @@ namespace Files.UserControls
         public static readonly DependencyProperty ShowSearchBoxProperty =
             DependencyProperty.Register(nameof(ShowSearchBox), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
 
-
         public static readonly DependencyProperty SettingsButtonCommandProperty = DependencyProperty.Register(nameof(SettingsButtonCommand), typeof(ICommand), typeof(NavigationToolbar), new PropertyMetadata(null));
 
         public ICommand SettingsButtonCommand
@@ -146,32 +135,32 @@ namespace Files.UserControls
             set => SetValue(SettingsButtonCommandProperty, value);
         }
 
-        public StatusCenterViewModel StatusCenterViewModel { get; set; }
+        public OngoingTasksViewModel OngoingTasksViewModel { get; set; }
 
-        private void StatusCenterActions_ProgressBannerPosted(object sender, PostedStatusBanner e)
+        private void OngoingTasksActions_ProgressBannerPosted(object sender, PostedStatusBanner e)
         {
-            if (AppSettings.ShowStatusCenterTeachingTip)
+            if (AppSettings.ShowOngoingTasksTeachingTip)
             {
-                StatusCenterTeachingTip.IsOpen = true;
-                StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                AppSettings.ShowStatusCenterTeachingTip = false;
+                OngoingTasksTeachingTip.IsOpen = true;
+                OngoingTasksTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                AppSettings.ShowOngoingTasksTeachingTip = false;
             }
             else
             {
-                StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                StatusCenterTeachingTip.IsOpen = false;
+                OngoingTasksTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                OngoingTasksTeachingTip.IsOpen = false;
             }
         }
 
-        public bool ShowStatusCenter
+        public bool ShowOngoingTasks
         {
-            get => (bool)GetValue(ShowStatusCenterProperty);
-            set => SetValue(ShowStatusCenterProperty, value);
+            get => (bool)GetValue(ShowOngoingTasksProperty);
+            set => SetValue(ShowOngoingTasksProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for ShowStatusCenter.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ShowStatusCenterProperty =
-            DependencyProperty.Register(nameof(ShowStatusCenter), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
+        // Using a DependencyProperty as the backing store for ShowOngoingTasks.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShowOngoingTasksProperty =
+            DependencyProperty.Register(nameof(ShowOngoingTasks), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
 
         public bool ShowSettingsButton
         {

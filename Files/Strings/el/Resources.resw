@@ -97,7 +97,7 @@
     <value>Εκκαθάριση επιλογής</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
-    <value>Λεπτομέρειες Προβολή</value>
+    <value>Λεπτομέρειες</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Τροποποιήθηκε:</value>
@@ -141,16 +141,16 @@
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Σχετικά με το</value>
   </data>
-  <data name="SettingsAppearanceTheme.Title" xml:space="preserve">
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Επιλέξτε το χρώμα σας</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Εμφάνιση</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Εμφάνιση επεκτάσεων για γνωστούς τύπους αρχείων</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Εμφάνιση κρυφών αρχείων και φακέλων</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
@@ -396,17 +396,17 @@
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Ορισμός ως φόντο οθόνης κλειδώματος</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
-    <value>Προβολή πλέγματος (μεγάλο)</value>
+  <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
+    <value>Μεγάλα εικονίδια</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
-    <value>Προβολή πλέγματος (Μεσαίο)</value>
+  <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
+    <value>Μεσαία εικονίδια</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
-    <value>Προβολή πλέγματος (μικρό)</value>
+  <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
+    <value>Μικρά εικονίδια</value>
   </data>
-  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
-    <value>Προβολή πλακιδίων</value>
+  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
+    <value>Πλακάκια</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>Εντάξει</value>
@@ -509,12 +509,6 @@
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Το όνομα του στοιχείου δεν πρέπει να περιέχει τους ακόλουθους χαρακτήρες: \ / : * ? " &lt; &gt; |</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Ανοιχτή θέση καταγραφής</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButtonText.Text" xml:space="preserve">
-    <value>Ανοιχτή θέση καταγραφής</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>επιλεγμένο στοιχείο</value>
@@ -876,10 +870,10 @@
   <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
     <value>Γλώσσα</value>
   </data>
-  <data name="SettingsContextMenuOverflowSwitch.Title" xml:space="preserve">
+  <data name="SettingsContextMenuOverflow" xml:space="preserve">
     <value>Μετακίνηση στοιχείων υπερχείλισης σε υπομενού</value>
   </data>
-  <data name="SettingsRecycleBinSwitch.Title" xml:space="preserve">
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
     <value>Καρφίτσωμα κάδου ανακύκλωσης στα αγαπημένα</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
@@ -1191,10 +1185,7 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Επιλέξτε</value>
   </data>
-  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
-    <value>Κέντρο κατάστασης</value>
-  </data>
-  <data name="SettingsOpenItemsWithOneclick.Title" xml:space="preserve">
+  <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
     <value>Άνοιγμα αντικειμένων με ένα μόνο κλικ</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1257,17 +1248,17 @@
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
     <value>Εκκαθάριση όλων των ιδιοτήτων</value>
   </data>
-  <data name="StatusCenterTeachingTip.Subtitle" xml:space="preserve">
+  <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
     <value>Ελέγξτε την κατάσταση των λειτουργιών αρχείων εδώ</value>
   </data>
-  <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
+  <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
     <value>Κέντρο κατάστασης</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Αναζήτηση</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>Αποτελέσματα αναζήτησης σε</value>
+    <value>Αποτελέσματα αναζήτησης σε {1} για {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Αποτελέσματα αναζήτησης</value>
@@ -1284,7 +1275,7 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Υποστηρίξτε μας στο PayPal</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Title" xml:space="preserve">
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
     <value>Λίστα και ταξινόμηση καταλόγων μαζί με αρχεία</value>
   </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
@@ -1302,13 +1293,13 @@
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Διαθέσιμες ενημερώσεις</value>
   </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Title" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Απόκρυψη προστατευμένων αρχείων λειτουργικού συστήματος (Συνιστάται)</value>
   </data>
-  <data name="SettingsSearchUnindexedItems.Title" xml:space="preserve">
+  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Εμφάνιση μη ευρετηριασμένων στοιχείων κατά την αναζήτηση αρχείων και φακέλων (οι αναζητήσεις μπορεί να διαρκέσουν περισσότερο)</value>
   </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Title" xml:space="preserve">
+  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
     <value>Ενεργοποίηση ατομικών προτιμήσεων για μεμονωμένους καταλόγους</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
@@ -1332,16 +1323,10 @@
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Ακύρωση</value>
   </data>
-  <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Συνεχιζόμενα καθήκοντα</value>
-  </data>
-  <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
-    <value>Συνεχιζόμενα καθήκοντα</value>
-  </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Ανοίγετε πάντα νέες καρτέλες σε λειτουργία διπλού παραθύρου</value>
   </data>
-  <data name="SettingsMultitaskingEnableDualPane.Title" xml:space="preserve">
+  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
     <value>Ενεργοποίηση προβολής διπλού παραθύρου</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
@@ -1359,14 +1344,11 @@
   <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Φάκελοι</value>
   </data>
-  <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Προβολή λεπτομερειών (Ctrl+Shift+1)</value>
+  <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Λεπτομέρειες (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
-    <value>Λεπτομέρειες Προβολή</value>
-  </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>Επιλογές εμφάνισης</value>
+  <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
+    <value>Λεπτομέρειες</value>
   </data>
   <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Διάταξη</value>
@@ -1380,35 +1362,29 @@
   <data name="PreviewPaneToggle.Label" xml:space="preserve">
     <value>Προεπισκόπηση</value>
   </data>
-  <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
-    <value>Προβολή πλέγματος (μεγάλο)</value>
+  <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
+    <value>Μεγάλα εικονίδια</value>
   </data>
-  <data name="NavToolbarGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Προβολή πλέγματος (μεγάλο) (Ctrl+Shift+5)</value>
+  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Μεγάλα εικονίδια (Ctrl+Shift+5)</value>
   </data>
-  <data name="NavToolbarGridViewMedium.AutomationProperties.Name" xml:space="preserve">
-    <value>Προβολή πλέγματος (Μεσαίο)</value>
+  <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
+    <value>Μεσαία εικονίδια</value>
   </data>
-  <data name="NavToolbarGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Προβολή πλέγματος (Μεσαίο) (Ctrl+Shift+4)</value>
+  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Μεσαία εικονίδια (Ctrl+Shift+4)</value>
   </data>
-  <data name="NavToolbarGridViewSmall.AutomationProperties.Name" xml:space="preserve">
-    <value>Προβολή πλέγματος (μικρό)</value>
+  <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
+    <value>Μικρά εικονίδια</value>
   </data>
-  <data name="NavToolbarGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Προβολή πλέγματος (μικρό) (Ctrl+Shift+3)</value>
+  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Μικρά εικονίδια (Ctrl+Shift+3)</value>
   </data>
-  <data name="NavToolbarTilesView.AutomationProperties.Name" xml:space="preserve">
-    <value>Προβολή πλακιδίων</value>
+  <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
+    <value>Πλακάκια</value>
   </data>
-  <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Προβολή πλακιδίων (Ctrl+Shift+2)</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
-    <value>Εμφάνιση επεκτάσεων αρχείων</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
-    <value>Εμφάνιση κρυφών στοιχείων</value>
+  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Πλακάκια (Ctrl+Shift+2)</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>Ημερομηνία διαγραφής</value>
@@ -1548,7 +1524,7 @@
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Επισκεφθείτε τον ιστότοπο τεκμηρίωσης του Files</value>
   </data>
-  <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
+  <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>Flyout συνεχιζόμενων εργασιών</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
@@ -1648,12 +1624,12 @@
     <value>Άνοιγμα σε νέο παράθυρο</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>Εμφάνιση της ενότητας βιβλιοθήκης στην πλαϊνή μπάρα</value>
+    <value>Εμφάνιση της ενότητας βιβλιοθήκης</value>
   </data>
   <data name="DefaultTheme" xml:space="preserve">
     <value>Προεπιλογή</value>
   </data>
-  <data name="SettingsAppearanceCustomThemes.Title" xml:space="preserve">
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
     <value>Προσαρμοσμένα θέματα</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
@@ -1705,10 +1681,10 @@
     <value>Διαχειριστής</value>
   </data>
   <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
-    <value>Προβολή στήλης</value>
+    <value>Στήλες</value>
   </data>
   <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Προβολή στήλης (Ctrl+Shift+6)</value>
+    <value>Στήλες (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
     <value>Καρφίτσωμα στο μενού Έναρξη</value>
@@ -1717,7 +1693,7 @@
     <value>Αποσύνδεση από το μενού Έναρξη</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
-    <value>Προβολή στήλης</value>
+    <value>Στήλες</value>
   </data>
   <data name="ItemTypeLibrary" xml:space="preserve">
     <value>Βιβλιοθήκη</value>
@@ -1953,10 +1929,10 @@
   <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
     <value>Ταξινόμηση</value>
   </data>
-  <data name="NavToolbarGroupByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Ομάδα από</value>
   </data>
-  <data name="NavToolbarSortByRadioButtons.Header" xml:space="preserve">
+  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Ταξινόμηση κατά</value>
   </data>
   <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
@@ -2124,16 +2100,16 @@
   <data name="StatusCancellingOp" xml:space="preserve">
     <value>ακύρωση</value>
   </data>
-  <data name="StatusCenterDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
     <value>Απόρριψη</value>
   </data>
-  <data name="StatusCenterDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Απόρριψη</value>
   </data>
-  <data name="StatusCenterCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
     <value>Ακύρωση</value>
   </data>
-  <data name="StatusCenterCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ακύρωση</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
@@ -2196,7 +2172,7 @@
   <data name="SettingsSidebarTitle.Text" xml:space="preserve">
     <value>Πλαϊνή μπάρα</value>
   </data>
-  <data name="SettingsVerticalTabFlyoutSwitch.Title" xml:space="preserve">
+  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
     <value>Εμφάνιση της κατακόρυφης πτυσσόμενης καρτέλας στη γραμμή τίτλου</value>
   </data>
   <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
@@ -2415,9 +2391,6 @@
   <data name="PropertySyncStatus" xml:space="preserve">
     <value>Κατάσταση συγχρονισμού</value>
   </data>
-  <data name="PreviewPaneLoadCloudItemButton.Content" xml:space="preserve">
-    <value>Φόρτωση πλήρους προεπισκόπησης</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Λήψη του στοιχείου από το cloud και φόρτωση της προεπισκόπησης</value>
   </data>
@@ -2428,16 +2401,16 @@
     <value>Μη συμπιεσμένο μέγεθος</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>Εμφάνιση της ενότητας δίσκων cloud στην πλαϊνή μπάρα</value>
+    <value>Εμφάνιση της ενότητας δίσκων cloud</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>Εμφάνιση της ενότητας δίσκων στην πλαϊνή μπάρα</value>
+    <value>Εμφάνιση της ενότητας δίσκων</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>Εμφάνιση της ενότητας WSL στην πλαϊνή μπάρα</value>
+    <value>Εμφάνιση της ενότητας WSL</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>Εμφάνιση της ενότητας μονάδων δικτύου στην πλευρική γραμμή</value>
+    <value>Εμφάνιση της ενότητας δίκτυο</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
@@ -2445,10 +2418,7 @@
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
     <value>Απόκρυψη {0} τμήματος</value>
   </data>
-  <data name="NavSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Ρυθμίσεις</value>
-  </data>
-  <data name="NavSettingsButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavSettingsButton" xml:space="preserve">
     <value>Ρυθμίσεις</value>
   </data>
   <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
@@ -2505,16 +2475,16 @@
   <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+1</value>
   </data>
-  <data name="BaseLayoutContextFlyoutTilesView.KeyboardAcceleratorTextOverride" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+2</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewSmall.KeyboardAcceleratorTextOverride" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+3</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewMedium.KeyboardAcceleratorTextOverride" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+4</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewLarge.KeyboardAcceleratorTextOverride" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+5</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
@@ -2564,7 +2534,8 @@
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
-*Συλλογή προσωπικών πληροφοριών* 
+*Συλλογή προσωπικών πληροφοριών*
+
 Η Files δεν συλλέγει, αποθηκεύει, μοιράζεται ή δημοσιεύει προσωπικές πληροφορίες.
 
 *Συλλογή μη προσωπικών πληροφοριών*
@@ -2606,7 +2577,7 @@
     <value>Κατάσταση συγχρονισμού</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>Εμφάνιση της ενότητας Αγαπημένα στην πλαϊνή μπάρα</value>
+    <value>Εμφάνιση τμήματος αγαπημένων</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
     <value>Ετικέτα αρχείου</value>
@@ -2638,7 +2609,139 @@
   <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
     <value>Κλείσιμο</value>
   </data>
+  <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
+    <value>Άνοιγμα δίσκου</value>
+  </data>
+  <data name="InsertDiscDialog.Text" xml:space="preserve">
+    <value>Τοποθετήστε ένα δίσκο στη μονάδα {0}</value>
+  </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
-    <value>Εισαγάγετε ένα δίσκο</value>
+    <value>Τοποθετήστε ένα δίσκο</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>Ισχύει για όλους</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>Μέρος του σετ</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Εντάξει</value>
+  </data>
+  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Ακύρωση</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>Απαιτούμενα διαπιστευτήρια</value>
+  </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>Ανώνυμος</value>
+  </data>
+  <data name="CredentialDialogDescription.Text" xml:space="preserve">
+    <value>Δώστε τα διαπιστευτήριά σας:</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>Κωδικός πρόσβασης</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>Όνομα χρήστη</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>Δεν βρέθηκαν αντικείμενα</value>
+  </data>
+  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Widget δέσμες</value>
+  </data>
+  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Widget Οδηγίες</value>
+  </data>
+  <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Widget Βιβλιοθήκες</value>
+  </data>
+  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Widget Πρόσφατα αρχεία</value>
+  </data>
+  <data name="OpenLogLocation" xml:space="preserve">
+    <value>Ανοιχτή θέση καταγραφής</value>
+  </data>
+  <data name="LinkToFolderCaptionText" xml:space="preserve">
+    <value>Δημιουργία συνδέσμου στο {0}</value>
+  </data>
+  <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
+    <value>Στήλες</value>
+  </data>
+  <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
+    <value>Λεπτομέρειες</value>
+  </data>
+  <data name="NavToolbarLargeIconsHeader.Text" xml:space="preserve">
+    <value>Μεγάλα εικονίδια</value>
+  </data>
+  <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
+    <value>Μεσαία εικονίδια</value>
+  </data>
+  <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
+    <value>Μικρά εικονίδια</value>
+  </data>
+  <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
+    <value>Πλακάκια</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>Εμφάνιση επεκτάσεων αρχείων</value>
+  </data>
+  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Εμφάνιση κρυφών στοιχείων</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>Εμφάνιση επεκτάσεων αρχείων</value>
+  </data>
+  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
+    <value>Εμφάνιση κρυφών στοιχείων</value>
+  </data>
+  <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Εμφάνιση τμήματος αγαπημένων</value>
+  </data>
+  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Καρφίτσωμα κάδου ανακύκλωσης στα αγαπημένα</value>
+  </data>
+  <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Εμφάνιση της ενότητας δίσκων cloud</value>
+  </data>
+  <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Εμφάνιση της ενότητας δίσκων</value>
+  </data>
+  <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Εμφάνιση της ενότητας βιβλιοθήκης</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Εμφάνιση της ενότητας δίκτυο</value>
+  </data>
+  <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Εμφάνιση της ενότητας WSL</value>
+  </data>
+  <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Μορφή ημερομηνίας</value>
+  </data>
+  <data name="SettingsDialogCloseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Κλείσιμο</value>
+  </data>
+  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Άνοιγμα φακέλων σε νέα καρτέλα</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Γλώσσα</value>
+  </data>
+  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Εμφάνιση διαλόγου επιβεβαίωσης κατά τη διαγραφή αρχείων ή φακέλων</value>
+  </data>
+  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Τερματικές εφαρμογές</value>
+  </data>
+  <data name="OngoingTasks" xml:space="preserve">
+    <value>Συνεχιζόμενα καθήκοντα</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
+    <value>Φόρτωση πλήρους προεπισκόπησης</value>
+  </data>
+  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
+    <value>Προβολή προεπισκόπησης μόνο</value>
   </data>
 </root>

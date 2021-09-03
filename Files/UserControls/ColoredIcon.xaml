@@ -25,8 +25,8 @@
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
                     <SolidColorBrush x:Key="ColoredIconOverlayForeground" Color="{ThemeResource SystemAccentColor}" />
-                    <SolidColorBrush x:Key="ColoredIconOverlayDisabled" Color="{ThemeResource SystemAccentColorDark2}" />
-                    <SolidColorBrush x:Key="ColoredIconOverlayForegroundChecked" Color="{ThemeResource SystemAccentColorDark2}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayForegroundDisabled" Color="{ThemeResource SystemAccentColorDark1}" />
+                    <SolidColorBrush x:Key="ColoredIconOverlayForegroundChecked" Color="{ThemeResource SystemAccentColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
@@ -40,7 +40,8 @@
             x:Name="OverlayIcon"
             FontFamily="{StaticResource ColoredIconFontFamily}"
             Foreground="{ThemeResource ColoredIconOverlayForeground}"
-            Glyph="{x:Bind OverlayLayerGlyph, Mode=OneWay}" />
+            Glyph="{x:Bind OverlayLayerGlyph, Mode=OneWay}"
+            HighContrastAdjustment="None" />
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

@@ -1,17 +1,12 @@
 using ByteSizeLib;
 using Files.Extensions;
-using Files.Filesystem.Permissions;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels
 {
@@ -66,6 +61,7 @@ namespace Files.ViewModels
         }
 
         private byte[] iconData;
+
         public byte[] IconData
         {
             get => iconData;
@@ -292,7 +288,7 @@ namespace Files.ViewModels
             {
                 SetProperty(ref driveUsedSpaceValue, value);
                 DriveUsedSpace = $"{ByteSize.FromBytes(DriveUsedSpaceValue).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(DriveUsedSpaceValue).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
-                DriveUsedSpaceDoubleValue = Convert.ToDouble(DriveUsedSpaceValue);
+                OnPropertyChanged(nameof(DrivePercentageValue));
             }
         }
 
@@ -425,7 +421,7 @@ namespace Files.ViewModels
             {
                 SetProperty(ref driveCapacityValue, value);
                 DriveCapacity = $"{ByteSize.FromBytes(DriveCapacityValue).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(DriveCapacityValue).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
-                DriveCapacityDoubleValue = Convert.ToDouble(DriveCapacityValue);
+                OnPropertyChanged(nameof(DrivePercentageValue));
             }
         }
 
@@ -449,20 +445,9 @@ namespace Files.ViewModels
             set => SetProperty(ref driveCapacityVisibiity, value);
         }
 
-        private double driveCapacityDoubleValue;
-
-        public double DriveCapacityDoubleValue
+        public double DrivePercentageValue
         {
-            get => driveCapacityDoubleValue;
-            set => SetProperty(ref driveCapacityDoubleValue, value);
-        }
-
-        private double driveUsedSpaceDoubleValue;
-
-        public double DriveUsedSpaceDoubleValue
-        {
-            get => driveUsedSpaceDoubleValue;
-            set => SetProperty(ref driveUsedSpaceDoubleValue, value);
+            get => DriveCapacityValue > 0 ? (double)DriveUsedSpaceValue / (double)DriveCapacityValue * 100 : 0;
         }
 
         private Visibility itemAttributesVisibility = Visibility.Visible;

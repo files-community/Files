@@ -17,13 +17,19 @@ using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels
 {
-    public class StatusCenterViewModel : ObservableObject, IStatusCenterActions
+    public class OngoingTasksViewModel : ObservableObject, IOngoingTasksActions
     {
         #region Public Properties
 
         public ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new ObservableCollection<StatusBanner>();
 
         private float medianOperationProgressValue = 0.0f;
+
+        public OngoingTasksViewModel()
+        {
+            StatusBannersSource.CollectionChanged += (s, e) => OnPropertyChanged(nameof(AnyBannersPresent));
+        }
+
         public float MedianOperationProgressValue
         {
             get => medianOperationProgressValue;
@@ -53,6 +59,11 @@ namespace Files.ViewModels
             get => OngoingOperationsCount > 0;
         }
 
+        public bool AnyBannersPresent
+        {
+            get => StatusBannersSource.Any();
+        }
+
         #endregion Public Properties
 
         #region Events
@@ -61,7 +72,7 @@ namespace Files.ViewModels
 
         #endregion Events
 
-        #region IStatusCenterActions
+        #region IOngoingTasksActions
 
         public PostedStatusBanner PostBanner(string title, string message, float initialProgress, ReturnResult status, FileOperationType operation)
         {
@@ -118,14 +129,14 @@ namespace Files.ViewModels
             }
         }
 
-        #endregion IStatusCenterActions
+        #endregion IOngoingTasksActions
     }
 
     public class PostedStatusBanner
     {
         #region Private Members
 
-        private readonly IStatusCenterActions statusCenterActions;
+        private readonly IOngoingTasksActions OngoingTasksActions;
 
         private readonly StatusBanner Banner;
 
@@ -145,19 +156,19 @@ namespace Files.ViewModels
 
         #region Constructor
 
-        public PostedStatusBanner(StatusBanner banner, IStatusCenterActions statusCenterActions)
+        public PostedStatusBanner(StatusBanner banner, IOngoingTasksActions OngoingTasksActions)
         {
             this.Banner = banner;
-            this.statusCenterActions = statusCenterActions;
+            this.OngoingTasksActions = OngoingTasksActions;
 
             this.Progress = new Progress<float>(ReportProgressToBanner);
             this.ErrorCode = new Progress<FileSystemStatusCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
         }
 
-        public PostedStatusBanner(StatusBanner banner, IStatusCenterActions statusCenterActions, CancellationTokenSource cancellationTokenSource)
+        public PostedStatusBanner(StatusBanner banner, IOngoingTasksActions OngoingTasksActions, CancellationTokenSource cancellationTokenSource)
         {
             this.Banner = banner;
-            this.statusCenterActions = statusCenterActions;
+            this.OngoingTasksActions = OngoingTasksActions;
             this.cancellationTokenSource = cancellationTokenSource;
 
             this.Progress = new Progress<float>(ReportProgressToBanner);
@@ -180,8 +191,8 @@ namespace Files.ViewModels
                 Banner.IsProgressing = value < 100.0f;
                 Banner.Progress = value;
                 Banner.FullTitle = $"{Banner.Title} ({value:0.00}%)";
-                statusCenterActions.UpdateBanner(Banner);
-                statusCenterActions.UpdateMedianProgress();
+                OngoingTasksActions.UpdateBanner(Banner);
+                OngoingTasksActions.UpdateMedianProgress();
             }
             else
             {
@@ -199,7 +210,7 @@ namespace Files.ViewModels
 
         public void Remove()
         {
-            statusCenterActions.CloseBanner(Banner);
+            OngoingTasksActions.CloseBanner(Banner);
         }
 
         public void RequestCancellation()

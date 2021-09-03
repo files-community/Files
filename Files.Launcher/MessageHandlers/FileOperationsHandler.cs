@@ -47,6 +47,30 @@ namespace FilesFullTrust.MessageHandlers
         {
             switch (message.Get("fileop", ""))
             {
+                case "GetFileHandle":
+                    {
+                        var filePath = (string)message["filepath"];
+                        var readWrite = (bool)message["readwrite"];
+                        using var hFile = Kernel32.CreateFile(filePath, Kernel32.FileAccess.GENERIC_READ | (readWrite ? Kernel32.FileAccess.GENERIC_WRITE : 0), FileShare.ReadWrite, null, FileMode.Open, FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL);
+                        if (hFile.IsInvalid)
+                        {
+                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
+                            return;
+                        }
+                        var processId = (int)(long)message["processid"];
+                        using var uwpProces = System.Diagnostics.Process.GetProcessById(processId);
+                        if (!Kernel32.DuplicateHandle(Kernel32.GetCurrentProcess(), hFile.DangerousGetHandle(), uwpProces.Handle, out var targetHandle, 0, false, Kernel32.DUPLICATE_HANDLE_OPTIONS.DUPLICATE_SAME_ACCESS))
+                        {
+                            await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
+                            return;
+                        }
+                        await Win32API.SendMessageAsync(connection, new ValueSet() {
+                            { "Success", true },
+                            { "Handle", targetHandle.ToInt64() }
+                        }, message.Get("RequestID", (string)null));
+                    }
+                    break;
+
                 case "Clipboard":
                     await Win32API.StartSTATask(() =>
                     {
@@ -116,6 +140,71 @@ namespace FilesFullTrust.MessageHandlers
                     await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", result } }, message.Get("RequestID", (string)null));
                     break;
 
+                case "CreateFile":
+                case "CreateFolder":
+                    {
+                        var filePath = (string)message["filepath"];
+                        var template = message.Get("template", (string)null);
+                        var dataStr = message.Get("data", (string)null);
+                        var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
+                        {
+                            using (var op = new ShellFileOperations())
+                            {
+                                op.Options = ShellFileOperations.OperationFlags.Silent
+                                            | ShellFileOperations.OperationFlags.NoConfirmMkDir
+                                            | ShellFileOperations.OperationFlags.RenameOnCollision
+                                            | ShellFileOperations.OperationFlags.NoErrorUI;
+
+                                var shellOperationResult = new ShellOperationResult();
+
+                                using var shd = new ShellFolder(Path.GetDirectoryName(filePath));
+                                op.QueueNewItemOperation(shd, Path.GetFileName(filePath),
+                                    (string)message["fileop"] == "CreateFolder" ? FileAttributes.Directory : FileAttributes.Normal, template);
+
+                                var createTcs = new TaskCompletionSource<bool>();
+                                op.PostNewItem += (s, e) =>
+                                {
+                                    shellOperationResult.Items.Add(new ShellOperationItemResult()
+                                    {
+                                        Succeeded = e.Result.Succeeded,
+                                        Destination = e.DestItem?.FileSystemPath,
+                                        HRresult = (int)e.Result
+                                    });
+                                };
+                                op.FinishOperations += (s, e) => createTcs.TrySetResult(e.Result.Succeeded);
+
+                                try
+                                {
+                                    op.PerformOperations();
+                                }
+                                catch
+                                {
+                                    createTcs.TrySetResult(false);
+                                }
+
+                                if (dataStr != null && (shellOperationResult.Items.SingleOrDefault()?.Succeeded ?? false))
+                                {
+                                    Extensions.IgnoreExceptions(() =>
+                                    {
+                                        var dataBytes = Convert.FromBase64String(dataStr);
+                                        using (var fs = new FileStream(shellOperationResult.Items.Single().Destination, FileMode.Open))
+                                        {
+                                            fs.Write(dataBytes, 0, dataBytes.Length);
+                                            fs.Flush();
+                                        }
+                                    }, Program.Logger);
+                                }
+
+                                return (await createTcs.Task, shellOperationResult);
+                            }
+                        });
+                        await Win32API.SendMessageAsync(connection, new ValueSet() {
+                            { "Success", success },
+                            { "Result", JsonConvert.SerializeObject(shellOperationResult) }
+                        }, message.Get("RequestID", (string)null));
+                    }
+                    break;
+
                 case "DeleteItem":
                     {
                         var fileToDeletePath = ((string)message["filepath"]).Split('|');
@@ -158,7 +247,7 @@ namespace FilesFullTrust.MessageHandlers
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
                                         Succeeded = e.Result.Succeeded,
-                                        Source = e.SourceItem.FileSystemPath,
+                                        Source = e.SourceItem.FileSystemPath ?? e.SourceItem.ParsingName,
                                         Destination = e.DestItem?.FileSystemPath,
                                         HRresult = (int)e.Result
                                     });
@@ -224,7 +313,7 @@ namespace FilesFullTrust.MessageHandlers
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
                                         Succeeded = e.Result.Succeeded,
-                                        Source = e.SourceItem.FileSystemPath,
+                                        Source = e.SourceItem.FileSystemPath ?? e.SourceItem.ParsingName,
                                         Destination = !string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(e.SourceItem.FileSystemPath), e.Name) : null,
                                         HRresult = (int)e.Result
                                     });
@@ -288,8 +377,8 @@ namespace FilesFullTrust.MessageHandlers
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
                                         Succeeded = e.Result.Succeeded,
-                                        Source = e.SourceItem.FileSystemPath,
-                                        Destination = e.DestFolder != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null,
+                                        Source = e.SourceItem.FileSystemPath ?? e.SourceItem.ParsingName,
+                                        Destination = e.DestFolder?.FileSystemPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null,
                                         HRresult = (int)e.Result
                                     });
                                 };
@@ -363,8 +452,8 @@ namespace FilesFullTrust.MessageHandlers
                                     shellOperationResult.Items.Add(new ShellOperationItemResult()
                                     {
                                         Succeeded = e.Result.Succeeded,
-                                        Source = e.SourceItem.FileSystemPath,
-                                        Destination = e.DestFolder != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null,
+                                        Source = e.SourceItem.FileSystemPath ?? e.SourceItem.ParsingName,
+                                        Destination = e.DestFolder?.FileSystemPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null,
                                         HRresult = (int)e.Result
                                     });
                                 };
@@ -464,24 +553,36 @@ namespace FilesFullTrust.MessageHandlers
                 case "UpdateLink":
                     var linkSavePath = (string)message["filepath"];
                     var targetPath = (string)message["targetpath"];
-                    if (linkSavePath.EndsWith(".lnk"))
+                    try
                     {
-                        var arguments = (string)message["arguments"];
-                        var workingDirectory = (string)message["workingdir"];
-                        var runAsAdmin = (bool)message["runasadmin"];
-                        using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
-                        newLink.RunAsAdministrator = runAsAdmin;
-                        newLink.SaveAs(linkSavePath); // Overwrite if exists
-                    }
-                    else if (linkSavePath.EndsWith(".url"))
-                    {
-                        await Win32API.StartSTATask(() =>
+                        bool success = false;
+                        if (linkSavePath.EndsWith(".lnk"))
                         {
-                            var ipf = new Url.IUniformResourceLocator();
-                            ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
-                            (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
-                            return true;
-                        });
+                            var arguments = (string)message["arguments"];
+                            var workingDirectory = (string)message["workingdir"];
+                            var runAsAdmin = (bool)message["runasadmin"];
+                            using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
+                            newLink.RunAsAdministrator = runAsAdmin;
+                            newLink.SaveAs(linkSavePath); // Overwrite if exists
+                            success = true;
+                        }
+                        else if (linkSavePath.EndsWith(".url"))
+                        {
+                            success = await Win32API.StartSTATask(() =>
+                            {
+                                var ipf = new Url.IUniformResourceLocator();
+                                ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
+                                (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
+                                return true;
+                            });
+                        }
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", success } }, message.Get("RequestID", (string)null));
+                    }
+                    catch (Exception ex)
+                    {
+                        // Could not create shortcut
+                        Program.Logger.Warn(ex, ex.Message);
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
                     }
                     break;
 
@@ -554,8 +655,8 @@ namespace FilesFullTrust.MessageHandlers
                 {
                     "delete" => e.DestItem?.FileSystemPath,
                     "rename" => (!string.IsNullOrEmpty(e.Name) ? Path.Combine(Path.GetDirectoryName(e.SourceItem.FileSystemPath), e.Name) : null),
-                    "copy" => (e.DestFolder != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null),
-                    _ => (e.DestFolder != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null)
+                    "copy" => (e.DestFolder?.FileSystemPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null),
+                    _ => (e.DestFolder?.FileSystemPath != null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.FileSystemPath, e.Name) : null)
                 };
                 if (destination == null)
                 {
@@ -565,11 +666,11 @@ namespace FilesFullTrust.MessageHandlers
                 {
                     Extensions.IgnoreExceptions(() =>
                     {
-                        using var si = new ShellItem(destination);
                         if (operationType == "copy")
                         {
                             var tag = dbInstance.GetTag(e.SourceItem.FileSystemPath);
-                            dbInstance.SetTag(destination, (ulong?)si.Properties["System.FileFRN"], tag); // copy tag to new files
+                            dbInstance.SetTag(destination, FileTagsHandler.GetFileFRN(destination), tag); // copy tag to new files
+                            using var si = new ShellItem(destination);
                             if (si.IsFolder) // File tag is not copied automatically for folders
                             {
                                 FileTagsHandler.WriteFileTag(destination, tag);
@@ -577,7 +678,7 @@ namespace FilesFullTrust.MessageHandlers
                         }
                         else
                         {
-                            dbInstance.UpdateTag(e.SourceItem.FileSystemPath, (ulong?)si.Properties["System.FileFRN"], destination); // move tag to new files
+                            dbInstance.UpdateTag(e.SourceItem.FileSystemPath, FileTagsHandler.GetFileFRN(destination), destination); // move tag to new files
                         }
                     }, Program.Logger);
                 }
@@ -597,8 +698,7 @@ namespace FilesFullTrust.MessageHandlers
                                 Extensions.IgnoreExceptions(() =>
                                 {
                                     var subPath = t.FilePath.Replace(e.SourceItem.FileSystemPath, destination);
-                                    using var si = new ShellItem(subPath);
-                                    dbInstance.SetTag(subPath, (ulong?)si.Properties["System.FileFRN"], t.Tag);
+                                    dbInstance.SetTag(subPath, FileTagsHandler.GetFileFRN(subPath), t.Tag);
                                 }, Program.Logger);
                             });
                         }
@@ -609,8 +709,7 @@ namespace FilesFullTrust.MessageHandlers
                                 Extensions.IgnoreExceptions(() =>
                                 {
                                     var subPath = t.FilePath.Replace(e.SourceItem.FileSystemPath, destination);
-                                    using var si = new ShellItem(subPath);
-                                    dbInstance.UpdateTag(t.FilePath, (ulong?)si.Properties["System.FileFRN"], subPath);
+                                    dbInstance.UpdateTag(t.FilePath, FileTagsHandler.GetFileFRN(subPath), subPath);
                                 }, Program.Logger);
                             });
                         }

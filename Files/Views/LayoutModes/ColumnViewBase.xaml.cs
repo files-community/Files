@@ -6,10 +6,8 @@ using Files.Interacts;
 using Files.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
@@ -17,7 +15,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -165,10 +162,7 @@ namespace Files.Views.LayoutModes
             //var viewmodel = new ItemViewModel(FolderSettings);
             //await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(NavParam);
             //await viewmodel.SetWorkingDirectoryAsync(NavParam);
-            FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-            FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             ParentShellPageInstance.IsCurrentInstance = true;
-            ColumnViewBrowser.columnparent.UpdatePathUIToWorkingDirectory(param.NavPathParam);
             var parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
             {
@@ -184,7 +178,6 @@ namespace Files.Views.LayoutModes
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
         }
 
         private async void ReloadItemIcons()
@@ -198,10 +191,6 @@ namespace Files.Views.LayoutModes
                     await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, 24);
                 }
             }
-        }
-
-        private void FolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
-        {
         }
 
         override public void StartRenameItem()
@@ -283,7 +272,7 @@ namespace Files.Views.LayoutModes
 
         private void EndRename(TextBox textBox)
         {
-            if (textBox.Parent == null)
+            if (textBox == null || textBox.Parent == null)
             {
                 // Navigating away, do nothing
             }
@@ -317,6 +306,7 @@ namespace Files.Views.LayoutModes
 
         public override void Dispose()
         {
+            base.Dispose();
             UnhookEvents();
             CommandsViewModel?.Dispose();
         }
@@ -389,11 +379,11 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
+                    e.Handled = true;
                     if (App.MainViewModel.IsQuickLookEnabled)
                     {
                         await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
-                    e.Handled = true;
                 }
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
@@ -425,12 +415,8 @@ namespace Files.Views.LayoutModes
                 if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
                     DismissColumn?.Invoke(sender as ListView, EventArgs.Empty);
-                    if (item.ContainsFilesOrFolders)
-                    {
-                        listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
-
-                        ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
-                    }
+                    listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
+                    ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
                 }
                 else
                 {
@@ -467,7 +453,7 @@ namespace Files.Views.LayoutModes
             ItemManipulationModel.SetSelectedItem(objectPressed);
         }
 
-        private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
+        private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
         {
             if (listViewItem != null)
             {
@@ -480,24 +466,17 @@ namespace Files.Views.LayoutModes
             {
                 return;
             }
-            if (IsRenamingItem)
-            {
-                return;
-            }
-            var item = (e.ClickedItem as ListedItem);
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
             {
                 ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected
+                var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
                 if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
                     DismissColumn?.Invoke(sender as ListView, EventArgs.Empty);
-                    if (item.ContainsFilesOrFolders)
-                    {
-                        listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
-                        ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
-                    }
+                    listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
+                    ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
                 }
                 else
                 {
@@ -506,7 +485,20 @@ namespace Files.Views.LayoutModes
             }
             else
             {
-                CheckRenameDoubleClick(item);
+                var clickedItem = e.OriginalSource as FrameworkElement;
+                if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
+                {
+                    CheckRenameDoubleClick(clickedItem?.DataContext);
+                }
+                else if (IsRenamingItem)
+                {
+                    ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+                    if (listViewItem != null)
+                    {
+                        var textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
+                        CommitRename(textBox);
+                    }
+                }
             }
         }
 
@@ -544,7 +536,7 @@ namespace Files.Views.LayoutModes
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             var itemContainer = (sender as Grid)?.FindAscendant<ListViewItem>();
-            if(itemContainer is null)
+            if (itemContainer is null)
             {
                 return;
             }
@@ -575,6 +567,34 @@ namespace Files.Views.LayoutModes
                 if (args.Item is ListedItem item)
                 {
                     ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoadingForItem(item);
+                }
+            }
+        }
+
+        protected override void BaseFolderSettings_LayoutModeChangeRequested(object sender, LayoutModeEventArgs e)
+        {
+            var parent = this.FindAscendant<ModernShellPage>();
+            if (parent != null)
+            {
+                var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, false);
+
+                if (layoutType != ParentShellPageInstance.CurrentPageType)
+                {
+                    parent.FolderSettings.LayoutMode = e.LayoutMode;
+                    parent.FolderSettings.IsLayoutModeChanging = true;
+                    parent.NavigateWithArguments(layoutType, new NavigationArguments()
+                    {
+                        NavPathParam = navigationArguments.NavPathParam,
+                        IsSearchResultPage = navigationArguments.IsSearchResultPage,
+                        SearchPathParam = navigationArguments.SearchPathParam,
+                        SearchQuery = navigationArguments.SearchQuery,
+                        SearchUnindexedItems = navigationArguments.SearchUnindexedItems,
+                        IsLayoutSwitch = true,
+                        AssociatedTabInstance = parent
+                    });
+
+                    // Remove old layout from back stack
+                    parent.RemoveLastPageFromBackStack();
                 }
             }
         }

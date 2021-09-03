@@ -2,8 +2,6 @@
     x:Class="Files.Views.LayoutModes.ColumnViewBase"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:contract14NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,14)"
-    xmlns:contract14Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,14)"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:converters1="using:Files.Converters"
@@ -15,6 +13,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
+    xmlns:uc="using:Files.UserControls"
     x:Name="PageRoot"
     mc:Ignorable="d">
     <local:BaseLayout.Resources>
@@ -87,7 +86,6 @@
                                 Stroke="{ThemeResource GridViewHeaderItemDividerStroke}"
                                 StrokeThickness="0.5" />
 
-
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal" />
@@ -122,13 +120,18 @@
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
                         </Grid>
-
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
     </local:BaseLayout.Resources>
     <Grid x:Name="RootGrid" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+        <uc:FolderEmptyIndicator
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Canvas.ZIndex="0"
+            EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
+
         <muxc:TeachingTip
             x:Name="FileNameTeachingTip"
             x:Uid="FileNameTeachingTip"
@@ -148,7 +151,7 @@
                     tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
                     x:FieldModifier="public"
                     AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                    CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                    CanDragItems="True"
                     ContainerContentChanging="FileList_ContainerContentChanging"
                     DoubleTapped="FileList_DoubleTapped"
                     DragItemsStarting="FileList_DragItemsStarting"
@@ -156,15 +159,14 @@
                     Drop="ItemsLayout_Drop"
                     Holding="FileList_Holding"
                     IsDoubleTapEnabled="True"
-                    IsItemClickEnabled="True"
                     IsRightTapEnabled="True"
-                    ItemClick="FileList_ItemClick"
                     ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
                     PreviewKeyDown="FileList_PreviewKeyDown"
                     RightTapped="FileList_RightTapped"
                     ScrollViewer.IsScrollInertiaEnabled="True"
                     SelectionChanged="FileList_SelectionChanged"
-                    SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}">
+                    SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
+                    Tapped="FileList_ItemTapped">
 
                     <ListView.ItemContainerTransitions>
                         <TransitionCollection>
@@ -369,7 +371,6 @@
             <SemanticZoom.ZoomedOutView>
                 <ListView
                     HorizontalAlignment="Stretch"
-                    IsItemClickEnabled="True"
                     ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
                     SelectionMode="None">
                     <ListView.ItemTemplate>

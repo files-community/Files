@@ -1,14 +1,11 @@
 ﻿using ColorCode;
-using Files.Extensions;
 using Files.Filesystem;
 using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.Storage;
 
 namespace Files.ViewModels.Previews
 {
@@ -19,6 +16,7 @@ namespace Files.ViewModels.Previews
         }
 
         private string textValue;
+
         public string TextValue
         {
             get => textValue;
@@ -26,6 +24,7 @@ namespace Files.ViewModels.Previews
         }
 
         private ILanguage codeLanguage;
+
         public ILanguage CodeLanguage
         {
             get => codeLanguage;
@@ -40,7 +39,8 @@ namespace Files.ViewModels.Previews
 
             try
             {
-                var text = TextValue ?? await FileIO.ReadTextAsync(Item.ItemFile);
+                //var text = TextValue ?? await FileIO.ReadTextAsync(Item.ItemFile);
+                var text = TextValue ?? await ReadFileAsText(Item.ItemFile);
                 CodeLanguage = GetCodeLanguage(Item.FileExtension);
 
                 details.Add(new FileProperty()

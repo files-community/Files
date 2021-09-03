@@ -2,11 +2,11 @@
     x:Class="Files.Views.PropertiesGeneral"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.ViewModels.Properties"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:usercontrols="using:Files.UserControls"
     Loaded="Properties_Loaded"
     mc:Ignorable="d">
@@ -341,9 +341,45 @@
                 Height="70"
                 Margin="10"
                 IsIndeterminate="False"
-                Maximum="{x:Bind ViewModel.DriveCapacityDoubleValue, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
-                Value="{x:Bind ViewModel.DriveUsedSpaceDoubleValue, Mode=OneWay}" />
+                Value="{x:Bind ViewModel.DrivePercentageValue, Mode=OneWay}">
+
+                <muxc:ProgressRing.Template>
+                    <ControlTemplate TargetType="muxc:ProgressRing">
+                        <Grid x:Name="LayoutRoot" Background="Transparent">
+                            <Grid.Resources>
+                                <converters:StringFormatConverter x:Key="StringFormatConverter" />
+                            </Grid.Resources>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock
+                                    Margin="0"
+                                    FontWeight="SemiBold"
+                                    Text="{Binding Value, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0}%', Mode=OneWay}"
+                                    TextAlignment="Center" />
+                            </StackPanel>
+
+                            <!--  AnimatedVisualPlayer for Lottie  -->
+                            <muxc:AnimatedVisualPlayer
+                                x:Name="LottiePlayer"
+                                AutoPlay="false"
+                                Opacity="1"
+                                Stretch="fill" />
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Inactive">
+                                        <VisualState.Setters>
+                                            <Setter Target="LayoutRoot.Opacity" Value="0" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="DeterminateActive" />
+                                    <VisualState x:Name="Active" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </muxc:ProgressRing.Template>
+            </muxc:ProgressRing>
 
             <TextBlock
                 x:Uid="PropertiesAttributes"

@@ -1,17 +1,17 @@
 ﻿using Files.EventArguments;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Helpers.XamlHelpers;
 using Files.Interacts;
+using Files.UserControls;
 using Files.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
@@ -19,7 +19,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -31,18 +30,12 @@ namespace Files.Views.LayoutModes
     /// </summary>
     public sealed partial class ColumnViewBrowser : BaseLayout
     {
-        public static IShellPage columnparent;
         private NavigationArguments parameters;
         private ListViewItem listViewItem;
-        public static ColumnViewBrowser ColumnViewBrowser1;
 
         public ColumnViewBrowser() : base()
         {
             this.InitializeComponent();
-            ColumnViewBrowser1 = this;
-            ColumnViewBase.ItemInvoked += ColumnViewBase_ItemInvoked;
-            ColumnViewBase.UnFocusPreviousListView += ColumnViewBase_UnFocusPreviousListView;
-            ColumnViewBase.DismissColumn += ColumnViewBase_DismissColumn;
             //this.DataContext = this;
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
         }
@@ -137,7 +130,8 @@ namespace Files.Views.LayoutModes
             if (IsLastColumnBase)
             {
                 FileList.SelectAll();
-            } else
+            }
+            else
             {
                 var c = ColumnHost.ActiveBlades.Last();
                 ((c.Content as Frame).Content as ColumnShellPage).NavToolbarViewModel.SelectAllContentPageItemsCommand.Execute(null);
@@ -167,28 +161,18 @@ namespace Files.Views.LayoutModes
 
         private void ColumnViewBase_DismissColumn(object sender, EventArgs e)
         {
+            if ((sender as ListView).FindAscendant<ColumnViewBrowser>() != this)
+            {
+                return;
+            }
             DismissOtherBlades(sender as ListView);
         }
 
         private void ColumnViewBase_UnFocusPreviousListView(object sender, EventArgs e)
         {
-            var list = sender as ListView;
-            var blade = list.FindAscendant<BladeItem>();
-            var index = ColumnHost.ActiveBlades.IndexOf(blade) - 1;
-            if (index == 0)
+            if ((sender as ListView).FindAscendant<ColumnViewBrowser>() != this)
             {
-                //_ = VisualStateManager.GoToState(listViewItem, "NotCurrentItem", true);
-            }
-            else
-            {
-                try
-                {
-                    var listview = ColumnHost.ActiveBlades[index].FindDescendant("FileList") as ListView;
-                    ListViewItem listViewItem2 = listview.ContainerFromItem((listview.SelectedItem) as ListedItem) as ListViewItem;
-                }
-                catch
-                {
-                }
+                return;
             }
         }
 
@@ -200,8 +184,13 @@ namespace Files.Views.LayoutModes
         private void ColumnViewBase_ItemInvoked(object sender, EventArgs e)
         {
             var column = sender as ColumnParam;
+            if (column.ListView.FindAscendant<ColumnViewBrowser>() != this)
+            {
+                return;
+            }
 
             var frame = new Frame();
+            frame.Navigated += Frame_Navigated;
             var newblade = new BladeItem();
             newblade.Content = frame;
             ColumnHost.Items.Add(newblade);
@@ -216,6 +205,11 @@ namespace Files.Views.LayoutModes
                 Column = ColumnHost.ActiveBlades.IndexOf(newblade),
                 Path = column.Path
             });
+        }
+
+        private void ContentChanged(IShellPage p)
+        {
+            (ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabItemArguments);
         }
 
         private void ListViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
@@ -247,7 +241,12 @@ namespace Files.Views.LayoutModes
             //await viewmodel.SetWorkingDirectoryAsync(NavParam);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-            columnparent = ParentShellPageInstance;
+            ColumnViewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
+            ColumnViewBase.ItemInvoked += ColumnViewBase_ItemInvoked;
+            ColumnViewBase.UnFocusPreviousListView -= ColumnViewBase_UnFocusPreviousListView;
+            ColumnViewBase.UnFocusPreviousListView += ColumnViewBase_UnFocusPreviousListView;
+            ColumnViewBase.DismissColumn -= ColumnViewBase_DismissColumn;
+            ColumnViewBase.DismissColumn += ColumnViewBase_DismissColumn;
             parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
             {
@@ -264,6 +263,9 @@ namespace Files.Views.LayoutModes
         {
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+            ColumnViewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
+            ColumnViewBase.UnFocusPreviousListView -= ColumnViewBase_UnFocusPreviousListView;
+            ColumnViewBase.DismissColumn -= ColumnViewBase_DismissColumn;
         }
 
         private async void ReloadItemIcons()
@@ -361,7 +363,7 @@ namespace Files.Views.LayoutModes
 
         private void EndRename(TextBox textBox)
         {
-            if (textBox.Parent == null)
+            if (textBox == null || textBox.Parent == null)
             {
                 // Navigating away, do nothing
             }
@@ -395,8 +397,13 @@ namespace Files.Views.LayoutModes
 
         public override void Dispose()
         {
+            base.Dispose();
+            ColumnHost.ActiveBlades.Select(x => (x.Content as Frame)?.Content).OfType<IDisposable>().ForEach(x => x.Dispose());
             UnhookEvents();
             CommandsViewModel?.Dispose();
+            ColumnViewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
+            ColumnViewBase.UnFocusPreviousListView -= ColumnViewBase_UnFocusPreviousListView;
+            ColumnViewBase.DismissColumn -= ColumnViewBase_DismissColumn;
         }
 
         #endregion IDisposable
@@ -463,11 +470,11 @@ namespace Files.Views.LayoutModes
             {
                 if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
+                    e.Handled = true;
                     if (App.MainViewModel.IsQuickLookEnabled)
                     {
                         await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                     }
-                    e.Handled = true;
                 }
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
@@ -504,25 +511,24 @@ namespace Files.Views.LayoutModes
                     //pane.IsPageMainPane = false;
                     //pane.NavParams = item.ItemPath;
                     DismissOtherBlades(sender as ListView);
-                    if (item.ContainsFilesOrFolders)
-                    {
-                        listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
-                        var frame = new Frame();
-                        var blade = new BladeItem();
-                        blade.Content = frame;
-                        ColumnHost.Items.Add(blade);
-                        //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
-                        //{
-                        //    NavPathParam = item.ItemPath,
-                        //    AssociatedTabInstance = ParentShellPageInstance
-                        //});
 
-                        frame.Navigate(typeof(ColumnShellPage), new ColumnParam
-                        {
-                            Column = 1,
-                            Path = item.ItemPath
-                        });
-                    }
+                    listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
+                    var frame = new Frame();
+                    frame.Navigated += Frame_Navigated;
+                    var blade = new BladeItem();
+                    blade.Content = frame;
+                    ColumnHost.Items.Add(blade);
+                    //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
+                    //{
+                    //    NavPathParam = item.ItemPath,
+                    //    AssociatedTabInstance = ParentShellPageInstance
+                    //});
+
+                    frame.Navigate(typeof(ColumnShellPage), new ColumnParam
+                    {
+                        Column = 1,
+                        Path = item.ItemPath
+                    });
                 }
                 else
                 {
@@ -561,39 +567,31 @@ namespace Files.Views.LayoutModes
 
         private void DismissOtherBlades(ListView listView)
         {
-            var blade = listView.FindAscendant<BladeItem>();
+            DismissOtherBlades(listView.FindAscendant<BladeItem>());
+        }
+
+        private void DismissOtherBlades(BladeItem blade)
+        {
             var index = ColumnHost.ActiveBlades.IndexOf(blade);
-            if (index == 0)
+            if (index >= 0)
             {
-                try
-                {
-                    while (ColumnHost.ActiveBlades.Count > 1)
-                    {
-                        ColumnHost.Items.RemoveAt(1);
-                        ColumnHost.ActiveBlades.RemoveAt(1);
-                    }
-                }
-                catch
-                {
-                }
-            }
-            else
-            {
-                try
+                Common.Extensions.IgnoreExceptions(() =>
                 {
                     while (ColumnHost.ActiveBlades.Count > index + 1)
                     {
+                        if ((ColumnHost.ActiveBlades[index + 1].Content as Frame)?.Content is IDisposable disposableContent)
+                        {
+                            disposableContent.Dispose();
+                        }
                         ColumnHost.Items.RemoveAt(index + 1);
                         ColumnHost.ActiveBlades.RemoveAt(index + 1);
                     }
-                }
-                catch
-                {
-                }
+                });
             }
+            ContentChanged(LastColumnShellPage);
         }
 
-        private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
+        private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
         {
             if (listViewItem != null)
             {
@@ -606,16 +604,12 @@ namespace Files.Views.LayoutModes
             {
                 return;
             }
-            if (IsRenamingItem)
-            {
-                return;
-            }
-            var item = (e.ClickedItem as ListedItem);
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
             {
                 ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected
+                var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
                 if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
                     //var pane = new ModernShellPage();
@@ -624,65 +618,57 @@ namespace Files.Views.LayoutModes
                     //pane.IsPageMainPane = false;
                     //pane.NavParams = item.ItemPath;
                     DismissOtherBlades(sender as ListView);
-                    if (item.ContainsFilesOrFolders)
+
+                    //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
+                    //{
+                    //    NavPathParam = item.ItemPath,
+                    //    AssociatedTabInstance = ParentShellPageInstance
+                    //});
+                    listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
+                    var frame = new Frame();
+                    frame.Navigated += Frame_Navigated;
+                    var blade = new BladeItem();
+                    blade.Content = frame;
+                    ColumnHost.Items.Add(blade);
+
+                    frame.Navigate(typeof(ColumnShellPage), new ColumnParam
                     {
-                        listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
-                        var frame = new Frame();
-                        var blade = new BladeItem();
-                        blade.Content = frame;
-                        ColumnHost.Items.Add(blade);
-                        //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
-                        //{
-                        //    NavPathParam = item.ItemPath,
-                        //    AssociatedTabInstance = ParentShellPageInstance
-                        //});
-                        
-                        frame.Navigate(typeof(ColumnShellPage), new ColumnParam
-                        {
-                            Column = 1,
-                            Path = item.ItemPath
-                        });
-                    }
-                }
-                else
-                {
-                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                        Column = 1,
+                        Path = item.ItemPath
+                    });
                 }
             }
             else
             {
-                CheckRenameDoubleClick(item);
+                var clickedItem = e.OriginalSource as FrameworkElement;
+                if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
+                {
+                    CheckRenameDoubleClick(clickedItem?.DataContext);
+                }
+                else if (IsRenamingItem)
+                {
+                    ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+                    if (listViewItem != null)
+                    {
+                        var textBox = listViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
+                        CommitRename(textBox);
+                    }
+                }
             }
         }
 
-        private void ColumnShellPage_NotifyRoot(object sender, EventArgs e)
+        private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
-            var column = sender as ColumnParam;
-            try
-            {
-                while (ColumnHost.ActiveBlades.Count > column.Column)
-                {
-                    ColumnHost.ActiveBlades.RemoveAt(column.Column + 1);
-                }
-            }
-            catch
-            {
-            }
-            var frame = new Frame();
-            var blade = new BladeItem();
-            blade.Content = frame;
-            ColumnHost.Items.Add(blade);
-            //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
-            //{
-            //    NavPathParam = item.ItemPath,
-            //    AssociatedTabInstance = ParentShellPageInstance
-            //});
+            var f = sender as Frame;
+            f.Navigated -= Frame_Navigated;
+            (f.Content as IShellPage).ContentChanged += ColumnViewBrowser_ContentChanged;
+        }
 
-            frame.Navigate(typeof(ColumnShellPage), new ColumnParam
-            {
-                Column = ColumnHost.ActiveBlades.IndexOf(blade),
-                Path = column.Path
-            });
+        private void ColumnViewBrowser_ContentChanged(object sender, UserControls.MultitaskingControl.TabItemArguments e)
+        {
+            var c = sender as IShellPage;
+            c.ContentChanged -= ColumnViewBrowser_ContentChanged;
+            ContentChanged(c);
         }
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -761,10 +747,44 @@ namespace Files.Views.LayoutModes
             }
         }
 
+        public void UpColumn()
+        {
+            if (!IsLastColumnBase)
+            {
+                DismissOtherBlades(ColumnHost.ActiveBlades[ColumnHost.ActiveBlades.Count - 2]);
+            }
+        }
+
+        public void SetSelectedPathOrNavigate(PathNavigationEventArgs e)
+        {
+            if (!IsLastColumnBase)
+            {
+                foreach (var item in ColumnHost.ActiveBlades)
+                {
+                    if ((item.Content as Frame)?.Content is ColumnShellPage s &&
+                        Helpers.PathNormalization.NormalizePath(s.FilesystemViewModel.WorkingDirectory) ==
+                        Helpers.PathNormalization.NormalizePath(e.ItemPath))
+                    {
+                        DismissOtherBlades(item);
+                        return;
+                    }
+                }
+            }
+            if (Helpers.PathNormalization.NormalizePath(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory) !=
+                Helpers.PathNormalization.NormalizePath(e.ItemPath))
+            {
+                ParentShellPageInstance.NavigateToPath(e.ItemPath);
+            }
+            else
+            {
+                DismissOtherBlades(FirstBlade);
+            }
+        }
+
         public IBaseLayout LastColumnBrowser => IsLastColumnBase ? this : ((ColumnHost.ActiveBlades.Last().Content as Frame).Content as ColumnShellPage).SlimContentPage as ColumnViewBase;
 
         public IShellPage LastColumnShellPage => IsLastColumnBase ? ParentShellPageInstance : ((ColumnHost.ActiveBlades.Last().Content as Frame).Content as ColumnShellPage);
 
-        public bool IsLastColumnBase => ColumnHost.ActiveBlades.Count == 1;
+        public bool IsLastColumnBase => (ColumnHost?.ActiveBlades is null) || ColumnHost.ActiveBlades.Count == 1;
     }
 }

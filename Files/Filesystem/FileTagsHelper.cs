@@ -1,4 +1,5 @@
 ﻿using Common;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Models.Settings;
 using Microsoft.Toolkit.Uwp;
@@ -18,6 +19,7 @@ namespace Files.Filesystem
         public static string FileTagsDbPath => System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
 
         private static FileTagsDb _DbInstance;
+
         public static FileTagsDb DbInstance
         {
             get
@@ -49,12 +51,12 @@ namespace Files.Filesystem
 
         public static async Task<ulong?> GetFileFRN(IStorageItem item)
         {
-            if (item is StorageFolder folderItem)
+            if (item is BaseStorageFolder folderItem && folderItem.Properties != null)
             {
                 var extraProperties = await folderItem.Properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
                 return (ulong?)extraProperties["System.FileFRN"];
             }
-            else if (item is StorageFile fileItem)
+            else if (item is BaseStorageFile fileItem && fileItem.Properties != null)
             {
                 var extraProperties = await fileItem.Properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
                 return (ulong?)extraProperties["System.FileFRN"];
@@ -74,6 +76,7 @@ namespace Files.Filesystem
         public string ColorString { get; set; }
 
         private SolidColorBrush color;
+
         [JsonIgnore]
         public SolidColorBrush Color => color ??= new SolidColorBrush(ColorString.ToColor());
 

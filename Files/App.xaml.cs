@@ -43,7 +43,7 @@ namespace Files
         public static IBundlesSettings BundlesSettings = new BundlesSettingsModel();
         public static SettingsViewModel AppSettings { get; private set; }
         public static MainViewModel MainViewModel { get; private set; }
-        public static JumpListManager JumpList { get; } = new JumpListManager();
+        public static JumpListManager JumpList { get; private set; }
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
         public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
@@ -56,9 +56,9 @@ namespace Files
         public static Logger Logger { get; private set; }
         private static readonly UniversalLogWriter logWriter = new UniversalLogWriter();
 
-        public static StatusCenterViewModel StatusCenterViewModel { get; } = new StatusCenterViewModel();
-
+        public static OngoingTasksViewModel OngoingTasksViewModel { get; } = new OngoingTasksViewModel();
         public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
+
         public App()
         {
             // Initialize logger
@@ -81,6 +81,7 @@ namespace Files
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
 
+            JumpList ??= new JumpListManager();
             MainViewModel ??= new MainViewModel();
             LibraryManager ??= new LibraryManager();
             DrivesManager ??= new DrivesManager();
@@ -96,15 +97,19 @@ namespace Files
             await Task.Run(async () =>
             {
                 await Task.WhenAll(
-                   SidebarPinnedController.InitializeAsync(),
-                   DrivesManager.EnumerateDrivesAsync(),
-                   CloudDrivesManager.EnumerateDrivesAsync(),
-                   LibraryManager.EnumerateLibrariesAsync(),
-                   NetworkDrivesManager.EnumerateDrivesAsync(),
-                   WSLDistroManager.EnumerateDrivesAsync(),
-                   ExternalResourcesHelper.LoadOtherThemesAsync()
+                    JumpList.InitializeAsync(),
+                    SidebarPinnedController.InitializeAsync(),
+                    DrivesManager.EnumerateDrivesAsync(),
+                    CloudDrivesManager.EnumerateDrivesAsync(),
+                    LibraryManager.EnumerateLibrariesAsync(),
+                    NetworkDrivesManager.EnumerateDrivesAsync(),
+                    WSLDistroManager.EnumerateDrivesAsync(),
+                    ExternalResourcesHelper.LoadOtherThemesAsync()
                 );
             });
+
+            // Check for required updates
+            new AppUpdater().CheckForUpdatesAsync();
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
@@ -124,32 +129,16 @@ namespace Files
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             await logWriter.InitializeAsync("debug.log");
+            Logger.Info($"App launched. Prelaunch: {e.PrelaunchActivated}");
+
             //start tracking app usage
             SystemInformation.Instance.TrackAppUse(e);
-
-            Logger.Info("App launched");
 
             bool canEnablePrelaunch = ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
 
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (!(Window.Current.Content is Frame rootFrame))
-            {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
-                rootFrame.CacheSize = 1;
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    //TODO: Load state from previously suspended application
-                }
-
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
-            }
+            var rootFrame = EnsureWindowIsInitialized();
 
             if (e.PrelaunchActivated == false)
             {
@@ -179,6 +168,60 @@ namespace Files
             }
         }
 
+        protected override async void OnFileActivated(FileActivatedEventArgs e)
+        {
+            await logWriter.InitializeAsync("debug.log");
+            Logger.Info("App activated by file");
+
+            //start tracking app usage
+            SystemInformation.Instance.TrackAppUse(e);
+
+            await EnsureSettingsAndConfigurationAreBootstrapped();
+
+            var rootFrame = EnsureWindowIsInitialized();
+
+            var index = 0;
+            if (rootFrame.Content == null)
+            {
+                // When the navigation stack isn't restored navigate to the first page,
+                // configuring the new page by passing required information as a navigation
+                // parameter
+                rootFrame.Navigate(typeof(MainPage), e.Files.First().Path, new SuppressNavigationTransitionInfo());
+                index = 1;
+            }
+            for (; index < e.Files.Count; index++)
+            {
+                await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Files[index].Path);
+            }
+
+            // Ensure the current window is active
+            Window.Current.Activate();
+            Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+        }
+
+        private Frame EnsureWindowIsInitialized()
+        {
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active
+            if (!(Window.Current.Content is Frame rootFrame))
+            {
+                // Create a Frame to act as the navigation context and navigate to the first page
+                rootFrame = new Frame();
+                rootFrame.CacheSize = 1;
+                rootFrame.NavigationFailed += OnNavigationFailed;
+
+                //if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                //{
+                //    //TODO: Load state from previously suspended application
+                //}
+
+                // Place the frame in the current Window
+                Window.Current.Content = rootFrame;
+            }
+
+            return rootFrame;
+        }
+
         private void CoreWindow_Activated(CoreWindow sender, WindowActivatedEventArgs args)
         {
             if (args.WindowActivationState == CoreWindowActivationState.CodeActivated ||
@@ -196,20 +239,12 @@ namespace Files
         protected override async void OnActivated(IActivatedEventArgs args)
         {
             await logWriter.InitializeAsync("debug.log");
-
-            Logger.Info("App activated");
+            Logger.Info($"App activated by {args.Kind.ToString()}");
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
 
-            // Window management
-            if (!(Window.Current.Content is Frame rootFrame))
-            {
-                rootFrame = new Frame();
-                rootFrame.CacheSize = 1;
-                Window.Current.Content = rootFrame;
-            }
+            var rootFrame = EnsureWindowIsInitialized();
 
-            var currentView = SystemNavigationManager.GetForCurrentView();
             switch (args.Kind)
             {
                 case ActivationKind.Protocol:

@@ -16,6 +16,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:tui="using:Microsoft.Toolkit.Uwp.UI"
+    xmlns:uc="using:Files.UserControls"
     x:Name="PageRoot"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -356,7 +357,7 @@
                             HorizontalAlignment="Left"
                             Opacity="0.6"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind FileSize}"
+                            Text="{x:Bind FileSize, Mode=OneWay}"
                             TextAlignment="Left"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />
@@ -414,7 +415,6 @@
                                 Stroke="{ThemeResource GridViewHeaderItemDividerStroke}"
                                 StrokeThickness="0.5" />
 
-
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal" />
@@ -449,7 +449,6 @@
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
                         </Grid>
-
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -491,17 +490,14 @@
                 </i:Interaction.Behaviors>
             </KeyboardAccelerator>
         </Grid.KeyboardAccelerators>
-        <TextBlock
-            x:Name="EmptyText"
-            x:Uid="EmptyFolder"
+
+        <uc:FolderEmptyIndicator
             Grid.Row="3"
             Margin="0,125,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
-            x:Load="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed, Mode=OneWay}"
             Canvas.ZIndex="0"
-            Text="This folder is empty."
-            TextWrapping="Wrap" />
+            EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
         <muxc:TeachingTip
             x:Name="FileNameTeachingTip"
@@ -524,7 +520,7 @@
                     tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
                     x:FieldModifier="public"
                     AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                    CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                    CanDragItems="True"
                     ContainerContentChanging="FileList_ContainerContentChanging"
                     DesiredWidth="{x:Bind GridViewItemMinWidth, Mode=OneWay}"
                     DoubleTapped="FileList_DoubleTapped"
@@ -532,14 +528,13 @@
                     DragOver="ItemsLayout_DragOver"
                     Drop="ItemsLayout_Drop"
                     IsDoubleTapEnabled="True"
-                    IsItemClickEnabled="True"
-                    ItemClick="FileList_ItemClick"
                     ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
                     PreviewKeyDown="FileList_PreviewKeyDown"
                     ScrollViewer.IsHorizontalScrollChainingEnabled="False"
                     SelectionChanged="FileList_SelectionChanged"
                     SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
-                    StretchContentForSingleRow="False">
+                    StretchContentForSingleRow="False"
+                    Tapped="FileList_ItemTapped">
                     <controls:AdaptiveGridView.GroupStyle>
                         <GroupStyle>
                             <GroupStyle.HeaderTemplate>
@@ -629,7 +624,6 @@
                 <ListView
                     HorizontalAlignment="Stretch"
                     VerticalContentAlignment="Center"
-                    IsItemClickEnabled="True"
                     ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
                     SelectionMode="None">
                     <ListView.ItemTemplate>

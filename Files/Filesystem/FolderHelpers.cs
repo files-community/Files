@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Files.Filesystem.StorageItems;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Windows.Storage;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
@@ -43,7 +43,7 @@ namespace Files.Filesystem
             return isHidden;
         }
 
-        public static async Task<bool> CheckBitlockerStatusAsync(StorageFolder rootFolder, string path)
+        public static async Task<bool> CheckBitlockerStatusAsync(BaseStorageFolder rootFolder, string path)
         {
             if (rootFolder == null || rootFolder.Properties == null)
             {

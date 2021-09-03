@@ -2,6 +2,7 @@
 using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.Interacts;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -26,6 +27,7 @@ namespace Files.Helpers
             List<IStorageItem> items = new List<IStorageItem>();
             FilesystemResult result = (FilesystemResult)false;
 
+            var canFlush = true;
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {
                 // First, reset DataGrid Rows that may be in "cut" command mode
@@ -33,10 +35,26 @@ namespace Files.Helpers
 
                 foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems.ToList())
                 {
-                    // Dim opacities accordingly
-                    listedItem.Opacity = Constants.UI.DimItemOpacity;
+                    // FTP don't support cut, fallback to copy
+                    if (listedItem is not FtpItem)
+                    {
+                        // Dim opacities accordingly
+                        listedItem.Opacity = Constants.UI.DimItemOpacity;
+                    }
 
-                    if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                    if (listedItem is FtpItem ftpItem)
+                    {
+                        canFlush = false;
+                        if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                        {
+                            items.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
+                        }
+                        else if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                        {
+                            items.Add(new FtpStorageFolder(ftpItem));
+                        }
+                    }
+                    else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
                     {
                         result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
                             .OnSuccess(t => items.Add(t));
@@ -84,15 +102,23 @@ namespace Files.Helpers
                 }
             }
 
+            var onlyStandard = items.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
+            if (onlyStandard)
+            {
+                items = await items.ToStandardStorageItemsAsync();
+            }
             if (!items.Any())
             {
                 return;
             }
-            dataPackage.SetStorageItems(items);
+            dataPackage.SetStorageItems(items, false);
             try
             {
                 Clipboard.SetContent(dataPackage);
-                Clipboard.Flush();
+                if (onlyStandard && canFlush)
+                {
+                    Clipboard.Flush();
+                }
             }
             catch
             {
@@ -111,11 +137,24 @@ namespace Files.Helpers
             string copySourcePath = associatedInstance.FilesystemViewModel.WorkingDirectory;
             FilesystemResult result = (FilesystemResult)false;
 
+            var canFlush = true;
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {
                 foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems.ToList())
                 {
-                    if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                    if (listedItem is FtpItem ftpItem)
+                    {
+                        canFlush = false;
+                        if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                        {
+                            items.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
+                        }
+                        else if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                        {
+                            items.Add(new FtpStorageFolder(ftpItem));
+                        }
+                    }
+                    else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
                     {
                         result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
                             .OnSuccess(t => items.Add(t));
@@ -153,27 +192,36 @@ namespace Files.Helpers
                 }
             }
 
-            if (items?.Count > 0)
+            var onlyStandard = items.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
+            if (onlyStandard)
             {
-                dataPackage.SetStorageItems(items);
-                try
+                items = await items.ToStandardStorageItemsAsync();
+            }
+            if (!items.Any())
+            {
+                return;
+            }
+            dataPackage.SetStorageItems(items, false);
+            try
+            {
+                Clipboard.SetContent(dataPackage);
+                if (onlyStandard && canFlush)
                 {
-                    Clipboard.SetContent(dataPackage);
                     Clipboard.Flush();
                 }
-                catch
-                {
-                    dataPackage = null;
-                }
+            }
+            catch
+            {
+                dataPackage = null;
             }
         }
 
         public static async Task PasteItemAsync(string destinationPath, IShellPage associatedInstance)
         {
-            DataPackageView packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
-            if (packageView != null)
+            FilesystemResult<DataPackageView> packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
+            if (packageView && packageView.Result != null)
             {
-                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, false, true);
+                await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.Result.RequestedOperation, packageView, destinationPath, false, true);
                 associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
             }
         }
@@ -252,7 +300,7 @@ namespace Files.Helpers
                         created = await FilesystemTasks.Wrap(async () =>
                         {
                             return await associatedInstance.FilesystemHelpers.CreateAsync(
-                                StorageItemHelpers.FromPathAndType(System.IO.Path.Combine(folderRes.Result.Path, userInput), FilesystemItemType.Directory),
+                                StorageItemHelpers.FromPathAndType(PathNormalization.Combine(folderRes.Result.Path, userInput), FilesystemItemType.Directory),
                                 true);
                         });
                         break;
@@ -262,7 +310,7 @@ namespace Files.Helpers
                         created = await FilesystemTasks.Wrap(async () =>
                         {
                             return await associatedInstance.FilesystemHelpers.CreateAsync(
-                                StorageItemHelpers.FromPathAndType(System.IO.Path.Combine(folderRes.Result.Path, userInput + itemInfo?.Extension), FilesystemItemType.File),
+                                StorageItemHelpers.FromPathAndType(PathNormalization.Combine(folderRes.Result.Path, userInput + itemInfo?.Extension), FilesystemItemType.File),
                                 true);
                         });
                         break;

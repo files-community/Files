@@ -23,8 +23,6 @@ using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
-using static Files.Helpers.NativeFindStorageItemHelper;
-using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem
 {
@@ -44,7 +42,7 @@ namespace Files.Filesystem
 
         private Task<NamedPipeAsAppServiceConnection> ServiceConnection => AppServiceConnectionHelper.Instance;
 
-        private StatusCenterViewModel statusCenterViewModel => App.StatusCenterViewModel;
+        private OngoingTasksViewModel OngoingTasksViewModel => App.OngoingTasksViewModel;
 
         #region Helpers Members
 
@@ -156,7 +154,7 @@ namespace Files.Filesystem
             if (permanently)
             {
                 // deleting items from <x>
-                banner = statusCenterViewModel.PostOperationBanner(string.Empty,
+                banner = OngoingTasksViewModel.PostOperationBanner(string.Empty,
                     string.Format(source.Count() > 1 ? "StatusDeletingItemsDetails_Plural".GetLocalized() : "StatusDeletingItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir),
                     0,
                     ReturnResult.InProgress,
@@ -166,7 +164,7 @@ namespace Files.Filesystem
             else
             {
                 // "Moving items from <x> to recycle bin"
-                banner = statusCenterViewModel.PostOperationBanner(string.Empty,
+                banner = OngoingTasksViewModel.PostOperationBanner(string.Empty,
                     string.Format(source.Count() > 1 ? "StatusMovingItemsDetails_Plural".GetLocalized() : "StatusMovingItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir, "TheRecycleBin".GetLocalized()),
                     0,
                     ReturnResult.InProgress,
@@ -191,6 +189,8 @@ namespace Files.Filesystem
             }
             var itemsDeleted = history?.Source.Count() ?? 0;
 
+            source.ForEach(x => App.JumpList.RemoveFolder(x.Path)); // Remove items from jump list
+
             banner.Remove();
             sw.Stop();
 
@@ -198,7 +198,7 @@ namespace Files.Filesystem
             {
                 if (permanently)
                 {
-                    statusCenterViewModel.PostBanner(
+                    OngoingTasksViewModel.PostBanner(
                         "StatusDeletionCancelled".GetLocalized(),
                         string.Format(source.Count() > 1 ?
                             itemsDeleted > 1 ? "StatusDeleteCanceledDetails_Plural".GetLocalized() : "StatusDeleteCanceledDetails_Plural2".GetLocalized()
@@ -209,7 +209,7 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    statusCenterViewModel.PostBanner(
+                    OngoingTasksViewModel.PostBanner(
                         "StatusRecycleCancelled".GetLocalized(),
                         string.Format(source.Count() > 1 ?
                             itemsDeleted > 1 ? "StatusMoveCanceledDetails_Plural".GetLocalized() : "StatusMoveCanceledDetails_Plural2".GetLocalized()
@@ -223,7 +223,7 @@ namespace Files.Filesystem
             {
                 if (permanently)
                 {
-                    statusCenterViewModel.PostBanner(
+                    OngoingTasksViewModel.PostBanner(
                         "StatusDeletionComplete".GetLocalized(),
                         string.Format(source.Count() > 1 ? "StatusDeletedItemsDetails_Plural".GetLocalized() : "StatusDeletedItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir, itemsDeleted),
                         0,
@@ -232,7 +232,7 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    statusCenterViewModel.PostBanner(
+                    OngoingTasksViewModel.PostBanner(
                         "StatusRecycleComplete".GetLocalized(),
                         string.Format(source.Count() > 1 ? "StatusMovedItemsDetails_Plural".GetLocalized() : "StatusMovedItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir, "TheRecycleBin".GetLocalized()),
                         0,
@@ -244,7 +244,7 @@ namespace Files.Filesystem
             {
                 if (permanently)
                 {
-                    statusCenterViewModel.PostBanner(
+                    OngoingTasksViewModel.PostBanner(
                         "StatusDeletionFailed".GetLocalized(),
                         string.Format(source.Count() > 1 ? "StatusDeletionFailedDetails_Plural".GetLocalized() : "StatusDeletionFailedDetails_Singular".GetLocalized(), source.Count(), sourceDir),
                         0,
@@ -253,7 +253,7 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    statusCenterViewModel.PostBanner(
+                    OngoingTasksViewModel.PostBanner(
                         "StatusRecycleFailed".GetLocalized(),
                         string.Format(source.Count() > 1 ? "StatusMoveFailedDetails_Plural".GetLocalized() : "StatusMoveFailedDetails_Singular".GetLocalized(), source.Count(), sourceDir, "TheRecycleBin".GetLocalized()),
                         0,
@@ -278,7 +278,7 @@ namespace Files.Filesystem
 
             if (permanently)
             {
-                banner = statusCenterViewModel.PostBanner(string.Empty,
+                banner = OngoingTasksViewModel.PostBanner(string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
                 ReturnResult.InProgress,
@@ -286,7 +286,7 @@ namespace Files.Filesystem
             }
             else
             {
-                banner = statusCenterViewModel.PostBanner(string.Empty,
+                banner = OngoingTasksViewModel.PostBanner(string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
                 ReturnResult.InProgress,
@@ -350,6 +350,8 @@ namespace Files.Filesystem
                 App.HistoryWrapper.AddHistory(history);
             }
 
+            App.JumpList.RemoveFolder(source.Path); // Remove items from jump list
+
             banner.Remove();
             sw.Stop();
 
@@ -364,85 +366,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> DeleteItemAsync(IStorageItem source, bool showDialog, bool permanently, bool registerHistory)
         {
-            PostedStatusBanner banner;
-            bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
-            var canBeSentToBin = !deleteFromRecycleBin && await recycleBinHelpers.HasRecycleBin(source.Path);
-
-            if (!canBeSentToBin)
-            {
-                permanently = true;
-            }
-
-            if (permanently)
-            {
-                banner = statusCenterViewModel.PostBanner(string.Empty,
-                associatedInstance.FilesystemViewModel.WorkingDirectory,
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Delete);
-            }
-            else
-            {
-                banner = statusCenterViewModel.PostBanner(string.Empty,
-                associatedInstance.FilesystemViewModel.WorkingDirectory,
-                0,
-                ReturnResult.InProgress,
-                FileOperationType.Recycle);
-            }
-
-            var returnStatus = ReturnResult.InProgress;
-            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
-
-            if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
-            {
-                List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>
-                {
-                    new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, source.Path, null)
-                };
-
-                FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
-                    FilesystemOperationType.Delete,
-                    false,
-                    canBeSentToBin ? permanently : true,
-                    canBeSentToBin,
-                    incomingItems,
-                    new List<FilesystemItemsOperationItemModel>()));
-
-                if (UIHelpers.IsAnyContentDialogOpen())
-                {
-                    // Only a single ContentDialog can be open at any time.
-                    return ReturnResult.Cancelled;
-                }
-                ContentDialogResult result = await dialog.ShowAsync();
-
-                if (result != ContentDialogResult.Primary)
-                {
-                    banner.Remove();
-                    return ReturnResult.Cancelled; // Return if the result isn't delete
-                }
-
-                // Delete selected item if the result is Yes
-                permanently = dialog.ViewModel.PermanentlyDelete;
-            }
-
-            var sw = new Stopwatch();
-            sw.Start();
-
-            IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
-            ((IProgress<float>)banner.Progress).Report(100.0f);
-            await Task.Yield();
-
-            if (!permanently && registerHistory)
-            {
-                App.HistoryWrapper.AddHistory(history);
-            }
-
-            banner.Remove();
-            sw.Stop();
-
-            PostBannerHelpers.PostBanner_Delete(returnStatus, permanently ? FileOperationType.Delete : FileOperationType.Recycle, sw, associatedInstance);
-
-            return returnStatus;
+            return await DeleteItemAsync(source.FromStorageItem(), showDialog, permanently, registerHistory);
         }
 
         #endregion Delete
@@ -496,10 +420,12 @@ namespace Files.Filesystem
                     {
                         var items = await packageView.GetStorageItemsAsync();
                         NavigationHelpers.OpenItemsWithExecutable(associatedInstance, items.ToList(), destination);
+                        return ReturnResult.Success;
                     }
-
-                    // TODO: Support link creation
-                    return default;
+                    else
+                    {
+                        return await CreateShortcutFromClipboard(packageView, destination, showDialog, registerHistory);
+                    }
                 }
                 else if (operation.HasFlag(DataPackageOperation.None))
                 {
@@ -533,7 +459,7 @@ namespace Files.Filesystem
             var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
             var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
 
-            PostedStatusBanner banner = statusCenterViewModel.PostOperationBanner(
+            PostedStatusBanner banner = OngoingTasksViewModel.PostOperationBanner(
                 string.Empty,
                 string.Format(source.Count() > 1 ? "StatusCopyingItemsDetails_Plural".GetLocalized() : "StatusCopyingItemsDetails_Singular".GetLocalized(), source.Count(), destinationDir),
                 0,
@@ -573,7 +499,7 @@ namespace Files.Filesystem
 
             if (!token.IsCancellationRequested)
             {
-                statusCenterViewModel.PostBanner(
+                OngoingTasksViewModel.PostBanner(
                     "StatusCopyComplete".GetLocalized(),
                     string.Format(source.Count() > 1 ? "StatusCopiedItemsDetails_Plural".GetLocalized() : "StatusCopiedItemsDetails_Singular".GetLocalized(), source.Count(), destinationDir, itemsCopied),
                     0,
@@ -582,7 +508,7 @@ namespace Files.Filesystem
             }
             else
             {
-                statusCenterViewModel.PostBanner(
+                OngoingTasksViewModel.PostBanner(
                     "StatusCopyCanceled".GetLocalized(),
                     string.Format(source.Count() > 1 ?
                         itemsCopied > 1 ? "StatusCopyCanceledDetails_Plural".GetLocalized() : "StatusCopyCanceledDetails_Plural2".GetLocalized() :
@@ -597,7 +523,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)
         {
-            PostedStatusBanner banner = statusCenterViewModel.PostBanner(
+            PostedStatusBanner banner = OngoingTasksViewModel.PostBanner(
                 string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
@@ -643,7 +569,7 @@ namespace Files.Filesystem
 
             if (sw.Elapsed.TotalSeconds >= 10)
             {
-                statusCenterViewModel.PostBanner(
+                OngoingTasksViewModel.PostBanner(
                     "StatusCopyComplete".GetLocalized(),
                     "StatusOperationCompleted".GetLocalized(),
                     0,
@@ -654,79 +580,45 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
-        {
-            if (!packageView.Contains(StandardDataFormats.StorageItems))
-            {
-                // Happens if you copy some text and then you Ctrl+V in Files
-                return ReturnResult.BadArgumentException;
-            }
-
-            IReadOnlyList<IStorageItem> source;
-            try
-            {
-                source = await packageView.GetStorageItemsAsync();
-            }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-            {
-                // Not supported
-                return ReturnResult.Failed;
-            }
-            catch (Exception ex)
-            {
-                App.Logger.Warn(ex, ex.Message);
-                return ReturnResult.UnknownException;
-            }
-            ReturnResult returnStatus = ReturnResult.InProgress;
-
-            source = source.Where(x => !recycleBinHelpers.IsPathUnderRecycleBin(x.Path)).ToList(); // Can't recycle items already in recyclebin
-            returnStatus = await DeleteItemsAsync(source, showDialog, false, registerHistory);
-
-            return returnStatus;
-        }
-
         public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
-            if (packageView.Contains(StandardDataFormats.StorageItems))
+            var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
+            source ??= new List<IStorageItemWithPath>();
+
+            if (handledByFtp)
             {
-                IReadOnlyList<IStorageItem> source;
-                try
+                var connection = await ServiceConnection;
+                if (connection != null)
                 {
-                    source = await packageView.GetStorageItemsAsync();
+                    var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet() {
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "DragDrop" },
+                        { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
+                    return (status == AppServiceResponseStatus.Success && response.Get("Success", false)) ? ReturnResult.Success : ReturnResult.Failed;
                 }
-                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-                {
-                    var connection = await ServiceConnection;
-                    if (connection != null)
-                    {
-                        var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet() {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "DragDrop" },
-                            { "droppath", associatedInstance.FilesystemViewModel.WorkingDirectory } });
-                        return (status == AppServiceResponseStatus.Success && response.Get("Success", false)) ? ReturnResult.Success : ReturnResult.Failed;
-                    }
-                    return ReturnResult.Failed;
-                }
-                catch (Exception ex)
-                {
-                    App.Logger.Warn(ex, ex.Message);
-                    return ReturnResult.UnknownException;
-                }
+                return ReturnResult.Failed;
+            }
+
+            if (!source.IsEmpty())
+            {
                 ReturnResult returnStatus = ReturnResult.InProgress;
 
                 var destinations = new List<string>();
                 List<ShellFileItem> binItems = null;
-                foreach (IStorageItem item in source)
+                foreach (var item in source)
                 {
                     if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
                     {
                         binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
-                        var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
-                        destinations.Add(Path.Combine(destination, matchingItem?.FileName ?? item.Name));
+                        if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
+                        {
+                            var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
+                            destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));
+                        }
                     }
                     else
                     {
-                        destinations.Add(Path.Combine(destination, item.Name));
+                        destinations.Add(PathNormalization.Combine(destination, item.Name));
                     }
                 }
 
@@ -741,7 +633,7 @@ namespace Files.Filesystem
                 {
                     var imgSource = await packageView.GetBitmapAsync();
                     using var imageStream = await imgSource.OpenReadAsync();
-                    var folder = await StorageFolder.GetFolderFromPathAsync(destination);
+                    var folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(destination);
                     // Set the name of the file to be the current time and date
                     var file = await folder.CreateFileAsync($"{DateTime.Now:mm-dd-yy-HHmmss}.png", CreationCollisionOption.GenerateUniqueName);
 
@@ -785,7 +677,7 @@ namespace Files.Filesystem
             var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
             var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
 
-            PostedStatusBanner banner = statusCenterViewModel.PostOperationBanner(
+            PostedStatusBanner banner = OngoingTasksViewModel.PostOperationBanner(
                 string.Empty,
                 string.Format(source.Count() > 1 ? "StatusMovingItemsDetails_Plural".GetLocalized() : "StatusMovingItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir, destinationDir),
                 0,
@@ -820,12 +712,14 @@ namespace Files.Filesystem
             }
             int itemsMoved = history?.Source.Count() ?? 0;
 
+            source.ForEach(x => App.JumpList.RemoveFolder(x.Path)); // Remove items from jump list
+
             banner.Remove();
             sw.Stop();
 
             if (!token.IsCancellationRequested)
             {
-                statusCenterViewModel.PostBanner(
+                OngoingTasksViewModel.PostBanner(
                     "StatusMoveComplete".GetLocalized(),
                     string.Format(source.Count() > 1 ? "StatusMovedItemsDetails_Plural".GetLocalized() : "StatusMovedItemsDetails_Singular".GetLocalized(), source.Count(), sourceDir, destinationDir, itemsMoved),
                     0,
@@ -834,7 +728,7 @@ namespace Files.Filesystem
             }
             else
             {
-                statusCenterViewModel.PostBanner(
+                OngoingTasksViewModel.PostBanner(
                     "StatusMoveCanceled".GetLocalized(),
                     string.Format(source.Count() > 1 ?
                         itemsMoved > 1 ? "StatusMoveCanceledDetails_Plural".GetLocalized() : "StatusMoveCanceledDetails_Plural2".GetLocalized()
@@ -849,7 +743,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> MoveItemAsync(IStorageItemWithPath source, string destination, bool showDialog, bool registerHistory)
         {
-            PostedStatusBanner banner = statusCenterViewModel.PostBanner(
+            PostedStatusBanner banner = OngoingTasksViewModel.PostBanner(
                 string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
                 0,
@@ -897,12 +791,14 @@ namespace Files.Filesystem
                 App.HistoryWrapper.AddHistory(history);
             }
 
+            App.JumpList.RemoveFolder(source.Path); // Remove items from jump list
+
             banner.Remove();
             sw.Stop();
 
             if (sw.Elapsed.TotalSeconds >= 10)
             {
-                statusCenterViewModel.PostBanner(
+                OngoingTasksViewModel.PostBanner(
                     "StatusMoveComplete".GetLocalized(),
                     "StatusOperationCompleted".GetLocalized(),
                     0,
@@ -915,42 +811,39 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> MoveItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
-            if (!packageView.Contains(StandardDataFormats.StorageItems))
+            if (!HasDraggedStorageItems(packageView))
             {
                 // Happens if you copy some text and then you Ctrl+V in Files
                 return ReturnResult.BadArgumentException;
             }
 
-            IReadOnlyList<IStorageItem> source;
-            try
-            {
-                source = await packageView.GetStorageItemsAsync();
-            }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
+            var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
+            source ??= new List<IStorageItemWithPath>();
+
+            if (handledByFtp)
             {
                 // Not supported
                 return ReturnResult.Failed;
             }
-            catch (Exception ex)
-            {
-                App.Logger.Warn(ex, ex.Message);
-                return ReturnResult.UnknownException;
-            }
+
             ReturnResult returnStatus = ReturnResult.InProgress;
 
             var destinations = new List<string>();
             List<ShellFileItem> binItems = null;
-            foreach (IStorageItem item in source)
+            foreach (var item in source)
             {
                 if (recycleBinHelpers.IsPathUnderRecycleBin(item.Path))
                 {
                     binItems ??= await recycleBinHelpers.EnumerateRecycleBin();
-                    var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
-                    destinations.Add(Path.Combine(destination, matchingItem?.FileName ?? item.Name));
+                    if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
+                    {
+                        var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
+                        destinations.Add(PathNormalization.Combine(destination, matchingItem?.FileName ?? item.Name));
+                    }
                 }
                 else
                 {
-                    destinations.Add(Path.Combine(destination, item.Name));
+                    destinations.Add(PathNormalization.Combine(destination, item.Name));
                 }
             }
 
@@ -965,19 +858,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory)
         {
-            var returnCode = FileSystemStatusCode.InProgress;
-            var errorCode = new Progress<FileSystemStatusCode>();
-            errorCode.ProgressChanged += (s, e) => returnCode = e;
-
-            IStorageHistory history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
-
-            if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
-            {
-                App.HistoryWrapper.AddHistory(history);
-            }
-
-            await Task.Yield();
-            return returnCode.ToStatus();
+            return await RenameAsync(source.FromStorageItem(), newName, collision, registerHistory);
         }
 
         public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory)
@@ -1023,11 +904,74 @@ namespace Files.Filesystem
                 App.HistoryWrapper.AddHistory(history);
             }
 
+            App.JumpList.RemoveFolder(source.Path); // Remove items from jump list
+
             await Task.Yield();
             return returnCode.ToStatus();
         }
 
         #endregion Rename
+
+        public async Task<ReturnResult> CreateShortcutFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
+        {
+            if (!HasDraggedStorageItems(packageView))
+            {
+                // Happens if you copy some text and then you Ctrl+V in Files
+                return ReturnResult.BadArgumentException;
+            }
+
+            var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
+            source ??= new List<IStorageItemWithPath>();
+
+            if (handledByFtp)
+            {
+                // Not supported
+                return ReturnResult.Failed;
+            }
+
+            var returnCode = FileSystemStatusCode.InProgress;
+            var errorCode = new Progress<FileSystemStatusCode>();
+            errorCode.ProgressChanged += (s, e) => returnCode = e;
+
+            source = source.Where(x => !string.IsNullOrEmpty(x.Path));
+            var dest = source.Select(x => Path.Combine(destination,
+                string.Format("ShortcutCreateNewSuffix".GetLocalized(), x.Name) + ".lnk"));
+
+            var history = await filesystemOperations.CreateShortcutItemsAsync(source, dest, null, errorCode, cancellationToken);
+
+            if (registerHistory)
+            {
+                App.HistoryWrapper.AddHistory(history);
+            }
+
+            await Task.Yield();
+            return returnCode.ToStatus();
+        }
+
+        public async Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
+        {
+            if (!HasDraggedStorageItems(packageView))
+            {
+                // Happens if you copy some text and then you Ctrl+V in Files
+                return ReturnResult.BadArgumentException;
+            }
+
+            var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
+            source ??= new List<IStorageItemWithPath>();
+
+            if (handledByFtp)
+            {
+                // Not supported
+                return ReturnResult.Failed;
+            }
+
+            ReturnResult returnStatus = ReturnResult.InProgress;
+
+            source = source.Where(x => !recycleBinHelpers.IsPathUnderRecycleBin(x.Path)).ToList(); // Can't recycle items already in recyclebin
+            returnStatus = await DeleteItemsAsync(source, showDialog, false, registerHistory);
+
+            return returnStatus;
+        }
 
         #endregion IFilesystemHelpers
 
@@ -1040,10 +984,10 @@ namespace Files.Filesystem
 
             for (int i = 0; i < source.Count(); i++)
             {
-                var itemPathOrName = string.IsNullOrEmpty(source.ElementAt(i).Path) ? 
+                var itemPathOrName = string.IsNullOrEmpty(source.ElementAt(i).Path) ?
                     (string.IsNullOrEmpty(source.ElementAt(i).Item.Path) ? source.ElementAt(i).Item.Name : source.ElementAt(i).Item.Path) : source.ElementAt(i).Path;
                 incomingItems.Add(new FilesystemItemsOperationItemModel(operationType, itemPathOrName, destination.ElementAt(i)));
-                collisions.Add(incomingItems.ElementAt(i).SourcePath, FileNameConflictResolveOptionType.GenerateNewName);
+                collisions.AddIfNotPresent(incomingItems.ElementAt(i).SourcePath, FileNameConflictResolveOptionType.GenerateNewName);
 
                 if (destination.Count() > 0 && StorageItemHelpers.Exists(destination.ElementAt(i))) // Same item names in both directories
                 {
@@ -1107,104 +1051,39 @@ namespace Files.Filesystem
 
         #region Public Helpers
 
-        public static async Task<long> GetItemSize(IStorageItem item)
+        public static bool HasDraggedStorageItems(DataPackageView packageView)
         {
-            if (item == null)
-            {
-                return 0L;
-            }
-
-            if (item.IsOfType(StorageItemTypes.Folder))
-            {
-                return await CalculateFolderSizeAsync(item.Path);
-            }
-            else
-            {
-                return CalculateFileSize(item.Path);
-            }
+            return packageView != null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out var data)));
         }
 
-        public static async Task<long> CalculateFolderSizeAsync(string path)
+        public static async Task<(bool handledByFtp, IEnumerable<IStorageItemWithPath> items)> GetDraggedStorageItems(DataPackageView packageView)
         {
-            if (string.IsNullOrEmpty(path))
+            var itemsList = new List<IStorageItemWithPath>();
+            if (packageView.Contains(StandardDataFormats.StorageItems))
             {
-                // In MTP devices calculating folder size would be too slow
-                // Also should use StorageFolder methods instead of FindFirstFileExFromApp
-                return 0;
-            }
-
-            long size = 0;
-            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-            IntPtr hFile = FindFirstFileExFromApp(
-                path + "\\*.*",
-                findInfoLevel,
-                out WIN32_FIND_DATA findData,
-                FINDEX_SEARCH_OPS.FindExSearchNameMatch,
-                IntPtr.Zero,
-                additionalFlags);
-
-            int count = 0;
-            if (hFile.ToInt64() != -1)
-            {
-                do
+                try
                 {
-                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
-                    {
-                        size += findData.GetSize();
-                        ++count;
-                    }
-                    else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
-                    {
-                        if (findData.cFileName != "." && findData.cFileName != "..")
-                        {
-                            string itemPath = Path.Combine(path, findData.cFileName);
-
-                            size += await CalculateFolderSizeAsync(itemPath);
-                            ++count;
-                        }
-                    }
-                } while (FindNextFile(hFile, out findData));
-                FindClose(hFile);
-                return size;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
-        public static long CalculateFileSize(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
-                // In MTP devices calculating folder size would be too slow
-                // Also should use StorageFolder methods instead of FindFirstFileExFromApp
-                return 0;
-            }
-
-            long size = 0;
-            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-            IntPtr hFile = FindFirstFileExFromApp(path, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-                                                  additionalFlags);
-
-            if (hFile.ToInt64() != -1)
-            {
-                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
-                {
-                    size += findData.GetSize();
+                    var source = await packageView.GetStorageItemsAsync();
+                    itemsList.AddRange(source.Select(x => x.FromStorageItem()));
                 }
-                FindClose(hFile);
-                Debug.WriteLine($"Individual file size for Progress UI will be reported as: {size} bytes");
-                return size;
+                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
+                {
+                    return (true, itemsList);
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.Warn(ex, ex.Message);
+                    return (false, itemsList);
+                }
             }
-            else
+            if (packageView.Properties.TryGetValue("FileDrop", out var data))
             {
-                return 0;
+                if (data is List<IStorageItemWithPath> source)
+                {
+                    itemsList.AddRange(source);
+                }
             }
+            return (false, itemsList);
         }
 
         public static bool ContainsRestrictedCharacters(string input)
@@ -1234,20 +1113,6 @@ namespace Files.Filesystem
             }
 
             return false;
-        }
-
-        public async Task OpenShellCommandInExplorerAsync(string shellCommand, NamedPipeAsAppServiceConnection connection)
-        {
-            Debug.WriteLine("Launching shell command in FullTrustProcess");
-            if (connection != null)
-            {
-                ValueSet value = new ValueSet()
-                {
-                    { "ShellCommand", shellCommand },
-                    { "Arguments", "ShellCommand" }
-                };
-                await connection.SendMessageAsync(value);
-            }
         }
 
         #endregion Public Helpers

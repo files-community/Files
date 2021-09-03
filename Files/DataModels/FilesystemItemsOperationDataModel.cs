@@ -66,7 +66,7 @@ namespace Files.DataModels
             // Add conflicting items first
             foreach (var item in ConflictingItems)
             {
-                var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.SourcePath, 64u);
+                var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(item.SourcePath, 64u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
 
                 items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
@@ -84,7 +84,7 @@ namespace Files.DataModels
             // Then add non-conflicting items
             foreach (var item in nonConflictingItems)
             {
-                var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.SourcePath, 64u);
+                var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(item.SourcePath, 64u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
 
                 items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {

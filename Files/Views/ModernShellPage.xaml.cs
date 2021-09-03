@@ -15,22 +15,17 @@ using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -131,8 +126,6 @@ namespace Files.Views
         public static readonly DependencyProperty CurrentInstanceBorderThicknessProperty =
             DependencyProperty.Register("CurrentInstanceBorderThickness", typeof(Thickness), typeof(ModernShellPage), new PropertyMetadata(null));
 
-
-
         public static readonly DependencyProperty CurrentInstanceBorderBrushProperty =
             DependencyProperty.Register("CurrentInstanceBorderBrush", typeof(SolidColorBrush), typeof(ModernShellPage), new PropertyMetadata(null));
 
@@ -181,7 +174,6 @@ namespace Files.Views
             NavToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
             NavToolbarViewModel.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
 
-
             InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
             InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
 
@@ -191,46 +183,29 @@ namespace Files.Views
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
         }
 
-        void InitToolbarCommands()
+        private void InitToolbarCommands()
         {
             NavToolbarViewModel.SelectAllContentPageItemsCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.SelectAllItems());
-            NavToolbarViewModel.InvertContentPageSelctionCommand = new RelayCommand(() => GetActiveLayout()?.ItemManipulationModel.InvertSelection());
-            NavToolbarViewModel.ClearContentPageSelectionCommand = new RelayCommand(() => GetActiveLayout()?.ItemManipulationModel.ClearSelection());
-            NavToolbarViewModel.PasteItemsFromClipboardCommand = new RelayCommand(() => GetActiveLayout()?.CommandsViewModel.PasteItemsFromClipboardCommand.Execute(null));
+            NavToolbarViewModel.InvertContentPageSelctionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.InvertSelection());
+            NavToolbarViewModel.ClearContentPageSelectionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.ClearSelection());
+            NavToolbarViewModel.PasteItemsFromClipboardCommand = new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
             NavToolbarViewModel.OpenNewWindowCommand = new RelayCommand(NavigationHelpers.LaunchNewWindow);
             NavToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized()));
             NavToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
-            NavToolbarViewModel.OpenDirectoryInDefaultTerminalCommand = new RelayCommand(async () => await NavigationHelpers.OpenDirectoryInTerminal(GetActiveShellPage().FilesystemViewModel.WorkingDirectory));
-            NavToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, x, GetActiveShellPage()));
-            NavToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, GetActiveShellPage()));
-            NavToolbarViewModel.CopyCommand = new RelayCommand(() => GetActiveLayout().CommandsViewModel.CopyItemCommand.Execute(null));
-            NavToolbarViewModel.Rename = new RelayCommand(() => GetActiveLayout()?.CommandsViewModel.RenameItemCommand.Execute(null));
-            NavToolbarViewModel.Share = new RelayCommand(() => GetActiveLayout()?.CommandsViewModel.ShareItemCommand.Execute(null));
-            NavToolbarViewModel.DeleteCommand = new RelayCommand(() => GetActiveLayout()?.CommandsViewModel.DeleteItemCommand.Execute(null));
-            NavToolbarViewModel.CutCommand = new RelayCommand(() => GetActiveLayout()?.CommandsViewModel.CutItemCommand.Execute(null));
+            NavToolbarViewModel.OpenDirectoryInDefaultTerminalCommand = new RelayCommand(async () => await NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory));
+            NavToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, x, this));
+            NavToolbarViewModel.CreateNewFolderCommand = new RelayCommand(() => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.Folder, null, this));
+            NavToolbarViewModel.CopyCommand = new RelayCommand(async () => await UIFilesystemHelpers.CopyItem(this));
+            NavToolbarViewModel.Rename = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RenameItemCommand.Execute(null));
+            NavToolbarViewModel.Share = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShareItemCommand.Execute(null));
+            NavToolbarViewModel.DeleteCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DeleteItemCommand.Execute(null));
+            NavToolbarViewModel.CutCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.CutItemCommand.Execute(null));
         }
 
         private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
         {
             WidgetsPage currentPage = ItemDisplayFrame?.Content as WidgetsPage;
             currentPage.RefreshWidgetList();
-        }
-
-        private void CopyLocation()
-        {
-            try
-            {
-                if (this.SlimContentPage != null && SlimContentPage.SelectedItems is not null && SlimContentPage.SelectedItems.Any())
-                {
-                    DataPackage data = new DataPackage();
-                    data.SetText(this.FilesystemViewModel.WorkingDirectory);
-                    Clipboard.SetContent(data);
-                    Clipboard.Flush();
-                }
-            }
-            catch
-            {
-            }
         }
 
         private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
@@ -324,13 +299,7 @@ namespace Files.Views
 
         public async void SubmitSearch(string query, bool searchUnindexedItems)
         {
-            var search = new FolderSearch
-            {
-                Query = query,
-                Folder = FilesystemViewModel.WorkingDirectory,
-                ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
-                SearchUnindexedItems = searchUnindexedItems
-            };
+            FilesystemViewModel.CancelSearch();
             InstanceViewModel.CurrentSearchQuery = query;
             InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
             ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
@@ -338,8 +307,17 @@ namespace Files.Views
                 AssociatedTabInstance = this,
                 IsSearchResultPage = true,
                 SearchPathParam = FilesystemViewModel.WorkingDirectory,
-                SearchResults = await search.SearchAsync(),
+                SearchQuery = query,
+                SearchUnindexedItems = searchUnindexedItems,
             });
+            var searchInstance = new FolderSearch
+            {
+                Query = InstanceViewModel.CurrentSearchQuery,
+                Folder = FilesystemViewModel.WorkingDirectory,
+                ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
+                SearchUnindexedItems = InstanceViewModel.SearchedUnindexedItems
+            };
+            await FilesystemViewModel.SearchAsync(searchInstance);
         }
 
         private void ModernShellPage_RefreshRequested(object sender, EventArgs e)
@@ -660,6 +638,7 @@ namespace Files.Views
                     }
                     break;
 
+                case (false, false, false, true, VirtualKey.F3): //f3
                 case (true, false, false, true, VirtualKey.F): // ctrl + f
                     NavToolbarViewModel.SwitchSearchBoxVisibility();
                     break;
@@ -751,7 +730,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
-                    if (!InstanceViewModel.IsPageTypeSearchResults)
+                    if (NavToolbarViewModel.CanRefresh)
                     {
                         Refresh_Click();
                     }
@@ -763,24 +742,29 @@ namespace Files.Views
                     break;
 
                 case (false, false, false, _, VirtualKey.F1): // F1, open Files wiki
-                    await Launcher.LaunchUriAsync(new Uri(@"https://files-community.github.io/docs"));
+                    await Launcher.LaunchUriAsync(new Uri(@"https://files.community/docs"));
                     break;
 
                 case (true, true, false, _, VirtualKey.Number1): // ctrl+shift+1, details view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeDetailsView.Execute(true);
                     break;
+
                 case (true, true, false, _, VirtualKey.Number2): // ctrl+shift+2, tiles view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeTiles.Execute(true);
                     break;
+
                 case (true, true, false, _, VirtualKey.Number3): // ctrl+shift+3, grid small view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewSmall.Execute(true);
                     break;
+
                 case (true, true, false, _, VirtualKey.Number4): // ctrl+shift+4, grid medium view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewMedium.Execute(true);
                     break;
+
                 case (true, true, false, _, VirtualKey.Number5): // ctrl+shift+5, grid large view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeGridViewLarge.Execute(true);
                     break;
+
                 case (true, true, false, _, VirtualKey.Number6): // ctrl+shift+6, column view
                     InstanceViewModel.FolderSettings.ToggleLayoutModeColumnView.Execute(true);
                     break;
@@ -803,11 +787,29 @@ namespace Files.Views
         public async void Refresh_Click()
         {
             NavToolbarViewModel.CanRefresh = false;
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+
+            if (InstanceViewModel.IsPageTypeSearchResults)
             {
-                var ContentOwnedViewModelInstance = FilesystemViewModel;
-                ContentOwnedViewModelInstance?.RefreshItems(null);
-            });
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    var searchInstance = new FolderSearch
+                    {
+                        Query = InstanceViewModel.CurrentSearchQuery,
+                        Folder = FilesystemViewModel.WorkingDirectory,
+                        ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
+                        SearchUnindexedItems = InstanceViewModel.SearchedUnindexedItems
+                    };
+                    await FilesystemViewModel.SearchAsync(searchInstance);
+                });
+            }
+            else
+            {
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    var ContentOwnedViewModelInstance = FilesystemViewModel;
+                    ContentOwnedViewModelInstance?.RefreshItems(null);
+                });
+            }
         }
 
         public void Back_Click()
@@ -966,7 +968,7 @@ namespace Files.Views
                     NavToolbarViewModel.CanRefresh = true;
                     SetLoadingIndicatorForTabs(false);
                     // Select previous directory
-                    if (!string.IsNullOrWhiteSpace(e.PreviousDirectory))
+                    if (!InstanceViewModel.IsPageTypeSearchResults && !string.IsNullOrWhiteSpace(e.PreviousDirectory))
                     {
                         if (e.PreviousDirectory.Contains(e.Path) && !e.PreviousDirectory.Contains("Shell:RecycleBinFolder"))
                         {
@@ -1018,35 +1020,9 @@ namespace Files.Views
             }
         }
 
-        public DataPackageOperation TabItemDragOver(object sender, DragEventArgs e)
-        {
-            if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
-            {
-                if (!InstanceViewModel.IsPageTypeSearchResults)
-                {
-                    return DataPackageOperation.Move;
-                }
-            }
-            return DataPackageOperation.None;
-        }
+        public Task TabItemDragOver(object sender, DragEventArgs e) => SlimContentPage?.CommandsViewModel.CommandsModel.DragOver(e);
 
-        public async Task<DataPackageOperation> TabItemDrop(object sender, DragEventArgs e)
-        {
-            if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
-            {
-                if (InstanceViewModel.IsPageTypeNotHome && !InstanceViewModel.IsPageTypeSearchResults)
-                {
-                    await FilesystemHelpers.PerformOperationTypeAsync(
-                        DataPackageOperation.Move,
-                        e.DataView,
-                        FilesystemViewModel.WorkingDirectory,
-                        false,
-                        true);
-                    return DataPackageOperation.Move;
-                }
-            }
-            return DataPackageOperation.None;
-        }
+        public Task TabItemDrop(object sender, DragEventArgs e) => SlimContentPage?.CommandsViewModel.CommandsModel.Drop(e);
 
         public void NavigateHome()
         {
@@ -1125,33 +1101,9 @@ namespace Files.Views
             ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
         }
 
-        /// <summary>
-        /// workaround that allows retrieving the current column if the layout is in column view
-        /// </summary>
-        private IBaseLayout GetActiveLayout()
+        public void RaiseContentChanged(IShellPage instance, TabItemArguments args)
         {
-            if (IsColumnView)
-            {
-                return (SlimContentPage as ColumnViewBrowser)?.LastColumnBrowser;
-            }
-
-            return SlimContentPage;
-        }
-
-        /// <summary>
-        /// workaround that allows retrieving the current column shell page if the layout is in column view or self otherwise
-        /// </summary>
-        private IShellPage GetActiveShellPage()
-        {
-            if (IsColumnView)
-            {
-                if(!(SlimContentPage as ColumnViewBrowser)?.IsLastColumnBase ?? false) 
-                {
-                    return (SlimContentPage as ColumnViewBrowser)?.LastColumnShellPage;
-                }
-            }
-
-            return this;
+            ContentChanged?.Invoke(instance, args);
         }
     }
 
@@ -1166,8 +1118,9 @@ namespace Files.Views
         public string NavPathParam { get; set; } = null;
         public IShellPage AssociatedTabInstance { get; set; }
         public bool IsSearchResultPage { get; set; } = false;
-        public ObservableCollection<ListedItem> SearchResults { get; set; } = new ObservableCollection<ListedItem>();
         public string SearchPathParam { get; set; } = null;
+        public string SearchQuery { get; set; } = null;
+        public bool SearchUnindexedItems { get; set; } = false;
         public bool IsLayoutSwitch { get; set; } = false;
         public IEnumerable<string> SelectItems { get; set; }
     }

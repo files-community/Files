@@ -54,6 +54,7 @@
                 TargetType="controls:GridSplitter">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="Width" Value="1" />
+                <Setter Property="Margin" Value="0,4,0,4" />
                 <Setter Property="Opacity" Value="0.8" />
             </Style>
 
@@ -106,7 +107,6 @@
                                     Stroke="{ThemeResource GridViewHeaderItemDividerStroke}"
                                     StrokeThickness="0.5" />
 
-
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="Normal" />
@@ -141,7 +141,6 @@
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
                             </Grid>
-
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
@@ -186,17 +185,14 @@
                 </i:Interaction.Behaviors>
             </KeyboardAccelerator>
         </Grid.KeyboardAccelerators>
-        <TextBlock
-            x:Name="EmptyText"
-            x:Uid="EmptyFolder"
+
+        <uc:FolderEmptyIndicator
             Grid.Row="3"
             Margin="0,125,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
-            x:Load="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed, Mode=OneWay}"
             Canvas.ZIndex="0"
-            Text="This folder is empty."
-            TextWrapping="Wrap" />
+            EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
         <muxc:TeachingTip
             x:Name="FileNameTeachingTip"
@@ -213,28 +209,27 @@
             <SemanticZoom.ZoomedInView>
                 <ListView
                     x:Name="FileList"
-                    Margin="0,4,0,0"
                     Padding="8,0,8,12"
                     HorizontalAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
                     tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
                     x:FieldModifier="public"
                     AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                    CanDragItems="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                    CanDragItems="True"
                     ContainerContentChanging="FileList_ContainerContentChanging"
                     DoubleTapped="FileList_DoubleTapped"
                     DragItemsStarting="FileList_DragItemsStarting"
                     DragOver="ItemsLayout_DragOver"
                     Drop="ItemsLayout_Drop"
                     IsDoubleTapEnabled="True"
-                    IsItemClickEnabled="True"
-                    ItemClick="FileList_ItemClick"
                     ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
+                    Loaded="FileList_Loaded"
                     PreviewKeyDown="FileList_PreviewKeyDown"
                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
                     ScrollViewer.HorizontalScrollMode="Auto"
                     SelectionChanged="FileList_SelectionChanged"
                     SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
+                    Tapped="FileList_ItemTapped"
                     Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
                     <ListView.ItemContainerTransitions>
                         <TransitionCollection>
@@ -247,11 +242,10 @@
                     <ListView.Header>
                         <Grid
                             x:Name="HeaderGrid"
-                            Height="38"
-                            Margin="16,0,0,0"
-                            Padding="0"
+                            Height="40"
+                            Padding="16,0,0,0"
                             Background="{ThemeResource FileBrowserHeaderBackgroundBrush}"
-                            BorderBrush="{ThemeResource SystemChromeHighColor}"
+                            BorderBrush="{ThemeResource ControlStrokeColorDefault}"
                             BorderThickness="0,0,0,1"
                             PointerPressed="Grid_PointerPressed">
                             <Grid.ContextFlyout>
@@ -773,62 +767,62 @@
                                                 BorderBrush="{TemplateBinding BorderBrush}"
                                                 BorderThickness="{TemplateBinding BorderThickness}"
                                                 CornerRadius="{TemplateBinding CornerRadius}">
-                                                <ScrollViewer
-                                                    HorizontalScrollBarVisibility="Auto"
-                                                    HorizontalScrollMode="Auto"
-                                                    VerticalScrollBarVisibility="Disabled"
-                                                    VerticalScrollMode="Disabled">
-                                                    <Grid>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="Auto" />
-                                                            <RowDefinition Height="*" />
-                                                        </Grid.RowDefinitions>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
+                                                    <ScrollViewer
+                                                        x:Name="HeaderScrollViewer"
+                                                        HorizontalScrollBarVisibility="Hidden"
+                                                        HorizontalScrollMode="Disabled"
+                                                        VerticalScrollBarVisibility="Disabled"
+                                                        VerticalScrollMode="Disabled">
                                                         <ContentPresenter Padding="8,0,8,8" Content="{TemplateBinding Header}" />
-                                                        <ScrollViewer
-                                                            x:Name="ScrollViewer"
-                                                            Grid.Row="1"
-                                                            HorizontalContentAlignment="Stretch"
-                                                            AutomationProperties.AccessibilityView="Raw"
-                                                            BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
-                                                            HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                                            HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-                                                            IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
-                                                            IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
-                                                            IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
-                                                            IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
-                                                            IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
-                                                            TabNavigation="{TemplateBinding TabNavigation}"
-                                                            VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                                                            VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-                                                            ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                                                            <Grid>
-                                                                <Grid.RowDefinitions>
-                                                                    <RowDefinition Height="*" />
-                                                                    <RowDefinition Height="Auto" />
-                                                                </Grid.RowDefinitions>
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="Auto" />
-                                                                    <ColumnDefinition Width="*" MinWidth="24" />
-                                                                </Grid.ColumnDefinitions>
-                                                                <ItemsPresenter
-                                                                    Padding="{TemplateBinding Padding}"
-                                                                    HorizontalAlignment="Stretch"
-                                                                    FooterTemplate="{TemplateBinding FooterTemplate}"
-                                                                    FooterTransitions="{TemplateBinding FooterTransitions}"
-                                                                    HeaderTemplate="{TemplateBinding HeaderTemplate}"
-                                                                    HeaderTransitions="{TemplateBinding HeaderTransitions}" />
+                                                    </ScrollViewer>
+                                                    <ScrollViewer
+                                                        x:Name="ScrollViewer"
+                                                        Grid.Row="1"
+                                                        HorizontalContentAlignment="Stretch"
+                                                        AutomationProperties.AccessibilityView="Raw"
+                                                        BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                                        HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                                        HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                                        IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                                        IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                                        IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                                                        IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                                        IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                                                        TabNavigation="{TemplateBinding TabNavigation}"
+                                                        VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                                        VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                                        ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="*" />
+                                                                <RowDefinition Height="Auto" />
+                                                            </Grid.RowDefinitions>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto" />
+                                                                <ColumnDefinition Width="*" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <ItemsPresenter
+                                                                Padding="{TemplateBinding Padding}"
+                                                                HorizontalAlignment="Stretch"
+                                                                FooterTemplate="{TemplateBinding FooterTemplate}"
+                                                                FooterTransitions="{TemplateBinding FooterTransitions}"
+                                                                HeaderTemplate="{TemplateBinding HeaderTemplate}"
+                                                                HeaderTransitions="{TemplateBinding HeaderTransitions}" />
 
-                                                                <ContentPresenter
-                                                                    Grid.Row="1"
-                                                                    Grid.ColumnSpan="2"
-                                                                    Padding="8,0,8,8"
-                                                                    Content="{TemplateBinding Footer}" />
-                                                            </Grid>
-                                                        </ScrollViewer>
-                                                    </Grid>
-                                                </ScrollViewer>
+                                                            <ContentPresenter
+                                                                Grid.Row="1"
+                                                                Grid.ColumnSpan="2"
+                                                                Padding="8,0,8,8"
+                                                                Content="{TemplateBinding Footer}" />
+                                                        </Grid>
+                                                    </ScrollViewer>
+                                                </Grid>
                                             </Border>
-
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -919,7 +913,6 @@
             <SemanticZoom.ZoomedOutView>
                 <ListView
                     HorizontalAlignment="Stretch"
-                    IsItemClickEnabled="True"
                     ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
                     SelectionMode="None">
                     <ListView.ItemTemplate>

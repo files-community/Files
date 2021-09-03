@@ -6,6 +6,8 @@ namespace Files.ViewModels.Widgets
     {
         string WidgetName { get; }
 
+        string AutomationProperties { get; }
+
         bool IsWidgetSettingEnabled { get; }
     }
 }

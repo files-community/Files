@@ -1,9 +1,11 @@
-﻿using Common;
+﻿using ByteSizeLib;
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.Cloud;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.ViewModels.Properties;
+using FluentFTP;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
@@ -90,6 +92,7 @@ namespace Files.Filesystem
         public ulong? FileFRN { get; set; }
 
         private string fileTag;
+
         public string FileTag
         {
             get => fileTag;
@@ -218,7 +221,19 @@ namespace Files.Filesystem
         }
 
         public string FileExtension { get; set; }
-        public string FileSize { get; set; }
+
+        private string fileSize;
+
+        public string FileSize
+        {
+            get => fileSize;
+            set
+            {
+                SetProperty(ref fileSize, value);
+                OnPropertyChanged(nameof(FileSizeDisplay));
+            }
+        }
+
         public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalcluated".GetLocalized() : FileSize;
         public long FileSizeBytes { get; set; }
         public string ItemDateModified { get; private set; }
@@ -232,6 +247,7 @@ namespace Files.Filesystem
             {
                 ItemDateModified = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateModifiedReal = value;
+                OnPropertyChanged(nameof(ItemDateModified));
             }
         }
 
@@ -244,6 +260,7 @@ namespace Files.Filesystem
             {
                 ItemDateCreated = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateCreatedReal = value;
+                OnPropertyChanged(nameof(ItemDateCreated));
             }
         }
 
@@ -256,6 +273,7 @@ namespace Files.Filesystem
             {
                 ItemDateAccessed = value.GetFriendlyDateFromFormat(DateReturnFormat);
                 itemDateAccessedReal = value;
+                OnPropertyChanged(nameof(ItemDateAccessed));
             }
         }
 
@@ -330,13 +348,15 @@ namespace Files.Filesystem
         public bool IsShortcutItem => this is ShortcutItem;
         public bool IsLibraryItem => this is LibraryItem;
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
+        public bool IsFtpItem => this is FtpItem;
+        public bool IsZipItem => this is ZipItem;
 
-        public virtual bool IsExecutable => Path.GetExtension(ItemPath)?.ToLower() == ".exe";
+        public virtual bool IsExecutable => new[] { ".exe", ".bat", ".cmd" }.Contains(Path.GetExtension(ItemPath), StringComparer.OrdinalIgnoreCase);
         public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 
-        private StorageFile itemFile;
+        private BaseStorageFile itemFile;
 
-        public StorageFile ItemFile
+        public BaseStorageFile ItemFile
         {
             get => itemFile;
             set => SetProperty(ref itemFile, value);
@@ -382,6 +402,37 @@ namespace Files.Filesystem
         public string ItemOriginalFolderName => Path.GetFileName(ItemOriginalFolder);
     }
 
+    public class FtpItem : ListedItem
+    {
+        public FtpItem(FtpListItem item, string folder, string dateReturnFormat = null) : base(null, dateReturnFormat)
+        {
+            var isFile = item.Type == FtpFileSystemObjectType.File;
+            ItemDateCreatedReal = item.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawCreated;
+            ItemDateModifiedReal = item.RawModified < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : item.RawModified;
+            ItemName = item.Name;
+            FileExtension = Path.GetExtension(item.Name);
+            ItemPath = PathNormalization.Combine(folder, item.Name);
+            PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
+            ItemPropertiesInitialized = false;
+
+            var itemType = isFile ? "ItemTypeFile".GetLocalized() : "FileFolderListItem".GetLocalized();
+            if (isFile && ItemName.Contains("."))
+            {
+                itemType = FileExtension.Trim('.') + " " + itemType;
+            }
+
+            ItemType = itemType;
+            LoadFolderGlyph = !isFile;
+            FileSizeBytes = item.Size;
+            ContainsFilesOrFolders = !isFile;
+            LoadUnknownTypeGlyph = isFile;
+            FileImage = null;
+            FileSize = ByteSize.FromBytes(FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
+            Opacity = 1;
+            IsHiddenItem = false;
+        }
+    }
+
     public class ShortcutItem : ListedItem
     {
         public ShortcutItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
@@ -400,6 +451,17 @@ namespace Files.Filesystem
         public bool RunAsAdmin { get; set; }
         public bool IsUrl { get; set; }
         public override bool IsExecutable => Path.GetExtension(TargetPath)?.ToLower() == ".exe";
+    }
+
+    public class ZipItem : ListedItem
+    {
+        public ZipItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
+        {
+        }
+
+        // Parameterless constructor for JsonConvert
+        public ZipItem() : base()
+        { }
     }
 
     public class LibraryItem : ListedItem

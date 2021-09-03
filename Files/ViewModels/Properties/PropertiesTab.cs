@@ -41,7 +41,7 @@ namespace Files.ViewModels.Properties
             }
             else if (np.navParameter is ListedItem item)
             {
-                if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                if (item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
                 {
                     BaseProperties = new FileProperties(ViewModel, np.tokenSource, Dispatcher, hashProgress, item, AppInstance);
                 }
@@ -66,7 +66,7 @@ namespace Files.ViewModels.Properties
         {
             if (BaseProperties != null && BaseProperties.TokenSource != null)
             {
-                BaseProperties.TokenSource.Cancel();
+                //BaseProperties.TokenSource.Cancel();
             }
 
             base.OnNavigatedFrom(e);

@@ -1,5 +1,4 @@
 ﻿using Files.Filesystem;
-using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
@@ -49,16 +48,17 @@ namespace Files
         void RemoveLastPageFromBackStack();
 
         void SubmitSearch(string query, bool searchUnindexedItems);
-        
+
         /// <summary>
         /// Used to make commands in the column view work properly
         /// </summary>
-        public bool IsColumnView { get; } 
+        public bool IsColumnView { get; }
     }
 
     public interface IPaneHolder : IDisposable, INotifyPropertyChanged
     {
         public IShellPage ActivePane { get; set; }
+        public IShellPage ActivePaneOrColumn { get; } // if column view, returns the last column shell page, otherwise returns the active pane normally
         public IFilesystemHelpers FilesystemHelpers { get; }
         public TabItemArguments TabItemArguments { get; set; }
 

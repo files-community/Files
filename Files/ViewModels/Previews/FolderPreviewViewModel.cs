@@ -1,5 +1,7 @@
 ﻿using Files.Enums;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
+using Files.Helpers;
 using Files.ViewModels.Properties;
 using System;
 using System.Collections.ObjectModel;
@@ -12,7 +14,7 @@ namespace Files.ViewModels.Previews
 {
     public class FolderPreviewViewModel
     {
-        private StorageFolder Folder { get; set; }
+        private BaseStorageFolder Folder { get; set; }
 
         public ListedItem Item { get; set; }
 
@@ -33,11 +35,15 @@ namespace Files.ViewModels.Previews
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
 
-            Folder = await StorageFolder.GetFolderFromPathAsync(Item.ItemPath);
+            Folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(Item.ItemPath);
             var items = await Folder.GetItemsAsync();
 
-            using var icon = await Folder.GetThumbnailAsync(ThumbnailMode.SingleItem, 400);
-            await Thumbnail.SetSourceAsync(icon);
+            var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Folder, 400, ThumbnailMode.SingleItem);
+            iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
+            if (iconData != null)
+            {
+                Thumbnail = await iconData.ToBitmapAsync();
+            }
 
             var info = await Folder.GetBasicPropertiesAsync();
             Item.FileDetails = new ObservableCollection<FileProperty>()
@@ -64,7 +70,7 @@ namespace Files.ViewModels.Previews
                 }
             };
 
-            if(App.AppSettings.AreFileTagsEnabled)
+            if (App.AppSettings.AreFileTagsEnabled)
             {
                 Item.FileDetails.Add(new FileProperty()
                 {

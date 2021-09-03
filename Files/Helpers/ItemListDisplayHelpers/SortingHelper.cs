@@ -36,7 +36,7 @@ namespace Files.Helpers
 
             // In ascending order, show folders first, then files.
             // So, we use == StorageItemTypes.File to make the value for a folder equal to 0, and equal to 1 for the rest.
-            static bool folderThenFileAsync(ListedItem listedItem) => (listedItem.PrimaryItemAttribute == StorageItemTypes.File);
+            static bool folderThenFileAsync(ListedItem listedItem) => (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem.IsZipItem);
             IOrderedEnumerable<ListedItem> ordered;
 
             if (directorySortDirection == SortDirection.Ascending)
@@ -50,6 +50,17 @@ namespace Files.Helpers
                     else
                     {
                         ordered = filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(orderFunc, naturalStringComparer);
+                    }
+                }
+                else if (directorySortOption == SortOption.FileTag)
+                {
+                    if (App.AppSettings.ListAndSortDirectoriesAlongsideFiles)
+                    {
+                        ordered = filesAndFolders.OrderBy(x => string.IsNullOrEmpty(orderFunc(x) as string)).ThenBy(orderFunc);
+                    }
+                    else
+                    {
+                        ordered = filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(x => string.IsNullOrEmpty(orderFunc(x) as string)).ThenBy(orderFunc);
                     }
                 }
                 else
@@ -75,6 +86,17 @@ namespace Files.Helpers
                     else
                     {
                         ordered = filesAndFolders.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
+                    }
+                }
+                else if (directorySortOption == SortOption.FileTag)
+                {
+                    if (App.AppSettings.ListAndSortDirectoriesAlongsideFiles)
+                    {
+                        ordered = filesAndFolders.OrderBy(x => string.IsNullOrEmpty(orderFunc(x) as string)).ThenByDescending(orderFunc);
+                    }
+                    else
+                    {
+                        ordered = filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(x => string.IsNullOrEmpty(orderFunc(x) as string)).ThenByDescending(orderFunc);
                     }
                 }
                 else

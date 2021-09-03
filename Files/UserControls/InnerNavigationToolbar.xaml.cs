@@ -1,25 +1,15 @@
 ﻿using Files.DataModels;
 using Files.Helpers;
-using Files.Helpers.ContextFlyouts;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Input;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -31,6 +21,7 @@ namespace Files.UserControls
         {
             this.InitializeComponent();
         }
+
         public MainViewModel MainViewModel => App.MainViewModel;
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -43,7 +34,6 @@ namespace Files.UserControls
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register(nameof(ViewModel), typeof(NavToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
-
 
         private async void NavToolbarEnterCompactOverlay_Click(object sender, RoutedEventArgs e)
         {
@@ -99,7 +89,6 @@ namespace Files.UserControls
         public static readonly DependencyProperty ShowPreviewPaneButtonProperty =
             DependencyProperty.Register("ShowPreviewPaneButton", typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
 
-
         public bool ShowMultiPaneControls
         {
             get => (bool)GetValue(ShowMultiPaneControlsProperty);
@@ -109,7 +98,6 @@ namespace Files.UserControls
         // Using a DependencyProperty as the backing store for ShowMultiPaneControls.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowMultiPaneControlsProperty =
             DependencyProperty.Register(nameof(ShowMultiPaneControls), typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
-
 
         public bool IsMultiPaneActive
         {
@@ -131,8 +119,6 @@ namespace Files.UserControls
         public static readonly DependencyProperty IsCompactOverlayProperty =
             DependencyProperty.Register("IsCompactOverlay", typeof(bool), typeof(NavigationToolbar), new PropertyMetadata(null));
 
-
-
         public ICommand SetCompactOverlayCommand
         {
             get { return (ICommand)GetValue(SetCompactOverlayCommandProperty); }
@@ -142,7 +128,6 @@ namespace Files.UserControls
         // Using a DependencyProperty as the backing store for ToggleCompactOverlayCommand.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SetCompactOverlayCommandProperty =
             DependencyProperty.Register("ToggleCompactOverlayCommand", typeof(ICommand), typeof(NavigationToolbar), new PropertyMetadata(null));
-
 
         /// <summary>
         /// This function is used for getting localized strings that do not implement x:Uid
@@ -155,6 +140,12 @@ namespace Files.UserControls
 
         private void NewEmptySpace_Opening(object sender, object e)
         {
+            if (!ViewModel.InstanceViewModel.CanCreateFileInPage)
+            {
+                var shell = NewEmptySpace.Items.Where(x => (x.Tag as string) == "CreateNewFile").Reverse().ToList();
+                shell.ForEach(x => NewEmptySpace.Items.Remove(x));
+                return;
+            }
             if (cachedNewContextMenuEntries == null)
             {
                 return;

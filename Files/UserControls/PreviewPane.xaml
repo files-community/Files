@@ -20,7 +20,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
                 <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -37,19 +36,17 @@
         HorizontalAlignment="Stretch"
         Background="{ThemeResource PreviewPaneBackgroundBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" MinHeight="100" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="2*" MinHeight="100" />
             <RowDefinition
                 x:Name="PropertiesRow"
-                Height="*"
+                Height="3*"
                 MinHeight="100" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="120" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="2*" MinWidth="120" />
             <ColumnDefinition
                 x:Name="PropertiesColumn"
-                Width="*"
+                Width="3*"
                 MinWidth="120" />
         </Grid.ColumnDefinitions>
 
@@ -61,6 +58,23 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             AutomationProperties.Name="File preview">
+            <Grid.ContextFlyout>
+                <MenuFlyout>
+                    <ToggleMenuFlyoutItem
+                        x:Uid="PreviewPaneShowPreviewOnly"
+                        Command="{x:Bind Model.ShowPreviewOnlyInvoked, Mode=OneWay}"
+                        IsChecked="{x:Bind AppSettings.ShowPreviewOnly, Mode=TwoWay}"
+                        Text="Show preview only" />
+
+                    <MenuFlyoutItem
+                        x:Uid="PreviewPaneLoadCloudItemButton"
+                        HorizontalAlignment="Stretch"
+                        Click="Button_Click"
+                        Text="Load full preview"
+                        ToolTipService.ToolTip="Downloads the item from the cloud and loads the preview"
+                        Visibility="{x:Bind Model.ShowCloudItemButton, Mode=OneWay}" />
+                </MenuFlyout>
+            </Grid.ContextFlyout>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -76,41 +90,13 @@
                 HorizontalContentAlignment="Stretch"
                 VerticalContentAlignment="Stretch"
                 Content="{x:Bind Model.PreviewPaneContent, Mode=OneWay}"
-                CornerRadius="{StaticResource ControlCornerRadius}"
                 Visibility="Collapsed" />
 
             <muxc:ProgressRing
                 x:Name="PreviewLoadingIndicator"
                 IsIndeterminate="True"
                 Visibility="Collapsed" />
-
-            <Button
-                x:Uid="PreviewPaneLoadCloudItemButton"
-                Grid.Row="1"
-                HorizontalAlignment="Stretch"
-                Click="Button_Click"
-                Content="Load full preview"
-                ToolTipService.ToolTip="Downloads the item from the cloud and loads the preview"
-                Visibility="{x:Bind Model.ShowCloudItemButton, Mode=OneWay}" />
         </Grid>
-
-        <controls:GridSplitter
-            x:Name="HorizontalGridSplitter"
-            Grid.Row="1"
-            Grid.Column="0"
-            Background="Transparent">
-            <controls:GridSplitter.Element>
-                <Grid>
-                    <Rectangle
-                        x:Name="ResizePill"
-                        Width="28"
-                        Height="4"
-                        Fill="{StaticResource SystemChromeHighColor}"
-                        RadiusX="2"
-                        RadiusY="2" />
-                </Grid>
-            </controls:GridSplitter.Element>
-        </controls:GridSplitter>
 
         <Grid x:Name="RootPropertiesGrid" Grid.Row="2">
             <TextBlock
@@ -204,16 +190,10 @@
 
                     <VisualState.Setters>
                         <Setter Target="RootPropertiesGrid.(Grid.Row)" Value="0" />
-                        <Setter Target="RootPropertiesGrid.(Grid.Column)" Value="2" />
-                        <Setter Target="HorizontalGridSplitter.(Grid.Row)" Value="0" />
-                        <Setter Target="HorizontalGridSplitter.(Grid.Column)" Value="1" />
-                        <Setter Target="HorizontalGridSplitter.BorderThickness" Value="0, 1, 0, 0" />
-                        <Setter Target="HorizontalGridSplitter.Width" Value="2" />
+                        <Setter Target="RootPropertiesGrid.(Grid.Column)" Value="1" />
 
                         <Setter Target="PropertiesRow.MinHeight" Value="0" />
                         <Setter Target="PropertiesRow.Height" Value="0" />
-                        <Setter Target="ResizePill.Height" Value="28" />
-                        <Setter Target="ResizePill.Width" Value="4" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -221,11 +201,8 @@
                         <triggers:IsEqualStateTrigger Value="{x:Bind IsHorizontal, Mode=OneWay}" To="False" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="RootPropertiesGrid.(Grid.Row)" Value="2" />
+                        <Setter Target="RootPropertiesGrid.(Grid.Row)" Value="1" />
                         <Setter Target="RootPropertiesGrid.(Grid.Column)" Value="0" />
-                        <Setter Target="HorizontalGridSplitter.(Grid.Row)" Value="1" />
-                        <Setter Target="HorizontalGridSplitter.(Grid.Column)" Value="0" />
-                        <Setter Target="HorizontalGridSplitter.Height" Value="2" />
 
                         <Setter Target="PropertiesColumn.Width" Value="0" />
                         <Setter Target="PropertiesColumn.MinWidth" Value="0" />
@@ -295,6 +272,24 @@
                         <Setter Target="DetailsListHeader.Visibility" Value="Visible" />
                         <Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
                         <Setter Target="PreviewLoadingIndicator.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind AppSettings.ShowPreviewOnly, Mode=OneWay}" To="False" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind AppSettings.ShowPreviewOnly, Mode=OneWay}" To="True" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="RootPropertiesGrid.Visibility" Value="Collapsed" />
+                        <Setter Target="RootPropertiesGrid.Visibility" Value="Collapsed" />
+                        <Setter Target="RootPreviewGrid.(RowSpan)" Value="2" />
+                        <Setter Target="RootPreviewGrid.(ColumnSpan)" Value="2" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

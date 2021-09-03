@@ -1,5 +1,5 @@
 ﻿using Files.DataModels.NavigationControlItems;
-using Files.Dialogs;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
@@ -8,21 +8,18 @@ using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using Files.Extensions;
 
 namespace Files.Views
 {
@@ -42,7 +39,7 @@ namespace Files.Views
 
         public SidebarViewModel SidebarAdaptiveViewModel = new SidebarViewModel();
 
-        public StatusCenterViewModel StatusCenterViewModel => App.StatusCenterViewModel;
+        public OngoingTasksViewModel OngoingTasksViewModel => App.OngoingTasksViewModel;
 
         public ICommand ToggleFullScreenAcceleratorCommand { get; private set; }
 
@@ -169,8 +166,8 @@ namespace Files.Views
         {
             if (StatusBarControl != null)
             {
-                StatusBarControl.DirectoryPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage?.DirectoryPropertiesViewModel;
-                StatusBarControl.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage?.SelectedItemsPropertiesViewModel;
+                StatusBarControl.DirectoryPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.DirectoryPropertiesViewModel;
+                StatusBarControl.SelectedItemsPropertiesViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.SelectedItemsPropertiesViewModel;
             }
         }
 
@@ -178,12 +175,12 @@ namespace Files.Views
         {
             if (NavToolbar != null)
             {
-                NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.NavToolbarViewModel;
+                NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.NavToolbarViewModel;
             }
 
             if (InnerNavigationToolbar != null)
             {
-                InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.NavToolbarViewModel;
+                InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.NavToolbarViewModel;
                 InnerNavigationToolbar.ShowMultiPaneControls = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneEnabled ?? false;
                 InnerNavigationToolbar.IsMultiPaneActive = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
             }
@@ -194,7 +191,7 @@ namespace Files.Views
             LoadPreviewPaneChanged();
             if (PreviewPane != null)
             {
-                PreviewPane.Model = SidebarAdaptiveViewModel.PaneHolder?.ActivePane.SlimContentPage?.PreviewPaneViewModel;
+                PreviewPane.Model = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.PreviewPaneViewModel;
             }
         }
 
@@ -204,28 +201,7 @@ namespace Files.Views
             SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
             SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
             SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
-            SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
             SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
-        }
-
-        private async void SidebarControl_RecycleBinItemRightTapped(object sender, EventArgs e)
-        {
-            var recycleBinHasItems = false;
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var value = new ValueSet
-                {
-                    { "Arguments", "RecycleBin" },
-                    { "action", "Query" }
-                };
-                var (status, response) = await connection.SendMessageForResponseAsync(value);
-                if (status == AppServiceResponseStatus.Success && response.TryGetValue("NumItems", out var numItems))
-                {
-                    recycleBinHasItems = (long)numItems > 0;
-                }
-            }
-            SidebarControl.RecycleBinHasItems = recycleBinHasItems;
         }
 
         private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
@@ -317,7 +293,6 @@ namespace Files.Views
                 SidebarControl.SidebarItemInvoked -= SidebarControl_SidebarItemInvoked;
                 SidebarControl.SidebarItemPropertiesInvoked -= SidebarControl_SidebarItemPropertiesInvoked;
                 SidebarControl.SidebarItemDropped -= SidebarControl_SidebarItemDropped;
-                SidebarControl.RecycleBinItemRightTapped -= SidebarControl_RecycleBinItemRightTapped;
                 SidebarControl.SidebarItemNewPaneInvoked -= SidebarControl_SidebarItemNewPaneInvoked;
             }
         }
@@ -331,6 +306,22 @@ namespace Files.Views
             FindName(nameof(InnerNavigationToolbar));
             FindName(nameof(horizontalMultitaskingControl));
             FindName(nameof(NavToolbar));
+
+            // the adaptive triggers do not evaluate on app startup, manually checking and calling GoToState here fixes https://github.com/files-community/Files/issues/5801
+            if (Window.Current.Bounds.Width < CollapseSearchBoxAdaptiveTrigger.MinWindowWidth)
+            {
+                _ = VisualStateManager.GoToState(this, nameof(CollapseSearchBoxState), true);
+            }
+
+            if (Window.Current.Bounds.Width < MinimalSidebarAdaptiveTrigger.MinWindowWidth)
+            {
+                _ = VisualStateManager.GoToState(this, nameof(MinimalSidebarState), true);
+            }
+
+            if (Window.Current.Bounds.Width < CollapseHorizontalTabViewTrigger.MinWindowWidth)
+            {
+                _ = VisualStateManager.GoToState(this, nameof(HorizontalTabViewCollapsed), true);
+            }
 
             App.LoadOtherStuffAsync().ContinueWith(t => App.Logger.Warn(t.Exception, "Error during LoadOtherStuffAsync()"), TaskContinuationOptions.OnlyOnFaulted);
         }
@@ -355,7 +346,6 @@ namespace Files.Views
             SidebarAdaptiveViewModel.UpdateTabControlMargin(); // Set the correct tab margin on startup
         }
 
-
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             LoadPreviewPaneChanged();
@@ -367,7 +357,7 @@ namespace Files.Views
         /// </summary>
         private void UpdatePositioning()
         {
-            if (!LoadPreviewPane || PreviewPaneDropShadowPanel is null || PreviewPane is null)
+            if (!LoadPreviewPane || PreviewPane is null || PreviewPane is null)
             {
                 PreviewPaneRow.MinHeight = 0;
                 PreviewPaneRow.Height = new GridLength(0);
@@ -376,12 +366,8 @@ namespace Files.Views
             }
             else if (RootGrid.ActualWidth > 700)
             {
-                PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 1);
-                PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 2);
-
-                PreviewPaneDropShadowPanel.OffsetX = -2;
-                PreviewPaneDropShadowPanel.OffsetY = 0;
-                PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
+                PreviewPane.SetValue(Grid.RowProperty, 1);
+                PreviewPane.SetValue(Grid.ColumnProperty, 2);
 
                 PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 1);
                 PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 1);
@@ -402,12 +388,8 @@ namespace Files.Views
                 PreviewPaneColumn.MinWidth = 0;
                 PreviewPaneColumn.Width = new GridLength(0);
 
-                PreviewPaneDropShadowPanel.SetValue(Grid.RowProperty, 3);
-                PreviewPaneDropShadowPanel.SetValue(Grid.ColumnProperty, 0);
-
-                PreviewPaneDropShadowPanel.OffsetX = 0;
-                PreviewPaneDropShadowPanel.OffsetY = -2;
-                PreviewPaneDropShadowPanel.ShadowOpacity = 0.04;
+                PreviewPane.SetValue(Grid.RowProperty, 3);
+                PreviewPane.SetValue(Grid.ColumnProperty, 0);
 
                 PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 2);
                 PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 0);
@@ -479,6 +461,7 @@ namespace Files.Views
         }
 
         private bool isCompactOverlay;
+
         public bool IsCompactOverlay
         {
             get => isCompactOverlay;

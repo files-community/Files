@@ -1,5 +1,4 @@
-﻿using Files.Interacts;
-using Files.ViewModels;
+﻿using Files.ViewModels;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
@@ -9,7 +8,6 @@ namespace Files.UserControls
 {
     public sealed partial class StatusBarControl : UserControl, INotifyPropertyChanged
     {
-
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public MainViewModel MainViewModel => App.MainViewModel;
@@ -23,7 +21,6 @@ namespace Files.UserControls
         // Using a DependencyProperty as the backing store for DirectoryPropertiesViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DirectoryPropertiesViewModelProperty =
             DependencyProperty.Register(nameof(DirectoryPropertiesViewModel), typeof(DirectoryPropertiesViewModel), typeof(StatusBarControl), new PropertyMetadata(null));
-
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel
         {
