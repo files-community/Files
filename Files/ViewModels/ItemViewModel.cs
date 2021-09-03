@@ -1704,8 +1704,10 @@ namespace Files.ViewModels
                 return;
             }
 
+            var hasSyncStatus = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown;
+
             var cts = new CancellationTokenSource();
-            _ = Windows.System.Threading.ThreadPool.RunAsync((x) => ProcessOperationQueue(cts.Token));
+            _ = Windows.System.Threading.ThreadPool.RunAsync((x) => ProcessOperationQueue(cts.Token, hasSyncStatus));
 
             aWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
             {
@@ -1714,7 +1716,7 @@ namespace Files.ViewModels
                 buff = new byte[4096];
                 int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE;
 
-                if (syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown)
+                if (hasSyncStatus)
                 {
                     notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
                 }
@@ -1775,10 +1777,10 @@ namespace Files.ViewModels
 
                                 operationQueue.Enqueue((action, FileName));
 
-                                operationEvent.Set();
-
                                 offset += notifyInfo.NextEntryOffset;
                             } while (notifyInfo.NextEntryOffset != 0 && x.Status != AsyncStatus.Canceled);
+
+                            operationEvent.Set();
 
                             //ResetEvent(overlapped.hEvent);
                             Debug.WriteLine("Task running...");
@@ -1794,7 +1796,7 @@ namespace Files.ViewModels
             Debug.WriteLine("Task exiting...");
         }
 
-        private async void ProcessOperationQueue(CancellationToken cancellationToken)
+        private async void ProcessOperationQueue(CancellationToken cancellationToken, bool hasSyncStatus)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
@@ -1816,6 +1818,7 @@ namespace Files.ViewModels
                     {
                         operationEvent.Reset();
                         itemLoadEvent.Reset();
+                        var updateList = new HashSet<string>();
 
                         while (operationQueue.TryDequeue(out var operation))
                         {
@@ -1831,7 +1834,7 @@ namespace Files.ViewModels
                                         break;
 
                                     case FILE_ACTION_MODIFIED:
-                                        await UpdateFileOrFolderAsync(operation.FileName);
+                                        updateList.Add(operation.FileName);
                                         break;
 
                                     case FILE_ACTION_REMOVED:
@@ -1854,6 +1857,7 @@ namespace Files.ViewModels
                             }
                         }
 
+                        await UpdateFilesOrFoldersAsync(updateList, hasSyncStatus);
                         itemLoadEvent.Set();
                     }
 
@@ -1953,6 +1957,11 @@ namespace Files.ViewModels
 
         private async Task AddFileOrFolderAsync(ListedItem item)
         {
+            if (item == null)
+            {
+                return;
+            }
+
             try
             {
                 await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
@@ -1962,17 +1971,8 @@ namespace Files.ViewModels
                 return;
             }
 
-            try
-            {
-                if (item != null)
-                {
-                    filesAndFolders.Add(item);
-                }
-            }
-            finally
-            {
-                enumFolderSemaphore.Release();
-            }
+            filesAndFolders.Add(item);
+            enumFolderSemaphore.Release();
         }
 
         private async Task AddFileOrFolderAsync(string fileOrFolderPath, string dateReturnFormat)
@@ -2009,13 +2009,10 @@ namespace Files.ViewModels
                 listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat, Connection, addFilesCTS.Token);
             }
 
-            if (listedItem != null)
-            {
-                filesAndFolders.Add(listedItem);
-            }
+            await AddFileOrFolderAsync(listedItem);
         }
 
-        private async Task UpdateFileOrFolderAsync(ListedItem item)
+        private async Task<(ListedItem Item, CloudDriveSyncStatusUI SyncUI, long? Size, DateTimeOffset Created, DateTimeOffset Modified)?> GetFileOrFolderUpdateInfoAsync(ListedItem item, bool hasSyncStatus)
         {
             IStorageItem storageItem = null;
             if (item.PrimaryItemAttribute == StorageItemTypes.File)
@@ -2028,30 +2025,31 @@ namespace Files.ViewModels
             }
             if (storageItem != null)
             {
-                var syncStatus = await CheckCloudDriveSyncStatusAsync(storageItem);
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                {
-                    item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                CloudDriveSyncStatusUI syncUI = hasSyncStatus ? CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(await CheckCloudDriveSyncStatusAsync(storageItem)) : null;
+                long? size = null;
+                DateTimeOffset created = default, modified = default;
 
-                    if (storageItem.IsOfType(StorageItemTypes.File))
-                    {
-                        var properties = await storageItem.AsBaseStorageFile().GetBasicPropertiesAsync();
-                        item.FileSizeBytes = (long)properties.Size;
-                        item.FileSize = ByteSizeLib.ByteSize.FromBytes(item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
-                        item.ItemDateModifiedReal = properties.DateModified;
-                        item.ItemDateCreatedReal = properties.ItemDate;
-                    }
-                    else if (storageItem.IsOfType(StorageItemTypes.Folder))
-                    {
-                        var properties = await storageItem.AsBaseStorageFolder().GetBasicPropertiesAsync();
-                        item.ItemDateModifiedReal = properties.DateModified;
-                        item.ItemDateCreatedReal = properties.ItemDate;
-                    }
-                });
+                if (storageItem.IsOfType(StorageItemTypes.File))
+                {
+                    var properties = await storageItem.AsBaseStorageFile().GetBasicPropertiesAsync();
+                    size = (long)properties.Size;
+                    modified = properties.DateModified;
+                    created = properties.ItemDate;
+                }
+                else if (storageItem.IsOfType(StorageItemTypes.Folder))
+                {
+                    var properties = await storageItem.AsBaseStorageFolder().GetBasicPropertiesAsync();
+                    modified = properties.DateModified;
+                    created = properties.ItemDate;
+                }
+
+                return (item, syncUI, size, created, modified);
             }
+
+            return null;
         }
 
-        private async Task UpdateFileOrFolderAsync(string path)
+        private async Task UpdateFilesOrFoldersAsync(IEnumerable<string> paths, bool hasSyncStatus)
         {
             try
             {
@@ -2064,12 +2062,31 @@ namespace Files.ViewModels
 
             try
             {
-                var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals(path, StringComparison.OrdinalIgnoreCase));
+                var matchingItems = filesAndFolders.Where(x => paths.Any(p => p.Equals(x.ItemPath, StringComparison.OrdinalIgnoreCase)));
+                var results = await Task.WhenAll(matchingItems.Select(x => GetFileOrFolderUpdateInfoAsync(x, hasSyncStatus)));
 
-                if (matchingItem != null)
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                 {
-                    await UpdateFileOrFolderAsync(matchingItem);
-                }
+                    foreach (var result in results)
+                    {
+                        if (result.HasValue)
+                        {
+                            var item = result.Value.Item;
+                            item.ItemDateModifiedReal = result.Value.Modified;
+                            item.ItemDateCreatedReal = result.Value.Created;
+
+                            if (result.Value.SyncUI != null)
+                            {
+                                item.SyncStatusUI = result.Value.SyncUI;
+                            }
+
+                            if (result.Value.Size.HasValue)
+                            {
+                                item.FileSize = ByteSizeLib.ByteSize.FromBytes(item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
+                            }
+                        }
+                    }
+                }, Windows.System.DispatcherQueuePriority.Low);
             }
             finally
             {
