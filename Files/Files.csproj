@@ -266,7 +266,6 @@
     <Compile Include="Helpers\Extension.cs" />
     <Compile Include="Helpers\FileListCache\FileListCacheController.cs" />
     <Compile Include="Helpers\FileListCache\IFileListCache.cs" />
-    <Compile Include="Helpers\FileListCache\PersistentSQLiteCacheAdapter.cs" />
     <Compile Include="Helpers\ExtensionManager.cs" />
     <Compile Include="Helpers\IntervalSampler.cs" />
     <Compile Include="Helpers\QuickLookHelpers.cs" />
