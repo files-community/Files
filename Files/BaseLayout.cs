@@ -341,21 +341,18 @@ namespace Files
 
         public virtual void ResetItemOpacity()
         {
-            List<ListedItem> items = GetAllItems().ToList();
+            var items = GetAllItems();
             if (items == null)
             {
                 return;
             }
 
-            for (int i = 0; i < items.Count; i++)
+            foreach (var item in items.ToList()) // ToList() is necessary
             {
-                ListedItem item = items[i];
-                if (item == null)
+                if (item != null)
                 {
-                    continue;
+                    item.Opacity = item.IsHiddenItem ? Constants.UI.DimItemOpacity : 1.0d;
                 }
-
-                item.Opacity = item.IsHiddenItem ? Constants.UI.DimItemOpacity : 1.0d;
             }
         }
 
