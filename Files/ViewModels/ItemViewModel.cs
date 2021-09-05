@@ -1820,6 +1820,7 @@ namespace Files.ViewModels
             const uint FILE_ACTION_RENAMED_OLD_NAME = 0x00000004;
             const uint FILE_ACTION_RENAMED_NEW_NAME = 0x00000005;
 
+            const int UPDATE_BATCH_SIZE = 32;
             var sampler = new IntervalSampler(200);
             var updateQueue = new Queue<string>();
             bool anyEdits = false;
@@ -1874,7 +1875,7 @@ namespace Files.ViewModels
                         }
 
                         var itemsToUpdate = new List<string>();
-                        for (var i = 0; i < 16 && updateQueue.Count > 0; i++)
+                        for (var i = 0; i < UPDATE_BATCH_SIZE && updateQueue.Count > 0; i++)
                         {
                             itemsToUpdate.Add(updateQueue.Dequeue());
                         }
@@ -1888,7 +1889,7 @@ namespace Files.ViewModels
                     {
                         itemLoadEvent.Reset();
                         var itemsToUpdate = new List<string>();
-                        for (var i = 0; i < 16 && updateQueue.Count > 0; i++)
+                        for (var i = 0; i < UPDATE_BATCH_SIZE && updateQueue.Count > 0; i++)
                         {
                             itemsToUpdate.Add(updateQueue.Dequeue());
                         }
