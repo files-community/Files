@@ -1821,6 +1821,7 @@ namespace Files.ViewModels
             const uint FILE_ACTION_RENAMED_NEW_NAME = 0x00000005;
 
             var sampler = new IntervalSampler(200);
+            var updateQueue = new Queue<string>();
             bool anyEdits = false;
 
             try
@@ -1831,7 +1832,6 @@ namespace Files.ViewModels
                     {
                         operationEvent.Reset();
                         itemLoadEvent.Reset();
-                        var updateList = new HashSet<string>();
 
                         while (operationQueue.TryDequeue(out var operation))
                         {
@@ -1847,7 +1847,10 @@ namespace Files.ViewModels
                                         break;
 
                                     case FILE_ACTION_MODIFIED:
-                                        updateList.Add(operation.FileName);
+                                        if (!updateQueue.Contains(operation.FileName))
+                                        {
+                                            updateQueue.Enqueue(operation.FileName);
+                                        }
                                         break;
 
                                     case FILE_ACTION_REMOVED:
@@ -1870,7 +1873,27 @@ namespace Files.ViewModels
                             }
                         }
 
-                        await UpdateFilesOrFoldersAsync(updateList, hasSyncStatus);
+                        var itemsToUpdate = new List<string>();
+                        for (var i = 0; i < 16 && updateQueue.Count > 0; i++)
+                        {
+                            itemsToUpdate.Add(updateQueue.Dequeue());
+                        }
+
+                        await UpdateFilesOrFoldersAsync(itemsToUpdate, hasSyncStatus);
+                        itemLoadEvent.Set();
+                    }
+
+
+                    if (updateQueue.Count > 0)
+                    {
+                        itemLoadEvent.Reset();
+                        var itemsToUpdate = new List<string>();
+                        for (var i = 0; i < 16 && updateQueue.Count > 0; i++)
+                        {
+                            itemsToUpdate.Add(updateQueue.Dequeue());
+                        }
+
+                        await UpdateFilesOrFoldersAsync(itemsToUpdate, hasSyncStatus);
                         itemLoadEvent.Set();
                     }
 
