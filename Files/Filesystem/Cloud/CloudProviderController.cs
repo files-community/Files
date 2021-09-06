@@ -10,12 +10,13 @@ namespace Files.Filesystem.Cloud
         private List<ICloudProviderDetector> CloudProviderDetectors => new List<ICloudProviderDetector>
             {
                 new GoogleDriveCloudProvider(),
-                new DropBoxCloudProvider(),
+                //new DropBoxCloudProvider(),
                 new OneDriveCloudProvider(),
-                new MegaCloudProvider(),
+                //new MegaCloudProvider(),
                 new BoxCloudProvider(),
-                new AppleCloudProvider(),
-                new AmazonDriveProvider(),
+                //new AppleCloudProvider(),
+                //new AmazonDriveProvider(),
+                new GenericCloudProvider(),
                 new OneDriveSharePointCloudProvider(),
             };
 
@@ -31,7 +32,7 @@ namespace Files.Filesystem.Cloud
 
             await Task.WhenAll(tasks);
 
-            return tasks.SelectMany(o => o.Result).Distinct().ToList();
+            return tasks.SelectMany(o => o.Result).Distinct().OrderBy(o => o.ID).ThenBy(o => o.Name).ToList();
         }
     }
 }

@@ -171,6 +171,7 @@
     <Compile Include="Extensions\GenericsExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\KeyboardAcceleratorExtensions.cs" />
+    <Compile Include="Filesystem\Cloud\Providers\GenericCloudProvider.cs" />
     <Compile Include="Filesystem\FilesystemOperations\ShellFilesystemOperations.cs" />
     <Compile Include="Filesystem\FileTagsHelper.cs" />
     <Compile Include="Filesystem\FtpManager.cs" />
