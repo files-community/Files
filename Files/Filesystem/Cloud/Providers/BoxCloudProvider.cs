@@ -30,11 +30,11 @@ namespace Files.Filesystem.Cloud.Providers
                     if (!string.IsNullOrEmpty(syncPath))
                     {
                         return new[] { new CloudProvider()
-                        {
-                            ID = CloudProviders.Box,
-                            Name = "Box",
-                            SyncFolder = syncPath
-                        }
+                            {
+                                ID = CloudProviders.Box,
+                                Name = "Box",
+                                SyncFolder = syncPath
+                            }
                         };
                     }
                 }
