@@ -2744,6 +2744,18 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
   <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
     <value>Mostrar apenas pré-visualização</value>
   </data>
+  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
+    <value>Mover um para baixo</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
+    <value>Mover um para cima</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>Mover para o fundo</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>Mover para o topo</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
     <value>Move...</value>
   </data>

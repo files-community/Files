@@ -144,6 +144,7 @@ namespace Files.UserControls.Widgets
             {
                 foreach (var item in ItemsAdded.ToList()) // ToList() is necessary
                 {
+                    item.SelectCommand = LibraryCardClicked;
                     item.AutomationProperties = item.Text;
                     await this.LoadLibraryIcon(item);
                 }

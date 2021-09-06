@@ -2744,6 +2744,18 @@
   <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
     <value>Προβολή προεπισκόπησης μόνο</value>
   </data>
+  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
+    <value>Μετακινήστε ένα προς τα κάτω</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
+    <value>Μετακινήστε ένα προς τα πάνω</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>Μετακίνηση στο κάτω μέρος</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>Μετακίνηση στην κορυφή</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
     <value>Move...</value>
   </data>
