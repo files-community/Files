@@ -1427,7 +1427,7 @@ namespace Files.ViewModels
 
             BaseStorageFolder rootFolder = null;
 
-            if (FolderHelpers.CheckFolderAccessWithWin32(path))
+            if (!enumFromStorageFolder && FolderHelpers.CheckFolderAccessWithWin32(path))
             {
                 // Will enumerate with FindFirstFileExFromApp, rootFolder only used for Bitlocker
                 currentStorageFolder = null;
