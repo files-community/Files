@@ -11,6 +11,20 @@ namespace Files.Filesystem.Cloud
 
         public string SyncFolder { get; set; }
 
+        public override int GetHashCode()
+        {
+            return (int)ID + SyncFolder.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is CloudProvider other)
+            {
+                return Equals(other);
+            }
+            return base.Equals(obj);
+        }
+
         public bool Equals(CloudProvider other)
         {
             return other != null && other.ID == ID && other.SyncFolder == SyncFolder;
