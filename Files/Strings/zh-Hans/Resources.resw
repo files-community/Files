@@ -2570,4 +2570,7 @@
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>插入一张光盘</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
+    <value>Move...</value>
+  </data>
 </root>

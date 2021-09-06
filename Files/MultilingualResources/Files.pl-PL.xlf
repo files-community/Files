@@ -3671,6 +3671,10 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
           <source>Move to top</source>
           <target state="new">Move to top</target>
         </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutMove.Text" translate="yes" xml:space="preserve">
+          <source>Move...</source>
+          <target state="new" state-qualifier="tm-suggestion">Move...</target>
+        </trans-unit>
       </group>
     </body>
   </file>

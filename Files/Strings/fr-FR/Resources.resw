@@ -2647,4 +2647,7 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Aucun élément trouvé</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
+    <value>Move...</value>
+  </data>
 </root>
