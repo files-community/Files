@@ -13,7 +13,7 @@ namespace Files.Filesystem.Cloud
 
         public override int GetHashCode()
         {
-            return (int)ID + SyncFolder.GetHashCode();
+            return $"{ID}|{SyncFolder}".GetHashCode();
         }
 
         public override bool Equals(object obj)

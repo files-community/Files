@@ -118,45 +118,6 @@ namespace FilesFullTrust.MessageHandlers
                         await Win32API.SendMessageAsync(connection, new ValueSet() { { "Count", 0 } }, message.Get("RequestID", (string)null));
                     }
                     break;
-
-                case "DetectMEGASync":
-                    // Also works for OneDrive, Box, Amazon Drive, iCloudDrive, Dropbox
-                    try
-                    {
-                        var cloudAccounts = new ValueSet();
-                        foreach (var item in ShellFolder.Desktop)
-                        {
-                            if (item.IsFileSystem && item.IsFolder)
-                            {
-                                if ((bool)item.Properties[Ole32.PROPERTYKEY.System.IsPinnedToNameSpaceTree])
-                                {
-                                    var prop = (byte[])item.Properties[Ole32.PROPERTYKEY.System.DescriptionID];
-                                    var pinned = GCHandle.Alloc(prop, GCHandleType.Pinned);
-                                    var desc = pinned.AddrOfPinnedObject().ToStructure<Shell32.SHDESCRIPTIONID>();
-                                    pinned.Free();
-
-                                    using var key = Registry.CurrentUser.OpenSubKey($@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{{{desc.clsid}}}");
-                                    var drive = (string)key?.GetValue("");
-
-                                    switch (drive)
-                                    {
-                                        case "MEGA":
-                                            cloudAccounts.Add(item.Name, item.FileSystemPath);
-                                            break;
-                                    }
-                                }
-                            }
-                            item.Dispose();
-                        }
-
-                        cloudAccounts.Add("Count", cloudAccounts.Count);
-                        await Win32API.SendMessageAsync(connection, cloudAccounts, message.Get("RequestID", (string)null));
-                    }
-                    catch
-                    {
-                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "Count", 0 } }, message.Get("RequestID", (string)null));
-                    }
-                    break;
             }
         }
 
