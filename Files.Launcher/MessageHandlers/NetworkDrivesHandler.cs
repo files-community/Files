@@ -31,7 +31,7 @@ namespace FilesFullTrust.MessageHandlers
                 case "GetOneDriveAccounts":
                     try
                     {
-                        var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false);
+                        using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts");
 
                         if (oneDriveAccountsKey == null)
                         {
@@ -63,7 +63,7 @@ namespace FilesFullTrust.MessageHandlers
                 case "GetSharePointSyncLocationsFromOneDrive":
                     try
                     {
-                        using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false);
+                        using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts");
 
                         if (oneDriveAccountsKey == null)
                         {
