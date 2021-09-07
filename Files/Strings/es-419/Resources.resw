@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
@@ -2341,22 +2341,22 @@
     <value>Mostrar botón de pestañas en la barra de título</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>Mostrar unidades de la nube en la barra lateral</value>
+    <value>Mostrar unidades de la nube</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>Mostrar unidades en la barra lateral</value>
+    <value>Mostrar unidades</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>Mostrar WSL en la barra lateral</value>
+    <value>Mostrar WSL</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>Mostrar unidades de red en la barra lateral</value>
+    <value>Mostrar unidades de red</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
     <value>Mostrar la Papelera de reciclaje en Favoritos</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>Mostrar Bibliotecas en la barra lateral</value>
+    <value>Mostrar Bibliotecas</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Elige tu color</value>
@@ -2564,7 +2564,7 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
     <value>Estado de sincronización</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>Mostrar Favoritos en la barra lateral</value>
+    <value>Mostrar Favoritos</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
     <value>Etiqueta de archivo</value>
@@ -2671,7 +2671,79 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
     <value>Mosaicos</value>
   </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>Mostrar extensiones de archivo</value>
+  </data>
+  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar elementos ocultos</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar extensiones de archivo</value>
+  </data>
+  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
+    <value>Mostrar elementos ocultos</value>
+  </data>
+  <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar Favoritos</value>
+  </data>
+  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar la Papelera de reciclaje en Favoritos</value>
+  </data>
+  <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar unidades de la nube</value>
+  </data>
+  <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar unidades</value>
+  </data>
+  <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar bibliotecas</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar unidades de red</value>
+  </data>
+  <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar WSL</value>
+  </data>
+  <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Formato de fecha</value>
+  </data>
+  <data name="SettingsDialogCloseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Cerrar</value>
+  </data>
+  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Abrir carpetas en una nueva pestaña</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar un cuadro de diálogo para confirmar eliminación de archivos o carpetas</value>
+  </data>
+  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>Aplicación de terminal</value>
+  </data>
+  <data name="OngoingTasks" xml:space="preserve">
+    <value>Tareas en curso</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
+    <value>Cargar vista previa completa</value>
+  </data>
+  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
+    <value>Mostrar solo vista previa</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
+    <value>Bajar una posición</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
+    <value>Subir una posición</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>Bajar al final</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>Subir al principio</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
     <value>Move...</value>
   </data>
-</root>
+  </root>
