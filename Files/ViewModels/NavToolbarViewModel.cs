@@ -275,7 +275,11 @@ namespace Files.ViewModels
         public string PathText
         {
             get => pathText;
-            set => SetProperty(ref pathText, value);
+            set
+            {
+                pathText = value;
+                OnPropertyChanged(nameof(PathText));
+            }
         }
 
         public ObservableCollection<ListedItem> NavigationBarSuggestions = new ObservableCollection<ListedItem>();
