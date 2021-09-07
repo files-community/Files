@@ -402,7 +402,7 @@
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
                                 Text="Date deleted" />
                         </MenuFlyoutSubItem>
-                        <MenuFlyoutSeparator x:Name="NavToolbarSortSeparator" />
+                        <MenuFlyoutSeparator />
                         <ToggleMenuFlyoutItem
                             x:Uid="NavToolbarSortDirectionOptionAscending"
                             IsChecked="{x:Bind ViewModel.IsSortedAscending, Mode=TwoWay}"
