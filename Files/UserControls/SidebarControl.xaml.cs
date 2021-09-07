@@ -963,12 +963,24 @@ namespace Files.UserControls
                     var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
                     var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await AppServiceConnectionHelper.Instance, currentInstanceViewModel: null, workingDir: null,
                         new List<ListedItem>() { new ListedItem(null) { ItemPath = RightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false);
-                    var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
-                    var overflowItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
-                    if (overflowItem is not null)
+                    if (!App.AppSettings.MoveOverflowMenuItemsToSubMenu)
                     {
-                        overflowItems.ForEach(i => (overflowItem.Flyout as MenuFlyout).Items.Add(i));
-                        overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
+                        var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
+                        if (secondaryElements.Any())
+                        {
+                            itemContextMenuFlyout.SecondaryCommands.Add(new AppBarSeparator());
+                            secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+                        }
+                    }
+                    else
+                    {
+                        var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
+                        var overflowItem = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
+                        if (overflowItem is not null)
+                        {
+                            overflowItems.ForEach(i => (overflowItem.Flyout as MenuFlyout).Items.Add(i));
+                            overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
+                        }
                     }
                 }
             }
