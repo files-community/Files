@@ -3561,131 +3561,131 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
         </trans-unit>
         <trans-unit id="OpenLogLocation" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="new">Open log location</target>
+          <target state="translated">Ouvrir l'emplacement des fichiers journaux</target>
         </trans-unit>
         <trans-unit id="LinkToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Create link in {0}</source>
-          <target state="new">Create link in {0}</target>
+          <target state="translated">Créer un lien dans {0}</target>
         </trans-unit>
         <trans-unit id="NavToolbarColumnsHeader.Text" translate="yes" xml:space="preserve">
           <source>Columns</source>
-          <target state="new">Columns</target>
+          <target state="translated">Colonnes</target>
         </trans-unit>
         <trans-unit id="NavToolbarDetailsHeader.Text" translate="yes" xml:space="preserve">
           <source>Details</source>
-          <target state="new">Details</target>
+          <target state="translated">Détails</target>
         </trans-unit>
         <trans-unit id="NavToolbarLargeIconsHeader.Text" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
-          <target state="new">Large Icons</target>
+          <target state="translated">Grandes Icônes</target>
         </trans-unit>
         <trans-unit id="NavToolbarMediumIconsHeader.Text" translate="yes" xml:space="preserve">
           <source>Medium Icons</source>
-          <target state="new">Medium Icons</target>
+          <target state="translated">Icônes Moyennes</target>
         </trans-unit>
         <trans-unit id="NavToolbarSmallIconsHeader.Text" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
-          <target state="new">Small Icons</target>
+          <target state="translated">Petites Icônes</target>
         </trans-unit>
         <trans-unit id="NavToolbarTilesHeader.Text" translate="yes" xml:space="preserve">
           <source>Tiles</source>
-          <target state="new">Tiles</target>
+          <target state="translated">Tuiles</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFileExtensionsHeader.Text" translate="yes" xml:space="preserve">
           <source>Show file extensions</source>
-          <target state="new">Show file extensions</target>
+          <target state="translated">Afficher l'extension des fichiers</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
-          <target state="new">Show hidden items</target>
+          <target state="translated">Afficher les fichiers cachés</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowFileExtensions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show file extensions</source>
-          <target state="new">Show file extensions</target>
+          <target state="translated">Afficher l'extension des fichiers</target>
         </trans-unit>
         <trans-unit id="NavToolbarShowHiddenItemsHeader.Text" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
-          <target state="new">Show hidden items</target>
+          <target state="translated">Afficher les fichiers cachés</target>
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show favorites section</source>
-          <target state="new">Show favorites section</target>
+          <target state="translated">Afficher la section des favoris</target>
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to favorites</source>
-          <target state="new">Pin Recycle Bin to favorites</target>
+          <target state="translated">Épingler la Corbeille aux favoris</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show cloud drives section</source>
-          <target state="new">Show cloud drives section</target>
+          <target state="translated">Afficher la section des disques Cloud</target>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show drives section</source>
-          <target state="new">Show drives section</target>
+          <target state="translated">Afficher la section des disques</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show library section</source>
-          <target state="new">Show library section</target>
+          <target state="translated">Afficher la section des librairies</target>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show network section</source>
-          <target state="new">Show network section</target>
+          <target state="translated">Afficher la section des réseaux</target>
         </trans-unit>
         <trans-unit id="SettingsShowWslSectionSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show WSL section</source>
-          <target state="new">Show WSL section</target>
+          <target state="translated">Afficher la section WSL</target>
         </trans-unit>
         <trans-unit id="SettingsDateFormatComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Date format</source>
-          <target state="new">Date format</target>
+          <target state="translated">Format de la date</target>
         </trans-unit>
         <trans-unit id="SettingsDialogCloseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Close</source>
-          <target state="new">Close</target>
+          <target state="translated">Fermer</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
-          <target state="new">Open folders in new tab</target>
+          <target state="translated">Ouvrir les dossiers dans un nouvel onglet</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Language</source>
-          <target state="new">Language</target>
+          <target state="translated">Langue</target>
         </trans-unit>
         <trans-unit id="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="new">Show a confirmation dialog when deleting files or folders</target>
+          <target state="translated">Afficher une fenêtre de confirmation à la fermeture ou la suppression d'un dossier</target>
         </trans-unit>
         <trans-unit id="TerminalApplicationsComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Terminal application</source>
-          <target state="new">Terminal application</target>
+          <target state="translated">Application de Terminal</target>
         </trans-unit>
         <trans-unit id="OngoingTasks" translate="yes" xml:space="preserve">
           <source>Ongoing Tasks</source>
-          <target state="new">Ongoing Tasks</target>
+          <target state="translated">Tâches en cours</target>
         </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.Text" translate="yes" xml:space="preserve">
           <source>Load full preview</source>
-          <target state="new">Load full preview</target>
+          <target state="translated">Afficher la prévisualisation complète</target>
         </trans-unit>
         <trans-unit id="PreviewPaneShowPreviewOnly.Text" translate="yes" xml:space="preserve">
           <source>Show preview only</source>
-          <target state="new">Show preview only</target>
+          <target state="translated">Afficher les précédents uniquement</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveOneDown" translate="yes" xml:space="preserve">
           <source>Move one down</source>
-          <target state="new">Move one down</target>
+          <target state="translated">Descendre d'un cran</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveOneUp" translate="yes" xml:space="preserve">
           <source>Move one up</source>
-          <target state="new">Move one up</target>
+          <target state="translated">Monter d'un cran</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveToBottom" translate="yes" xml:space="preserve">
           <source>Move to bottom</source>
-          <target state="new">Move to bottom</target>
+          <target state="translated">Descendre tout en bas</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveToTop" translate="yes" xml:space="preserve">
           <source>Move to top</source>
-          <target state="new">Move to top</target>
+          <target state="translated">Monter tout en haut</target>
         </trans-unit>
       </group>
     </body>

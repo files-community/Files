@@ -1,5 +1,4 @@
-﻿using Files.Common;
-using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,40 +13,31 @@ namespace Files.Helpers.FileListCache
             return instance ??= new FileListCacheController();
         }
 
-        private readonly IFileListCache persistentAdapter;
-
         private FileListCacheController()
         {
-            persistentAdapter = new PersistentSQLiteCacheAdapter();
         }
 
-        private readonly Dictionary<string, object> fileNamesCache = new Dictionary<string, object>();
+        private readonly ConcurrentDictionary<string, string> fileNamesCache = new ConcurrentDictionary<string, string>();
 
-        public async Task<string> ReadFileDisplayNameFromCache(string path, CancellationToken cancellationToken)
+        public Task<string> ReadFileDisplayNameFromCache(string path, CancellationToken cancellationToken)
         {
-            var displayName = fileNamesCache.Get(path, (string)null);
-            if (displayName == null)
+            if (fileNamesCache.TryGetValue(path, out var displayName))
             {
-                displayName = await persistentAdapter.ReadFileDisplayNameFromCache(path, cancellationToken);
-                if (displayName != null)
-                {
-                    fileNamesCache[path] = displayName;
-                }
+                return Task.FromResult(displayName);
             }
-            return displayName;
+
+            return Task.FromResult<string>(null);
         }
 
         public Task SaveFileDisplayNameToCache(string path, string displayName)
         {
             if (displayName == null)
             {
-                fileNamesCache.Remove(path);
-                return persistentAdapter.SaveFileDisplayNameToCache(path, displayName);
+                fileNamesCache.TryRemove(path, out _);
             }
-            fileNamesCache[path] = displayName;
 
-            // save entry to persistent cache in background
-            return persistentAdapter.SaveFileDisplayNameToCache(path, displayName);
+            fileNamesCache[path] = displayName;
+            return Task.CompletedTask;
         }
     }
 }
