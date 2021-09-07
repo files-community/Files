@@ -492,9 +492,11 @@ namespace Files.ViewModels
                 {
                     EditModeEnabled?.Invoke(this, new EventArgs());
 
-                    var visiblePath = NavToolbar.FindDescendant("VisiblePath") as Control;
+                    var visiblePath = NavToolbar.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
                     visiblePath?.Focus(FocusState.Programmatic);
                     visiblePath?.FindDescendant<TextBox>()?.SelectAll();
+
+                    AddressBarTextEntered?.Invoke(this, new AddressBarTextEnteredEventArgs() { AddressBarTextField = visiblePath });
                 }
                 else
                 {
