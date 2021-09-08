@@ -826,8 +826,11 @@ namespace Files.Filesystem
                 return ReturnResult.Failed;
             }
 
-            ReturnResult returnStatus = ReturnResult.InProgress;
+            return await MoveItemsToFolder(source, destination, showDialog, registerHistory);
+        }
 
+        public async Task<ReturnResult> MoveItemsToFolder(IEnumerable<IStorageItemWithPath> source, string destination, bool showDialog, bool registerHistory)
+        {
             var destinations = new List<string>();
             List<ShellFileItem> binItems = null;
             foreach (var item in source)
@@ -847,9 +850,7 @@ namespace Files.Filesystem
                 }
             }
 
-            returnStatus = await MoveItemsAsync(source, destinations, showDialog, registerHistory);
-
-            return returnStatus;
+            return await MoveItemsAsync(source, destinations, showDialog, registerHistory);
         }
 
         #endregion Move

@@ -207,6 +207,8 @@ namespace Files.Filesystem
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
         Task<ReturnResult> MoveItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory);
 
+        Task<ReturnResult> MoveItemsToFolder(IEnumerable<IStorageItemWithPath> source, string destination, bool showDialog, bool registerHistory);
+
         #endregion Move
 
         /// <summary>

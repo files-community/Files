@@ -1,6 +1,8 @@
-﻿using Files.DataModels;
+﻿using Files.Common;
+using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Interacts;
@@ -247,104 +249,43 @@ namespace Files.Helpers
         
         public static async Task MoveItemAsync(string destinationPath, IShellPage associatedInstance)
         {
-            DataPackage dataPackage = new DataPackage
-            {
-                RequestedOperation = DataPackageOperation.Move
-            };
-            List<IStorageItem> items = new List<IStorageItem>();
-            FilesystemResult result = (FilesystemResult)false;
-
-            var connection = await AppServiceConnectionHelper.Instance;
-
-            if (associatedInstance.SlimContentPage.IsItemSelected)
-            {
-                // First, reset DataGrid Rows that may be in "cut" command mode
-                associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
-
-                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems)
-                {
-                    // Dim opacities accordingly
-                    listedItem.Opacity = Constants.UI.DimItemOpacity;
-
-                    if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
-                    {
-                        result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
-                            .OnSuccess(t => items.Add(t));
-                        if (!result)
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
-                            .OnSuccess(t => items.Add(t));
-                        if (!result)
-                        {
-                            break;
-                        }
-                    }
-                }
-                if (result.ErrorCode == FileSystemStatusCode.NotFound)
-                {
-                    associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
-                    return;
-                }
-                else if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
-                {
-                    // Try again with fulltrust process
-                    if (connection != null)
-                    {
-                        string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
-                        AppServiceResponseStatus status = await connection.SendMessageAsync(new ValueSet()
-                        {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "Clipboard" },
-                            { "filepath", filePaths },
-                            { "operation", (int)DataPackageOperation.Move }
-                        });
-                        if (status == AppServiceResponseStatus.Success)
-                        {
-                            return;
-                        }
-                    }
-                    associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
-                    return;
-                }
-            }
-
-            if (!items.Any())
+            if (!associatedInstance.SlimContentPage.IsItemSelected)
             {
                 return;
             }
-            dataPackage.SetStorageItems(items);
+
+            // First, reset DataGrid Rows that may be in "cut" command mode
+            associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
+
+            var sources = new List<IStorageItemWithPath>();
+            foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems.ToList())
+            {
+                // Dim opacities accordingly
+                listedItem.Opacity = Constants.UI.DimItemOpacity;
+                sources.Add(StorageItemHelpers.FromPathAndType(listedItem.ItemPath, listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem.IsZipItem ? FilesystemItemType.File : FilesystemItemType.Directory));
+            }
+
             try
             {
                 FolderPicker folderPicker = new FolderPicker();
                 folderPicker.ViewMode = PickerViewMode.List;
-                folderPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+                folderPicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
                 folderPicker.FileTypeFilter.Add("*");
                 folderPicker.CommitButtonText = "Move";
 
                 StorageFolder chosenFolder = await folderPicker.PickSingleFolderAsync();
 
-                if (chosenFolder != null)
+                if (chosenFolder != null && !string.IsNullOrEmpty(chosenFolder.Path))
                 {
-                    Clipboard.SetContent(dataPackage);
-                    Clipboard.Flush();
-
-                    DataPackageView packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
-                    if (packageView != null)
-                    {
-                        await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, chosenFolder.Path, false, true);
-                        associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
-                    }
+                    await associatedInstance.FilesystemHelpers.MoveItemsToFolder(sources, chosenFolder.Path, false, true);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                dataPackage = null;
+                App.Logger.Warn(ex, "Error moving items");
             }
+
+            associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
         }
         
         public static async Task<bool> RenameFileItemAsync(ListedItem item, string oldName, string newName, IShellPage associatedInstance)
