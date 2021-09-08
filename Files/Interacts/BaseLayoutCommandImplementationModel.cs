@@ -631,6 +631,8 @@ namespace Files.Interacts
         
         public virtual async void MoveItem(RoutedEventArgs e)
         {
+            //Problem - The collection contains item(s) that can't be converted to read-only form.'
+
             await UIFilesystemHelpers.MoveItemAsync(associatedInstance.FilesystemViewModel.WorkingDirectory, associatedInstance);
         }
 

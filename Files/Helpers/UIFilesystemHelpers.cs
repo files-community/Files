@@ -254,6 +254,8 @@ namespace Files.Helpers
             List<IStorageItem> items = new List<IStorageItem>();
             FilesystemResult result = (FilesystemResult)false;
 
+            var connection = await AppServiceConnectionHelper.Instance;
+
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {
                 // First, reset DataGrid Rows that may be in "cut" command mode
@@ -291,10 +293,10 @@ namespace Files.Helpers
                 else if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
                 {
                     // Try again with fulltrust process
-                    if (associatedInstance.ServiceConnection != null)
+                    if (connection != null)
                     {
                         string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
-                        AppServiceResponseStatus status = await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet()
+                        AppServiceResponseStatus status = await connection.SendMessageAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "Clipboard" },
