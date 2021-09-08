@@ -1,5 +1,6 @@
 ﻿using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
@@ -374,6 +375,12 @@ namespace Files.UserControls
                 RightClickedItem = item;
                 var menuItems = GetLocationItemMenuItems();
                 var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+
+                if (!App.AppSettings.MoveOverflowMenuItemsToSubMenu)
+                {
+                    secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250); // Set menu min width if the overflow menu setting is disabled
+                }
+
                 secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
                 itemContextMenuFlyout.ShowAt(sidebarItem, new Windows.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
 
@@ -420,6 +427,12 @@ namespace Files.UserControls
             RightClickedItem = item;
             var menuItems = GetLocationItemMenuItems();
             var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+
+            if (!App.AppSettings.MoveOverflowMenuItemsToSubMenu)
+            {
+                secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250); // Set menu min width if the overflow menu setting is disabled
+            }
+
             secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
             itemContextMenuFlyout.ShowAt(sidebarItem, new Windows.UI.Xaml.Controls.Primitives.FlyoutShowOptions() { Position = e.GetPosition(sidebarItem) });
 
