@@ -613,7 +613,7 @@
     <value>Type de raccourci :</value>
   </data>
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
-    <value>Dossier de travail :</value>
+    <value>Dossier de travail :</value>
   </data>
   <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
     <value>Application</value>
@@ -2636,7 +2636,7 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
     <value>Anonyme</value>
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
-    <value>Fournissez votre identifiant :</value>
+    <value>Fournissez votre identifiant :</value>
   </data>
   <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
     <value>Mot de passe</value>
@@ -2742,8 +2742,5 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
   </data>
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>Monter tout en haut</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
-    <value>Move...</value>
   </data>
 </root>

@@ -2754,7 +2754,4 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>Mover al principio</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
-    <value>Move...</value>
-  </data>
 </root>

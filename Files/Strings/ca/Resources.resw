@@ -867,7 +867,4 @@
   <data name="PropertyDateModified" xml:space="preserve">
     <value>Data de modificació</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
-    <value>Move...</value>
-  </data>
 </root>

@@ -2617,7 +2617,4 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Een schijf plaatsen</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
-    <value>Move...</value>
-  </data>
 </root>

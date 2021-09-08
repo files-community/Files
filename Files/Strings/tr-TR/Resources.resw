@@ -2646,7 +2646,4 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Hiç bir öğe bulunamadı</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
-    <value>Move...</value>
-  </data>
 </root>

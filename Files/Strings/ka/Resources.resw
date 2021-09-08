@@ -2742,7 +2742,4 @@
   <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
     <value>მხოლოდ გადახედვის ჩვენება</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
-    <value>Move...</value>
-  </data>
 </root>

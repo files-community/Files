@@ -3667,10 +3667,6 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
           <source>Move to top</source>
           <target state="translated">Mover al principio</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutMove.Text" translate="yes" xml:space="preserve">
-          <source>Move...</source>
-          <target state="new" state-qualifier="tm-suggestion">Move...</target>
-        </trans-unit>
       </group>
     </body>
   </file>

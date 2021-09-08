@@ -2755,7 +2755,4 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>Sposta in cima</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
-    <value>Move...</value>
-  </data>
 </root>

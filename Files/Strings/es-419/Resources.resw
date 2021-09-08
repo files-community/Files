@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
@@ -2742,8 +2742,5 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   </data>
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>Subir al principio</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
-    <value>Move...</value>
   </data>
 </root>

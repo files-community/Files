@@ -2756,7 +2756,4 @@
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>Μετακίνηση στην κορυφή</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
-    <value>Move...</value>
-  </data>
 </root>

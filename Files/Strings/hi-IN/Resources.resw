@@ -1605,7 +1605,4 @@
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>कोई डिस्क डालें</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
-    <value>Move...</value>
-  </data>
 </root>

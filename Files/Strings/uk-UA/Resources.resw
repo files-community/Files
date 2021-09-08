@@ -2016,7 +2016,4 @@
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Вставте диск</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
-    <value>Move...</value>
-  </data>
 </root>

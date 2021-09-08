@@ -2744,7 +2744,4 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>Felülre mozgatás</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutMove.Text" xml:space="preserve">
-    <value>Move...</value>
-  </data>
 </root>
