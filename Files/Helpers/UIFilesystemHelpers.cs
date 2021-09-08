@@ -6,7 +6,9 @@ using Files.Filesystem.StorageItems;
 using Files.Interacts;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -25,7 +27,7 @@ namespace Files.Helpers
             {
                 RequestedOperation = DataPackageOperation.Move
             };
-            List<IStorageItem> items = new List<IStorageItem>();
+            ConcurrentBag<IStorageItem> items = new ConcurrentBag<IStorageItem>();
             FilesystemResult result = (FilesystemResult)false;
 
             var canFlush = true;
@@ -34,46 +36,54 @@ namespace Files.Helpers
                 // First, reset DataGrid Rows that may be in "cut" command mode
                 associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
-                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems.ToList())
+                try
                 {
+                    await Task.WhenAll(associatedInstance.SlimContentPage.SelectedItems.ToList().Select(async listedItem =>
+                    {
                     // FTP don't support cut, fallback to copy
                     if (listedItem is not FtpItem)
-                    {
+                        {
                         // Dim opacities accordingly
                         listedItem.Opacity = Constants.UI.DimItemOpacity;
-                    }
+                        }
 
-                    if (listedItem is FtpItem ftpItem)
-                    {
-                        canFlush = false;
-                        if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                        if (listedItem is FtpItem ftpItem)
                         {
-                            items.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
+                            canFlush = false;
+                            if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                            {
+                                items.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
+                            }
+                            else if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                            {
+                                items.Add(new FtpStorageFolder(ftpItem));
+                            }
                         }
-                        else if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                        else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
                         {
-                            items.Add(new FtpStorageFolder(ftpItem));
+                            result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
+                                .OnSuccess(t => items.Add(t));
+                            if (!result)
+                            {
+                                throw new IOException($"Failed to process {listedItem.ItemPath}.");
+                            }
                         }
-                    }
-                    else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
-                    {
-                        result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
-                            .OnSuccess(t => items.Add(t));
-                        if (!result)
+                        else
                         {
-                            break;
+                            result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
+                                .OnSuccess(t => items.Add(t));
+                            if (!result)
+                            {
+                                throw new IOException($"Failed to process {listedItem.ItemPath}.");
+                            }
                         }
-                    }
-                    else
-                    {
-                        result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
-                            .OnSuccess(t => items.Add(t));
-                        if (!result)
-                        {
-                            break;
-                        }
-                    }
+                    }));
                 }
+                catch
+                {
+                    return;
+                }
+
                 if (result.ErrorCode == FileSystemStatusCode.NotFound)
                 {
                     associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
@@ -106,7 +116,7 @@ namespace Files.Helpers
             var onlyStandard = items.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
             if (onlyStandard)
             {
-                items = await items.ToStandardStorageItemsAsync();
+                items = new ConcurrentBag<IStorageItem>(await items.ToStandardStorageItemsAsync());
             }
             if (!items.Any())
             {
@@ -133,7 +143,7 @@ namespace Files.Helpers
             {
                 RequestedOperation = DataPackageOperation.Copy
             };
-            List<IStorageItem> items = new List<IStorageItem>();
+            ConcurrentBag<IStorageItem> items = new ConcurrentBag<IStorageItem>();
 
             string copySourcePath = associatedInstance.FilesystemViewModel.WorkingDirectory;
             FilesystemResult result = (FilesystemResult)false;
@@ -141,39 +151,47 @@ namespace Files.Helpers
             var canFlush = true;
             if (associatedInstance.SlimContentPage.IsItemSelected)
             {
-                foreach (ListedItem listedItem in associatedInstance.SlimContentPage.SelectedItems.ToList())
+                try
                 {
-                    if (listedItem is FtpItem ftpItem)
+                    await Task.WhenAll(associatedInstance.SlimContentPage.SelectedItems.ToList().Select(async listedItem =>
                     {
-                        canFlush = false;
-                        if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                        if (listedItem is FtpItem ftpItem)
                         {
-                            items.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
+                            canFlush = false;
+                            if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                            {
+                                items.Add(await new FtpStorageFile(ftpItem).ToStorageFileAsync());
+                            }
+                            else if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                            {
+                                items.Add(new FtpStorageFolder(ftpItem));
+                            }
                         }
-                        else if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                        else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
                         {
-                            items.Add(new FtpStorageFolder(ftpItem));
+                            result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
+                                .OnSuccess(t => items.Add(t));
+                            if (!result)
+                            {
+                                throw new IOException($"Failed to process {listedItem.ItemPath}.");
+                            }
                         }
-                    }
-                    else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
-                    {
-                        result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
-                            .OnSuccess(t => items.Add(t));
-                        if (!result)
+                        else
                         {
-                            break;
+                            result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
+                                .OnSuccess(t => items.Add(t));
+                            if (!result)
+                            {
+                                throw new IOException($"Failed to process {listedItem.ItemPath}.");
+                            }
                         }
-                    }
-                    else
-                    {
-                        result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
-                            .OnSuccess(t => items.Add(t));
-                        if (!result)
-                        {
-                            break;
-                        }
-                    }
+                    }));
                 }
+                catch
+                {
+                    return;
+                }
+
                 if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
                 {
                     // Try again with fulltrust process
@@ -196,7 +214,7 @@ namespace Files.Helpers
             var onlyStandard = items.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
             if (onlyStandard)
             {
-                items = await items.ToStandardStorageItemsAsync();
+                items = new ConcurrentBag<IStorageItem>(await items.ToStandardStorageItemsAsync());
             }
             if (!items.Any())
             {

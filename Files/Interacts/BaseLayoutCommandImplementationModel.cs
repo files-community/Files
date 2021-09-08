@@ -199,11 +199,10 @@ namespace Files.Interacts
 
         public virtual async void DeleteItem(RoutedEventArgs e)
         {
-            await FilesystemHelpers.DeleteItemsAsync(
-                SlimContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
+            var items = await Task.WhenAll(SlimContentPage.SelectedItems.Select((item) => Task.Run(() => StorageItemHelpers.FromPathAndType(
                     item.ItemPath,
-                    item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
-                true, false, true);
+                    item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory))));
+            await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
         }
 
         public virtual void ShowFolderProperties(RoutedEventArgs e)
