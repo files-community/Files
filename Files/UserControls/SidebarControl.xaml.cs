@@ -981,6 +981,14 @@ namespace Files.UserControls
                         var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
                         if (secondaryElements.Any())
                         {
+                            var openedPopups = Windows.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(Window.Current);
+                            var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
+                            var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
+                            if (itemsControl is not null)
+                            {
+                                secondaryElements.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - 10); // Set items max width to current menu width (#5555)
+                            }
+
                             itemContextMenuFlyout.SecondaryCommands.Add(new AppBarSeparator());
                             secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
                         }
