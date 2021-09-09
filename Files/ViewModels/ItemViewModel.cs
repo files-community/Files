@@ -368,7 +368,10 @@ namespace Files.ViewModels
                 case nameof(AppSettings.AreFileTagsEnabled):
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                     {
-                        RefreshItems(null);
+                        if (WorkingDirectory != "Home".GetLocalized() && WorkingDirectory != "NewTab".GetLocalized())
+                        {
+                            RefreshItems(null);
+                        }
                     });
                     break;
             }
