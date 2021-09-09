@@ -39,5 +39,31 @@ namespace Files.Extensions
             block.Complete();
             return block.Completion;
         }
+
+        public static bool AddIfNotPresent<T>(this IList<T> list, T element)
+        {
+            if (!list.Contains(element))
+            {
+                list.Add(element);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool AddIfNotPresent<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
+        {
+            if (!dictionary.ContainsKey(key))
+            {
+                dictionary.Add(key, value);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

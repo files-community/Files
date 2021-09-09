@@ -150,7 +150,7 @@ namespace Files.ViewModels.Previews
                 {
                     var buffer = new byte[maxLength];
                     bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
-                    result.Append(Encoding.UTF8.GetString(buffer));
+                    result.Append(Encoding.UTF8.GetString(buffer, 0, bytesRead));
                 } while (bytesRead > 0 && result.Length <= maxLength);
                 return result.ToString();
             }

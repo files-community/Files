@@ -168,6 +168,7 @@
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\FileIconInfoExtensions.cs" />
+    <Compile Include="Extensions\GenericsExtensions.cs" />
     <Compile Include="Extensions\ImageSourceExtensions.cs" />
     <Compile Include="Extensions\KeyboardAcceleratorExtensions.cs" />
     <Compile Include="Filesystem\FilesystemOperations\ShellFilesystemOperations.cs" />
@@ -265,7 +266,6 @@
     <Compile Include="Helpers\Extension.cs" />
     <Compile Include="Helpers\FileListCache\FileListCacheController.cs" />
     <Compile Include="Helpers\FileListCache\IFileListCache.cs" />
-    <Compile Include="Helpers\FileListCache\PersistentSQLiteCacheAdapter.cs" />
     <Compile Include="Helpers\ExtensionManager.cs" />
     <Compile Include="Helpers\IntervalSampler.cs" />
     <Compile Include="Helpers\QuickLookHelpers.cs" />
@@ -274,6 +274,7 @@
     <Compile Include="Helpers\SidebarHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\DependencyObjectHelpers.cs" />
     <Compile Include="Helpers\XamlHelpers\SystemTypeToXaml.cs" />
+    <Compile Include="Helpers\AsyncManualResetEvent.cs" />
     <Compile Include="IBaseLayout.cs" />
     <Compile Include="Interacts\BaseLayoutCommandImplementationModel.cs" />
     <Compile Include="Interacts\BaseLayoutCommandsViewModel.cs" />
@@ -1398,7 +1399,7 @@
       <Version>2.0.0</Version>
     </PackageReference>
     <PackageReference Include="FluentFTP">
-      <Version>35.0.2</Version>
+      <Version>35.0.4</Version>
     </PackageReference>
     <PackageReference Include="ini-parser-netstandard">
       <Version>2.5.2</Version>

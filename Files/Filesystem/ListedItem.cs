@@ -13,6 +13,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -22,7 +23,16 @@ namespace Files.Filesystem
     {
         public bool IsHiddenItem { get; set; } = false;
         public StorageItemTypes PrimaryItemAttribute { get; set; }
-        public bool ItemPropertiesInitialized { get; set; } = false;
+
+        private volatile int itemPropertiesInitialized = 0;
+        public bool ItemPropertiesInitialized
+        {
+            get => itemPropertiesInitialized == 1;
+            set
+            {
+                Interlocked.Exchange(ref itemPropertiesInitialized, value ? 1 : 0);
+            }
+        }
 
         public string ItemTooltipText
         {
