@@ -191,7 +191,7 @@ namespace Files.Views
             LoadPreviewPaneChanged();
             if (PreviewPane != null)
             {
-                PreviewPane.Model = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.PreviewPaneViewModel;
+                PreviewPane.Model = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn?.SlimContentPage?.PreviewPaneViewModel;
             }
         }
 

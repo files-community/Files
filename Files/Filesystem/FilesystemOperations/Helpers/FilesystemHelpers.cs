@@ -202,7 +202,7 @@ namespace Files.Filesystem
                         "StatusDeletionCancelled".GetLocalized(),
                         string.Format(source.Count() > 1 ?
                             itemsDeleted > 1 ? "StatusDeleteCanceledDetails_Plural".GetLocalized() : "StatusDeleteCanceledDetails_Plural2".GetLocalized()
-                            : "StatusDeleteCanceledDetails_Singular".GetLocalized(), source.Count(), sourceDir, itemsDeleted),
+                            : "StatusDeleteCanceledDetails_Singular".GetLocalized(), source.Count(), sourceDir, null, itemsDeleted),
                         0,
                         ReturnResult.Cancelled,
                         FileOperationType.Delete);
@@ -987,6 +987,12 @@ namespace Files.Filesystem
                 var itemPathOrName = string.IsNullOrEmpty(source.ElementAt(i).Path) ?
                     (string.IsNullOrEmpty(source.ElementAt(i).Item.Path) ? source.ElementAt(i).Item.Name : source.ElementAt(i).Item.Path) : source.ElementAt(i).Path;
                 incomingItems.Add(new FilesystemItemsOperationItemModel(operationType, itemPathOrName, destination.ElementAt(i)));
+                if (collisions.ContainsKey(incomingItems.ElementAt(i).SourcePath))
+                {
+                    // Something strange happened, log
+                    App.Logger.Warn($"Duplicate key when resolving conflicts: {incomingItems.ElementAt(i).SourcePath}, {source.ElementAt(i).Name}\n" +
+                        $"Source: {string.Join(", ", source.Select(x => string.IsNullOrEmpty(x.Path) ? (string.IsNullOrEmpty(x.Item.Path) ? x.Item.Name : x.Item.Path) : x.Path))}");
+                }
                 collisions.AddIfNotPresent(incomingItems.ElementAt(i).SourcePath, FileNameConflictResolveOptionType.GenerateNewName);
 
                 if (destination.Count() > 0 && StorageItemHelpers.Exists(destination.ElementAt(i))) // Same item names in both directories
@@ -1026,23 +1032,25 @@ namespace Files.Filesystem
                 List<IFilesystemOperationItemModel> itemsResult = dialog.ViewModel.GetResult();
                 foreach (var item in itemsResult)
                 {
-                    collisions.Add(item.SourcePath, item.ConflictResolveOption);
+                    collisions.AddIfNotPresent(item.SourcePath, item.ConflictResolveOption);
                 }
             }
 
             // Since collisions are scrambled, we need to sort them PATH--PATH
             List<FileNameConflictResolveOptionType> newCollisions = new List<FileNameConflictResolveOptionType>();
 
-            for (int i = 0; i < collisions.Count; i++)
+            for (int i = 0; i < source.Count(); i++)
             {
-                for (int j = 0; j < source.Count(); j++)
+                var itemPathOrName = string.IsNullOrEmpty(source.ElementAt(i).Path) ?
+                    (string.IsNullOrEmpty(source.ElementAt(i).Item.Path) ? source.ElementAt(i).Item.Name : source.ElementAt(i).Item.Path) : source.ElementAt(i).Path;
+                var match = collisions.SingleOrDefault(x => x.Key == itemPathOrName);
+                if (match.Key != null)
                 {
-                    var itemPathOrName = string.IsNullOrEmpty(source.ElementAt(j).Path) ?
-                        (string.IsNullOrEmpty(source.ElementAt(j).Item.Path) ? source.ElementAt(j).Item.Name : source.ElementAt(j).Item.Path) : source.ElementAt(j).Path;
-                    if (collisions.ElementAt(i).Key == itemPathOrName)
-                    {
-                        newCollisions.Add(collisions.ElementAt(j).Value);
-                    }
+                    newCollisions.Add(match.Value);
+                }
+                else
+                {
+                    newCollisions.Add(FileNameConflictResolveOptionType.Skip);
                 }
             }
 
