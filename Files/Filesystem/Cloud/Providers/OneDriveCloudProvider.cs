@@ -26,9 +26,7 @@ namespace Files.Filesystem.Cloud.Providers
                     {
                         var results = new List<CloudProvider>();
                         foreach (var key in response.Keys
-                            .Where(k => k != "Count" && k != "RequestID")
-                            .OrderByDescending(o => string.Equals(o, "OneDrive", StringComparison.OrdinalIgnoreCase))
-                            .ThenBy(o => o))
+                            .Where(k => k != "Count" && k != "RequestID"))
                         {
                             results.Add(new CloudProvider()
                             {
