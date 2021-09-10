@@ -47,8 +47,8 @@ namespace Files.Helpers
                 catch (InvalidNameException ex)
                 {
                     App.Logger.Warn(ex, $"Error transforming zip names into: {destinationFolder.Path}\n" +
-                        $"Directories: {directoryEntries.Select(x => x.Name)}\n" +
-                        $"Files: {fileEntries.Select(x => x.Name)}");
+                        $"Directories: {string.Join(", ", directoryEntries.Select(x => x.Name))}\n" +
+                        $"Files: {string.Join(", ", fileEntries.Select(x => x.Name))}");
                     return;
                 }
 
@@ -110,7 +110,7 @@ namespace Files.Helpers
                         {
                             while ((currentBlockSize = await entryStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
                             {
-                                await destinationStream.WriteAsync(buffer, 0, buffer.Length);
+                                await destinationStream.WriteAsync(buffer, 0, currentBlockSize);
 
                                 if (cancellationToken.IsCancellationRequested) // Check if cancelled
                                 {
