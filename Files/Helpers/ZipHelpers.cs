@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem.StorageItems;
+using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using System;
 using System.Collections.Generic;
@@ -38,8 +39,19 @@ namespace Files.Helpers
                 var wnt = new WindowsNameTransform(destinationFolder.Path);
 
                 var directories = new List<string>();
-                directories.AddRange(directoryEntries.Select((item) => wnt.TransformDirectory(item.Name)));
-                directories.AddRange(fileEntries.Select((item) => Path.GetDirectoryName(wnt.TransformFile(item.Name))));
+                try
+                {
+                    directories.AddRange(directoryEntries.Select((item) => wnt.TransformDirectory(item.Name)));
+                    directories.AddRange(fileEntries.Select((item) => Path.GetDirectoryName(wnt.TransformFile(item.Name))));
+                }
+                catch (InvalidNameException ex)
+                {
+                    App.Logger.Warn(ex, $"Error transforming zip names into: {destinationFolder.Path}\n" +
+                        $"Directories: {directoryEntries.Select(x => x.Name)}\n" +
+                        $"Files: {fileEntries.Select(x => x.Name)}");
+                    return;
+                }
+
                 foreach (var dir in directories.Distinct().OrderBy(x => x.Length))
                 {
                     if (!NativeFileOperationsHelper.CreateDirectoryFromApp(dir, IntPtr.Zero))
