@@ -111,7 +111,6 @@ namespace Files.ViewModels
             await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
         }
             
-
         public static async void ReportIssueOnGitHub()
         {
             await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/issues/new/choose"));
