@@ -202,7 +202,7 @@ namespace Files.Filesystem
                         "StatusDeletionCancelled".GetLocalized(),
                         string.Format(source.Count() > 1 ?
                             itemsDeleted > 1 ? "StatusDeleteCanceledDetails_Plural".GetLocalized() : "StatusDeleteCanceledDetails_Plural2".GetLocalized()
-                            : "StatusDeleteCanceledDetails_Singular".GetLocalized(), source.Count(), sourceDir, itemsDeleted),
+                            : "StatusDeleteCanceledDetails_Singular".GetLocalized(), source.Count(), sourceDir, null, itemsDeleted),
                         0,
                         ReturnResult.Cancelled,
                         FileOperationType.Delete);
