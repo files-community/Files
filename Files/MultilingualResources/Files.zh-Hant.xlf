@@ -3491,7 +3491,6 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
         <trans-unit id="PropertyPartOfSet" translate="yes" xml:space="preserve">
           <source>Part of set</source>
           <target state="translated">集數</target>
-          <note from="MultilingualEditor" annotates="source" priority="4"></note>
         </trans-unit>
         <trans-unit id="AskCredentialDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
