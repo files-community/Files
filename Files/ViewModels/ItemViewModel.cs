@@ -368,7 +368,10 @@ namespace Files.ViewModels
                 case nameof(AppSettings.AreFileTagsEnabled):
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                     {
-                        RefreshItems(null);
+                        if (WorkingDirectory != "Home".GetLocalized() && WorkingDirectory != "NewTab".GetLocalized())
+                        {
+                            RefreshItems(null);
+                        }
                     });
                     break;
             }
@@ -1427,7 +1430,7 @@ namespace Files.ViewModels
 
             BaseStorageFolder rootFolder = null;
 
-            if (FolderHelpers.CheckFolderAccessWithWin32(path))
+            if (!enumFromStorageFolder && FolderHelpers.CheckFolderAccessWithWin32(path))
             {
                 // Will enumerate with FindFirstFileExFromApp, rootFolder only used for Bitlocker
                 currentStorageFolder = null;
