@@ -3382,7 +3382,7 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
 * 非個資數據收集聲明 *
 
 我們使用 App Center 來追蹤使用者在應用程式的使用情況，並藉此查找錯誤及修復問題。所有數據都是以匿名身分回傳至 App Center，你的個資也不會被回傳。
-</target>
+  </target>
         </trans-unit>
         <trans-unit id="NavToolbarGroupByOptionNone.Text" translate="yes" xml:space="preserve">
           <source>None</source>
