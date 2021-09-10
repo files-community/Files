@@ -105,7 +105,12 @@ namespace Files.ViewModels
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
 
-        public static async void OpenThemesFolder() => await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
+        public static async void OpenThemesFolder()
+        {
+            await Task.Delay(500);
+            await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
+        }
+            
 
         public static async void ReportIssueOnGitHub()
         {
