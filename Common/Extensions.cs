@@ -105,5 +105,19 @@ namespace Files.Common
                 return false;
             }
         }
+
+        public static async Task<bool> IgnoreExceptions(Func<Task> action, Logger logger = null)
+        {
+            try
+            {
+                await action();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger?.Info(ex, ex.Message);
+                return false;
+            }
+        }
     }
 }

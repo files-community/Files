@@ -28,9 +28,7 @@ namespace Files
                         {
                             case ParsedCommandType.ExplorerShellCommand:
                                 await OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
-                                //Exit..
-
-                                return;
+                                return; // Exit
 
                             default:
                                 break;
@@ -60,17 +58,7 @@ namespace Files
                         return;
                     }
                 }
-                else if (activatedArgs is FileActivatedEventArgs)
-                {
-                    var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-                    var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
-                    if (!instance.IsCurrentInstance)
-                    {
-                        instance.RedirectActivationTo();
-                        return;
-                    }
-                }
-                else if (activatedArgs is CommandLineActivatedEventArgs)
+                else if (activatedArgs is FileActivatedEventArgs || activatedArgs is CommandLineActivatedEventArgs)
                 {
                     var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
                     var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
