@@ -86,30 +86,24 @@
                             Source="{x:Bind FileImage, Mode=OneWay}"
                             Stretch="Uniform" />
                     </ContentPresenter>
-                    <Viewbox
+                    <Rectangle
                         x:Name="FolderGlyphIcon"
                         MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                         MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                         Margin="12"
+                        Fill="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}">
-                        <FontIcon
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Glyph="&#xF12B;" />
-                    </Viewbox>
-                    <Viewbox
+                        x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"/>
+                    <Rectangle
                         x:Name="TypeUnknownGlyph"
                         MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                         MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                         Margin="12"
+                        Fill="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
-                        x:Phase="1">
-                        <FontIcon Glyph="&#xE7C3;" />
-                    </Viewbox>
+                        x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"/>
                     <Image
                         x:Name="IconOverlay"
                         Width="60"
@@ -268,22 +262,20 @@
                             Source="{x:Bind FileImage, Mode=OneWay}"
                             Stretch="Uniform" />
                     </ContentPresenter>
-                    <FontIcon
+                    <Rectangle
                         x:Name="FolderGlyphIcon"
+                        Margin="8"
+                        Fill="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
-                        FontSize="72"
-                        Glyph="&#xF12B;" />
-                    <FontIcon
+                        x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"/>
+                    <Rectangle
                         x:Name="TypeUnknownGlyph"
-                        Width="74"
+                        Margin="8"
+                        Fill="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
-                        x:Phase="1"
-                        FontSize="74"
-                        Glyph="&#xE7C3;" />
+                        x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"/>
                     <Image
                         x:Name="IconOverlay"
                         Width="48"
@@ -532,6 +524,7 @@
                     PreviewKeyDown="FileList_PreviewKeyDown"
                     ScrollViewer.IsHorizontalScrollChainingEnabled="False"
                     SelectionChanged="FileList_SelectionChanged"
+                    ShowsScrollingPlaceholders="True"
                     SelectionMode="{x:Bind MainViewModel.MultiselectEnabled, Mode=OneWay, Converter={StaticResource BoolToSelectionModeConverter}}"
                     StretchContentForSingleRow="False"
                     Tapped="FileList_ItemTapped">

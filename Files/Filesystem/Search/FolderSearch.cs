@@ -368,7 +368,6 @@ namespace Files.Filesystem.Search
                             _ = FilesystemTasks.Wrap(() => CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
                                 listedItem.FileImage = await t.Result.ToBitmapAsync();
-                                listedItem.CustomIconData = t.Result;
                                 listedItem.LoadFolderGlyph = false;
                                 listedItem.LoadUnknownTypeGlyph = false;
                                 listedItem.LoadWebShortcutGlyph = false;
@@ -435,8 +434,7 @@ namespace Files.Filesystem.Search
                 var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(item, ThumbnailSize, ThumbnailMode.ListView);
                 if (iconData != null)
                 {
-                    listedItem.CustomIconData = iconData;
-                    listedItem.FileImage = await listedItem.CustomIconData.ToBitmapAsync();
+                    listedItem.FileImage = await iconData.ToBitmapAsync();
                     listedItem.LoadUnknownTypeGlyph = false;
                     listedItem.LoadWebShortcutGlyph = false;
                     listedItem.LoadFolderGlyph = false;

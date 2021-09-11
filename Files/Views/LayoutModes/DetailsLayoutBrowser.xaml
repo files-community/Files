@@ -550,20 +550,18 @@
                                             Source="{x:Bind FileImage, Mode=OneWay}"
                                             Stretch="Uniform" />
                                     </ContentPresenter>
-                                    <FontIcon
+                                    <Rectangle
                                         x:Name="FolderGlyphIcon"
                                         Width="20"
                                         Height="20"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
-                                        FontSize="20"
-                                        Glyph="&#xF12B;" />
-                                    <FontIcon
+                                        Fill="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" />
+                                    <Rectangle
                                         x:Name="TypeUnknownGlyph"
                                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
-                                        x:Phase="1"
-                                        Glyph="&#xE7C3;" />
+                                        Fill="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"/>
                                     <FontIcon
                                         x:Name="WebShortcutGlyph"
                                         x:Load="{x:Bind LoadWebShortcutGlyph, Mode=OneWay}"

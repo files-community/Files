@@ -131,15 +131,6 @@ namespace Files.Filesystem
             set => SetProperty(ref customIconSource, value);
         }
 
-        private byte[] customIconData;
-
-        [JsonIgnore]
-        public byte[] CustomIconData
-        {
-            get => customIconData;
-            set => SetProperty(ref customIconData, value);
-        }
-
         private double opacity;
 
         public double Opacity
@@ -485,8 +476,7 @@ namespace Files.Filesystem
             LoadCustomIcon = true;
             CustomIcon = lib.Icon;
             //CustomIconSource = lib.IconSource;
-            CustomIconData = lib.IconData;
-            LoadFileIcon = CustomIconData != null;
+            LoadFileIcon = true;
 
             IsEmpty = lib.IsEmpty;
             DefaultSaveFolder = lib.DefaultSaveFolder;

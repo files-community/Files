@@ -753,48 +753,39 @@ namespace Files.ViewModels
             var wasIconLoaded = false;
             if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
             {
-                if (!forceReload && item.CustomIconData != null)
+                if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                 {
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                    var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
+                    if (matchingStorageFile != null)
                     {
-                        item.FileImage = await item.CustomIconData.ToBitmapAsync();
-                        item.LoadUnknownTypeGlyph = false;
-                        item.LoadWebShortcutGlyph = false;
-                        item.LoadFileIcon = true;
-                    }, Windows.System.DispatcherQueuePriority.Low);
-                    wasIconLoaded = true;
-                }
-                else
-                {
-                    if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
-                    {
-                        var matchingStorageFile = matchingStorageItem.AsBaseStorageFile() ?? await GetFileFromPathAsync(item.ItemPath);
-                        if (matchingStorageFile != null)
+                        var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
+
+                        using var Thumbnail = await matchingStorageFile.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ResizeThumbnail);
+                        if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
                         {
-                            var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
-
-                            using var Thumbnail = await matchingStorageFile.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ResizeThumbnail);
-                            if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
+                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
-                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                                {
-                                    item.CustomIconData = await Thumbnail.ToByteArrayAsync();
-                                    item.FileImage = await item.CustomIconData.ToBitmapAsync();
-                                    item.LoadUnknownTypeGlyph = false;
-                                    item.LoadWebShortcutGlyph = false;
-                                    item.LoadFileIcon = true;
-                                }, Windows.System.DispatcherQueuePriority.Low);
-                                wasIconLoaded = true;
-                            }
+                                item.LoadUnknownTypeGlyph = false;
+                                item.LoadWebShortcutGlyph = false;
+                                item.LoadFolderGlyph = false;
+                                item.LoadFileIcon = true;
+                                item.FileImage ??= new BitmapImage();
+                                item.FileImage.DecodePixelType = DecodePixelType.Logical;
+                                item.FileImage.DecodePixelWidth = (int)thumbnailSize;
+                                item.FileImage.DecodePixelHeight = (int)thumbnailSize;
+                                await item.FileImage.SetSourceAsync(Thumbnail);
 
-                            var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath);
-                            if (overlayInfo != null)
+                            }, Windows.System.DispatcherQueuePriority.Normal);
+                            wasIconLoaded = true;
+                        }
+
+                        var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath);
+                        if (overlayInfo != null)
+                        {
+                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
-                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                                {
-                                    item.IconOverlay = await overlayInfo.ToBitmapAsync();
-                                }, Windows.System.DispatcherQueuePriority.Low);
-                            }
+                                item.IconOverlay = await overlayInfo.ToBitmapAsync();
+                            }, Windows.System.DispatcherQueuePriority.Low);
                         }
                     }
                 }
@@ -807,7 +798,6 @@ namespace Files.ViewModels
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
                             item.FileImage = await iconInfo.IconData.ToBitmapAsync();
-                            item.CustomIconData = iconInfo.IconData;
                             item.LoadFileIcon = true;
                             item.LoadUnknownTypeGlyph = false;
                             item.LoadWebShortcutGlyph = false;
@@ -825,50 +815,39 @@ namespace Files.ViewModels
             }
             else
             {
-                if (!forceReload && item.CustomIconData != null)
+                if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                 {
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
+                    var matchingStorageFolder = matchingStorageItem.AsBaseStorageFolder() ?? await GetFolderFromPathAsync(item.ItemPath);
+                    if (matchingStorageFolder != null)
                     {
-                        item.FileImage = await item.CustomIconData.ToBitmapAsync();
-                        item.LoadUnknownTypeGlyph = false;
-                        item.LoadWebShortcutGlyph = false;
-                        item.LoadFolderGlyph = false;
-                        item.LoadFileIcon = true;
-                    }, Windows.System.DispatcherQueuePriority.Low);
-                    wasIconLoaded = true;
-                }
-                else
-                {
-                    if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
-                    {
-                        var matchingStorageFolder = matchingStorageItem.AsBaseStorageFolder() ?? await GetFolderFromPathAsync(item.ItemPath);
-                        if (matchingStorageFolder != null)
+                        var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
+
+                        using var Thumbnail = await matchingStorageFolder.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ResizeThumbnail);
+                        if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
                         {
-                            var mode = thumbnailSize < 80 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
-
-                            using var Thumbnail = await matchingStorageFolder.GetThumbnailAsync(mode, thumbnailSize, ThumbnailOptions.ResizeThumbnail);
-                            if (!(Thumbnail == null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
+                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
-                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                                {
-                                    item.CustomIconData = await Thumbnail.ToByteArrayAsync();
-                                    item.FileImage = await item.CustomIconData.ToBitmapAsync();
-                                    item.LoadUnknownTypeGlyph = false;
-                                    item.LoadWebShortcutGlyph = false;
-                                    item.LoadFolderGlyph = false;
-                                    item.LoadFileIcon = true;
-                                }, Windows.System.DispatcherQueuePriority.Low);
-                                wasIconLoaded = true;
-                            }
+                                item.LoadUnknownTypeGlyph = false;
+                                item.LoadWebShortcutGlyph = false;
+                                item.LoadFolderGlyph = false;
+                                item.LoadFileIcon = true;
+                                item.FileImage ??= new BitmapImage();
+                                item.FileImage.DecodePixelType = DecodePixelType.Logical;
+                                item.FileImage.DecodePixelWidth = (int)thumbnailSize;
+                                item.FileImage.DecodePixelHeight = (int)thumbnailSize;
+                                await item.FileImage.SetSourceAsync(Thumbnail);
+                                
+                            }, Windows.System.DispatcherQueuePriority.Normal);
+                            wasIconLoaded = true;
+                        }
 
-                            var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath);
-                            if (overlayInfo != null)
+                        var overlayInfo = await FileThumbnailHelper.LoadOverlayAsync(item.ItemPath);
+                        if (overlayInfo != null)
+                        {
+                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
-                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                                {
-                                    item.IconOverlay = await overlayInfo.ToBitmapAsync();
-                                }, Windows.System.DispatcherQueuePriority.Low);
-                            }
+                                item.IconOverlay = await overlayInfo.ToBitmapAsync();
+                            }, Windows.System.DispatcherQueuePriority.Low);
                         }
                     }
                 }
@@ -881,7 +860,6 @@ namespace Files.ViewModels
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
                             item.FileImage = await iconInfo.IconData.ToBitmapAsync();
-                            item.CustomIconData = iconInfo.IconData;
                             item.LoadFileIcon = true;
                             item.LoadFolderGlyph = false;
                             item.LoadUnknownTypeGlyph = false;
