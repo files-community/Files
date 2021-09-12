@@ -1,9 +1,11 @@
 ﻿using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
+using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -191,7 +193,7 @@ namespace Files.ViewModels.Dialogs
             return Items.Cast<IFilesystemOperationItemModel>().ToList();
         }
 
-        public static async Task<FilesystemOperationDialog> GetDialog(FilesystemItemsOperationDataModel itemsData)
+        public static FilesystemOperationDialog GetDialog(FilesystemItemsOperationDataModel itemsData)
         {
             string titleText = null;
             string subtitleText = null;
@@ -280,12 +282,31 @@ namespace Files.ViewModels.Dialogs
                 PermanentlyDeleteEnabled = itemsData.PermanentlyDeleteEnabled,
                 MustResolveConflicts = itemsData.MustResolveConflicts
             };
-            viewModel.Items = new ObservableCollection<FilesystemOperationItemViewModel>(await itemsData.ToItems(
+            viewModel.Items = new ObservableCollection<FilesystemOperationItemViewModel>(itemsData.ToItems(
                 viewModel.UpdatePrimaryButtonEnabled, viewModel.OptionGenerateNewName, viewModel.OptionReplaceExisting, viewModel.OptionSkip));
-
+            _ = LoadItemsIcon(viewModel.Items);
             FilesystemOperationDialog dialog = new FilesystemOperationDialog(viewModel);
 
             return dialog;
+        }
+
+        private static async Task LoadItemsIcon(IEnumerable<FilesystemOperationItemViewModel> items)
+        {
+            await Task.Run(() => Task.WhenAll(items.ToList().Select(async (item) =>
+            {
+                try
+                {
+                    var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(item.SourcePath, 64u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                    if (iconData != null)
+                    {
+                        await Windows.ApplicationModel.Core.CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
+                        {
+                            item.ItemIcon = await iconData.ToBitmapAsync();
+                        });
+                    }
+                }
+                catch { }
+            })));
         }
     }
 }

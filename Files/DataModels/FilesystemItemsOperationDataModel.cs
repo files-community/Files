@@ -1,6 +1,7 @@
 ﻿using Files.Enums;
 using Files.Helpers;
 using Files.ViewModels.Dialogs;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -58,21 +59,16 @@ namespace Files.DataModels
             this.ConflictingItems = conflictingItems;
         }
 
-        public async Task<List<FilesystemOperationItemViewModel>> ToItems(Action updatePrimaryButtonEnabled, Action optionGenerateNewName, Action optionReplaceExisting, Action optionSkip)
+        public List<FilesystemOperationItemViewModel> ToItems(Action updatePrimaryButtonEnabled, Action optionGenerateNewName, Action optionReplaceExisting, Action optionSkip)
         {
-            ConcurrentBag<(int Index, FilesystemOperationItemViewModel Model)> items = new ConcurrentBag<(int Index, FilesystemOperationItemViewModel Model)>();
-
+            List<FilesystemOperationItemViewModel> items = new List<FilesystemOperationItemViewModel>();
             List<FilesystemItemsOperationItemModel> nonConflictingItems = IncomingItems.Except(ConflictingItems).ToList();
 
             // Add conflicting items first
-            await Task.WhenAll(ConflictingItems.Select(async (item, index) =>
-            {
-                var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(item.SourcePath, 64u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
-
-                items.Add((index, new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
+            items.AddRange(ConflictingItems.Select((item, index) => 
+                new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
                     IsConflict = true,
-                    ItemIcon = iconData != null ? await iconData.ToBitmapAsync() : null,
                     SourcePath = item.SourcePath,
                     DestinationPath = item.DestinationPath,
                     DisplayFileName = item.DisplayFileName,
@@ -80,19 +76,12 @@ namespace Files.DataModels
                     ItemOperation = item.OperationType,
                     ActionTaken = false
                 }));
-            }));
-
-            var baseIndex = ConflictingItems.Count;
 
             // Then add non-conflicting items
-            await Task.WhenAll(nonConflictingItems.Select(async (item, index) =>
-            {
-                var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(item.SourcePath, 64u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
-
-                items.Add((baseIndex + index, new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
+            items.AddRange(nonConflictingItems.Select((item, index) =>
+                new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
                     IsConflict = false,
-                    ItemIcon = iconData != null ? await iconData.ToBitmapAsync() : null,
                     SourcePath = item.SourcePath,
                     DestinationPath = item.DestinationPath,
                     DisplayFileName = item.DisplayFileName,
@@ -100,9 +89,8 @@ namespace Files.DataModels
                     ItemOperation = item.OperationType,
                     ActionTaken = true
                 }));
-            }));
 
-            return items.OrderBy(i => i.Index).Select(i => i.Model).ToList();
+            return items;
         }
 
         private string GetOperationIconGlyph(FilesystemOperationType operationType)
