@@ -41,7 +41,7 @@ namespace CustomOpenDialog
             }
             _selectedItems = File.ReadAllLines(outputPath);
             File.Delete(outputPath);
-            return 0;
+            return _selectedItems.Any() ? HRESULT.S_OK : HRESULT.HRESULT_FROM_WIN32(Win32Error.ERROR_CANCELLED);
         }
 
         public void SetFileTypes(uint cFileTypes, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] COMDLG_FILTERSPEC[] rgFilterSpec)
