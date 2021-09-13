@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Files.Models.JsonSettings
 {
-    public interface IJsonSettingsContext
+    public interface ISettingsSharingContext
     {
+        string FilePath { get; }
+
         IJsonSettingsDatabase JsonSettingsDatabase { get; }
 
-        IJsonSettingsContext GetContext();
+        ISettingsSharingContext GetContext();
     }
 }

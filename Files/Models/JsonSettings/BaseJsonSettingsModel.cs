@@ -9,15 +9,13 @@ namespace Files.Models.JsonSettings
     /// Clipboard Canvas
     /// A base class to easily manage all application's settings.
     /// </summary>
-    public abstract class BaseJsonSettingsModel : IJsonSettingsContext
+    public abstract class BaseJsonSettingsModel : ISettingsSharingContext
     {
         #region Protected Members
 
-        protected readonly string filePath;
-
         protected int registeredMembers = 0;
 
-        protected IJsonSettingsContext jsonSettingsContext;
+        protected ISettingsSharingContext settingsSharingContext;
 
         protected readonly IJsonSettingsSerializer jsonSettingsSerializer;
 
@@ -27,22 +25,44 @@ namespace Files.Models.JsonSettings
 
         #region Properties
 
-        public IJsonSettingsDatabase JsonSettingsDatabase { get; protected set; }
+        private string _FilePath;
+        public string FilePath
+        {
+            get => settingsSharingContext?.FilePath ?? _FilePath;
+            protected set => _FilePath = value;
+        }
+
+        private IJsonSettingsDatabase _JsonSettingsDatabase;
+        public IJsonSettingsDatabase JsonSettingsDatabase
+        {
+            get => settingsSharingContext?.JsonSettingsDatabase ?? _JsonSettingsDatabase;
+            protected set => _JsonSettingsDatabase = value;
+        }
 
         #endregion Properties
 
         #region Constructor
+
+        public BaseJsonSettingsModel()
+        {
+        }
 
         public BaseJsonSettingsModel(string filePath)
             : this (filePath, null, null, null)
         {
         }
 
+        public BaseJsonSettingsModel(ISettingsSharingContext settingsSharingContext)
+        {
+            RegisterSettingsContext(settingsSharingContext);
+            Initialize();
+        }
+
         public BaseJsonSettingsModel(string filePath, bool isCachingEnabled,
             IJsonSettingsSerializer jsonSettingsSerializer = null,
             ISettingsSerializer settingsSerializer = null)
         {
-            this.filePath = filePath;
+            this.FilePath = filePath;
             Initialize();
 
             this.jsonSettingsSerializer = jsonSettingsSerializer;
@@ -50,7 +70,7 @@ namespace Files.Models.JsonSettings
 
             // Fallback
             this.jsonSettingsSerializer ??= new DefaultJsonSettingsSerializer();
-            this.settingsSerializer ??= new DefaultSettingsSerializer(this.filePath);
+            this.settingsSerializer ??= new DefaultSettingsSerializer(this.FilePath);
 
             if (isCachingEnabled)
             {
@@ -67,7 +87,7 @@ namespace Files.Models.JsonSettings
             ISettingsSerializer settingsSerializer,
             IJsonSettingsDatabase jsonSettingsDatabase)
         {
-            this.filePath = filePath;
+            this.FilePath = filePath;
             Initialize();
 
             this.jsonSettingsSerializer = jsonSettingsSerializer;
@@ -76,7 +96,7 @@ namespace Files.Models.JsonSettings
 
             // Fallback
             this.jsonSettingsSerializer ??= new DefaultJsonSettingsSerializer();
-            this.settingsSerializer ??= new DefaultSettingsSerializer(this.filePath);
+            this.settingsSerializer ??= new DefaultSettingsSerializer(this.FilePath);
             this.JsonSettingsDatabase ??= new DefaultJsonSettingsDatabase(this.jsonSettingsSerializer, this.settingsSerializer);
         }
 
@@ -87,29 +107,29 @@ namespace Files.Models.JsonSettings
         protected virtual void Initialize()
         {
             // Create the file
-            NativeFileOperationsHelper.CreateFileForWrite(filePath, false).Dispose();
+            NativeFileOperationsHelper.CreateFileForWrite((settingsSharingContext?.FilePath ?? FilePath), false).Dispose();
         }
 
         public virtual object ExportSettings()
         {
-            return (jsonSettingsContext?.JsonSettingsDatabase ?? JsonSettingsDatabase)?.ExportSettings();
+            return (settingsSharingContext?.JsonSettingsDatabase ?? JsonSettingsDatabase)?.ExportSettings();
         }
 
         public virtual void ImportSettings(object import)
         {
-            (jsonSettingsContext?.JsonSettingsDatabase ?? JsonSettingsDatabase)?.ImportSettings(import);
+            (settingsSharingContext?.JsonSettingsDatabase ?? JsonSettingsDatabase)?.ImportSettings(import);
         }
 
-        public bool RegisterSettingsContext(IJsonSettingsContext jsonSettingsContext)
+        public bool RegisterSettingsContext(ISettingsSharingContext settingsSharingContext)
         {
-            this.jsonSettingsContext = jsonSettingsContext;
+            this.settingsSharingContext = settingsSharingContext;
             return true;
         }
 
-        public IJsonSettingsContext GetContext()
+        public ISettingsSharingContext GetContext()
         {
             registeredMembers++;
-            return this;
+            return settingsSharingContext ?? this;
         }
 
         #endregion Helpers
@@ -123,7 +143,7 @@ namespace Files.Models.JsonSettings
                 return defaultValue;
             }
 
-            object value = (jsonSettingsContext?.JsonSettingsDatabase ?? JsonSettingsDatabase).GetValue(propertyName, defaultValue);
+            object value = (settingsSharingContext?.JsonSettingsDatabase ?? JsonSettingsDatabase).GetValue(propertyName, defaultValue);
 
             if (value is JToken jTokenValue)
             {
@@ -142,7 +162,7 @@ namespace Files.Models.JsonSettings
                 return false;
             }
 
-            return (jsonSettingsContext?.JsonSettingsDatabase ?? JsonSettingsDatabase).UpdateKey(propertyName, value);
+            return (settingsSharingContext?.JsonSettingsDatabase ?? JsonSettingsDatabase).UpdateKey(propertyName, value);
         }
 
         #endregion Get, Set

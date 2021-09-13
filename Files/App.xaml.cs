@@ -85,7 +85,11 @@ namespace Files
             ServiceCollection services = new ServiceCollection();
 
             services
-                .AddSingleton<IUserSettingsService, UserSettingsService>();
+                // Base IUserSettingsService
+                .AddSingleton<IUserSettingsService, UserSettingsService>()
+
+                // Children settings (from IUserSettingsService)
+                .AddSingleton<IFilesAndFoldersSettingsService, FilesAndFoldersSettingsService>();
 
             return services.BuildServiceProvider();
         }

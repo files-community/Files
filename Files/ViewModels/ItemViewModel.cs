@@ -9,9 +9,11 @@ using Files.Filesystem.StorageEnumerators;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
+using Files.Services;
 using Files.UserControls;
 using FluentFTP;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
@@ -53,6 +55,8 @@ namespace Files.ViewModels
 
         // files and folders list for manipulating
         private List<ListedItem> filesAndFolders;
+
+        private IFilesAndFoldersSettingsService FilesAndFoldersSettingsService { get; } = Ioc.Default.GetService<IFilesAndFoldersSettingsService>();
 
         // only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -363,7 +367,7 @@ namespace Files.ViewModels
             switch (e.PropertyName)
             {
                 case nameof(AppSettings.ShowFileExtensions):
-                case nameof(AppSettings.AreHiddenItemsVisible):
+                case nameof(FilesAndFoldersSettingsService.AreHiddenItemsVisible):
                 case nameof(AppSettings.AreSystemItemsHidden):
                 case nameof(AppSettings.AreFileTagsEnabled):
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
@@ -2033,7 +2037,7 @@ namespace Files.ViewModels
 
             var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
             var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-            if (isHidden && (!AppSettings.AreHiddenItemsVisible || (isSystem && AppSettings.AreSystemItemsHidden)))
+            if (isHidden && (!FilesAndFoldersSettingsService.AreHiddenItemsVisible || (isSystem && AppSettings.AreSystemItemsHidden)))
             {
                 // Do not add to file list if hidden/system attribute is set and system/hidden file are not to be shown
                 return;

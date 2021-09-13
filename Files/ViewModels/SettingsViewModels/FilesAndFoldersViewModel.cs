@@ -1,4 +1,6 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Files.Services;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
 namespace Files.ViewModels.SettingsViewModels
 {
@@ -12,17 +14,17 @@ namespace Files.ViewModels.SettingsViewModels
         private bool searchUnindexedItems = App.AppSettings.SearchUnindexedItems;
         private bool areLayoutPreferencesPerFolder = App.AppSettings.AreLayoutPreferencesPerFolder;
 
+        private IFilesAndFoldersSettingsService FilesAndFoldersSettingsService { get; } = Ioc.Default.GetService<IFilesAndFoldersSettingsService>();
+
         public bool AreHiddenItemsVisible
         {
-            get
-            {
-                return areHiddenItemsVisible;
-            }
+            get => FilesAndFoldersSettingsService.AreHiddenItemsVisible;
             set
             {
-                if (SetProperty(ref areHiddenItemsVisible, value))
+                if (value != FilesAndFoldersSettingsService.AreHiddenItemsVisible)
                 {
-                    App.AppSettings.AreHiddenItemsVisible = value;
+                    FilesAndFoldersSettingsService.AreHiddenItemsVisible = value;
+                    OnPropertyChanged(nameof(AreHiddenItemsVisible));
                 }
             }
         }

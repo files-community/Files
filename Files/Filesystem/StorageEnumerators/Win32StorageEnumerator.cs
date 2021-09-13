@@ -2,6 +2,8 @@
 using Files.Extensions;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
+using Files.Services;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -37,11 +39,13 @@ namespace Files.Filesystem.StorageEnumerators
             var hasNextFile = false;
             var count = 0;
 
+            IFilesAndFoldersSettingsService filesAndFoldersSettingsService = Ioc.Default.GetService<IFilesAndFoldersSettingsService>();
+
             do
             {
                 var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                 var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-                if (!isHidden || (App.AppSettings.AreHiddenItemsVisible && (!isSystem || !App.AppSettings.AreSystemItemsHidden)))
+                if (!isHidden || (filesAndFoldersSettingsService.AreHiddenItemsVisible && (!isSystem || !App.AppSettings.AreSystemItemsHidden)))
                 {
                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
