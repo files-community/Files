@@ -199,9 +199,9 @@ namespace Files.Interacts
 
         public virtual async void DeleteItem(RoutedEventArgs e)
         {
-            var items = await Task.WhenAll(SlimContentPage.SelectedItems.Select((item) => Task.Run(() => StorageItemHelpers.FromPathAndType(
-                    item.ItemPath,
-                    item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory))));
+            var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageItemHelpers.FromPathAndType(
+                item.ItemPath,
+                item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)));
             await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
         }
 
