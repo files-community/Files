@@ -1,4 +1,5 @@
-﻿using Files.SettingsInterfaces;
+﻿using Files.Models.JsonSettings;
+using Files.SettingsInterfaces;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Windows.Storage;
@@ -11,7 +12,7 @@ namespace Files.Models.Settings
 
         public BundlesSettingsModel()
             : base(System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName),
-                  isCachingEnabled: true)
+                  isCachingEnabled: false)
         {
         }
 
@@ -21,7 +22,7 @@ namespace Files.Models.Settings
 
         public Dictionary<string, List<string>> SavedBundles
         {
-            get => Get<Dictionary<string, List<string>>>(() => null);
+            get => Get<Dictionary<string, List<string>>>(null);
             set => Set(value);
         }
 

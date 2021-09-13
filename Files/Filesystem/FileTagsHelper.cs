@@ -1,6 +1,8 @@
 ﻿using Common;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
+using Files.Models.JsonSettings;
+using Files.Models.JsonSettings.Implementation;
 using Files.Models.Settings;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -106,7 +108,7 @@ namespace Files.Filesystem
 
         public IList<FileTag> FileTagList
         {
-            get => Get<IList<FileTag>>(() => new List<FileTag>()
+            get => Get<List<FileTag>>(new List<FileTag>()
             {
                 new FileTag("Blue", "#0072BD"),
                 new FileTag("Orange", "#D95319"),

@@ -233,6 +233,16 @@
     <Compile Include="Helpers\ZipHelpers.cs" />
     <Compile Include="Interacts\ItemManipulationModel.cs" />
     <Compile Include="ISearchBox.cs" />
+    <Compile Include="Models\JsonSettings\IJsonSettingsContext.cs" />
+    <Compile Include="Models\JsonSettings\IJsonSettingsDatabase.cs" />
+    <Compile Include="Models\JsonSettings\IJsonSettingsSerializer.cs" />
+    <Compile Include="Models\JsonSettings\Implementation\CachingJsonSettingsDatabase.cs" />
+    <Compile Include="Models\JsonSettings\Implementation\DefaultJsonSettingsDatabase.cs" />
+    <Compile Include="Models\JsonSettings\Implementation\DefaultJsonSettingsSerializer.cs" />
+    <Compile Include="Models\JsonSettings\Implementation\DefaultSettingsSerializer.cs" />
+    <Compile Include="Models\JsonSettings\ISettingsSerializer.cs" />
+    <Compile Include="Services\Implementation\UserSettingsService.cs" />
+    <Compile Include="Services\IUserSettingsService.cs" />
     <Compile Include="UserControls\ColoredIcon.xaml.cs">
       <DependentUpon>ColoredIcon.xaml</DependentUpon>
     </Compile>
@@ -341,7 +351,7 @@
     <Compile Include="ViewModels\SettingsViewModels\SidebarViewModel.cs" />
     <Compile Include="ViewModels\SearchBoxViewModel.cs" />
     <Compile Include="ViewModels\SidebarViewModel.cs" />
-    <Compile Include="Models\Settings\BaseJsonSettingsModel.cs" />
+    <Compile Include="Models\JsonSettings\BaseJsonSettingsModel.cs" />
     <Compile Include="ViewModels\ColumnsViewModel.cs" />
     <Compile Include="ViewModels\Pages\YourHomeViewModel.cs" />
     <Compile Include="ViewModels\StatusCenterViewModel.cs" />
@@ -1412,6 +1422,9 @@
     <PackageReference Include="Microsoft.Data.Sqlite.Core">
       <Version>5.0.9</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection">
+      <Version>5.0.2</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.12</Version>
     </PackageReference>
@@ -1503,6 +1516,7 @@
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '16.0' ">
     <VisualStudioVersion>16.0</VisualStudioVersion>
   </PropertyGroup>

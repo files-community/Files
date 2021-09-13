@@ -5,10 +5,14 @@ using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.Models.Settings;
+using Files.Services;
+using Files.Services.Implementation;
 using Files.SettingsInterfaces;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -59,6 +63,8 @@ namespace Files
         public static OngoingTasksViewModel OngoingTasksViewModel { get; } = new OngoingTasksViewModel();
         public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
 
+        public IServiceProvider Services { get; private set; }
+
         public App()
         {
             // Initialize logger
@@ -69,6 +75,19 @@ namespace Files
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
+
+            this.Services = ConfigureServices();
+            Ioc.Default.ConfigureServices(Services);
+        }
+
+        private IServiceProvider ConfigureServices()
+        {
+            ServiceCollection services = new ServiceCollection();
+
+            services
+                .AddSingleton<IUserSettingsService, UserSettingsService>();
+
+            return services.BuildServiceProvider();
         }
 
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()

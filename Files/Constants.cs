@@ -106,6 +106,8 @@
 
             public const string BundlesSettingsFileName = "bundles.json";
 
+            public const string UserSettingsFileName = "user_settings.json";
+
             public const string FileTagSettingsFileName = "filetags.json";
         }
 
