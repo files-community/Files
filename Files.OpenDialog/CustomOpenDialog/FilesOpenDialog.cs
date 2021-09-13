@@ -69,7 +69,7 @@ namespace CustomOpenDialog
         }
     }
 
-    [ComVisible(true)]  // This is mandatory.
+    [ComVisible(true)]
     [Guid("DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7")]
     [SuppressUnmanagedCodeSecurity]
     [ClassInterface(ClassInterfaceType.None)]
@@ -101,9 +101,9 @@ namespace CustomOpenDialog
             var lib = Ole32.CoLoadLibrary(@"C:\Windows\System32\comdlg32.dll");
             var mDllGetClassObject = Kernel32.GetProcAddress(lib, "DllGetClassObject");
             var dllGetClassObject = (DllGetClassObjectDelegate)Marshal.GetDelegateForFunctionPointer(mDllGetClassObject, typeof(DllGetClassObjectDelegate));
-            dllGetClassObject(new Guid("DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7"), typeof(Ole32.IClassFactory).GUID, out var ppv);
+            dllGetClassObject(typeof(FilesOpenDialog).GUID, typeof(Ole32.IClassFactory).GUID, out var ppv);
             ((Ole32.IClassFactory)ppv).CreateInstance(null, typeof(IFileOpenDialog).GUID, out var ppvObject);
-            //Ole32.CoFreeLibrary(lib);
+            Ole32.CoFreeLibrary(lib);
             return (IFileOpenDialog)ppvObject;
         }
 
@@ -132,7 +132,10 @@ namespace CustomOpenDialog
             }
             _selectedItems = File.ReadAllLines(outputPath);
             File.Delete(outputPath);
-            dialogEvents?.OnFileOk(this);
+            if (_selectedItems.Any())
+            {
+                dialogEvents?.OnFileOk(this);
+            }
             return _selectedItems.Any() ? HRESULT.S_OK : HRESULT.HRESULT_FROM_WIN32(Win32Error.ERROR_CANCELLED);
 #endif
         }

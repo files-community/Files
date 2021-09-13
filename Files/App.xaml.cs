@@ -292,7 +292,7 @@ namespace Files
                             {
                                 rootFrame.Navigate(typeof(MainPage), payload, new SuppressNavigationTransitionInfo());
                             }
-                        };
+                        }
                         foreach (var command in parsedCommands)
                         {
                             switch (command.Type)
