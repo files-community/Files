@@ -252,8 +252,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutDetails.Text" translate="yes" xml:space="preserve">
           <source>Details</source>
-          <target state="needs-review-translation">Vue Détaillée</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Détails</target>
         </trans-unit>
         <trans-unit id="PropertiesItemMD5Hash.Text" translate="yes" xml:space="preserve">
           <source>MD5Hash:</source>
@@ -449,23 +448,19 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLargeIcons.Text" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
-          <target state="needs-review-translation">Vue Grille (Grande)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Grandes Icônes</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutMediumIcons.Text" translate="yes" xml:space="preserve">
           <source>Medium Icons</source>
-          <target state="needs-review-translation">Vue Grille (Moyenne)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Moyennes Icônes</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSmallIcons.Text" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
-          <target state="needs-review-translation">Vue Grille (Petite)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Petites Icônes</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutTiles.Text" translate="yes" xml:space="preserve">
           <source>Tiles</source>
-          <target state="needs-review-translation">Vue Tuiles</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Tuiles</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogOKButton.Content" translate="yes" xml:space="preserve">
           <source>OK</source>
@@ -1657,28 +1652,23 @@
         </trans-unit>
         <trans-unit id="NavToolbarLargeIcons.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
-          <target state="needs-review-translation">Vue grille (Grande)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Grandes Icônes</target>
         </trans-unit>
         <trans-unit id="NavToolbarMediumIcons.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Medium Icons</source>
-          <target state="needs-review-translation">Vue grille (Moyenne)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Moyennes Icônes</target>
         </trans-unit>
         <trans-unit id="NavToolbarSmallIcons.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
-          <target state="needs-review-translation">Vue grille (Petite)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Petites Icônes</target>
         </trans-unit>
         <trans-unit id="NavToolbarTiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Tiles</source>
-          <target state="needs-review-translation">Vue tuiles</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Tuiles</target>
         </trans-unit>
         <trans-unit id="NavToolbarDetails.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Details</source>
-          <target state="needs-review-translation">Vue détaillée</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Détails</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted.Text" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
@@ -2070,8 +2060,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarColumnView.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Columns</source>
-          <target state="needs-review-translation">Vue colonne</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Colonnes</target>
         </trans-unit>
         <trans-unit id="NavToolbarColumnView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Columns (Ctrl+Shift+6)</source>
@@ -2079,8 +2068,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutColumn.Text" translate="yes" xml:space="preserve">
           <source>Columns</source>
-          <target state="needs-review-translation">Vue colonne</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Colonnes</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesFoldersAndLocationsCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</source>
@@ -2400,7 +2388,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarGroupByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Group By</source>
-          <target state="translated">Groupe par</target>
+          <target state="translated">Grouper par</target>
         </trans-unit>
         <trans-unit id="NavToolbarSortByRadioButtons.Text" translate="yes" xml:space="preserve">
           <source>Sort By</source>
@@ -3140,33 +3128,27 @@
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show cloud drives section</source>
-          <target state="needs-review-translation">Afficher la section disques cloud dans la barre latérale</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Afficher la section Disques Cloud</target>
         </trans-unit>
         <trans-unit id="SettingsShowDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show drives section</source>
-          <target state="needs-review-translation">Afficher la section disques dans la barre latérale</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Afficher la section Disques</target>
         </trans-unit>
         <trans-unit id="SettingsShowWslSection.Title" translate="yes" xml:space="preserve">
           <source>Show WSL section</source>
-          <target state="needs-review-translation">Afficher la section WSL dans la barre latérale</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Afficher la section WSL</target>
         </trans-unit>
         <trans-unit id="SettingsShowNetworkDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show network section</source>
-          <target state="needs-review-translation">Afficher la section disques réseau dans la barre latérale</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Afficher la section Disques Réseaux</target>
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBin.Title" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to favorites</source>
-          <target state="needs-review-translation">Ajouter la Corbeille aux Favoris</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Épingler la Corbeille aux Favoris</target>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
           <source>Show library section</source>
-          <target state="needs-review-translation">Afficher la section bibliothèque dans la barre latérale</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Afficher la section Bibliothèques</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTheme" translate="yes" xml:space="preserve">
           <source>Choose your color</source>
@@ -3448,8 +3430,7 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
         </trans-unit>
         <trans-unit id="SettingsShowFavoritesSection.Title" translate="yes" xml:space="preserve">
           <source>Show favorites section</source>
-          <target state="needs-review-translation">Afficher la section Favoris dans la barre latérale</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Afficher la section Favoris</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
@@ -3545,19 +3526,19 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
         </trans-unit>
         <trans-unit id="BundlesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Bundles Widget</source>
-          <target state="new">Bundles Widget</target>
+          <target state="translated">Widget Bundles</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Drives Widget</source>
-          <target state="new">Drives Widget</target>
+          <target state="translated">Widget Disques</target>
         </trans-unit>
         <trans-unit id="FolderWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Libraries Widget</source>
-          <target state="new">Libraries Widget</target>
+          <target state="translated">Widget Bibliothèque</target>
         </trans-unit>
         <trans-unit id="RecentFilesWidgetAutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Recent Files Widget</source>
-          <target state="new">Recent Files Widget</target>
+          <target state="translated">Widget Fichiers Récents</target>
         </trans-unit>
         <trans-unit id="OpenLogLocation" translate="yes" xml:space="preserve">
           <source>Open log location</source>
