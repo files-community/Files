@@ -25,16 +25,12 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <UserControl.Transitions>
-        <TransitionCollection>
-            <PaneThemeTransition x:Name="PreviewPaneTransition" Edge="{x:Bind EdgeTransitionLocation, Mode=OneWay}" />
-        </TransitionCollection>
-    </UserControl.Transitions>
-
     <Grid
         x:Name="RootGrid"
         HorizontalAlignment="Stretch"
-        Background="{ThemeResource PreviewPaneBackgroundBrush}">
+        Background="{ThemeResource PreviewPaneBackgroundBrush}"
+        BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+        BorderThickness="0,0,0,1">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" MinHeight="100" />
             <RowDefinition
