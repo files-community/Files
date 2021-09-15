@@ -39,7 +39,7 @@ namespace Installer
                 copyProcess.WaitForExit();
 
                 string applyTpl = File.ReadAllText(Path.Combine(strProjectPath, "apply_fileopen.tpl"));
-                string applyStr = string.Format(applyTpl, Path.Combine(strDestinationRoot, "CustomOpenDialog.dll").Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+                string applyStr = string.Format(applyTpl, strDestinationRoot.Replace(@"\", @"\\"));
                 string applyRegPath = Path.Combine(strProjectPath, "apply_fileopen.reg");
                 File.WriteAllText(applyRegPath, applyStr);
 
