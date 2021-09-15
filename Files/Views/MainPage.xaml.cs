@@ -68,14 +68,14 @@ namespace Files.Views
 
             ToggleFullScreenAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ToggleFullScreenAccelerator);
 
-            App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
+            UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
         }
 
-        private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
         {
-            switch (e.PropertyName)
+            switch (e.settingName)
             {
-                case nameof(App.AppSettings.PreviewPaneEnabled):
+                case nameof(UserSettingsService.PreviewPaneEnabled):
                     LoadPreviewPaneChanged();
                     break;
             }
