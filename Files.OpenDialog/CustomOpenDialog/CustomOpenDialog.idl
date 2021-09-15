@@ -20,6 +20,7 @@ library CustomOpenDialogLib
 	coclass FilesOpenDialog
 	{
 		[default] interface IFileOpenDialog;
+		interface IFileDialog;
 		interface IFileDialogCustomize;
 		interface IFileDialog2;
 	};

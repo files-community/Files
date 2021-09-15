@@ -23,6 +23,7 @@ using namespace ATL;
 class ATL_NO_VTABLE CFilesOpenDialog :
 	public CComObjectRootEx<CComSingleThreadModel>,
 	public CComCoClass<CFilesOpenDialog, &CLSID_FilesOpenDialog>,
+	public IFileDialog,
 	public IFileDialog2,
 	public IFileOpenDialog,
 	public IFileDialogCustomize
@@ -34,6 +35,7 @@ DECLARE_REGISTRY_RESOURCEID(106)
 
 
 BEGIN_COM_MAP(CFilesOpenDialog)
+	COM_INTERFACE_ENTRY(IFileDialog)
 	COM_INTERFACE_ENTRY(IFileDialog2)
 	COM_INTERFACE_ENTRY(IFileOpenDialog)
 	COM_INTERFACE_ENTRY(IFileDialogCustomize)
