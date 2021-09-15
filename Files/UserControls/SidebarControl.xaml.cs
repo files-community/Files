@@ -499,6 +499,8 @@ namespace Files.UserControls
 
         private object dragOverSection, dragOverItem = null;
 
+        private bool isDropOnProcess = false;
+
         private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
         {
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragEnter", false);
@@ -543,6 +545,8 @@ namespace Files.UserControls
         {
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragLeave", false);
 
+            isDropOnProcess = false;
+
             if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is INavigationControlItem)
             {
                 if (sender == dragOverItem)
@@ -570,6 +574,7 @@ namespace Files.UserControls
             if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 e.Handled = true;
+                isDropOnProcess = true;
 
                 var (handledByFtp, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
                 storageItems ??= new List<IStorageItemWithPath>();
@@ -710,7 +715,7 @@ namespace Files.UserControls
 
                 var deferral = e.GetDeferral();
 
-                if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Favorites.Equals(locationItem.Section)) // Pin to Favorites section
+                if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Favorites.Equals(locationItem.Section) && isDropOnProcess) // Pin to Favorites section
                 {
                     var storageItems = await e.DataView.GetStorageItemsAsync();
                     foreach (var item in storageItems)
@@ -731,6 +736,7 @@ namespace Files.UserControls
                     });
                 }
 
+                isDropOnProcess = false;
                 deferral.Complete();
             }
             else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem sourceLocationItem)
