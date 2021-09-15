@@ -30,6 +30,21 @@ CComPtr<IFileOpenDialog> GetSystemDialog()
 	return systemDialog;
 }
 
+IShellItem* CloneShellItem(IShellItem* psi)
+{
+	IShellItem* item = NULL;
+	if (psi)
+	{
+		PIDLIST_ABSOLUTE pidl;
+		if (SUCCEEDED(SHGetIDListFromObject(psi, &pidl)))
+		{
+			SHCreateItemFromIDList(pidl, IID_IShellItem, (void**)&item);
+			CoTaskMemFree(pidl);
+		}
+	}
+	return item;
+}
+
 template <typename T>
 CComPtr<T> AsInterface(CComPtr<IFileOpenDialog> dialog)
 {
@@ -42,15 +57,16 @@ CFilesOpenDialog::CFilesOpenDialog()
 {
 	_fos = FOS_FILEMUSTEXIST | FOS_PATHMUSTEXIST;
 	_systemDialog = nullptr;
+	_debugStream = NULL;
+	_dialogEvents = NULL;
 
 	PWSTR pszPath = NULL;
 	HRESULT hr = SHGetKnownFolderPath(FOLDERID_Desktop, 0, NULL, &pszPath);
 	if (SUCCEEDED(hr))
 	{
-		FILE* stream;
 		TCHAR debugPath[MAX_PATH];
 		wsprintf(debugPath, L"%s\\%s", pszPath, L"open_dialog.txt");
-		_wfreopen_s(&stream, debugPath, L"w", stdout);
+		_wfreopen_s(&_debugStream, debugPath, L"w", stdout);
 		CoTaskMemFree(pszPath);
 	}
 	cout << "Create" << endl;
@@ -83,6 +99,10 @@ void CFilesOpenDialog::FinalRelease()
 	{
 		_initFolder->Release();
 	}
+	if (_debugStream)
+	{
+		fclose(_debugStream);
+	}
 }
 
 HRESULT __stdcall CFilesOpenDialog::Show(HWND hwndOwner)
@@ -98,7 +118,7 @@ HRESULT __stdcall CFilesOpenDialog::Show(HWND hwndOwner)
 	ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
 	ShExecInfo.lpFile = L"files.exe";
 	PWSTR pszPath = NULL;
-	if (SUCCEEDED(_initFolder->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
+	if (_initFolder && SUCCEEDED(_initFolder->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
 	{
 		TCHAR args[1024];
 		wsprintf(args, L"-directory %s -outputpath %s", pszPath, _outputPath.c_str());
@@ -134,7 +154,10 @@ HRESULT __stdcall CFilesOpenDialog::Show(HWND hwndOwner)
 
 	if (!_selectedItems.empty())
 	{
-		//dialogEvents?.OnFileOk(this);
+		if (_dialogEvents)
+		{
+			_dialogEvents->OnFileOk(this);
+		}
 	}
 	return !_selectedItems.empty() ? S_OK : HRESULT_FROM_WIN32(ERROR_CANCELLED);
 }
@@ -173,6 +196,7 @@ HRESULT __stdcall CFilesOpenDialog::Advise(IFileDialogEvents* pfde, DWORD* pdwCo
 #ifdef SYSTEMDIALOG
 	return _systemDialog->Advise(pfde, pdwCookie);
 #endif
+	_dialogEvents = pfde;
 	* pdwCookie = 0;
 	return S_OK;
 }
@@ -183,6 +207,7 @@ HRESULT __stdcall CFilesOpenDialog::Unadvise(DWORD dwCookie)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->Unadvise(dwCookie);
 #endif
+	_dialogEvents = NULL;
 	return S_OK;
 }
 
@@ -217,7 +242,11 @@ HRESULT __stdcall CFilesOpenDialog::SetDefaultFolder(IShellItem* psi)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->SetDefaultFolder(psi);
 #endif
-	_initFolder = psi;
+	if (_initFolder)
+	{
+		_initFolder->Release();
+	}
+	_initFolder = CloneShellItem(psi);
 	return S_OK;
 }
 
@@ -232,7 +261,11 @@ HRESULT __stdcall CFilesOpenDialog::SetFolder(IShellItem* psi)
 #ifdef SYSTEMDIALOG
 	return _systemDialog->SetFolder(psi);
 #endif
-	_initFolder = psi;
+	if (_initFolder)
+	{
+		_initFolder->Release();
+	}
+	_initFolder = CloneShellItem(psi);
 	return S_OK;
 }
 
@@ -257,7 +290,7 @@ HRESULT __stdcall CFilesOpenDialog::GetCurrentSelection(IShellItem** ppsi)
 
 HRESULT __stdcall CFilesOpenDialog::SetFileName(LPCWSTR pszName)
 {
-	cout << "SetFileName, pszName: " << pszName << endl;
+	wcout << L"SetFileName, pszName: " << pszName << endl;
 #ifdef SYSTEMDIALOG
 	return _systemDialog->SetFileName(pszName);
 #endif
@@ -321,7 +354,12 @@ HRESULT __stdcall CFilesOpenDialog::GetResult(IShellItem** ppsi)
 
 HRESULT __stdcall CFilesOpenDialog::AddPlace(IShellItem* psi, FDAP fdap)
 {
-	cout << "AddPlace" << endl;
+	PWSTR pszPath = NULL;
+	if (SUCCEEDED(psi->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszPath)))
+	{
+		wcout << L"AddPlace, psi: " << pszPath << endl;
+		CoTaskMemFree(pszPath);
+	}
 #ifdef SYSTEMDIALOG
 	return _systemDialog->AddPlace(psi, fdap);
 #endif

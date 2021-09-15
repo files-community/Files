@@ -59,11 +59,11 @@ END_COM_MAP()
 	std::vector<std::wstring> _selectedItems;
 	std::wstring _outputPath;
 	IShellItem* _initFolder;
+	IFileDialogEvents* _dialogEvents;
+
+	FILE* _debugStream;
 
 public:
-
-
-
 
 	// Ereditato tramite IFileOpenDialog
 	virtual HRESULT __stdcall Show(HWND hwndOwner) override;
