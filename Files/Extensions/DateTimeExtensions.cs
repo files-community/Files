@@ -69,12 +69,12 @@ namespace Files.Extensions
             var today = DateTime.Today;
 
             var diff = t - dt;
-            if (t.Month == t2.Month && t.Day == t2.Day)
+            if (t.Month == t2.Month && t.Day == t2.Day && t.Year == t2.Year)
             {
                 return ("ItemTimeText_Today".GetLocalized(), today.ToUserDateString(), "\ue184", 0);
             }
 
-            if (t.Month == t2.Month && t.Day - t2.Day < 2)
+            if (t.Month == t2.Month && t.Day - t2.Day < 2 && t.Year == t2.Year)
             {
                 return ("ItemTimeText_Yesterday".GetLocalized(), today.Subtract(TimeSpan.FromDays(1)).ToUserDateString(), "\ue161", 1);
             }
