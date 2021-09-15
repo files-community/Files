@@ -19,6 +19,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.Storage;
@@ -107,7 +108,7 @@ namespace Files.ViewModels
 
         public static async void OpenThemesFolder()
         {
-            await Task.Delay(500);
+            await CoreApplication.MainView.Dispatcher.YieldAsync();
             await NavigationHelpers.OpenPathInNewTab(App.ExternalResourcesHelper.ThemeFolder.Path);
         }
             
