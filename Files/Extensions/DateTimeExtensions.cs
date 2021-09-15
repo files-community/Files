@@ -66,6 +66,7 @@ namespace Files.Extensions
             Windows.Globalization.Calendar cal = new Windows.Globalization.Calendar();
             var t = DateTimeOffset.Now;
             var t2 = dt.ToLocalTime();
+            var y = t.AddDays(-1);
             var today = DateTime.Today;
 
             var diff = t - dt;
@@ -74,7 +75,7 @@ namespace Files.Extensions
                 return ("ItemTimeText_Today".GetLocalized(), today.ToUserDateString(), "\ue184", 0);
             }
 
-            if (t.Month == t2.Month && t.Day - t2.Day < 2 && t.Year == t2.Year)
+            if (y.Month == t2.Month && y.Day == t2.Day && y.Year == t2.Year)
             {
                 return ("ItemTimeText_Yesterday".GetLocalized(), today.Subtract(TimeSpan.FromDays(1)).ToUserDateString(), "\ue161", 1);
             }
