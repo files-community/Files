@@ -10,13 +10,10 @@ namespace Files.Services.Implementation
 {
     public class FilesAndFoldersSettingsService : BaseJsonSettingsModel, IFilesAndFoldersSettingsService
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
-
-        public FilesAndFoldersSettingsService()
+        public FilesAndFoldersSettingsService(ISettingsSharingContext settingsSharingContext)
         {
             // Initialize settings
-            ISettingsSharingContext context = this.UserSettingsService.GetContext();
-            this.RegisterSettingsContext(context);
+            this.RegisterSettingsContext(settingsSharingContext);
         }
 
         public bool ShowFileExtensions

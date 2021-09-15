@@ -1,7 +1,9 @@
-﻿using Files.Helpers;
-using Files.Models.JsonSettings.Implementation;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System.Runtime.CompilerServices;
+using Files.Helpers;
+using Files.Models.JsonSettings.Implementation;
+using System;
+using Files.EventArguments;
 
 namespace Files.Models.JsonSettings
 {
@@ -40,6 +42,12 @@ namespace Files.Models.JsonSettings
         }
 
         #endregion Properties
+
+        #region Events
+
+        public event EventHandler<SettingChangedEventArgs> OnSettingChangedEvent;
+
+        #endregion Events
 
         #region Constructor
 
@@ -107,17 +115,17 @@ namespace Files.Models.JsonSettings
         protected virtual void Initialize()
         {
             // Create the file
-            NativeFileOperationsHelper.CreateFileForWrite((settingsSharingContext?.FilePath ?? FilePath), false).Dispose();
+            NativeFileOperationsHelper.CreateFileForWrite(FilePath, false).Dispose();
         }
 
         public virtual object ExportSettings()
         {
-            return (settingsSharingContext?.JsonSettingsDatabase ?? JsonSettingsDatabase)?.ExportSettings();
+            return  JsonSettingsDatabase.ExportSettings();
         }
 
         public virtual void ImportSettings(object import)
         {
-            (settingsSharingContext?.JsonSettingsDatabase ?? JsonSettingsDatabase)?.ImportSettings(import);
+            JsonSettingsDatabase.ImportSettings(import);
         }
 
         public bool RegisterSettingsContext(ISettingsSharingContext settingsSharingContext)
@@ -126,11 +134,13 @@ namespace Files.Models.JsonSettings
             return true;
         }
 
-        public ISettingsSharingContext GetContext()
+        public ISettingsSharingContext GetSharingContext()
         {
             registeredMembers++;
             return settingsSharingContext ?? this;
         }
+
+        protected void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e) => OnSettingChangedEvent?.Invoke(sender, e);
 
         #endregion Helpers
 
@@ -143,16 +153,9 @@ namespace Files.Models.JsonSettings
                 return defaultValue;
             }
 
-            object value = (settingsSharingContext?.JsonSettingsDatabase ?? JsonSettingsDatabase).GetValue(propertyName, defaultValue);
+            object value = JsonSettingsDatabase.GetValue(propertyName, defaultValue);
 
-            if (value is JToken jTokenValue)
-            {
-                return jTokenValue.ToObject<TValue>();
-            }
-            else
-            {
-                return (TValue)value;
-            }
+            return value is JToken jTokenValue ? jTokenValue.ToObject<TValue>() : (TValue)value;
         }
 
         protected virtual bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = "")
@@ -162,7 +165,13 @@ namespace Files.Models.JsonSettings
                 return false;
             }
 
-            return (settingsSharingContext?.JsonSettingsDatabase ?? JsonSettingsDatabase).UpdateKey(propertyName, value);
+            if (JsonSettingsDatabase.UpdateKey(propertyName, value))
+            {
+                RaiseOnSettingChangedEvent(this, new SettingChangedEventArgs(propertyName, value));
+                return true;
+            }
+
+            return false;
         }
 
         #endregion Get, Set

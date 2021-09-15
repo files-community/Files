@@ -12,6 +12,6 @@ namespace Files.Models.JsonSettings
 
         IJsonSettingsDatabase JsonSettingsDatabase { get; }
 
-        ISettingsSharingContext GetContext();
+        ISettingsSharingContext GetSharingContext();
     }
 }

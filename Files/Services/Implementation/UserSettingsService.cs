@@ -1,33 +1,48 @@
 ﻿using Files.Models.JsonSettings;
-using Files.Models.Settings;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.Services.Implementation
 {
     public class UserSettingsService : BaseJsonSettingsModel, IUserSettingsService
     {
+        private IFilesAndFoldersSettingsService _FilesAndFoldersSettingsService;
+        public IFilesAndFoldersSettingsService FilesAndFoldersSettingsService
+        {
+            get => GetSettingsService(ref _FilesAndFoldersSettingsService);
+        }
+
+        private IMultitaskingSettingsService _MultitaskingSettingsService;
+        public IMultitaskingSettingsService MultitaskingSettingsService
+        {
+            get => GetSettingsService(ref _MultitaskingSettingsService);
+        }
+
+        private IWidgetsSettingsService _WidgetsSettingsService;
+        public IWidgetsSettingsService WidgetsSettingsService
+        {
+            get => GetSettingsService(ref _WidgetsSettingsService);
+        }
+
+        private ISidebarSettingsService _SidebarSettingsService;
+        public ISidebarSettingsService SidebarSettingsService
+        {
+            get => GetSettingsService(ref _SidebarSettingsService);
+        }
+
         public UserSettingsService()
             : base(Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.UserSettingsFileName),
                 isCachingEnabled: true)
         {
         }
 
-        public double SidebarWidthPx
+        private TSettingsService GetSettingsService<TSettingsService>(ref TSettingsService settingsServiceMember)
+            where TSettingsService : class
         {
-            get => Get(Math.Min(Math.Max(Get(255d), Constants.UI.MinimumSidebarWidth), 500d));
-            set => Set(value);
-        }
-
-        public bool IsSidebarOpen
-        {
-            get => Get(true);
-            set => Set(value);
+            settingsServiceMember ??= Ioc.Default.GetService<TSettingsService>();
+            return settingsServiceMember;
         }
 
         public double PreviewPaneSizeHorizontalPx

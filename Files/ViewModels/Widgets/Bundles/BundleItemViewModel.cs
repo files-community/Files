@@ -1,8 +1,10 @@
 ﻿using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Services;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -26,7 +28,9 @@ namespace Files.ViewModels.Widgets.Bundles
 
         #endregion Actions
 
-        #region Public Properties
+        #region Properties
+
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         /// <summary>
         /// The name of a bundle this item is contained within
@@ -74,10 +78,10 @@ namespace Files.ViewModels.Widgets.Bundles
 
         public bool OpenInNewPaneLoad
         {
-            get => App.AppSettings.IsDualPaneEnabled && TargetType == FilesystemItemType.Directory;
+            get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled && TargetType == FilesystemItemType.Directory;
         }
 
-        #endregion Public Properties
+        #endregion Properties
 
         #region Commands
 

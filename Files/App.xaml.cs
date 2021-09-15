@@ -4,6 +4,7 @@ using Files.Controllers;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
+using Files.Models.JsonSettings;
 using Files.Models.Settings;
 using Files.Services;
 using Files.Services.Implementation;
@@ -85,11 +86,22 @@ namespace Files
             ServiceCollection services = new ServiceCollection();
 
             services
+                // Loggers
+
+                // Settings
+
                 // Base IUserSettingsService
                 .AddSingleton<IUserSettingsService, UserSettingsService>()
 
                 // Children settings (from IUserSettingsService)
-                .AddSingleton<IFilesAndFoldersSettingsService, FilesAndFoldersSettingsService>();
+                .AddSingleton<IFilesAndFoldersSettingsService, FilesAndFoldersSettingsService>((sp) => new FilesAndFoldersSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IMultitaskingSettingsService, MultitaskingSettingsService>((sp) => new MultitaskingSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IWidgetsSettingsService, WidgetsSettingsService>((sp) => new WidgetsSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<ISidebarSettingsService, SidebarSettingsService>((sp) => new SidebarSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+
+                // Dialogs
+
+                ;
 
             return services.BuildServiceProvider();
         }

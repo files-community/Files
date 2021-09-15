@@ -6,10 +6,12 @@ using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.ContextFlyouts;
 using Files.Interacts;
+using Files.Services;
 using Files.UserControls;
 using Files.ViewModels;
 using Files.ViewModels.Previews;
 using Files.Views;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -41,6 +43,8 @@ namespace Files
     public abstract class BaseLayout : Page, IBaseLayout, INotifyPropertyChanged
     {
         private readonly DispatcherTimer jumpTimer;
+
+        protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         protected Task<NamedPipeAsAppServiceConnection> Connection => AppServiceConnectionHelper.Instance;
 
@@ -618,7 +622,7 @@ namespace Files
             secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250); // Set menu min width
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 
-            if (AppSettings.AreFileTagsEnabled && !InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin && !InstanceViewModel.IsPageTypeFtp && !InstanceViewModel.IsPageTypeZipFolder)
+            if (UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled && !InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin && !InstanceViewModel.IsPageTypeFtp && !InstanceViewModel.IsPageTypeZipFolder)
             {
                 AddFileTagsItemToMenu(ItemContextMenuFlyout);
             }

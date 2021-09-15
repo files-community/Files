@@ -6,10 +6,12 @@ using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
 using Files.Helpers;
+using Files.Services;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views.LayoutModes;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -57,6 +59,8 @@ namespace Files.Views
         private bool isCurrentInstance { get; set; } = false;
 
         public bool IsColumnView { get; } = true;
+
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         public bool IsCurrentInstance
         {
@@ -263,7 +267,7 @@ namespace Files.Views
                         Query = sender.Query,
                         Folder = FilesystemViewModel.WorkingDirectory,
                         MaxItemCount = 10,
-                        SearchUnindexedItems = App.AppSettings.SearchUnindexedItems
+                        SearchUnindexedItems = UserSettingsService.FilesAndFoldersSettingsService.SearchUnindexedItems
                     };
                     sender.SetSuggestions(await search.SearchAsync());
                 }
@@ -295,7 +299,7 @@ namespace Files.Views
         {
             if (e.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(sender.Query))
             {
-                SubmitSearch(sender.Query, App.AppSettings.SearchUnindexedItems);
+                SubmitSearch(sender.Query, UserSettingsService.FilesAndFoldersSettingsService.SearchUnindexedItems);
             }
         }
 

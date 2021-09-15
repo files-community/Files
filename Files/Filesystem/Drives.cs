@@ -3,9 +3,11 @@ using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
 using Files.Enums;
 using Files.Helpers;
+using Files.Services;
 using Files.UserControls;
 using Files.UserControls.Widgets;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -25,6 +27,8 @@ namespace Files.Filesystem
 {
     public class DrivesManager : ObservableObject
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         private static readonly Logger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
@@ -133,7 +137,7 @@ namespace Files.Filesystem
                 try
                 {
                     var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarDrives".GetLocalized()) as LocationItem;
-                    if (App.AppSettings.ShowDrivesSection && section == null)
+                    if (UserSettingsService.SidebarSettingsService.ShowDrivesSection && section == null)
                     {
                         section = new LocationItem()
                         {
@@ -316,7 +320,7 @@ namespace Files.Filesystem
             try
             {
                 var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarDrives".GetLocalized()) select n).FirstOrDefault();
-                if (!App.AppSettings.ShowDrivesSection && item != null)
+                if (!UserSettingsService.SidebarSettingsService.ShowDrivesSection && item != null)
                 {
                     SidebarControl.SideBarItems.Remove(item);
                 }
@@ -327,7 +331,7 @@ namespace Files.Filesystem
 
         public async void UpdateDrivesSectionVisibility()
         {
-            if (App.AppSettings.ShowDrivesSection)
+            if (UserSettingsService.SidebarSettingsService.ShowDrivesSection)
             {
                 await EnumerateDrivesAsync();
             }

@@ -2,7 +2,9 @@
 using Files.Extensions;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
+using Files.Services;
 using Files.Views.LayoutModes;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -170,9 +172,11 @@ namespace Files.Filesystem.StorageEnumerators
             CancellationToken cancellationToken
         )
         {
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
             var basicProperties = await file.GetBasicPropertiesAsync();
             // Display name does not include extension
-            var itemName = string.IsNullOrEmpty(file.DisplayName) || App.AppSettings.ShowFileExtensions ?
+            var itemName = string.IsNullOrEmpty(file.DisplayName) || userSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions ?
                 file.Name : file.DisplayName;
             var itemModifiedDate = basicProperties.DateModified;
             var itemCreatedDate = file.DateCreated;

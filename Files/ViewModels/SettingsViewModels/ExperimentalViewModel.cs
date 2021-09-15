@@ -1,6 +1,10 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Files.Services;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Storage;
 using Windows.System;
 
@@ -8,26 +12,29 @@ namespace Files.ViewModels.SettingsViewModels
 {
     public class ExperimentalViewModel : ObservableObject
     {
-        private bool areFileTagsEnabled = App.AppSettings.AreFileTagsEnabled;
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         public bool AreFileTagsEnabled
         {
-            get
-            {
-                return areFileTagsEnabled;
-            }
+            get => UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled;
             set
             {
-                if (SetProperty(ref areFileTagsEnabled, value))
+                if (value != UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled)
                 {
-                    App.AppSettings.AreFileTagsEnabled = value;
+                    UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
-        public RelayCommand EditFileTagsCommand => new RelayCommand(() => LaunchFileTagsConfigFile());
+        public ICommand EditFileTagsCommand { get; private set; }
 
-        private async void LaunchFileTagsConfigFile()
+        public ExperimentalViewModel()
+        {
+            EditFileTagsCommand = new AsyncRelayCommand(LaunchFileTagsConfigFile);
+        }
+
+        private async Task LaunchFileTagsConfigFile()
         {
             await Launcher.LaunchFileAsync(
                 await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json")));

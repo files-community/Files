@@ -1,8 +1,10 @@
 ﻿using Files.Enums;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
+using Files.Services;
 using Files.ViewModels;
 using Files.ViewModels.Widgets;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
@@ -20,6 +22,8 @@ namespace Files.UserControls.Widgets
 {
     public sealed partial class RecentFilesWidget : UserControl, IWidgetItemModel
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
         public event RecentFilesOpenLocationInvokedEventHandler RecentFilesOpenLocationInvoked;
@@ -36,7 +40,7 @@ namespace Files.UserControls.Widgets
 
         public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalized();
 
-        public bool IsWidgetSettingEnabled => App.AppSettings.ShowRecentFilesWidget;
+        public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget;
 
         public RecentFilesWidget()
         {

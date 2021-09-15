@@ -2,7 +2,9 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.Interacts;
+using Files.Services;
 using Files.ViewModels;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -101,6 +103,8 @@ namespace Files.Helpers
 
         public static List<ContextMenuFlyoutItemViewModel> GetBaseLayoutMenuItems(CurrentInstanceViewModel currentInstanceViewModel, ItemViewModel itemViewModel, BaseLayoutCommandsViewModel commandsViewModel)
         {
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
             return new List<ContextMenuFlyoutItemViewModel>()
             {
                 new ContextMenuFlyoutItemViewModel()
@@ -282,7 +286,7 @@ namespace Files.Helpers
                             Text = "BaseLayoutContextFlyoutSortByFileTag/Text".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedByFileTag,
                             Command = new RelayCommand(() => itemViewModel.IsSortedByFileTag = true),
-                            ShowItem = App.AppSettings.AreFileTagsEnabled,
+                            ShowItem = userSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
                             ItemType = ItemType.Toggle
@@ -432,7 +436,7 @@ namespace Files.Helpers
                         {
                             Text = "BaseLayoutContextFlyoutSortByFileTag/Text".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FileTag,
-                            ShowItem = App.AppSettings.AreFileTagsEnabled,
+                            ShowItem = userSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled,
                             ShowInRecycleBin = true,
                             ShowInSearchPage = true,
                             Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
@@ -531,7 +535,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.PinDirectoryToFavoritesCommand,
-                    ShowItem = !itemViewModel.CurrentFolder.IsPinned & App.AppSettings.ShowFavoritesSection,
+                    ShowItem = !itemViewModel.CurrentFolder.IsPinned & userSettingsService.SidebarSettingsService.ShowFavoritesSection,
                     ShowInFtpPage = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -539,7 +543,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutContextFlyoutUnpinFromFavorites/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = commandsViewModel.UnpinDirectoryFromFavoritesCommand,
-                    ShowItem = itemViewModel.CurrentFolder.IsPinned & App.AppSettings.ShowFavoritesSection,
+                    ShowItem = itemViewModel.CurrentFolder.IsPinned & userSettingsService.SidebarSettingsService.ShowFavoritesSection,
                     ShowInFtpPage = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
@@ -601,6 +605,8 @@ namespace Files.Helpers
 
         public static List<ContextMenuFlyoutItemViewModel> GetBaseItemMenuItems(BaseLayoutCommandsViewModel commandsViewModel, List<ListedItem> selectedItems, SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel, CurrentInstanceViewModel currentInstanceViewModel)
         {
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
             return new List<ContextMenuFlyoutItemViewModel>()
             {
                 new ContextMenuFlyoutItemViewModel()
@@ -661,7 +667,7 @@ namespace Files.Helpers
                     Glyph = "\uE117",
                     GlyphFontFamilyName = "CustomGlyph",
                     Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
-                    ShowItem = App.AppSettings.IsDualPaneEnabled && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
+                    ShowItem = userSettingsService.MultitaskingSettingsService.IsDualPaneEnabled && selectedItems.All(i => i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder),
                     SingleItemOnly = true,
                     ShowInSearchPage = true,
                     ShowInFtpPage = true,
@@ -957,7 +963,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized(),
                     Glyph = "\uE840",
                     Command = commandsViewModel.SidebarPinItemCommand,
-                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem && !x.IsPinned) & App.AppSettings.ShowFavoritesSection,
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem && !x.IsPinned) & userSettingsService.SidebarSettingsService.ShowFavoritesSection,
                     ShowInSearchPage = true,
                     ShowInFtpPage = true,
                 },
@@ -966,7 +972,7 @@ namespace Files.Helpers
                     Text = "BaseLayoutContextFlyoutUnpinFromFavorites/Text".GetLocalized(),
                     Glyph = "\uE77A",
                     Command = commandsViewModel.SidebarUnpinItemCommand,
-                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem && x.IsPinned) & App.AppSettings.ShowFavoritesSection,
+                    ShowItem = selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsZipItem && x.IsPinned) & userSettingsService.SidebarSettingsService.ShowFavoritesSection,
                     ShowInSearchPage = true,
                     ShowInFtpPage = true,
                 },

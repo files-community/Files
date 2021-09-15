@@ -24,7 +24,7 @@ namespace Files.Filesystem.Search
 {
     public class FolderSearch
     {
-        private IFilesAndFoldersSettingsService FilesAndFoldersSettingsService { get; } = Ioc.Default.GetService<IFilesAndFoldersSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         private const uint defaultStepSize = 500;
 
@@ -190,7 +190,7 @@ namespace Files.Filesystem.Search
                     var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                     var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
                     
-                    bool shouldBeListed = !isHidden || (FilesAndFoldersSettingsService.AreHiddenItemsVisible && (!isSystem || !App.AppSettings.AreSystemItemsHidden));
+                    bool shouldBeListed = !isHidden || (UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden));
 
                     if (shouldBeListed)
                     {
@@ -250,7 +250,7 @@ namespace Files.Filesystem.Search
                     hiddenOnlyFromWin32 = true;
                 }
 
-                if (!hiddenOnlyFromWin32 || FilesAndFoldersSettingsService.AreHiddenItemsVisible)
+                if (!hiddenOnlyFromWin32 || UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible)
                 {
                     await SearchWithWin32Async(folder, hiddenOnlyFromWin32, UsedMaxItemCount - (uint)results.Count, results, token);
                     //foreach (var item in)
@@ -274,7 +274,6 @@ namespace Files.Filesystem.Search
 
             if (hFile != IntPtr.Zero)
             {
-                IFilesAndFoldersSettingsService filesAndFoldersSettingsService = Ioc.Default.GetService<IFilesAndFoldersSettingsService>();
                 await Task.Run(() =>
                 {
                     var hasNextFile = false;
@@ -289,8 +288,8 @@ namespace Files.Filesystem.Search
                         var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                         var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
                         bool shouldBeListed = hiddenOnly ?
-                            isHidden && (!isSystem || !App.AppSettings.AreSystemItemsHidden) :
-                            !isHidden || (filesAndFoldersSettingsService.AreHiddenItemsVisible && (!isSystem || !filesAndFoldersSettingsService.AreSystemItemsHidden));
+                            isHidden && (!isSystem || !UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden) :
+                            !isHidden || (UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible && (!isSystem || !UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden));
 
                         if (shouldBeListed)
                         {

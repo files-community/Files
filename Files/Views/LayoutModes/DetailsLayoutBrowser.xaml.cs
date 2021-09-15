@@ -281,7 +281,7 @@ namespace Files.Views.LayoutModes
                 ColumnsViewModel.StatusColumn.Show();
             }
 
-            if (!App.AppSettings.AreFileTagsEnabled)
+            if (!UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled)
             {
                 ColumnsViewModel.TagColumn.Hide();
             }
@@ -356,7 +356,7 @@ namespace Files.Views.LayoutModes
             textBox.KeyDown += RenameTextBox_KeyDown;
 
             int selectedTextLength = SelectedItem.ItemName.Length;
-            if (!SelectedItem.IsShortcutItem && App.AppSettings.ShowFileExtensions)
+            if (!SelectedItem.IsShortcutItem && UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions)
             {
                 selectedTextLength -= extensionLength;
             }
@@ -578,7 +578,7 @@ namespace Files.Views.LayoutModes
             }
 
             // Check if the setting to open items with a single click is turned on
-            if (AppSettings.OpenItemsWithOneclick)
+            if (UserSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick)
             {
                 ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected
@@ -606,7 +606,7 @@ namespace Files.Views.LayoutModes
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             // Skip opening selected items if the double tap doesn't capture an item
-            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
+            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !UserSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick)
             {
                 if (!MainViewModel.MultiselectEnabled)
                 {
@@ -748,7 +748,7 @@ namespace Files.Views.LayoutModes
                 };
                 if (columnToResize == 1)
                 {
-                    colunmSizeToFit += AppSettings.AreFileTagsEnabled ? 20 : 0;
+                    colunmSizeToFit += UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled ? 20 : 0;
                 }
                 column.UserLength = new GridLength(Math.Min(colunmSizeToFit + 30, column.NormalMaxLength), GridUnitType.Pixel);
             }

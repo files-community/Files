@@ -1,8 +1,10 @@
 ﻿using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
+using Files.Services;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,6 +20,8 @@ namespace Files.ViewModels.Previews
 {
     public abstract class BasePreviewModel : ObservableObject
     {
+        protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         public BasePreviewModel(ListedItem item) : base()
         {
             Item = item;
@@ -86,7 +90,7 @@ namespace Files.ViewModels.Previews
                                                                                             (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
             // adds the value for the file tag
-            if (App.AppSettings.AreFileTagsEnabled)
+            if (UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled)
             {
                 list.FirstOrDefault(x => x.ID == "filetag").Value = Item.FileTagUI?.TagName;
             }

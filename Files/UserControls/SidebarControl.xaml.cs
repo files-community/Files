@@ -5,7 +5,9 @@ using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.ContextFlyouts;
+using Files.Services;
 using Files.ViewModels;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -29,6 +31,8 @@ namespace Files.UserControls
 {
     public sealed partial class SidebarControl : Microsoft.UI.Xaml.Controls.NavigationView, INotifyPropertyChanged
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         public static SemaphoreSlim SideBarItemsSemaphore = new SemaphoreSlim(1, 1);
 
         public static BulkConcurrentObservableCollection<INavigationControlItem> SideBarItems { get; private set; } = new BulkConcurrentObservableCollection<INavigationControlItem>();
@@ -149,32 +153,32 @@ namespace Files.UserControls
         {
             if ("SidebarFavorites".GetLocalized().Equals(RightClickedItem.Text))
             {
-                AppSettings.ShowFavoritesSection = false;
+                UserSettingsService.SidebarSettingsService.ShowFavoritesSection = false;
                 App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
             }
             else if ("SidebarLibraries".GetLocalized().Equals(RightClickedItem.Text))
             {
-                AppSettings.ShowLibrarySection = false;
+                UserSettingsService.SidebarSettingsService.ShowLibrarySection = false;
                 App.LibraryManager.UpdateLibrariesSectionVisibility();
             }
             else if ("SidebarCloudDrives".GetLocalized().Equals(RightClickedItem.Text))
             {
-                AppSettings.ShowCloudDrivesSection = false;
+                UserSettingsService.SidebarSettingsService.ShowCloudDrivesSection = false;
                 App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
             }
             else if ("SidebarDrives".GetLocalized().Equals(RightClickedItem.Text))
             {
-                AppSettings.ShowDrivesSection = false;
+                UserSettingsService.SidebarSettingsService.ShowDrivesSection = false;
                 App.DrivesManager.UpdateDrivesSectionVisibility();
             }
             else if ("SidebarNetworkDrives".GetLocalized().Equals(RightClickedItem.Text))
             {
-                AppSettings.ShowNetworkDrivesSection = false;
+                UserSettingsService.SidebarSettingsService.ShowNetworkDrivesSection = false;
                 App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
             }
             else if ("WSL".GetLocalized().Equals(RightClickedItem.Text))
             {
-                AppSettings.ShowWslSection = false;
+                UserSettingsService.SidebarSettingsService.ShowWslSection = false;
                 App.WSLDistroManager.UpdateWslSectionVisibility();
             }
         }
@@ -183,7 +187,7 @@ namespace Files.UserControls
         {
             if (string.Equals(AppSettings.RecycleBinPath, RightClickedItem.Path, StringComparison.OrdinalIgnoreCase))
             {
-                AppSettings.PinRecycleBinToSideBar = false;
+                UserSettingsService.SidebarSettingsService.PinRecycleBinToSideBar = false;
             }
             else if (RightClickedItem.Section == SectionType.Favorites)
             {

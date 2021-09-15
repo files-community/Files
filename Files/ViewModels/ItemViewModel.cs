@@ -1,6 +1,7 @@
 using Files.Common;
 using Files.Dialogs;
 using Files.Enums;
+using Files.EventArguments;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.Cloud;
@@ -56,7 +57,7 @@ namespace Files.ViewModels
         // files and folders list for manipulating
         private List<ListedItem> filesAndFolders;
 
-        private IFilesAndFoldersSettingsService FilesAndFoldersSettingsService { get; } = Ioc.Default.GetService<IFilesAndFoldersSettingsService>();
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         // only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -356,20 +357,20 @@ namespace Files.ViewModels
             operationEvent = new AsyncManualResetEvent();
             enumFolderSemaphore = new SemaphoreSlim(1, 1);
             itemLoadEvent = new AsyncManualResetEvent();
-            shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
+            shouldDisplayFileExtensions =  UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions;
 
+            UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
-            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
         }
 
-        private async void AppSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private async void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
-            switch (e.PropertyName)
+            switch (e.settingName)
             {
-                case nameof(AppSettings.ShowFileExtensions):
-                case nameof(FilesAndFoldersSettingsService.AreHiddenItemsVisible):
-                case nameof(AppSettings.AreSystemItemsHidden):
-                case nameof(AppSettings.AreFileTagsEnabled):
+                case nameof(UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions):
+                case nameof(UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible):
+                case nameof(UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden):
+                case nameof(UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled):
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                     {
                         if (WorkingDirectory != "Home".GetLocalized() && WorkingDirectory != "NewTab".GetLocalized())
@@ -1955,7 +1956,7 @@ namespace Files.ViewModels
             {
                 // File
                 string itemName;
-                if (App.AppSettings.ShowFileExtensions && !item.FileName.EndsWith(".lnk") && !item.FileName.EndsWith(".url"))
+                if (UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions && !item.FileName.EndsWith(".lnk") && !item.FileName.EndsWith(".url"))
                 {
                     itemName = item.FileName; // never show extension for shortcuts
                 }
@@ -2037,7 +2038,7 @@ namespace Files.ViewModels
 
             var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
             var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-            if (isHidden && (!FilesAndFoldersSettingsService.AreHiddenItemsVisible || (isSystem && AppSettings.AreSystemItemsHidden)))
+            if (isHidden && (!UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible || (isSystem && UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden)))
             {
                 // Do not add to file list if hidden/system attribute is set and system/hidden file are not to be shown
                 return;
@@ -2223,8 +2224,8 @@ namespace Files.ViewModels
             {
                 Connection.RequestReceived -= Connection_RequestReceived;
             }
+            UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
             AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
-            AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
         }
     }
 

@@ -3,8 +3,10 @@ using Files.Controllers;
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Services;
 using Files.UserControls;
 using Files.ViewModels;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -22,6 +24,8 @@ namespace Files.DataModels
 {
     public class SidebarPinnedModel
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         public static IList<IconFileInfo> IconResources = null;
 
         private SidebarPinnedController controller;
@@ -63,7 +67,7 @@ namespace Files.DataModels
             try
             {
                 var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarFavorites".GetLocalized()) select n).FirstOrDefault();
-                if (!App.AppSettings.ShowFavoritesSection && item != null)
+                if (!UserSettingsService.SidebarSettingsService.ShowFavoritesSection && item != null)
                 {
                     SidebarControl.SideBarItems.Remove(item);
                 }
@@ -74,7 +78,7 @@ namespace Files.DataModels
 
         public async void UpdateFavoritesSectionVisibility()
         {
-            if (App.AppSettings.ShowFavoritesSection)
+            if (UserSettingsService.SidebarSettingsService.ShowFavoritesSection)
             {
                 await AddAllItemsToSidebar();
             }
@@ -330,7 +334,7 @@ namespace Files.DataModels
                 IconResources = (await SidebarViewModel.LoadSidebarIconResources())?.ToList();
             }
 
-            if (!App.AppSettings.ShowFavoritesSection)
+            if (!UserSettingsService.SidebarSettingsService.ShowFavoritesSection)
             {
                 SidebarControl.SideBarItemsSemaphore.Release();
             }
@@ -382,7 +386,7 @@ namespace Files.DataModels
                     SidebarControl.SideBarItemsSemaphore.Release();
                 }
 
-                await ShowHideRecycleBinItemAsync(App.AppSettings.PinRecycleBinToSideBar);
+                await ShowHideRecycleBinItemAsync(UserSettingsService.SidebarSettingsService.PinRecycleBinToSideBar);
             }
         }
 

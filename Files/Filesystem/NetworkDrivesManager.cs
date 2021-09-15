@@ -2,8 +2,10 @@
 using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
 using Files.Helpers;
+using Files.Services;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -19,6 +21,8 @@ namespace Files.Filesystem
 {
     public class NetworkDrivesManager : ObservableObject
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         private static readonly Logger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
@@ -51,7 +55,7 @@ namespace Files.Filesystem
 
         public async Task EnumerateDrivesAsync()
         {
-            if (!App.AppSettings.ShowNetworkDrivesSection)
+            if (!UserSettingsService.SidebarSettingsService.ShowNetworkDrivesSection)
             {
                 return;
             }
@@ -118,7 +122,7 @@ namespace Files.Filesystem
                 try
                 {
                     var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarNetworkDrives".GetLocalized()) as LocationItem;
-                    if (App.AppSettings.ShowNetworkDrivesSection && section == null)
+                    if (UserSettingsService.SidebarSettingsService.ShowNetworkDrivesSection && section == null)
                     {
                         section = new LocationItem()
                         {
@@ -165,7 +169,7 @@ namespace Files.Filesystem
             try
             {
                 var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarNetworkDrives".GetLocalized()) select n).FirstOrDefault();
-                if (!App.AppSettings.ShowNetworkDrivesSection && item != null)
+                if (!UserSettingsService.SidebarSettingsService.ShowNetworkDrivesSection && item != null)
                 {
                     SidebarControl.SideBarItems.Remove(item);
                 }
@@ -176,7 +180,7 @@ namespace Files.Filesystem
 
         public async void UpdateNetworkDrivesSectionVisibility()
         {
-            if (App.AppSettings.ShowNetworkDrivesSection)
+            if (UserSettingsService.SidebarSettingsService.ShowNetworkDrivesSection)
             {
                 await EnumerateDrivesAsync();
             }

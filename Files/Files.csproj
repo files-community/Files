@@ -162,6 +162,7 @@
     <Compile Include="Enums\FilesystemOperationType.cs" />
     <Compile Include="Enums\FolderLayout.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
+    <Compile Include="EventArguments\BaseJsonSettingsModelEventArgs.cs" />
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
     <Compile Include="Events\ContextItemsChangedEventArgs.cs" />
@@ -243,8 +244,14 @@
     <Compile Include="Models\JsonSettings\ISettingsSerializer.cs" />
     <Compile Include="Services\IFilesAndFoldersSettingsService.cs" />
     <Compile Include="Services\Implementation\FilesAndFoldersSettingsService.cs" />
+    <Compile Include="Services\Implementation\MultitaskingSettingsService.cs" />
+    <Compile Include="Services\Implementation\SidebarSettingsService.cs" />
     <Compile Include="Services\Implementation\UserSettingsService.cs" />
+    <Compile Include="Services\Implementation\WidgetsSettingsService.cs" />
+    <Compile Include="Services\IMultitaskingSettingsService.cs" />
+    <Compile Include="Services\ISidebarSettingsService.cs" />
     <Compile Include="Services\IUserSettingsService.cs" />
+    <Compile Include="Services\IWidgetsSettingsService.cs" />
     <Compile Include="UserControls\ColoredIcon.xaml.cs">
       <DependentUpon>ColoredIcon.xaml</DependentUpon>
     </Compile>

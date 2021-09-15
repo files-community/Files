@@ -1,20 +1,22 @@
-﻿using Files.Models.JsonSettings;
+﻿using System;
+using Files.EventArguments;
+using Files.Models.JsonSettings;
 
 namespace Files.Services
 {
     public interface IUserSettingsService
     {
-        ISettingsSharingContext GetContext();
+        event EventHandler<SettingChangedEventArgs> OnSettingChangedEvent;
 
-        /// <summary>
-        /// Gets or sets a value indicating the width of the sidebar pane when open.
-        /// </summary>
-        double SidebarWidthPx { get; set; }
+        ISettingsSharingContext GetSharingContext();
 
-        /// <summary>
-        /// Gets or sets a value indicating if the sidebar pane should be open or closed.
-        /// </summary>
-        bool IsSidebarOpen { get; set; }
+        IFilesAndFoldersSettingsService FilesAndFoldersSettingsService { get; }
+
+        IMultitaskingSettingsService MultitaskingSettingsService { get; }
+
+        IWidgetsSettingsService WidgetsSettingsService { get; }
+
+        ISidebarSettingsService SidebarSettingsService { get; }
 
         /// <summary>
         /// Gets or sets a value indicating the height of the preview pane in a horizontal layout.

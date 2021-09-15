@@ -11,7 +11,7 @@ namespace Files.Models.JsonSettings.Implementation
 
         public string SerializeToJson(object obj)
         {
-            return JsonConvert.SerializeObject(obj);
+            return JsonConvert.SerializeObject(obj, Formatting.Indented);
         }
     }
 }

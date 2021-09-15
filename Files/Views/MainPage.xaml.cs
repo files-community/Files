@@ -2,9 +2,11 @@
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Services;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -28,6 +30,8 @@ namespace Files.Views
     /// </summary>
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
+        public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         public SettingsViewModel AppSettings => App.AppSettings;
         public MainViewModel MainViewModel => App.MainViewModel;
 
@@ -119,7 +123,7 @@ namespace Files.Views
                 ViewModel.MultitaskingControls.Add(horizontalMultitaskingControl);
                 ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
-            if (AppSettings.IsVerticalTabFlyoutEnabled)
+            if (UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled)
             {
                 FindName(nameof(VerticalTabStripInvokeButton));
             }

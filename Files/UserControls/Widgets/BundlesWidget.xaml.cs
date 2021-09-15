@@ -1,5 +1,7 @@
-﻿using Files.ViewModels.Widgets;
+﻿using Files.Services;
+using Files.ViewModels.Widgets;
 using Files.ViewModels.Widgets.Bundles;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using Windows.UI.Xaml.Controls;
@@ -10,6 +12,8 @@ namespace Files.UserControls.Widgets
 {
     public sealed partial class BundlesWidget : UserControl, IWidgetItemModel, IDisposable
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         public BundlesViewModel ViewModel
         {
             get => (BundlesViewModel)DataContext;
@@ -20,7 +24,7 @@ namespace Files.UserControls.Widgets
 
         public string AutomationProperties => "BundlesWidgetAutomationProperties/Name".GetLocalized();
 
-        public bool IsWidgetSettingEnabled => App.AppSettings.ShowBundlesWidget;
+        public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowBundlesWidget;
 
         public BundlesWidget()
         {
