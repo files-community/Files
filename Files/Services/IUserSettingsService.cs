@@ -18,6 +18,12 @@ namespace Files.Services
 
         ISidebarSettingsService SidebarSettingsService { get; }
 
+        IPreferencesSettingsService PreferencesSettingsService { get; }
+
+        IAppearanceSettingsService AppearanceSettingsService { get; }
+
+        IStartupSettingsService StartupSettingsService { get; }
+
         /// <summary>
         /// Gets or sets a value indicating the height of the preview pane in a horizontal layout.
         /// </summary>

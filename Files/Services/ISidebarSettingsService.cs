@@ -7,7 +7,7 @@
         /// <summary>
         /// Gets or sets a value indicating the width of the sidebar pane when open.
         /// </summary>
-        double SidebarWidthPx { get; set; }
+        double SidebarWidth { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating if the sidebar pane should be open or closed.

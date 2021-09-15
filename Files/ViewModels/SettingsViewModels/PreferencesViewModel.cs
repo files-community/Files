@@ -1,6 +1,8 @@
 ﻿using Files.DataModels;
 using Files.Enums;
+using Files.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -13,11 +15,11 @@ namespace Files.ViewModels.SettingsViewModels
 {
     public class PreferencesViewModel : ObservableObject
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         private int selectedLanguageIndex = App.AppSettings.DefaultLanguages.IndexOf(App.AppSettings.DefaultLanguage);
         private bool showRestartControl;
         private Terminal selectedTerminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
-        private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
-        private bool openFoldersNewTab = App.AppSettings.OpenFoldersNewTab;
         private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
 
         public PreferencesViewModel()
@@ -97,30 +99,26 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool ShowConfirmDeleteDialog
         {
-            get
-            {
-                return showConfirmDeleteDialog;
-            }
+            get => UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog;
             set
             {
-                if (SetProperty(ref showConfirmDeleteDialog, value))
+                if (value != UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog)
                 {
-                    App.AppSettings.ShowConfirmDeleteDialog = value;
+                    UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool OpenFoldersNewTab
         {
-            get
-            {
-                return openFoldersNewTab;
-            }
+            get => UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab;
             set
             {
-                if (SetProperty(ref openFoldersNewTab, value))
+                if (value != UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                 {
-                    App.AppSettings.OpenFoldersNewTab = value;
+                    UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab = value;
+                    OnPropertyChanged();
                 }
             }
         }

@@ -32,6 +32,24 @@ namespace Files.Services.Implementation
             get => GetSettingsService(ref _SidebarSettingsService);
         }
 
+        private IPreferencesSettingsService _PreferencesSettingsService;
+        public IPreferencesSettingsService PreferencesSettingsService
+        {
+            get => GetSettingsService(ref _PreferencesSettingsService);
+        }
+
+        private IAppearanceSettingsService _AppearanceSettingsService;
+        public IAppearanceSettingsService AppearanceSettingsService
+        {
+            get => GetSettingsService(ref _AppearanceSettingsService);
+        }
+
+        private IStartupSettingsService _StartupSettingsService;
+        public IStartupSettingsService StartupSettingsService
+        {
+            get => GetSettingsService(ref _StartupSettingsService);
+        }
+
         public UserSettingsService()
             : base(Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.UserSettingsFileName),
                 isCachingEnabled: true)

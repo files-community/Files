@@ -31,7 +31,7 @@ namespace Files.UserControls
 {
     public sealed partial class SidebarControl : Microsoft.UI.Xaml.Controls.NavigationView, INotifyPropertyChanged
     {
-        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         public static SemaphoreSlim SideBarItemsSemaphore = new SemaphoreSlim(1, 1);
 
@@ -380,7 +380,7 @@ namespace Files.UserControls
                 var menuItems = GetLocationItemMenuItems();
                 var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-                if (!App.AppSettings.MoveOverflowMenuItemsToSubMenu)
+                if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
                 {
                     secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250); // Set menu min width if the overflow menu setting is disabled
                 }
@@ -432,7 +432,7 @@ namespace Files.UserControls
             var menuItems = GetLocationItemMenuItems();
             var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-            if (!App.AppSettings.MoveOverflowMenuItemsToSubMenu)
+            if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
             {
                 secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250); // Set menu min width if the overflow menu setting is disabled
             }
@@ -815,7 +815,7 @@ namespace Files.UserControls
         {
             var step = 1;
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
-            originalSize = IsPaneOpen ? AppSettings.SidebarWidth.Value : CompactPaneLength;
+            originalSize = IsPaneOpen ? UserSettingsService.SidebarSettingsService.SidebarWidth : CompactPaneLength;
 
             if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
             {
@@ -847,7 +847,7 @@ namespace Files.UserControls
                 return;
             }
 
-            App.AppSettings.SidebarWidth = new GridLength(OpenPaneLength);
+            UserSettingsService.SidebarSettingsService.SidebarWidth = OpenPaneLength;
         }
 
         /// <summary>
@@ -915,7 +915,7 @@ namespace Files.UserControls
         {
             Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
             VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerNormal", true);
-            App.AppSettings.SidebarWidth = new GridLength(OpenPaneLength);
+            UserSettingsService.SidebarSettingsService.SidebarWidth = OpenPaneLength;
             dragging = false;
         }
 
@@ -937,7 +937,7 @@ namespace Files.UserControls
         {
             if (DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded)
             {
-                originalSize = IsPaneOpen ? AppSettings.SidebarWidth.Value : CompactPaneLength;
+                originalSize = IsPaneOpen ? UserSettingsService.SidebarSettingsService.SidebarWidth : CompactPaneLength;
                 Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
                 VisualStateManager.GoToState((sender as Grid).FindAscendant<SplitView>(), "ResizerPressed", true);
                 dragging = true;
@@ -980,7 +980,7 @@ namespace Files.UserControls
                     var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
                     var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(connection: await AppServiceConnectionHelper.Instance, currentInstanceViewModel: null, workingDir: null,
                         new List<ListedItem>() { new ListedItem(null) { ItemPath = RightClickedItem.Path } }, shiftPressed: shiftPressed, showOpenMenu: false);
-                    if (!App.AppSettings.MoveOverflowMenuItemsToSubMenu)
+                    if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
                     {
                         var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
                         if (secondaryElements.Any())

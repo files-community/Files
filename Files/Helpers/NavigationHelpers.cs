@@ -2,8 +2,10 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
+using Files.Services;
 using Files.ViewModels;
 using Files.Views;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -196,11 +198,13 @@ namespace Files.Helpers
 
         private static async Task<FilesystemResult> OpenLibrary(string path, IShellPage associatedInstance, IEnumerable<string> selectItems)
         {
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
             var opened = (FilesystemResult)false;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
             if (isHiddenItem)
             {
-                if (App.AppSettings.OpenFoldersNewTab)
+                if (userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                 {
                     await OpenPathInNewTab(path);
                 }
@@ -220,7 +224,7 @@ namespace Files.Helpers
                 opened = (FilesystemResult)await library.CheckDefaultSaveFolderAccess();
                 if (opened)
                 {
-                    if (App.AppSettings.OpenFoldersNewTab)
+                    if (userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                     {
                         await OpenPathInNewTab(library.Text);
                     }
@@ -241,9 +245,12 @@ namespace Files.Helpers
 
         private static async Task<FilesystemResult> OpenDirectory(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, ShortcutItem shortcutInfo)
         {
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
             var opened = (FilesystemResult)false;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
             bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url"); // Determine
+
             if (isShortcutItem)
             {
                 if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
@@ -253,7 +260,7 @@ namespace Files.Helpers
                 }
                 else
                 {
-                    if (App.AppSettings.OpenFoldersNewTab)
+                    if (userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                     {
                         await OpenPathInNewTab(shortcutInfo.TargetPath);
                     }
@@ -273,7 +280,7 @@ namespace Files.Helpers
             }
             else if (isHiddenItem)
             {
-                if (App.AppSettings.OpenFoldersNewTab)
+                if (userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                 {
                     await OpenPathInNewTab(path);
                 }
@@ -307,7 +314,7 @@ namespace Files.Helpers
                 }
                 if (opened)
                 {
-                    if (App.AppSettings.OpenFoldersNewTab)
+                    if (userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                     {
                         await OpenPathInNewTab(path);
                     }

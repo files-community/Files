@@ -659,7 +659,7 @@ namespace Files
         private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenuFlyout, bool shiftPressed)
         {
             var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
-            var mainShellMenuItems = shellMenuItems.RemoveFrom(!App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4);
+            var mainShellMenuItems = shellMenuItems.RemoveFrom(!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4);
             var overflowShellMenuItems = shellMenuItems.Except(mainShellMenuItems).ToList();
 
             var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);

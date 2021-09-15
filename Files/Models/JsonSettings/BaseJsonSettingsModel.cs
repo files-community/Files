@@ -130,8 +130,14 @@ namespace Files.Models.JsonSettings
 
         public bool RegisterSettingsContext(ISettingsSharingContext settingsSharingContext)
         {
-            this.settingsSharingContext = settingsSharingContext;
-            return true;
+            if (this.settingsSharingContext == null)
+            {
+                // Can set only once
+                this.settingsSharingContext = settingsSharingContext;
+                return true;
+            }
+
+            return false;
         }
 
         public ISettingsSharingContext GetSharingContext()

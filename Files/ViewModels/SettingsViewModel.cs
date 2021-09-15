@@ -27,6 +27,7 @@ using Windows.UI.Xaml;
 
 namespace Files.ViewModels
 {
+    [Obsolete("Do not use this class as Settings store anymore, settings have been merged to IUserSettingsService.")]
     public class SettingsViewModel : ObservableObject
     {
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -110,6 +111,12 @@ namespace Files.ViewModels
         public static async void ReportIssueOnGitHub()
         {
             await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/Files/issues/new/choose"));
+        }
+
+        public bool AreRegistrySettingsMergedToJson
+        {
+            get => Get(false);
+            set => Set(value);
         }
 
         /// <summary>

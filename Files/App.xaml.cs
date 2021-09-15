@@ -64,6 +64,8 @@ namespace Files
         public static OngoingTasksViewModel OngoingTasksViewModel { get; } = new OngoingTasksViewModel();
         public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
 
+        public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
+
         public IServiceProvider Services { get; private set; }
 
         public App()
@@ -86,22 +88,25 @@ namespace Files
             ServiceCollection services = new ServiceCollection();
 
             services
-                // Loggers
+                // Loggers:
 
-                // Settings
-
-                // Base IUserSettingsService
+                // Settings:
+                // Base IUserSettingsService as parent
                 .AddSingleton<IUserSettingsService, UserSettingsService>()
-
                 // Children settings (from IUserSettingsService)
                 .AddSingleton<IFilesAndFoldersSettingsService, FilesAndFoldersSettingsService>((sp) => new FilesAndFoldersSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<IMultitaskingSettingsService, MultitaskingSettingsService>((sp) => new MultitaskingSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<IWidgetsSettingsService, WidgetsSettingsService>((sp) => new WidgetsSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<ISidebarSettingsService, SidebarSettingsService>((sp) => new SidebarSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IPreferencesSettingsService, PreferencesSettingsService>((sp) => new PreferencesSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
 
-                // Dialogs
+                // Dialogs:
 
-                ;
+                // FileSystem operations:
+                // TODO: IFilesystemHelpersService, IFilesystemOperationsService
+
+                ; // End
 
             return services.BuildServiceProvider();
         }
@@ -111,6 +116,7 @@ namespace Files
             if (AppSettings == null)
             {
                 AppSettings = await SettingsViewModel.CreateInstance();
+                RegistryToJsonSettingsMerger.MergeSettings();
             }
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
@@ -440,9 +446,10 @@ namespace Files
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
-            if (AppSettings != null)
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            if (userSettingsService?.StartupSettingsService != null)
             {
-                AppSettings.LastSessionPages = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
+                userSettingsService.StartupSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
                 {
                     if (tab != null && tab.TabItemArguments != null)
                     {
@@ -453,7 +460,7 @@ namespace Files
                         var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
                         return defaultArg.Serialize();
                     }
-                }).ToArray();
+                }).ToList();
             }
         }
 

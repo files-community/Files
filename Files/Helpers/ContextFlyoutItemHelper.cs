@@ -64,10 +64,12 @@ namespace Files.Helpers
             items = items.Where(x => Check(item: x, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, shiftPressed: shiftPressed)).ToList();
             items.ForEach(x => x.Items = x.Items?.Where(y => Check(item: y, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, shiftPressed: shiftPressed)).ToList());
 
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
             var overflow = items.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
             if (overflow != null)
             {
-                if (!shiftPressed && App.AppSettings.MoveOverflowMenuItemsToSubMenu) // items with ShowOnShift to overflow menu
+                if (!shiftPressed && userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu) // items with ShowOnShift to overflow menu
                 {
                     var overflowItems = items.Where(x => x.ShowOnShift).ToList();
 

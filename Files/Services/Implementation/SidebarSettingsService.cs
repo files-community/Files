@@ -13,7 +13,7 @@ namespace Files.Services.Implementation
 
         #region Internal Settings
 
-        public double SidebarWidthPx
+        public double SidebarWidth
         {
             get => Get(Math.Min(Math.Max(Get(255d), Constants.UI.MinimumSidebarWidth), 500d));
             set => Set(value);
