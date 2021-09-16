@@ -51,7 +51,6 @@ namespace Files.Models.JsonSettings.Implementation
             if (!settingsCache.ContainsKey(key))
             {
                 // Doesn't contain setting, add it
-                _cacheMisses++;
                 return this.AddKey(key, newValue);
             }
             else
@@ -61,7 +60,7 @@ namespace Files.Models.JsonSettings.Implementation
                 if (value == newValue)
                 {
                     // The cache does not need to be updated, continue
-                    return false;
+                    return true;
                 }
                 else
                 {
