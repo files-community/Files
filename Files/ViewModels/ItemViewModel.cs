@@ -1072,7 +1072,7 @@ namespace Files.ViewModels
         private async Task<ImageSource> GetItemTypeGroupIcon(ListedItem item, BaseStorageFile matchingStorageItem = null)
         {
             ImageSource groupImage = null;
-            if (item.PrimaryItemAttribute != StorageItemTypes.Folder)
+            if (item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsZipItem)
             {
                 var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, 64u);
 
