@@ -8,7 +8,7 @@ namespace Files.SettingsInterfaces
 
         object ExportSettings();
 
-        void ImportSettings(object import);
+        bool ImportSettings(object import);
 
         Dictionary<string, List<string>> SavedBundles { get; set; }
     }
