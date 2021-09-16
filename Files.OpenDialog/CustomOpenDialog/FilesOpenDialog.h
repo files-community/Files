@@ -50,7 +50,7 @@ END_COM_MAP()
 		return S_OK;
 	}
 
-	virtual void FinalRelease();
+	void FinalRelease();
 
 	CComPtr<IFileOpenDialog> _systemDialog;
 
@@ -64,122 +64,120 @@ END_COM_MAP()
 	FILE* _debugStream;
 
 public:
-
 	// Ereditato tramite IFileOpenDialog
-	virtual HRESULT __stdcall Show(HWND hwndOwner) override;
+	HRESULT __stdcall Show(HWND hwndOwner) override;
 
-	virtual HRESULT __stdcall SetFileTypes(UINT cFileTypes, const COMDLG_FILTERSPEC* rgFilterSpec) override;
+	HRESULT __stdcall SetFileTypes(UINT cFileTypes, const COMDLG_FILTERSPEC* rgFilterSpec) override;
 
-	virtual HRESULT __stdcall SetFileTypeIndex(UINT iFileType) override;
+	HRESULT __stdcall SetFileTypeIndex(UINT iFileType) override;
 
-	virtual HRESULT __stdcall GetFileTypeIndex(UINT* piFileType) override;
+	HRESULT __stdcall GetFileTypeIndex(UINT* piFileType) override;
 
-	virtual HRESULT __stdcall Advise(IFileDialogEvents* pfde, DWORD* pdwCookie) override;
+	HRESULT __stdcall Advise(IFileDialogEvents* pfde, DWORD* pdwCookie) override;
 
-	virtual HRESULT __stdcall Unadvise(DWORD dwCookie) override;
+	HRESULT __stdcall Unadvise(DWORD dwCookie) override;
 
-	virtual HRESULT __stdcall SetOptions(FILEOPENDIALOGOPTIONS fos) override;
+	HRESULT __stdcall SetOptions(FILEOPENDIALOGOPTIONS fos) override;
 
-	virtual HRESULT __stdcall GetOptions(FILEOPENDIALOGOPTIONS* pfos) override;
+	HRESULT __stdcall GetOptions(FILEOPENDIALOGOPTIONS* pfos) override;
 
-	virtual HRESULT __stdcall SetDefaultFolder(IShellItem* psi) override;
+	HRESULT __stdcall SetDefaultFolder(IShellItem* psi) override;
 
-	virtual HRESULT __stdcall SetFolder(IShellItem* psi) override;
+	HRESULT __stdcall SetFolder(IShellItem* psi) override;
 
-	virtual HRESULT __stdcall GetFolder(IShellItem** ppsi) override;
+	HRESULT __stdcall GetFolder(IShellItem** ppsi) override;
 
-	virtual HRESULT __stdcall GetCurrentSelection(IShellItem** ppsi) override;
+	HRESULT __stdcall GetCurrentSelection(IShellItem** ppsi) override;
 
-	virtual HRESULT __stdcall SetFileName(LPCWSTR pszName) override;
+	HRESULT __stdcall SetFileName(LPCWSTR pszName) override;
 
-	virtual HRESULT __stdcall GetFileName(LPWSTR* pszName) override;
+	HRESULT __stdcall GetFileName(LPWSTR* pszName) override;
 
-	virtual HRESULT __stdcall SetTitle(LPCWSTR pszTitle) override;
+	HRESULT __stdcall SetTitle(LPCWSTR pszTitle) override;
 
-	virtual HRESULT __stdcall SetOkButtonLabel(LPCWSTR pszText) override;
+	HRESULT __stdcall SetOkButtonLabel(LPCWSTR pszText) override;
 
-	virtual HRESULT __stdcall SetFileNameLabel(LPCWSTR pszLabel) override;
+	HRESULT __stdcall SetFileNameLabel(LPCWSTR pszLabel) override;
 
-	virtual HRESULT __stdcall GetResult(IShellItem** ppsi) override;
+	HRESULT __stdcall GetResult(IShellItem** ppsi) override;
 
-	virtual HRESULT __stdcall AddPlace(IShellItem* psi, FDAP fdap) override;
+	HRESULT __stdcall AddPlace(IShellItem* psi, FDAP fdap) override;
 
-	virtual HRESULT __stdcall SetDefaultExtension(LPCWSTR pszDefaultExtension) override;
+	HRESULT __stdcall SetDefaultExtension(LPCWSTR pszDefaultExtension) override;
 
-	virtual HRESULT __stdcall Close(HRESULT hr) override;
+	HRESULT __stdcall Close(HRESULT hr) override;
 
-	virtual HRESULT __stdcall SetClientGuid(REFGUID guid) override;
+	HRESULT __stdcall SetClientGuid(REFGUID guid) override;
 
-	virtual HRESULT __stdcall ClearClientData(void) override;
+	HRESULT __stdcall ClearClientData(void) override;
 
-	virtual HRESULT __stdcall SetFilter(IShellItemFilter* pFilter) override;
+	HRESULT __stdcall SetFilter(IShellItemFilter* pFilter) override;
 
-	virtual HRESULT __stdcall GetResults(IShellItemArray** ppenum) override;
+	HRESULT __stdcall GetResults(IShellItemArray** ppenum) override;
 
-	virtual HRESULT __stdcall GetSelectedItems(IShellItemArray** ppsai) override;
+	HRESULT __stdcall GetSelectedItems(IShellItemArray** ppsai) override;
 
 
 	// Ereditato tramite IFileDialogCustomize
-	virtual HRESULT __stdcall EnableOpenDropDown(DWORD dwIDCtl) override;
+	HRESULT __stdcall EnableOpenDropDown(DWORD dwIDCtl) override;
 
-	virtual HRESULT __stdcall AddMenu(DWORD dwIDCtl, LPCWSTR pszLabel) override;
+	HRESULT __stdcall AddMenu(DWORD dwIDCtl, LPCWSTR pszLabel) override;
 
-	virtual HRESULT __stdcall AddPushButton(DWORD dwIDCtl, LPCWSTR pszLabel) override;
+	HRESULT __stdcall AddPushButton(DWORD dwIDCtl, LPCWSTR pszLabel) override;
 
-	virtual HRESULT __stdcall AddComboBox(DWORD dwIDCtl) override;
+	HRESULT __stdcall AddComboBox(DWORD dwIDCtl) override;
 
-	virtual HRESULT __stdcall AddRadioButtonList(DWORD dwIDCtl) override;
+	HRESULT __stdcall AddRadioButtonList(DWORD dwIDCtl) override;
 
-	virtual HRESULT __stdcall AddCheckButton(DWORD dwIDCtl, LPCWSTR pszLabel, BOOL bChecked) override;
+	HRESULT __stdcall AddCheckButton(DWORD dwIDCtl, LPCWSTR pszLabel, BOOL bChecked) override;
 
-	virtual HRESULT __stdcall AddEditBox(DWORD dwIDCtl, LPCWSTR pszText) override;
+	HRESULT __stdcall AddEditBox(DWORD dwIDCtl, LPCWSTR pszText) override;
 
-	virtual HRESULT __stdcall AddSeparator(DWORD dwIDCtl) override;
+	HRESULT __stdcall AddSeparator(DWORD dwIDCtl) override;
 
-	virtual HRESULT __stdcall AddText(DWORD dwIDCtl, LPCWSTR pszText) override;
+	HRESULT __stdcall AddText(DWORD dwIDCtl, LPCWSTR pszText) override;
 
-	virtual HRESULT __stdcall SetControlLabel(DWORD dwIDCtl, LPCWSTR pszLabel) override;
+	HRESULT __stdcall SetControlLabel(DWORD dwIDCtl, LPCWSTR pszLabel) override;
 
-	virtual HRESULT __stdcall GetControlState(DWORD dwIDCtl, CDCONTROLSTATEF* pdwState) override;
+	HRESULT __stdcall GetControlState(DWORD dwIDCtl, CDCONTROLSTATEF* pdwState) override;
 
-	virtual HRESULT __stdcall SetControlState(DWORD dwIDCtl, CDCONTROLSTATEF dwState) override;
+	HRESULT __stdcall SetControlState(DWORD dwIDCtl, CDCONTROLSTATEF dwState) override;
 
-	virtual HRESULT __stdcall GetEditBoxText(DWORD dwIDCtl, WCHAR** ppszText) override;
+	HRESULT __stdcall GetEditBoxText(DWORD dwIDCtl, WCHAR** ppszText) override;
 
-	virtual HRESULT __stdcall SetEditBoxText(DWORD dwIDCtl, LPCWSTR pszText) override;
+	HRESULT __stdcall SetEditBoxText(DWORD dwIDCtl, LPCWSTR pszText) override;
 
-	virtual HRESULT __stdcall GetCheckButtonState(DWORD dwIDCtl, BOOL* pbChecked) override;
+	HRESULT __stdcall GetCheckButtonState(DWORD dwIDCtl, BOOL* pbChecked) override;
 
-	virtual HRESULT __stdcall SetCheckButtonState(DWORD dwIDCtl, BOOL bChecked) override;
+	HRESULT __stdcall SetCheckButtonState(DWORD dwIDCtl, BOOL bChecked) override;
 
-	virtual HRESULT __stdcall AddControlItem(DWORD dwIDCtl, DWORD dwIDItem, LPCWSTR pszLabel) override;
+	HRESULT __stdcall AddControlItem(DWORD dwIDCtl, DWORD dwIDItem, LPCWSTR pszLabel) override;
 
-	virtual HRESULT __stdcall RemoveControlItem(DWORD dwIDCtl, DWORD dwIDItem) override;
+	HRESULT __stdcall RemoveControlItem(DWORD dwIDCtl, DWORD dwIDItem) override;
 
-	virtual HRESULT __stdcall RemoveAllControlItems(DWORD dwIDCtl) override;
+	HRESULT __stdcall RemoveAllControlItems(DWORD dwIDCtl) override;
 
-	virtual HRESULT __stdcall GetControlItemState(DWORD dwIDCtl, DWORD dwIDItem, CDCONTROLSTATEF* pdwState) override;
+	HRESULT __stdcall GetControlItemState(DWORD dwIDCtl, DWORD dwIDItem, CDCONTROLSTATEF* pdwState) override;
 
-	virtual HRESULT __stdcall SetControlItemState(DWORD dwIDCtl, DWORD dwIDItem, CDCONTROLSTATEF dwState) override;
+	HRESULT __stdcall SetControlItemState(DWORD dwIDCtl, DWORD dwIDItem, CDCONTROLSTATEF dwState) override;
 
-	virtual HRESULT __stdcall GetSelectedControlItem(DWORD dwIDCtl, DWORD* pdwIDItem) override;
+	HRESULT __stdcall GetSelectedControlItem(DWORD dwIDCtl, DWORD* pdwIDItem) override;
 
-	virtual HRESULT __stdcall SetSelectedControlItem(DWORD dwIDCtl, DWORD dwIDItem) override;
+	HRESULT __stdcall SetSelectedControlItem(DWORD dwIDCtl, DWORD dwIDItem) override;
 
-	virtual HRESULT __stdcall StartVisualGroup(DWORD dwIDCtl, LPCWSTR pszLabel) override;
+	HRESULT __stdcall StartVisualGroup(DWORD dwIDCtl, LPCWSTR pszLabel) override;
 
-	virtual HRESULT __stdcall EndVisualGroup(void) override;
+	HRESULT __stdcall EndVisualGroup(void) override;
 
-	virtual HRESULT __stdcall MakeProminent(DWORD dwIDCtl) override;
+	HRESULT __stdcall MakeProminent(DWORD dwIDCtl) override;
 
-	virtual HRESULT __stdcall SetControlItemText(DWORD dwIDCtl, DWORD dwIDItem, LPCWSTR pszLabel) override;
+	HRESULT __stdcall SetControlItemText(DWORD dwIDCtl, DWORD dwIDItem, LPCWSTR pszLabel) override;
 
 
 	// Ereditato tramite IFileDialog2
-	virtual HRESULT __stdcall SetCancelButtonLabel(LPCWSTR pszLabel) override;
+	HRESULT __stdcall SetCancelButtonLabel(LPCWSTR pszLabel) override;
 
-	virtual HRESULT __stdcall SetNavigationRoot(IShellItem* psi) override;
-
+	HRESULT __stdcall SetNavigationRoot(IShellItem* psi) override;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(FilesOpenDialog), CFilesOpenDialog)
