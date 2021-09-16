@@ -1074,7 +1074,8 @@ namespace Files.ViewModels
             ImageSource groupImage = null;
             if (item.PrimaryItemAttribute != StorageItemTypes.Folder)
             {
-                var headerIconInfo = await FileThumbnailHelper.LoadIconFromPathAsync(item.ItemPath, 76, ThumbnailMode.ListView);
+                var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, 64u);
+
                 if (headerIconInfo != null && !item.IsShortcutItem)
                 {
                     groupImage = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => headerIconInfo.ToBitmapAsync(), Windows.System.DispatcherQueuePriority.Low);
