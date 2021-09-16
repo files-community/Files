@@ -117,7 +117,7 @@ namespace Files.Models.JsonSettings.Implementation
             }
         }
 
-        public virtual void FlushSettings()
+        public virtual bool FlushSettings()
         {
             try
             {
@@ -126,11 +126,15 @@ namespace Files.Models.JsonSettings.Implementation
 
                 // Write to file
                 settingsSerializer.WriteToFile(serialized);
+
+                return true;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
                 Debugger.Break();
+
+                return false;
             }
         }
 

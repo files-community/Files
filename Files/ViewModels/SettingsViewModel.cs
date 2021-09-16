@@ -286,8 +286,6 @@ namespace Files.ViewModels
 
         #region CommonPaths
 
-        public string DesktopPath { get; set; } = UserDataPaths.GetDefault().Desktop;
-        public string DownloadsPath { get; set; } = UserDataPaths.GetDefault().Downloads;
 
         private string tempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
 
@@ -297,14 +295,6 @@ namespace Files.ViewModels
             set => SetProperty(ref tempPath, value);
         }
 
-        private string localAppDataPath = UserDataPaths.GetDefault().LocalAppData;
-
-        public string LocalAppDataPath
-        {
-            get => localAppDataPath;
-            set => SetProperty(ref localAppDataPath, value);
-        }
-
         private string homePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
         public string HomePath
@@ -312,11 +302,6 @@ namespace Files.ViewModels
             get => homePath;
             set => SetProperty(ref homePath, value);
         }
-
-        // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
-        public string RecycleBinPath { get; set; } = @"Shell:RecycleBinFolder";
-
-        public string NetworkFolderPath { get; set; } = @"Shell:NetworkPlacesFolder";
 
         #endregion CommonPaths
 

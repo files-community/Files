@@ -1225,9 +1225,9 @@ namespace Files.ViewModels
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            var isRecycleBin = path.StartsWith(AppSettings.RecycleBinPath);
+            var isRecycleBin = path.StartsWith(CommonPaths.RecycleBinPath);
             if (isRecycleBin ||
-                path.StartsWith(AppSettings.NetworkFolderPath) ||
+                path.StartsWith(CommonPaths.NetworkFolderPath) ||
                 FtpHelpers.IsFtpPath(path))
             {
                 // Recycle bin and network are enumerated by the fulltrust process
@@ -1305,8 +1305,8 @@ namespace Files.ViewModels
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
                 ItemPropertiesInitialized = true,
-                ItemName = path.StartsWith(AppSettings.RecycleBinPath) ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin") :
-                           path.StartsWith(AppSettings.NetworkFolderPath) ? "Network".GetLocalized() : isFtp ? "FTP" : "Unknown",
+                ItemName = path.StartsWith(CommonPaths.RecycleBinPath) ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin") :
+                           path.StartsWith(CommonPaths.NetworkFolderPath) ? "Network".GetLocalized() : isFtp ? "FTP" : "Unknown",
                 ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
                 ItemDateCreatedReal = DateTimeOffset.Now, // Fake for now
                 ItemType = "FileFolderListItem".GetLocalized(),

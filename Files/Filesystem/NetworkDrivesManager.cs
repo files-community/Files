@@ -43,7 +43,7 @@ namespace Files.Filesystem
             {
                 DeviceID = "network-folder",
                 Text = "Network".GetLocalized(),
-                Path = App.AppSettings.NetworkFolderPath,
+                Path = CommonPaths.NetworkFolderPath,
                 Type = DriveType.Network,
                 ItemType = NavigationControlItemType.Drive
             };

@@ -68,7 +68,7 @@ namespace Files.Helpers
 
         public static async void OpenSelectedItems(IShellPage associatedInstance, bool openViaApplicationPicker = false)
         {
-            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath))
             {
                 // Do not open files and folders inside the recycle bin
                 return;
@@ -88,7 +88,7 @@ namespace Files.Helpers
 
         public static async void OpenItemsWithExecutable(IShellPage associatedInstance, List<IStorageItem> items, string executable)
         {
-            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(CommonPaths.RecycleBinPath))
             {
                 // Do not open files and folders inside the recycle bin
                 return;

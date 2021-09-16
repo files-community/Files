@@ -185,7 +185,7 @@ namespace Files.UserControls
 
         public void UnpinItem_Click(object sender, RoutedEventArgs e)
         {
-            if (string.Equals(AppSettings.RecycleBinPath, RightClickedItem.Path, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(CommonPaths.RecycleBinPath, RightClickedItem.Path, StringComparison.OrdinalIgnoreCase))
             {
                 UserSettingsService.SidebarSettingsService.PinRecycleBinToSideBar = false;
             }
@@ -365,7 +365,7 @@ namespace Files.UserControls
                     ShowProperties = false;
                 }
 
-                if (string.Equals(item.Path, AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(item.Path, CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
                     ShowEmptyRecycleBin = true;
                     ShowUnpinItem = true;
@@ -585,7 +585,7 @@ namespace Files.UserControls
                 }
                 else if (handledByFtp)
                 {
-                    if (locationItem.Path.StartsWith(App.AppSettings.RecycleBinPath))
+                    if (locationItem.Path.StartsWith(CommonPaths.RecycleBinPath))
                     {
                         e.AcceptedOperation = DataPackageOperation.None;
                     }
@@ -603,7 +603,7 @@ namespace Files.UserControls
                 else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
-                    if (locationItem.Path.StartsWith(App.AppSettings.RecycleBinPath))
+                    if (locationItem.Path.StartsWith(CommonPaths.RecycleBinPath))
                     {
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
                         e.AcceptedOperation = DataPackageOperation.Move;

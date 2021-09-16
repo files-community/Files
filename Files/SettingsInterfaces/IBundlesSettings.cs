@@ -4,7 +4,7 @@ namespace Files.SettingsInterfaces
 {
     public interface IBundlesSettings
     {
-        void FlushSettings();
+        bool FlushSettings();
 
         object ExportSettings();
 

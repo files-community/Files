@@ -184,7 +184,7 @@ namespace Files.Filesystem
                                                      IProgress<FileSystemStatusCode> errorCode,
                                                      CancellationToken cancellationToken)
         {
-            if (destination.StartsWith(App.AppSettings.RecycleBinPath))
+            if (destination.StartsWith(CommonPaths.RecycleBinPath))
             {
                 errorCode?.Report(FileSystemStatusCode.Unauthorized);
                 progress?.Report(100.0f);
@@ -402,7 +402,7 @@ namespace Files.Filesystem
                 return await CopyAsync(source, destination, collision, progress, errorCode, cancellationToken);
             }
 
-            if (destination.StartsWith(App.AppSettings.RecycleBinPath))
+            if (destination.StartsWith(CommonPaths.RecycleBinPath))
             {
                 errorCode?.Report(FileSystemStatusCode.Unauthorized);
                 progress?.Report(100.0f);

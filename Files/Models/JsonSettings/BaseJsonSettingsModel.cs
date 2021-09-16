@@ -118,9 +118,9 @@ namespace Files.Models.JsonSettings
             NativeFileOperationsHelper.CreateFileForWrite(FilePath, false).Dispose();
         }
 
-        public virtual void FlushSettings()
+        public virtual bool FlushSettings()
         {
-            JsonSettingsDatabase.FlushSettings();
+            return JsonSettingsDatabase.FlushSettings();
         }
 
         public virtual object ExportSettings()

@@ -3,6 +3,7 @@ using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,10 +75,13 @@ namespace Files.Helpers
                     userSettingsService.StartupSettingsService.AlwaysOpenNewInstance = appSettings.AlwaysOpenANewInstance;
                     userSettingsService.StartupSettingsService.TabsOnStartupList = appSettings.PagesOnStartupList.ToList();
                     userSettingsService.StartupSettingsService.LastSessionTabList = appSettings.LastSessionPages.ToList();
-                }
-                finally
-                {
+
                     App.AppSettings.AreRegistrySettingsMergedToJson = true;
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.Error(ex);
+                    Debugger.Break();
                 }
             }
         }

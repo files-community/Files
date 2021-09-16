@@ -32,7 +32,7 @@ namespace Files.Helpers
                 {
                     { "Arguments", "ShellFolder" },
                     { "action", "Enumerate" },
-                    { "folder", App.AppSettings.RecycleBinPath }
+                    { "folder", CommonPaths.RecycleBinPath }
                 };
                 var (status, response) = await connection.SendMessageForResponseAsync(value);
 

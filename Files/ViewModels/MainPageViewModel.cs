@@ -232,20 +232,20 @@ namespace Files.ViewModels
                 tabLocationHeader = "NewTab".GetLocalized();
                 iconSource.ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"));
             }
-            else if (currentPath.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarDesktop".GetLocalized();
             }
-            else if (currentPath.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarDownloads".GetLocalized();
             }
-            else if (currentPath.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 var localSettings = ApplicationData.Current.LocalSettings;
                 tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
             }
-            else if (currentPath.Equals(App.AppSettings.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarNetworkDrives".GetLocalized();
             }

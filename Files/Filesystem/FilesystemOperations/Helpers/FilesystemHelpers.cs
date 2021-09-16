@@ -409,7 +409,7 @@ namespace Files.Filesystem
                 {
                     return default;
                 }
-                if (destination.StartsWith(App.AppSettings.RecycleBinPath))
+                if (destination.StartsWith(CommonPaths.RecycleBinPath))
                 {
                     return await RecycleItemsFromClipboard(packageView, destination, showDialog, registerHistory);
                 }

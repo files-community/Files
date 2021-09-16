@@ -22,7 +22,7 @@ namespace Files.Filesystem
 
         private static PathBoxItem GetPathItem(string component, string path)
         {
-            if (component.StartsWith(AppSettings.RecycleBinPath))
+            if (component.StartsWith(CommonPaths.RecycleBinPath))
             {
                 // Handle the recycle bin: use the localized folder name
                 return new PathBoxItem()
@@ -248,7 +248,7 @@ namespace Files.Filesystem
 
             if (path.Contains("%localappdata%", StringComparison.OrdinalIgnoreCase))
             {
-                path = path.Replace("%localappdata%", AppSettings.LocalAppDataPath, StringComparison.OrdinalIgnoreCase);
+                path = path.Replace("%localappdata%", CommonPaths.LocalAppDataPath, StringComparison.OrdinalIgnoreCase);
             }
 
             if (path.Contains("%homepath%", StringComparison.OrdinalIgnoreCase))

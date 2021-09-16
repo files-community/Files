@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.Enums;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -259,7 +260,7 @@ namespace Files.ViewModels.SettingsViewModels
                     {
                         return "SidebarHome".GetLocalized();
                     }
-                    if (Path == App.AppSettings.RecycleBinPath)
+                    if (Path == CommonPaths.RecycleBinPath)
                     {
                         return ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
                     }
