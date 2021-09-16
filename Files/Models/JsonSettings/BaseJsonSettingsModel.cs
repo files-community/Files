@@ -118,14 +118,19 @@ namespace Files.Models.JsonSettings
             NativeFileOperationsHelper.CreateFileForWrite(FilePath, false).Dispose();
         }
 
+        public virtual void FlushSettings()
+        {
+            JsonSettingsDatabase.FlushSettings();
+        }
+
         public virtual object ExportSettings()
         {
             return  JsonSettingsDatabase.ExportSettings();
         }
 
-        public virtual void ImportSettings(object import)
+        public virtual bool ImportSettings(object import)
         {
-            JsonSettingsDatabase.ImportSettings(import);
+            return JsonSettingsDatabase.ImportSettings(import);
         }
 
         public bool RegisterSettingsContext(ISettingsSharingContext settingsSharingContext)

@@ -447,6 +447,10 @@ namespace Files
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            if (App.BundlesSettings != null)
+            {
+                App.BundlesSettings.FlushSettings();
+            }
             if (userSettingsService?.StartupSettingsService != null)
             {
                 userSettingsService.StartupSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>

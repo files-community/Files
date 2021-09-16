@@ -4,10 +4,12 @@ namespace Files.SettingsInterfaces
 {
     public interface IBundlesSettings
     {
-        Dictionary<string, List<string>> SavedBundles { get; set; }
+        void FlushSettings();
 
         object ExportSettings();
 
         void ImportSettings(object import);
+
+        Dictionary<string, List<string>> SavedBundles { get; set; }
     }
 }

@@ -93,13 +93,34 @@ namespace Files.Models.JsonSettings.Implementation
             }
         }
 
-        public virtual void ImportSettings(object import)
+        public virtual bool ImportSettings(object import)
         {
             try
             {
                 // Try convert
                 settingsCache = (Dictionary<string, object>)import;
 
+                // Serialize
+                string serialized = jsonSettingsSerializer.SerializeToJson(this.settingsCache);
+
+                // Write to file
+                settingsSerializer.WriteToFile(serialized);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                Debugger.Break();
+
+                return false;
+            }
+        }
+
+        public virtual void FlushSettings()
+        {
+            try
+            {
                 // Serialize
                 string serialized = jsonSettingsSerializer.SerializeToJson(this.settingsCache);
 

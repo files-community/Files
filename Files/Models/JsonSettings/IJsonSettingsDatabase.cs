@@ -10,7 +10,9 @@
 
         bool UpdateKey(string key, object newValue);
 
-        void ImportSettings(object import);
+        void FlushSettings();
+
+        bool ImportSettings(object import);
 
         object ExportSettings();
     }

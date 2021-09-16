@@ -1,4 +1,6 @@
 ﻿using Files.Common;
+using System.Collections;
+using System.Linq;
 
 namespace Files.Models.JsonSettings.Implementation
 {
@@ -57,16 +59,26 @@ namespace Files.Models.JsonSettings.Implementation
             {
                 object value = settingsCache[key];
 
-                if (value == newValue)
+                bool isDifferent;
+                if (newValue is IEnumerable enumerableNewValue && value is IEnumerable enumerableValue)
                 {
-                    // The cache does not need to be updated, continue
-                    return true;
+                    isDifferent = enumerableValue.Cast<object>().SequenceEqual(enumerableNewValue.Cast<object>());
                 }
                 else
+                {
+                    isDifferent = value != newValue;
+                }
+
+                if (isDifferent)
                 {
                     // Values are different, update value and reload the cache
                     _cacheMisses++;
                     return base.UpdateKey(key, newValue);
+                }
+                else
+                {
+                    // The cache does not need to be updated, continue
+                    return false;
                 }
             }
         }

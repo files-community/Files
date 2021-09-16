@@ -12,7 +12,7 @@ namespace Files.Models.Settings
 
         public BundlesSettingsModel()
             : base(System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName),
-                  isCachingEnabled: false)
+                  isCachingEnabled: true)
         {
         }
 
@@ -30,13 +30,20 @@ namespace Files.Models.Settings
 
         #region Override
 
-        public override void ImportSettings(object import)
+        public override bool ImportSettings(object import)
         {
             try
             {
                 SavedBundles = (Dictionary<string, List<string>>)import;
+                FlushSettings();
+
+                return true;
             }
-            catch { }
+            catch 
+            {
+                // TODO: Display the error?
+                return false;
+            }
         }
 
         public override object ExportSettings()
