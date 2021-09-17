@@ -171,8 +171,8 @@
       <Project>{0533133f-2559-4b53-a0fd-0970bc0e312e}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <None Include="Assets\FilesOpenDialog\SetFilesAsDefault.reg" />
-    <None Include="Assets\FilesOpenDialog\UnsetFilesAsDefault.reg" />
+    <Content Include="Assets\FilesOpenDialog\SetFilesAsDefault.reg" />
+    <Content Include="Assets\FilesOpenDialog\UnsetFilesAsDefault.reg" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
