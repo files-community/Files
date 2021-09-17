@@ -121,8 +121,8 @@
       <OutputFile>$(OutDir)$(TargetName)$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir $(ProjectDir)..\Installer\bin\x64\$(Configuration)\DialogLib
-xcopy /s /y $(ProjectDir)$(OutDir) $(ProjectDir)..\Installer\bin\x64\$(Configuration)\DialogLib</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -158,8 +158,8 @@ xcopy /s /y $(ProjectDir)$(OutDir) $(ProjectDir)..\Installer\bin\x64\$(Configura
       <OutputFile>$(OutDir)$(TargetName)$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir $(ProjectDir)..\Installer\bin\x64\$(Configuration)\DialogLib
-xcopy /s /y $(ProjectDir)$(OutDir) $(ProjectDir)..\Installer\bin\x64\$(Configuration)\DialogLib</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -66,7 +66,7 @@ CFilesOpenDialog::CFilesOpenDialog()
 	{
 		TCHAR debugPath[MAX_PATH];
 		wsprintf(debugPath, L"%s\\%s", pszPath, L"open_dialog.txt");
-		_wfreopen_s(&_debugStream, debugPath, L"w", stdout);
+		//_wfreopen_s(&_debugStream, debugPath, L"w", stdout);
 		CoTaskMemFree(pszPath);
 	}
 	cout << "Create" << endl;

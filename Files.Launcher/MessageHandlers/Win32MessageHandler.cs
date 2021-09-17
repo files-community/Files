@@ -3,11 +3,14 @@ using FilesFullTrust.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Threading.Tasks;
 using Vanara.Windows.Shell;
+using Windows.ApplicationModel;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 
 namespace FilesFullTrust.MessageHandlers
 {
@@ -105,6 +108,48 @@ namespace FilesFullTrust.MessageHandlers
                     {
                         { "IconInfos", JsonConvert.SerializeObject(selectedIconInfos) },
                     }, message.Get("RequestID", (string)null));
+                    break;
+
+                case "SetAsDefaultExplorer":
+                    {
+                        var enable = (bool)message["Value"];
+                        var scriptPath = Path.Combine(Package.Current.InstalledPath, "Assets", "FilesOpenDialog");
+                        try
+                        {
+                            using var regeditProcess = Process.Start("regedit.exe", Path.Combine(scriptPath, enable ? "SetFilesAsDefault.reg" : "UnsetFilesAsDefault"));
+                            regeditProcess.WaitForExit();
+                        }
+                        catch
+                        {
+                            // Canceled UAC
+                        }
+                    }
+                    break;
+
+                case "SetAsOpenFileDialog":
+                    {
+                        var enable = (bool)message["Value"];
+                        var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
+                        if (enable)
+                        {
+                            foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledPath, "Assets", "FilesOpenDialog")))
+                            {
+                                File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true);
+                            }
+
+                            using var regProc32 = Process.Start("regsvr32.exe", @$"/s /n /i:user {Path.Combine(destFolder, "CustomOpenDialog32.dll")}");
+                            regProc32.WaitForExit();
+                            using var regProc64 = Process.Start("regsvr32.exe", @$"/s /n /i:user {Path.Combine(destFolder, "CustomOpenDialog64.dll")}");
+                            regProc64.WaitForExit();
+                        }
+                        else
+                        {
+                            using var regProc32 = Process.Start("regsvr32.exe", @$"/s /n /u /i:user {Path.Combine(destFolder, "CustomOpenDialog32.dll")}");
+                            regProc32.WaitForExit();
+                            using var regProc64 = Process.Start("regsvr32.exe", @$"/s /n /u /i:user {Path.Combine(destFolder, "CustomOpenDialog64.dll")}");
+                            regProc64.WaitForExit();
+                        }
+                    }
                     break;
             }
         }

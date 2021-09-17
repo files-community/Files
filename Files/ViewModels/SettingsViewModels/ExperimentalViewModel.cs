@@ -1,6 +1,10 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Files.Helpers;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Win32;
 using System;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 
@@ -31,6 +35,62 @@ namespace Files.ViewModels.SettingsViewModels
         {
             await Launcher.LaunchFileAsync(
                 await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json")));
+        }
+
+        public RelayCommand SetAsDefaultExplorerCommand => new RelayCommand(() => SetAsDefaultExplorer());
+
+        private async void SetAsDefaultExplorer()
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                var (status, _) = await connection.SendMessageForResponseAsync(new ValueSet()
+                {
+                    { "Arguments", "SetAsDefaultExplorer" },
+                    { "Value", !IsSetAsDefaultFileManager }
+                });
+                if (status == AppServiceResponseStatus.Success)
+                {
+                    OnPropertyChanged(nameof(IsSetAsDefaultFileManager));
+                }
+            }
+        }
+
+        public RelayCommand SetAsOpenFileDialogCommand => new RelayCommand(() => SetAsOpenFileDialog());
+
+        private async void SetAsOpenFileDialog()
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                var (status, _) = await connection.SendMessageForResponseAsync(new ValueSet()
+                {
+                    { "Arguments", "SetAsOpenFileDialog" },
+                    { "Value", !IsSetAsOpenFileDialog }
+                });
+                if (status == AppServiceResponseStatus.Success)
+                {
+                    OnPropertyChanged(nameof(IsSetAsOpenFileDialog));
+                }
+            }
+        }
+
+        public bool IsSetAsDefaultFileManager
+        {
+            get
+            {
+                using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\Directory\shell");
+                return subkey?.GetValue("") as string == "openinfiles";
+            }
+        }
+
+        public bool IsSetAsOpenFileDialog
+        {
+            get
+            {
+                using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7}");
+                return subkey?.GetValue("") as string == "Files Dialog";
+            }
         }
     }
 }
