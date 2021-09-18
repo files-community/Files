@@ -125,10 +125,6 @@ namespace FilesFullTrust.MessageHandlers
                             // Canceled UAC
                             await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", false } }, message.Get("RequestID", (string)null));
                         }
-                        if (!enable)
-                        {
-                            goto case "SetAsOpenFileDialog";
-                        }
                     }
                     break;
 
