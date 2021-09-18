@@ -113,10 +113,19 @@ namespace FilesFullTrust.MessageHandlers
                 case "SetAsDefaultExplorer":
                     {
                         var enable = (bool)message["Value"];
-                        var scriptPath = Path.Combine(Package.Current.InstalledPath, "Files.Launcher", "Assets", "FilesOpenDialog");
+                        var destFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FilesOpenDialog");
+                        Directory.CreateDirectory(destFolder);
+                        if (enable)
+                        {
+                            foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledPath, "Files.Launcher", "Assets", "FilesOpenDialog")))
+                            {
+                                File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true);
+                            }
+                        }
+
                         try
                         {
-                            using var regProcess = Process.Start("regedit.exe", $"/s {Path.Combine(scriptPath, enable ? "SetFilesAsDefault.reg" : "UnsetFilesAsDefault.reg")}");
+                            using var regProcess = Process.Start("regedit.exe", @$"/s ""{Path.Combine(destFolder, enable ? "SetFilesAsDefault.reg" : "UnsetFilesAsDefault.reg")}""");
                             regProcess.WaitForExit();
                             await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", true } }, message.Get("RequestID", (string)null));
                         }
@@ -143,9 +152,9 @@ namespace FilesFullTrust.MessageHandlers
 
                         try
                         {
-                            using var regProc32 = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user {Path.Combine(destFolder, "CustomOpenDialog32.dll")}");
+                            using var regProc32 = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialog32.dll")}""");
                             regProc32.WaitForExit();
-                            using var regProc64 = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user {Path.Combine(destFolder, "CustomOpenDialog64.dll")}");
+                            using var regProc64 = Process.Start("regsvr32.exe", @$"/s /n {(!enable ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialog64.dll")}""");
                             regProc64.WaitForExit();
 
                             await Win32API.SendMessageAsync(connection, new ValueSet() { { "Success", true } }, message.Get("RequestID", (string)null));
