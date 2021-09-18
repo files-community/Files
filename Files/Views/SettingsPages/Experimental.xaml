@@ -78,7 +78,7 @@
                 Padding="0,12,0,0"
                 FontSize="14"
                 FontWeight="Medium"
-                Text="Default explorer" />
+                Text="Default file explorer" />
 
             <local:SettingsBlockControl
                 x:Uid="SettingsSetAsDefaultExplorer"
