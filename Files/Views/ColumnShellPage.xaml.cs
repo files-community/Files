@@ -48,7 +48,6 @@ namespace Files.Views
         public IBaseLayout SlimContentPage => ContentPage;
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
         private CancellationTokenSource cancellationTokenSource;
-        public SettingsViewModel AppSettings => App.AppSettings;
 
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
@@ -380,7 +379,7 @@ namespace Files.Views
             NavToolbarViewModel.ManualEntryBoxLoaded = true;
             NavToolbarViewModel.ClickablePathLoaded = false;
             NavToolbarViewModel.PathText = string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory)
-                ? AppSettings.HomePath
+                ? CommonPaths.HomePath
                 : FilesystemViewModel.WorkingDirectory;
         }
 
@@ -683,7 +682,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.P):
-                    AppSettings.PreviewPaneEnabled = !AppSettings.PreviewPaneEnabled;
+                    UserSettingsService.PreviewPaneEnabled = !UserSettingsService.PreviewPaneEnabled;
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh

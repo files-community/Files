@@ -4,7 +4,6 @@ using Files.Controllers;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
-using Files.Models.JsonSettings;
 using Files.Models.Settings;
 using Files.Services;
 using Files.Services.Implementation;
@@ -12,6 +11,9 @@ using Files.SettingsInterfaces;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
@@ -100,20 +102,20 @@ namespace Files
                 .AddSingleton<IWidgetsSettingsService, WidgetsSettingsService>((sp) => new WidgetsSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<ISidebarSettingsService, SidebarSettingsService>((sp) => new SidebarSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<IPreferencesSettingsService, PreferencesSettingsService>((sp) => new PreferencesSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
-                .AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()));
 
-                // Dialogs:
-
-                // FileSystem operations:
-                // TODO: IFilesystemHelpersService, IFilesystemOperationsService
-
-                ; // End
+            // Dialogs:
+            // 
+            // FileSystem operations:
+            // TODO: IFilesystemHelpersService, IFilesystemOperationsService
 
             return services.BuildServiceProvider();
         }
 
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
         {
+            StartAppCenter();
+
             if (AppSettings == null)
             {
                 AppSettings = await SettingsViewModel.CreateInstance();
@@ -131,6 +133,23 @@ namespace Files
             CloudDrivesManager ??= new CloudDrivesManager();
             WSLDistroManager ??= new WSLDistroManager();
             SidebarPinnedController ??= new SidebarPinnedController();
+        }
+
+        private static async void StartAppCenter()
+        {
+            try
+            {
+                if (!AppCenter.Configured)
+                {
+                    var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
+                    var lines = await FileIO.ReadTextAsync(file);
+                    var obj = Newtonsoft.Json.Linq.JObject.Parse(lines);
+                    AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
+                }
+            }
+            catch
+            {
+            }
         }
 
         public static async Task LoadOtherStuffAsync()

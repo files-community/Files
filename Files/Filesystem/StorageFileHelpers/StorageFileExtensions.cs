@@ -233,17 +233,17 @@ namespace Files.Filesystem
         {
             if (path.StartsWith("~\\"))
             {
-                path = $"{AppSettings.HomePath}{path.Remove(0, 1)}";
+                path = $"{CommonPaths.HomePath}{path.Remove(0, 1)}";
             }
 
             if (path.Contains("%temp%", StringComparison.OrdinalIgnoreCase))
             {
-                path = path.Replace("%temp%", AppSettings.TempPath, StringComparison.OrdinalIgnoreCase);
+                path = path.Replace("%temp%", CommonPaths.TempPath, StringComparison.OrdinalIgnoreCase);
             }
 
             if (path.Contains("%tmp%", StringComparison.OrdinalIgnoreCase))
             {
-                path = path.Replace("%tmp%", AppSettings.TempPath, StringComparison.OrdinalIgnoreCase);
+                path = path.Replace("%tmp%", CommonPaths.TempPath, StringComparison.OrdinalIgnoreCase);
             }
 
             if (path.Contains("%localappdata%", StringComparison.OrdinalIgnoreCase))
@@ -253,7 +253,7 @@ namespace Files.Filesystem
 
             if (path.Contains("%homepath%", StringComparison.OrdinalIgnoreCase))
             {
-                path = path.Replace("%homepath%", AppSettings.HomePath, StringComparison.OrdinalIgnoreCase);
+                path = path.Replace("%homepath%", CommonPaths.HomePath, StringComparison.OrdinalIgnoreCase);
             }
 
             return Environment.ExpandEnvironmentVariables(path);

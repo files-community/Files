@@ -113,7 +113,7 @@ namespace Files.ViewModels.Previews
             Item.ItemFile ??= await StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath);
             DetailsFromPreview = await LoadPreviewAndDetails();
 
-            if (!App.AppSettings.ShowPreviewOnly)
+            if (!UserSettingsService.ShowPreviewOnly)
             {
                 // Add the details from the preview function, then the system file properties
                 DetailsFromPreview?.ForEach(i => detailsFull.Add(i));

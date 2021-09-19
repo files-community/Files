@@ -1,4 +1,5 @@
-﻿using Windows.Storage;
+﻿using System;
+using Windows.Storage;
 
 namespace Files.Helpers
 {
@@ -14,5 +15,9 @@ namespace Files.Helpers
         public static readonly string RecycleBinPath = Constants.CommonPaths.RecycleBinPath;
 
         public static readonly string NetworkFolderPath = Constants.CommonPaths.NetworkFolderPath;
+
+        public static readonly string TempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
+
+        public static readonly string HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
     }
 }

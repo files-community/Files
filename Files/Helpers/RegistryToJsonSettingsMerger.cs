@@ -2,11 +2,8 @@
 using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Files.Helpers
 {
@@ -22,59 +19,60 @@ namespace Files.Helpers
 
                 try
                 {
-                    userSettingsService.PreviewPaneSizeHorizontalPx = appSettings.PreviewPaneSizeHorizontal.Value;
-                    userSettingsService.PreviewPaneSizeVerticalPx = appSettings.PreviewPaneSizeVertical.Value;
-                    userSettingsService.PreviewPaneEnabled = appSettings.PreviewPaneEnabled;
-                    userSettingsService.ShowPreviewOnly = appSettings.ShowPreviewOnly;
+                    // Preview pane
+                    userSettingsService.PreviewPaneSizeHorizontalPx = appSettings.Get(300d, "PreviewPaneSizeHorizontal");
+                    userSettingsService.PreviewPaneSizeVerticalPx = appSettings.Get(250d, "PreviewPaneSizeVertical");
+                    userSettingsService.PreviewPaneEnabled = appSettings.Get(false, "PreviewPaneEnabled");
+                    userSettingsService.ShowPreviewOnly = appSettings.Get(false, "ShowPreviewOnly");
 
                     // Files and folders
-                    userSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions = appSettings.ShowFileExtensions;
-                    userSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible = appSettings.AreHiddenItemsVisible;
-                    userSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden = appSettings.AreSystemItemsHidden;
-                    userSettingsService.FilesAndFoldersSettingsService.ListAndSortDirectoriesAlongsideFiles = appSettings.ListAndSortDirectoriesAlongsideFiles;
-                    userSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick = appSettings.OpenItemsWithOneclick;
-                    userSettingsService.FilesAndFoldersSettingsService.SearchUnindexedItems = appSettings.SearchUnindexedItems;
-                    userSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder = appSettings.AreLayoutPreferencesPerFolder;
-                    userSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled = appSettings.AdaptiveLayoutEnabled;
-                    userSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled = appSettings.AreFileTagsEnabled;
+                    userSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions = appSettings.Get(true, "ShowFileExtensions");
+                    userSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible = appSettings.Get(false, "AreHiddenItemsVisible");
+                    userSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden = appSettings.Get(true, "AreSystemItemsHidden");
+                    userSettingsService.FilesAndFoldersSettingsService.ListAndSortDirectoriesAlongsideFiles = appSettings.Get(false, "ListAndSortDirectoriesAlongsideFiles");
+                    userSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick = appSettings.Get(false, "OpenItemsWithOneclick");
+                    userSettingsService.FilesAndFoldersSettingsService.SearchUnindexedItems = appSettings.Get(false, "SearchUnindexedItems");
+                    userSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder = appSettings.Get(true, "AreLayoutPreferencesPerFolder");
+                    userSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled = appSettings.Get(true, "AdaptiveLayoutEnabled");
+                    userSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled = appSettings.Get(false, "AreFileTagsEnabled");
 
                     // Multitasking
-                    userSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled = appSettings.IsVerticalTabFlyoutEnabled;
-                    userSettingsService.MultitaskingSettingsService.IsDualPaneEnabled = appSettings.IsDualPaneEnabled;
-                    userSettingsService.MultitaskingSettingsService.AlwaysOpenDualPaneInNewTab = appSettings.AlwaysOpenDualPaneInNewTab;
+                    userSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled = appSettings.Get(true, "IsVerticalTabFlyoutEnabled");
+                    userSettingsService.MultitaskingSettingsService.IsDualPaneEnabled = appSettings.Get(false, "IsDualPaneEnabled");
+                    userSettingsService.MultitaskingSettingsService.AlwaysOpenDualPaneInNewTab = appSettings.Get(false, "AlwaysOpenDualPaneInNewTab");
 
                     // Widgets
-                    userSettingsService.WidgetsSettingsService.ShowFoldersWidget = appSettings.ShowFolderWidgetWidget;
-                    userSettingsService.WidgetsSettingsService.ShowRecentFilesWidget = appSettings.ShowRecentFilesWidget;
-                    userSettingsService.WidgetsSettingsService.ShowDrivesWidget = appSettings.ShowDrivesWidget;
-                    userSettingsService.WidgetsSettingsService.ShowBundlesWidget = appSettings.ShowBundlesWidget;
+                    userSettingsService.WidgetsSettingsService.ShowFoldersWidget = appSettings.Get(true, "ShowFolderWidgetWidget");
+                    userSettingsService.WidgetsSettingsService.ShowRecentFilesWidget = appSettings.Get(true, "ShowRecentFilesWidget");
+                    userSettingsService.WidgetsSettingsService.ShowDrivesWidget = appSettings.Get(true, "ShowDrivesWidget");
+                    userSettingsService.WidgetsSettingsService.ShowBundlesWidget = appSettings.Get(false, "ShowBundlesWidget");
 
                     // Sidebar
-                    userSettingsService.SidebarSettingsService.SidebarWidth = appSettings.SidebarWidth.Value;
-                    userSettingsService.SidebarSettingsService.IsSidebarOpen = appSettings.IsSidebarOpen;
-                    userSettingsService.SidebarSettingsService.ShowFavoritesSection = appSettings.ShowFavoritesSection;
-                    userSettingsService.SidebarSettingsService.ShowLibrarySection = appSettings.ShowLibrarySection;
-                    userSettingsService.SidebarSettingsService.ShowDrivesSection = appSettings.ShowDrivesSection;
-                    userSettingsService.SidebarSettingsService.ShowCloudDrivesSection = appSettings.ShowCloudDrivesSection;
-                    userSettingsService.SidebarSettingsService.ShowNetworkDrivesSection = appSettings.ShowNetworkDrivesSection;
-                    userSettingsService.SidebarSettingsService.ShowWslSection = appSettings.ShowWslSection;
-                    userSettingsService.SidebarSettingsService.PinRecycleBinToSideBar = appSettings.PinRecycleBinToSideBar;
+                    userSettingsService.SidebarSettingsService.SidebarWidth = appSettings.Get(255d, "SidebarWidth");
+                    userSettingsService.SidebarSettingsService.IsSidebarOpen = appSettings.Get(true, "IsSidebarOpen");
+                    userSettingsService.SidebarSettingsService.ShowFavoritesSection = appSettings.Get(true, "ShowFavoritesSection");
+                    userSettingsService.SidebarSettingsService.ShowLibrarySection = appSettings.Get(false, "ShowLibrarySection");
+                    userSettingsService.SidebarSettingsService.ShowDrivesSection = appSettings.Get(true, "ShowDrivesSection");
+                    userSettingsService.SidebarSettingsService.ShowCloudDrivesSection = appSettings.Get(true, "ShowCloudDrivesSection");
+                    userSettingsService.SidebarSettingsService.ShowNetworkDrivesSection = appSettings.Get(true, "ShowNetworkDrivesSection");
+                    userSettingsService.SidebarSettingsService.ShowWslSection = appSettings.Get(true, "ShowWslSection");
+                    userSettingsService.SidebarSettingsService.PinRecycleBinToSideBar = appSettings.Get(true, "PinRecycleBinToSideBar");
 
                     // Preferences
-                    userSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog = appSettings.ShowConfirmDeleteDialog;
-                    userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab = appSettings.OpenFoldersNewTab;
+                    userSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog = appSettings.Get(true, "ShowConfirmDeleteDialog");
+                    userSettingsService.PreferencesSettingsService.OpenFoldersInNewTab = appSettings.Get(false, "OpenFoldersNewTab");
 
                     // Appearance
-                    userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu = appSettings.MoveOverflowMenuItemsToSubMenu;
+                    userSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu = appSettings.Get(true, "MoveOverflowMenuItemsToSubMenu");
 
                     // Startup
-                    userSettingsService.StartupSettingsService.OpenSpecificPageOnStartup = appSettings.OpenASpecificPageOnStartup;
-                    userSettingsService.StartupSettingsService.OpenSpecificPageOnStartupPath = appSettings.OpenASpecificPageOnStartupPath;
-                    userSettingsService.StartupSettingsService.ContinueLastSessionOnStartUp = appSettings.ContinueLastSessionOnStartUp;
-                    userSettingsService.StartupSettingsService.OpenNewTabOnStartup = appSettings.OpenNewTabPageOnStartup;
-                    userSettingsService.StartupSettingsService.AlwaysOpenNewInstance = appSettings.AlwaysOpenANewInstance;
-                    userSettingsService.StartupSettingsService.TabsOnStartupList = appSettings.PagesOnStartupList?.ToList();
-                    userSettingsService.StartupSettingsService.LastSessionTabList = appSettings.LastSessionPages?.ToList();
+                    userSettingsService.StartupSettingsService.OpenSpecificPageOnStartup = appSettings.Get(false, "OpenASpecificPageOnStartup");
+                    userSettingsService.StartupSettingsService.OpenSpecificPageOnStartupPath = appSettings.Get("", "OpenASpecificPageOnStartupPath");
+                    userSettingsService.StartupSettingsService.ContinueLastSessionOnStartUp = appSettings.Get(false, "ContinueLastSessionOnStartUp");
+                    userSettingsService.StartupSettingsService.OpenNewTabOnStartup = appSettings.Get(true, "OpenNewTabPageOnStartup");
+                    userSettingsService.StartupSettingsService.AlwaysOpenNewInstance = appSettings.Get(false, "AlwaysOpenANewInstance");
+                    userSettingsService.StartupSettingsService.TabsOnStartupList = appSettings.Get<string[]>(null, "PagesOnStartupList")?.ToList();
+                    userSettingsService.StartupSettingsService.LastSessionTabList = appSettings.Get<string[]>(null, "LastSessionPages")?.ToList();
 
                     App.AppSettings.AreRegistrySettingsMergedToJson = true;
                 }

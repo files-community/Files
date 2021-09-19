@@ -2,8 +2,6 @@
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Models.JsonSettings;
-using Files.Models.JsonSettings.Implementation;
-using Files.Models.Settings;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;

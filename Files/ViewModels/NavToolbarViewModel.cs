@@ -838,7 +838,7 @@ namespace Files.ViewModels
                         {
                             var workingDir = string.IsNullOrEmpty(shellPage.FilesystemViewModel.WorkingDirectory)
                                     || shellPage.CurrentPageType == typeof(WidgetsPage)
-                                ? App.AppSettings.HomePath
+                                ? CommonPaths.HomePath
                                 : shellPage.FilesystemViewModel.WorkingDirectory;
 
                             // Launch terminal application if possible

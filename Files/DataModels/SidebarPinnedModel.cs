@@ -33,9 +33,6 @@ namespace Files.DataModels
         private LocationItem favoriteSection, homeSection;
 
         [JsonIgnore]
-        public SettingsViewModel AppSettings => App.AppSettings;
-
-        [JsonIgnore]
         public MainViewModel MainViewModel => App.MainViewModel;
 
         [JsonProperty("items")]
