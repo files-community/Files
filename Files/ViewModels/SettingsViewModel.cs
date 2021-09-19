@@ -141,55 +141,6 @@ namespace Files.ViewModels
             }
         }
 
-        #region DetailsView Column Settings
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the date column should be visible.
-        /// </summary>
-        public bool ShowDateColumn
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the date created column should be visible.
-        /// </summary>
-        public bool ShowDateCreatedColumn
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the type column should be visible.
-        /// </summary>
-        public bool ShowTypeColumn
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the size column should be visible.
-        /// </summary>
-        public bool ShowSizeColumn
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the filetag column should be visible.
-        /// </summary>
-        public bool ShowFileTagColumn
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        #endregion DetailsView Column Settings
-
         #region Preferences
 
         /// <summary>
@@ -254,24 +205,6 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to show the confirm elevation dialog.
-        /// </summary>
-        public bool HideConfirmElevateDialog
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating the default volume on media preview.
-        /// </summary>
-        public double MediaVolume
-        {
-            get => Math.Min(Math.Max(Get(1.0d), 0.0d), 1.0d);
-            set => Set(value);
-        }
-
         public event EventHandler ThemeModeChanged;
 
         public RelayCommand UpdateThemeElements => new RelayCommand(() =>
@@ -280,36 +213,6 @@ namespace Files.ViewModels
         });
 
         public AcrylicTheme AcrylicTheme { get; set; } = new AcrylicTheme();
-
-        public FolderLayoutModes DefaultLayoutMode
-        {
-            get => (FolderLayoutModes)Get((byte)FolderLayoutModes.DetailsView); // Details View
-            set => Set((byte)value);
-        }
-
-        public int DefaultGridViewSize
-        {
-            get => Get(Constants.Browser.GridViewBrowser.GridViewSizeSmall);
-            set => Set(value);
-        }
-
-        public SortDirection DefaultDirectorySortDirection
-        {
-            get => (SortDirection)Get((byte)SortDirection.Ascending);
-            set => Set((byte)value);
-        }
-
-        public SortOption DefaultDirectorySortOption
-        {
-            get => (SortOption)Get((byte)SortOption.Name);
-            set => Set((byte)value);
-        }
-
-        public GroupOption DefaultDirectoryGroupOption
-        {
-            get => (GroupOption)Get((byte)GroupOption.None);
-            set => Set((byte)value);
-        }
 
         public FileTagsSettings FileTagsSettings { get; private set; }
 

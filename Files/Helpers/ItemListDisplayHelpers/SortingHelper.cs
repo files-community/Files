@@ -2,7 +2,6 @@
 using Files.Filesystem;
 using Files.Services;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;

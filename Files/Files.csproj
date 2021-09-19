@@ -246,16 +246,20 @@
     <Compile Include="Models\JsonSettings\ISettingsSerializer.cs" />
     <Compile Include="Services\IAppearanceSettingsService.cs" />
     <Compile Include="Services\IFilesAndFoldersSettingsService.cs" />
+    <Compile Include="Services\ILayoutSettingsService.cs" />
     <Compile Include="Services\Implementation\AppearanceSettingsService.cs" />
     <Compile Include="Services\Implementation\FilesAndFoldersSettingsService.cs" />
+    <Compile Include="Services\Implementation\LayoutSettingsService.cs" />
     <Compile Include="Services\Implementation\MultitaskingSettingsService.cs" />
     <Compile Include="Services\Implementation\PreferencesSettingsService.cs" />
+    <Compile Include="Services\Implementation\PreviewPaneSettingsService.cs" />
     <Compile Include="Services\Implementation\SidebarSettingsService.cs" />
     <Compile Include="Services\Implementation\StartupSettingsService.cs" />
     <Compile Include="Services\Implementation\UserSettingsService.cs" />
     <Compile Include="Services\Implementation\WidgetsSettingsService.cs" />
     <Compile Include="Services\IMultitaskingSettingsService.cs" />
     <Compile Include="Services\IPreferencesSettingsService.cs" />
+    <Compile Include="Services\IPreviewPaneSettingsService.cs" />
     <Compile Include="Services\ISidebarSettingsService.cs" />
     <Compile Include="Services\IStartupSettingsService.cs" />
     <Compile Include="Services\IUserSettingsService.cs" />
@@ -486,7 +490,7 @@
     </Compile>
     <Compile Include="Enums\FormFactorMode.cs" />
     <Compile Include="Enums\SidebarOpacity.cs" />
-    <Compile Include="Enums\SortOption.cs" />
+    <Compile Include="Enums\SortOptions.cs" />
     <Compile Include="Enums\TimeStyle.cs" />
     <Compile Include="Enums\WallpaperType.cs" />
     <Compile Include="DataModels\NavigationControlItems\DriveItem.cs" />

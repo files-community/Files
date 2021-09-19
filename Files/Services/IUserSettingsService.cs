@@ -24,24 +24,8 @@ namespace Files.Services
 
         IStartupSettingsService StartupSettingsService { get; }
 
-        /// <summary>
-        /// Gets or sets a value indicating the height of the preview pane in a horizontal layout.
-        /// </summary>
-        double PreviewPaneSizeHorizontalPx { get; set; }
+        IPreviewPaneSettingsService PreviewPaneSettingsService { get; }
 
-        /// <summary>
-        /// Gets or sets a value indicating the width of the preview pane in a vertical layout.
-        /// </summary>
-        double PreviewPaneSizeVerticalPx { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating if the preview pane should be open or closed.
-        /// </summary>
-        bool PreviewPaneEnabled { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating if the preview pane should only show the item preview without the details section
-        /// </summary>
-        bool ShowPreviewOnly { get; set; }
+        ILayoutSettingsService LayoutSettingsService { get; }
     }
 }

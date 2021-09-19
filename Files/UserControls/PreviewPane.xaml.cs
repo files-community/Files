@@ -12,8 +12,7 @@ namespace Files.UserControls
 {
     public sealed partial class PreviewPane : UserControl
     {
-        public IUserSettingsService UserSettingsService { get; } =
-            Ioc.Default.GetService<IUserSettingsService>();
+        public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         public PreviewPaneViewModel Model
         {

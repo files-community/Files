@@ -1,7 +1,5 @@
-﻿using Files.EventArguments;
-using Files.Models.JsonSettings;
+﻿using Files.Models.JsonSettings;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using System;
 using System.IO;
 using Windows.Storage;
 
@@ -51,6 +49,18 @@ namespace Files.Services.Implementation
             get => GetSettingsService(ref _StartupSettingsService);
         }
 
+        private IPreviewPaneSettingsService _PreviewPaneSettingsService;
+        public IPreviewPaneSettingsService PreviewPaneSettingsService
+        {
+            get => GetSettingsService(ref _PreviewPaneSettingsService);
+        }
+
+        private ILayoutSettingsService _LayoutSettingsService;
+        public ILayoutSettingsService LayoutSettingsService
+        {
+            get => GetSettingsService(ref _LayoutSettingsService);
+        }
+
         public UserSettingsService()
             : base(Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.UserSettingsFileName),
                 isCachingEnabled: true)
@@ -62,43 +72,6 @@ namespace Files.Services.Implementation
         {
             settingsServiceMember ??= Ioc.Default.GetService<TSettingsService>();
             return settingsServiceMember;
-        }
-
-        protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
-        {
-            switch (e.settingName)
-            {
-                case nameof(ShowPreviewOnly):
-                //case nameof(DisplayedTimeStyle):
-                //case nameof(ThemeHelper.RootTheme):
-                    Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{nameof(e.settingName)} {e.newValue}");
-                    break;
-            }
-            base.RaiseOnSettingChangedEvent(sender, e);
-        }
-
-        public double PreviewPaneSizeHorizontalPx
-        {
-            get => Get(Math.Min(Math.Max(Get(300d), 50d), 600d));
-            set => Set(value);
-        }
-
-        public double PreviewPaneSizeVerticalPx
-        {
-            get => Get(Math.Min(Math.Max(Get(250d), 50d), 600d));
-            set => Set(value);
-        }
-
-        public bool PreviewPaneEnabled
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        public bool ShowPreviewOnly
-        {
-            get => Get(false);
-            set => Set(value);
-        }
+        } 
     }
 }
