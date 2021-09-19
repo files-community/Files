@@ -2734,4 +2734,25 @@ Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu e
   <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Terminal-Anwendung</value>
   </data>
+  <data name="OngoingTasks" xml:space="preserve">
+    <value>Laufende Aufgaben</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
+    <value>Vollständige Vorschau laden</value>
+  </data>
+  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
+    <value>Nur Vorschau anzeigen</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
+    <value>Nach unten verschieben</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
+    <value>Nach oben verschieben</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>Nach ganz unten verschieben</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>Nach ganz oben verschieben</value>
+  </data>
 </root>
