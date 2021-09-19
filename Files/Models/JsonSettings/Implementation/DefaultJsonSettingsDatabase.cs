@@ -34,6 +34,16 @@ namespace Files.Models.JsonSettings.Implementation
             return settingsSerializer.WriteToFile(settingsData);
         }
 
+        public virtual TValue GetValue<TValue>(string key, object defaultValue = null)
+        {
+            var value = GetValue(key, defaultValue);
+            if (value is Newtonsoft.Json.Linq.JToken jTokenValue)
+            {
+                return jTokenValue.ToObject<TValue>();
+            }
+            return (TValue)value;
+        }
+
         public virtual object GetValue(string key, object defaultValue = null)
         {
             this.settingsCache = GetNewSettingsCache();

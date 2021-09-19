@@ -164,9 +164,7 @@ namespace Files.Models.JsonSettings
                 return defaultValue;
             }
 
-            object value = JsonSettingsDatabase.GetValue(propertyName, defaultValue);
-
-            return value is JToken jTokenValue ? jTokenValue.ToObject<TValue>() : (TValue)value;
+            return JsonSettingsDatabase.GetValue<TValue>(propertyName, defaultValue);
         }
 
         protected virtual bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = "")

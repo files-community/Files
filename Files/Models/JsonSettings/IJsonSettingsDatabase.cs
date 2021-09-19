@@ -4,6 +4,8 @@
     {
         object GetValue(string key, object defaultValue = null);
 
+        TValue GetValue<TValue>(string key, object defaultValue = null);
+
         bool AddKey(string key, object value);
 
         bool RemoveKey(string key);

@@ -13,6 +13,26 @@ namespace Files.Models.JsonSettings.Implementation
         {
         }
 
+        public override TValue GetValue<TValue>(string key, object defaultValue = null)
+        {
+            if (settingsCache.ContainsKey(key))
+            {
+                var value = settingsCache[key];
+                if (value is Newtonsoft.Json.Linq.JToken jTokenValue)
+                {
+                    var objValue = jTokenValue.ToObject<TValue>();
+                    settingsCache[key] = objValue;
+                    return objValue;
+                }
+                return (TValue)value;
+            }
+            else
+            {
+                _cacheMisses++;
+                return base.GetValue<TValue>(key, defaultValue);
+            }
+        }
+
         public override object GetValue(string key, object defaultValue = null)
         {
             if (settingsCache.ContainsKey(key))
