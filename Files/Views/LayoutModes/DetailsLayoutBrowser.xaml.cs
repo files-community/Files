@@ -22,6 +22,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+using SortDirection = Files.Enums.SortDirection;
+
 namespace Files.Views.LayoutModes
 {
     public sealed partial class DetailsLayoutBrowser : BaseLayout

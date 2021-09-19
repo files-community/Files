@@ -29,6 +29,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using static Files.UserControls.INavigationToolbar;
 using SearchBox = Files.UserControls.SearchBox;
+using SortDirection = Files.Enums.SortDirection;
 
 namespace Files.ViewModels
 {

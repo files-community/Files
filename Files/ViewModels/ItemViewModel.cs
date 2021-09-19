@@ -16,7 +16,6 @@ using FluentFTP;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -1077,9 +1076,10 @@ namespace Files.ViewModels
         private async Task<ImageSource> GetItemTypeGroupIcon(ListedItem item, BaseStorageFile matchingStorageItem = null)
         {
             ImageSource groupImage = null;
-            if (item.PrimaryItemAttribute != StorageItemTypes.Folder)
+            if (item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsZipItem)
             {
-                var headerIconInfo = await FileThumbnailHelper.LoadIconFromPathAsync(item.ItemPath, 76, ThumbnailMode.ListView);
+                var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, 64u);
+
                 if (headerIconInfo != null && !item.IsShortcutItem)
                 {
                     groupImage = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => headerIconInfo.ToBitmapAsync(), Windows.System.DispatcherQueuePriority.Low);
@@ -1192,7 +1192,7 @@ namespace Files.ViewModels
                     AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
                 }
 
-                if (UserSettingsService.PreviewPaneEnabled)
+                if (UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled)
                 {
                     // Find and select README file
                     foreach (var item in filesAndFolders)

@@ -90,10 +90,10 @@ namespace Files
             ServiceCollection services = new ServiceCollection();
 
             services
-                // Loggers:
+                // TODO: Loggers:
 
                 // Settings:
-                // Base IUserSettingsService as parent
+                // Base IUserSettingsService as parent settings store (to get ISettingsSharingContext from)
                 .AddSingleton<IUserSettingsService, UserSettingsService>()
                 // Children settings (from IUserSettingsService)
                 .AddSingleton<IFilesAndFoldersSettingsService, FilesAndFoldersSettingsService>((sp) => new FilesAndFoldersSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
@@ -102,12 +102,17 @@ namespace Files
                 .AddSingleton<IWidgetsSettingsService, WidgetsSettingsService>((sp) => new WidgetsSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<ISidebarSettingsService, SidebarSettingsService>((sp) => new SidebarSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 .AddSingleton<IPreferencesSettingsService, PreferencesSettingsService>((sp) => new PreferencesSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
-                .AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()));
+                .AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>((sp) => new PreviewPaneSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
 
-            // Dialogs:
-            // 
-            // FileSystem operations:
-            // TODO: IFilesystemHelpersService, IFilesystemOperationsService
+                // TODO: Dialogs:
+
+                // TODO: FileSystem operations:
+                // (IFilesystemHelpersService, IFilesystemOperationsService)
+
+                ; // End of service configuration
+
 
             return services.BuildServiceProvider();
         }
@@ -147,8 +152,9 @@ namespace Files
                     AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Warn(ex, "AppCenter could not be started.");
             }
         }
 

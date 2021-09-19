@@ -1,4 +1,5 @@
-﻿using Files.Services;
+﻿using Files.Enums;
+using Files.Services;
 using Files.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
@@ -20,10 +21,11 @@ namespace Files.Helpers
                 try
                 {
                     // Preview pane
-                    userSettingsService.PreviewPaneSizeHorizontalPx = appSettings.Get(300d, "PreviewPaneSizeHorizontal");
-                    userSettingsService.PreviewPaneSizeVerticalPx = appSettings.Get(250d, "PreviewPaneSizeVertical");
-                    userSettingsService.PreviewPaneEnabled = appSettings.Get(false, "PreviewPaneEnabled");
-                    userSettingsService.ShowPreviewOnly = appSettings.Get(false, "ShowPreviewOnly");
+                    userSettingsService.PreviewPaneSettingsService.PreviewPaneSizeHorizontalPx = appSettings.Get(300d, "PreviewPaneSizeHorizontal");
+                    userSettingsService.PreviewPaneSettingsService.PreviewPaneSizeVerticalPx = appSettings.Get(250d, "PreviewPaneSizeVertical");
+                    userSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled = appSettings.Get(false, "PreviewPaneEnabled");
+                    userSettingsService.PreviewPaneSettingsService.ShowPreviewOnly = appSettings.Get(false, "ShowPreviewOnly");
+                    userSettingsService.PreviewPaneSettingsService.PreviewPaneMediaVolume = appSettings.Get(1.0d, "MediaVolume");
 
                     // Files and folders
                     userSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions = appSettings.Get(true, "ShowFileExtensions");
@@ -74,11 +76,23 @@ namespace Files.Helpers
                     userSettingsService.StartupSettingsService.TabsOnStartupList = appSettings.Get<string[]>(null, "PagesOnStartupList")?.ToList();
                     userSettingsService.StartupSettingsService.LastSessionTabList = appSettings.Get<string[]>(null, "LastSessionPages")?.ToList();
 
+                    // Layout settings
+                    userSettingsService.LayoutSettingsService.ShowDateColumn = appSettings.Get(true, "ShowDateColumn");
+                    userSettingsService.LayoutSettingsService.ShowDateCreatedColumn = appSettings.Get(false, "ShowDateCreatedColumn");
+                    userSettingsService.LayoutSettingsService.ShowTypeColumn = appSettings.Get(true, "ShowTypeColumn");
+                    userSettingsService.LayoutSettingsService.ShowSizeColumn = appSettings.Get(true, "ShowSizeColumn");
+                    userSettingsService.LayoutSettingsService.ShowFileTagColumn = appSettings.Get(true, "ShowFileTagColumn");
+                    userSettingsService.LayoutSettingsService.DefaultGridViewSize = appSettings.Get(Constants.Browser.GridViewBrowser.GridViewSizeSmall, "DefaultGridViewSize");
+                    userSettingsService.LayoutSettingsService.DefaultLayoutMode = (FolderLayoutModes)appSettings.Get((byte)FolderLayoutModes.DetailsView, "DefaultLayoutMode");
+                    userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = (SortDirection)appSettings.Get((byte)Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending, "DefaultDirectorySortDirection");
+                    userSettingsService.LayoutSettingsService.DefaultDirectorySortOption = (SortOption)appSettings.Get((byte)SortOption.Name, "DefaultDirectorySortOption");
+                    userSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption = (GroupOption)appSettings.Get((byte)GroupOption.None, "DefaultDirectoryGroupOption");
+
                     App.AppSettings.AreRegistrySettingsMergedToJson = true;
                 }
                 catch (Exception ex)
                 {
-                    App.Logger.Warn(ex);
+                    App.Logger.Warn(ex, "Merging settings failed");
                     Debugger.Break();
                 }
             }

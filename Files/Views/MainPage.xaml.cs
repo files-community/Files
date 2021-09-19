@@ -74,7 +74,7 @@ namespace Files.Views
         {
             switch (e.settingName)
             {
-                case nameof(UserSettingsService.PreviewPaneEnabled):
+                case nameof(UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled):
                     LoadPreviewPaneChanged();
                     break;
             }
@@ -380,14 +380,14 @@ namespace Files.Views
                 PreviewPaneRow.MinHeight = 0;
                 PreviewPaneRow.Height = new GridLength(0);
                 PreviewPaneColumn.MinWidth = 150;
-                PreviewPaneColumn.Width = new GridLength(UserSettingsService.PreviewPaneSizeVerticalPx, GridUnitType.Pixel);
+                PreviewPaneColumn.Width = new GridLength(UserSettingsService.PreviewPaneSettingsService.PreviewPaneSizeVerticalPx, GridUnitType.Pixel);
 
                 PreviewPane.IsHorizontal = false;
             }
             else if (RootGrid.ActualWidth <= 700)
             {
                 PreviewPaneRow.MinHeight = 140;
-                PreviewPaneRow.Height = new GridLength(UserSettingsService.PreviewPaneSizeHorizontalPx, GridUnitType.Pixel);
+                PreviewPaneRow.Height = new GridLength(UserSettingsService.PreviewPaneSettingsService.PreviewPaneSizeHorizontalPx, GridUnitType.Pixel);
                 PreviewPaneColumn.MinWidth = 0;
                 PreviewPaneColumn.Width = new GridLength(0);
 
@@ -412,15 +412,15 @@ namespace Files.Views
 
             if (PreviewPane.IsHorizontal)
             {
-                UserSettingsService.PreviewPaneSizeHorizontalPx = Math.Max(50d, Math.Min(PreviewPane.ActualHeight, 600d));
+                UserSettingsService.PreviewPaneSettingsService.PreviewPaneSizeHorizontalPx = Math.Max(50d, Math.Min(PreviewPane.ActualHeight, 600d));
             }
             else
             {
-                UserSettingsService.PreviewPaneSizeVerticalPx = Math.Max(50d, Math.Min(PreviewPane.ActualWidth, 600d));
+                UserSettingsService.PreviewPaneSettingsService.PreviewPaneSizeVerticalPx = Math.Max(50d, Math.Min(PreviewPane.ActualWidth, 600d));
             }
         }
 
-        public bool LoadPreviewPane => UserSettingsService.PreviewPaneEnabled && !IsPreviewPaneDisabled;
+        public bool LoadPreviewPane => UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled && !IsPreviewPaneDisabled;
 
         public bool IsPreviewPaneDisabled => (!(SidebarAdaptiveViewModel.PaneHolder?.ActivePane.InstanceViewModel.IsPageTypeNotHome ?? false) && !(SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false)) // hide the preview pane when on home page unless multi pane is in use
             || Window.Current.Bounds.Width <= 450 || Window.Current.Bounds.Height <= 400; // Disable the preview pane for small windows as it won't function properly
