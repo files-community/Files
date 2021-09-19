@@ -4,7 +4,7 @@
     {
         object GetValue(string key, object defaultValue = null);
 
-        TValue GetValue<TValue>(string key, object defaultValue = null);
+        TValue GetValue<TValue>(string key, TValue defaultValue = default);
 
         bool AddKey(string key, object value);
 

@@ -34,14 +34,14 @@ namespace Files.Models.JsonSettings.Implementation
             return settingsSerializer.WriteToFile(settingsData);
         }
 
-        public virtual TValue GetValue<TValue>(string key, object defaultValue = null)
+        public virtual TValue GetValue<TValue>(string key, TValue defaultValue = default)
         {
             var value = GetValue(key, defaultValue);
             if (value is Newtonsoft.Json.Linq.JToken jTokenValue)
             {
                 return jTokenValue.ToObject<TValue>();
             }
-            return (TValue)value;
+            return value;
         }
 
         public virtual object GetValue(string key, object defaultValue = null)

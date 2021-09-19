@@ -13,7 +13,7 @@ namespace Files.Models.JsonSettings.Implementation
         {
         }
 
-        public override TValue GetValue<TValue>(string key, object defaultValue = null)
+        public override TValue GetValue<TValue>(string key, TValue defaultValue = default)
         {
             if (settingsCache.ContainsKey(key))
             {
@@ -29,7 +29,7 @@ namespace Files.Models.JsonSettings.Implementation
             else
             {
                 _cacheMisses++;
-                return base.GetValue<TValue>(key, defaultValue);
+                return base.GetValue(key, defaultValue);
             }
         }
 
