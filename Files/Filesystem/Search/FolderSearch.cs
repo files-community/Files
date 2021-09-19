@@ -26,6 +26,8 @@ namespace Files.Filesystem.Search
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
+        private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
+
         private const uint defaultStepSize = 500;
 
         public string Query { get; set; }
@@ -169,7 +171,7 @@ namespace Files.Filesystem.Search
         {
             //var sampler = new IntervalSampler(500);
             var tagName = AQSQuery.Substring("tag:".Length);
-            var tags = App.AppSettings.FileTagsSettings.GetTagsByName(tagName);
+            var tags = FileTagsSettingsService.GetTagsByName(tagName);
             if (!tags.Any())
             {
                 return;

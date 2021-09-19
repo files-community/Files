@@ -46,6 +46,8 @@ namespace Files
 
         protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
+        protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
+
         protected Task<NamedPipeAsAppServiceConnection> Connection => AppServiceConnectionHelper.Instance;
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
@@ -643,7 +645,7 @@ namespace Files
         {
             var fileTagMenuFlyout = new MenuFlyoutItemFileTag()
             {
-                ItemsSource = AppSettings.FileTagsSettings.FileTagList,
+                ItemsSource = FileTagsSettingsService.FileTagList,
                 SelectedItems = SelectedItems
             };
             var overflowSeparator = contextMenu.SecondaryCommands.FirstOrDefault(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator;
