@@ -29,20 +29,7 @@ namespace Files.Models.JsonSettings.Implementation
             else
             {
                 _cacheMisses++;
-                return base.GetValue(key, defaultValue);
-            }
-        }
-
-        public override object GetValue(string key, object defaultValue = null)
-        {
-            if (settingsCache.ContainsKey(key))
-            {
-                return settingsCache[key];
-            }
-            else
-            {
-                _cacheMisses++;
-                return base.GetValue(key, defaultValue);
+                return base.GetValue<TValue>(key, defaultValue);
             }
         }
 

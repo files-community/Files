@@ -48,32 +48,32 @@ namespace Files.Services.Implementation
 
         public int DefaultGridViewSize
         {
-            get => Get(Constants.Browser.GridViewBrowser.GridViewSizeSmall);
-            set => Set(value);
+            get => (int)Get((long)Constants.Browser.GridViewBrowser.GridViewSizeSmall);
+            set => Set((long)value);
         }
 
         public FolderLayoutModes DefaultLayoutMode
         {
-            get => Get(FolderLayoutModes.DetailsView);
-            set => Set(value);
+            get => (FolderLayoutModes)Get((long)FolderLayoutModes.DetailsView);
+            set => Set((long)value);
         }
 
         public SortDirection DefaultDirectorySortDirection
         {
-            get => Get(SortDirection.Ascending);
-            set => Set(value);
+            get => (SortDirection)Get((long)SortDirection.Ascending);
+            set => Set((long)value);
         }
 
         public SortOption DefaultDirectorySortOption
         {
-            get => Get(SortOption.Name);
-            set => Set(value);
+            get => (SortOption)Get((long)SortOption.Name);
+            set => Set((long)value);
         }
 
         public GroupOption DefaultDirectoryGroupOption
         {
-            get => Get(GroupOption.None);
-            set => Set(value);
+            get => (GroupOption)Get((long)GroupOption.None);
+            set => Set((long)value);
         }
     }
 }

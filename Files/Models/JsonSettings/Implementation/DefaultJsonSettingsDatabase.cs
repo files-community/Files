@@ -36,15 +36,15 @@ namespace Files.Models.JsonSettings.Implementation
 
         public virtual TValue GetValue<TValue>(string key, TValue defaultValue = default)
         {
-            var value = GetValue(key, defaultValue);
+            var value = GetObjectValue(key, defaultValue);
             if (value is Newtonsoft.Json.Linq.JToken jTokenValue)
             {
                 return jTokenValue.ToObject<TValue>();
             }
-            return value;
+            return (TValue)value;
         }
 
-        public virtual object GetValue(string key, object defaultValue = null)
+        private object GetObjectValue(string key, object defaultValue = null)
         {
             this.settingsCache = GetNewSettingsCache();
 
