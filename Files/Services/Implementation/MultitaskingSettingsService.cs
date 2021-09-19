@@ -10,6 +10,19 @@ namespace Files.Services.Implementation
             this.RegisterSettingsContext(settingsSharingContext);
         }
 
+        protected override void RaiseOnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        {
+            switch (e.settingName)
+            {
+                case nameof(IsVerticalTabFlyoutEnabled):
+                case nameof(IsDualPaneEnabled):
+                case nameof(AlwaysOpenDualPaneInNewTab):
+                    Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{nameof(e.settingName)} {e.newValue}");
+                    break;
+            }
+            base.RaiseOnSettingChangedEvent(sender, e);
+        }
+
         public bool IsVerticalTabFlyoutEnabled
         {
             get => Get(true);

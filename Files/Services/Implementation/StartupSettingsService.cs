@@ -11,6 +11,20 @@ namespace Files.Services.Implementation
             this.RegisterSettingsContext(settingsSharingContext);
         }
 
+        protected override void RaiseOnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        {
+            switch (e.settingName)
+            {
+                case nameof(OpenSpecificPageOnStartup):
+                case nameof(ContinueLastSessionOnStartUp):
+                case nameof(OpenNewTabOnStartup):
+                case nameof(AlwaysOpenNewInstance):
+                    Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{nameof(e.settingName)} {e.newValue}");
+                    break;
+            }
+            base.RaiseOnSettingChangedEvent(sender, e);
+        }
+
         public bool OpenSpecificPageOnStartup
         {
             get => Get(false);

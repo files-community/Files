@@ -151,7 +151,7 @@ namespace Files.Models.JsonSettings
             return settingsSharingContext ?? this;
         }
 
-        protected void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e) => OnSettingChangedEvent?.Invoke(sender, e);
+        protected virtual void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e) => OnSettingChangedEvent?.Invoke(sender, e);
 
         #endregion Helpers
 

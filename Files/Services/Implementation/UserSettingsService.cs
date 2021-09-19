@@ -1,4 +1,5 @@
-﻿using Files.Models.JsonSettings;
+﻿using Files.EventArguments;
+using Files.Models.JsonSettings;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
 using System.IO;
@@ -61,6 +62,19 @@ namespace Files.Services.Implementation
         {
             settingsServiceMember ??= Ioc.Default.GetService<TSettingsService>();
             return settingsServiceMember;
+        }
+
+        protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
+        {
+            switch (e.settingName)
+            {
+                case nameof(ShowPreviewOnly):
+                //case nameof(DisplayedTimeStyle):
+                //case nameof(ThemeHelper.RootTheme):
+                    Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{nameof(e.settingName)} {e.newValue}");
+                    break;
+            }
+            base.RaiseOnSettingChangedEvent(sender, e);
         }
 
         public double PreviewPaneSizeHorizontalPx

@@ -11,6 +11,22 @@ namespace Files.Services.Implementation
             this.RegisterSettingsContext(settingsSharingContext);
         }
 
+        protected override void RaiseOnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        {
+            switch (e.settingName)
+            {
+                case nameof(ShowFavoritesSection):
+                case nameof(ShowLibrarySection):
+                case nameof(ShowCloudDrivesSection):
+                case nameof(ShowNetworkDrivesSection):
+                case nameof(ShowWslSection):
+                case nameof(PinRecycleBinToSideBar):
+                    Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{nameof(e.settingName)} {e.newValue}");
+                    break;
+            }
+            base.RaiseOnSettingChangedEvent(sender, e);
+        }
+
         #region Internal Settings
 
         public double SidebarWidth

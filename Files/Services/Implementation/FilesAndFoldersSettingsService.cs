@@ -10,6 +10,25 @@ namespace Files.Services.Implementation
             this.RegisterSettingsContext(settingsSharingContext);
         }
 
+        protected override void RaiseOnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        {
+            switch (e.settingName)
+            {
+                case nameof(ShowFileExtensions):
+                case nameof(AreHiddenItemsVisible):
+                case nameof(AreSystemItemsHidden):
+                case nameof(ListAndSortDirectoriesAlongsideFiles):
+                case nameof(OpenItemsWithOneclick):
+                case nameof(SearchUnindexedItems):
+                case nameof(AreLayoutPreferencesPerFolder):
+                case nameof(AdaptiveLayoutEnabled):
+                case nameof(AreFileTagsEnabled):
+                    Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{nameof(e.settingName)} {e.newValue}");
+                    break;
+            }
+            base.RaiseOnSettingChangedEvent(sender, e);
+        }
+
         public bool ShowFileExtensions
         {
             get => Get(true);
