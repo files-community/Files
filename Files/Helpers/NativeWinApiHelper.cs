@@ -233,6 +233,21 @@ namespace Files.Helpers
                     nativeMachine == 0x01c4);
         }
 
+        private static bool? isHasThreadAccessPropertyPresent = null;
+
+        public static bool IsHasThreadAccessPropertyPresent
+        {
+            get
+            {
+                if (isHasThreadAccessPropertyPresent == null)
+                {
+                    isHasThreadAccessPropertyPresent = 
+                        Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent(typeof(Windows.System.DispatcherQueue).FullName, "HasThreadAccess");
+                }
+                return isHasThreadAccessPropertyPresent ?? false;
+            }
+        }
+
         // https://www.travelneil.com/wndproc-in-uwp.html
         [ComImport, Guid("45D64A29-A63E-4CB6-B498-5781D298CB4F")]
         [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
