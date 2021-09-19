@@ -1,24 +1,16 @@
 ﻿using Files.Models.JsonSettings;
-using Files.SettingsInterfaces;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using Windows.Storage;
 
-namespace Files.Models.Settings
+namespace Files.Services.Implementation
 {
-    public class BundlesSettingsModel : BaseJsonSettingsModel, IBundlesSettings
+    public sealed class BundlesSettingsService : BaseJsonSettingsModel, IBundlesSettingsService
     {
-        #region Constructor
-
-        public BundlesSettingsModel()
+        public BundlesSettingsService()
             : base(System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName),
                   isCachingEnabled: true)
         {
         }
-
-        #endregion Constructor
-
-        #region IBundlesSettings
 
         public Dictionary<string, List<string>> SavedBundles
         {
@@ -26,20 +18,17 @@ namespace Files.Models.Settings
             set => Set(value);
         }
 
-        #endregion IBundlesSettings
-
-        #region Override
-
         public override bool ImportSettings(object import)
         {
             try
             {
                 SavedBundles = (Dictionary<string, List<string>>)import;
+                
                 FlushSettings();
 
                 return true;
             }
-            catch 
+            catch
             {
                 // TODO: Display the error?
                 return false;
@@ -49,9 +38,7 @@ namespace Files.Models.Settings
         public override object ExportSettings()
         {
             // Return string in Json format
-            return JsonConvert.SerializeObject(SavedBundles, Formatting.Indented);
+            return jsonSettingsSerializer.SerializeToJson(SavedBundles);
         }
-
-        #endregion Override
     }
 }

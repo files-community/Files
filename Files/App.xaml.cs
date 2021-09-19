@@ -4,10 +4,8 @@ using Files.Controllers;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
-using Files.Models.Settings;
 using Files.Services;
 using Files.Services.Implementation;
-using Files.SettingsInterfaces;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
@@ -47,7 +45,6 @@ namespace Files
 
         public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
-        public static IBundlesSettings BundlesSettings = new BundlesSettingsModel();
         public static SettingsViewModel AppSettings { get; private set; }
         public static MainViewModel MainViewModel { get; private set; }
         public static JumpListManager JumpList { get; private set; }
@@ -107,6 +104,7 @@ namespace Files
                 .AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
                 // Settings not related to IUserSettingsService:
                 .AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
+                .AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
 
                 // TODO: Dialogs:
 
@@ -475,9 +473,11 @@ namespace Files
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
             IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-            if (App.BundlesSettings != null)
+            IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetService<IBundlesSettingsService>();
+
+            if (bundlesSettingsService != null)
             {
-                App.BundlesSettings.FlushSettings();
+                bundlesSettingsService.FlushSettings();
             }
             if (userSettingsService?.StartupSettingsService != null)
             {

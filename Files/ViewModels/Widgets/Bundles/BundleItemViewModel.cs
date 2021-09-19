@@ -32,6 +32,8 @@ namespace Files.ViewModels.Widgets.Bundles
 
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
+        private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetService<IBundlesSettingsService>();
+
         /// <summary>
         /// The name of a bundle this item is contained within
         /// </summary>
@@ -156,11 +158,11 @@ namespace Files.ViewModels.Widgets.Bundles
 
         public void RemoveItem()
         {
-            if (App.BundlesSettings.SavedBundles.ContainsKey(ParentBundleName))
+            if (BundlesSettingsService.SavedBundles.ContainsKey(ParentBundleName))
             {
-                Dictionary<string, List<string>> allBundles = App.BundlesSettings.SavedBundles;
+                Dictionary<string, List<string>> allBundles = BundlesSettingsService.SavedBundles;
                 allBundles[ParentBundleName].Remove(Path);
-                App.BundlesSettings.SavedBundles = allBundles;
+                BundlesSettingsService.SavedBundles = allBundles;
                 NotifyItemRemoved(this);
             }
         }

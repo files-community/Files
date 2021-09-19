@@ -245,10 +245,12 @@
     <Compile Include="Models\JsonSettings\Implementation\DefaultSettingsSerializer.cs" />
     <Compile Include="Models\JsonSettings\ISettingsSerializer.cs" />
     <Compile Include="Services\IAppearanceSettingsService.cs" />
+    <Compile Include="Services\IBundlesSettingsService.cs" />
     <Compile Include="Services\IFilesAndFoldersSettingsService.cs" />
     <Compile Include="Services\IFileTagsSettingsService.cs" />
     <Compile Include="Services\ILayoutSettingsService.cs" />
     <Compile Include="Services\Implementation\AppearanceSettingsService.cs" />
+    <Compile Include="Services\Implementation\BundlesSettingsService.cs" />
     <Compile Include="Services\Implementation\FilesAndFoldersSettingsService.cs" />
     <Compile Include="Services\Implementation\FileTagsSettingsService.cs" />
     <Compile Include="Services\Implementation\LayoutSettingsService.cs" />
@@ -400,8 +402,6 @@
     <Compile Include="ViewModels\Previews\RichTextPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\ShortcutPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\TextPreviewViewModel.cs" />
-    <Compile Include="SettingsInterfaces\IBundlesSettings.cs" />
-    <Compile Include="Models\Settings\BundlesSettingsModel.cs" />
     <Compile Include="ViewModels\Properties\FileProperty.cs" />
     <Compile Include="UserControls\PreviewPane.xaml.cs">
       <DependentUpon>PreviewPane.xaml</DependentUpon>

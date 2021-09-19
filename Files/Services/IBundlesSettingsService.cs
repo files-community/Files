@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Files.SettingsInterfaces
+namespace Files.Services
 {
-    public interface IBundlesSettings
+    public interface IBundlesSettingsService
     {
         bool FlushSettings();
 
