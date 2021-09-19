@@ -453,7 +453,7 @@
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>휴지통 비우기</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>예</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
@@ -1197,9 +1197,6 @@
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Files 최신 버전을 다운로드하고 설치할까요?</value>
   </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>예</value>
-  </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>사용 가능한 업데이트가 있습니다</value>
   </data>
@@ -1526,9 +1523,6 @@
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>아니오</value>
-  </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>예</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>이 작업은 관리자 권한이 필요합니다</value>
@@ -1910,9 +1904,6 @@
   </data>
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>아니요</value>
-  </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>예</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>사용 권한</value>

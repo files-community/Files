@@ -468,7 +468,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>ଫାଇଲଗୁଡ଼ିକୁ ରିସାଇକ୍ଲବିନ୍ କୁ ଘୁଞ୍ଚାଇବା</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>ଠିକ୍ ଅଛି</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
@@ -900,9 +900,6 @@
   <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
     <value>ନାଁ</value>
   </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>ହଁ</value>
-  </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>ଅଦ୍ୟତନଗୁଡିକ ଉପଲବ୍ଧ</value>
   </data>
@@ -1043,9 +1040,6 @@
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>ନାଁ</value>
-  </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>ହଁ</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>ଡାହାଣରେ ଟାବ୍‍ଗୁଡିକ ବନ୍ଦ କରନ୍ତୁ</value>
@@ -1364,9 +1358,6 @@
   </data>
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>ନାଁ</value>
-  </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>ହଁ</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>ଅନୁମତିଗୁଡିକ</value>

@@ -483,7 +483,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Flyttar filer till Papperskorgen</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Ja</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
@@ -1197,9 +1197,6 @@
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Vill du ladda ner och installera den senaste versionen av Files?</value>
   </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Ja</value>
-  </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Uppdateringar är tillgängliga</value>
   </data>
@@ -1484,9 +1481,6 @@
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Nej</value>
-  </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ja</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>Stäng flikar till höger</value>
@@ -1850,9 +1844,6 @@
   </data>
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Nej</value>
-  </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>Ja</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Behörigheter</value>

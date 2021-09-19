@@ -492,7 +492,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Pindahkan file ke keranjang sampah</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Ya</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
@@ -1224,9 +1224,6 @@
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Apakah Anda ingin mengunduh dan menginstal Files versi terbaru? </value>
   </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Ya</value>
-  </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Pembaruan Tersedia</value>
   </data>
@@ -1568,9 +1565,6 @@
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Tidak</value>
-  </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ya</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Tindakan memerlukan hak administrator </value>
@@ -2114,9 +2108,6 @@
   </data>
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Tidak</value>
-  </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>Ya</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Izin</value>

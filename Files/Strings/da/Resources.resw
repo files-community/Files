@@ -480,7 +480,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Flytter filer til papirkurven</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Ja</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
@@ -1191,9 +1191,6 @@
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Vil du downloade og installere den nyeste version af Files?</value>
   </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Ja</value>
-  </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Opdateringer tilgængelige</value>
   </data>
@@ -1397,9 +1394,6 @@
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Nej</value>
-  </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>JA</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>Luk faner til højre</value>
@@ -1754,9 +1748,6 @@
   </data>
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Nej</value>
-  </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>JA</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Tilladelser</value>

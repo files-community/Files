@@ -531,7 +531,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Μετακίνηση αρχείων στον Κάδο Ανακύκλωσης</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Ναι</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
@@ -1287,9 +1287,6 @@
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Θέλετε να κατεβάσετε και να εγκαταστήσετε την τελευταία έκδοση του Files?</value>
   </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Ναι</value>
-  </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Διαθέσιμες ενημερώσεις</value>
   </data>
@@ -1664,9 +1661,6 @@
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Όχι</value>
-  </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ναι</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Αυτή η ενέργεια απαιτεί δικαιώματα διαχειριστή</value>
@@ -2255,9 +2249,6 @@
   </data>
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Όχι</value>
-  </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>Ναι</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Δικαιώματα</value>

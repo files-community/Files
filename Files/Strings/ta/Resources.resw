@@ -468,7 +468,7 @@
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>மறுசுழற்சிக் கூடையை வெறுமையாக்கு</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>சரி</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
@@ -974,9 +974,6 @@
   <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
     <value>இல்லை</value>
   </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>ஆம்</value>
-  </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>புதுப்பித்தல்கள் கிடைக்கின்றன</value>
   </data>
@@ -1117,9 +1114,6 @@
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>இல்லை</value>
-  </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>ஆம்</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>வலது பக்கம் உள்ள தாவல்களை மூடு</value>
@@ -1438,9 +1432,6 @@
   </data>
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>இல்லை</value>
-  </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>ஆம்</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>அனுமதிகள்</value>

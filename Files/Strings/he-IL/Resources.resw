@@ -420,7 +420,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>מעביר קבצים לסל המיחזור</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>אישור</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
@@ -996,9 +996,6 @@
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>האם ברצונך להוריד ולהתקין את הגירסה העדכנית ביותר של Files?</value>
   </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>כן</value>
-  </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>קיימים עדכונים זמינים</value>
   </data>
@@ -1184,9 +1181,6 @@
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>לא</value>
-  </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>כן</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>סגור כרטיסיות משמאל</value>

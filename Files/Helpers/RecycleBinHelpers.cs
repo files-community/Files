@@ -79,7 +79,7 @@ namespace Files.Helpers
             {
                 Title = "ConfirmEmptyBinDialogTitle".GetLocalized(),
                 Content = "ConfirmEmptyBinDialogContent".GetLocalized(),
-                PrimaryButtonText = "ConfirmEmptyBinDialog/PrimaryButtonText".GetLocalized(),
+                PrimaryButtonText = "Yes".GetLocalized(),
                 SecondaryButtonText = "ConfirmEmptyBinDialog/SecondaryButtonText".GetLocalized()
             };
 

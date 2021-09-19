@@ -468,7 +468,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Movendo arquivos para a lixeira</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Sim</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
@@ -1179,9 +1179,6 @@
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Deseja baixar e instalar a versão mais recente do Files?</value>
   </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Sim</value>
-  </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Atualizações Disponíveis</value>
   </data>
@@ -1532,9 +1529,6 @@
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Não</value>
-  </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Sim</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Esta ação requer direitos de administrador</value>
@@ -2171,9 +2165,6 @@
   </data>
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Não</value>
-  </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>Sim</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Permissões</value>

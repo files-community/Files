@@ -468,7 +468,7 @@
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Vider la Corbeille</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Oui</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
@@ -1179,9 +1179,6 @@
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Voulez-vous télécharger et installer la dernière version de Files ?</value>
   </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Oui</value>
-  </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Mise à jour disponible</value>
   </data>
@@ -1529,9 +1526,6 @@
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Non</value>
-  </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Oui</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Cette action nécessite des droits d'administrateur</value>
@@ -2171,9 +2165,6 @@
   </data>
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Non</value>
-  </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>Oui</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Autorisations</value>

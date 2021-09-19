@@ -468,7 +468,7 @@
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Очистить корзину</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Да</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
@@ -1140,9 +1140,6 @@
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Вы хотите загрузить и установить последнюю версию Files?</value>
   </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Да</value>
-  </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Доступны обновления</value>
   </data>
@@ -1487,9 +1484,6 @@
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Нет</value>
-  </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Да</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Для этого действия требуются права администратора</value>
@@ -2132,9 +2126,6 @@
   </data>
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Нет</value>
-  </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>Да</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Разрешения</value>

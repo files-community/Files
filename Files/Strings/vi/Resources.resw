@@ -528,7 +528,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Đang di chuyển tệp đến Thùng rác.</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Có</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
@@ -1266,9 +1266,6 @@
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Bạn có muốn tải xuống và cài đặt phiên bản mới nhất của Files không?</value>
   </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Có</value>
-  </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Đã có Bản cập nhật</value>
   </data>
@@ -1640,9 +1637,6 @@
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Không</value>
-  </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Có</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Hoạt động này yêu cầu quyền người quản trị</value>
@@ -2219,9 +2213,6 @@
   </data>
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Không</value>
-  </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>Có</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Các phép</value>

@@ -468,7 +468,7 @@
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>清空回收站</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>确定</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
@@ -1179,9 +1179,6 @@
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>你想要下载并安装最新版本吗？</value>
   </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>是</value>
-  </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>可用更新</value>
   </data>
@@ -1526,9 +1523,6 @@
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>否</value>
-  </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>是</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>此操作需要管理员权限</value>
@@ -2173,9 +2167,6 @@
   </data>
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>否</value>
-  </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>是</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>权限</value>

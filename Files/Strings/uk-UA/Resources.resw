@@ -468,7 +468,7 @@
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Очистити кошик</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Так</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
@@ -1134,9 +1134,6 @@
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Завантажити та встановити останню версію Files?</value>
   </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Так</value>
-  </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Доступні оновлення</value>
   </data>
@@ -1463,9 +1460,6 @@
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Ні</value>
-  </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Так</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>Закрити вкладки праворуч</value>
@@ -1817,9 +1811,6 @@
   </data>
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Ні</value>
-  </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>Так</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Дозволи</value>

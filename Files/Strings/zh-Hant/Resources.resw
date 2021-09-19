@@ -468,7 +468,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>正在將檔案丟進資源回收桶</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>確定</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
@@ -1179,9 +1179,6 @@
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>您要下載並安裝最新版本的 Files 嗎？</value>
   </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>是</value>
-  </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>有可用的更新</value>
   </data>
@@ -1526,9 +1523,6 @@
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>否</value>
-  </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>是</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>此操作需要系統管理員身分</value>
@@ -2171,9 +2165,6 @@
   </data>
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>否</value>
-  </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>是</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>權限</value>

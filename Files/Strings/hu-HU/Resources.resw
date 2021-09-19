@@ -468,7 +468,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Fájlok áthelyezése a Lomtárba</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Igen</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
@@ -1179,9 +1179,6 @@
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Szeretné letölteni és telepíteni a Files legújabb verzióját?</value>
   </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Igen</value>
-  </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Frissítés érhető el</value>
   </data>
@@ -1526,9 +1523,6 @@
   </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Nem</value>
-  </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Igen</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Ehhez a művelethez rendszergazdai jogosultságok szükségesek</value>
@@ -2171,9 +2165,6 @@
   </data>
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Nem</value>
-  </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>Igen</value>
   </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Engedélyek</value>
