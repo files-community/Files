@@ -23,7 +23,8 @@ namespace Files.Filesystem
 {
     public class ListedItem : ObservableObject, IGroupableItem
     {
-        private static IUserSettingsService UserSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+        private static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private static IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
 
         public bool IsHiddenItem { get; set; } = false;
         public StorageItemTypes PrimaryItemAttribute { get; set; }
@@ -124,7 +125,7 @@ namespace Files.Filesystem
 
         public FileTag FileTagUI
         {
-            get => UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled ? App.AppSettings.FileTagsSettings.GetTagByID(FileTag) : null;
+            get => UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled ? FileTagsSettingsService.GetTagById(FileTag) : null;
         }
 
         private Uri customIconSource;

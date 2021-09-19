@@ -46,8 +46,6 @@ namespace Files.ViewModels
 
             TerminalController = await TerminalController.CreateInstance();
 
-            FileTagsSettings = new FileTagsSettings();
-
             return this;
         }
 
@@ -213,8 +211,6 @@ namespace Files.ViewModels
         });
 
         public AcrylicTheme AcrylicTheme { get; set; } = new AcrylicTheme();
-
-        public FileTagsSettings FileTagsSettings { get; private set; }
 
         #region ReadAndSaveSettings
 
