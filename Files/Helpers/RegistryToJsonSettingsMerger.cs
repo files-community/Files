@@ -73,14 +73,14 @@ namespace Files.Helpers
                     userSettingsService.StartupSettingsService.ContinueLastSessionOnStartUp = appSettings.ContinueLastSessionOnStartUp;
                     userSettingsService.StartupSettingsService.OpenNewTabOnStartup = appSettings.OpenNewTabPageOnStartup;
                     userSettingsService.StartupSettingsService.AlwaysOpenNewInstance = appSettings.AlwaysOpenANewInstance;
-                    userSettingsService.StartupSettingsService.TabsOnStartupList = appSettings.PagesOnStartupList.ToList();
-                    userSettingsService.StartupSettingsService.LastSessionTabList = appSettings.LastSessionPages.ToList();
+                    userSettingsService.StartupSettingsService.TabsOnStartupList = appSettings.PagesOnStartupList?.ToList();
+                    userSettingsService.StartupSettingsService.LastSessionTabList = appSettings.LastSessionPages?.ToList();
 
                     App.AppSettings.AreRegistrySettingsMergedToJson = true;
                 }
                 catch (Exception ex)
                 {
-                    App.Logger.Error(ex);
+                    App.Logger.Warn(ex);
                     Debugger.Break();
                 }
             }
