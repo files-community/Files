@@ -30,21 +30,10 @@ namespace Files.ViewModels.Previews
 
         public override async Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            FileRandomAccessStream stream = (FileRandomAccessStream)await Item.ItemFile.OpenAsync(FileAccessMode.Read);
-
-            // svg files require a different type of source
-            if (!Item.ItemPath.EndsWith(".svg"))
-            {
-                var bitmap = new BitmapImage();
-                ImageSource = bitmap;
-                await bitmap.SetSourceAsync(stream);
-            }
-            else
-            {
-                var bitmap = new SvgImageSource();
-                ImageSource = bitmap;
-                await bitmap.SetSourceAsync(stream);
-            }
+            IRandomAccessStream stream = await Item.ItemFile.OpenAsync(FileAccessMode.Read);
+            BitmapImage bitmap = new();
+            await bitmap.SetSourceAsync(stream);
+            ImageSource = bitmap;
 
             return new List<FileProperty>();
         }
