@@ -9,7 +9,7 @@
 #include <locale>
 #include <codecvt>
 
-//#define SYSTEMDIALOG
+#define SYSTEMDIALOG
 
 using std::cout;
 using std::wcout;
@@ -66,7 +66,9 @@ CFilesOpenDialog::CFilesOpenDialog()
 	{
 		TCHAR debugPath[MAX_PATH];
 		wsprintf(debugPath, L"%s\\%s", pszPath, L"open_dialog.txt");
-		//_wfreopen_s(&_debugStream, debugPath, L"w", stdout);
+#ifdef  DEBUGLOG
+		_wfreopen_s(&_debugStream, debugPath, L"w", stdout);
+#endif
 		CoTaskMemFree(pszPath);
 	}
 	cout << "Create" << endl;
