@@ -688,14 +688,7 @@
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} files, {1:#,##0} folders</source>
-          <target state="translated">
-*Collecte d'informations personnelles*
-Files ne collecte, ne stocke, ne partage ni ne publie aucune information personnelle.
-
-*Collecte d'informations non personnelles
-
-Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver des bogues et réparer les pannes. Toutes les informations envoyées à App Center sont anonymes et exemptes de toute donnée relative à l'utilisateur ou au contexte.
-  </target>
+          <target state="translated">{0:#,##0} fichiers, {1:#,##0} dossiers</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
