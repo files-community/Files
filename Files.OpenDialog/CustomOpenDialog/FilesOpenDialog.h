@@ -19,20 +19,40 @@
 using namespace ATL;
 
 
-// CFilesOpenDialog
-
-class ATL_NO_VTABLE CFilesOpenDialog :
-	public CComObjectRootEx<CComSingleThreadModel>,
-	public CComCoClass<CFilesOpenDialog, &CLSID_FilesOpenDialog>,
-	public IFileDialog,
-	public IFileDialog2,
-	public IFileOpenDialog,
-	public IFileDialogCustomize
+MIDL_INTERFACE("9EA5491C-89C8-4BEF-93D3-7F665FB82A33")
+IFileDialogPrivate : public IUnknown
 {
 public:
-	CFilesOpenDialog();
-
-DECLARE_REGISTRY_RESOURCEID(106)
+	virtual HRESULT STDMETHODCALLTYPE HideControlsForHostedPickerProviderApp(void) = 0;
+	virtual HRESULT STDMETHODCALLTYPE EnableControlsForHostedPickerProviderApp(void) = 0;
+	virtual HRESULT STDMETHODCALLTYPE GetPrivateOptions(unsigned long*) = 0;
+	virtual HRESULT STDMETHODCALLTYPE SetPrivateOptions(unsigned long) = 0;
+	virtual HRESULT STDMETHODCALLTYPE SetPersistenceKey(unsigned short const*) = 0;
+	virtual HRESULT STDMETHODCALLTYPE HasPlaces(void) = 0;
+	virtual HRESULT STDMETHODCALLTYPE EnumPlaces(int, _GUID const&, void**) = 0;//tagFDPEPLACES
+	virtual HRESULT STDMETHODCALLTYPE EnumControls(void**) = 0;//IEnumAppControl
+	virtual HRESULT STDMETHODCALLTYPE GetPersistRegkey(unsigned short**) = 0;
+	virtual HRESULT STDMETHODCALLTYPE GetSavePropertyStore(IPropertyStore**, IPropertyDescriptionList**) = 0;
+	virtual HRESULT STDMETHODCALLTYPE GetSaveExtension(unsigned short**) = 0;
+	virtual HRESULT STDMETHODCALLTYPE GetFileTypeControl(void**) = 0;//IAppControl
+	virtual HRESULT STDMETHODCALLTYPE GetFileNameControl(void**) = 0;//IAppControl
+	virtual HRESULT STDMETHODCALLTYPE GetFileProtectionControl(void**) = 0;//IAppControl
+	virtual HRESULT STDMETHODCALLTYPE SetFolderPrivate(IShellItem*, int) = 0;
+	virtual HRESULT STDMETHODCALLTYPE SetCustomControlAreaHeight(unsigned int) = 0;
+	virtual HRESULT STDMETHODCALLTYPE GetDialogState(unsigned long, unsigned long*) = 0;
+	virtual HRESULT STDMETHODCALLTYPE SetAppControlsModule(void*) = 0;//IAppControlsModule
+	virtual HRESULT STDMETHODCALLTYPE SetUserEditedSaveProperties(void) = 0;
+	virtual HRESULT STDMETHODCALLTYPE ShouldShowStandardNavigationRoots(void) = 0;
+	virtual HRESULT STDMETHODCALLTYPE GetNavigationRoot(_GUID const&, void**) = 0;
+	virtual HRESULT STDMETHODCALLTYPE ShouldShowFileProtectionControl(int*) = 0;
+	virtual HRESULT STDMETHODCALLTYPE GetCurrentDialogView(_GUID const&, void**) = 0;
+	virtual HRESULT STDMETHODCALLTYPE SetSaveDialogEditBoxTextAndFileType(int, unsigned short const*) = 0;
+	virtual HRESULT STDMETHODCALLTYPE MoveFocusFromBrowser(int) = 0;
+	virtual HRESULT STDMETHODCALLTYPE EnableOkButton(int) = 0;
+	virtual HRESULT STDMETHODCALLTYPE InitEnterpriseId(unsigned short const*) = 0;
+	virtual HRESULT STDMETHODCALLTYPE AdviseFirst(IFileDialogEvents*, unsigned long*) = 0;
+	virtual HRESULT STDMETHODCALLTYPE HandleTab(void) = 0;
+};
 
 
 #define DEBUGLOG
@@ -79,11 +99,31 @@ DECLARE_REGISTRY_RESOURCEID(106)
 
 #endif //  DEBUGLOG
 
+
+// CFilesOpenDialog
+
+class ATL_NO_VTABLE CFilesOpenDialog :
+	public CComObjectRootEx<CComSingleThreadModel>,
+	public CComCoClass<CFilesOpenDialog, &CLSID_FilesOpenDialog>,
+	public IFileDialog,
+	public IFileDialog2,
+	public IFileOpenDialog,
+	public IFileDialogCustomize,
+	public IObjectWithSite,
+	public IFileDialogPrivate
+{
+public:
+	CFilesOpenDialog();
+
+DECLARE_REGISTRY_RESOURCEID(106)
+
 CUSTOM_BEGIN_COM_MAP(CFilesOpenDialog)
 	COM_INTERFACE_ENTRY(IFileDialog)
 	COM_INTERFACE_ENTRY(IFileDialog2)
 	COM_INTERFACE_ENTRY(IFileOpenDialog)
 	COM_INTERFACE_ENTRY(IFileDialogCustomize)
+	COM_INTERFACE_ENTRY(IObjectWithSite)
+	COM_INTERFACE_ENTRY(IFileDialogPrivate)
 END_COM_MAP()
 
 	DECLARE_PROTECT_FINAL_CONSTRUCT()
@@ -107,6 +147,7 @@ END_COM_MAP()
 	FILE* _debugStream;
 
 public:
+
 	// Ereditato tramite IFileOpenDialog
 	HRESULT __stdcall Show(HWND hwndOwner) override;
 
@@ -221,6 +262,41 @@ public:
 	HRESULT __stdcall SetCancelButtonLabel(LPCWSTR pszLabel) override;
 
 	HRESULT __stdcall SetNavigationRoot(IShellItem* psi) override;
+
+	// Ereditato tramite IObjectWithSite
+	HRESULT __stdcall SetSite(IUnknown* pUnkSite) override;
+	HRESULT __stdcall GetSite(REFIID riid, void** ppvSite) override;
+
+	// Ereditato tramite IFileDialogPrivate
+	virtual HRESULT __stdcall HideControlsForHostedPickerProviderApp(void) override;
+	virtual HRESULT __stdcall EnableControlsForHostedPickerProviderApp(void) override;
+	virtual HRESULT __stdcall GetPrivateOptions(unsigned long*) override;
+	virtual HRESULT __stdcall SetPrivateOptions(unsigned long) override;
+	virtual HRESULT __stdcall SetPersistenceKey(unsigned short const*) override;
+	virtual HRESULT __stdcall HasPlaces(void) override;
+	virtual HRESULT __stdcall EnumPlaces(int, _GUID const&, void**) override;
+	virtual HRESULT __stdcall EnumControls(void**) override;
+	virtual HRESULT __stdcall GetPersistRegkey(unsigned short**) override;
+	virtual HRESULT __stdcall GetSavePropertyStore(IPropertyStore**, IPropertyDescriptionList**) override;
+	virtual HRESULT __stdcall GetSaveExtension(unsigned short**) override;
+	virtual HRESULT __stdcall GetFileTypeControl(void**) override;
+	virtual HRESULT __stdcall GetFileNameControl(void**) override;
+	virtual HRESULT __stdcall GetFileProtectionControl(void**) override;
+	virtual HRESULT __stdcall SetFolderPrivate(IShellItem*, int) override;
+	virtual HRESULT __stdcall SetCustomControlAreaHeight(unsigned int) override;
+	virtual HRESULT __stdcall GetDialogState(unsigned long, unsigned long*) override;
+	virtual HRESULT __stdcall SetAppControlsModule(void*) override;
+	virtual HRESULT __stdcall SetUserEditedSaveProperties(void) override;
+	virtual HRESULT __stdcall ShouldShowStandardNavigationRoots(void) override;
+	virtual HRESULT __stdcall GetNavigationRoot(_GUID const&, void**) override;
+	virtual HRESULT __stdcall ShouldShowFileProtectionControl(int*) override;
+	virtual HRESULT __stdcall GetCurrentDialogView(_GUID const&, void**) override;
+	virtual HRESULT __stdcall SetSaveDialogEditBoxTextAndFileType(int, unsigned short const*) override;
+	virtual HRESULT __stdcall MoveFocusFromBrowser(int) override;
+	virtual HRESULT __stdcall EnableOkButton(int) override;
+	virtual HRESULT __stdcall InitEnterpriseId(unsigned short const*) override;
+	virtual HRESULT __stdcall AdviseFirst(IFileDialogEvents*, unsigned long*) override;
+	virtual HRESULT __stdcall HandleTab(void) override;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(FilesOpenDialog), CFilesOpenDialog)

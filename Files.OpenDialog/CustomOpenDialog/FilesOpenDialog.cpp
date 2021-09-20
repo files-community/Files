@@ -48,9 +48,9 @@ IShellItem* CloneShellItem(IShellItem* psi)
 template <typename T>
 CComPtr<T> AsInterface(CComPtr<IFileOpenDialog> dialog)
 {
-	CComPtr<T> dialogCustomize;
-	dialog->QueryInterface<T>(&dialogCustomize);
-	return dialogCustomize;
+	CComPtr<T> dialogInterface;
+	dialog->QueryInterface<T>(&dialogInterface);
+	return dialogInterface;
 }
 
 CFilesOpenDialog::CFilesOpenDialog()
@@ -690,4 +690,252 @@ HRESULT __stdcall CFilesOpenDialog::SetNavigationRoot(IShellItem* psi)
 	return AsInterface<IFileDialog2>(_systemDialog)->SetNavigationRoot(psi);
 #endif
 	return S_OK;
+}
+
+HRESULT __stdcall CFilesOpenDialog::SetSite(IUnknown* pUnkSite)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IObjectWithSite>(_systemDialog)->SetSite(pUnkSite);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::GetSite(REFIID riid, void** ppvSite)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IObjectWithSite>(_systemDialog)->GetSite(riid, ppvSite);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::HideControlsForHostedPickerProviderApp(void)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->HideControlsForHostedPickerProviderApp();
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::EnableControlsForHostedPickerProviderApp(void)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->EnableControlsForHostedPickerProviderApp();
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::GetPrivateOptions(unsigned long* pfos)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetPrivateOptions(pfos);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::SetPrivateOptions(unsigned long fos)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->SetPrivateOptions(fos);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::SetPersistenceKey(unsigned short const* pkey)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->SetPersistenceKey(pkey);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::HasPlaces(void)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->HasPlaces();
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::EnumPlaces(int plc, _GUID const& riid, void** ppv)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->EnumPlaces(plc, riid, ppv);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::EnumControls(void** ppv)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->EnumControls(ppv);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::GetPersistRegkey(unsigned short** preg)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetPersistRegkey(preg);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::GetSavePropertyStore(IPropertyStore** ppstore, IPropertyDescriptionList** ppdesclist)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetSavePropertyStore(ppstore, ppdesclist);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::GetSaveExtension(unsigned short** pext)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetSaveExtension(pext);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::GetFileTypeControl(void** ftp)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetFileTypeControl(ftp);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::GetFileNameControl(void** pctrl)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetFileNameControl(pctrl);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::GetFileProtectionControl(void** pfctrl)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetFileProtectionControl(pfctrl);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::SetFolderPrivate(IShellItem* psi, int arg)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->SetFolderPrivate(psi, arg);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::SetCustomControlAreaHeight(unsigned int height)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->SetCustomControlAreaHeight(height);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::GetDialogState(unsigned long arg, unsigned long* pstate)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetDialogState(arg, pstate);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::SetAppControlsModule(void* papp)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->SetAppControlsModule(papp);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::SetUserEditedSaveProperties(void)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->SetUserEditedSaveProperties();
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::ShouldShowStandardNavigationRoots(void)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->ShouldShowStandardNavigationRoots();
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::GetNavigationRoot(_GUID const& riid, void** ppv)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetNavigationRoot(riid, ppv);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::ShouldShowFileProtectionControl(int* pfpc)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->ShouldShowFileProtectionControl(pfpc);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::GetCurrentDialogView(_GUID const& riid, void** ppv)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->GetCurrentDialogView(riid, ppv);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::SetSaveDialogEditBoxTextAndFileType(int arg, unsigned short const* pargb)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->SetSaveDialogEditBoxTextAndFileType(arg, pargb);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::MoveFocusFromBrowser(int arg)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->MoveFocusFromBrowser(arg);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::EnableOkButton(int enbl)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->EnableOkButton(enbl);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::InitEnterpriseId(unsigned short const* pid)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->InitEnterpriseId(pid);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::AdviseFirst(IFileDialogEvents* pfde, unsigned long* pdwCookie)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->AdviseFirst(pfde, pdwCookie);
+#endif
+	return E_NOTIMPL;
+}
+
+HRESULT __stdcall CFilesOpenDialog::HandleTab(void)
+{
+#ifdef SYSTEMDIALOG
+	return AsInterface<IFileDialogPrivate>(_systemDialog)->HandleTab();
+#endif
+	return E_NOTIMPL;
 }

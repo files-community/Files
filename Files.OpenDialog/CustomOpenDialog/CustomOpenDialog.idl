@@ -23,6 +23,8 @@ library CustomOpenDialogLib
 		interface IFileDialog;
 		interface IFileDialogCustomize;
 		interface IFileDialog2;
+		interface IObjectWithSite;
+		//interface IFileDialogPrivate;
 	};
 };
 
