@@ -196,7 +196,7 @@
     <value>Document Texte</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
-    <value>Vue Détaillée</value>
+    <value>Détails</value>
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>Hash MD5 :</value>
@@ -343,16 +343,16 @@
     <value>Définir en tant qu'écran de verrouillage</value>
   </data>
   <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
-    <value>Vue Grille (Grande)</value>
+    <value>Grandes Icônes</value>
   </data>
   <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
-    <value>Vue Grille (Moyenne)</value>
+    <value>Moyennes Icônes</value>
   </data>
   <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
-    <value>Vue Grille (Petite)</value>
+    <value>Petites Icônes</value>
   </data>
   <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
-    <value>Vue Tuiles</value>
+    <value>Tuiles</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>OK</value>
@@ -1246,19 +1246,19 @@
     <value>Vue tuiles (Ctrl+Shift+2)</value>
   </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Vue grille (Grande)</value>
+    <value>Grandes Icônes</value>
   </data>
   <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Vue grille (Moyenne)</value>
+    <value>Moyennes Icônes</value>
   </data>
   <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
-    <value>Vue grille (Petite)</value>
+    <value>Petites Icônes</value>
   </data>
   <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Vue tuiles</value>
+    <value>Tuiles</value>
   </data>
   <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>Vue détaillée</value>
+    <value>Détails</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>Date de suppression</value>
@@ -1552,13 +1552,13 @@
     <value>Détacher du menu Démarrer</value>
   </data>
   <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
-    <value>Vue colonne</value>
+    <value>Colonnes</value>
   </data>
   <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Vue colonne (Ctrl+Shift+6)</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
-    <value>Vue colonne</value>
+    <value>Colonnes</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
     <value>{0:#,##0} fichiers, {1:#,##0} dossiers de {2:#,##0} emplacements</value>
@@ -1798,7 +1798,7 @@
     <value>Ouvrir avec</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>Groupe par</value>
+    <value>Grouper par</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Trier par</value>
@@ -2353,22 +2353,22 @@
     <value>Afficher le menu volant de l'onglet vertical sur la barre de titre</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>Afficher la section disques cloud dans la barre latérale</value>
+    <value>Afficher la section Disques Cloud</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>Afficher la section disques dans la barre latérale</value>
+    <value>Afficher la section Disques</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>Afficher la section WSL dans la barre latérale</value>
+    <value>Afficher la section WSL</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>Afficher la section disques réseau dans la barre latérale</value>
+    <value>Afficher la section Disques Réseaux</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Ajouter la Corbeille aux Favoris</value>
+    <value>Épingler la Corbeille aux Favoris</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>Afficher la section bibliothèque dans la barre latérale</value>
+    <value>Afficher la section Bibliothèques</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Choisissez votre couleur</value>
@@ -2576,7 +2576,7 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
     <value>Statut de la synchronisation</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>Afficher la section Favoris dans la barre latérale</value>
+    <value>Afficher la section Favoris</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
     <value>Étiquette de fichier</value>
@@ -2646,6 +2646,18 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Aucun élément trouvé</value>
+  </data>
+  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Widget Bundles</value>
+  </data>
+  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Widget Disques</value>
+  </data>
+  <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Widget Bibliothèque</value>
+  </data>
+  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Widget Fichiers Récents</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Ouvrir l'emplacement des fichiers journaux</value>
