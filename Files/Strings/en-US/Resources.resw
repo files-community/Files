@@ -2860,7 +2860,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>Move to top</value>
   </data>
-    <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
+  <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Date created column</value>
   </data>
 </root>
