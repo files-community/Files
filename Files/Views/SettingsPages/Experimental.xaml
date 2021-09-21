@@ -99,7 +99,8 @@
             <local:SettingsBlockControl
                 x:Uid="SettingsSetAsOpenDialog"
                 Title="Use Files as Open File Dialog"
-                HorizontalAlignment="Stretch">
+                HorizontalAlignment="Stretch"
+                Visibility="Collapsed">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE1A5;" />
                 </local:SettingsBlockControl.Icon>

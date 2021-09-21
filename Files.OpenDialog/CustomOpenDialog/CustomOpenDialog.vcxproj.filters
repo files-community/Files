@@ -40,6 +40,9 @@
     <ClInclude Include="FilesOpenDialog.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="UndefInterfaces.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CustomOpenDialog.cpp">
