@@ -13,48 +13,12 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
-using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
 
 namespace Files.ViewModels
 {
     public class SidebarViewModel : ObservableObject, IDisposable
     {
-        public static async System.Threading.Tasks.Task<IEnumerable<IconFileInfo>> LoadSidebarIconResources()
-        {
-            const string imageres = @"C:\Windows\System32\imageres.dll";
-            var imageResList = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.LoadSelectedIconsAsync(imageres, new List<int>() {
-                    Constants.ImageRes.RecycleBin,
-                    Constants.ImageRes.NetworkDrives,
-                    Constants.ImageRes.Libraries,
-                    Constants.ImageRes.ThisPC,
-                    Constants.ImageRes.CloudDrives,
-                    Constants.ImageRes.Folder
-                }, 32, false));
-
-            const string shell32 = @"C:\Windows\System32\shell32.dll";
-            var shell32List = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.LoadSelectedIconsAsync(shell32, new List<int>() {
-                    Constants.Shell32.QuickAccess
-                }, 32, false));
-
-            if (shell32List != null && imageResList != null)
-            {
-                return imageResList.Concat(shell32List);
-            }
-            else if (shell32List != null && imageResList == null)
-            {
-                return shell32List;
-            }
-            else if (shell32List == null && imageResList != null)
-            {
-                return imageResList;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         public ICommand EmptyRecycleBinCommand { get; private set; }
 
         private IPaneHolder paneHolder;

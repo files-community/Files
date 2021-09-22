@@ -22,8 +22,6 @@ namespace Files.DataModels
 {
     public class SidebarPinnedModel
     {
-        public static IList<IconFileInfo> IconResources = null;
-
         private SidebarPinnedController controller;
 
         private LocationItem favoriteSection, homeSection;
@@ -117,7 +115,7 @@ namespace Files.DataModels
                     {
                         Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                         IsDefaultLocation = true,
-                        Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.RecycleBin)?.Image),
+                        Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.RecycleBin)),
                         Path = App.AppSettings.RecycleBinPath
                     };
                     // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
@@ -325,11 +323,6 @@ namespace Files.DataModels
         {
             await SidebarControl.SideBarItemsSemaphore.WaitAsync();
 
-            if (IconResources is null)
-            {
-                IconResources = (await SidebarViewModel.LoadSidebarIconResources())?.ToList();
-            }
-
             if (!App.AppSettings.ShowFavoritesSection)
             {
                 SidebarControl.SideBarItemsSemaphore.Release();
@@ -353,7 +346,7 @@ namespace Files.DataModels
                         Text = "SidebarFavorites".GetLocalized(),
                         Section = SectionType.Favorites,
                         SelectsOnInvoked = false,
-                        Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.Shell32.QuickAccess).Image),
+                        Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.QuickAccess)),
                         Font = MainViewModel.FontName,
                         ChildItems = new ObservableCollection<INavigationControlItem>()
                     };
