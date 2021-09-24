@@ -2009,9 +2009,6 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>关闭</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>同步状态</value>
-  </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>无法从 {1} 中删除 {0} 项</value>
   </data>
@@ -2291,9 +2288,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>文件版本</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>同步状态</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>从云端下载项并加载预览</value>
   </data>
@@ -2549,7 +2543,7 @@
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>降序</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>同步状态</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">

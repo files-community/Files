@@ -2007,9 +2007,6 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Sluiten</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Synchronisatiestatus</value>
-  </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>{0} items uit {1} verwijderen mislukt</value>
   </data>
@@ -2289,9 +2286,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Bestandsversie</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Synchronisatie status</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Downloadt het item van de cloud en laadt een voorbeeld</value>
   </data>
@@ -2563,7 +2557,7 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Aflopend</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Synchronisatiestatus</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">

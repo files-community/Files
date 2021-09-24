@@ -1794,9 +1794,6 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>닫다</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>동기화 상태</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>새 창</value>
   </data>
@@ -1980,9 +1977,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>파일 버전:</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>동기화 상태</value>
-  </data>
   <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
     <value>탐색</value>
   </data>
@@ -2115,7 +2109,7 @@
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>내림차순</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>동기화 상태</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">

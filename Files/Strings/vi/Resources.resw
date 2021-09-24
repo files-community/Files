@@ -2073,9 +2073,6 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Phụ tùng</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Trạng thái đồng bộ</value>
-  </data>
   <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
     <value>Bảo mật</value>
   </data>
@@ -2342,9 +2339,6 @@
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Phiên bản tệp</value>
-  </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Trạng thái đồng bộ</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tải mục từ đám mây và tải xem trước</value>

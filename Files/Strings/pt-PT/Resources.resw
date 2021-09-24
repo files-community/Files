@@ -2007,9 +2007,6 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Fechar</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Estado de sicronização</value>
-  </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>Falha ao eliminar {0} itens de {1}</value>
   </data>
@@ -2289,9 +2286,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Versão do ficheiro</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Estado de sicronização</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Transferir o item da nuvem e carregar a pré-visualização</value>
   </data>
@@ -2564,7 +2558,7 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Descendente</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Estado de sicronização</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">

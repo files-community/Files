@@ -336,10 +336,9 @@
                                 IsChecked="{x:Bind ViewModel.IsSortedByType, Mode=TwoWay}"
                                 Text="Type" />
                             <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionSyncStatus"
                                 IsChecked="{x:Bind ViewModel.IsSortedBySyncStatus, Mode=TwoWay}"
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
-                                Text="Sync status" />
+                                Text="{helpers:ResourceString Name=SyncStatus}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionFileTag"
                                 IsChecked="{x:Bind ViewModel.IsSortedByFileTag, Mode=TwoWay}"

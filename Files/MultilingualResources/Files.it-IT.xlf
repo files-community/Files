@@ -2667,10 +2667,6 @@
           <source>Close</source>
           <target state="translated">Chiudi</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">Stato sincronizzazione</target>
-        </trans-unit>
         <trans-unit id="PropertiesDialogTabSecurity.Content" translate="yes" xml:space="preserve">
           <source>Security</source>
           <target state="translated">Sicurezza</target>
@@ -3043,10 +3039,6 @@
           <source>File version</source>
           <target state="translated">Versione</target>
         </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">Stato sincronizzazione</target>
-        </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
           <target state="translated">Scarica il file dal cloud e carica l'anteprima</target>
@@ -3413,7 +3405,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
           <source>Descending</source>
           <target state="translated">Decrescente</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="translated">Stato sincronizzazione</target>
         </trans-unit>

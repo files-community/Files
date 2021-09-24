@@ -2109,9 +2109,6 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgets</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Κατάσταση συγχρονισμού</value>
-  </data>
   <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
     <value>Ασφάλεια</value>
   </data>
@@ -2379,9 +2376,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Έκδοση αρχείου</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Κατάσταση συγχρονισμού</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Λήψη του στοιχείου από το cloud και φόρτωση της προεπισκόπησης</value>
   </data>
@@ -2564,7 +2558,7 @@
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Κατιούσα</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Κατάσταση συγχρονισμού</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">

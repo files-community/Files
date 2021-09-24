@@ -2681,10 +2681,6 @@
           <source>Close</source>
           <target state="translated">关闭</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">同步状态</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
           <target state="translated">无法从 {1} 中删除 {0} 项</target>
@@ -3056,10 +3052,6 @@
         <trans-unit id="PropertyFileVersion" translate="yes" xml:space="preserve">
           <source>File version</source>
           <target state="translated">文件版本</target>
-        </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">同步状态</target>
         </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
@@ -3433,7 +3425,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Descending</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">降序</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">同步状态</target>
         </trans-unit>

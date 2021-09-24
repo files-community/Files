@@ -2124,9 +2124,6 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgets</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Sync status</value>
-  </data>
   <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
     <value>Security</value>
   </data>
@@ -2394,9 +2391,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>File version</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Sync status</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Downloads the item from the cloud and loads the preview</value>
   </data>
@@ -2563,7 +2557,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Descending</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Sync status</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">

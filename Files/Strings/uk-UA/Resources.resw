@@ -1707,9 +1707,6 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Закрити</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Стан синхронізації</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Створити вікно</value>
   </data>
@@ -1875,9 +1872,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Версія файлу:</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Стан синхронізації</value>
-  </data>
   <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
     <value>Вибрати</value>
   </data>
@@ -1995,7 +1989,7 @@
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>За спаданням</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Стан синхронізації</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">

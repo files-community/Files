@@ -1968,9 +1968,6 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Закрыть</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Состояние синхронизации</value>
-  </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>Не удалось удалить {0} элементов из {1}</value>
   </data>
@@ -2247,9 +2244,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Версия файла</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Состояние синхронизации</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Загружает объект из облака и загружает предварительный просмотр</value>
   </data>
@@ -2457,7 +2451,7 @@
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>По убыванию</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Состояние синхронизации</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">

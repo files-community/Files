@@ -2800,10 +2800,6 @@
           <source>Widgets</source>
           <target state="new">Widgets</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="new">Sync status</target>
-        </trans-unit>
         <trans-unit id="PropertiesDialogTabSecurity.Content" translate="yes" xml:space="preserve">
           <source>Security</source>
           <target state="new">Security</target>
@@ -3160,10 +3156,6 @@
           <source>File version</source>
           <target state="new">File version</target>
         </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="new">Sync status</target>
-        </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
           <target state="new">Downloads the item from the cloud and loads the preview</target>
@@ -3372,7 +3364,7 @@
           <source>Descending</source>
           <target state="new">Descending</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="new">Sync status</target>
         </trans-unit>

@@ -2007,9 +2007,6 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Chiudi</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Stato sincronizzazione</value>
-  </data>
   <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
     <value>Sicurezza</value>
   </data>
@@ -2289,9 +2286,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Versione</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Stato sincronizzazione</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Scarica il file dal cloud e carica l'anteprima</value>
   </data>
@@ -2563,7 +2557,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Decrescente</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Stato sincronizzazione</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">

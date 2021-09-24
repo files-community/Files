@@ -2007,9 +2007,6 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>閉じる</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>同期状態</value>
-  </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>{0} ファイルを {1} から削除に失敗しました</value>
   </data>
@@ -2289,9 +2286,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>ファイルのバージョン</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>同期状況</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>クラウドからアイテムをダウンロードし、プレビューをロードします</value>
   </data>
@@ -2562,7 +2556,7 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>降順</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>同期状況</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">

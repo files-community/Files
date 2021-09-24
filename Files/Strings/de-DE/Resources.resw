@@ -2007,9 +2007,6 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Schließen</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Sync-Status</value>
-  </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>Das Löschen von {0} Objekten aus {1} is fehlgeschlagen</value>
   </data>
@@ -2289,9 +2286,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Dateiversion</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Sync-Status</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Lädt die Datei aus der Cloud herunter und lädt die Vorschau.</value>
   </data>
@@ -2563,7 +2557,7 @@ Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu e
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Absteigend</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Synchronisierungsstatus</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">

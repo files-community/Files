@@ -2666,10 +2666,6 @@
           <source>Close</source>
           <target state="translated">Bezárás</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">Állapot szinkronizálása</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
           <target state="translated">{0} elem törlése innen {1} sikertelen</target>
@@ -3042,10 +3038,6 @@
           <source>File version</source>
           <target state="translated">Fájl verzió</target>
         </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">Szinkronizálás állapota</target>
-        </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
           <target state="translated">Elem letöltése a felhőből, majd előnézet betöltése</target>
@@ -3413,7 +3405,7 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
           <source>Descending</source>
           <target state="translated">Csökkenő</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="translated">Szinkronizálás állapota</target>
         </trans-unit>

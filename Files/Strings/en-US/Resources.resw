@@ -2265,10 +2265,7 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgets</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Sync status</value>
-  </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Sync status</value>
   </data>
   <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
@@ -2537,9 +2534,6 @@
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>File version</value>
-  </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Sync status</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
     <value>Load full preview</value>

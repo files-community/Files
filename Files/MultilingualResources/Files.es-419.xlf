@@ -2690,10 +2690,6 @@
           <source>Widgets</source>
           <target state="translated">Widgets</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">Estado de sincronización</target>
-        </trans-unit>
         <trans-unit id="NavToolbarLayout.Text" translate="yes" xml:space="preserve">
           <source>Layout</source>
           <target state="translated">Diseño</target>
@@ -3041,10 +3037,6 @@
         <trans-unit id="PropertyFileVersion" translate="yes" xml:space="preserve">
           <source>File version</source>
           <target state="translated">Versión del archivo</target>
-        </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">Estado de la sincronización</target>
         </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
@@ -3412,7 +3404,7 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
           <source>Descending</source>
           <target state="translated">Descendente</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="translated">Estado de sincronización</target>
         </trans-unit>

@@ -2007,9 +2007,6 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Aizvērt</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Sinhronizācijas statuss</value>
-  </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>Neizdevās dzēst {0} vienumus no {1}</value>
   </data>
@@ -2289,9 +2286,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Faila versija</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Sinhronizācijas statuss</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Lejupielādē vienumu no mākoņa un atver priekšskatījumu</value>
   </data>
@@ -2512,7 +2506,7 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Dilstošā secībā</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Sinhronizācijas statuss</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">

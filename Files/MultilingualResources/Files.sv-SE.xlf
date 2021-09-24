@@ -2704,10 +2704,6 @@
           <source>Close</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Stäng</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Synkroniseringsstatus</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
           <target state="new">Failed to delete {0} items from {1}</target>
@@ -3080,10 +3076,6 @@
           <source>File version</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Filversion</target>
         </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Synkroniseringsstatus</target>
-        </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
           <target state="new">Downloads the item from the cloud and loads the preview</target>
@@ -3450,7 +3442,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Descending</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Fallande</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Synkroniseringsstatus</target>
         </trans-unit>

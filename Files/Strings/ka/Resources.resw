@@ -2103,9 +2103,6 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>ვიჯეტები</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>სინქრონიზაციის სტატუსი</value>
-  </data>
   <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
     <value>უსაფრთხოება</value>
   </data>
@@ -2373,9 +2370,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>ფაილის ვერსია</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>სინქრონიზაციის სტატუსი</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ჩამოტვირთავს ნივთს ღრუბლიდან და ჩატვირთავს გადახედვას</value>
   </data>
@@ -2562,7 +2556,7 @@
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>კლებადობის მიხედვით</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>სინქრონიზაციის სტატუსი</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">

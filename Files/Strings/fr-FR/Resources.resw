@@ -2007,9 +2007,6 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Fermer</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>État de synchronisation</value>
-  </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>La suppression de {0} éléments depuis {1} a échoué</value>
   </data>
@@ -2289,9 +2286,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Version de fichier</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>État de synchronisation</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Télécharger l'élément depuis le cloud et charger l'aperçu</value>
   </data>
@@ -2563,7 +2557,7 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Descendant</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Statut de la synchronisation</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">

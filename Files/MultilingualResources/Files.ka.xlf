@@ -2794,10 +2794,6 @@
           <source>Widgets</source>
           <target state="translated">ვიჯეტები</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">სინქრონიზაციის სტატუსი</target>
-        </trans-unit>
         <trans-unit id="PropertiesDialogTabSecurity.Content" translate="yes" xml:space="preserve">
           <source>Security</source>
           <target state="translated">უსაფრთხოება</target>
@@ -3154,10 +3150,6 @@
           <source>File version</source>
           <target state="translated">ფაილის ვერსია</target>
         </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">სინქრონიზაციის სტატუსი</target>
-        </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
           <target state="translated">ჩამოტვირთავს ნივთს ღრუბლიდან და ჩატვირთავს გადახედვას</target>
@@ -3411,7 +3403,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Descending</source>
           <target state="translated">კლებადობის მიხედვით</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="translated">სინქრონიზაციის სტატუსი</target>
         </trans-unit>

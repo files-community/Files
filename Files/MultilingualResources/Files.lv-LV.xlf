@@ -2679,10 +2679,6 @@
           <source>Close</source>
           <target state="translated">Aizvērt</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">Sinhronizācijas statuss</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
           <target state="translated">Neizdevās dzēst {0} vienumus no {1}</target>
@@ -3054,10 +3050,6 @@
         <trans-unit id="PropertyFileVersion" translate="yes" xml:space="preserve">
           <source>File version</source>
           <target state="translated">Faila versija</target>
-        </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">Sinhronizācijas statuss</target>
         </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
@@ -3431,7 +3423,7 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
           <source>Descending</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Dilstošā secībā</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Sinhronizācijas statuss</target>
         </trans-unit>

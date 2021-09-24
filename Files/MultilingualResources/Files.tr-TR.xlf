@@ -2678,10 +2678,6 @@
           <source>Close</source>
           <target state="translated" state-qualifier="tm-suggestion">Kapat</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated" state-qualifier="tm-suggestion">Senkronizasyon durumu</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
           <target state="translated">{1} öğesinden {0} öğe silinemedi</target>
@@ -3054,10 +3050,6 @@
           <source>File version</source>
           <target state="translated" state-qualifier="tm-suggestion">Dosya sürümü</target>
         </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated" state-qualifier="tm-suggestion">Senkronizasyon durumu</target>
-        </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
           <target state="translated">Öğeyi buluttan indirir ve önizlemeyi yükler</target>
@@ -3429,7 +3421,7 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
           <source>Descending</source>
           <target state="translated" state-qualifier="tm-suggestion">Azalan</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="translated" state-qualifier="tm-suggestion">Senkronizasyon durumu</target>
         </trans-unit>

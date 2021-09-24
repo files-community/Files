@@ -2007,9 +2007,6 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Bezárás</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Állapot szinkronizálása</value>
-  </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>{0} elem törlése innen {1} sikertelen</value>
   </data>
@@ -2289,9 +2286,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Fájl verzió</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Szinkronizálás állapota</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Elem letöltése a felhőből, majd előnézet betöltése</value>
   </data>
@@ -2564,7 +2558,7 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Csökkenő</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Szinkronizálás állapota</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">

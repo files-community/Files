@@ -2560,7 +2560,7 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Descendente</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Estado de sincronización</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">

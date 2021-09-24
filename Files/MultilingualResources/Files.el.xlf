@@ -2803,10 +2803,6 @@
           <source>Widgets</source>
           <target state="translated">Widgets</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">Κατάσταση συγχρονισμού</target>
-        </trans-unit>
         <trans-unit id="PropertiesDialogTabSecurity.Content" translate="yes" xml:space="preserve">
           <source>Security</source>
           <target state="translated">Ασφάλεια</target>
@@ -3163,10 +3159,6 @@
           <source>File version</source>
           <target state="translated">Έκδοση αρχείου</target>
         </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">Κατάσταση συγχρονισμού</target>
-        </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
           <target state="translated">Λήψη του στοιχείου από το cloud και φόρτωση της προεπισκόπησης</target>
@@ -3414,7 +3406,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Descending</source>
           <target state="translated">Κατιούσα</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="translated">Κατάσταση συγχρονισμού</target>
         </trans-unit>

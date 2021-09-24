@@ -2698,10 +2698,6 @@
           <source>Close</source>
           <target state="translated">Schließen</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">Sync-Status</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
           <target state="translated">Das Löschen von {0} Objekten aus {1} is fehlgeschlagen</target>
@@ -3074,10 +3070,6 @@
         <trans-unit id="PropertyFileVersion" translate="yes" xml:space="preserve">
           <source>File version</source>
           <target state="translated">Dateiversion</target>
-        </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">Sync-Status</target>
         </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
@@ -3466,7 +3458,7 @@ Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu e
           <source>Descending</source>
           <target state="translated" state-qualifier="tm-suggestion">Absteigend</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="translated" state-qualifier="tm-suggestion">Synchronisierungsstatus</target>
         </trans-unit>

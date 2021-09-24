@@ -2666,10 +2666,6 @@
           <source>Close</source>
           <target state="translated">關閉</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">同步狀態</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
           <target state="translated">無法從 {1} 刪除 {0} 個項目</target>
@@ -3042,10 +3038,6 @@
           <source>File version</source>
           <target state="translated">檔案版本</target>
         </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">同步狀態</target>
-        </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
           <target state="translated">從雲端下載檔案並載入預覽</target>
@@ -3412,7 +3404,7 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
           <source>Descending</source>
           <target state="translated" state-qualifier="tm-suggestion">遞減</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="translated" state-qualifier="tm-suggestion">同步狀態</target>
         </trans-unit>

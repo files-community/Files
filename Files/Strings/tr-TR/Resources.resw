@@ -2007,9 +2007,6 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Kapat</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Senkronizasyon durumu</value>
-  </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>{1} öğesinden {0} öğe silinemedi</value>
   </data>
@@ -2289,9 +2286,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Dosya sürümü</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Senkronizasyon durumu</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Öğeyi buluttan indirir ve önizlemeyi yükler</value>
   </data>
@@ -2562,7 +2556,7 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Azalan</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Senkronizasyon durumu</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">

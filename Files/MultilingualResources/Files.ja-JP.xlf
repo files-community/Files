@@ -2666,10 +2666,6 @@
           <source>Close</source>
           <target state="translated">閉じる</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">同期状態</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
           <target state="translated">{0} ファイルを {1} から削除に失敗しました</target>
@@ -3042,10 +3038,6 @@
           <source>File version</source>
           <target state="translated" state-qualifier="tm-suggestion">ファイルのバージョン</target>
         </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated" state-qualifier="tm-suggestion">同期状況</target>
-        </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
           <target state="translated">クラウドからアイテムをダウンロードし、プレビューをロードします</target>
@@ -3411,7 +3403,7 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
           <source>Descending</source>
           <target state="translated" state-qualifier="tm-suggestion">降順</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="translated" state-qualifier="tm-suggestion">同期状況</target>
         </trans-unit>

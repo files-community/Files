@@ -2007,9 +2007,6 @@
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widget</value>
   </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Status sinkronisasi</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Jendela baru</value>
   </data>
@@ -2148,9 +2145,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Versi file</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Status sinkronisasi</value>
-  </data>
   <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
     <value>Jelajahi</value>
   </data>
@@ -2265,7 +2259,7 @@
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Turun</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Status sinkronisasi</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
