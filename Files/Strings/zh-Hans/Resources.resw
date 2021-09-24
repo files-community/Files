@@ -228,9 +228,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>设置名称</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>取消</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>新选项卡</value>
   </data>
@@ -290,9 +287,6 @@
   </data>
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>跳过</value>
-  </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>取消</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>反向选择</value>
@@ -705,9 +699,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>更多</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>取消</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>多任务</value>
   </data>
@@ -1118,9 +1109,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>仍然关闭</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>取消</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>保存某些属性时出现错误。</value>
@@ -1588,9 +1576,6 @@
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>创建</value>
-  </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>取消</value>
   </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>删除</value>

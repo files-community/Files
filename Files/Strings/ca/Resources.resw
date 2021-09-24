@@ -81,9 +81,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Salta</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Cancel·la</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Tipus d'element:</value>
   </data>
@@ -311,9 +308,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Estableix nom</value>
-  </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Cancel·la</value>
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>Nova pestanya</value>
@@ -747,9 +741,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Accès denegat</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Cancel·la</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Anyadeix pestanya</value>
   </data>
@@ -833,9 +824,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Tanca de totes maneres</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Cancel·la</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Estimant</value>

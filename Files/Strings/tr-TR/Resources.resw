@@ -228,9 +228,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Adı Ayarla</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>İptal</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>Yeni sekme</value>
   </data>
@@ -287,9 +284,6 @@
   </data>
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Atla</value>
-  </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>İptal</value>
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5Hash:</value>
@@ -705,9 +699,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Diğer</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>İptal</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Çoklu görev</value>
   </data>
@@ -1118,9 +1109,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Yine de kapat</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>İptal</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Bazı özellikler kaydedilirken bir sorun çıktı.</value>
@@ -1586,9 +1574,6 @@
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Yaratmak</value>
-  </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>İptal</value>
   </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Silmek</value>

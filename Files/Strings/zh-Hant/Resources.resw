@@ -228,9 +228,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>命名</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>取消</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>新索引標籤</value>
   </data>
@@ -290,9 +287,6 @@
   </data>
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>跳過</value>
-  </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>取消</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>反選</value>
@@ -723,9 +717,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>拒絕存取</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>取消</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>新增索引標籤</value>
   </data>
@@ -1118,9 +1109,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>仍要關閉</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>取消</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>儲存屬性時發生錯誤。</value>
@@ -1586,9 +1574,6 @@
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>新增</value>
-  </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>取消</value>
   </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>刪除</value>

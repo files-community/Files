@@ -228,9 +228,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Зберегти</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Скасувати</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>Нова вкладка</value>
   </data>
@@ -287,9 +284,6 @@
   </data>
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Пропустити</value>
-  </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Скасувати</value>
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5 Хеш:</value>
@@ -705,9 +699,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Більше</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Скасувати</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Багатозадачність</value>
   </data>
@@ -1073,9 +1064,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Закрити</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Скасувати</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Не вдалося зберегти деякі властивості.</value>
@@ -1475,9 +1463,6 @@
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Створити</value>
-  </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>Скасувати</value>
   </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Видалити</value>

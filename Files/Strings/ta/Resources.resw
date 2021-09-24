@@ -66,9 +66,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>தவிர்</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>இரத்து</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>உருப்படி வகை:</value>
   </data>
@@ -272,9 +269,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>பெயரை அமை</value>
-  </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>இரத்து</value>
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>புதியத் தாவல்</value>
@@ -691,9 +685,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>மேலும்</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>இரத்து</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>பல்பணியாக்கம்</value>
   </data>
@@ -950,9 +941,6 @@
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>எப்படியாயினும் மூடு</value>
   </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>ரத்து</value>
-  </data>
   <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
     <value>அழி</value>
   </data>
@@ -1129,9 +1117,6 @@
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>உருவாக்கு</value>
-  </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>ரத்து</value>
   </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>நீக்கு</value>

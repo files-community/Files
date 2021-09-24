@@ -294,10 +294,6 @@
           <source>Set Name</source>
           <target state="translated">命名</target>
         </trans-unit>
-        <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">取消</target>
-        </trans-unit>
         <trans-unit id="NewTab" translate="yes" xml:space="preserve">
           <source>New tab</source>
           <target state="translated">新索引標籤</target>
@@ -377,10 +373,6 @@
         <trans-unit id="ErrorDialogSkip" translate="yes" xml:space="preserve">
           <source>Skip</source>
           <target state="translated">跳過</target>
-        </trans-unit>
-        <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">取消</target>
         </trans-unit>
         <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
@@ -954,10 +946,6 @@
           <source>Access Denied</source>
           <target state="translated" state-qualifier="tm-suggestion">拒絕存取</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">取消</target>
-        </trans-unit>
         <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
           <source>Add tab</source>
           <target state="translated" state-qualifier="tm-suggestion">新增索引標籤</target>
@@ -1481,10 +1469,6 @@
         <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Close anyway</source>
           <target state="translated" state-qualifier="tm-suggestion">仍要關閉</target>
-        </trans-unit>
-        <trans-unit id="PropertySaveErrorDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">取消</target>
         </trans-unit>
         <trans-unit id="PropertySaveErrorMessage.Text" translate="yes" xml:space="preserve">
           <source>There was an issue saving some properties.</source>
@@ -2105,10 +2089,6 @@
         <trans-unit id="DialogCreateLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Create</source>
           <target state="translated">新增</target>
-        </trans-unit>
-        <trans-unit id="DialogCancelButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">取消</target>
         </trans-unit>
         <trans-unit id="DialogDeleteLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Delete</source>

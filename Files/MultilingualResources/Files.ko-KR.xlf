@@ -292,10 +292,6 @@
           <source>Set Name</source>
           <target state="translated">이름 설정</target>
         </trans-unit>
-        <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">취소</target>
-        </trans-unit>
         <trans-unit id="NewTab" translate="yes" xml:space="preserve">
           <source>New tab</source>
           <target state="translated">새 탭</target>
@@ -380,10 +376,6 @@
         <trans-unit id="ErrorDialogSkip" translate="yes" xml:space="preserve">
           <source>Skip</source>
           <target state="translated">건너뛰기</target>
-        </trans-unit>
-        <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">취소</target>
         </trans-unit>
         <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
@@ -989,10 +981,6 @@
           <source>Access Denied</source>
           <target state="translated">접근 거부되었습니다</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">취소</target>
-        </trans-unit>
         <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
           <source>Add tab</source>
           <target state="translated">탭 추가</target>
@@ -1088,10 +1076,6 @@
         <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Close anyway</source>
           <target state="translated">무시하고 닫기</target>
-        </trans-unit>
-        <trans-unit id="PropertySaveErrorDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">취소</target>
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
           <source>Rating</source>
@@ -2140,10 +2124,6 @@
         <trans-unit id="DialogCreateLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Create</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">만들기</target>
-        </trans-unit>
-        <trans-unit id="DialogCancelButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">취소</target>
         </trans-unit>
         <trans-unit id="DialogDeleteLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Delete</source>

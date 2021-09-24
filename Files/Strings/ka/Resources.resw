@@ -81,9 +81,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>გამოტოვება</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>გაუქმება</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>ნივთის ნიმუში:</value>
   </data>
@@ -320,9 +317,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>სახელის დაყენება</value>
-  </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>გაუქმება</value>
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>ახალი ჩანართი</value>
@@ -789,9 +783,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>წვდომა უარყოფილია</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>გაუქმება</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>ჩანართის დამატება</value>
   </data>
@@ -878,9 +869,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>მაინც დახურვა</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>გაუქმება</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>რეიტინგი</value>
@@ -1712,9 +1700,6 @@
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>შექმნა</value>
-  </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>გაუქმება</value>
   </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>წაშლა</value>

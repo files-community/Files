@@ -270,10 +270,6 @@
           <source>Skip</source>
           <target state="translated" state-qualifier="tm-suggestion">Ignorer</target>
         </trans-unit>
-        <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Annuler</target>
-        </trans-unit>
         <trans-unit id="nameColumn.Header" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">Nom</target>
@@ -317,10 +313,6 @@
         <trans-unit id="RenameDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Set Name</source>
           <target state="translated" state-qualifier="tm-suggestion">Définir le nom</target>
-        </trans-unit>
-        <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Annuler</target>
         </trans-unit>
         <trans-unit id="NewTab" translate="yes" xml:space="preserve">
           <source>New tab</source>
@@ -930,10 +922,6 @@
           <source>More</source>
           <target state="translated">Plus</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Annuler</target>
-        </trans-unit>
         <trans-unit id="SettingsMultitaskingTitle.Text" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
           <target state="translated" state-qualifier="tm-suggestion">Multitâche</target>
@@ -1477,10 +1465,6 @@
         <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Close anyway</source>
           <target state="translated" state-qualifier="tm-suggestion">Fermer quand même</target>
-        </trans-unit>
-        <trans-unit id="PropertySaveErrorDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Annuler</target>
         </trans-unit>
         <trans-unit id="PropertySaveErrorMessage.Text" translate="yes" xml:space="preserve">
           <source>There was an issue saving some properties.</source>
@@ -2105,10 +2089,6 @@
         <trans-unit id="DialogCreateLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Create</source>
           <target state="translated">Créer</target>
-        </trans-unit>
-        <trans-unit id="DialogCancelButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Annuler</target>
         </trans-unit>
         <trans-unit id="DialogDeleteLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Delete</source>

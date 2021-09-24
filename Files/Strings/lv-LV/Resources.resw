@@ -69,9 +69,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Izlaist</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Atcelt</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Vienuma tips:</value>
   </data>
@@ -284,9 +281,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Nosaukt</value>
-  </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Atcelt</value>
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>Jauna cilne</value>
@@ -741,9 +735,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Piekļuve liegta</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Atcelt</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Pievienot cilni</value>
   </data>
@@ -815,9 +806,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Tomēr aizvērt</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Atcelt</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Vērtējums</value>
@@ -1586,9 +1574,6 @@
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Izveidot</value>
-  </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>Atcelt</value>
   </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Dzēst</value>

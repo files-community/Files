@@ -98,10 +98,6 @@
           <source>Skip</source>
           <target state="translated">Salta</target>
         </trans-unit>
-        <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Cancel·la</target>
-        </trans-unit>
         <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
           <source>Item type:</source>
           <target state="translated">Tipus d'element:</target>
@@ -422,10 +418,6 @@
         <trans-unit id="RenameDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Set Name</source>
           <target state="translated">Estableix nom</target>
-        </trans-unit>
-        <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Cancel·la</target>
         </trans-unit>
         <trans-unit id="NewTab" translate="yes" xml:space="preserve">
           <source>New tab</source>
@@ -1051,10 +1043,6 @@
           <source>Access Denied</source>
           <target state="translated">Accès denegat</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Cancel·la</target>
-        </trans-unit>
         <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
           <source>Add tab</source>
           <target state="translated">Anyadeix pestanya</target>
@@ -1171,10 +1159,6 @@
         <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Close anyway</source>
           <target state="translated">Tanca de totes maneres</target>
-        </trans-unit>
-        <trans-unit id="PropertySaveErrorDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Cancel·la</target>
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
           <source>Rating</source>
@@ -2287,10 +2271,6 @@
         <trans-unit id="DialogCreateLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Create</source>
           <target state="new">Create</target>
-        </trans-unit>
-        <trans-unit id="DialogCancelButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="new">Cancel</target>
         </trans-unit>
         <trans-unit id="DialogDeleteLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Delete</source>

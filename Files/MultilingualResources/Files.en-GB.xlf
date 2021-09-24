@@ -98,10 +98,6 @@
           <source>Skip</source>
           <target state="translated" state-qualifier="tm-suggestion">Skip</target>
         </trans-unit>
-        <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
-        </trans-unit>
         <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
           <source>Item type:</source>
           <target state="translated" state-qualifier="tm-suggestion">Item type:</target>
@@ -425,10 +421,6 @@
         <trans-unit id="RenameDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Set Name</source>
           <target state="translated" state-qualifier="tm-suggestion">Set Name</target>
-        </trans-unit>
-        <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
         </trans-unit>
         <trans-unit id="NewTab" translate="yes" xml:space="preserve">
           <source>New tab</source>
@@ -1050,10 +1042,6 @@
           <source>Access Denied</source>
           <target state="translated" state-qualifier="tm-suggestion">Access Denied</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
-        </trans-unit>
         <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
           <source>Add tab</source>
           <target state="translated" state-qualifier="tm-suggestion">Add tab</target>
@@ -1181,10 +1169,6 @@
         <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Close anyway</source>
           <target state="translated" state-qualifier="tm-suggestion">Close anyway</target>
-        </trans-unit>
-        <trans-unit id="PropertySaveErrorDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
           <source>Rating</source>
@@ -2297,10 +2281,6 @@
         <trans-unit id="DialogCreateLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Create</source>
           <target state="translated" state-qualifier="tm-suggestion">Create</target>
-        </trans-unit>
-        <trans-unit id="DialogCancelButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
         </trans-unit>
         <trans-unit id="DialogDeleteLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Delete</source>

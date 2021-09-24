@@ -81,9 +81,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Bỏ qua</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Hủy bỏ</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Loại mục:</value>
   </data>
@@ -320,9 +317,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Đặt tên</value>
-  </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Hủy bỏ</value>
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>Tab mới</value>
@@ -789,9 +783,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Truy nhập bị Từ chối</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Hủy bỏ</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Thêm tab</value>
   </data>
@@ -878,9 +869,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Vẫn đóng</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Hủy bỏ</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Xếp loại</value>
@@ -1691,9 +1679,6 @@
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Tạo</value>
-  </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>Hủy bỏ</value>
   </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Xóa</value>

@@ -63,9 +63,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>דלג</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>ביטול</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>סוג פריט</value>
   </data>
@@ -260,9 +257,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>שם ערכה:</value>
-  </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>ביטול</value>
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>כרטיסיה חדשה</value>
@@ -609,9 +603,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>עוד</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>ביטול</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>ריבוי משימות</value>
   </data>
@@ -950,9 +941,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>סגור בכל זאת</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>ביטול</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>חלק מהמאפיינים עשויים להכיל מידע פרטי</value>

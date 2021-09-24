@@ -66,9 +66,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>ଛାଡିଦିଅ</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>ବାତିଲ୍ କର</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>ଆଇଟମ୍ ପ୍ରକାର:</value>
   </data>
@@ -275,9 +272,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>ନାମ ଚୟନ କର</value>
-  </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍ କର</value>
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>ନୂତନ ଟ୍ୟାବ୍</value>
@@ -651,9 +645,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>ଅଧିକ</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>ମଲ୍ଟିଟାସ୍କିଂ</value>
   </data>
@@ -876,9 +867,6 @@
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>ଯେକୌଣସିଭାବରେ ବନ୍ଦ କରିବା</value>
   </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
-  </data>
   <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
     <value>ଖାଲି କରନ୍ତୁ</value>
   </data>
@@ -1055,9 +1043,6 @@
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>ସୃଷ୍ଟି</value>
-  </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
   </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>ବିଲୋପ</value>

@@ -66,9 +66,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Přeskočit</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Storno</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Typ položky:</value>
   </data>
@@ -278,9 +275,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Nastavit název</value>
-  </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Storno</value>
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>Nová záložka</value>
@@ -735,9 +729,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Přístup zakázán</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Storno</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Přidat záložku</value>
   </data>
@@ -809,9 +800,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Přesto zavřít</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Storno</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Hodnocení</value>
@@ -1400,9 +1388,6 @@
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Vytvořit</value>
-  </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>Zrušit</value>
   </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Odstranit</value>

@@ -81,9 +81,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Παράλειψη</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Ακύρωση</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Τύπος αντικειμένου:</value>
   </data>
@@ -323,9 +320,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Όνομα σετ</value>
-  </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Ακύρωση</value>
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>Νέα καρτέλα</value>
@@ -792,9 +786,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Άρνηση πρόσβασης</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Ακύρωση</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Προσθήκη καρτέλας</value>
   </data>
@@ -881,9 +872,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Κλείστε ούτως ή άλλως</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Ακύρωση</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Αξιολόγηση</value>
@@ -1718,9 +1706,6 @@
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Δημιουργία</value>
-  </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>Ακύρωση</value>
   </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Διαγραφή</value>

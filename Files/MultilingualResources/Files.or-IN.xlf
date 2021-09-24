@@ -78,10 +78,6 @@
           <source>Skip</source>
           <target state="translated">ଛାଡିଦିଅ</target>
         </trans-unit>
-        <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">ବାତିଲ୍ କର</target>
-        </trans-unit>
         <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
           <source>Item type:</source>
           <target state="translated">ଆଇଟମ୍ ପ୍ରକାର:</target>
@@ -366,10 +362,6 @@
         <trans-unit id="RenameDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Set Name</source>
           <target state="translated">ନାମ ଚୟନ କର</target>
-        </trans-unit>
-        <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">ବାତିଲ୍ କର</target>
         </trans-unit>
         <trans-unit id="NewTab" translate="yes" xml:space="preserve">
           <source>New tab</source>
@@ -954,10 +946,6 @@
           <source>More</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଅଧିକ</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
-        </trans-unit>
         <trans-unit id="SettingsMultitaskingTitle.Text" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ମଲ୍ଟିଟାସ୍କିଂ</target>
@@ -1506,10 +1494,6 @@
         <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Close anyway</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଯେକୌଣସିଭାବରେ ବନ୍ଦ କରିବା</target>
-        </trans-unit>
-        <trans-unit id="PropertySaveErrorDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
         </trans-unit>
         <trans-unit id="PropertySaveErrorMessage.Text" translate="yes" xml:space="preserve">
           <source>There was an issue saving some properties.</source>
@@ -2130,10 +2114,6 @@
         <trans-unit id="DialogCreateLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Create</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ସୃଷ୍ଟି</target>
-        </trans-unit>
-        <trans-unit id="DialogCancelButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
         </trans-unit>
         <trans-unit id="DialogDeleteLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Delete</source>

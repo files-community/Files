@@ -69,9 +69,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Lewati</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Batal</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Jenis item:</value>
   </data>
@@ -284,9 +281,6 @@
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Tetapkan</value>
-  </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Batal</value>
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>Tab baru</value>
@@ -753,9 +747,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Akses Ditolak</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Batal</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Tambahkan tab</value>
   </data>
@@ -827,9 +818,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Tetap tutup</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Batal</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Peringkat</value>
@@ -1622,9 +1610,6 @@
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Buat</value>
-  </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>Batal</value>
   </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Hapus</value>

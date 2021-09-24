@@ -225,9 +225,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>이름 설정</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>취소</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>새 탭</value>
   </data>
@@ -287,9 +284,6 @@
   </data>
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>건너뛰기</value>
-  </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>취소</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>선택 반전</value>
@@ -738,9 +732,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>접근 거부되었습니다</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>취소</value>
-  </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>탭 추가</value>
   </data>
@@ -812,9 +803,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>무시하고 닫기</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>취소</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>등급</value>
@@ -1559,9 +1547,6 @@
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>만들기</value>
-  </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>취소</value>
   </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>삭제</value>
