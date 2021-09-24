@@ -440,10 +440,6 @@
           <source>An item with this name already exists in this directory.</source>
           <target state="translated">Et emne med dette navn findes allerede i denne mappe.</target>
         </trans-unit>
-        <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Generér nyt navn</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Replace existing item</source>
           <target state="translated">Erstat eksisterende emne</target>
@@ -2235,10 +2231,6 @@
           <source>There is one conflicting file name, and {0} outgoing item(s).</source>
           <target state="new">There is one conflicting file name, and {0} outgoing item(s).</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="new">Generate new name</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Vil du erstatte tidligere |?</target>
@@ -2246,10 +2238,6 @@
         <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
           <source>Skip</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Spring over</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="new">Generate new name</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
@@ -2259,10 +2247,6 @@
           <source>Skip</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Spring over</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="new">Generate new name</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Vil du erstatte tidligere |?</target>
@@ -2271,7 +2255,7 @@
           <source>Skip</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Spring over</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemDefaultOption.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="GenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
           <target state="new">Generate new name</target>
         </trans-unit>

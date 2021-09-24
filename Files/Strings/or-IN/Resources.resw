@@ -324,9 +324,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>ଏହି ନାମ ସହିତ ଏକ ଆଇଟମ୍ ଏହି ଡିରେକ୍ଟୋରୀରେ ପୂର୍ବରୁ ବିଦ୍ୟମାନ ଅଛି |</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>ନୂତନ ନାମ ସୃଷ୍ଟି କରନ୍ତୁ</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>ବିଦ୍ୟମାନ ଆଇଟମ୍ ବଦଳାନ୍ତୁ</value>
   </data>

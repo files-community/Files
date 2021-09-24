@@ -1779,7 +1779,7 @@
   <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
     <value>Omitir</value>
   </data>
-  <data name="ConflictingItemsDialogItemDefaultOption.Content" xml:space="preserve">
+  <data name="GenerateNewName" xml:space="preserve">
     <value>Generar nuevo nombre</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">

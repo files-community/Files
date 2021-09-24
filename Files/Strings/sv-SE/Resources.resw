@@ -333,9 +333,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Det finns redan ett objekt med samma namn på den här platsen.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Generera nytt namn</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Ersätt existerande objekt</value>
   </data>

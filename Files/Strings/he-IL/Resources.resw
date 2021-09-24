@@ -306,9 +306,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>פריט עם שם זהה כבר קיים בתיקיה זו</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>חולל שם חדש</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>החלף פריט קיים</value>
   </data>

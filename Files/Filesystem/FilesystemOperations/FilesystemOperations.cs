@@ -777,7 +777,7 @@ namespace Files.Filesystem
                     {
                         Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
                         Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
-                        PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
+                        PrimaryButtonText = "GenerateNewName".GetLocalized(),
                         SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized(),
                         CloseButtonText = "Cancel".GetLocalized()
                     };

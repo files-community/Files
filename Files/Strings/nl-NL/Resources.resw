@@ -321,9 +321,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Een item met deze naam bestaat al in deze map.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Nieuwe naam genereren</value>
-  </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Item bestaat al</value>
   </data>
@@ -1659,17 +1656,11 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
     <value>Er is een conflicterende itemnaam en {1} uitgaand(e) item(s).</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
-    <value>Nieuwe naam genereren</value>
-  </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Bestaand(e) item(s) vervangen</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
     <value>Overslaan</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionGenerateNewName.Text" xml:space="preserve">
-    <value>Nieuwe naam genereren</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>Bestaand(e) item(s) vervangen</value>
@@ -1677,16 +1668,13 @@
   <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
     <value>Overslaan</value>
   </data>
-  <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
-    <value>Nieuwe naam genereren</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>Bestaand(e) item(s) vervangen</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
     <value>Overslaan</value>
   </data>
-  <data name="ConflictingItemsDialogItemDefaultOption.Content" xml:space="preserve">
+  <data name="GenerateNewName" xml:space="preserve">
     <value>Nieuwe naam genereren</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">

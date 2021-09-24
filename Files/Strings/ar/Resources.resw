@@ -330,9 +330,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>يوجد عنصر بهذا الاسم في دليل الملفات</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>انشئ اسم جديد</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>استبدل العنصر الموجود سابقا</value>
   </data>

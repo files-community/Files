@@ -486,10 +486,6 @@
           <source>An item with this name already exists in this directory.</source>
           <target state="translated">ამ სახელწოდების მქონე ნივთი უკვე არსებობს ამ კატალოგში.</target>
         </trans-unit>
-        <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">ახალი სახელის შექმნა</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Replace existing item</source>
           <target state="translated">არსებული ნივთის ჩანაცვლება</target>
@@ -2370,10 +2366,6 @@
           <source>Open themes folder</source>
           <target state="translated">თემების საქაღალდის გახსნა</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">ახალი სახელის შექმნა</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="translated">არსებულის ჩანაცვლება</target>
@@ -2381,10 +2373,6 @@
         <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
           <source>Skip</source>
           <target state="translated">გამოტოვება</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">ახალი სახელის შექმნა</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
@@ -2394,10 +2382,6 @@
           <source>Skip</source>
           <target state="translated">გამოტოვება</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">ახალი სახელის შექმნა</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="translated">არსებულის ჩანაცვლება</target>
@@ -2406,7 +2390,7 @@
           <source>Skip</source>
           <target state="translated">გამოტოვება</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemDefaultOption.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="GenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
           <target state="translated">არსებულის ჩანაცვლება</target>
         </trans-unit>

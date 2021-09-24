@@ -324,9 +324,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>इस नाम के साथ एक आइटम पहले से ही इस निर्देशिका में मौजूद है ।</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>नया नाम जनरेट करें</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>मौजूदा वस्तु को बदलें</value>
   </data>

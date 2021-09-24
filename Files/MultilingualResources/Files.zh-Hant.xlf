@@ -418,10 +418,6 @@
           <source>An item with this name already exists in this directory.</source>
           <target state="translated">目標目錄已存在同名檔案。</target>
         </trans-unit>
-        <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">重新命名</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogTitle" translate="yes" xml:space="preserve">
           <source>Item already exists</source>
           <target state="translated">檔案已存在</target>
@@ -2202,10 +2198,6 @@
           <source>There is one conflicting file name, and {0} outgoing item(s).</source>
           <target state="translated">有一個同名檔案已存在，且尚有 {0} 個項目等待操作。</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">自動重新命名</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="translated">覆蓋</target>
@@ -2213,10 +2205,6 @@
         <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
           <source>Skip</source>
           <target state="translated">跳過</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">自動重新命名</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
@@ -2226,10 +2214,6 @@
           <source>Skip</source>
           <target state="translated">跳過</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">自動重新命名</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="translated">覆蓋</target>
@@ -2238,7 +2222,7 @@
           <source>Skip</source>
           <target state="translated">跳過</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemDefaultOption.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="GenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
           <target state="translated">自動重新命名</target>
         </trans-unit>

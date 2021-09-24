@@ -321,9 +321,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>In diesem Verzeichnis existiert bereits eine Datei oder ein Ordner mit diesem Namen.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Neuen Namen erstellen</value>
-  </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Datei oder Ordner existiert bereits</value>
   </data>
@@ -1659,17 +1656,11 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
     <value>Es gibt einen Dateinamenkonflikt und {1} verbleibende Elemente.</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
-    <value>Neuen Namen erzeugen</value>
-  </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Bestehende ersetzen</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
     <value>Überspringen</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionGenerateNewName.Text" xml:space="preserve">
-    <value>Neuen Namen erzeugen</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>Bestehende ersetzen</value>
@@ -1677,16 +1668,13 @@
   <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
     <value>Überspringen</value>
   </data>
-  <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
-    <value>Neuen Namen erzeugen</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>Bestehende ersetzen</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
     <value>Überspringen</value>
   </data>
-  <data name="ConflictingItemsDialogItemDefaultOption.Content" xml:space="preserve">
+  <data name="GenerateNewName" xml:space="preserve">
     <value>Neuen Namen erzeugen</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">

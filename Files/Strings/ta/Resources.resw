@@ -321,9 +321,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>இந்தக் கோப்புறையில் இப்பெயருடன் ஏற்கனவே ஒரு உருப்படி உள்ளது.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>புதியப் பெயரை உற்பத்தி செய்</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>ஏற்கனவே உள்ள உருப்படியை மாற்று</value>
   </data>

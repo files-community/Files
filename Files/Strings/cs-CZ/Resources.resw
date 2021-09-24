@@ -330,9 +330,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Položka zde již existuje.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Vytvořit nové jméno</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Nahradit existující položku</value>
   </data>

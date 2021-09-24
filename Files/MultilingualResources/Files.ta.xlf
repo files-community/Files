@@ -430,10 +430,6 @@
           <source>An item with this name already exists in this directory.</source>
           <target state="translated">இந்தக் கோப்புறையில் இப்பெயருடன் ஏற்கனவே ஒரு உருப்படி உள்ளது.</target>
         </trans-unit>
-        <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">புதியப் பெயரை உற்பத்தி செய்</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Replace existing item</source>
           <target state="translated">ஏற்கனவே உள்ள உருப்படியை மாற்று</target>
@@ -2228,10 +2224,6 @@
           <source>There is one conflicting file name, and {0} outgoing item(s).</source>
           <target state="new">There is one conflicting file name, and {0} outgoing item(s).</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="new">Generate new name</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="new">Replace existing</target>
@@ -2239,10 +2231,6 @@
         <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
           <source>Skip</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">தவிர்</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="new">Generate new name</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
@@ -2252,10 +2240,6 @@
           <source>Skip</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">தவிர்</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="new">Generate new name</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="new">Replace existing</target>
@@ -2264,7 +2248,7 @@
           <source>Skip</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">தவிர்</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemDefaultOption.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="GenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
           <target state="new">Generate new name</target>
         </trans-unit>

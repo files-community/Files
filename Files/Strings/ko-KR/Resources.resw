@@ -318,9 +318,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>폴더에 같은 이름의 항목이 이미 존재합니다.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>새로운 이름 생성</value>
-  </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>이미 존재하는 항목입니다</value>
   </data>

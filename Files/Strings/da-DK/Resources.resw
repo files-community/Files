@@ -330,9 +330,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Et emne med dette navn findes allerede i denne mappe.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Generér nyt navn</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Erstat eksisterende emne</value>
   </data>

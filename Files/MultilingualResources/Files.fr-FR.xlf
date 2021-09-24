@@ -418,10 +418,6 @@
           <source>An item with this name already exists in this directory.</source>
           <target state="translated">Un élément avec ce nom existe déjà dans ce dossier.</target>
         </trans-unit>
-        <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Générer un nouveau nom</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogTitle" translate="yes" xml:space="preserve">
           <source>Item already exists</source>
           <target state="translated" state-qualifier="tm-suggestion">L‘élément existe déjà</target>
@@ -2202,10 +2198,6 @@
           <source>There is one conflicting file name, and {0} outgoing item(s).</source>
           <target state="translated">Il y a un nom de fichier en conflit et {0} élément(s) sortant(s).</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Générer un nouveau nom</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="translated">Remplacer l'existant</target>
@@ -2213,10 +2205,6 @@
         <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
           <source>Skip</source>
           <target state="translated">Ignorer</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Générer un nouveau nom</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
@@ -2226,10 +2214,6 @@
           <source>Skip</source>
           <target state="translated">Ignorer</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Générer un nouveau nom</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="translated">Remplacer l'existant</target>
@@ -2238,7 +2222,7 @@
           <source>Skip</source>
           <target state="translated">Ignorer</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemDefaultOption.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="GenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
           <target state="translated">Générer un nouveau nom</target>
         </trans-unit>

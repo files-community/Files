@@ -372,9 +372,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>ამ სახელწოდების მქონე ნივთი უკვე არსებობს ამ კატალოგში.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>ახალი სახელის შექმნა</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>არსებული ნივთის ჩანაცვლება</value>
   </data>
@@ -1785,17 +1782,11 @@
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>თემების საქაღალდის გახსნა</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
-    <value>ახალი სახელის შექმნა</value>
-  </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>არსებულის ჩანაცვლება</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
     <value>გამოტოვება</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionGenerateNewName.Text" xml:space="preserve">
-    <value>ახალი სახელის შექმნა</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>არსებულის ჩანაცვლება</value>
@@ -1803,16 +1794,13 @@
   <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
     <value>გამოტოვება</value>
   </data>
-  <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
-    <value>ახალი სახელის შექმნა</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>არსებულის ჩანაცვლება</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
     <value>გამოტოვება</value>
   </data>
-  <data name="ConflictingItemsDialogItemDefaultOption.Content" xml:space="preserve">
+  <data name="GenerateNewName" xml:space="preserve">
     <value>არსებულის ჩანაცვლება</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">

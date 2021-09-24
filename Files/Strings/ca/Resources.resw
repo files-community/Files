@@ -363,9 +363,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Un element amb aquest nom ja existeix a aquest directori.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Genera un nom nou</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Reemplaça element existent</value>
   </data>

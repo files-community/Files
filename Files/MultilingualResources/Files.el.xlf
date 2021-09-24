@@ -490,10 +490,6 @@
           <source>An item with this name already exists in this directory.</source>
           <target state="translated">Ένα στοιχείο με αυτό το όνομα υπάρχει ήδη σε αυτόν τον κατάλογο.</target>
         </trans-unit>
-        <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Δημιουργία νέου ονόματος</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Replace existing item</source>
           <target state="translated">Αντικατάσταση υπάρχοντος στοιχείου</target>
@@ -2379,10 +2375,6 @@
           <source>Open themes folder</source>
           <target state="translated">Ανοίξτε το φάκελο themes</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Δημιουργία νέου ονόματος</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="translated">Αντικατάσταση των υφιστάμενων</target>
@@ -2390,10 +2382,6 @@
         <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
           <source>Skip</source>
           <target state="translated">Παράλειψη</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Δημιουργία νέου ονόματος</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
@@ -2403,10 +2391,6 @@
           <source>Skip</source>
           <target state="translated">Παράλειψη</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Δημιουργία νέου ονόματος</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="translated">Αντικατάσταση των υφιστάμενων</target>
@@ -2415,7 +2399,7 @@
           <source>Skip</source>
           <target state="translated">Παράλειψη</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemDefaultOption.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="GenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
           <target state="translated">Δημιουργία νέου ονόματος</target>
         </trans-unit>

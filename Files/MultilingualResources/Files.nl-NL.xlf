@@ -419,10 +419,6 @@
           <source>An item with this name already exists in this directory.</source>
           <target state="translated">Een item met deze naam bestaat al in deze map.</target>
         </trans-unit>
-        <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Nieuwe naam genereren</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogTitle" translate="yes" xml:space="preserve">
           <source>Item already exists</source>
           <target state="translated">Item bestaat al</target>
@@ -2216,10 +2212,6 @@
           <source>There is one conflicting file name, and {0} outgoing item(s).</source>
           <target state="translated">Er is een conflicterende itemnaam en {1} uitgaand(e) item(s).</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Nieuwe naam genereren</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="translated">Bestaand(e) item(s) vervangen</target>
@@ -2227,10 +2219,6 @@
         <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
           <source>Skip</source>
           <target state="translated" state-qualifier="tm-suggestion">Overslaan</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Nieuwe naam genereren</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
@@ -2240,10 +2228,6 @@
           <source>Skip</source>
           <target state="translated" state-qualifier="tm-suggestion">Overslaan</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Nieuwe naam genereren</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="translated">Bestaand(e) item(s) vervangen</target>
@@ -2252,7 +2236,7 @@
           <source>Skip</source>
           <target state="translated" state-qualifier="tm-suggestion">Overslaan</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemDefaultOption.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="GenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
           <target state="translated">Nieuwe naam genereren</target>
         </trans-unit>
