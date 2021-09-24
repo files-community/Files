@@ -501,9 +501,6 @@
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Odblokuj</value>
   </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Anuluj</value>
-  </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Wprowadź hasło, aby odblokować dysk</value>
   </data>
@@ -744,7 +741,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Wybierz poniżej typ tego nowego elementu</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Anuluj</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
@@ -2607,9 +2604,6 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
     <value>OK</value>
-  </data>
-  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Anuluj</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Wymagane poświadczenie</value>

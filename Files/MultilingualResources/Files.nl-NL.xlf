@@ -664,10 +664,6 @@
           <source>Unlock</source>
           <target state="translated" state-qualifier="tm-suggestion">Ontgrendelen</target>
         </trans-unit>
-        <trans-unit id="BitlockerDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Annuleren</target>
-        </trans-unit>
         <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter password to unlock the drive</source>
           <target state="translated">Geef het wachtwoord op om dit station te ontgrendelen</target>
@@ -988,7 +984,7 @@
           <source>Choose a type for this new item below</source>
           <target state="translated">Kies hieronder het type item</target>
         </trans-unit>
-        <trans-unit id="AddDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Cancel" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated" state-qualifier="tm-suggestion">Annuleren</target>
         </trans-unit>
@@ -3492,10 +3488,6 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
         <trans-unit id="AskCredentialDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
           <target state="new">OK</target>
-        </trans-unit>
-        <trans-unit id="AskCredentialDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="new">Cancel</target>
         </trans-unit>
         <trans-unit id="AskCredentialDialog.Title" translate="yes" xml:space="preserve">
           <source>Credential Required</source>

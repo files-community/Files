@@ -516,9 +516,6 @@
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Lås op</value>
   </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Annullér</value>
-  </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Indtast kodeord for at låse op for drevet</value>
   </data>
@@ -759,7 +756,7 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Kopiér placering</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Annullér</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">

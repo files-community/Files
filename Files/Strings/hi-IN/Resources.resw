@@ -504,9 +504,6 @@
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>अनवरोधित</value>
   </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>रद्द करें</value>
-  </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>ड्राइव अनलॉक करने के लिए पासवर्ड दर्ज करें</value>
   </data>
@@ -687,7 +684,7 @@
   <data name="ButtonYes.Content" xml:space="preserve">
     <value>हाँ</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>रद्द करें</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">

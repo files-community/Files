@@ -501,9 +501,6 @@
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>ロック解除</value>
   </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>パスワードを入力してドライブのロックを解除します</value>
   </data>
@@ -744,7 +741,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>以下で新しいファイルの種類を選択してください</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>キャンセル</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
@@ -2606,9 +2603,6 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
     <value>実行</value>
-  </data>
-  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
-    <value>キャンセル</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>資格情報が必要です</value>

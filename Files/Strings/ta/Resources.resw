@@ -501,9 +501,6 @@
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>பூட்டுநீக்கு</value>
   </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>இரத்து</value>
-  </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>இயக்கத்தைப் பூட்டுநீக்கக் கடவுச்சொல்லை உள்ளிடுக</value>
   </data>
@@ -730,7 +727,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>இந்த புதிய உருப்படியின் வகையை கீழே தேர்வுசெய்க</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>இரத்து</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">

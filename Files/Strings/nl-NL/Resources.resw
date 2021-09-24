@@ -501,9 +501,6 @@
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Ontgrendelen</value>
   </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Annuleren</value>
-  </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Geef het wachtwoord op om dit station te ontgrendelen</value>
   </data>
@@ -744,7 +741,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Kies hieronder het type item</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Annuleren</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">

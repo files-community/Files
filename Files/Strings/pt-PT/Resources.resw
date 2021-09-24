@@ -504,9 +504,6 @@
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Desbloquear</value>
   </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Cancelar</value>
-  </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Insira a palavra-passe para desbloquear a unidade</value>
   </data>
@@ -744,7 +741,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Escolha um tipo para este novo item abaixo</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Cancelar</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
@@ -2608,9 +2605,6 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
     <value>OK</value>
-  </data>
-  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Cancelar</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Credencial Requerido</value>

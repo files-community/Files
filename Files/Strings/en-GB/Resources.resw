@@ -570,9 +570,6 @@
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Unlock</value>
   </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Enter password to unlock the drive</value>
   </data>
@@ -819,7 +816,7 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Copy location</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
@@ -2607,9 +2604,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
     <value>OK</value>
-  </data>
-  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Cancel</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Credential Required</value>

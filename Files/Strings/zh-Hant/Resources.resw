@@ -504,9 +504,6 @@
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>解除鎖定</value>
   </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>取消</value>
-  </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>輸入密碼以解鎖磁碟機</value>
   </data>
@@ -747,7 +744,7 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>複製位置</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
@@ -2607,9 +2604,6 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
     <value>確定</value>
-  </data>
-  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
-    <value>取消</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>憑證請求</value>

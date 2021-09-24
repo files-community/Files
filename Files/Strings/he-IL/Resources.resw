@@ -453,9 +453,6 @@
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>בטל נעילה</value>
   </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>ביטול</value>
-  </data>
   <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
     <value>סיסמה</value>
   </data>
@@ -645,7 +642,7 @@
   <data name="AddDialog.Title" xml:space="preserve">
     <value>ייצר פריט חדש</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>ביטול</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">

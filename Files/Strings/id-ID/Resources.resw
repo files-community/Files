@@ -528,9 +528,6 @@
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Buka kunci</value>
   </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Batal</value>
-  </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Masukkan kata sandi untuk membuka drive </value>
   </data>
@@ -777,7 +774,7 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Salin lokasi</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Batal</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">

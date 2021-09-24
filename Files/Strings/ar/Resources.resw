@@ -513,9 +513,6 @@
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>إلغاء تأمين</value>
   </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>إلغاء الأمر</value>
-  </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>ادخل كلمة السر لفتح المحرك </value>
   </data>
@@ -756,7 +753,7 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>نسخ الموقع</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>إلغاء الأمر</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">

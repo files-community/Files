@@ -567,9 +567,6 @@
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Ξεκλειδώστε το</value>
   </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Ακύρωση</value>
-  </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Εισάγετε τον κωδικό πρόσβασης για να ξεκλειδώσετε τη μονάδα δίσκου</value>
   </data>
@@ -816,7 +813,7 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Τοποθεσία αντιγραφής</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Ακύρωση</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
@@ -2608,9 +2605,6 @@
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
     <value>Εντάξει</value>
-  </data>
-  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Ακύρωση</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Απαιτούμενα διαπιστευτήρια</value>

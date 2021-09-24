@@ -504,9 +504,6 @@
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>ଅନଲକ୍ କର</value>
   </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍ କର</value>
-  </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>ଡ୍ରାଇଭକୁ ଅନଲକ୍ କରିବାକୁ ପାସୱାର୍ଡ ପ୍ରବେଶ କରନ୍ତୁ</value>
   </data>
@@ -675,7 +672,7 @@
   <data name="ButtonYes.Content" xml:space="preserve">
     <value>ହଁ</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>ବାତିଲ୍</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">

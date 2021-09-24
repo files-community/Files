@@ -522,9 +522,6 @@
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Atbloķēt</value>
   </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Atcelt</value>
-  </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Ievadiet paroli, lai atbloķētu disku</value>
   </data>
@@ -765,7 +762,7 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Kopēt atrašanās vietu</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Atcelt</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
