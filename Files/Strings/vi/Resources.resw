@@ -402,9 +402,6 @@
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Chúng tôi đã không xóa bỏ mục này được.</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Truy nhập bị Từ chối</value>
-  </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Làm ơn chèn ổ lưu trữ yêu cầu để truy cập mục này.</value>
   </data>
@@ -521,9 +518,6 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Có</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Hủy bỏ</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Chắc chắn bạn muốn xóa bỏ những mục này vĩnh viễn không?</value>
@@ -780,7 +774,7 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Đóng</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Truy nhập bị Từ chối</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
@@ -2021,12 +2015,6 @@
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Bỏ qua</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Hủy bỏ</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Hủy bỏ</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Phụ tùng</value>

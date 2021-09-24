@@ -360,9 +360,6 @@
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nemohli jsme smazat tuto položku</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Přístup zakázán</value>
-  </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Připojte prosím požadovanou jednotku.</value>
   </data>
@@ -473,9 +470,6 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ano</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Storno</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Opravdu chcete navždy smazat tyto položky?</value>
@@ -726,7 +720,7 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Nemohli jsme vytvořit tuto položku</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Přístup zakázán</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
@@ -1556,12 +1550,6 @@
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Zavřít</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Zrušit</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Zrušit</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgety</value>

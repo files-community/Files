@@ -354,9 +354,6 @@
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>हम इस आइटम को हटाने में सक्षम नहीं हुए</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>पहुंच अस्वीकृत</value>
-  </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>कृपया इस आइटम को एक्सेस करने के लिए आवश्यक ड्राइव डालें।</value>
   </data>
@@ -461,9 +458,6 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>ठीक है</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>रद्द करें</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>क्या आप सुनिश्चित हैं कि आप सभी वस्तुओं को हटाना चाहते हैं?</value>
@@ -684,7 +678,7 @@
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>आगे नेविगेट करें</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>प्रवेश निषेध</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1247,12 +1241,6 @@
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ख़ारिज करें</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>रद्द करें</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>रद्द करें</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>विजेट्स</value>

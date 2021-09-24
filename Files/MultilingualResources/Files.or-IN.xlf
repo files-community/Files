@@ -480,10 +480,6 @@
           <source>We weren't able to delete this item</source>
           <target state="translated">ଆମେ ଏହି ଆଇଟମ୍ ବିଲୋପ କରିବାକୁ ସମର୍ଥ ହେଲୁ ନାହିଁ</target>
         </trans-unit>
-        <trans-unit id="AccessDeniedDeleteDialog.Title" translate="yes" xml:space="preserve">
-          <source>Access Denied</source>
-          <target state="translated">ଉପଲବ୍ଧି ନିଷେଧ</target>
-        </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Text" translate="yes" xml:space="preserve">
           <source>Please insert the necessary drive to access this item.</source>
           <target state="translated">ଏହି ଆଇଟମକୁ ଉପଲବ୍ଧି କରିବାକୁ ଦୟାକରି ଆବଶ୍ୟକ ଡ୍ରାଇଭ ସନ୍ନିବେଶ କରନ୍ତୁ |</target>
@@ -625,10 +621,6 @@
           <source>Yes</source>
           <target state="needs-review-translation">ଠିକ୍ ଅଛି</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
-        </trans-unit>
-        <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">ବାତିଲ୍ କର</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to permanently delete all these items?</source>
@@ -1038,7 +1030,7 @@
           <source>We weren't able to create this item</source>
           <target state="new">We weren't able to create this item</target>
         </trans-unit>
-        <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="AccessDenied" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ପ୍ରବେଶ ପ୍ରତ୍ୟାଖ୍ୟାତ</target>
         </trans-unit>
@@ -2582,14 +2574,6 @@
         <trans-unit id="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Dismiss</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ବରଖାସ୍ତ</target>
-        </trans-unit>
-        <trans-unit id="OngoingTasksCancelBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
-        </trans-unit>
-        <trans-unit id="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
         </trans-unit>
         <trans-unit id="NavToolbarWidgets.Label" translate="yes" xml:space="preserve">
           <source>Widgets</source>

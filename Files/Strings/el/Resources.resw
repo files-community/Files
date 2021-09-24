@@ -405,9 +405,6 @@
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Δεν μπορέσαμε να διαγράψουμε αυτό το στοιχείο</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Άρνηση πρόσβασης</value>
-  </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Τοποθετήστε την απαραίτητη μονάδα δίσκου για να αποκτήσετε πρόσβαση σε αυτό το στοιχείο.</value>
   </data>
@@ -524,9 +521,6 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ναι</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Ακύρωση</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Είστε σίγουροι ότι θέλετε να διαγράψετε οριστικά όλα αυτά τα στοιχεία?</value>
@@ -783,7 +777,7 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Κλείσιμο</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Άρνηση πρόσβασης</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
@@ -2057,12 +2051,6 @@
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Απόρριψη</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Ακύρωση</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ακύρωση</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgets</value>

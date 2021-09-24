@@ -360,9 +360,6 @@
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>لم نتمكن من حذف هذا العنصر</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>تم رفض الوصول</value>
-  </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>الرجاء ادخال المحرك المطلوب لهذا العنصر</value>
   </data>
@@ -470,9 +467,6 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>نعم</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>إلغاء الأمر</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>هل انت متاكد من القيام بحذف جميع الملفات المختارة</value>
@@ -723,7 +717,7 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>لم نتمكن من إنشاء هذا العنصر</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>تم رفض الوصول</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
@@ -1595,12 +1589,6 @@
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>تجاهل</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>إلغاء الأمر</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>إلغاء الأمر</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>تحديد</value>

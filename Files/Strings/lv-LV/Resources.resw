@@ -366,9 +366,6 @@
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Mēs nevarējām izdzēst šo vienumu</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Piekļuve liegta</value>
-  </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Lūdzu ievietojiet vajadzīgo disku, lai piekļūtu šim vienumam.</value>
   </data>
@@ -479,9 +476,6 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Jā</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Atcelt</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Vai esat pārliecināti, ka vēlaties dzēst visus šos failus?</value>
@@ -732,7 +726,7 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Mēs nevarējām izveidot šo vienumu</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Piekļuve liegta</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
@@ -1925,12 +1919,6 @@
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Noraidīt</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Atcelt</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Atcelt</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Logrīki</value>

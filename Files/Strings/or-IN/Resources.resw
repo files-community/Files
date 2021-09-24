@@ -354,9 +354,6 @@
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>ଆମେ ଏହି ଆଇଟମ୍ ବିଲୋପ କରିବାକୁ ସମର୍ଥ ହେଲୁ ନାହିଁ</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>ଉପଲବ୍ଧି ନିଷେଧ</value>
-  </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>ଏହି ଆଇଟମକୁ ଉପଲବ୍ଧି କରିବାକୁ ଦୟାକରି ଆବଶ୍ୟକ ଡ୍ରାଇଭ ସନ୍ନିବେଶ କରନ୍ତୁ |</value>
   </data>
@@ -461,9 +458,6 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>ଠିକ୍ ଅଛି</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍ କର</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>ଆପଣ ନିଶ୍ଚିତ କି ଆପଣ ସମସ୍ତ ଆଇଟମ୍ ବିଲୋପ କରିବାକୁ ଚାହୁଁଛନ୍ତି କି?</value>
@@ -672,7 +666,7 @@
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>ଅଗ୍ରଗାମୀ ନେଭିଗେଟ୍ କରନ୍ତୁ</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>ପ୍ରବେଶ ପ୍ରତ୍ୟାଖ୍ୟାତ</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
@@ -1190,12 +1184,6 @@
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ବରଖାସ୍ତ</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>ଚୟନ</value>

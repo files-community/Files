@@ -402,9 +402,6 @@
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>ჩვენ ვერ შევძელით ამ ნივთის წაშლა</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>წვდომა უარყოფილია</value>
-  </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>გთხოვთ, ჩასვათ საჭირო დრაივი ამ ერთეულზე წვდომის მოსაპოვებლად.</value>
   </data>
@@ -521,9 +518,6 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>დიახ</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>გაუქმება</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>დარწმუნებული ხართ, რომ გსურთ ყველა ამ ნივთის სამუდამოდ წაშლა?</value>
@@ -780,7 +774,7 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>დახურვა</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>წვდომა უარყოფილია</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
@@ -2051,12 +2045,6 @@
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>გათავისუფლება</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>გაუქმება</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>გაუქმება</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>ვიჯეტები</value>

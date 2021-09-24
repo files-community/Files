@@ -768,7 +768,7 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Cerrar</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Acceso Denegado</value>
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">

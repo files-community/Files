@@ -336,9 +336,6 @@
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>항목을 삭제할 수 없습니다</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>접근이 거부되었습니다</value>
-  </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>파일에 접근하려면 드라이브를 삽입하세요</value>
   </data>
@@ -434,9 +431,6 @@
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>액세스한 날짜:</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>취소</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>모든 항목을 완전히 삭제하시겠습니까?</value>
@@ -729,7 +723,7 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>항목을 만들 수 없습니다</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>접근 거부되었습니다</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
@@ -1712,12 +1706,6 @@
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>해제</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>취소</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>취소</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>위젯</value>

@@ -351,9 +351,6 @@
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>ファイルを削除できませんでした</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>アクセスが拒否されました</value>
-  </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>ドライブを挿入してください</value>
   </data>
@@ -449,9 +446,6 @@
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>アクセス日時:</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>キャンセル</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>すべてのファイルを削除してもよろしいですか？</value>
@@ -768,7 +762,7 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>このファイルを作成できませんでした</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>アクセスが拒否されました</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1925,12 +1919,6 @@
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>閉じる</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>キャンセル</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>ウィジェット</value>

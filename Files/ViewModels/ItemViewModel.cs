@@ -1459,7 +1459,7 @@ namespace Files.ViewModels
                 {
                     //TODO: proper dialog
                     await DialogDisplayHelper.ShowDialogAsync(
-                        "AccessDeniedDeleteDialog/Title".GetLocalized(),
+                        "AccessDenied".GetLocalized(),
                         "SubDirectoryAccessDenied".GetLocalized());
                     return -1;
                 }

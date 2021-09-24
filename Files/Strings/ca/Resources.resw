@@ -390,9 +390,6 @@
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Aquest element no ha pogut ser esborrat</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Accés denegat</value>
-  </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Insereix el dispositiu necessari per accedir a aquest element.</value>
   </data>
@@ -503,9 +500,6 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Sí</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Cancel·la</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Estàs segur d'esborrar tots aquests elements permanentment?</value>
@@ -738,7 +732,7 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tanca</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Accès denegat</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">

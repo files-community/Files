@@ -351,9 +351,6 @@
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nous n'avons pas été en mesure de supprimer cet élément</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Accès Refusé</value>
-  </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Veuillez insérer le disque nécessaire pour accéder à cet élément.</value>
   </data>
@@ -449,9 +446,6 @@
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Dernier accès le :</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Annuler</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Êtes-vous sûr de vouloir supprimer définitivement tous les éléments ?</value>
@@ -768,7 +762,7 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Cet élément n'a pas pu être créé</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Accès Refusé</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1925,12 +1919,6 @@
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Rejeter</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Annuler</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Annuler</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgets</value>

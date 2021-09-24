@@ -363,9 +363,6 @@
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Vi kunde inte ta bort det här objektet</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Åtkomst nekad</value>
-  </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Vänligen sätt i enheten som krävs för att komma åt det här objektet.</value>
   </data>
@@ -476,9 +473,6 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ja</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Avbryt</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Vill du radera alla dessa objekt permanent?</value>
@@ -729,7 +723,7 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Vi kunde inte skapa det här objektet</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Åtkomst nekad</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
@@ -1655,12 +1649,6 @@
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Stäng</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Avbryt</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Avbryt</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgetar</value>

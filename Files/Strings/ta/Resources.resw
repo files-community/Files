@@ -351,9 +351,6 @@
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>இந்த உருப்படியை எங்களால் நீக்க இயலவில்லை</value>
   </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>அணுகல் மறுக்கப்பட்டது</value>
-  </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>இந்த உருப்படியை அணுக தேவையான இயக்கத்தை செருகவும்.</value>
   </data>
@@ -449,9 +446,6 @@
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>அணுகியது:</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>இரத்து</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>அனைத்து உருப்படிகலையும் நிச்சயம் நீக்க விரும்புகிறீர்களா?</value>
@@ -748,7 +742,7 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>இந்த உருப்படியை எங்களால் உருவாக்க இயலவில்லை</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Access Denied
 அணுகல் மறுக்கப்பட்டது</value>
   </data>
@@ -1264,12 +1258,6 @@
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>நிராகரி</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>ரத்து</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ரத்து</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>தேர்ந்தெடு</value>
