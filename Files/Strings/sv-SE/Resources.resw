@@ -1212,9 +1212,6 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Ta bort</value>
   </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>Avbryt</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Öppna i sekundär panel</value>
   </data>
@@ -1323,9 +1320,6 @@
   <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
     <value>Ange namn för samlingen</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Avbryt</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>Önskat namn</value>
   </data>
@@ -1340,9 +1334,6 @@
   </data>
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>Skapa samling</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Avbryt</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>Bekräfta</value>
@@ -1524,29 +1515,17 @@
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Kopiera</value>
   </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Avbryt</value>
-  </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Flytta</value>
   </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Avbryt</value>
-  </data>
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Ta bort</value>
-  </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Avbryt</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} objekt kommer att tas bort.</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Fortsätt</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Avbryt</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Ta bort permanent</value>

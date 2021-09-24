@@ -915,9 +915,6 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>ଅପସାରଣ</value>
   </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
-  </data>
   <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>ଫୋଲ୍ଡରଗୁଡିକ</value>
   </data>
@@ -930,17 +927,11 @@
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>ସୁନିଶ୍ଚିତ</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>ସୁନିଶ୍ଚିତ</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>ପୁନଃନାମ |0</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>ସୁନିଶ୍ଚିତ</value>
@@ -1074,29 +1065,17 @@
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>କପି</value>
   </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
-  </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>ଘୁଞ୍ଚାନ୍ତୁ</value>
   </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
-  </data>
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>ବିଲୋପ</value>
-  </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} ସମ୍ପର୍କସମୂହ ବିଲୋପିତ ହେବ.</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>ଜାରି</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>ସ୍ଥାୟୀଭାବରେ ବିଲୋପ କରନ୍ତୁ</value>

@@ -1206,9 +1206,6 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Smazat</value>
   </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>Storno</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Otevřít v novém panelu</value>
   </data>
@@ -1239,9 +1236,6 @@
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Potvrdit</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Zrušit</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>Potvrdit</value>
   </data>
@@ -1250,9 +1244,6 @@
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>Přejmenovat objekt {0}</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Zrušit</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>Potvrdit</value>
@@ -1422,32 +1413,20 @@
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Kopírovat</value>
   </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Zrušit</value>
-  </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
     <value>Odstranit položku(y)</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Přesunout</value>
   </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Zrušit</value>
-  </data>
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Odstranit</value>
-  </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Zrušit</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>Odstraní se tento počet položek: {0}.</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Pokračovat</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Zrušit</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Trvale odstranit?</value>

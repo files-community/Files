@@ -1011,9 +1011,6 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>הסר</value>
   </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>ביטול</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>פתח בחלונית משנית</value>
   </data>
@@ -1047,9 +1044,6 @@
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>אשר</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>ביטול</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>אשר</value>
   </data>
@@ -1058,9 +1052,6 @@
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>שנה את השם "{0}"</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>ביטול</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>אשר</value>
@@ -1193,9 +1184,6 @@
   </data>
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>העתק</value>
-  </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>ביטול</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>העבר</value>

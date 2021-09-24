@@ -779,7 +779,7 @@ namespace Files.Filesystem
                         Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
                         PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
                         SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized(),
-                        CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
+                        CloseButtonText = "Cancel".GetLocalized()
                     };
 
                     if (UIHelpers.IsAnyContentDialogOpen())

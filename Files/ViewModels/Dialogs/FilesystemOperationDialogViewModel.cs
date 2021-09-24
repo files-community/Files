@@ -235,7 +235,7 @@ namespace Files.ViewModels.Dialogs
 
                 titleText = "ConflictingItemsDialogTitle".GetLocalized();
                 primaryButtonText = "ConflictingItemsDialogPrimaryButtonText".GetLocalized();
-                secondaryButtonText = "ConflictingItemsDialogSecondaryButtonText".GetLocalized();
+                secondaryButtonText = "Cancel".GetLocalized();
             }
             else
             {
@@ -246,7 +246,7 @@ namespace Files.ViewModels.Dialogs
                             titleText = "CopyItemsDialogTitle".GetLocalized();
                             subtitleText = itemsData.IncomingItems.Count == 1 ? "CopyItemsDialogSubtitleSingle".GetLocalized() : string.Format("CopyItemsDialogSubtitleMultiple".GetLocalized(), itemsData.IncomingItems.Count);
                             primaryButtonText = "CopyItemsDialogPrimaryButtonText".GetLocalized();
-                            secondaryButtonText = "CopyItemsDialogSecondaryButtonText".GetLocalized();
+                            secondaryButtonText = "Cancel".GetLocalized();
                             break;
                         }
 
@@ -255,7 +255,7 @@ namespace Files.ViewModels.Dialogs
                             titleText = "MoveItemsDialogTitle".GetLocalized();
                             subtitleText = itemsData.IncomingItems.Count == 1 ? "MoveItemsDialogSubtitleSingle".GetLocalized() : string.Format("MoveItemsDialogSubtitleMultiple".GetLocalized(), itemsData.IncomingItems.Count);
                             primaryButtonText = "MoveItemsDialogPrimaryButtonText".GetLocalized();
-                            secondaryButtonText = "MoveItemsDialogSecondaryButtonText".GetLocalized();
+                            secondaryButtonText = "Cancel".GetLocalized();
                             break;
                         }
 
@@ -264,7 +264,7 @@ namespace Files.ViewModels.Dialogs
                             titleText = "DeleteItemsDialogTitle".GetLocalized();
                             subtitleText = itemsData.IncomingItems.Count == 1 ? "DeleteItemsDialogSubtitleSingle".GetLocalized() : string.Format("DeleteItemsDialogSubtitleMultiple".GetLocalized(), itemsData.IncomingItems.Count);
                             primaryButtonText = "DeleteItemsDialogPrimaryButtonText".GetLocalized();
-                            secondaryButtonText = "DeleteItemsDialogSecondaryButtonText".GetLocalized();
+                            secondaryButtonText = "Cancel".GetLocalized();
                             permanentlyDeleteLoad = true;
                             break;
                         }
