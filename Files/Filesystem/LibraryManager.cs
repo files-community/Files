@@ -64,7 +64,6 @@ namespace Files.Filesystem
                                 {
                                     if (await lib.CheckDefaultSaveFolderAccess())
                                     {
-                                        lib.Font = MainViewModel.FontName;
                                         librarySection.ChildItems.AddSorted(lib);
                                         this.LoadLibraryIcon(lib);
                                     }
@@ -84,7 +83,6 @@ namespace Files.Filesystem
                             {
                                 if (await lib.CheckDefaultSaveFolderAccess())
                                 {
-                                    lib.Font = MainViewModel.FontName;
                                     librarySection.ChildItems.AddSorted(lib);
                                     this.LoadLibraryIcon(lib);
                                 }
@@ -104,10 +102,6 @@ namespace Files.Filesystem
         private async void LoadLibraryIcon(LibraryLocationItem lib)
         {
             lib.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(lib.Path, 24u);
-            if (lib.IconData != null)
-            {
-                lib.Icon = await lib.IconData.ToBitmapAsync();
-            }
         }
 
         public void Dispose()
@@ -198,7 +192,7 @@ namespace Files.Filesystem
                             Text = "SidebarLibraries".GetLocalized(),
                             Section = SectionType.Library,
                             SelectsOnInvoked = false,
-                            Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.Libraries)?.Image),
+                            IconData = SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.Libraries)?.IconDataBytes,
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0); // After favorites section

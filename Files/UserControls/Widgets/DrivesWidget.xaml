@@ -67,6 +67,7 @@
         <muxc:ItemsRepeater
             x:Name="CardsList"
             Grid.Row="0"
+            ElementPrepared="CardsList_ElementPrepared"
             HorizontalAlignment="Stretch"
             ItemsSource="{x:Bind local:DrivesWidget.ItemsAdded}">
             <muxc:ItemsRepeater.Layout>
@@ -178,11 +179,10 @@
                                 <Image
                                     Grid.RowSpan="3"
                                     Grid.Column="0"
+                                    x:Name="DriveThumbnailImage"
                                     Width="40"
                                     Height="40"
-                                    HorizontalAlignment="Center"
-                                    x:Phase="1"
-                                    Source="{x:Bind Icon, Mode=OneWay}" />
+                                    HorizontalAlignment="Center" />
 
                                 <TextBlock
                                     x:Name="ItemLocationName"

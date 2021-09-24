@@ -31,6 +31,7 @@
         <muxc:ItemsRepeater
             x:Name="CardsList"
             Grid.Row="0"
+            ElementPrepared="CardsList_ElementPrepared"
             HorizontalAlignment="Stretch"
             ItemsSource="{x:Bind ItemsAdded}">
             <muxc:ItemsRepeater.Layout>
@@ -122,9 +123,11 @@
                                 <Image
                                     Grid.Row="0"
                                     Height="40"
+                                    Width="40"
+                                    Source="{x:Bind Icon, Mode=OneWay}"
+                                    x:Name="FolderThumbnailImage"
                                     HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Source="{x:Bind Icon, Mode=OneWay}" />
+                                    VerticalAlignment="Center" />
                                 <TextBlock
                                     x:Name="ItemLocationName"
                                     Grid.Row="1"

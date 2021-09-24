@@ -25,10 +25,10 @@ namespace Files.ViewModels.Properties
         {
             if (Drive != null)
             {
-                ViewModel.CustomIconSource = Drive.IconSource;
-                ViewModel.IconData = Drive.IconData;
-                ViewModel.LoadCustomIcon = Drive.IconSource != null && Drive.IconData == null;
-                ViewModel.LoadFileIcon = Drive.IconData != null;
+                ViewModel.CustomIconSource = Drive.ThumbnailSource;
+                ViewModel.IconData = Drive.ThumbnailData;
+                ViewModel.LoadCustomIcon = Drive.ThumbnailSource != null && Drive.ThumbnailData == null;
+                ViewModel.LoadFileIcon = Drive.ThumbnailData != null;
                 ViewModel.ItemName = Drive.Text;
                 ViewModel.OriginalItemName = Drive.Text;
                 // Note: if DriveType enum changes, the corresponding resource keys should change too

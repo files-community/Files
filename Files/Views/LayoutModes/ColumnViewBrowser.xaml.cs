@@ -786,5 +786,15 @@ namespace Files.Views.LayoutModes
         public IShellPage LastColumnShellPage => IsLastColumnBase ? ParentShellPageInstance : ((ColumnHost.ActiveBlades.Last().Content as Frame).Content as ColumnShellPage);
 
         public bool IsLastColumnBase => (ColumnHost?.ActiveBlades is null) || ColumnHost.ActiveBlades.Count == 1;
+
+
+        private async void ItemIconImage_Loaded(object sender, RoutedEventArgs e)
+        {
+            var image = (Image)sender;
+            if (image.Source == null)
+            {
+                image.Source = await ((byte[])image.Tag).ToBitmapAsync();
+            }
+        }
     }
 }

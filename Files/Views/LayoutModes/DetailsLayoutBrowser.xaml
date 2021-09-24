@@ -924,8 +924,10 @@
                                 Orientation="Horizontal"
                                 Spacing="4">
                                 <Image
+                                    x:Name="ItemIconImage"
+                                    Loaded="ItemIconImage_Loaded"
+                                    Tag="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageBytes, Mode=OneWay}"
                                     Height="36"
-                                    Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
                                     Stretch="Uniform" />
                                 <FontIcon FontSize="32" Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
                                 <StackPanel

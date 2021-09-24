@@ -4,21 +4,11 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.DataModels.NavigationControlItems
 {
     public class LocationItem : ObservableObject, INavigationControlItem
     {
-        public BitmapImage icon;
-
-        public BitmapImage Icon
-        {
-            get => icon;
-            set => SetProperty(ref icon, value);
-        }
-
         public Uri IconSource { get; set; }
         public byte[] IconData { get; set; }
 
@@ -37,7 +27,6 @@ namespace Files.DataModels.NavigationControlItems
         }
 
         public string HoverDisplayText { get; private set; }
-        public FontFamily Font { get; set; }
         public NavigationControlItemType ItemType => NavigationControlItemType.Location;
         public bool IsDefaultLocation { get; set; }
         public ObservableCollection<INavigationControlItem> ChildItems { get; set; }

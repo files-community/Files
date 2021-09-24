@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Windows.UI.Xaml.Media;
 
 namespace Files.Helpers
 {
@@ -129,12 +128,20 @@ namespace Files.Helpers
             set => SetProperty(ref showCountTextBelow, value);
         }
 
-        private ImageSource imageSource;
+        private byte[] imageBytes;
 
-        public ImageSource ImageSource
+        public byte[] ImageBytes
         {
-            get => imageSource;
-            set => SetPropertyWithUpdateDelay(ref imageSource, value);
+            get => imageBytes;
+            set => SetPropertyWithUpdateDelay(ref imageBytes, value);
+        }
+
+        private Uri imageUri;
+
+        public Uri ImageUri
+        {
+            get => imageUri;
+            set => SetPropertyWithUpdateDelay(ref imageUri, value);
         }
 
         private string icon;

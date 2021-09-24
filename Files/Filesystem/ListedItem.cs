@@ -483,7 +483,6 @@ namespace Files.Filesystem
             PrimaryItemAttribute = StorageItemTypes.Folder;
             ItemType = "ItemTypeLibrary".GetLocalized();
             LoadCustomIcon = true;
-            CustomIcon = lib.Icon;
             //CustomIconSource = lib.IconSource;
             CustomIconData = lib.IconData;
             LoadFileIcon = CustomIconData != null;

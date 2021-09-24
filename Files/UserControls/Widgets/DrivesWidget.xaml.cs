@@ -1,6 +1,7 @@
 ﻿using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Helpers.XamlHelpers;
 using Files.ViewModels;
 using Files.ViewModels.Widgets;
 using Microsoft.Toolkit.Uwp;
@@ -14,6 +15,7 @@ using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
@@ -217,6 +219,11 @@ namespace Files.UserControls.Widgets
 
         public void Dispose()
         {
+        }
+
+        private async void CardsList_ElementPrepared(Microsoft.UI.Xaml.Controls.ItemsRepeater sender, Microsoft.UI.Xaml.Controls.ItemsRepeaterElementPreparedEventArgs args)
+        {
+            (((Grid)args.Element).FindName("DriveThumbnailImage") as Image).Source = await ((DriveItem)ItemsAdded[args.Index]).ThumbnailData.ToBitmapAsync();
         }
     }
 }

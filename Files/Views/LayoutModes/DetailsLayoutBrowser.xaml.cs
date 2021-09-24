@@ -16,6 +16,7 @@ using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
@@ -783,6 +784,15 @@ namespace Files.Views.LayoutModes
             //var headerScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "HeaderScrollViewer");
             var headerScroller = ((sender as ScrollViewer).Parent as Grid).Children[0] as ScrollViewer;
             headerScroller.ChangeView((sender as ScrollViewer).HorizontalOffset, null, null, true);
+        }
+
+        private async void ItemIconImage_Loaded(object sender, RoutedEventArgs e)
+        {
+            var image = (Image)sender;
+            if (image.Source == null)
+            {
+                image.Source = await ((byte[])image.Tag).ToBitmapAsync();
+            }
         }
     }
 }

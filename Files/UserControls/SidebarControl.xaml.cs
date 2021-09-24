@@ -6,6 +6,7 @@ using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.ContextFlyouts;
 using Files.ViewModels;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -23,8 +24,10 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+
 
 namespace Files.UserControls
 {
@@ -1003,6 +1006,54 @@ namespace Files.UserControls
                 }
             }
             return false;
+        }
+
+        private async void SidebarDriveItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).Icon is null)
+            {
+                var item = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext as DriveItem;
+                if (item.ThumbnailSource != null)
+                {
+                    var bitmap = new BitmapImage();
+                    bitmap.UriSource = item.ThumbnailSource;
+                    (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).Icon = new ImageIcon()
+                    {
+                        Source = bitmap
+                    };
+                }
+                else if (item.ThumbnailData != null)
+                {
+                    (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).Icon = new ImageIcon()
+                    {
+                        Source = await item.ThumbnailData.ToBitmapAsync()
+                    };
+                }
+            }
+        }
+
+        private async void SidebarLocationItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).Icon is null)
+            {
+                var item = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext as LocationItem;
+                if (item.IconSource != null)
+                {
+                    var bitmap = new BitmapImage();
+                    bitmap.UriSource = item.IconSource;
+                    (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).Icon = new ImageIcon()
+                    {
+                        Source = bitmap
+                    };
+                }
+                else if (item.IconData != null)
+                {
+                    (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).Icon = new ImageIcon()
+                    {
+                        Source = await item.IconData.ToBitmapAsync()
+                    };
+                }
+            }
         }
 
         private async void LoadShellMenuItems(Microsoft.UI.Xaml.Controls.CommandBarFlyout itemContextMenuFlyout)

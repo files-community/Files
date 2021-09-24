@@ -1,6 +1,8 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
+using Files.Helpers.XamlHelpers;
 using Files.ViewModels;
+using Files.DataModels.NavigationControlItems;
 using Files.ViewModels.Widgets;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -144,7 +146,7 @@ namespace Files.UserControls.Widgets
             {
                 item.SelectCommand = LibraryCardClicked;
                 item.AutomationProperties = item.Text;
-                await this.LoadLibraryIcon(item);
+                //await this.LoadLibraryIcon(item);
             }
         }
 
@@ -245,12 +247,20 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        private async Task LoadLibraryIcon(LibraryCardItem item)
+        //private async Task LoadLibraryIcon(LibraryCardItem item)
+        //{
+            
+        //}
+
+        private async void CardsList_ElementPrepared(Microsoft.UI.Xaml.Controls.ItemsRepeater sender, Microsoft.UI.Xaml.Controls.ItemsRepeaterElementPreparedEventArgs args)
         {
-            item.IconData = await FileThumbnailHelper.LoadIconFromPathAsync(item.Path, 48u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
-            if (item.IconData != null)
+            var item = ((LibraryCardItem)ItemsAdded[args.Index]);
+            item.IconData ??= await FileThumbnailHelper.LoadIconFromPathAsync(item.Path, 48u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
+            if (item.IconData != null && item.Icon == null)
             {
-                item.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => item.IconData.ToBitmapAsync());
+                //DependencyObjectHelpers.FindChild<Image>(args.Element).Source = await item.IconData.ToBitmapAsync();
+                //(((Grid)args.Element).FindName("FolderThumbnailImage") as Image).Source = await item.IconData.ToBitmapAsync();
+                item.Icon = await item.IconData.ToBitmapAsync();
             }
         }
     }

@@ -117,7 +117,7 @@ namespace Files.DataModels
                     {
                         Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                         IsDefaultLocation = true,
-                        Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.RecycleBin)?.Image),
+                        IconData = IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.RecycleBin)?.IconDataBytes,
                         Path = App.AppSettings.RecycleBinPath
                     };
                     // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
@@ -265,7 +265,6 @@ namespace Files.DataModels
                 int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
                 var locationItem = new LocationItem
                 {
-                    Font = MainViewModel.FontName,
                     Path = path,
                     Section = SectionType.Favorites,
                     IsDefaultLocation = false,
@@ -280,15 +279,10 @@ namespace Files.DataModels
                         iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 24u, Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
                     }
                     locationItem.IconData = iconData;
-                    locationItem.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
                 }
                 if (locationItem.IconData == null)
                 {
                     locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 24u);
-                    if (locationItem.IconData != null)
-                    {
-                        locationItem.Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => locationItem.IconData.ToBitmapAsync());
-                    }
                 }
 
                 if (!favoriteSection.ChildItems.Contains(locationItem))
@@ -342,9 +336,8 @@ namespace Files.DataModels
                     {
                         Text = "SidebarHome".GetLocalized(),
                         Section = SectionType.Home,
-                        Font = MainViewModel.FontName,
                         IsDefaultLocation = true,
-                        Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"))),
+                        IconSource = new Uri("ms-appx:///Assets/FluentIcons/Home.png"),
                         Path = "Home".GetLocalized(),
                         ChildItems = new ObservableCollection<INavigationControlItem>()
                     };
@@ -353,8 +346,7 @@ namespace Files.DataModels
                         Text = "SidebarFavorites".GetLocalized(),
                         Section = SectionType.Favorites,
                         SelectsOnInvoked = false,
-                        Icon = UIHelpers.GetImageForIconOrNull(IconResources?.FirstOrDefault(x => x.Index == Constants.Shell32.QuickAccess).Image),
-                        Font = MainViewModel.FontName,
+                        IconData = IconResources?.FirstOrDefault(x => x.Index == Constants.Shell32.QuickAccess).IconDataBytes,
                         ChildItems = new ObservableCollection<INavigationControlItem>()
                     };
 

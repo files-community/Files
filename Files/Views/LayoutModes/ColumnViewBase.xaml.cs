@@ -598,5 +598,13 @@ namespace Files.Views.LayoutModes
                 }
             }
         }
+        private async void ItemIconImage_Loaded(object sender, RoutedEventArgs e)
+        {
+            var image = (Image)sender;
+            if (image.Source == null)
+            {
+                image.Source = await ((byte[])image.Tag).ToBitmapAsync();
+            }
+        }
     }
 }

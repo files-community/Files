@@ -7,19 +7,15 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.DataModels.NavigationControlItems
 {
     public class DriveItem : ObservableObject, INavigationControlItem
     {
-        public BitmapImage Icon { get; set; }
-        public Uri IconSource { get; set; }
-        public byte[] IconData { get; set; }
+        public Uri ThumbnailSource { get; set; }
+        public byte[] ThumbnailData { get; set; }
 
         private string path;
 
@@ -37,7 +33,7 @@ namespace Files.DataModels.NavigationControlItems
         public string DeviceID { get; set; }
         public StorageFolder Root { get; set; }
         public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
-        public Visibility ItemVisibility { get; set; } = Visibility.Visible;
+        public bool IsItemVisible { get; set; } = true;
 
         public bool IsRemovable => Type == DriveType.Removable || Type == DriveType.CDRom;
         public bool IsNetwork => Type == DriveType.Network;
@@ -64,9 +60,9 @@ namespace Files.DataModels.NavigationControlItems
             set => SetProperty(ref spaceUsed, value);
         }
 
-        public Visibility ShowDriveDetails
+        public bool ShowDriveDetails
         {
-            get => MaxSpace.Bytes > 0d ? Visibility.Visible : Visibility.Collapsed;
+            get => MaxSpace.Bytes > 0d;
         }
 
         private DriveType type;
@@ -139,24 +135,19 @@ namespace Files.DataModels.NavigationControlItems
         {
             var item = new DriveItem();
 
-            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () => await item.SetBitmapImage(imageStream));
+            if (imageStream != null)
+            {
+                item.ThumbnailData = await imageStream.ToByteArrayAsync();
+            }
+
             item.Text = root.DisplayName;
             item.Type = type;
             item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
             item.DeviceID = deviceId;
             item.Root = root;
-            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => item.UpdatePropertiesAsync());
+            await item.UpdatePropertiesAsync();
 
             return item;
-        }
-
-        public async Task SetBitmapImage(IRandomAccessStream imageStream)
-        {
-            if (imageStream != null)
-            {
-                IconData = await imageStream.ToByteArrayAsync();
-                Icon = await IconData.ToBitmapAsync();
-            }
         }
 
         public async Task UpdateLabelAsync()

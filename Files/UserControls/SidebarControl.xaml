@@ -39,10 +39,8 @@
                     RightTapped="NavigationViewLocationItem_RightTapped"
                     SelectsOnInvoked="{x:Bind SelectsOnInvoked}"
                     Tag="{x:Bind Path}"
+                    Loaded="SidebarLocationItem_Loaded"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText}">
-                    <muxc:NavigationViewItem.Icon>
-                        <muxc:ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
-                    </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
@@ -60,11 +58,9 @@
                     PointerPressed="Sidebar_PointerPressed"
                     RightTapped="NavigationViewDriveItem_RightTapped"
                     Tag="{x:Bind Path}"
+                    Loaded="SidebarDriveItem_Loaded"
                     ToolTipService.ToolTip="{x:Bind HoverDisplayText, Mode=OneWay}"
-                    Visibility="{x:Bind ItemVisibility}">
-                    <muxc:NavigationViewItem.Icon>
-                        <muxc:ImageIcon Source="{x:Bind Icon}" />
-                    </muxc:NavigationViewItem.Icon>
+                    Visibility="{x:Bind IsItemVisible, Mode=OneWay}">
                 </muxc:NavigationViewItem>
             </DataTemplate>
 

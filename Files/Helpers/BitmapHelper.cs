@@ -19,5 +19,6 @@ namespace Files.Helpers
             await image.SetSourceAsync(ms.AsRandomAccessStream());
             return image;
         }
+
     }
 }

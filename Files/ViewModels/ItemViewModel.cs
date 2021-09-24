@@ -717,10 +717,14 @@ namespace Files.ViewModels
                     foreach (var gp in FilesAndFolders.GroupedCollection)
                     {
                         var img = await GetItemTypeGroupIcon(gp.FirstOrDefault());
-                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                        if (img is byte[])
                         {
-                            gp.Model.ImageSource = img;
-                        }, Windows.System.DispatcherQueuePriority.Low);
+                            gp.Model.ImageBytes = img as byte[];
+                        }
+                        else
+                        {
+                            gp.Model.ImageUri = img as Uri;
+                        }
                     }
                 });
             }
@@ -926,7 +930,7 @@ namespace Files.ViewModels
 
                     item.ItemPropertiesInitialized = true;
                     var wasSyncStatusLoaded = false;
-                    ImageSource groupImage = null;
+                    object groupImage = null;
                     bool loadGroupHeaderInfo = false;
                     GroupedCollection<ListedItem> gp = null;
                     try
@@ -1052,7 +1056,14 @@ namespace Files.ViewModels
                             cts.Token.ThrowIfCancellationRequested();
                             await FilesystemTasks.Wrap(() => CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                             {
-                                gp.Model.ImageSource = groupImage;
+                                if (groupImage is byte[])
+                                {
+                                    gp.Model.ImageBytes = (byte[])groupImage;
+                                }
+                                else
+                                {
+                                    gp.Model.ImageUri = groupImage as Uri;
+                                }
                                 gp.InitializeExtendedGroupHeaderInfoAsync();
                             }));
                         }
@@ -1069,35 +1080,27 @@ namespace Files.ViewModels
             }
         }
 
-        private async Task<ImageSource> GetItemTypeGroupIcon(ListedItem item, BaseStorageFile matchingStorageItem = null)
+        private async Task<object> GetItemTypeGroupIcon(ListedItem item, BaseStorageFile matchingStorageItem = null)
         {
-            ImageSource groupImage = null;
             if (item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsZipItem)
             {
                 var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, 64u);
 
                 if (headerIconInfo != null && !item.IsShortcutItem)
                 {
-                    groupImage = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => headerIconInfo.ToBitmapAsync(), Windows.System.DispatcherQueuePriority.Low);
+                    return headerIconInfo;
+                    
                 }
                 if (!item.IsShortcutItem && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
                 {
-                    if (groupImage == null) // Loading icon from fulltrust process failed
-                    {
-                        matchingStorageItem ??= await GetFileFromPathAsync(item.ItemPath);
+                    matchingStorageItem ??= await GetFileFromPathAsync(item.ItemPath);
 
-                        if (matchingStorageItem != null)
+                    if (matchingStorageItem != null)
+                    {
+                        using var headerThumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale);
+                        if (headerThumbnail != null)
                         {
-                            using var headerThumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.DocumentsView, 36, ThumbnailOptions.UseCurrentScale);
-                            if (headerThumbnail != null)
-                            {
-                                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                                {
-                                    var bmp = new BitmapImage();
-                                    await bmp.SetSourceAsync(headerThumbnail);
-                                    groupImage = bmp;
-                                });
-                            }
+                            return await headerThumbnail.ToByteArrayAsync();
                         }
                     }
                 }
@@ -1105,14 +1108,10 @@ namespace Files.ViewModels
             // This prevents both the shortcut glyph and folder icon being shown
             else if (!item.IsShortcutItem)
             {
-                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => groupImage = new SvgImageSource(new Uri("ms-appx:///Assets/FolderIcon2.svg"))
-                {
-                    RasterizePixelHeight = 128,
-                    RasterizePixelWidth = 128,
-                }, Windows.System.DispatcherQueuePriority.Low);
+                return new Uri("ms-appx:///Assets/FolderIcon2.svg");
             }
 
-            return groupImage;
+            return null;
         }
 
         public bool DisableAdaptiveLayout { get; set; }
