@@ -729,9 +729,6 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>No s'ha pogut crear aquest element</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tanca</value>
-  </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Accès denegat</value>
   </data>

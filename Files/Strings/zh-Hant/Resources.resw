@@ -1149,7 +1149,7 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>詳細資料</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>否</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1950,9 +1950,6 @@
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>檢視</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>關閉</value>
-  </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>無法從 {1} 刪除 {0} 個項目</value>
   </data>
@@ -2364,7 +2361,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>已準備好安裝更新</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>關閉</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -2536,9 +2533,6 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
     <value>開啟檔案標籤功能</value>
   </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>關閉</value>
-  </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>開啟磁碟機</value>
   </data>
@@ -2646,9 +2640,6 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
   </data>
   <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>日期格式</value>
-  </data>
-  <data name="SettingsDialogCloseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>關閉</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>在新索引標籤開啟資料夾</value>

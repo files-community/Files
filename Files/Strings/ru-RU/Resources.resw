@@ -1110,7 +1110,7 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Подробно</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>Нет</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1911,9 +1911,6 @@
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Разметка</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Закрыть</value>
-  </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>Не удалось удалить {0} элементов из {1}</value>
   </data>
@@ -2316,7 +2313,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Обновления готовы к установке</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>закрыть</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -2402,9 +2399,6 @@
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Неизвестно</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>закрыть</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Вставьте диск.</value>

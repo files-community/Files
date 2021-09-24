@@ -1104,7 +1104,7 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Детально</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>Ні</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1650,9 +1650,6 @@
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Макет</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Закрити</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Створити вікно</value>
   </data>
@@ -1860,7 +1857,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Оновлення готові до інсталяції</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Закрити</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -1940,9 +1937,6 @@
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Невідомо</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>Закрити</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Вставте диск</value>

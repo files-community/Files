@@ -1522,7 +1522,7 @@
           <source>Details</source>
           <target state="translated">Detalles</target>
         </trans-unit>
-        <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated">No</target>
         </trans-unit>
@@ -2590,10 +2590,6 @@
           <source>Layout</source>
           <target state="translated">Diseño</target>
         </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated">Cerrar</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
           <target state="translated">No se han podido eliminar {0} elementos de {1}</target>
@@ -3142,7 +3138,7 @@
           <source>Updates are ready to install</source>
           <target state="translated">Hay actualizaciones listas para instalarse</target>
         </trans-unit>
-        <trans-unit id="ConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Close" translate="yes" xml:space="preserve">
           <source>Close</source>
           <target state="translated">Cerrar</target>
         </trans-unit>
@@ -3375,10 +3371,6 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
           <source>Enable file tags</source>
           <target state="translated">Habilitar etiquetas de archivo</target>
         </trans-unit>
-        <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cerrar</target>
-        </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
           <target state="translated">Abrir Unidad</target>
@@ -3522,10 +3514,6 @@ Utilizamos App Center para hacer un seguimiento del uso de la aplicación, encon
         <trans-unit id="SettingsDateFormatComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">Formato de fecha</target>
-        </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated">Cerrar</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>

@@ -966,7 +966,7 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>פרטים</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>לא</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1245,7 +1245,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>העדכון מוכן להתקנה</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>סגירה</value>
   </data>
 </root>

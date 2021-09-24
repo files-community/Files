@@ -1522,7 +1522,7 @@
           <source>Details</source>
           <target state="translated">詳細</target>
         </trans-unit>
-        <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated">いいえ</target>
         </trans-unit>
@@ -2590,10 +2590,6 @@
           <source>Layout</source>
           <target state="translated">レイアウト</target>
         </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated">閉じる</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
           <target state="translated">{0} ファイルを {1} から削除に失敗しました</target>
@@ -3142,7 +3138,7 @@
           <source>Updates are ready to install</source>
           <target state="translated" state-qualifier="tm-suggestion">更新プログラムをインストールする準備ができました</target>
         </trans-unit>
-        <trans-unit id="ConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Close" translate="yes" xml:space="preserve">
           <source>Close</source>
           <target state="translated" state-qualifier="tm-suggestion">閉じる</target>
         </trans-unit>
@@ -3375,10 +3371,6 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
           <source>Enable file tags</source>
           <target state="translated">ファイルタグを有効にする</target>
         </trans-unit>
-        <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated" state-qualifier="tm-suggestion">閉じる</target>
-        </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
           <target state="translated">ドライブを開く</target>
@@ -3522,10 +3514,6 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
         <trans-unit id="SettingsDateFormatComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated" state-qualifier="tm-suggestion">日付の形式</target>
-        </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated" state-qualifier="tm-suggestion">閉じる</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>

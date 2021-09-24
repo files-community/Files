@@ -1522,7 +1522,7 @@
           <source>Details</source>
           <target state="translated">Részletek</target>
         </trans-unit>
-        <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated">Nem</target>
         </trans-unit>
@@ -2590,10 +2590,6 @@
           <source>Layout</source>
           <target state="translated">Elrendezés</target>
         </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated">Bezárás</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
           <target state="translated">{0} elem törlése innen {1} sikertelen</target>
@@ -3142,7 +3138,7 @@
           <source>Updates are ready to install</source>
           <target state="translated">Frissítések érhetők el telepítésre</target>
         </trans-unit>
-        <trans-unit id="ConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Close" translate="yes" xml:space="preserve">
           <source>Close</source>
           <target state="translated">Bezárás</target>
         </trans-unit>
@@ -3377,10 +3373,6 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
           <source>Enable file tags</source>
           <target state="translated">Címkék engedélyezése</target>
         </trans-unit>
-        <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated">Bezárás</target>
-        </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
           <target state="translated">Kinyitás</target>
@@ -3524,10 +3516,6 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
         <trans-unit id="SettingsDateFormatComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">Dátum formátum</target>
-        </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated">Bezárás</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>

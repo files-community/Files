@@ -1536,7 +1536,7 @@
           <source>Details</source>
           <target state="translated" state-qualifier="tm-suggestion">פרטים</target>
         </trans-unit>
-        <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated" state-qualifier="tm-suggestion">לא</target>
         </trans-unit>
@@ -2607,10 +2607,6 @@
           <source>Layout</source>
           <target state="new">Layout</target>
         </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="new">Close</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
           <target state="new">Failed to delete {0} items from {1}</target>
@@ -3159,7 +3155,7 @@
           <source>Updates are ready to install</source>
           <target state="translated" state-qualifier="tm-suggestion">העדכון מוכן להתקנה</target>
         </trans-unit>
-        <trans-unit id="ConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Close" translate="yes" xml:space="preserve">
           <source>Close</source>
           <target state="translated" state-qualifier="tm-suggestion">סגירה</target>
         </trans-unit>
@@ -3393,10 +3389,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Enable file tags</source>
           <target state="new">Enable file tags</target>
         </trans-unit>
-        <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="new">Close</target>
-        </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
           <target state="new">Open Drive</target>
@@ -3540,10 +3532,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="SettingsDateFormatComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="new">Date format</target>
-        </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="new">Close</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>

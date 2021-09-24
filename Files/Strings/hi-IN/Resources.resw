@@ -906,7 +906,7 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>विवरण</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>नहीं</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
@@ -1272,9 +1272,6 @@
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>लेआउट</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>बंद करें</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>नई विंडो</value>
   </data>
@@ -1449,7 +1446,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>स्थापित करने के लिए अद्यतन तैयार हैं</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>बंद करें</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -1529,9 +1526,6 @@
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>अज्ञात</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>बंद करें</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>कोई डिस्क डालें</value>

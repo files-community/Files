@@ -1529,7 +1529,7 @@
           <source>Details</source>
           <target state="translated">Details</target>
         </trans-unit>
-        <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated">Nee</target>
         </trans-unit>
@@ -2604,10 +2604,6 @@
           <source>Layout</source>
           <target state="translated" state-qualifier="tm-suggestion">Indeling</target>
         </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated" state-qualifier="tm-suggestion">Sluiten</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
           <target state="translated">{0} items uit {1} verwijderen mislukt</target>
@@ -3162,7 +3158,7 @@
           <source>Updates are ready to install</source>
           <target state="translated">Updates zijn klaar om te installeren</target>
         </trans-unit>
-        <trans-unit id="ConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Close" translate="yes" xml:space="preserve">
           <source>Close</source>
           <target state="translated">Sluiten</target>
         </trans-unit>
@@ -3397,10 +3393,6 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
           <source>Enable file tags</source>
           <target state="translated">Schakel bestandslabels in</target>
         </trans-unit>
-        <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated">Sluiten</target>
-        </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
           <target state="translated">Open station</target>
@@ -3544,10 +3536,6 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
         <trans-unit id="SettingsDateFormatComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="new">Date format</target>
-        </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="new">Close</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>

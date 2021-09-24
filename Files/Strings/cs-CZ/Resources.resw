@@ -1161,7 +1161,7 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Detaily</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>Ne</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1581,9 +1581,6 @@
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Rozložení</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Zavřít</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nové okno</value>
   </data>
@@ -1818,7 +1815,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Aktualizace jsou připraveny k instalaci</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Zavřít</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -1898,9 +1895,6 @@
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Neznámý</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>Zavřít</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Vložit disk</value>

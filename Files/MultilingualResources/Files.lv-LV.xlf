@@ -1556,7 +1556,7 @@
           <source>Details</source>
           <target state="translated">Detaļas</target>
         </trans-unit>
-        <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated">Nē</target>
         </trans-unit>
@@ -2603,10 +2603,6 @@
           <source>Layout</source>
           <target state="translated">Izkārtojums</target>
         </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated">Aizvērt</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
           <target state="translated">Neizdevās dzēst {0} vienumus no {1}</target>
@@ -3161,7 +3157,7 @@
           <source>Updates are ready to install</source>
           <target state="translated">Atjauninājumi pieejami instalēšanai</target>
         </trans-unit>
-        <trans-unit id="ConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Close" translate="yes" xml:space="preserve">
           <source>Close</source>
           <target state="translated">Aizvērt</target>
         </trans-unit>
@@ -3395,10 +3391,6 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
           <source>Enable file tags</source>
           <target state="new">Enable file tags</target>
         </trans-unit>
-        <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Aizvērt</target>
-        </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
           <target state="new">Open Drive</target>
@@ -3542,10 +3534,6 @@ Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un no
         <trans-unit id="SettingsDateFormatComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="new">Date format</target>
-        </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="new">Close</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>

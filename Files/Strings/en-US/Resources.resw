@@ -882,9 +882,6 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>We weren't able to create this item</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Close</value>
-  </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Access Denied</value>
   </data>
@@ -1374,7 +1371,7 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Details</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>No</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -2535,7 +2532,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Updates are ready to install</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -2656,9 +2653,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="PropertyPartOfSet" xml:space="preserve">
     <value>Part of set</value>
   </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>Close</value>
-  </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Open Drive</value>
   </data>
@@ -2739,9 +2733,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Date format</value>
-  </data>
-  <data name="SettingsDialogCloseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Close</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Open folders in new tab</value>

@@ -1522,7 +1522,7 @@
           <source>Details</source>
           <target state="translated">Dettagli</target>
         </trans-unit>
-        <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated">No</target>
         </trans-unit>
@@ -2591,10 +2591,6 @@
           <source>Layout</source>
           <target state="translated">Layout</target>
         </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated">Chiudi</target>
-        </trans-unit>
         <trans-unit id="PropertiesDialogTabSecurity.Content" translate="yes" xml:space="preserve">
           <source>Security</source>
           <target state="translated">Sicurezza</target>
@@ -3143,7 +3139,7 @@
           <source>Updates are ready to install</source>
           <target state="translated">Aggiornamenti pronti per l'installazione</target>
         </trans-unit>
-        <trans-unit id="ConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Close" translate="yes" xml:space="preserve">
           <source>Close</source>
           <target state="translated">Annulla</target>
         </trans-unit>
@@ -3377,10 +3373,6 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
           <source>Enable file tags</source>
           <target state="translated">Abilita i tag dei file</target>
         </trans-unit>
-        <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated">Chiudi</target>
-        </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
           <target state="translated">Apri Unità</target>
@@ -3524,10 +3516,6 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
         <trans-unit id="SettingsDateFormatComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">Formato data</target>
-        </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated">Chiudi</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>

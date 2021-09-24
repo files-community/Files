@@ -153,17 +153,16 @@
 
         <Button
             x:Name="ButtonClose"
-            x:Uid="SettingsDialogCloseButton"
             Grid.Column="1"
             Width="36"
             Height="36"
             Margin="12"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            AutomationProperties.Name="Close"
+            AutomationProperties.Name="{helpers:ResourceString Name=Close}"
             Click="ButtonClose_Click"
             CornerRadius="20"
-            ToolTipService.ToolTip="Close">
+            ToolTipService.ToolTip="{helpers:ResourceString Name=Close}">
             <FontIcon FontSize="12" Glyph="&#xE8BB;" />
         </Button>
     </Grid>

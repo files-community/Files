@@ -771,9 +771,6 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Chúng tôi không tạo mục này được</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Đóng</value>
-  </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Truy nhập bị Từ chối</value>
   </data>
@@ -1236,7 +1233,7 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Chi tiết</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>Không</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -2334,7 +2331,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Bản cập nhật đã sẵn sàng cài đặt</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Đóng</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">

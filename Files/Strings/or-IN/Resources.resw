@@ -873,7 +873,7 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>ସବିଶେଷ</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>ନାଁ</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
@@ -1212,9 +1212,6 @@
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>ଲେଆଉଟ୍‌</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ବନ୍ଦ କରନ୍ତୁ</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>ନୂତନ ୱିଣ୍ଡୋ</value>
   </data>
@@ -1371,7 +1368,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>ସଂସ୍ଥାପନ କରିବାକୁ ଅଦ୍ୟତନଗୁଡିକ ପ୍ରସ୍ତୁତ ଅଟେ</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>ବନ୍ଦ କରନ୍ତୁ</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -1448,9 +1445,6 @@
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>ଅଜ୍ଞାତ</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>ବନ୍ଦ କରନ୍ତୁ</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>ଏକ ଡିସ୍କ୍ ସନ୍ନିବେଶ କରନ୍ତୁ</value>

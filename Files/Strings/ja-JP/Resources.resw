@@ -1149,7 +1149,7 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>詳細</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>いいえ</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1950,9 +1950,6 @@
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>レイアウト</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>閉じる</value>
-  </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>{0} ファイルを {1} から削除に失敗しました</value>
   </data>
@@ -2364,7 +2361,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>更新プログラムをインストールする準備ができました</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>閉じる</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -2535,9 +2532,6 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
     <value>ファイルタグを有効にする</value>
   </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>閉じる</value>
-  </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>ドライブを開く</value>
   </data>
@@ -2645,9 +2639,6 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
   </data>
   <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>日付の形式</value>
-  </data>
-  <data name="SettingsDialogCloseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>閉じる</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>新しいタブでフォルダを開く</value>

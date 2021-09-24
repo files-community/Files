@@ -1149,7 +1149,7 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>التفاصيل</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>لا</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1617,9 +1617,6 @@
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>تخطيط</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>إغلاق</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>نافذة جديدة</value>
   </data>
@@ -1833,7 +1830,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>‏‏التحديثات جاهزة للتثبيت</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>إغلاق</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -1913,9 +1910,6 @@
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>غير معروف</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>إغلاق</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>إدخال قرص</value>

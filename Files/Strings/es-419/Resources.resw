@@ -1218,7 +1218,7 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Detalles</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>No</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -2421,7 +2421,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Las actualizaciones están listas para la instalación</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Cerrar</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">

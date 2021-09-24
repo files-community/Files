@@ -1149,7 +1149,7 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Részletek</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>Nem</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1950,9 +1950,6 @@
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Elrendezés</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Bezárás</value>
-  </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>{0} elem törlése innen {1} sikertelen</value>
   </data>
@@ -2364,7 +2361,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Frissítések érhetők el telepítésre</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Bezárás</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -2537,9 +2534,6 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
     <value>Címkék engedélyezése</value>
   </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>Bezárás</value>
-  </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Kinyitás</value>
   </data>
@@ -2635,9 +2629,6 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   </data>
   <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Dátum formátum</value>
-  </data>
-  <data name="SettingsDialogCloseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Bezárás</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mappák megnyitása új lapon</value>

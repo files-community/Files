@@ -735,9 +735,6 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Kami tidak dapat membuat item ini</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tutup</value>
-  </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Akses Ditolak</value>
   </data>
@@ -1194,7 +1191,7 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Rincian</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>Tidak</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -2133,7 +2130,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Pembaruan siap untuk diinstal</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Tutup</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -2210,9 +2207,6 @@
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Tidak diketahui</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>Tutup</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Masukkan disk</value>

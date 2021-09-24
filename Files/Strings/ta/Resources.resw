@@ -947,7 +947,7 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>விவரங்கள்</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>இல்லை</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
@@ -1286,9 +1286,6 @@
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>தளவமைப்பு</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>மூடு</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>புதிய சாளரம்</value>
   </data>
@@ -1445,7 +1442,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>நிறுவுவதற்கு புதுப்பிப்புகள் தயாராக உள்ளன</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>மூடு</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -1522,9 +1519,6 @@
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>அறியாதது</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>மூடு</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>வட்டைச் செருகவும்</value>

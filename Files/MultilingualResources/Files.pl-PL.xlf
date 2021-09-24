@@ -1525,7 +1525,7 @@
           <source>Details</source>
           <target state="translated">Szczegóły</target>
         </trans-unit>
-        <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated">Nie</target>
         </trans-unit>
@@ -2593,10 +2593,6 @@
           <source>Layout</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Układ</target>
         </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Zamknij</target>
-        </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
           <target state="translated">Nie udało się usunąć {0} elementów z {1}</target>
@@ -3145,7 +3141,7 @@
           <source>Updates are ready to install</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Aktualizacje są gotowe do zainstalowania</target>
         </trans-unit>
-        <trans-unit id="ConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Close" translate="yes" xml:space="preserve">
           <source>Close</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Zamknij</target>
         </trans-unit>
@@ -3379,10 +3375,6 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
           <source>Enable file tags</source>
           <target state="translated">Włącz tagi plików</target>
         </trans-unit>
-        <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Zamknij</target>
-        </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
           <target state="translated">Otwórz dysk</target>
@@ -3526,10 +3518,6 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
         <trans-unit id="SettingsDateFormatComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">Format daty</target>
-        </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated">Zamknij</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>

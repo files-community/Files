@@ -1161,7 +1161,7 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Detaljer</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>Nej</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1731,9 +1731,6 @@
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Layout</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Luk</value>
-  </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nyt vindue</value>
   </data>
@@ -1950,7 +1947,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Opdateringer er klar til at blive installeret</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Luk</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -2030,9 +2027,6 @@
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Ukendt</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>Luk</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Indsæt en disk</value>
