@@ -37,7 +37,6 @@
         x:Name="ContainerGrid"
         Width="Auto"
         Height="600"
-        Margin="-24"
         HorizontalAlignment="Stretch"
         Background="{ThemeResource SolidBackgroundFillColorTertiary}">
         <Grid.ColumnDefinitions>
