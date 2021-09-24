@@ -54,7 +54,7 @@
           <source>Third party licenses</source>
           <target state="translated">第三方许可证</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">关于</target>
         </trans-unit>
@@ -65,10 +65,6 @@
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
           <source>Files &amp; Folders</source>
           <target state="translated">文件 &amp; 文件夹</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
-          <source>About</source>
-          <target state="translated">关于</target>
         </trans-unit>
         <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
           <source>Appearance</source>

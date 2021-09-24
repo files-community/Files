@@ -48,7 +48,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Lizenzen von Drittanbietern</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>Über</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -56,9 +56,6 @@
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Dateien &amp; Ordner</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Über</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Aussehen</value>

@@ -130,7 +130,7 @@
           <source>Third party licenses</source>
           <target state="translated">Condizioni di licenza per software di terze parti</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Info app</target>
         </trans-unit>
@@ -141,10 +141,6 @@
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
           <source>Files &amp; Folders</source>
           <target state="translated">Opzioni esplorazione</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
-          <source>About</source>
-          <target state="translated">Informazioni app</target>
         </trans-unit>
         <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
           <source>Appearance</source>

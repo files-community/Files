@@ -138,7 +138,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Licències de tercers</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>Sobre</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
@@ -155,9 +155,6 @@
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Arxius &amp; carpetes</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Sobre</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Aparença</value>

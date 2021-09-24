@@ -36,11 +36,10 @@
             </StackPanel.ChildrenTransitions>
 
             <TextBlock
-                x:Uid="SettingsAboutTitle"
                 Padding="0,0,0,12"
                 FontSize="20"
                 FontWeight="Medium"
-                Text="About" />
+                Text="{helpers:ResourceString Name=About}" />
 
             <local:SettingsBlockControl
                 Title="{Binding AppName}"

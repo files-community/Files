@@ -111,7 +111,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>மூன்றாம் தரப்பு உரிமங்கள்</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>பற்றி</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -122,9 +122,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>சோதனை</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>பற்றி</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>தோற்றம்</value>

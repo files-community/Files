@@ -145,7 +145,7 @@
           <target state="needs-review-translation">Tredjepartslicenser</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Om</target>
         </trans-unit>
@@ -161,10 +161,6 @@
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
           <target state="translated">Eksperimentel</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
-          <source>About</source>
-          <target state="translated">Om</target>
         </trans-unit>
         <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
           <source>Appearance</source>

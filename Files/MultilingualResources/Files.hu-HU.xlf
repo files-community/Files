@@ -142,7 +142,7 @@
           <source>Third party licenses</source>
           <target state="translated">Harmadik fél licencei</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Névjegy</target>
         </trans-unit>
@@ -157,10 +157,6 @@
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
           <target state="translated">Kísérleti beállítások</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
-          <source>About</source>
-          <target state="translated">Névjegy</target>
         </trans-unit>
         <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
           <source>Appearance</source>

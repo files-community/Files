@@ -55,7 +55,7 @@
           <source>Third party licenses</source>
           <target state="translated">Licencje firm trzecich</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">O programie</target>
         </trans-unit>
@@ -66,10 +66,6 @@
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
           <source>Files &amp; Folders</source>
           <target state="translated">Pliki i foldery</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
-          <source>About</source>
-          <target state="translated">O programie</target>
         </trans-unit>
         <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
           <source>Appearance</source>

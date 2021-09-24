@@ -129,7 +129,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Licencias de terceros</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>Acerca de Files</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">

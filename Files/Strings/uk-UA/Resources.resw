@@ -84,7 +84,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Third Party Licenses</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>Про програму</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -92,9 +92,6 @@
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Файли та папки</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Про програму</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Оформлення</value>

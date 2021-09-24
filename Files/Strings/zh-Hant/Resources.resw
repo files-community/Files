@@ -48,7 +48,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>第三方憑證</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>關於</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -56,9 +56,6 @@
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>檔案和資料夾</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>關於</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>外觀</value>

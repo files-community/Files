@@ -138,7 +138,7 @@
           <source>Third party licenses</source>
           <target state="translated">サードパーティライセンス</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Filesについて</target>
         </trans-unit>
@@ -153,10 +153,6 @@
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
           <target state="translated">実験的機能</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
-          <source>About</source>
-          <target state="translated">Filesについて</target>
         </trans-unit>
         <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
           <source>Appearance</source>

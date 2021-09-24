@@ -48,7 +48,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Сторонние лицензии</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>О приложении</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -56,9 +56,6 @@
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Файлы и папки</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>О приложении</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Внешний вид</value>

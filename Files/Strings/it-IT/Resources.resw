@@ -105,7 +105,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Condizioni di licenza per software di terze parti</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>Info app</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -113,9 +113,6 @@
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Opzioni esplorazione</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Informazioni app</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Grafica</value>
