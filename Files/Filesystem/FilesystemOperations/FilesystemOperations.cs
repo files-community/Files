@@ -211,7 +211,7 @@ namespace Files.Filesystem
                         Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
                         Content = $"{"ErrorDialogTheDestinationFolder".GetLocalized()} ({destinationName}) {"ErrorDialogIsASubfolder".GetLocalized()} (sourceName)",
                         //PrimaryButtonText = "ErrorDialogSkip".GetLocalized(),
-                        CloseButtonText = "ErrorDialogCancel".GetLocalized()
+                        CloseButtonText = "Cancel".GetLocalized()
                     };
 
                     ContentDialogResult result = await dialog.ShowAsync();
@@ -429,7 +429,7 @@ namespace Files.Filesystem
                         Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
                         Content = "ErrorDialogTheDestinationFolder".GetLocalized() + " (" + destinationName + ") " + "ErrorDialogIsASubfolder".GetLocalized() + " (" + sourceName + ")",
                         //PrimaryButtonText = "ErrorDialogSkip".GetLocalized(),
-                        CloseButtonText = "ErrorDialogCancel".GetLocalized()
+                        CloseButtonText = "Cancel".GetLocalized()
                     };
 
                     ContentDialogResult result = await dialog.ShowAsync();
