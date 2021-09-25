@@ -31,14 +31,9 @@ namespace Files.ViewModels
     {
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
-        public CloudDrivesManager CloudDrivesManager { get; private set; }
-
-        public TerminalController TerminalController { get; set; }
-
-        private async Task<SettingsViewModel> Initialize()
+        public SettingsViewModel()
         {
             DetectDateTimeFormat();
-            DetectQuickLook();
 
             // Load the supported languages
             var supportedLang = ApplicationLanguages.ManifestLanguages;
@@ -48,23 +43,10 @@ namespace Files.ViewModels
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
 
-            TerminalController = await TerminalController.CreateInstance();
-
             FileTagsSettings = new FileTagsSettings();
 
             // Send analytics to AppCenter
             StartAppCenter();
-            return this;
-        }
-
-        public static Task<SettingsViewModel> CreateInstance()
-        {
-            var settings = new SettingsViewModel();
-            return settings.Initialize();
-        }
-
-        private SettingsViewModel()
-        {
         }
 
         private async void StartAppCenter()
@@ -166,7 +148,7 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
-        public async void DetectQuickLook()
+        public async Task DetectQuickLook()
         {
             // Detect QuickLook
             try

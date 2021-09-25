@@ -20,21 +20,14 @@ namespace Files.Controllers
 
         public string JsonFileName { get; } = "terminal.json";
 
-        private TerminalController()
+        public TerminalController()
         {
         }
 
-        public static Task<TerminalController> CreateInstance()
-        {
-            var instance = new TerminalController();
-            return instance.InitializeAsync();
-        }
-
-        private async Task<TerminalController> InitializeAsync()
+        public async Task InitializeAsync()
         {
             await LoadAsync();
             await GetInstalledTerminalsAsync();
-            return this;
         }
 
         private async Task LoadAsync()

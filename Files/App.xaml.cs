@@ -45,6 +45,7 @@ namespace Files
         public static MainViewModel MainViewModel { get; private set; }
         public static JumpListManager JumpList { get; private set; }
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
+        public static TerminalController TerminalController { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
         public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
         public static DrivesManager DrivesManager { get; private set; }
@@ -73,10 +74,8 @@ namespace Files
 
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
         {
-            if (AppSettings == null)
-            {
-                AppSettings = await SettingsViewModel.CreateInstance();
-            }
+            Logger.Info("begin");
+            AppSettings ??= new SettingsViewModel();
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
@@ -89,10 +88,13 @@ namespace Files
             CloudDrivesManager ??= new CloudDrivesManager();
             WSLDistroManager ??= new WSLDistroManager();
             SidebarPinnedController ??= new SidebarPinnedController();
+            TerminalController ??= new TerminalController();
         }
 
         public static async Task LoadOtherStuffAsync()
         {
+            Logger.Info("begin");
+
             // Start off a list of tasks we need to run before we can continue startup
             await Task.Run(async () =>
             {
@@ -104,9 +106,13 @@ namespace Files
                     LibraryManager.EnumerateLibrariesAsync(),
                     NetworkDrivesManager.EnumerateDrivesAsync(),
                     WSLDistroManager.EnumerateDrivesAsync(),
+                    TerminalController.InitializeAsync(),
                     ExternalResourcesHelper.LoadOtherThemesAsync()
                 );
+                await AppSettings.DetectQuickLook();
             });
+
+            Logger.Info("done");
 
             // Check for required updates
             new AppUpdater().CheckForUpdatesAsync();
