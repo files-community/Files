@@ -2755,4 +2755,13 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>Sposta in cima</value>
   </data>
+  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+    <value>Imposta come gestore file predefinito</value>
+  </data>
+  <data name="SettingsSetAsOpenDialog" xml:space="preserve">
+    <value>Usa Files per la finestra di dialogo "Apri con"</value>
+  </data>
+  <data name="SettingsDefaultExplorer" xml:space="preserve">
+    <value>Gestore file predefinito</value>
+  </data>
 </root>

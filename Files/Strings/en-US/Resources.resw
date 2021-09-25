@@ -2860,13 +2860,13 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>Move to top</value>
   </data>
-  <data name="SettingsDefaultExplorer.Text" xml:space="preserve">
+  <data name="SettingsDefaultExplorer" xml:space="preserve">
     <value>Default file explorer</value>
   </data>
-  <data name="SettingsSetAsDefaultExplorer.Title" xml:space="preserve">
-    <value>Set Files as default file manager</value>
+  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+    <value>Set Files as default file explorer</value>
   </data>
-  <data name="SettingsSetAsOpenDialog.Title" xml:space="preserve">
+  <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Use Files as Open File Dialog</value>
   </data>
 </root>
