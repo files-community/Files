@@ -182,6 +182,7 @@
                                     x:Name="DriveThumbnailImage"
                                     Width="40"
                                     Height="40"
+                                    x:Phase="1"
                                     HorizontalAlignment="Center" />
 
                                 <TextBlock
