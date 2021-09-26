@@ -84,7 +84,7 @@ namespace Files.Views
             App.LibraryManager.RefreshCompleted += LibraryManager_RefreshCompleted;
         }
 
-        private async void LibraryManager_RefreshCompleted(object sender, System.Collections.Generic.IReadOnlyList<LibraryLocationItem> libraries)
+        private async void LibraryManager_RefreshCompleted(object sender, IReadOnlyList<LibraryLocationItem> libraries)
         {
             await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -223,7 +223,7 @@ namespace Files.Views
             { }
         }
 
-        private async void WSLDistroManager_RefreshCompleted(object sender, System.Collections.Generic.List<INavigationControlItem> distros)
+        private async void WSLDistroManager_RefreshCompleted(object sender, List<INavigationControlItem> distros)
         {
             await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -242,10 +242,10 @@ namespace Files.Views
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
-                                        (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
-                                        (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0) +
-                                        (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.CloudDrives) ? 1 : 0) +
-                                        (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Network) ? 1 : 0); // After network section
+                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
+                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0) +
+                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.CloudDrives) ? 1 : 0) +
+                                    (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Network) ? 1 : 0); // After network section
                         SidebarControl.SideBarItems.BeginBulkOperation();
                         SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), section);
                         SidebarControl.SideBarItems.EndBulkOperation();
@@ -288,7 +288,7 @@ namespace Files.Views
             { }
         }
 
-        private async void NetworkDrivesManager_RefreshCompleted(object sender, System.Collections.Generic.IReadOnlyList<DriveItem> drives)
+        private async void NetworkDrivesManager_RefreshCompleted(object sender, IReadOnlyList<DriveItem> drives)
         {
             await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -366,7 +366,7 @@ namespace Files.Views
             { }
         }
 
-        private async void DrivesManager_RefreshCompleted(object sender, System.Collections.Generic.IReadOnlyList<DriveItem> drives)
+        private async void DrivesManager_RefreshCompleted(object sender, IReadOnlyList<DriveItem> drives)
         {
             await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -438,7 +438,7 @@ namespace Files.Views
             });
         }
 
-        private async void CloudDrivesManager_RefreshCompleted(object sender, System.Collections.Generic.IReadOnlyList<DriveItem> drives)
+        private async void CloudDrivesManager_RefreshCompleted(object sender, IReadOnlyList<DriveItem> drives)
         {
             await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
             {

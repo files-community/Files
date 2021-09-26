@@ -63,7 +63,11 @@ namespace Files.Filesystem
                     }
                 }
             }
-            RefreshCompleted?.Invoke(this, wslDistroList.ToList());
+
+            if (wslDistroList.Any())
+            {
+                RefreshCompleted?.Invoke(this, wslDistroList.ToList());
+            }
         }
 
         public async void UpdateWslSectionVisibility()
