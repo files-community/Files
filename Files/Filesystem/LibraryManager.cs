@@ -1,6 +1,4 @@
 ﻿using Files.Common;
-using Files.DataModels;
-using Files.DataModels.NavigationControlItems;
 using Files.Extensions;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp;
@@ -9,8 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
 
 namespace Files.Filesystem
 {
@@ -54,6 +50,7 @@ namespace Files.Filesystem
                 return;
             }
 
+            Libraries.BeginBulkOperation();
             Libraries.Clear();
             var libs = await LibraryHelper.ListUserLibraries();
             if (libs != null)
@@ -61,6 +58,7 @@ namespace Files.Filesystem
                 libs.Sort();
                 Libraries.AddRange(libs);
             }
+            Libraries.EndBulkOperation();
 
             RefreshCompleted?.Invoke(this, Libraries.ToList());
         }

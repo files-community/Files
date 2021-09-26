@@ -203,7 +203,6 @@ namespace Files.Filesystem
             return unauthorizedAccessDetected;
         }
 
-
         public async void UpdateDrivesSectionVisibility()
         {
             if (App.AppSettings.ShowDrivesSection)

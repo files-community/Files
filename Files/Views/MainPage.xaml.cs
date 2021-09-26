@@ -107,24 +107,14 @@ namespace Files.Views
                         SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), section);
                         SidebarControl.SideBarItems.EndBulkOperation();
                     }
-
-                    if (section != null)
-                    {
-                        foreach (var lib in libraries.ToList()
-                        .OrderBy(o => o.Text))
-                        {
-                            if (!section.ChildItems.Contains(lib))
-                            {
-                                section.ChildItems.Add(lib);
-                            }
-                        }
-                    }
                 }
                 finally
                 {
                     SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
+
+            Libraries_CollectionChanged(App.LibraryManager.Libraries, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
         private void LibraryManager_RemoveLibrariesSidebarSection(object sender, EventArgs e)
@@ -176,8 +166,8 @@ namespace Files.Views
                                 {
                                     if (await lib.CheckDefaultSaveFolderAccess())
                                     {
-                                        librarySection.ChildItems.AddSorted(lib);
                                         lib.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(lib.Path, 24u);
+                                        librarySection.ChildItems.AddSorted(lib);
                                     }
                                 }
                             }
@@ -195,8 +185,8 @@ namespace Files.Views
                             {
                                 if (await lib.CheckDefaultSaveFolderAccess())
                                 {
-                                    librarySection.ChildItems.AddSorted(lib);
                                     lib.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(lib.Path, 24u);
+                                    librarySection.ChildItems.AddSorted(lib);
                                 }
                             }
                             break;
