@@ -140,7 +140,7 @@ namespace Files.Filesystem
                             Text = "SidebarDrives".GetLocalized(),
                             Section = SectionType.Drives,
                             SelectsOnInvoked = false,
-                            Icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC),
+                            Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.ThisPC)?.Image),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
