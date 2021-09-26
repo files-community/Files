@@ -1,11 +1,13 @@
 ﻿using Files.DataModels;
 using Files.Enums;
+using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 
@@ -127,8 +129,20 @@ namespace Files.ViewModels.SettingsViewModels
 
         private async void LaunchTerminalsConfigFile()
         {
-            await Launcher.LaunchFileAsync(
-                await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json")));
+            var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
+            if (!await Launcher.LaunchFileAsync(configFile))
+            {
+                var connection = await AppServiceConnectionHelper.Instance;
+                if (connection != null)
+                {
+                    await connection.SendMessageAsync(new ValueSet()
+                    {
+                        { "Arguments", "InvokeVerb" },
+                        { "FilePath", configFile.Path },
+                        { "Verb", "open" }
+                    });
+                }
+            }
         }
     }
 }
