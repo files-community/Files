@@ -5,7 +5,6 @@ using Files.Extensions;
 using Files.Helpers;
 using Files.UserControls;
 using Files.ViewModels;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
@@ -18,7 +17,7 @@ using Windows.UI.Core;
 
 namespace Files.Filesystem
 {
-    public class LibraryManager : ObservableObject, IDisposable
+    public class LibraryManager : IDisposable
     {
         public MainViewModel MainViewModel => App.MainViewModel;
 

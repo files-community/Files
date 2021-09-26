@@ -93,24 +93,44 @@ namespace Files.Views
             { }
         }
 
-        private async void WSLDistroManager_RefreshCompleted(object sender, System.Collections.Generic.List<INavigationControlItem> e)
+        private async void WSLDistroManager_RefreshCompleted(object sender, System.Collections.Generic.List<INavigationControlItem> distros)
         {
             await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
             {
                 await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
-                    if ((await distroFolder.GetFoldersAsync()).Count != 0 && App.AppSettings.ShowWslSection)
+                    var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "WSL".GetLocalized()) as LocationItem;
+                    if (App.AppSettings.ShowWslSection && section == null)
                     {
+                        section = new LocationItem()
+                        {
+                            Text = "WSL".GetLocalized(),
+                            Section = SectionType.WSL,
+                            SelectsOnInvoked = false,
+                            IconSource = new Uri("ms-appx:///Assets/WSL/genericpng.png"),
+                            ChildItems = new ObservableCollection<INavigationControlItem>()
+                        };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
                                         (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
                                         (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0) +
                                         (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.CloudDrives) ? 1 : 0) +
                                         (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Network) ? 1 : 0); // After network section
                         SidebarControl.SideBarItems.BeginBulkOperation();
-                        SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), App.WSLDistroManager.WslSection);
+                        SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), section);
                         SidebarControl.SideBarItems.EndBulkOperation();
+                    }
+
+                    if (section != null)
+                    {
+                        foreach (var distro in distros.ToList()
+                        .OrderBy(o => o.Text))
+                        {
+                            if (!section.ChildItems.Contains(distro))
+                            {
+                                section.ChildItems.Add(distro);
+                            }
+                        }
                     }
                 }
                 catch (Exception)

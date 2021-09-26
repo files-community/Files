@@ -1,13 +1,9 @@
 ﻿using Files.Common;
-using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
 using Files.Helpers;
-using Files.UserControls;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -15,7 +11,7 @@ using Windows.Foundation.Collections;
 
 namespace Files.Filesystem
 {
-    public class NetworkDrivesManager : ObservableObject
+    public class NetworkDrivesManager
     {
         private static readonly Logger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
