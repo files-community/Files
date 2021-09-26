@@ -66,9 +66,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Přeskočit</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Storno</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Typ položky:</value>
   </data>
@@ -114,7 +111,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Licence třetích stran</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>O aplikaci</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -125,9 +122,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimentální funkce</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>O aplikaci</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Přizpůsobení</value>
@@ -282,9 +276,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Nastavit název</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Storno</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>Nová záložka</value>
   </data>
@@ -339,9 +330,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Položka zde již existuje.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Vytvořit nové jméno</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Nahradit existující položku</value>
   </data>
@@ -368,9 +356,6 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nemohli jsme smazat tuto položku</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Přístup zakázán</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Připojte prosím požadovanou jednotku.</value>
@@ -480,11 +465,8 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Přesouvání souborů do koše</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Ano</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Storno</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Opravdu chcete navždy smazat tyto položky?</value>
@@ -518,9 +500,6 @@
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Odemknout</value>
-  </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Storno</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Zadejte heslo k odemčení jednotky</value>
@@ -738,11 +717,8 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Nemohli jsme vytvořit tuto položku</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Přístup zakázán</value>
-  </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Storno</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Přidat záložku</value>
@@ -762,7 +738,7 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Zkopírovat cestu</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Storno</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
@@ -815,9 +791,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Přesto zavřít</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Storno</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Hodnocení</value>
@@ -1185,14 +1158,11 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Detaily</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>Ne</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Chcete si stáhnout a nainstalovat nejnovější verzi aplikace Files?</value>
-  </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Ano</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Dostupné aktualizace</value>
@@ -1214,9 +1184,6 @@
   </data>
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Smazat</value>
-  </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>Storno</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Otevřít v novém panelu</value>
@@ -1248,9 +1215,6 @@
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Potvrdit</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Zrušit</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>Potvrdit</value>
   </data>
@@ -1259,9 +1223,6 @@
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>Přejmenovat objekt {0}</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Zrušit</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>Potvrdit</value>
@@ -1383,9 +1344,6 @@
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Ne</value>
   </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ano</value>
-  </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>Zavřít záložky napravo</value>
   </data>
@@ -1422,9 +1380,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Vytvořit</value>
   </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>Zrušit</value>
-  </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Odstranit</value>
   </data>
@@ -1434,32 +1389,20 @@
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Kopírovat</value>
   </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Zrušit</value>
-  </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
     <value>Odstranit položku(y)</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Přesunout</value>
   </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Zrušit</value>
-  </data>
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Odstranit</value>
-  </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Zrušit</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>Odstraní se tento počet položek: {0}.</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Pokračovat</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Zrušit</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Trvale odstranit?</value>
@@ -1605,12 +1548,6 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Zavřít</value>
   </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Zrušit</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Zrušit</value>
-  </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgety</value>
   </data>
@@ -1640,12 +1577,6 @@
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Rozložení</value>
-  </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Zavřít</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Stav synchronizace</value>
   </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nové okno</value>
@@ -1755,9 +1686,6 @@
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Ne</value>
   </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>Ano</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Oprávnění</value>
   </data>
@@ -1833,9 +1761,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Verze souboru</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Stav synchronizace</value>
-  </data>
   <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
     <value>Procházet</value>
   </data>
@@ -1887,7 +1812,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Aktualizace jsou připraveny k instalaci</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Zavřít</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -1962,14 +1887,11 @@
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Sestupně</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Stav synchronizace</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Neznámý</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>Zavřít</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Vložit disk</value>

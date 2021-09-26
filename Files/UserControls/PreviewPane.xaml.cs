@@ -45,20 +45,7 @@ namespace Files.UserControls
             set
             {
                 SetValue(IsHorizontalProperty, value);
-                EdgeTransitionLocation = value ? EdgeTransitionLocation.Bottom : EdgeTransitionLocation.Right;
             }
-        }
-
-        public static DependencyProperty EdgeTransitionLocationProperty =
-            DependencyProperty.Register("EdgeTransitionLocation",
-                                        typeof(EdgeTransitionLocation),
-                                        typeof(PreviewPane),
-                                        new PropertyMetadata(null));
-
-        private EdgeTransitionLocation EdgeTransitionLocation
-        {
-            get => (EdgeTransitionLocation)GetValue(EdgeTransitionLocationProperty);
-            set => SetValue(EdgeTransitionLocationProperty, value);
         }
 
         private string GetLocalizedText(string resName) => resName.GetLocalized();

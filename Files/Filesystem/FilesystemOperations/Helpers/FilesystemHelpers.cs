@@ -126,7 +126,7 @@ namespace Files.Filesystem
                     }
                 }
 
-                FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     FilesystemOperationType.Delete,
                     false,
                     canBeSentToBin ? permanently : true,
@@ -313,7 +313,7 @@ namespace Files.Filesystem
                     incomingItems.Add(new FilesystemItemsOperationItemModel(FilesystemOperationType.Delete, srcPath, null));
                 }
 
-                FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     FilesystemOperationType.Delete,
                     false,
                     canBeSentToBin ? permanently : true,
@@ -1005,7 +1005,7 @@ namespace Files.Filesystem
 
             if (mustResolveConflicts || forceDialog)
             {
-                FilesystemOperationDialog dialog = await FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
+                FilesystemOperationDialog dialog = FilesystemOperationDialogViewModel.GetDialog(new FilesystemItemsOperationDataModel(
                     operationType,
                     mustResolveConflicts,
                     false,

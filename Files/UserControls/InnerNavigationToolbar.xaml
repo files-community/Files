@@ -6,6 +6,7 @@
     xmlns:converters="using:Files.Converters"
     xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.UserControls"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -336,10 +337,9 @@
                                 IsChecked="{x:Bind ViewModel.IsSortedByType, Mode=TwoWay}"
                                 Text="Type" />
                             <ToggleMenuFlyoutItem
-                                x:Uid="NavToolbarArrangementOptionSyncStatus"
                                 IsChecked="{x:Bind ViewModel.IsSortedBySyncStatus, Mode=TwoWay}"
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}"
-                                Text="Sync status" />
+                                Text="{helpers:ResourceString Name=SyncStatus}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionFileTag"
                                 IsChecked="{x:Bind ViewModel.IsSortedByFileTag, Mode=TwoWay}"
