@@ -271,7 +271,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortBySyncStatus/Text".GetLocalized(),
+                            Text = "SyncStatus".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedBySyncStatus,
                             Command = new RelayCommand(() => itemViewModel.IsSortedBySyncStatus = true),
                             ShowItem = currentInstanceViewModel.IsPageTypeCloudDrive,
@@ -421,7 +421,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "BaseLayoutContextFlyoutSortBySyncStatus/Text".GetLocalized(),
+                            Text = "SyncStatuss".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.SyncStatus,
                             ShowItem = currentInstanceViewModel.IsPageTypeCloudDrive,
                             Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,

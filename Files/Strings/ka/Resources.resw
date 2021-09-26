@@ -81,9 +81,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>გამოტოვება</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>გაუქმება</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>ნივთის ნიმუში:</value>
   </data>
@@ -138,7 +135,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>მესამე მხარის ლიცენზიები</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>შესახებ</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
@@ -158,9 +155,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>ექსპერიმენტალური</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>შესახებ</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>შესახედაობა</value>
@@ -324,9 +318,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>სახელის დაყენება</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>გაუქმება</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>ახალი ჩანართი</value>
   </data>
@@ -381,9 +372,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>ამ სახელწოდების მქონე ნივთი უკვე არსებობს ამ კატალოგში.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>ახალი სახელის შექმნა</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>არსებული ნივთის ჩანაცვლება</value>
   </data>
@@ -410,9 +398,6 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>ჩვენ ვერ შევძელით ამ ნივთის წაშლა</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>წვდომა უარყოფილია</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>გთხოვთ, ჩასვათ საჭირო დრაივი ამ ერთეულზე წვდომის მოსაპოვებლად.</value>
@@ -528,11 +513,8 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>მიმდინარეობს ფაილების სანაგვე ყუთში გადატანა</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>დიახ</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>გაუქმება</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>დარწმუნებული ხართ, რომ გსურთ ყველა ამ ნივთის სამუდამოდ წაშლა?</value>
@@ -566,9 +548,6 @@
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>განბლოკვა</value>
-  </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>გაუქმება</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>შეიყვანეთ პაროლი დრაივის განსაბლოკად</value>
@@ -789,14 +768,8 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>ჩვენ ვერ შევძელით ამ ერთეულის შექმნა</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>დახურვა</value>
-  </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>წვდომა უარყოფილია</value>
-  </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>გაუქმება</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>ჩანართის დამატება</value>
@@ -816,7 +789,7 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>მდებარეობის ასლის შექმნა</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>გაუქმება</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
@@ -884,9 +857,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>მაინც დახურვა</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>გაუქმება</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>რეიტინგი</value>
@@ -1278,14 +1248,11 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>დეტალები</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>არა</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>გსურთ ფაილების უახლესი ვერსიის გადმოწერა და დაყენება?</value>
-  </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>დიახ</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>განახლებები ხელმისაწვდომია</value>
@@ -1316,9 +1283,6 @@
   </data>
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>წაშლა</value>
-  </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>გაუქმება</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>ახალი ჩანართების ყოველთვის გახსნა ორმაგი სარკმლის რეჟიმში</value>
@@ -1449,9 +1413,6 @@
   <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
     <value>შეიყვანეთ შეკვრის სახელი</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>გაუქმება</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>სასურველი სახელი</value>
   </data>
@@ -1466,9 +1427,6 @@
   </data>
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>შეკვრის შექმნა</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>გაუქმება</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>დადასტურება</value>
@@ -1659,9 +1617,6 @@
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>არა</value>
   </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>დიახ</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>ეს მოქმედება მოითხოვს ადმინისტრატორის უფლებებს</value>
   </data>
@@ -1734,9 +1689,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>შექმნა</value>
   </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>გაუქმება</value>
-  </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>წაშლა</value>
   </data>
@@ -1748,9 +1700,6 @@
   </data>
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>ასლის შექმნა</value>
-  </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>გაუქმება</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} ელემენტის ასლი შეიქმნება</value>
@@ -1764,9 +1713,6 @@
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>გადატანა</value>
   </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>გაუქმება</value>
-  </data>
   <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} ერთეულის გადატანა მოხდება</value>
   </data>
@@ -1776,17 +1722,11 @@
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>წაშლა</value>
   </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>გაუქმება</value>
-  </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} ელემენტი წაიშლება</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>გაგრძელება</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>გაუქმება</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
     <value>არსებობს ფაილების {0} წინააღმდეგობრივი სახელი და {1} გამავალი ერთეული.</value>
@@ -1842,17 +1782,11 @@
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>თემების საქაღალდის გახსნა</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
-    <value>ახალი სახელის შექმნა</value>
-  </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>არსებულის ჩანაცვლება</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
     <value>გამოტოვება</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionGenerateNewName.Text" xml:space="preserve">
-    <value>ახალი სახელის შექმნა</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>არსებულის ჩანაცვლება</value>
@@ -1860,16 +1794,13 @@
   <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
     <value>გამოტოვება</value>
   </data>
-  <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
-    <value>ახალი სახელის შექმნა</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>არსებულის ჩანაცვლება</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
     <value>გამოტოვება</value>
   </data>
-  <data name="ConflictingItemsDialogItemDefaultOption.Content" xml:space="preserve">
+  <data name="GenerateNewName" xml:space="preserve">
     <value>არსებულის ჩანაცვლება</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
@@ -2100,17 +2031,8 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>გათავისუფლება</value>
   </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>გაუქმება</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>გაუქმება</value>
-  </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>ვიჯეტები</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>სინქრონიზაციის სტატუსი</value>
   </data>
   <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
     <value>უსაფრთხოება</value>
@@ -2250,9 +2172,6 @@
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>არა</value>
   </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>დიახ</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>უფლებები</value>
   </data>
@@ -2382,9 +2301,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>ფაილის ვერსია</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>სინქრონიზაციის სტატუსი</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ჩამოტვირთავს ნივთს ღრუბლიდან და ჩატვირთავს გადახედვას</value>
   </data>
@@ -2457,7 +2373,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>განახლებები მზად არიან დასაყენებლად</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>დახურვა</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -2571,7 +2487,7 @@
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>კლებადობის მიხედვით</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>სინქრონიზაციის სტატუსი</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
@@ -2604,9 +2520,6 @@
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
     <value>ფაილის იარლიყების ჩართვა</value>
   </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>დახურვა</value>
-  </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>დისკის გახსნა</value>
   </data>
@@ -2624,9 +2537,6 @@
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
     <value>კარგი</value>
-  </data>
-  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
-    <value>გაუქმება</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>სერთიფიკატი საჭიროა</value>
@@ -2717,9 +2627,6 @@
   </data>
   <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>თარიღის ფორმატი</value>
-  </data>
-  <data name="SettingsDialogCloseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>დახურვა</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>საქაღალდეების ახალ ჩანართში გახსნა</value>

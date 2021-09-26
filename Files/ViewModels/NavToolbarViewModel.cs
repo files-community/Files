@@ -808,7 +808,7 @@ namespace Files.ViewModels
                         var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path)));
                         if (matchingDrive != null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                         {
-                            bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "InsertDiscDialog/CloseDialogButton".GetLocalized());
+                            bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());
                             if (ejectButton)
                             {
                                 await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);

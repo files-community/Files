@@ -84,7 +84,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Third Party Licenses</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>Про програму</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -92,9 +92,6 @@
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Файли та папки</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Про програму</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Оформлення</value>
@@ -231,9 +228,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Зберегти</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Скасувати</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>Нова вкладка</value>
   </data>
@@ -291,9 +285,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Пропустити</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Скасувати</value>
-  </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5 Хеш:</value>
   </data>
@@ -330,9 +321,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Елемент з цим іменем вже існує в цій папці.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Створити нове ім'я</value>
-  </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Елемент вже існує</value>
   </data>
@@ -359,9 +347,6 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Не вдалося видалити цей елемент</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Немає доступу</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Підключить необхідний диск для доступу до цього елемента.</value>
@@ -459,16 +444,13 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Відкрито:</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Скасувати</value>
-  </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Ви впевнені, що хочете назавжди видалити всі ці елементи?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Очистити кошик</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Так</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
@@ -503,9 +485,6 @@
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Розблокувати</value>
-  </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Скасувати</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Введіть пароль для розблокування накопичувача</value>
@@ -711,9 +690,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Більше</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Скасувати</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Багатозадачність</value>
   </data>
@@ -747,7 +723,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Виберіть тип для цього нового елемента нижче</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Скасувати</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
@@ -783,7 +759,7 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Елемент не може бути створений</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Немає доступу</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1080,9 +1056,6 @@
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Закрити</value>
   </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Скасувати</value>
-  </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Не вдалося зберегти деякі властивості.</value>
   </data>
@@ -1128,14 +1101,11 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Детально</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>Ні</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Завантажити та встановити останню версію Files?</value>
-  </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Так</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Доступні оновлення</value>
@@ -1166,9 +1136,6 @@
   </data>
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Вилучити</value>
-  </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>Скасувати</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Відкрити на вторинній панелі</value>
@@ -1242,9 +1209,6 @@
   <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
     <value>Введіть ім'я Колекції папок</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Скасувати</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>Бажане ім'я</value>
   </data>
@@ -1256,9 +1220,6 @@
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>Змінити "{0}"</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Скасувати</value>
   </data>
   <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
     <value>Бажане ім'я</value>
@@ -1464,9 +1425,6 @@
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Ні</value>
   </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Так</value>
-  </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>Закрити вкладки праворуч</value>
   </data>
@@ -1497,9 +1455,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Створити</value>
   </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>Скасувати</value>
-  </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Видалити</value>
   </data>
@@ -1509,29 +1464,17 @@
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Копіювати</value>
   </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Скасувати</value>
-  </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Перемістити</value>
   </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Скасувати</value>
-  </data>
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Видалити</value>
-  </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Скасувати</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>Буде видалено елементів: {0}.</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Продовжити</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Скасувати</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Остаточно видалити</value>
@@ -1677,12 +1620,6 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Відхилити</value>
   </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Скасувати</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Скасувати</value>
-  </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Виділити</value>
   </data>
@@ -1709,12 +1646,6 @@
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Макет</value>
-  </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Закрити</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Стан синхронізації</value>
   </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Створити вікно</value>
@@ -1818,9 +1749,6 @@
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Ні</value>
   </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>Так</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Дозволи</value>
   </data>
@@ -1884,9 +1812,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Версія файлу:</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Стан синхронізації</value>
-  </data>
   <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
     <value>Вибрати</value>
   </data>
@@ -1929,7 +1854,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Оновлення готові до інсталяції</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Закрити</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -2004,14 +1929,11 @@
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>За спаданням</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Стан синхронізації</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Невідомо</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>Закрити</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Вставте диск</value>

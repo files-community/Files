@@ -98,10 +98,6 @@
           <source>Skip</source>
           <target state="translated" state-qualifier="tm-suggestion">Skip</target>
         </trans-unit>
-        <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
-        </trans-unit>
         <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
           <source>Item type:</source>
           <target state="translated" state-qualifier="tm-suggestion">Item type:</target>
@@ -174,7 +170,7 @@
           <source>Third party licenses</source>
           <target state="translated">Third party licenses</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated" state-qualifier="tm-suggestion">About</target>
         </trans-unit>
@@ -205,10 +201,6 @@
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
           <target state="translated">Experimental</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
-          <source>About</source>
-          <target state="translated" state-qualifier="tm-suggestion">About</target>
         </trans-unit>
         <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
           <source>Appearance</source>
@@ -430,10 +422,6 @@
           <source>Set Name</source>
           <target state="translated" state-qualifier="tm-suggestion">Set Name</target>
         </trans-unit>
-        <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
-        </trans-unit>
         <trans-unit id="NewTab" translate="yes" xml:space="preserve">
           <source>New tab</source>
           <target state="translated" state-qualifier="tm-suggestion">New tab</target>
@@ -506,10 +494,6 @@
           <source>An item with this name already exists in this directory.</source>
           <target state="translated">An item with this name already exists in this directory.</target>
         </trans-unit>
-        <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Generate new name</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Replace existing item</source>
           <target state="translated">Replace existing item</target>
@@ -545,10 +529,6 @@
         <trans-unit id="AccessDeniedDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>We weren't able to delete this item</source>
           <target state="translated">We weren't able to delete this item</target>
-        </trans-unit>
-        <trans-unit id="AccessDeniedDeleteDialog.Title" translate="yes" xml:space="preserve">
-          <source>Access Denied</source>
-          <target state="translated" state-qualifier="tm-suggestion">Access Denied</target>
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Text" translate="yes" xml:space="preserve">
           <source>Please insert the necessary drive to access this item.</source>
@@ -702,13 +682,9 @@
           <source>Moving files to the Recycle Bin</source>
           <target state="translated">Moving files to the Recycle Bin</target>
         </trans-unit>
-        <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Yes" translate="yes" xml:space="preserve">
           <source>Yes</source>
           <target state="translated" state-qualifier="tm-suggestion">Yes</target>
-        </trans-unit>
-        <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to permanently delete all these items?</source>
@@ -753,10 +729,6 @@
         <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Unlock</source>
           <target state="translated" state-qualifier="tm-suggestion">Unlock</target>
-        </trans-unit>
-        <trans-unit id="BitlockerDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter password to unlock the drive</source>
@@ -1050,17 +1022,9 @@
           <source>We weren't able to create this item</source>
           <target state="translated">We weren't able to create this item</target>
         </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated" state-qualifier="tm-suggestion">Close</target>
-        </trans-unit>
-        <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="AccessDenied" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
           <target state="translated" state-qualifier="tm-suggestion">Access Denied</target>
-        </trans-unit>
-        <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
         </trans-unit>
         <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
           <source>Add tab</source>
@@ -1086,7 +1050,7 @@
           <source>Copy location</source>
           <target state="translated" state-qualifier="tm-suggestion">Copy location</target>
         </trans-unit>
-        <trans-unit id="AddDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Cancel" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
         </trans-unit>
@@ -1189,10 +1153,6 @@
         <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Close anyway</source>
           <target state="translated" state-qualifier="tm-suggestion">Close anyway</target>
-        </trans-unit>
-        <trans-unit id="PropertySaveErrorDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
           <source>Rating</source>
@@ -1714,17 +1674,13 @@
           <source>Details</source>
           <target state="translated" state-qualifier="tm-suggestion">Details</target>
         </trans-unit>
-        <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated" state-qualifier="tm-suggestion">No</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogContent" translate="yes" xml:space="preserve">
           <source>Do you want to download and install the latest version of Files?</source>
           <target state="translated">Do you want to download and install the latest version of Files?</target>
-        </trans-unit>
-        <trans-unit id="UpdateConsentDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Yes</source>
-          <target state="translated" state-qualifier="tm-suggestion">Yes</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogTitle" translate="yes" xml:space="preserve">
           <source>Updates Available</source>
@@ -1765,10 +1721,6 @@
         <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
           <source>Remove</source>
           <target state="translated" state-qualifier="tm-suggestion">Remove</target>
-        </trans-unit>
-        <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane" translate="yes" xml:space="preserve">
           <source>Always open new tabs in dual pane mode</source>
@@ -1942,10 +1894,6 @@
           <source>Enter Bundle name</source>
           <target state="translated">Enter Bundle name</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetRenameBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
-        </trans-unit>
         <trans-unit id="BundlesWidgetRenameBundleDialogInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Desired name</source>
           <target state="translated">Desired name</target>
@@ -1965,10 +1913,6 @@
         <trans-unit id="BundlesWidgetCreateBundleDialogTitleText" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
           <target state="translated">Create Bundle</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetCreateBundleDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Confirm</source>
@@ -2226,10 +2170,6 @@
           <source>No</source>
           <target state="translated" state-qualifier="tm-suggestion">No</target>
         </trans-unit>
-        <trans-unit id="ElevateConfirmDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Yes</source>
-          <target state="translated" state-qualifier="tm-suggestion">Yes</target>
-        </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
           <source>This action requires administrator rights</source>
           <target state="translated">This action requires administrator rights</target>
@@ -2326,10 +2266,6 @@
           <source>Create</source>
           <target state="translated" state-qualifier="tm-suggestion">Create</target>
         </trans-unit>
-        <trans-unit id="DialogCancelButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
-        </trans-unit>
         <trans-unit id="DialogDeleteLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Delete</source>
           <target state="translated" state-qualifier="tm-suggestion">Delete</target>
@@ -2345,10 +2281,6 @@
         <trans-unit id="CopyItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Copy</source>
           <target state="translated" state-qualifier="tm-suggestion">Copy</target>
-        </trans-unit>
-        <trans-unit id="CopyItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
         </trans-unit>
         <trans-unit id="CopyItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be copied</source>
@@ -2366,10 +2298,6 @@
           <source>Move</source>
           <target state="translated" state-qualifier="tm-suggestion">Move</target>
         </trans-unit>
-        <trans-unit id="MoveItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
-        </trans-unit>
         <trans-unit id="MoveItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be moved</source>
           <target state="translated">{0} items will be moved</target>
@@ -2382,10 +2310,6 @@
           <source>Delete</source>
           <target state="translated" state-qualifier="tm-suggestion">Delete</target>
         </trans-unit>
-        <trans-unit id="DeleteItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
-        </trans-unit>
         <trans-unit id="DeleteItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be deleted</source>
           <target state="translated" state-qualifier="tm-suggestion">{0} items will be deleted</target>
@@ -2393,10 +2317,6 @@
         <trans-unit id="ConflictingItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Continue</source>
           <target state="translated" state-qualifier="tm-suggestion">Continue</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" translate="yes" xml:space="preserve">
           <source>There are {0} conflicting file names, and {1} outgoing item(s).</source>
@@ -2474,10 +2394,6 @@
           <source>Open themes folder</source>
           <target state="translated">Open themes folder</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Generate new name</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="translated">Replace existing</target>
@@ -2485,10 +2401,6 @@
         <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
           <source>Skip</source>
           <target state="translated" state-qualifier="tm-suggestion">Skip</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Generate new name</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
@@ -2498,10 +2410,6 @@
           <source>Skip</source>
           <target state="translated" state-qualifier="tm-suggestion">Skip</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Generate new name</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="translated">Replace existing</target>
@@ -2510,7 +2418,7 @@
           <source>Skip</source>
           <target state="translated" state-qualifier="tm-suggestion">Skip</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemDefaultOption.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="GenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
           <target state="translated">Generate new name</target>
         </trans-unit>
@@ -2818,21 +2726,9 @@
           <source>Dismiss</source>
           <target state="translated" state-qualifier="tm-suggestion">Dismiss</target>
         </trans-unit>
-        <trans-unit id="OngoingTasksCancelBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
-        </trans-unit>
-        <trans-unit id="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Cancel</target>
-        </trans-unit>
         <trans-unit id="NavToolbarWidgets.Label" translate="yes" xml:space="preserve">
           <source>Widgets</source>
           <target state="translated">Widgets</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated" state-qualifier="tm-suggestion">Sync status</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogTabSecurity.Content" translate="yes" xml:space="preserve">
           <source>Security</source>
@@ -3018,10 +2914,6 @@
           <source>No</source>
           <target state="translated" state-qualifier="tm-suggestion">No</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedInheritedYesLabel" translate="yes" xml:space="preserve">
-          <source>Yes</source>
-          <target state="translated" state-qualifier="tm-suggestion">Yes</target>
-        </trans-unit>
         <trans-unit id="SecurityAdvancedPermissionsLabel.Text" translate="yes" xml:space="preserve">
           <source>Permissions</source>
           <target state="translated" state-qualifier="tm-suggestion">Permissions</target>
@@ -3194,10 +3086,6 @@
           <source>File version</source>
           <target state="translated" state-qualifier="tm-suggestion">File version</target>
         </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated" state-qualifier="tm-suggestion">Sync status</target>
-        </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
           <target state="translated">Downloads the item from the cloud and loads the preview</target>
@@ -3266,7 +3154,7 @@
           <source>Updates are ready to install</source>
           <target state="translated" state-qualifier="tm-suggestion">Updates are ready to be installed</target>
         </trans-unit>
-        <trans-unit id="ConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Close" translate="yes" xml:space="preserve">
           <source>Close</source>
           <target state="translated" state-qualifier="tm-suggestion">Close</target>
         </trans-unit>
@@ -3424,7 +3312,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Descending</source>
           <target state="translated" state-qualifier="tm-suggestion">Descending</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="translated" state-qualifier="tm-suggestion">Sync status</target>
         </trans-unit>
@@ -3468,10 +3356,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Enable file tags</source>
           <target state="translated">Enable file tags</target>
         </trans-unit>
-        <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated" state-qualifier="tm-suggestion">Close</target>
-        </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
           <target state="translated">Open Drive</target>
@@ -3495,10 +3379,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="AskCredentialDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
           <target state="translated">OK</target>
-        </trans-unit>
-        <trans-unit id="AskCredentialDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Cancel</target>
         </trans-unit>
         <trans-unit id="AskCredentialDialog.Title" translate="yes" xml:space="preserve">
           <source>Credential Required</source>
@@ -3619,10 +3499,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="SettingsDateFormatComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">Date format</target>
-        </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated">Close</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>

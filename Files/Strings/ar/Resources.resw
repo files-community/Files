@@ -66,9 +66,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>‏‏تخطي</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>إلغاء الأمر</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>نوع العنصر</value>
   </data>
@@ -114,7 +111,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>تراخيص الطرف الثالث</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>حول التطبيق</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -125,9 +122,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>تجريبي</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>حول التطبيق</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>المظهر</value>
@@ -282,9 +276,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>اسم المجموعة</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>إلغاء الأمر</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>علامة تبويب جديدة</value>
   </data>
@@ -339,9 +330,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>يوجد عنصر بهذا الاسم في دليل الملفات</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>انشئ اسم جديد</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>استبدل العنصر الموجود سابقا</value>
   </data>
@@ -368,9 +356,6 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>لم نتمكن من حذف هذا العنصر</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>تم رفض الوصول</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>الرجاء ادخال المحرك المطلوب لهذا العنصر</value>
@@ -477,11 +462,8 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>نقل الى سلة المهملات</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>نعم</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>إلغاء الأمر</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>هل انت متاكد من القيام بحذف جميع الملفات المختارة</value>
@@ -515,9 +497,6 @@
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>إلغاء تأمين</value>
-  </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>إلغاء الأمر</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>ادخل كلمة السر لفتح المحرك </value>
@@ -735,11 +714,8 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>لم نتمكن من إنشاء هذا العنصر</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>تم رفض الوصول</value>
-  </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>إلغاء الأمر</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>إضافة علامة تبويب</value>
@@ -759,7 +735,7 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>نسخ الموقع</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>إلغاء الأمر</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
@@ -812,9 +788,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>إغلاق على أي حال</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>إلغاء الأمر</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>التقييم</value>
@@ -1173,14 +1146,11 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>التفاصيل</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>لا</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>هل تريد تنزيل أحدث إصدار من الملفات وتثبيته؟</value>
-  </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>نعم</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>التحديثات متوفرة</value>
@@ -1202,9 +1172,6 @@
   </data>
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>‏‏إزالة</value>
-  </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>إلغاء الأمر</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>فتح في الجزء الثانوي</value>
@@ -1311,9 +1278,6 @@
   <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
     <value>أدخل اسم الحزمة</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>إلغاء الأمر</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>الاسم المطلوب</value>
   </data>
@@ -1328,9 +1292,6 @@
   </data>
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>إنشاء حزمة</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>إلغاء الأمر</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>تأكيد</value>
@@ -1440,9 +1401,6 @@
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>لا</value>
   </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>نعم</value>
-  </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>إغلاق علامات التبويب على اليسار</value>
   </data>
@@ -1473,9 +1431,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>إنشاء</value>
   </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>إلغاء الأمر</value>
-  </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>حذف</value>
   </data>
@@ -1485,29 +1440,17 @@
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>نسخ</value>
   </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>إلغاء الأمر</value>
-  </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>‏‏نقل</value>
   </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>إلغاء الأمر</value>
-  </data>
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>حذف</value>
-  </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>إلغاء الأمر</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>سيتم حذف {0} من العناصر.</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>‏‏متابعة</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>إلغاء الأمر</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>حذف دائم</value>
@@ -1644,12 +1587,6 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>تجاهل</value>
   </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>إلغاء الأمر</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>إلغاء الأمر</value>
-  </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>تحديد</value>
   </data>
@@ -1676,12 +1613,6 @@
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>تخطيط</value>
-  </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>إغلاق</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>‏‏حالة المزامنة</value>
   </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>نافذة جديدة</value>
@@ -1782,9 +1713,6 @@
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>لا</value>
   </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>نعم</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>الأذونات</value>
   </data>
@@ -1854,9 +1782,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>إصدار الملف</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>‏‏حالة المزامنة</value>
-  </data>
   <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
     <value>تصفح</value>
   </data>
@@ -1902,7 +1827,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>‏‏التحديثات جاهزة للتثبيت</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>إغلاق</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -1977,14 +1902,11 @@
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>تنازلي</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>‏‏حالة المزامنة</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>غير معروف</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>إغلاق</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>إدخال قرص</value>

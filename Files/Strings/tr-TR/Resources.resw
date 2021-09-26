@@ -48,7 +48,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Üçüncü taraf lisansları</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>Hakkında</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -56,9 +56,6 @@
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Dosyalar &amp; Klasörler</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Hakkında</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Görünüm</value>
@@ -231,9 +228,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Adı Ayarla</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>İptal</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>Yeni sekme</value>
   </data>
@@ -291,9 +285,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Atla</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>İptal</value>
-  </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5Hash:</value>
   </data>
@@ -330,9 +321,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Bu klasörde aynı adlı bir öge zaten var.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Yeni ad oluştur</value>
-  </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Öge zaten var</value>
   </data>
@@ -359,9 +347,6 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Bu öge silinemedi</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Erişim Engellendi</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Lütfen bu ögeye erişmek için gerekli sürücüyü takın.</value>
@@ -459,16 +444,13 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Erişim:</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>İptal</value>
-  </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Tüm ögeleri kalıcı olarak silmek istediğinize emin misiniz?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Geri dönüşüm kutusunu boşalt</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Evet</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
@@ -494,9 +476,6 @@
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Kilidi aç</value>
-  </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>İptal</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Sürücü kilidini açmak için parolayı yazın</value>
@@ -711,9 +690,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Diğer</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>İptal</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Çoklu görev</value>
   </data>
@@ -747,7 +723,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Aşağıdan yeni ögenin türünü seçin</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>İptal</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
@@ -783,7 +759,7 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Bu öge oluşturulamadı</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Erişim Engellendi</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1125,9 +1101,6 @@
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Yine de kapat</value>
   </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>İptal</value>
-  </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Bazı özellikler kaydedilirken bir sorun çıktı.</value>
   </data>
@@ -1173,14 +1146,11 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Ayrıntılar</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>Hayır</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Files uygulamasının son sürümünü indirip kurmak ister misiniz?</value>
-  </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Evet</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Güncelleştirmeler Var</value>
@@ -1211,9 +1181,6 @@
   </data>
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Sil</value>
-  </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>İptal</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>İkinci panoda aç</value>
@@ -1287,9 +1254,6 @@
   <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
     <value>Paket adını yazın</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>İptal</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>İstenilen ad</value>
   </data>
@@ -1301,9 +1265,6 @@
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>"{0}" yeniden adlandır</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>İptal</value>
   </data>
   <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
     <value>İstenilen ad</value>
@@ -1527,9 +1488,6 @@
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Hayır</value>
   </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Evet</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Bu işlem yönetici hakları gerektiriyor</value>
   </data>
@@ -1608,9 +1566,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Yaratmak</value>
   </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>İptal</value>
-  </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Silmek</value>
   </data>
@@ -1626,9 +1581,6 @@
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Kopyala</value>
   </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>İptal</value>
-  </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} öğe kopyalanacak</value>
   </data>
@@ -1641,9 +1593,6 @@
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Hareket</value>
   </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>İptal</value>
-  </data>
   <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} öğe taşınacak</value>
   </data>
@@ -1653,17 +1602,11 @@
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Silmek</value>
   </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>İptal</value>
-  </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} öğe silinecek</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Devam</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>İptal</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
     <value>Çakışan dosya adları</value>
@@ -1713,17 +1656,11 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
     <value>Çakışan bir dosya adı ve {0} giden öğe var.</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
-    <value>Yeni ad oluştur</value>
-  </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Var olanı değiştir</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
     <value>Atlamak</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionGenerateNewName.Text" xml:space="preserve">
-    <value>Yeni ad oluştur</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>Yeni ad oluştur</value>
@@ -1731,16 +1668,13 @@
   <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
     <value>Atlamak</value>
   </data>
-  <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
-    <value>Yeni ad oluştur</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>Yeni ad oluştur</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
     <value>Atlamak</value>
   </data>
-  <data name="ConflictingItemsDialogItemDefaultOption.Content" xml:space="preserve">
+  <data name="GenerateNewName" xml:space="preserve">
     <value>Yeni ad oluştur</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
@@ -1974,12 +1908,6 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Azletmek</value>
   </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>İptal</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>İptal</value>
-  </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widget'lar</value>
   </data>
@@ -2009,12 +1937,6 @@
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Düzen</value>
-  </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Kapat</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Senkronizasyon durumu</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>{1} öğesinden {0} öğe silinemedi</value>
@@ -2172,9 +2094,6 @@
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Hayır</value>
   </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>Evet</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>İzinler</value>
   </data>
@@ -2297,9 +2216,6 @@
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Dosya sürümü</value>
-  </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Senkronizasyon durumu</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Öğeyi buluttan indirir ve önizlemeyi yükler</value>
@@ -2433,7 +2349,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Güncellemeler yüklenmeye hazır</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Kapat</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -2571,7 +2487,7 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Azalan</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Senkronizasyon durumu</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
@@ -2604,9 +2520,6 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
     <value>Dosya etiketlerini etkinleştir</value>
   </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>Kapat</value>
-  </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Açık Sürücü</value>
   </data>
@@ -2624,9 +2537,6 @@ Uygulama kullanımını takip etmek, hataları bulmak ve çökmeleri düzeltmek 
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
     <value>Tamam</value>
-  </data>
-  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
-    <value>İptal</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Kimlik Bilgileri Gerekli</value>

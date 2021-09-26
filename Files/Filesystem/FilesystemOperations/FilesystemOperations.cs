@@ -211,7 +211,7 @@ namespace Files.Filesystem
                         Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
                         Content = $"{"ErrorDialogTheDestinationFolder".GetLocalized()} ({destinationName}) {"ErrorDialogIsASubfolder".GetLocalized()} (sourceName)",
                         //PrimaryButtonText = "ErrorDialogSkip".GetLocalized(),
-                        CloseButtonText = "ErrorDialogCancel".GetLocalized()
+                        CloseButtonText = "Cancel".GetLocalized()
                     };
 
                     ContentDialogResult result = await dialog.ShowAsync();
@@ -429,7 +429,7 @@ namespace Files.Filesystem
                         Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
                         Content = "ErrorDialogTheDestinationFolder".GetLocalized() + " (" + destinationName + ") " + "ErrorDialogIsASubfolder".GetLocalized() + " (" + sourceName + ")",
                         //PrimaryButtonText = "ErrorDialogSkip".GetLocalized(),
-                        CloseButtonText = "ErrorDialogCancel".GetLocalized()
+                        CloseButtonText = "Cancel".GetLocalized()
                     };
 
                     ContentDialogResult result = await dialog.ShowAsync();
@@ -777,9 +777,9 @@ namespace Files.Filesystem
                     {
                         Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
                         Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
-                        PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
+                        PrimaryButtonText = "GenerateNewName".GetLocalized(),
                         SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized(),
-                        CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
+                        CloseButtonText = "Cancel".GetLocalized()
                     };
 
                     if (UIHelpers.IsAnyContentDialogOpen())
@@ -874,7 +874,7 @@ namespace Files.Filesystem
             {
                 if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.Unauthorized))
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("AccessDeniedDeleteDialog/Title".GetLocalized(), "AccessDeniedDeleteDialog/Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalized(), "AccessDeniedDeleteDialog/Text".GetLocalized());
                 }
                 else if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.Unauthorized))
                 {
