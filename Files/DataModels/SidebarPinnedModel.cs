@@ -336,7 +336,7 @@ namespace Files.DataModels
                     Text = "SidebarFavorites".GetLocalized(),
                     Section = SectionType.Favorites,
                     SelectsOnInvoked = false,
-                    Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.QuickAccess)),
+                    Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.Shell32.QuickAccess)),
                     Font = MainViewModel.FontName,
                     ChildItems = new ObservableCollection<INavigationControlItem>()
                 };
