@@ -417,12 +417,15 @@ namespace Files.Views
 
         private async void DisplayFilesystemConsentDialog()
         {
-            if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                App.DrivesManager.ShowUserConsentOnInit = false;
-                DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
-                await dialog.ShowAsync(ContentDialogPlacement.Popup);
-            }
+                if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
+                {
+                    App.DrivesManager.ShowUserConsentOnInit = false;
+                    DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
+                    await dialog.ShowAsync(ContentDialogPlacement.Popup);
+                }
+            });
         }
 
         private string navParams;

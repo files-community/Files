@@ -140,16 +140,6 @@ namespace Files.UserControls.Widgets
         {
         }
 
-        private async Task GetItemsAddedIcon()
-        {
-            foreach (var item in ItemsAdded.ToList()) // ToList() is necessary
-            {
-                item.SelectCommand = LibraryCardClicked;
-                item.AutomationProperties = item.Text;
-                //await this.LoadLibraryIcon(item);
-            }
-        }
-
         private async void FolderWidget_Loaded(object sender, RoutedEventArgs e)
         {
             Loaded -= FolderWidget_Loaded;
@@ -186,7 +176,11 @@ namespace Files.UserControls.Widgets
                 Path = UserDataPaths.GetDefault().Videos,
             });
 
-            await GetItemsAddedIcon();
+            foreach (var item in ItemsAdded.ToList()) // ToList() is necessary
+            {
+                item.SelectCommand = LibraryCardClicked;
+                item.AutomationProperties = item.Text;
+            }
 
             ItemsAdded.EndBulkOperation();
         }
@@ -247,19 +241,12 @@ namespace Files.UserControls.Widgets
             }
         }
 
-        //private async Task LoadLibraryIcon(LibraryCardItem item)
-        //{
-            
-        //}
-
         private async void CardsList_ElementPrepared(Microsoft.UI.Xaml.Controls.ItemsRepeater sender, Microsoft.UI.Xaml.Controls.ItemsRepeaterElementPreparedEventArgs args)
         {
-            var item = ((LibraryCardItem)ItemsAdded[args.Index]);
+            var item = ItemsAdded[args.Index];
             item.IconData ??= await FileThumbnailHelper.LoadIconFromPathAsync(item.Path, 48u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
             if (item.IconData != null && item.Icon == null)
             {
-                //DependencyObjectHelpers.FindChild<Image>(args.Element).Source = await item.IconData.ToBitmapAsync();
-                //(((Grid)args.Element).FindName("FolderThumbnailImage") as Image).Source = await item.IconData.ToBitmapAsync();
                 item.Icon = await item.IconData.ToBitmapAsync();
             }
         }

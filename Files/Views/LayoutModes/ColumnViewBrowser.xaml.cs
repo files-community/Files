@@ -787,7 +787,6 @@ namespace Files.Views.LayoutModes
 
         public bool IsLastColumnBase => (ColumnHost?.ActiveBlades is null) || ColumnHost.ActiveBlades.Count == 1;
 
-
         private async void ItemIconImage_Loaded(object sender, RoutedEventArgs e)
         {
             var image = (Image)sender;

@@ -598,6 +598,7 @@ namespace Files.Views.LayoutModes
                 }
             }
         }
+
         private async void ItemIconImage_Loaded(object sender, RoutedEventArgs e)
         {
             var image = (Image)sender;

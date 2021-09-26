@@ -28,7 +28,6 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-
 namespace Files.UserControls
 {
     public sealed partial class SidebarControl : Microsoft.UI.Xaml.Controls.NavigationView, INotifyPropertyChanged

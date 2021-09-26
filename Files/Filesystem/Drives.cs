@@ -371,12 +371,9 @@ namespace Files.Filesystem
                     DriveItem matchingDriveEjected = Drives.FirstOrDefault(x => x.DeviceID == deviceId);
                     if (rootModified && matchingDriveEjected != null)
                     {
-                        //_ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
-                        //{
-                            matchingDriveEjected.Root = rootModified.Result;
-                            matchingDriveEjected.Text = rootModified.Result.DisplayName;
-                            await matchingDriveEjected.UpdatePropertiesAsync();
-                        //});
+                        matchingDriveEjected.Root = rootModified.Result;
+                        matchingDriveEjected.Text = rootModified.Result.DisplayName;
+                        await matchingDriveEjected.UpdatePropertiesAsync();
                     }
                     break;
             }
