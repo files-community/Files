@@ -1,6 +1,7 @@
 ﻿using Files.CommandLine;
 using Files.Common;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -11,6 +12,8 @@ namespace Files
 {
     internal class Program
     {
+        const string PrelaunchInstanceKey = "PrelaunchInstance";
+
         private static async Task Main()
         {
             var args = Environment.GetCommandLineArgs();
@@ -52,12 +55,34 @@ namespace Files
                 {
                     var launchArgs = activatedArgs as LaunchActivatedEventArgs;
 
-                    var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-                    var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
-                    if (!instance.IsCurrentInstance && !string.IsNullOrEmpty(launchArgs.Arguments))
+                    if (launchArgs.PrelaunchActivated && AppInstance.GetInstances().Count == 0)
                     {
-                        instance.RedirectActivationTo();
+                        AppInstance.FindOrRegisterInstanceForKey(PrelaunchInstanceKey);
+                        ApplicationData.Current.LocalSettings.Values["WAS_PRELAUNCH_INSTANCE_ACTIVATED"] = false;
+                        Application.Start(_ => new App());
                         return;
+                    }
+                    else
+                    {
+                        bool wasPrelaunchInstanceActivated = ApplicationData.Current.LocalSettings.Values.Get("WAS_PRELAUNCH_INSTANCE_ACTIVATED", true);
+                        if (AppInstance.GetInstances().Any(x => x.Key.Equals(PrelaunchInstanceKey)) && !wasPrelaunchInstanceActivated)
+                        {
+                            var plInstance = AppInstance.GetInstances().First(x => x.Key.Equals(PrelaunchInstanceKey));
+                            plInstance.RedirectActivationTo();
+                            ApplicationData.Current.LocalSettings.Values["WAS_PRELAUNCH_INSTANCE_ACTIVATED"] = true;
+                            return;
+                        }
+                        else
+                        {
+                            var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+                            var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
+                            if (!instance.IsCurrentInstance && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
+                            {
+                                instance.RedirectActivationTo();
+                                return;
+                            }
+                        }
+                        
                     }
                 }
                 else if (activatedArgs is FileActivatedEventArgs)
