@@ -1,5 +1,4 @@
 using Files.Common;
-using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
 using Files.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -376,7 +375,7 @@ namespace Files.Filesystem
             }
         }
 
-        public void Dispose()
+        public void StopDeviceWatcher()
         {
             if (deviceWatcher != null)
             {

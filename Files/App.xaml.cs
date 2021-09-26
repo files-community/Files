@@ -398,8 +398,7 @@ namespace Files
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
 
-            LibraryManager?.Dispose();
-            DrivesManager?.Dispose();
+            DrivesManager?.StopDeviceWatcher();
             deferral.Complete();
         }
 
