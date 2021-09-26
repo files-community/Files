@@ -5,7 +5,6 @@ using Files.Extensions;
 using Files.Helpers;
 using Files.UserControls;
 using Files.ViewModels;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
@@ -18,7 +17,7 @@ using Windows.UI.Core;
 
 namespace Files.Filesystem
 {
-    public class LibraryManager : ObservableObject, IDisposable
+    public class LibraryManager : IDisposable
     {
         public MainViewModel MainViewModel => App.MainViewModel;
 
@@ -198,7 +197,7 @@ namespace Files.Filesystem
                             Text = "SidebarLibraries".GetLocalized(),
                             Section = SectionType.Library,
                             SelectsOnInvoked = false,
-                            Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.Libraries)?.Image),
+                            Icon = await UIHelpers.GetIconResource(Constants.ImageRes.Libraries),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0); // After favorites section
