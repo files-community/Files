@@ -74,7 +74,6 @@ namespace Files
 
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
         {
-            Logger.Info("begin");
             AppSettings ??= new SettingsViewModel();
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
@@ -89,14 +88,10 @@ namespace Files
             WSLDistroManager ??= new WSLDistroManager();
             SidebarPinnedController ??= new SidebarPinnedController();
             TerminalController ??= new TerminalController();
-
-            Logger.Info("end");
         }
 
         public static async Task LoadOtherStuffAsync()
         {
-            Logger.Info("begin");
-
             // Start off a list of tasks we need to run before we can continue startup
             await Task.Run(async () =>
             {
@@ -115,8 +110,6 @@ namespace Files
                     ExternalResourcesHelper.LoadOtherThemesAsync()
                 );
             });
-
-            Logger.Info("done");
 
             // Check for required updates
             new AppUpdater().CheckForUpdatesAsync();
