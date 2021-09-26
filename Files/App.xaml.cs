@@ -89,6 +89,8 @@ namespace Files
             WSLDistroManager ??= new WSLDistroManager();
             SidebarPinnedController ??= new SidebarPinnedController();
             TerminalController ??= new TerminalController();
+
+            Logger.Info("end");
         }
 
         public static async Task LoadOtherStuffAsync()
@@ -99,17 +101,19 @@ namespace Files
             await Task.Run(async () =>
             {
                 await Task.WhenAll(
-                    JumpList.InitializeAsync(),
-                    SidebarPinnedController.InitializeAsync(),
                     DrivesManager.EnumerateDrivesAsync(),
                     CloudDrivesManager.EnumerateDrivesAsync(),
                     LibraryManager.EnumerateLibrariesAsync(),
                     NetworkDrivesManager.EnumerateDrivesAsync(),
                     WSLDistroManager.EnumerateDrivesAsync(),
+                    SidebarPinnedController.InitializeAsync()
+                );
+                await Task.WhenAll(
+                    AppSettings.DetectQuickLook(),
                     TerminalController.InitializeAsync(),
+                    JumpList.InitializeAsync(),
                     ExternalResourcesHelper.LoadOtherThemesAsync()
                 );
-                await AppSettings.DetectQuickLook();
             });
 
             Logger.Info("done");
