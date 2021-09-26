@@ -1,7 +1,5 @@
 ﻿using Files.DataModels.NavigationControlItems;
-using Microsoft.Toolkit.Uwp;
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,8 +9,8 @@ namespace Files.Filesystem
 {
     public class WSLDistroManager
     {
-        public event EventHandler<List<INavigationControlItem>> RefreshCompleted;
-        public event EventHandler RemoveWslSidebarSection;
+        public event EventHandler<IReadOnlyList<WslDistroItem>> RefreshCompleted;
+        public event EventHandler<SectionType> RemoveWslSidebarSection;
 
         public WSLDistroManager()
         {
@@ -21,7 +19,7 @@ namespace Files.Filesystem
         public async Task EnumerateDrivesAsync()
         {
             var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
-            var wslDistroList = new List<INavigationControlItem>();
+            var wslDistroList = new List<WslDistroItem>();
             if ((await distroFolder.GetFoldersAsync()).Count != 0)
             {
                 foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
@@ -78,7 +76,7 @@ namespace Files.Filesystem
             }
             else
             {
-                RemoveWslSidebarSection?.Invoke(this, EventArgs.Empty);
+                RemoveWslSidebarSection?.Invoke(this, SectionType.WSL);
             }
         }
     }

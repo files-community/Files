@@ -17,7 +17,7 @@ namespace Files.Filesystem
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
         public event EventHandler<IReadOnlyList<DriveItem>> RefreshCompleted;
-        public event EventHandler RemoveNetworkDrivesSidebarSection;
+        public event EventHandler<SectionType> RemoveNetworkDrivesSidebarSection;
 
         public IReadOnlyList<DriveItem> Drives
         {
@@ -95,7 +95,7 @@ namespace Files.Filesystem
             }
             else
             {
-                RemoveNetworkDrivesSidebarSection?.Invoke(this, EventArgs.Empty);
+                RemoveNetworkDrivesSidebarSection?.Invoke(this, SectionType.Network);
             }
         }
     }

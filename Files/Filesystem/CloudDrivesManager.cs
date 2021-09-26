@@ -15,7 +15,7 @@ namespace Files.Filesystem
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
         public event EventHandler<IReadOnlyList<DriveItem>> RefreshCompleted;
-        public event EventHandler RemoveCloudDrivesSidebarSection;
+        public event EventHandler<SectionType> RemoveCloudDrivesSidebarSection;
 
         public IReadOnlyList<DriveItem> Drives
         {
@@ -78,7 +78,7 @@ namespace Files.Filesystem
             }
             else
             {
-                RemoveCloudDrivesSidebarSection?.Invoke(this, EventArgs.Empty);
+                RemoveCloudDrivesSidebarSection?.Invoke(this, SectionType.CloudDrives);
             }
         }
     }

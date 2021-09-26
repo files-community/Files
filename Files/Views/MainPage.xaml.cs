@@ -72,16 +72,30 @@ namespace Files.Views
 
             App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
             App.DrivesManager.RefreshCompleted += DrivesManager_RefreshCompleted;
-            App.DrivesManager.RemoveDrivesSidebarSection += DrivesManager_RemoveDrivesSidebarSection;
+            App.DrivesManager.RemoveDrivesSidebarSection += SidebarControl_RemoveSidebarSection;
             App.CloudDrivesManager.RefreshCompleted += CloudDrivesManager_RefreshCompleted;
-            App.CloudDrivesManager.RemoveCloudDrivesSidebarSection += CloudDrivesManager_RemoveCloudDrivesSidebarSection;
+            App.CloudDrivesManager.RemoveCloudDrivesSidebarSection += SidebarControl_RemoveSidebarSection;
             App.NetworkDrivesManager.RefreshCompleted += NetworkDrivesManager_RefreshCompleted;
-            App.NetworkDrivesManager.RemoveNetworkDrivesSidebarSection += NetworkDrivesManager_RemoveNetworkDrivesSidebarSection;
+            App.NetworkDrivesManager.RemoveNetworkDrivesSidebarSection += SidebarControl_RemoveSidebarSection;
             App.WSLDistroManager.RefreshCompleted += WSLDistroManager_RefreshCompleted;
-            App.WSLDistroManager.RemoveWslSidebarSection += WSLDistroManager_RemoveWslSidebarSection;
+            App.WSLDistroManager.RemoveWslSidebarSection += SidebarControl_RemoveSidebarSection;
             App.LibraryManager.Libraries.CollectionChanged += Libraries_CollectionChanged;
-            App.LibraryManager.RemoveLibrariesSidebarSection += LibraryManager_RemoveLibrariesSidebarSection;
+            App.LibraryManager.RemoveLibrariesSidebarSection += SidebarControl_RemoveSidebarSection;
             App.LibraryManager.RefreshCompleted += LibraryManager_RefreshCompleted;
+        }
+
+        private void SidebarControl_RemoveSidebarSection(object sender, SectionType sectionType)
+        {
+            try
+            {
+                var item = SidebarControl.SideBarItems.Where(x => x.Section == sectionType).FirstOrDefault();
+                if (item != null)
+                {
+                    SidebarControl.SideBarItems.Remove(item);
+                }
+            }
+            catch (Exception)
+            { }
         }
 
         private async void LibraryManager_RefreshCompleted(object sender, IReadOnlyList<LibraryLocationItem> libraries)
@@ -115,20 +129,6 @@ namespace Files.Views
             });
 
             Libraries_CollectionChanged(App.LibraryManager.Libraries, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-        }
-
-        private void LibraryManager_RemoveLibrariesSidebarSection(object sender, EventArgs e)
-        {
-            try
-            {
-                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarLibraries".GetLocalized()) select n).FirstOrDefault();
-                if (!App.AppSettings.ShowLibrarySection && item != null)
-                {
-                    SidebarControl.SideBarItems.Remove(item);
-                }
-            }
-            catch (Exception)
-            { }
         }
 
         private async void Libraries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -199,21 +199,7 @@ namespace Files.Views
             });
         }
 
-        private void WSLDistroManager_RemoveWslSidebarSection(object sender, EventArgs e)
-        {
-            try
-            {
-                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("WSL".GetLocalized()) select n).FirstOrDefault();
-                if (!App.AppSettings.ShowWslSection && item != null)
-                {
-                    SidebarControl.SideBarItems.Remove(item);
-                }
-            }
-            catch (Exception)
-            { }
-        }
-
-        private async void WSLDistroManager_RefreshCompleted(object sender, List<INavigationControlItem> distros)
+        private async void WSLDistroManager_RefreshCompleted(object sender, IReadOnlyList<WslDistroItem> distros)
         {
             await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -264,20 +250,6 @@ namespace Files.Views
             });
         }
 
-        private void NetworkDrivesManager_RemoveNetworkDrivesSidebarSection(object sender, EventArgs e)
-        {
-            try
-            {
-                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarNetworkDrives".GetLocalized()) select n).FirstOrDefault();
-                if (!App.AppSettings.ShowNetworkDrivesSection && item != null)
-                {
-                    SidebarControl.SideBarItems.Remove(item);
-                }
-            }
-            catch (Exception)
-            { }
-        }
-
         private async void NetworkDrivesManager_RefreshCompleted(object sender, IReadOnlyList<DriveItem> drives)
         {
             await CoreApplication.MainView.CoreWindow.DispatcherQueue.EnqueueAsync(async () =>
@@ -326,34 +298,6 @@ namespace Files.Views
                     SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
-        }
-
-        private void CloudDrivesManager_RemoveCloudDrivesSidebarSection(object sender, EventArgs e)
-        {
-            try
-            {
-                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarCloudDrives".GetLocalized()) select n).FirstOrDefault();
-                if (!App.AppSettings.ShowCloudDrivesSection && item != null)
-                {
-                    SidebarControl.SideBarItems.Remove(item);
-                }
-            }
-            catch (Exception)
-            { }
-        }
-
-        private void DrivesManager_RemoveDrivesSidebarSection(object sender, EventArgs e)
-        {
-            try
-            {
-                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarDrives".GetLocalized()) select n).FirstOrDefault();
-                if (!App.AppSettings.ShowDrivesSection && item != null)
-                {
-                    SidebarControl.SideBarItems.Remove(item);
-                }
-            }
-            catch (Exception)
-            { }
         }
 
         private async void DrivesManager_RefreshCompleted(object sender, IReadOnlyList<DriveItem> drives)
@@ -701,15 +645,15 @@ namespace Files.Views
                 SidebarControl.SidebarItemNewPaneInvoked -= SidebarControl_SidebarItemNewPaneInvoked;
             }
             App.DrivesManager.RefreshCompleted -= DrivesManager_RefreshCompleted;
-            App.DrivesManager.RemoveDrivesSidebarSection -= DrivesManager_RemoveDrivesSidebarSection;
+            App.DrivesManager.RemoveDrivesSidebarSection -= SidebarControl_RemoveSidebarSection;
             App.CloudDrivesManager.RefreshCompleted -= CloudDrivesManager_RefreshCompleted;
-            App.CloudDrivesManager.RemoveCloudDrivesSidebarSection -= CloudDrivesManager_RemoveCloudDrivesSidebarSection;
+            App.CloudDrivesManager.RemoveCloudDrivesSidebarSection -= SidebarControl_RemoveSidebarSection;
             App.NetworkDrivesManager.RefreshCompleted -= NetworkDrivesManager_RefreshCompleted;
-            App.NetworkDrivesManager.RemoveNetworkDrivesSidebarSection -= NetworkDrivesManager_RemoveNetworkDrivesSidebarSection;
+            App.NetworkDrivesManager.RemoveNetworkDrivesSidebarSection -= SidebarControl_RemoveSidebarSection;
             App.WSLDistroManager.RefreshCompleted -= WSLDistroManager_RefreshCompleted;
-            App.WSLDistroManager.RemoveWslSidebarSection -= WSLDistroManager_RemoveWslSidebarSection;
+            App.WSLDistroManager.RemoveWslSidebarSection -= SidebarControl_RemoveSidebarSection;
             App.LibraryManager.Libraries.CollectionChanged -= Libraries_CollectionChanged;
-            App.LibraryManager.RemoveLibrariesSidebarSection -= LibraryManager_RemoveLibrariesSidebarSection;
+            App.LibraryManager.RemoveLibrariesSidebarSection -= SidebarControl_RemoveSidebarSection;
             App.LibraryManager.RefreshCompleted -= LibraryManager_RefreshCompleted;
         }
 

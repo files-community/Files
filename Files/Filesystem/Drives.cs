@@ -43,7 +43,7 @@ namespace Files.Filesystem
         private bool driveEnumInProgress;
 
         public event EventHandler<IReadOnlyList<DriveItem>> RefreshCompleted;
-        public event EventHandler RemoveDrivesSidebarSection;
+        public event EventHandler<SectionType> RemoveDrivesSidebarSection;
 
         public DrivesManager()
         {
@@ -211,7 +211,7 @@ namespace Files.Filesystem
             }
             else
             {
-                RemoveDrivesSidebarSection?.Invoke(this, EventArgs.Empty);
+                RemoveDrivesSidebarSection?.Invoke(this, SectionType.Drives);
             }
         }
 

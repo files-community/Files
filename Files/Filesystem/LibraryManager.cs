@@ -15,7 +15,7 @@ namespace Files.Filesystem
         public BulkConcurrentObservableCollection<LibraryLocationItem> Libraries { get; } = new BulkConcurrentObservableCollection<LibraryLocationItem>();
 
         public event EventHandler<IReadOnlyList<LibraryLocationItem>> RefreshCompleted;
-        public event EventHandler RemoveLibrariesSidebarSection;
+        public event EventHandler<SectionType> RemoveLibrariesSidebarSection;
 
         public LibraryManager()
         {
@@ -71,7 +71,7 @@ namespace Files.Filesystem
             }
             else
             {
-                RemoveLibrariesSidebarSection?.Invoke(this, EventArgs.Empty);
+                RemoveLibrariesSidebarSection?.Invoke(this, SectionType.Library);
             }
         }
 
