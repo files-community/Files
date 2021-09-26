@@ -81,9 +81,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Bỏ qua</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Hủy bỏ</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Loại mục:</value>
   </data>
@@ -138,7 +135,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Những giấy phép nhóm thứ ba</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>Giới thiệu</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
@@ -158,9 +155,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Thực nghiệm</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Giới thiệu</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Diện mạo</value>
@@ -324,9 +318,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Đặt tên</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Hủy bỏ</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>Tab mới</value>
   </data>
@@ -381,9 +372,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Có một mục với tên này trong danh mục này rồi.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Phát ra tên mới</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Thay thế mục hiện hữu</value>
   </data>
@@ -410,9 +398,6 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Chúng tôi đã không xóa bỏ mục này được.</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Truy nhập bị Từ chối</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Làm ơn chèn ổ lưu trữ yêu cầu để truy cập mục này.</value>
@@ -528,11 +513,8 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Đang di chuyển tệp đến Thùng rác.</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Có</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Hủy bỏ</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Chắc chắn bạn muốn xóa bỏ những mục này vĩnh viễn không?</value>
@@ -566,9 +548,6 @@
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Mở khóa</value>
-  </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Hủy bỏ</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Nhập vào mật khẩu để mở khóa của ổ lưu trữ.</value>
@@ -789,14 +768,8 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Chúng tôi không tạo mục này được</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Đóng</value>
-  </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Truy nhập bị Từ chối</value>
-  </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Hủy bỏ</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Thêm tab</value>
@@ -816,7 +789,7 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Sao chép vị trí</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Hủy bỏ</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
@@ -884,9 +857,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Vẫn đóng</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Hủy bỏ</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Xếp loại</value>
@@ -1260,14 +1230,11 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Chi tiết</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>Không</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Bạn có muốn tải xuống và cài đặt phiên bản mới nhất của Files không?</value>
-  </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Có</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Đã có Bản cập nhật</value>
@@ -1298,9 +1265,6 @@
   </data>
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Loại bỏ</value>
-  </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>Hủy bỏ</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
     <value>Mở tab mới bằng chế độ hai phần luôn luôn</value>
@@ -1428,9 +1392,6 @@
   <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
     <value>Nhập vào tên bó</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Hủy bỏ</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>Tên mong muốn</value>
   </data>
@@ -1445,9 +1406,6 @@
   </data>
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>Tạo bó</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Hủy bỏ</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>Xác nhận</value>
@@ -1641,9 +1599,6 @@
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Không</value>
   </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Có</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Hoạt động này yêu cầu quyền người quản trị</value>
   </data>
@@ -1713,9 +1668,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Tạo</value>
   </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>Hủy bỏ</value>
-  </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Xóa</value>
   </data>
@@ -1724,9 +1676,6 @@
   </data>
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Sao chép</value>
-  </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Hủy bỏ</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} mục sẽ bị sao chép</value>
@@ -1740,9 +1689,6 @@
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Di chuyển</value>
   </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Hủy bỏ</value>
-  </data>
   <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} mục sẽ bị di chuyển</value>
   </data>
@@ -1752,17 +1698,11 @@
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Xóa</value>
   </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Hủy bỏ</value>
-  </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} mục sẽ bị xóa.</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Tiếp tục</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Hủy bỏ</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
     <value>Đang có {0} tên tệp tin xung đột, và {1} mục đang hoạt động.</value>
@@ -1818,17 +1758,11 @@
   <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
     <value>Mở thư mục chủ đề</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
-    <value>Phát ra tên mới</value>
-  </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Thay thế hiện có</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
     <value>Bỏ qua</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionGenerateNewName.Text" xml:space="preserve">
-    <value>Phát ra tên mới</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>Thay thế hiện có</value>
@@ -1836,16 +1770,13 @@
   <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
     <value>Bỏ qua</value>
   </data>
-  <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
-    <value>Phát ra tên mới</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>Thay thế hiện có</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
     <value>Bỏ qua</value>
   </data>
-  <data name="ConflictingItemsDialogItemDefaultOption.Content" xml:space="preserve">
+  <data name="GenerateNewName" xml:space="preserve">
     <value>Phát ra tên mới</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
@@ -2070,17 +2001,8 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Bỏ qua</value>
   </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Hủy bỏ</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Hủy bỏ</value>
-  </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Phụ tùng</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Trạng thái đồng bộ</value>
   </data>
   <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
     <value>Bảo mật</value>
@@ -2220,9 +2142,6 @@
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Không</value>
   </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>Có</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Các phép</value>
   </data>
@@ -2352,9 +2271,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Phiên bản tệp</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Trạng thái đồng bộ</value>
-  </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tải mục từ đám mây và tải xem trước</value>
   </data>
@@ -2403,7 +2319,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Bản cập nhật đã sẵn sàng cài đặt</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Đóng</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">

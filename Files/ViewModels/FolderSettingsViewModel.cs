@@ -555,6 +555,10 @@ namespace Files.ViewModels
 
         private static LayoutPreferences ReadLayoutPreferencesFromSettings(string folderPath)
         {
+            if (string.IsNullOrEmpty(folderPath))
+            {
+                return LayoutPreferences.DefaultLayoutPreferences;
+            }
             ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
             folderPath = new string(folderPath.TakeLast(254).ToArray());
             if (dataContainer.Values.ContainsKey(folderPath))
@@ -583,6 +587,10 @@ namespace Files.ViewModels
 
         private static void WriteLayoutPreferencesToSettings(string folderPath, LayoutPreferences prefs)
         {
+            if (string.IsNullOrEmpty(folderPath))
+            {
+                return;
+            }
             ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
             folderPath = new string(folderPath.TakeLast(254).ToArray());
             if (!dataContainer.Values.ContainsKey(folderPath))

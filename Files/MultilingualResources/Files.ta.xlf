@@ -78,10 +78,6 @@
           <source>Skip</source>
           <target state="translated">தவிர்</target>
         </trans-unit>
-        <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">இரத்து</target>
-        </trans-unit>
         <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
           <source>Item type:</source>
           <target state="translated">உருப்படி வகை:</target>
@@ -141,7 +137,7 @@
           <target state="needs-review-translation">மூன்றாம் தரப்பு உரிமங்கள்</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">பற்றி</target>
         </trans-unit>
@@ -158,10 +154,6 @@
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
           <target state="translated">சோதனை</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
-          <source>About</source>
-          <target state="translated">பற்றி</target>
         </trans-unit>
         <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
           <source>Appearance</source>
@@ -365,10 +357,6 @@
           <source>Set Name</source>
           <target state="translated">பெயரை அமை</target>
         </trans-unit>
-        <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">இரத்து</target>
-        </trans-unit>
         <trans-unit id="NewTab" translate="yes" xml:space="preserve">
           <source>New tab</source>
           <target state="translated">புதியத் தாவல்</target>
@@ -442,10 +430,6 @@
           <source>An item with this name already exists in this directory.</source>
           <target state="translated">இந்தக் கோப்புறையில் இப்பெயருடன் ஏற்கனவே ஒரு உருப்படி உள்ளது.</target>
         </trans-unit>
-        <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">புதியப் பெயரை உற்பத்தி செய்</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Replace existing item</source>
           <target state="translated">ஏற்கனவே உள்ள உருப்படியை மாற்று</target>
@@ -485,10 +469,6 @@
         <trans-unit id="AccessDeniedDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>We weren't able to delete this item</source>
           <target state="translated">இந்த உருப்படியை எங்களால் நீக்க இயலவில்லை</target>
-        </trans-unit>
-        <trans-unit id="AccessDeniedDeleteDialog.Title" translate="yes" xml:space="preserve">
-          <source>Access Denied</source>
-          <target state="translated">அணுகல் மறுக்கப்பட்டது</target>
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Text" translate="yes" xml:space="preserve">
           <source>Please insert the necessary drive to access this item.</source>
@@ -618,10 +598,6 @@
           <source>Accessed:</source>
           <target state="translated" state-qualifier="tm-suggestion">அணுகியது:</target>
         </trans-unit>
-        <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">இரத்து</target>
-        </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to permanently delete all these items?</source>
           <target state="needs-review-translation">அனைத்து உருப்படிகலையும் நிச்சயம் நீக்க விரும்புகிறீர்களா?</target>
@@ -631,7 +607,7 @@
           <source>Empty recycle bin</source>
           <target state="translated">மறுசுழற்சிக் கூடையை வெறுமையாக்கு</target>
         </trans-unit>
-        <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Yes" translate="yes" xml:space="preserve">
           <source>Yes</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">சரி</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
@@ -680,10 +656,6 @@
         <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Unlock</source>
           <target state="translated" state-qualifier="tm-suggestion">பூட்டுநீக்கு</target>
-        </trans-unit>
-        <trans-unit id="BitlockerDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">இரத்து</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter password to unlock the drive</source>
@@ -961,10 +933,6 @@
           <source>More</source>
           <target state="translated" state-qualifier="tm-suggestion">மேலும்</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">இரத்து</target>
-        </trans-unit>
         <trans-unit id="SettingsMultitaskingTitle.Text" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
           <target state="translated">பல்பணியாக்கம்</target>
@@ -1010,7 +978,7 @@
           <source>Choose a type for this new item below</source>
           <target state="translated">இந்த புதிய உருப்படியின் வகையை கீழே தேர்வுசெய்க</target>
         </trans-unit>
-        <trans-unit id="AddDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Cancel" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">இரத்து</target>
         </trans-unit>
@@ -1058,7 +1026,7 @@
           <source>We weren't able to create this item</source>
           <target state="translated">இந்த உருப்படியை எங்களால் உருவாக்க இயலவில்லை</target>
         </trans-unit>
-        <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="AccessDenied" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
           <target state="translated">Access Denied
 அணுகல் மறுக்கப்பட்டது</target>
@@ -1516,10 +1484,6 @@
           <source>Close anyway</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">எப்படியாயினும் மூடு</target>
         </trans-unit>
-        <trans-unit id="PropertySaveErrorDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ரத்து</target>
-        </trans-unit>
         <trans-unit id="PropertySaveErrorMessage.Text" translate="yes" xml:space="preserve">
           <source>There was an issue saving some properties.</source>
           <target state="new">There was an issue saving some properties.</target>
@@ -1580,17 +1544,13 @@
           <source>Details</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">விவரங்கள்</target>
         </trans-unit>
-        <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இல்லை</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogContent" translate="yes" xml:space="preserve">
           <source>Do you want to download and install the latest version of Files?</source>
           <target state="new">Do you want to download and install the latest version of Files?</target>
-        </trans-unit>
-        <trans-unit id="UpdateConsentDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Yes</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ஆம்</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogTitle" translate="yes" xml:space="preserve">
           <source>Updates Available</source>
@@ -1631,10 +1591,6 @@
         <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
           <source>Remove</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">அகற்று</target>
-        </trans-unit>
-        <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ரத்து</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
@@ -1732,10 +1688,6 @@
           <source>Enter Bundle name</source>
           <target state="new">Enter Bundle name</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetRenameBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ரத்து</target>
-        </trans-unit>
         <trans-unit id="BundlesWidgetRenameBundleDialogInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Desired name</source>
           <target state="new">Desired name</target>
@@ -1751,10 +1703,6 @@
         <trans-unit id="BundlesWidgetRenameBundleDialogTitleText" translate="yes" xml:space="preserve">
           <source>Rename "{0}"</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">{0}"-ஐ மறுபெயரிடு	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={0} is the publication name which is to be renamed}	Pre-Approved	Yes	Yes\r\nFrom	தொடக்கம்	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Label for team name, for the team from where this publication will be published}	Pre-Approved	Yes	Yes\r\nSave	சேமி	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={save the rename of the publication }	Pre-Approved	Yes	Yes\r\nSaving	சேமிக்கிறது	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={saving the renaming of the publication}	Pre-Approved	Yes	Yes\r\nTitle	தலைப்பு	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Label for publication title}	Pre-Approved	Yes	Yes\r\nAssigned	ஒதுக்கப்பட்டது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nCompleted	முடிந்தது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTeam status report	குழு நிலை அறிக்கை	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTeam name	குழுப் பெயர்	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nLoading team name…	குழுப் பெயரை ஏற்றுகிறது…	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nAssigned	ஒதுக்கப்பட்டது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nClosed	மூடப்பட்டது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nCompleted	முடிந்தது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTask status report	பணி நிலை அறிக்கை	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nStore name	ஸ்டோர் பெயர்	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTask title	பணித் தலைப்பு	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nRefresh the list	பட்டியலைப் புதுப்பி	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Label for the button in the command bar that refreshes the task list from the server.}	Pre-Approved	Yes	Yes\r\nRefreshing the list from the server.	சேவையகத்திலிருந்து பட்டியலைப் புதுப்பிக்கிறது.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Message read to screenreaders after the sync button is clicked.}	Pre-Approved	Yes	Yes\r\nMore actions, press space to open menu options	மேலும் செயல்கள், மெனு விருப்பங்களைத் திறக்க space-ஐ அழுத்தவும்	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Accessible label for the more actions button for a task in the task grid}	Pre-Approved	Yes	Yes\r\nActions	செயல்கள்	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Accessible label for the column header for the column in the task grid containing the more actions button}	Pre-Approved	Yes	Yes\r\nError uploading	பதிவேற்றுவதில் பிழை	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Error shown in attachment chicklet when an attachment couldn't be uploaded. Prefer short strings.}	Pre-Approved	Yes	Yes\r\nChannel is required.	சேனல் தேவை.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Error message shown if the user hasn't selected a Teams channel to associate the task with when saving}	Pre-Approved	Yes	Yes\r\nDiscard	நிராகரி	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Discard button label for the unsaved changes confirmation dialog}	Pre-Approved	Yes	Yes\r\nAny changes you've made will be lost.	நீங்கள் செய்துள்ள மாற்றங்களை இழப்பீர்கள்.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Text of the dialog shown when the user has unsaved changes and attempts to close or navigate away from the editing session.}	Pre-Approved	Yes	Yes\r\nDiscard changes?	மாற்றங்களை நிராகரிக்கவா?	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Title of the dialog shown when the user has unsaved changes and attempts to close or navigate away from the editing session.}	Pre-Approved	Yes	Yes\r\nSelected due date is too far in the past.	தேர்ந்தெடுக்கப்பட்ட கெடு தேதி, கடந்த காலத்தில் மிகவும் பழையதாக உள்ளது.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Error message shown if the user attempts to save a task with a due date too far in the </target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ரத்து</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Desired name</source>
@@ -2052,10 +2000,6 @@
           <source>No</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இல்லை</target>
         </trans-unit>
-        <trans-unit id="ElevateConfirmDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Yes</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ஆம்</target>
-        </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
           <source>This action requires administrator rights</source>
           <target state="new">This action requires administrator rights</target>
@@ -2160,10 +2104,6 @@
           <source>Create</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">உருவாக்கு</target>
         </trans-unit>
-        <trans-unit id="DialogCancelButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ரத்து</target>
-        </trans-unit>
         <trans-unit id="DialogDeleteLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Delete</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">நீக்கு</target>
@@ -2184,10 +2124,6 @@
           <source>Copy</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">நகலெடு</target>
         </trans-unit>
-        <trans-unit id="CopyItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ரத்து</target>
-        </trans-unit>
         <trans-unit id="CopyItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be copied</source>
           <target state="new">{0} items will be copied</target>
@@ -2204,10 +2140,6 @@
           <source>Move</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">நகர்த்து</target>
         </trans-unit>
-        <trans-unit id="MoveItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ரத்து</target>
-        </trans-unit>
         <trans-unit id="MoveItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be moved</source>
           <target state="new">{0} items will be moved</target>
@@ -2220,10 +2152,6 @@
           <source>Delete</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">நீக்கு</target>
         </trans-unit>
-        <trans-unit id="DeleteItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ரத்து</target>
-        </trans-unit>
         <trans-unit id="DeleteItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be deleted</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">{0} உருப்படிகள் நீக்கப்படும்.</target>
@@ -2231,10 +2159,6 @@
         <trans-unit id="ConflictingItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Continue</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">தொடரவும்</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ரத்து</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Conflicting file name(s)</source>
@@ -2300,10 +2224,6 @@
           <source>There is one conflicting file name, and {0} outgoing item(s).</source>
           <target state="new">There is one conflicting file name, and {0} outgoing item(s).</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="new">Generate new name</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="new">Replace existing</target>
@@ -2311,10 +2231,6 @@
         <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
           <source>Skip</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">தவிர்</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="new">Generate new name</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
@@ -2324,10 +2240,6 @@
           <source>Skip</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">தவிர்</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="new">Generate new name</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="new">Replace existing</target>
@@ -2336,7 +2248,7 @@
           <source>Skip</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">தவிர்</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemDefaultOption.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="GenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
           <target state="new">Generate new name</target>
         </trans-unit>
@@ -2648,14 +2560,6 @@
           <source>Dismiss</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">நிராகரி</target>
         </trans-unit>
-        <trans-unit id="OngoingTasksCancelBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ரத்து</target>
-        </trans-unit>
-        <trans-unit id="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ரத்து</target>
-        </trans-unit>
         <trans-unit id="NavToolbarWidgets.Label" translate="yes" xml:space="preserve">
           <source>Widgets</source>
           <target state="new">Widgets</target>
@@ -2695,14 +2599,6 @@
         <trans-unit id="NavToolbarLayout.Text" translate="yes" xml:space="preserve">
           <source>Layout</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">தளவமைப்பு</target>
-        </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">மூடு</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ஒத்திசைவு நிலை</target>
         </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
@@ -2912,10 +2808,6 @@
           <source>No</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இல்லை</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedInheritedYesLabel" translate="yes" xml:space="preserve">
-          <source>Yes</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ஆம்</target>
-        </trans-unit>
         <trans-unit id="SecurityAdvancedPermissionsLabel.Text" translate="yes" xml:space="preserve">
           <source>Permissions</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">அனுமதிகள்</target>
@@ -3079,10 +2971,6 @@
         <trans-unit id="PropertyFileVersion" translate="yes" xml:space="preserve">
           <source>File version</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">கோப்புப் பதிப்பு</target>
-        </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ஒத்திசைவு நிலை</target>
         </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
@@ -3260,7 +3148,7 @@
           <source>Updates are ready to install</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">நிறுவுவதற்கு புதுப்பிப்புகள் தயாராக உள்ளன</target>
         </trans-unit>
-        <trans-unit id="ConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Close" translate="yes" xml:space="preserve">
           <source>Close</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">மூடு</target>
         </trans-unit>
@@ -3450,7 +3338,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Descending</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">இறங்குவரிசையில்</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ஒத்திசைவு நிலை</target>
         </trans-unit>
@@ -3494,10 +3382,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Enable file tags</source>
           <target state="new">Enable file tags</target>
         </trans-unit>
-        <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">மூடு</target>
-        </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
           <target state="new">Open Drive</target>
@@ -3521,10 +3405,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="AskCredentialDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
           <target state="new">OK</target>
-        </trans-unit>
-        <trans-unit id="AskCredentialDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="new">Cancel</target>
         </trans-unit>
         <trans-unit id="AskCredentialDialog.Title" translate="yes" xml:space="preserve">
           <source>Credential Required</source>
@@ -3645,10 +3525,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="SettingsDateFormatComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="new">Date format</target>
-        </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="new">Close</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>

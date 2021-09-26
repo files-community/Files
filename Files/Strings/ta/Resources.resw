@@ -66,9 +66,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>தவிர்</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>இரத்து</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>உருப்படி வகை:</value>
   </data>
@@ -111,7 +108,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>மூன்றாம் தரப்பு உரிமங்கள்</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>பற்றி</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -122,9 +119,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>சோதனை</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>பற்றி</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>தோற்றம்</value>
@@ -276,9 +270,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>பெயரை அமை</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>இரத்து</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>புதியத் தாவல்</value>
   </data>
@@ -330,9 +321,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>இந்தக் கோப்புறையில் இப்பெயருடன் ஏற்கனவே ஒரு உருப்படி உள்ளது.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>புதியப் பெயரை உற்பத்தி செய்</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>ஏற்கனவே உள்ள உருப்படியை மாற்று</value>
   </data>
@@ -359,9 +347,6 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>இந்த உருப்படியை எங்களால் நீக்க இயலவில்லை</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>அணுகல் மறுக்கப்பட்டது</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>இந்த உருப்படியை அணுக தேவையான இயக்கத்தை செருகவும்.</value>
@@ -459,16 +444,13 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>அணுகியது:</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>இரத்து</value>
-  </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>அனைத்து உருப்படிகலையும் நிச்சயம் நீக்க விரும்புகிறீர்களா?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>மறுசுழற்சிக் கூடையை வெறுமையாக்கு</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>சரி</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
@@ -503,9 +485,6 @@
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>பூட்டுநீக்கு</value>
-  </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>இரத்து</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>இயக்கத்தைப் பூட்டுநீக்கக் கடவுச்சொல்லை உள்ளிடுக</value>
@@ -697,9 +676,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>மேலும்</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>இரத்து</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>பல்பணியாக்கம்</value>
   </data>
@@ -733,7 +709,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>இந்த புதிய உருப்படியின் வகையை கீழே தேர்வுசெய்க</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>இரத்து</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
@@ -763,7 +739,7 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>இந்த உருப்படியை எங்களால் உருவாக்க இயலவில்லை</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Access Denied
 அணுகல் மறுக்கப்பட்டது</value>
   </data>
@@ -956,9 +932,6 @@
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>எப்படியாயினும் மூடு</value>
   </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>ரத்து</value>
-  </data>
   <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
     <value>அழி</value>
   </data>
@@ -971,11 +944,8 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>விவரங்கள்</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>இல்லை</value>
-  </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>ஆம்</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>புதுப்பித்தல்கள் கிடைக்கின்றன</value>
@@ -998,9 +968,6 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>அகற்று</value>
   </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>ரத்து</value>
-  </data>
   <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>கோப்புறைகள்</value>
   </data>
@@ -1013,17 +980,11 @@
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>உறுதிசெய்</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>ரத்து</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>உறுதிசெய்</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>{0}"-ஐ மறுபெயரிடு	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={0} is the publication name which is to be renamed}	Pre-Approved	Yes	Yes\r\nFrom	தொடக்கம்	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Label for team name, for the team from where this publication will be published}	Pre-Approved	Yes	Yes\r\nSave	சேமி	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={save the rename of the publication }	Pre-Approved	Yes	Yes\r\nSaving	சேமிக்கிறது	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={saving the renaming of the publication}	Pre-Approved	Yes	Yes\r\nTitle	தலைப்பு	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Label for publication title}	Pre-Approved	Yes	Yes\r\nAssigned	ஒதுக்கப்பட்டது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nCompleted	முடிந்தது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTeam status report	குழு நிலை அறிக்கை	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTeam name	குழுப் பெயர்	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nLoading team name…	குழுப் பெயரை ஏற்றுகிறது…	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nAssigned	ஒதுக்கப்பட்டது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nClosed	மூடப்பட்டது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nCompleted	முடிந்தது	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTask status report	பணி நிலை அறிக்கை	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nStore name	ஸ்டோர் பெயர்	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nTask title	பணித் தலைப்பு	MicrosoftTeamsRetailTasks	Microsoft Teams		Pre-Approved	Yes	Yes\r\nRefresh the list	பட்டியலைப் புதுப்பி	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Label for the button in the command bar that refreshes the task list from the server.}	Pre-Approved	Yes	Yes\r\nRefreshing the list from the server.	சேவையகத்திலிருந்து பட்டியலைப் புதுப்பிக்கிறது.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Message read to screenreaders after the sync button is clicked.}	Pre-Approved	Yes	Yes\r\nMore actions, press space to open menu options	மேலும் செயல்கள், மெனு விருப்பங்களைத் திறக்க space-ஐ அழுத்தவும்	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Accessible label for the more actions button for a task in the task grid}	Pre-Approved	Yes	Yes\r\nActions	செயல்கள்	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Accessible label for the column header for the column in the task grid containing the more actions button}	Pre-Approved	Yes	Yes\r\nError uploading	பதிவேற்றுவதில் பிழை	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Error shown in attachment chicklet when an attachment couldn't be uploaded. Prefer short strings.}	Pre-Approved	Yes	Yes\r\nChannel is required.	சேனல் தேவை.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Error message shown if the user hasn't selected a Teams channel to associate the task with when saving}	Pre-Approved	Yes	Yes\r\nDiscard	நிராகரி	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Discard button label for the unsaved changes confirmation dialog}	Pre-Approved	Yes	Yes\r\nAny changes you've made will be lost.	நீங்கள் செய்துள்ள மாற்றங்களை இழப்பீர்கள்.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Text of the dialog shown when the user has unsaved changes and attempts to close or navigate away from the editing session.}	Pre-Approved	Yes	Yes\r\nDiscard changes?	மாற்றங்களை நிராகரிக்கவா?	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Title of the dialog shown when the user has unsaved changes and attempts to close or navigate away from the editing session.}	Pre-Approved	Yes	Yes\r\nSelected due date is too far in the past.	தேர்ந்தெடுக்கப்பட்ட கெடு தேதி, கடந்த காலத்தில் மிகவும் பழையதாக உள்ளது.	MicrosoftTeamsRetailTasks	Microsoft Teams	DevComment={Error message shown if the user attempts to save a task with a due date too far in the </value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>ரத்து</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>உறுதிசெய்</value>
@@ -1118,9 +1079,6 @@
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>இல்லை</value>
   </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>ஆம்</value>
-  </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>வலது பக்கம் உள்ள தாவல்களை மூடு</value>
   </data>
@@ -1151,38 +1109,23 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>உருவாக்கு</value>
   </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>ரத்து</value>
-  </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>நீக்கு</value>
   </data>
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>நகலெடு</value>
   </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>ரத்து</value>
-  </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>நகர்த்து</value>
   </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>ரத்து</value>
-  </data>
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>நீக்கு</value>
-  </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>ரத்து</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} உருப்படிகள் நீக்கப்படும்.</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>தொடரவும்</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>ரத்து</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>நிரந்தரமாக நீக்கு</value>
@@ -1313,12 +1256,6 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>நிராகரி</value>
   </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>ரத்து</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ரத்து</value>
-  </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>தேர்ந்தெடு</value>
   </data>
@@ -1345,12 +1282,6 @@
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>தளவமைப்பு</value>
-  </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>மூடு</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>ஒத்திசைவு நிலை</value>
   </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>புதிய சாளரம்</value>
@@ -1439,9 +1370,6 @@
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>இல்லை</value>
   </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>ஆம்</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>அனுமதிகள்</value>
   </data>
@@ -1474,9 +1402,6 @@
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>கோப்புப் பதிப்பு</value>
-  </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>ஒத்திசைவு நிலை</value>
   </data>
   <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
     <value>உலாவு</value>
@@ -1514,7 +1439,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>நிறுவுவதற்கு புதுப்பிப்புகள் தயாராக உள்ளன</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>மூடு</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -1586,14 +1511,11 @@
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>இறங்குவரிசையில்</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>ஒத்திசைவு நிலை</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>அறியாதது</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>மூடு</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>வட்டைச் செருகவும்</value>

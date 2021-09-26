@@ -36,10 +36,9 @@
                 Opening="MenuFlyout_Opening"
                 Placement="Bottom">
                 <MenuFlyoutItem
-                    x:Uid="ConflictingItemsDialogOptionGenerateNewName"
                     Click="MenuFlyoutItem_Click"
                     Tag="0"
-                    Text="Generate new name" />
+                    Text="{helpers:ResourceString Name=GenerateNewName}" />
                 <MenuFlyoutItem
                     x:Uid="ConflictingItemsDialogOptionReplaceExisting"
                     Click="MenuFlyoutItem_Click"
@@ -201,20 +200,16 @@
                                 <!--  Split with options  -->
                                 <muxc:SplitButton
                                     x:Name="Split"
-                                    x:Uid="ConflictingItemsDialogItemDefaultOption"
                                     Grid.RowSpan="2"
                                     Grid.Column="2"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Center"
                                     Command="{Binding SplitButtonDefaultActionCommand}"
-                                    Content="Generate new name"
+                                    Content="{helpers:ResourceString Name=GenerateNewName}"
                                     Visibility="{Binding ShowSplitButton}">
                                     <muxc:SplitButton.Flyout>
                                         <MenuFlyout>
-                                            <MenuFlyoutItem
-                                                x:Uid="ConflictingItemsDialogItemOptionGenerateNewName"
-                                                Command="{Binding GenerateNewNameCommand}"
-                                                Text="Generate new name" />
+                                            <MenuFlyoutItem Command="{Binding GenerateNewNameCommand}" Text="{helpers:ResourceString Name=GenerateNewName}" />
                                             <MenuFlyoutItem
                                                 x:Uid="ConflictingItemsDialogItemOptionReplaceExisting"
                                                 Command="{Binding ReplaceExistingCommand}"

@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Closing="ContentDialog_Closing"
@@ -36,7 +37,6 @@
         x:Name="ContainerGrid"
         Width="Auto"
         Height="600"
-        Margin="-24"
         HorizontalAlignment="Stretch"
         Background="{ThemeResource SolidBackgroundFillColorTertiary}">
         <Grid.ColumnDefinitions>
@@ -127,9 +127,8 @@
 
             <muxc:NavigationView.FooterMenuItems>
                 <muxc:NavigationViewItem
-                    x:Uid="SettingsNavAbout"
                     AccessKey="B"
-                    Content="About"
+                    Content="{helpers:ResourceString Name=About}"
                     Tag="7">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE946;" />
@@ -154,17 +153,16 @@
 
         <Button
             x:Name="ButtonClose"
-            x:Uid="SettingsDialogCloseButton"
             Grid.Column="1"
             Width="36"
             Height="36"
             Margin="12"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            AutomationProperties.Name="Close"
+            AutomationProperties.Name="{helpers:ResourceString Name=Close}"
             Click="ButtonClose_Click"
             CornerRadius="20"
-            ToolTipService.ToolTip="Close">
+            ToolTipService.ToolTip="{helpers:ResourceString Name=Close}">
             <FontIcon FontSize="12" Glyph="&#xE8BB;" />
         </Button>
     </Grid>
