@@ -153,7 +153,7 @@ namespace Files.Helpers
                 TitleText = "DialogRestoreLibrariesTitleText".GetLocalized(),
                 SubtitleText = "DialogRestoreLibrariesSubtitleText".GetLocalized(),
                 PrimaryButtonText = "DialogRestoreLibrariesButtonText".GetLocalized(),
-                CloseButtonText = "DialogCancelButtonText".GetLocalized(),
+                CloseButtonText = "Cancel".GetLocalized(),
                 PrimaryButtonAction = async (vm, e) =>
                 {
                     var connection = await AppServiceConnectionHelper.Instance;
@@ -213,7 +213,7 @@ namespace Files.Helpers
                 TitleText = "FolderWidgetCreateNewLibraryDialogTitleText".GetLocalized(),
                 SubtitleText = "FolderWidgetCreateNewLibraryDialogSubtitleText".GetLocalized(),
                 PrimaryButtonText = "DialogCreateLibraryButtonText".GetLocalized(),
-                CloseButtonText = "DialogCancelButtonText".GetLocalized(),
+                CloseButtonText = "Cancel".GetLocalized(),
                 PrimaryButtonAction = async (vm, e) =>
                 {
                     var (result, reason) = App.LibraryManager.CanCreateLibrary(inputText.Text);

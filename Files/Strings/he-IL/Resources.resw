@@ -63,9 +63,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>דלג</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>ביטול</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>סוג פריט</value>
   </data>
@@ -111,7 +108,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>רישיונות צד שלישי</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>אודות</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -122,9 +119,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>תכונות ניסיוניות</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>אודות</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>מראה</value>
@@ -264,9 +258,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>שם ערכה:</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>ביטול</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>כרטיסיה חדשה</value>
   </data>
@@ -315,9 +306,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>פריט עם שם זהה כבר קיים בתיקיה זו</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>חולל שם חדש</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>החלף פריט קיים</value>
   </data>
@@ -326,9 +314,6 @@
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>אישור</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>הגישה נדחתה</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>אנא חבר את הכונן הנדרש עבור גישה לפריט זה</value>
@@ -420,11 +405,8 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>מעביר קבצים לסל המיחזור</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>אישור</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>ביטול</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>רוקן את סל המיחזור</value>
@@ -455,9 +437,6 @@
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>בטל נעילה</value>
-  </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>ביטול</value>
   </data>
   <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
     <value>סיסמה</value>
@@ -615,9 +594,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>עוד</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>ביטול</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>ריבוי משימות</value>
   </data>
@@ -648,7 +624,7 @@
   <data name="AddDialog.Title" xml:space="preserve">
     <value>ייצר פריט חדש</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>ביטול</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
@@ -681,7 +657,7 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>לא הצלחנו לייצר פריט זה</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>הגישה נדחתה</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
@@ -957,9 +933,6 @@
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>סגור בכל זאת</value>
   </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>ביטול</value>
-  </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>חלק מהמאפיינים עשויים להכיל מידע פרטי</value>
   </data>
@@ -990,14 +963,11 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>פרטים</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>לא</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>האם ברצונך להוריד ולהתקין את הגירסה העדכנית ביותר של Files?</value>
-  </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>כן</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>קיימים עדכונים זמינים</value>
@@ -1019,9 +989,6 @@
   </data>
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>הסר</value>
-  </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>ביטול</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>פתח בחלונית משנית</value>
@@ -1056,9 +1023,6 @@
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>אשר</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>ביטול</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>אשר</value>
   </data>
@@ -1067,9 +1031,6 @@
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>שנה את השם "{0}"</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>ביטול</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>אשר</value>
@@ -1185,9 +1146,6 @@
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>לא</value>
   </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>כן</value>
-  </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>סגור כרטיסיות משמאל</value>
   </data>
@@ -1205,9 +1163,6 @@
   </data>
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>העתק</value>
-  </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>ביטול</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>העבר</value>
@@ -1287,7 +1242,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>העדכון מוכן להתקנה</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>סגירה</value>
   </data>
 </root>

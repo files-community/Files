@@ -78,10 +78,6 @@
           <source>Skip</source>
           <target state="translated">Kihagyás</target>
         </trans-unit>
-        <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Mégse</target>
-        </trans-unit>
         <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
           <source>Item type:</source>
           <target state="translated">Típus:</target>
@@ -142,7 +138,7 @@
           <source>Third party licenses</source>
           <target state="translated">Harmadik fél licencei</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Névjegy</target>
         </trans-unit>
@@ -157,10 +153,6 @@
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
           <target state="translated">Kísérleti beállítások</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
-          <source>About</source>
-          <target state="translated">Névjegy</target>
         </trans-unit>
         <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
           <source>Appearance</source>
@@ -362,10 +354,6 @@
           <source>Set Name</source>
           <target state="translated">Átnevezés</target>
         </trans-unit>
-        <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Mégse</target>
-        </trans-unit>
         <trans-unit id="NewTab" translate="yes" xml:space="preserve">
           <source>New tab</source>
           <target state="translated">Új lap</target>
@@ -434,10 +422,6 @@
           <source>An item with this name already exists in this directory.</source>
           <target state="translated">Ezzel a névvel már létezik elem ebben a mappában.</target>
         </trans-unit>
-        <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Átnevezés</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Replace existing item</source>
           <target state="translated">Felülírás/összefésülés</target>
@@ -473,10 +457,6 @@
         <trans-unit id="AccessDeniedDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>We weren't able to delete this item</source>
           <target state="translated">Nem sikerült törölni ezt az elemet</target>
-        </trans-unit>
-        <trans-unit id="AccessDeniedDeleteDialog.Title" translate="yes" xml:space="preserve">
-          <source>Access Denied</source>
-          <target state="translated">Hozzáférés megtagadva</target>
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Text" translate="yes" xml:space="preserve">
           <source>Please insert the necessary drive to access this item.</source>
@@ -614,13 +594,9 @@
           <source>Moving files to the Recycle Bin</source>
           <target state="translated">Fájlok áthelyezése a Lomtárba</target>
         </trans-unit>
-        <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Yes" translate="yes" xml:space="preserve">
           <source>Yes</source>
           <target state="translated">Igen</target>
-        </trans-unit>
-        <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to permanently delete all these items?</source>
@@ -665,10 +641,6 @@
         <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Unlock</source>
           <target state="translated">Feloldás</target>
-        </trans-unit>
-        <trans-unit id="BitlockerDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter password to unlock the drive</source>
@@ -958,13 +930,9 @@
           <source>We weren't able to create this item</source>
           <target state="translated">Nem sikerült létrehozni a fájlt</target>
         </trans-unit>
-        <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="AccessDenied" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
           <target state="translated">Hozzáférés megtagadva</target>
-        </trans-unit>
-        <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
           <source>Add tab</source>
@@ -990,7 +958,7 @@
           <source>Copy location</source>
           <target state="translated">Elérési út másolása</target>
         </trans-unit>
-        <trans-unit id="AddDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Cancel" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">Mégse</target>
         </trans-unit>
@@ -1490,10 +1458,6 @@
           <source>Close anyway</source>
           <target state="translated">Bezárás mindenképpen</target>
         </trans-unit>
-        <trans-unit id="PropertySaveErrorDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Mégse</target>
-        </trans-unit>
         <trans-unit id="PropertySaveErrorMessage.Text" translate="yes" xml:space="preserve">
           <source>There was an issue saving some properties.</source>
           <target state="translated">Probléma adódott a tulajdonságok mentése közben.</target>
@@ -1554,17 +1518,13 @@
           <source>Details</source>
           <target state="translated">Részletek</target>
         </trans-unit>
-        <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated">Nem</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogContent" translate="yes" xml:space="preserve">
           <source>Do you want to download and install the latest version of Files?</source>
           <target state="translated">Szeretné letölteni és telepíteni a Files legújabb verzióját?</target>
-        </trans-unit>
-        <trans-unit id="UpdateConsentDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Yes</source>
-          <target state="translated">Igen</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogTitle" translate="yes" xml:space="preserve">
           <source>Updates Available</source>
@@ -1605,10 +1565,6 @@
         <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
           <source>Remove</source>
           <target state="translated">Törlés</target>
-        </trans-unit>
-        <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
@@ -1718,10 +1674,6 @@
           <source>Enter Bundle name</source>
           <target state="translated">Munkaterület neve</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetRenameBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Mégse</target>
-        </trans-unit>
         <trans-unit id="BundlesWidgetRenameBundleDialogInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Desired name</source>
           <target state="translated">Név</target>
@@ -1737,10 +1689,6 @@
         <trans-unit id="BundlesWidgetRenameBundleDialogTitleText" translate="yes" xml:space="preserve">
           <source>Rename "{0}"</source>
           <target state="translated">"{0}" átnevezése</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Desired name</source>
@@ -2026,10 +1974,6 @@
           <source>No</source>
           <target state="translated">Nem</target>
         </trans-unit>
-        <trans-unit id="ElevateConfirmDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Yes</source>
-          <target state="translated">Igen</target>
-        </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
           <source>This action requires administrator rights</source>
           <target state="translated">Ehhez a művelethez rendszergazdai jogosultságok szükségesek</target>
@@ -2134,10 +2078,6 @@
           <source>Create</source>
           <target state="translated">Létrehozás</target>
         </trans-unit>
-        <trans-unit id="DialogCancelButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Mégse</target>
-        </trans-unit>
         <trans-unit id="DialogDeleteLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Delete</source>
           <target state="translated">Törlés</target>
@@ -2158,10 +2098,6 @@
           <source>Copy</source>
           <target state="translated">Másolás</target>
         </trans-unit>
-        <trans-unit id="CopyItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Mégse</target>
-        </trans-unit>
         <trans-unit id="CopyItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be copied</source>
           <target state="translated">{0} elem másolva lesz</target>
@@ -2178,10 +2114,6 @@
           <source>Move</source>
           <target state="translated">Áthelyezés</target>
         </trans-unit>
-        <trans-unit id="MoveItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Mégse</target>
-        </trans-unit>
         <trans-unit id="MoveItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be moved</source>
           <target state="translated">{0} elem át lesz helyezve</target>
@@ -2194,10 +2126,6 @@
           <source>Delete</source>
           <target state="translated">Törlés</target>
         </trans-unit>
-        <trans-unit id="DeleteItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Mégse</target>
-        </trans-unit>
         <trans-unit id="DeleteItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be deleted</source>
           <target state="translated">{0} elem törölve lesz</target>
@@ -2205,10 +2133,6 @@
         <trans-unit id="ConflictingItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Continue</source>
           <target state="translated">Folytatás</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Conflicting file name(s)</source>
@@ -2274,10 +2198,6 @@
           <source>There is one conflicting file name, and {0} outgoing item(s).</source>
           <target state="translated">Nincsenek ütköző fájlnevek, {1} kimenő elem.</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Új név létrehozása</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="translated">Célhelyen lévő fájl felülírása</target>
@@ -2285,10 +2205,6 @@
         <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
           <source>Skip</source>
           <target state="translated">Kihagyás</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Új név létrehozása</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
@@ -2298,10 +2214,6 @@
           <source>Skip</source>
           <target state="translated">Kihagyás</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Új név létrehozása</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="translated">Célhelyen lévő fájl felülírása</target>
@@ -2310,7 +2222,7 @@
           <source>Skip</source>
           <target state="translated">Kihagyás</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemDefaultOption.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="GenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
           <target state="translated">Új név létrehozása</target>
         </trans-unit>
@@ -2622,14 +2534,6 @@
           <source>Dismiss</source>
           <target state="translated">Elutasítás</target>
         </trans-unit>
-        <trans-unit id="OngoingTasksCancelBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Mégse</target>
-        </trans-unit>
-        <trans-unit id="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Mégse</target>
-        </trans-unit>
         <trans-unit id="NavToolbarWidgets.Label" translate="yes" xml:space="preserve">
           <source>Widgets</source>
           <target state="translated">Widgetek</target>
@@ -2669,14 +2573,6 @@
         <trans-unit id="NavToolbarLayout.Text" translate="yes" xml:space="preserve">
           <source>Layout</source>
           <target state="translated">Elrendezés</target>
-        </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated">Bezárás</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">Állapot szinkronizálása</target>
         </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
@@ -2886,10 +2782,6 @@
           <source>No</source>
           <target state="translated">Nem</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedInheritedYesLabel" translate="yes" xml:space="preserve">
-          <source>Yes</source>
-          <target state="translated">Igen</target>
-        </trans-unit>
         <trans-unit id="SecurityAdvancedPermissionsLabel.Text" translate="yes" xml:space="preserve">
           <source>Permissions</source>
           <target state="translated">Engedélyek</target>
@@ -3053,10 +2945,6 @@
         <trans-unit id="PropertyFileVersion" translate="yes" xml:space="preserve">
           <source>File version</source>
           <target state="translated">Fájl verzió</target>
-        </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="translated">Szinkronizálás állapota</target>
         </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
@@ -3234,7 +3122,7 @@
           <source>Updates are ready to install</source>
           <target state="translated">Frissítések érhetők el telepítésre</target>
         </trans-unit>
-        <trans-unit id="ConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Close" translate="yes" xml:space="preserve">
           <source>Close</source>
           <target state="translated">Bezárás</target>
         </trans-unit>
@@ -3425,7 +3313,7 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
           <source>Descending</source>
           <target state="translated">Csökkenő</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="translated">Szinkronizálás állapota</target>
         </trans-unit>
@@ -3469,10 +3357,6 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
           <source>Enable file tags</source>
           <target state="translated">Címkék engedélyezése</target>
         </trans-unit>
-        <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated">Bezárás</target>
-        </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
           <target state="translated">Kinyitás</target>
@@ -3496,10 +3380,6 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
         <trans-unit id="AskCredentialDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
           <target state="translated">OK</target>
-        </trans-unit>
-        <trans-unit id="AskCredentialDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="AskCredentialDialog.Title" translate="yes" xml:space="preserve">
           <source>Credential Required</source>
@@ -3620,10 +3500,6 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
         <trans-unit id="SettingsDateFormatComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="translated">Dátum formátum</target>
-        </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="translated">Bezárás</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>

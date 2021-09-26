@@ -48,7 +48,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Licenties van derden</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>Info</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -56,9 +56,6 @@
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Bestanden &amp; mappen</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Info</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Vormgeving</value>
@@ -231,9 +228,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Naam instellen</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Annuleren</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>Nieuw tabblad</value>
   </data>
@@ -294,9 +288,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Overslaan</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Annuleren</value>
-  </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Selectie omkeren</value>
   </data>
@@ -330,9 +321,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Een item met deze naam bestaat al in deze map.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Nieuwe naam genereren</value>
-  </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Item bestaat al</value>
   </data>
@@ -359,9 +347,6 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Dit item kan niet worden verwijderd</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Toegang geweigerd</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Plaats het benodigde station om toegang te krijgen tot dit item.</value>
@@ -459,16 +444,13 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Laatst geopend:</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Annuleren</value>
-  </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Wilt u al deze items permanent verwijderen?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Prullenbak leegmaken</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Ja</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
@@ -503,9 +485,6 @@
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Ontgrendelen</value>
-  </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Annuleren</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Geef het wachtwoord op om dit station te ontgrendelen</value>
@@ -711,9 +690,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Meer</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Annuleren</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitasking</value>
   </data>
@@ -747,7 +723,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Kies hieronder het type item</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Annuleren</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
@@ -783,7 +759,7 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Dit item kon niet worden aangemaakt</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Toegang geweigerd</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
@@ -1125,9 +1101,6 @@
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Toch sluiten</value>
   </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Annuleren</value>
-  </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Er is een probleem opgetreden bij het opslaan van enkele eigenschappen.</value>
   </data>
@@ -1173,14 +1146,11 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Details</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>Nee</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Wilt u de meest recente versie van Files downloaden en installeren?</value>
-  </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Ja</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Updates beschikbaar</value>
@@ -1211,9 +1181,6 @@
   </data>
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Wissen</value>
-  </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>Annuleren</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>In secundair paneel openen</value>
@@ -1287,9 +1254,6 @@
   <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
     <value>Voer een bundelnaam in</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Annuleren</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>Gewenste naam</value>
   </data>
@@ -1301,9 +1265,6 @@
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>Naam van "{0}" wijzigen</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Annuleren</value>
   </data>
   <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
     <value>Gewenste naam</value>
@@ -1527,9 +1488,6 @@
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Nee</value>
   </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ja</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Deze bewerking vereist administratorrechten</value>
   </data>
@@ -1608,9 +1566,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Maken</value>
   </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>Annuleren</value>
-  </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Verwijderen</value>
   </data>
@@ -1626,9 +1581,6 @@
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Kopiëren</value>
   </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Annuleren</value>
-  </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} items zullen worden gekopieerd</value>
   </data>
@@ -1641,9 +1593,6 @@
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Verplaatsen</value>
   </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Annuleren</value>
-  </data>
   <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} items zullen worden verplaatst</value>
   </data>
@@ -1653,17 +1602,11 @@
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Verwijderen</value>
   </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Annuleren</value>
-  </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} items zullen worden verwijderd</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Doorgaan</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Annuleren</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
     <value>Conflicterende bestandsnaam/-namen</value>
@@ -1713,17 +1656,11 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
     <value>Er is een conflicterende itemnaam en {1} uitgaand(e) item(s).</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
-    <value>Nieuwe naam genereren</value>
-  </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Bestaand(e) item(s) vervangen</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
     <value>Overslaan</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionGenerateNewName.Text" xml:space="preserve">
-    <value>Nieuwe naam genereren</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>Bestaand(e) item(s) vervangen</value>
@@ -1731,16 +1668,13 @@
   <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
     <value>Overslaan</value>
   </data>
-  <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
-    <value>Nieuwe naam genereren</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>Bestaand(e) item(s) vervangen</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
     <value>Overslaan</value>
   </data>
-  <data name="ConflictingItemsDialogItemDefaultOption.Content" xml:space="preserve">
+  <data name="GenerateNewName" xml:space="preserve">
     <value>Nieuwe naam genereren</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
@@ -1974,12 +1908,6 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Sluiten</value>
   </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Annuleren</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Annuleren</value>
-  </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgets</value>
   </data>
@@ -2009,12 +1937,6 @@
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Indeling</value>
-  </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Sluiten</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Synchronisatiestatus</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>{0} items uit {1} verwijderen mislukt</value>
@@ -2172,9 +2094,6 @@
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Nee</value>
   </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>Ja</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Machtigingen</value>
   </data>
@@ -2297,9 +2216,6 @@
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Bestandsversie</value>
-  </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Synchronisatie status</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Downloadt het item van de cloud en laadt een voorbeeld</value>
@@ -2433,7 +2349,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Updates zijn klaar om te installeren</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Sluiten</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -2572,7 +2488,7 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Aflopend</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Synchronisatiestatus</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
@@ -2604,9 +2520,6 @@ We gebruiken App Center om app-gebruik bij te houden, bugs te vinden en crashes 
   </data>
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
     <value>Schakel bestandslabels in</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>Sluiten</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Open station</value>

@@ -66,9 +66,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>スキップ</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>種類:</value>
   </data>
@@ -111,7 +108,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>サードパーティライセンス</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>Filesについて</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -122,9 +119,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>実験的機能</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Filesについて</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>外観</value>
@@ -276,9 +270,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>名前を変更</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>新しいタブ</value>
   </data>
@@ -330,9 +321,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>同じ名前のファイルがこのフォルダにすでに存在します。</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>名前の変更</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>既存のファイルを置換</value>
   </data>
@@ -359,9 +347,6 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>ファイルを削除できませんでした</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>アクセスが拒否されました</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>ドライブを挿入してください</value>
@@ -459,16 +444,13 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>アクセス日時:</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>すべてのファイルを削除してもよろしいですか？</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>ごみ箱を空にする</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>実行</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
@@ -503,9 +485,6 @@
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>ロック解除</value>
-  </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>キャンセル</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>パスワードを入力してドライブのロックを解除します</value>
@@ -711,9 +690,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>その他</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>マルチタスク</value>
   </data>
@@ -747,7 +723,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>以下で新しいファイルの種類を選択してください</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>キャンセル</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
@@ -783,7 +759,7 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>このファイルを作成できませんでした</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>アクセスが拒否されました</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1125,9 +1101,6 @@
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>閉じる</value>
   </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>プロパティを保存する際に問題が発生しました。</value>
   </data>
@@ -1173,14 +1146,11 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>詳細</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>いいえ</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Files の最新版をダウンロードし、インストールしますか？</value>
-  </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>はい</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>更新あり</value>
@@ -1211,9 +1181,6 @@
   </data>
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>削除</value>
-  </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>キャンセル</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>セカンダリ ペインで開く</value>
@@ -1287,9 +1254,6 @@
   <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
     <value>バンドル名を入力</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>新しい名前</value>
   </data>
@@ -1301,9 +1265,6 @@
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>"{0}" の名前を変更</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>キャンセル</value>
   </data>
   <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
     <value>新しい名前</value>
@@ -1527,9 +1488,6 @@
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>いいえ</value>
   </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>はい</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>続行するには管理者権限が必要です</value>
   </data>
@@ -1608,9 +1566,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>作成</value>
   </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>削除</value>
   </data>
@@ -1626,9 +1581,6 @@
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>コピー</value>
   </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} 個のファイルがコピーされます</value>
   </data>
@@ -1641,9 +1593,6 @@
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>移動</value>
   </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
   <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} 個のファイルが移動されます</value>
   </data>
@@ -1653,17 +1602,11 @@
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>削除</value>
   </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} 個のファイルが削除されます</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>続行</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>キャンセル</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
     <value>削除</value>
@@ -1713,17 +1656,11 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
     <value>1 個の競合するファイル名と、{0} 個のそうでないファイルがあります</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
-    <value>名前の変更</value>
-  </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>既存のファイルを置換</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
     <value>スキップ</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionGenerateNewName.Text" xml:space="preserve">
-    <value>名前の変更</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>既存のファイルを置換</value>
@@ -1731,16 +1668,13 @@
   <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
     <value>スキップ</value>
   </data>
-  <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
-    <value>名前の変更</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>既存のファイルを置換</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
     <value>スキップ</value>
   </data>
-  <data name="ConflictingItemsDialogItemDefaultOption.Content" xml:space="preserve">
+  <data name="GenerateNewName" xml:space="preserve">
     <value>名前の変更</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
@@ -1974,12 +1908,6 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>閉じる</value>
   </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>ウィジェット</value>
   </data>
@@ -2009,12 +1937,6 @@
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>レイアウト</value>
-  </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>閉じる</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>同期状態</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>{0} ファイルを {1} から削除に失敗しました</value>
@@ -2172,9 +2094,6 @@
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>いいえ</value>
   </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>はい</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>アクセス許可</value>
   </data>
@@ -2297,9 +2216,6 @@
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>ファイルのバージョン</value>
-  </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>同期状況</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>クラウドからアイテムをダウンロードし、プレビューをロードします</value>
@@ -2433,7 +2349,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>更新プログラムをインストールする準備ができました</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>閉じる</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -2571,7 +2487,7 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>降順</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>同期状況</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
@@ -2604,9 +2520,6 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
     <value>ファイルタグを有効にする</value>
   </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>閉じる</value>
-  </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>ドライブを開く</value>
   </data>
@@ -2624,9 +2537,6 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
     <value>実行</value>
-  </data>
-  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
-    <value>キャンセル</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>資格情報が必要です</value>
@@ -2717,9 +2627,6 @@ App Centerを使用して、アプリの使用状況を追跡し、バグを見�
   </data>
   <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>日付の形式</value>
-  </data>
-  <data name="SettingsDialogCloseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>閉じる</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>新しいタブでフォルダを開く</value>

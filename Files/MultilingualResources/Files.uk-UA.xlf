@@ -105,7 +105,7 @@
           <target state="needs-review-translation">Third Party Licenses</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Про програму</target>
         </trans-unit>
@@ -117,10 +117,6 @@
           <source>Files &amp; Folders</source>
           <target state="needs-review-translation">Файли та папки</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
-        </trans-unit>
-        <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
-          <source>About</source>
-          <target state="translated">Про програму</target>
         </trans-unit>
         <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
           <source>Appearance</source>
@@ -303,10 +299,6 @@
           <source>Set Name</source>
           <target state="translated">Зберегти</target>
         </trans-unit>
-        <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Скасувати</target>
-        </trans-unit>
         <trans-unit id="NewTab" translate="yes" xml:space="preserve">
           <source>New tab</source>
           <target state="translated">Нова вкладка</target>
@@ -388,10 +380,6 @@
           <source>Skip</source>
           <target state="translated">Пропустити</target>
         </trans-unit>
-        <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Скасувати</target>
-        </trans-unit>
         <trans-unit id="PropertiesItemMD5Hash.Text" translate="yes" xml:space="preserve">
           <source>MD5Hash:</source>
           <target state="translated">MD5 Хеш:</target>
@@ -440,10 +428,6 @@
           <source>An item with this name already exists in this directory.</source>
           <target state="translated">Елемент з цим іменем вже існує в цій папці.</target>
         </trans-unit>
-        <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">Створити нове ім'я</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogTitle" translate="yes" xml:space="preserve">
           <source>Item already exists</source>
           <target state="translated">Елемент вже існує</target>
@@ -483,10 +467,6 @@
         <trans-unit id="AccessDeniedDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>We weren't able to delete this item</source>
           <target state="translated">Не вдалося видалити цей елемент</target>
-        </trans-unit>
-        <trans-unit id="AccessDeniedDeleteDialog.Title" translate="yes" xml:space="preserve">
-          <source>Access Denied</source>
-          <target state="translated">Немає доступу</target>
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Text" translate="yes" xml:space="preserve">
           <source>Please insert the necessary drive to access this item.</source>
@@ -616,10 +596,6 @@
           <source>Accessed:</source>
           <target state="translated">Відкрито:</target>
         </trans-unit>
-        <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Скасувати</target>
-        </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to permanently delete all these items?</source>
           <target state="translated">Ви впевнені, що хочете назавжди видалити всі ці елементи?</target>
@@ -628,7 +604,7 @@
           <source>Empty recycle bin</source>
           <target state="translated">Очистити кошик</target>
         </trans-unit>
-        <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Yes" translate="yes" xml:space="preserve">
           <source>Yes</source>
           <target state="translated">Так</target>
         </trans-unit>
@@ -676,10 +652,6 @@
         <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Unlock</source>
           <target state="translated">Розблокувати</target>
-        </trans-unit>
-        <trans-unit id="BitlockerDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Скасувати</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter password to unlock the drive</source>
@@ -956,10 +928,6 @@
           <source>More</source>
           <target state="translated">Більше</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Скасувати</target>
-        </trans-unit>
         <trans-unit id="SettingsMultitaskingTitle.Text" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
           <target state="translated">Багатозадачність</target>
@@ -1005,7 +973,7 @@
           <source>Choose a type for this new item below</source>
           <target state="translated">Виберіть тип для цього нового елемента нижче</target>
         </trans-unit>
-        <trans-unit id="AddDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Cancel" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">Скасувати</target>
         </trans-unit>
@@ -1053,7 +1021,7 @@
           <source>We weren't able to create this item</source>
           <target state="translated">Елемент не може бути створений</target>
         </trans-unit>
-        <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="AccessDenied" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
           <target state="translated">Немає доступу</target>
         </trans-unit>
@@ -1510,10 +1478,6 @@
           <source>Close anyway</source>
           <target state="translated">Закрити</target>
         </trans-unit>
-        <trans-unit id="PropertySaveErrorDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Скасувати</target>
-        </trans-unit>
         <trans-unit id="PropertySaveErrorMessage.Text" translate="yes" xml:space="preserve">
           <source>There was an issue saving some properties.</source>
           <target state="translated">Не вдалося зберегти деякі властивості.</target>
@@ -1575,17 +1539,13 @@
           <source>Details</source>
           <target state="translated">Детально</target>
         </trans-unit>
-        <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="translated">Ні</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogContent" translate="yes" xml:space="preserve">
           <source>Do you want to download and install the latest version of Files?</source>
           <target state="translated">Завантажити та встановити останню версію Files?</target>
-        </trans-unit>
-        <trans-unit id="UpdateConsentDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Yes</source>
-          <target state="translated">Так</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogTitle" translate="yes" xml:space="preserve">
           <source>Updates Available</source>
@@ -1626,10 +1586,6 @@
         <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
           <source>Remove</source>
           <target state="translated">Вилучити</target>
-        </trans-unit>
-        <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Скасувати</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
@@ -1740,10 +1696,6 @@
           <source>Enter Bundle name</source>
           <target state="translated">Введіть ім'я Колекції папок</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetRenameBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Скасувати</target>
-        </trans-unit>
         <trans-unit id="BundlesWidgetRenameBundleDialogInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Desired name</source>
           <target state="translated">Бажане ім'я</target>
@@ -1759,10 +1711,6 @@
         <trans-unit id="BundlesWidgetRenameBundleDialogTitleText" translate="yes" xml:space="preserve">
           <source>Rename "{0}"</source>
           <target state="translated">Змінити "{0}"</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Скасувати</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Desired name</source>
@@ -2061,10 +2009,6 @@
           <source>No</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Ні</target>
         </trans-unit>
-        <trans-unit id="ElevateConfirmDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Yes</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Так</target>
-        </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
           <source>This action requires administrator rights</source>
           <target state="new">This action requires administrator rights</target>
@@ -2169,10 +2113,6 @@
           <source>Create</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Створити</target>
         </trans-unit>
-        <trans-unit id="DialogCancelButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Скасувати</target>
-        </trans-unit>
         <trans-unit id="DialogDeleteLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Delete</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Видалити</target>
@@ -2193,10 +2133,6 @@
           <source>Copy</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Копіювати</target>
         </trans-unit>
-        <trans-unit id="CopyItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Скасувати</target>
-        </trans-unit>
         <trans-unit id="CopyItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be copied</source>
           <target state="new">{0} items will be copied</target>
@@ -2213,10 +2149,6 @@
           <source>Move</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Перемістити</target>
         </trans-unit>
-        <trans-unit id="MoveItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Скасувати</target>
-        </trans-unit>
         <trans-unit id="MoveItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be moved</source>
           <target state="new">{0} items will be moved</target>
@@ -2229,10 +2161,6 @@
           <source>Delete</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Видалити</target>
         </trans-unit>
-        <trans-unit id="DeleteItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Скасувати</target>
-        </trans-unit>
         <trans-unit id="DeleteItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be deleted</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Буде видалено елементів: {0}.</target>
@@ -2240,10 +2168,6 @@
         <trans-unit id="ConflictingItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Continue</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Продовжити</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Скасувати</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Conflicting file name(s)</source>
@@ -2309,10 +2233,6 @@
           <source>There is one conflicting file name, and {0} outgoing item(s).</source>
           <target state="new">There is one conflicting file name, and {0} outgoing item(s).</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="new">Generate new name</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Замінити наявний |?</target>
@@ -2320,10 +2240,6 @@
         <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
           <source>Skip</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Пропустити</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="new">Generate new name</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
@@ -2333,10 +2249,6 @@
           <source>Skip</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Пропустити</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="new">Generate new name</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Замінити наявний |?</target>
@@ -2345,7 +2257,7 @@
           <source>Skip</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Пропустити</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemDefaultOption.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="GenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
           <target state="new">Generate new name</target>
         </trans-unit>
@@ -2657,14 +2569,6 @@
           <source>Dismiss</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Відхилити</target>
         </trans-unit>
-        <trans-unit id="OngoingTasksCancelBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Скасувати</target>
-        </trans-unit>
-        <trans-unit id="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Скасувати</target>
-        </trans-unit>
         <trans-unit id="NavToolbarWidgets.Label" translate="yes" xml:space="preserve">
           <source>Widgets</source>
           <target state="new">Widgets</target>
@@ -2704,14 +2608,6 @@
         <trans-unit id="NavToolbarLayout.Text" translate="yes" xml:space="preserve">
           <source>Layout</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Макет</target>
-        </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Закрити</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Стан синхронізації</target>
         </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
@@ -2921,10 +2817,6 @@
           <source>No</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Ні</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedInheritedYesLabel" translate="yes" xml:space="preserve">
-          <source>Yes</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Так</target>
-        </trans-unit>
         <trans-unit id="SecurityAdvancedPermissionsLabel.Text" translate="yes" xml:space="preserve">
           <source>Permissions</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Дозволи</target>
@@ -3088,10 +2980,6 @@
         <trans-unit id="PropertyFileVersion" translate="yes" xml:space="preserve">
           <source>File version</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Версія файлу:</target>
-        </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Стан синхронізації</target>
         </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
@@ -3269,7 +3157,7 @@
           <source>Updates are ready to install</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Оновлення готові до інсталяції</target>
         </trans-unit>
-        <trans-unit id="ConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Close" translate="yes" xml:space="preserve">
           <source>Close</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Закрити</target>
         </trans-unit>
@@ -3459,7 +3347,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Descending</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">За спаданням</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Стан синхронізації</target>
         </trans-unit>
@@ -3503,10 +3391,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Enable file tags</source>
           <target state="new">Enable file tags</target>
         </trans-unit>
-        <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Закрити</target>
-        </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
           <target state="new">Open Drive</target>
@@ -3530,10 +3414,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="AskCredentialDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
           <target state="new">OK</target>
-        </trans-unit>
-        <trans-unit id="AskCredentialDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="new">Cancel</target>
         </trans-unit>
         <trans-unit id="AskCredentialDialog.Title" translate="yes" xml:space="preserve">
           <source>Credential Required</source>
@@ -3654,10 +3534,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="SettingsDateFormatComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="new">Date format</target>
-        </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="new">Close</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>

@@ -81,9 +81,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Salta</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Cancel·la</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Tipus d'element:</value>
   </data>
@@ -138,7 +135,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Licències de tercers</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>Sobre</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
@@ -155,9 +152,6 @@
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Arxius &amp; carpetes</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Sobre</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Aparença</value>
@@ -315,9 +309,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Estableix nom</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Cancel·la</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>Nova pestanya</value>
   </data>
@@ -372,9 +363,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Un element amb aquest nom ja existeix a aquest directori.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Genera un nom nou</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Reemplaça element existent</value>
   </data>
@@ -398,9 +386,6 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Aquest element no ha pogut ser esborrat</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Accés denegat</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Insereix el dispositiu necessari per accedir a aquest element.</value>
@@ -510,11 +495,8 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Movent arxius a la papelera</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Sí</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Cancel·la</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Estàs segur d'esborrar tots aquests elements permanentment?</value>
@@ -527,9 +509,6 @@
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Desbloqueja</value>
-  </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Cancel·la</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Introdueix la contrasenya per desbloquejar el dispositiu</value>
@@ -747,14 +726,8 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>No s'ha pogut crear aquest element</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tanca</value>
-  </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Accès denegat</value>
-  </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Cancel·la</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Anyadeix pestanya</value>
@@ -774,7 +747,7 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Copia la ubicació</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Cancel·la</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
@@ -839,9 +812,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Tanca de totes maneres</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Cancel·la</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Estimant</value>
