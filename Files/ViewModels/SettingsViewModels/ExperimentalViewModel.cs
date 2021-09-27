@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
+using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
@@ -27,9 +28,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public RelayCommand EditFileTagsCommand => new RelayCommand(() => LaunchFileTagsConfigFile());
+        public IRelayCommand EditFileTagsCommand => new AsyncRelayCommand(() => LaunchFileTagsConfigFile());
 
-        private async void LaunchFileTagsConfigFile()
+        private async Task LaunchFileTagsConfigFile()
         {
             var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json"));
             if (!await Launcher.LaunchFileAsync(configFile))

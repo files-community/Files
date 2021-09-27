@@ -7,6 +7,7 @@ using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
@@ -95,7 +96,7 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public RelayCommand EditTerminalApplicationsCommand => new RelayCommand(() => LaunchTerminalsConfigFile());
+        public IRelayCommand EditTerminalApplicationsCommand => new AsyncRelayCommand(() => LaunchTerminalsConfigFile());
 
         public bool ShowConfirmDeleteDialog
         {
@@ -127,7 +128,7 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        private async void LaunchTerminalsConfigFile()
+        private async Task LaunchTerminalsConfigFile()
         {
             var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
             if (!await Launcher.LaunchFileAsync(configFile))
