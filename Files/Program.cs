@@ -68,8 +68,8 @@ namespace Files
                         if (AppInstance.GetInstances().Any(x => x.Key.Equals(PrelaunchInstanceKey)) && !wasPrelaunchInstanceActivated)
                         {
                             var plInstance = AppInstance.GetInstances().First(x => x.Key.Equals(PrelaunchInstanceKey));
-                            plInstance.RedirectActivationTo();
                             ApplicationData.Current.LocalSettings.Values["WAS_PRELAUNCH_INSTANCE_ACTIVATED"] = true;
+                            plInstance.RedirectActivationTo();
                             return;
                         }
                         else
