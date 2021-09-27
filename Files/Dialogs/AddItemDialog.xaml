@@ -13,7 +13,7 @@
     BorderThickness="0"
     CornerRadius="{StaticResource OverlayCornerRadius}"
     PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
-    PrimaryButtonText="Cancel"
+    PrimaryButtonText="{local2:ResourceString Name=Cancel}"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">

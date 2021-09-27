@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -502,6 +503,8 @@ namespace Files.UserControls
 
         private object dragOverSection, dragOverItem = null;
 
+        private bool isDropOnProcess = false;
+
         private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
         {
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragEnter", false);
@@ -546,6 +549,8 @@ namespace Files.UserControls
         {
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragLeave", false);
 
+            isDropOnProcess = false;
+
             if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is INavigationControlItem)
             {
                 if (sender == dragOverItem)
@@ -573,11 +578,36 @@ namespace Files.UserControls
             if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 e.Handled = true;
+                isDropOnProcess = true;
 
                 var (handledByFtp, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
                 storageItems ??= new List<IStorageItemWithPath>();
 
-                if (string.IsNullOrEmpty(locationItem.Path) ||
+                if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Favorites.Equals(locationItem.Section) && storageItems.Any())
+                {
+                    bool haveFoldersToPin = false;
+
+                    foreach (var item in storageItems)
+                    {
+                        if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
+                        {
+                            haveFoldersToPin = true;
+                            break;
+                        }
+                    }
+
+                    if (!haveFoldersToPin)
+                    {
+                        e.AcceptedOperation = DataPackageOperation.None;
+                    }
+                    else
+                    {
+                        e.DragUIOverride.IsCaptionVisible = true;
+                        e.DragUIOverride.Caption = "BaseLayoutItemContextFlyoutPinToFavorites/Text".GetLocalized();
+                        e.AcceptedOperation = DataPackageOperation.Move;
+                    }
+                }
+                else if (string.IsNullOrEmpty(locationItem.Path) ||
                     (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(locationItem.Path))
                     || locationItem.Path.StartsWith("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
@@ -672,7 +702,7 @@ namespace Files.UserControls
             }
         }
 
-        private void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
+        private async void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
         {
             dragOverItem = null; // Reset dragged over item
             dragOverSection = null; // Reset dragged over section
@@ -688,12 +718,29 @@ namespace Files.UserControls
                 VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
                 var deferral = e.GetDeferral();
-                SidebarItemDropped?.Invoke(this, new SidebarItemDroppedEventArgs()
+
+                if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Favorites.Equals(locationItem.Section) && isDropOnProcess) // Pin to Favorites section
                 {
-                    Package = e.DataView,
-                    ItemPath = locationItem.Path,
-                    AcceptedOperation = e.AcceptedOperation
-                });
+                    var storageItems = await e.DataView.GetStorageItemsAsync();
+                    foreach (var item in storageItems)
+                    {
+                        if (item.IsOfType(StorageItemTypes.Folder) && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
+                        {
+                            SidebarPinnedModel.AddItem(item.Path);
+                        }
+                    }
+                }
+                else
+                {
+                    SidebarItemDropped?.Invoke(this, new SidebarItemDroppedEventArgs()
+                    {
+                        Package = e.DataView,
+                        ItemPath = locationItem.Path,
+                        AcceptedOperation = e.AcceptedOperation
+                    });
+                }
+
+                isDropOnProcess = false;
                 deferral.Complete();
             }
             else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem sourceLocationItem)
@@ -951,7 +998,7 @@ namespace Files.UserControls
                 var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => drivePath.StartsWith(x.Path));
                 if (matchingDrive != null && matchingDrive.Type == DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                 {
-                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "InsertDiscDialog/CloseDialogButton".GetLocalized());
+                    bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());
                     if (ejectButton)
                     {
                         await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);

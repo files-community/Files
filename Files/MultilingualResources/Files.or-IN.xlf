@@ -78,10 +78,6 @@
           <source>Skip</source>
           <target state="translated">ଛାଡିଦିଅ</target>
         </trans-unit>
-        <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">ବାତିଲ୍ କର</target>
-        </trans-unit>
         <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
           <source>Item type:</source>
           <target state="translated">ଆଇଟମ୍ ପ୍ରକାର:</target>
@@ -146,7 +142,7 @@
           <target state="needs-review-translation">ତୃତୀୟ ପକ୍ଷ ଲାଇସେନ୍ସ</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">ବିଷୟରେ</target>
         </trans-unit>
@@ -162,10 +158,6 @@
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
           <target state="translated">ପରୀକ୍ଷାମୂଳକ</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
-          <source>About</source>
-          <target state="translated">ବିଷୟରେ</target>
         </trans-unit>
         <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
           <source>Appearance</source>
@@ -371,10 +363,6 @@
           <source>Set Name</source>
           <target state="translated">ନାମ ଚୟନ କର</target>
         </trans-unit>
-        <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">ବାତିଲ୍ କର</target>
-        </trans-unit>
         <trans-unit id="NewTab" translate="yes" xml:space="preserve">
           <source>New tab</source>
           <target state="translated">ନୂତନ ଟ୍ୟାବ୍</target>
@@ -448,10 +436,6 @@
           <source>An item with this name already exists in this directory.</source>
           <target state="translated">ଏହି ନାମ ସହିତ ଏକ ଆଇଟମ୍ ଏହି ଡିରେକ୍ଟୋରୀରେ ପୂର୍ବରୁ ବିଦ୍ୟମାନ ଅଛି |</target>
         </trans-unit>
-        <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="translated">ନୂତନ ନାମ ସୃଷ୍ଟି କରନ୍ତୁ</target>
-        </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Replace existing item</source>
           <target state="translated">ବିଦ୍ୟମାନ ଆଇଟମ୍ ବଦଳାନ୍ତୁ</target>
@@ -491,10 +475,6 @@
         <trans-unit id="AccessDeniedDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>We weren't able to delete this item</source>
           <target state="translated">ଆମେ ଏହି ଆଇଟମ୍ ବିଲୋପ କରିବାକୁ ସମର୍ଥ ହେଲୁ ନାହିଁ</target>
-        </trans-unit>
-        <trans-unit id="AccessDeniedDeleteDialog.Title" translate="yes" xml:space="preserve">
-          <source>Access Denied</source>
-          <target state="translated">ଉପଲବ୍ଧି ନିଷେଧ</target>
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Text" translate="yes" xml:space="preserve">
           <source>Please insert the necessary drive to access this item.</source>
@@ -633,14 +613,10 @@
           <target state="needs-review-translation">ଫାଇଲଗୁଡ଼ିକୁ ରିସାଇକ୍ଲବିନ୍ କୁ ଘୁଞ୍ଚାଇବା</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Yes" translate="yes" xml:space="preserve">
           <source>Yes</source>
           <target state="needs-review-translation">ଠିକ୍ ଅଛି</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
-        </trans-unit>
-        <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">ବାତିଲ୍ କର</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to permanently delete all these items?</source>
@@ -686,10 +662,6 @@
         <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Unlock</source>
           <target state="translated">ଅନଲକ୍ କର</target>
-        </trans-unit>
-        <trans-unit id="BitlockerDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">ବାତିଲ୍ କର</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter password to unlock the drive</source>
@@ -962,10 +934,6 @@
           <source>More</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଅଧିକ</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
-        </trans-unit>
         <trans-unit id="SettingsMultitaskingTitle.Text" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ମଲ୍ଟିଟାସ୍କିଂ</target>
@@ -1010,7 +978,7 @@
           <source>Choose a type for this new item below</source>
           <target state="new">Choose a type for this new item below</target>
         </trans-unit>
-        <trans-unit id="AddDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Cancel" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
         </trans-unit>
@@ -1058,7 +1026,7 @@
           <source>We weren't able to create this item</source>
           <target state="new">We weren't able to create this item</target>
         </trans-unit>
-        <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
+        <trans-unit id="AccessDenied" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ପ୍ରବେଶ ପ୍ରତ୍ୟାଖ୍ୟାତ</target>
         </trans-unit>
@@ -1515,10 +1483,6 @@
           <source>Close anyway</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଯେକୌଣସିଭାବରେ ବନ୍ଦ କରିବା</target>
         </trans-unit>
-        <trans-unit id="PropertySaveErrorDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
-        </trans-unit>
         <trans-unit id="PropertySaveErrorMessage.Text" translate="yes" xml:space="preserve">
           <source>There was an issue saving some properties.</source>
           <target state="new">There was an issue saving some properties.</target>
@@ -1579,17 +1543,13 @@
           <source>Details</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ସବିଶେଷ</target>
         </trans-unit>
-        <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="UpdateClose" translate="yes" xml:space="preserve">
           <source>No</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ନାଁ</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogContent" translate="yes" xml:space="preserve">
           <source>Do you want to download and install the latest version of Files?</source>
           <target state="new">Do you want to download and install the latest version of Files?</target>
-        </trans-unit>
-        <trans-unit id="UpdateConsentDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Yes</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ହଁ</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogTitle" translate="yes" xml:space="preserve">
           <source>Updates Available</source>
@@ -1630,10 +1590,6 @@
         <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
           <source>Remove</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଅପସାରଣ</target>
-        </trans-unit>
-        <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
@@ -1731,10 +1687,6 @@
           <source>Enter Bundle name</source>
           <target state="new">Enter Bundle name</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetRenameBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
-        </trans-unit>
         <trans-unit id="BundlesWidgetRenameBundleDialogInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Desired name</source>
           <target state="new">Desired name</target>
@@ -1750,10 +1702,6 @@
         <trans-unit id="BundlesWidgetRenameBundleDialogTitleText" translate="yes" xml:space="preserve">
           <source>Rename "{0}"</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ପୁନଃନାମ |0</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetCreateBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Desired name</source>
@@ -2051,10 +1999,6 @@
           <source>No</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ନାଁ</target>
         </trans-unit>
-        <trans-unit id="ElevateConfirmDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Yes</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ହଁ</target>
-        </trans-unit>
         <trans-unit id="ElevateConfirmDialog.Title" translate="yes" xml:space="preserve">
           <source>This action requires administrator rights</source>
           <target state="new">This action requires administrator rights</target>
@@ -2159,10 +2103,6 @@
           <source>Create</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ସୃଷ୍ଟି</target>
         </trans-unit>
-        <trans-unit id="DialogCancelButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
-        </trans-unit>
         <trans-unit id="DialogDeleteLibraryButtonText" translate="yes" xml:space="preserve">
           <source>Delete</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ବିଲୋପ</target>
@@ -2183,10 +2123,6 @@
           <source>Copy</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">କପି</target>
         </trans-unit>
-        <trans-unit id="CopyItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
-        </trans-unit>
         <trans-unit id="CopyItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be copied</source>
           <target state="new">{0} items will be copied</target>
@@ -2203,10 +2139,6 @@
           <source>Move</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଘୁଞ୍ଚାନ୍ତୁ</target>
         </trans-unit>
-        <trans-unit id="MoveItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
-        </trans-unit>
         <trans-unit id="MoveItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be moved</source>
           <target state="new">{0} items will be moved</target>
@@ -2219,10 +2151,6 @@
           <source>Delete</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ବିଲୋପ</target>
         </trans-unit>
-        <trans-unit id="DeleteItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
-        </trans-unit>
         <trans-unit id="DeleteItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be deleted</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">{0} ସମ୍ପର୍କସମୂହ ବିଲୋପିତ ହେବ.</target>
@@ -2230,10 +2158,6 @@
         <trans-unit id="ConflictingItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Continue</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଜାରି</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Conflicting file name(s)</source>
@@ -2299,10 +2223,6 @@
           <source>There is one conflicting file name, and {0} outgoing item(s).</source>
           <target state="new">There is one conflicting file name, and {0} outgoing item(s).</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="new">Generate new name</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogItemOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="new">Replace existing</target>
@@ -2310,10 +2230,6 @@
         <trans-unit id="ConflictingItemsDialogItemOptionSkip.Text" translate="yes" xml:space="preserve">
           <source>Skip</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଅତିକ୍ରମ</target>
-        </trans-unit>
-        <trans-unit id="ConflictingItemsDialogOptionGenerateNewName.Text" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="new">Generate new name</target>
         </trans-unit>
         <trans-unit id="ConflictingItemsDialogOptionReplaceExisting.Text" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
@@ -2323,10 +2239,6 @@
           <source>Skip</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଅତିକ୍ରମ</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogTakenActionGenerateNewName" translate="yes" xml:space="preserve">
-          <source>Generate new name</source>
-          <target state="new">Generate new name</target>
-        </trans-unit>
         <trans-unit id="ConflictingItemsDialogTakenActionReplaceExisting" translate="yes" xml:space="preserve">
           <source>Replace existing</source>
           <target state="new">Replace existing</target>
@@ -2335,7 +2247,7 @@
           <source>Skip</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଅତିକ୍ରମ</target>
         </trans-unit>
-        <trans-unit id="ConflictingItemsDialogItemDefaultOption.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="GenerateNewName" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
           <target state="new">Generate new name</target>
         </trans-unit>
@@ -2647,14 +2559,6 @@
           <source>Dismiss</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ବରଖାସ୍ତ</target>
         </trans-unit>
-        <trans-unit id="OngoingTasksCancelBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
-        </trans-unit>
-        <trans-unit id="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
-        </trans-unit>
         <trans-unit id="NavToolbarWidgets.Label" translate="yes" xml:space="preserve">
           <source>Widgets</source>
           <target state="new">Widgets</target>
@@ -2694,14 +2598,6 @@
         <trans-unit id="NavToolbarLayout.Text" translate="yes" xml:space="preserve">
           <source>Layout</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଲେଆଉଟ୍‌</target>
-        </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବନ୍ଦ କରନ୍ତୁ</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySyncStatus.Text" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ସିଂକ୍ରୋନାଇଜ୍ ଫଳାଫଳ</target>
         </trans-unit>
         <trans-unit id="StatusDeletionFailedDetails_Plural" translate="yes" xml:space="preserve">
           <source>Failed to delete {0} items from {1}</source>
@@ -2911,10 +2807,6 @@
           <source>No</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ନାଁ</target>
         </trans-unit>
-        <trans-unit id="SecurityAdvancedInheritedYesLabel" translate="yes" xml:space="preserve">
-          <source>Yes</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ହଁ</target>
-        </trans-unit>
         <trans-unit id="SecurityAdvancedPermissionsLabel.Text" translate="yes" xml:space="preserve">
           <source>Permissions</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଅନୁମତିଗୁଡିକ</target>
@@ -3078,10 +2970,6 @@
         <trans-unit id="PropertyFileVersion" translate="yes" xml:space="preserve">
           <source>File version</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଫାଇଲ୍ ପାଠାନ୍ତର</target>
-        </trans-unit>
-        <trans-unit id="PropertySyncStatus" translate="yes" xml:space="preserve">
-          <source>Sync status</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ସିଂକ୍ରୋନାଇଜ୍ ଫଳାଫଳ</target>
         </trans-unit>
         <trans-unit id="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Downloads the item from the cloud and loads the preview</source>
@@ -3259,7 +3147,7 @@
           <source>Updates are ready to install</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ସଂସ୍ଥାପନ କରିବାକୁ ଅଦ୍ୟତନଗୁଡିକ ପ୍ରସ୍ତୁତ ଅଟେ</target>
         </trans-unit>
-        <trans-unit id="ConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+        <trans-unit id="Close" translate="yes" xml:space="preserve">
           <source>Close</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ବନ୍ଦ କରନ୍ତୁ</target>
         </trans-unit>
@@ -3449,7 +3337,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Descending</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଅବରୋହ</target>
         </trans-unit>
-        <trans-unit id="NavToolbarArrangementOptionSyncStatus.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ସିଂକ୍ରୋନାଇଜ୍ ଫଳାଫଳ</target>
         </trans-unit>
@@ -3493,10 +3381,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Enable file tags</source>
           <target state="new">Enable file tags</target>
         </trans-unit>
-        <trans-unit id="InsertDiscDialog.CloseDialogButton" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବନ୍ଦ କରନ୍ତୁ</target>
-        </trans-unit>
         <trans-unit id="InsertDiscDialog.OpenDriveButton" translate="yes" xml:space="preserve">
           <source>Open Drive</source>
           <target state="new">Open Drive</target>
@@ -3520,10 +3404,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="AskCredentialDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
           <target state="new">OK</target>
-        </trans-unit>
-        <trans-unit id="AskCredentialDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="new">Cancel</target>
         </trans-unit>
         <trans-unit id="AskCredentialDialog.Title" translate="yes" xml:space="preserve">
           <source>Credential Required</source>
@@ -3644,10 +3524,6 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="SettingsDateFormatComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Date format</source>
           <target state="new">Date format</target>
-        </trans-unit>
-        <trans-unit id="SettingsDialogCloseButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Close</source>
-          <target state="new">Close</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>

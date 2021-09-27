@@ -501,7 +501,7 @@ namespace Files.ViewModels
                         UpdateEmptyTextType();
                         DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
                     }
-                    if (CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
+                    if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
                     {
                         ClearDisplay();
                     }
@@ -589,7 +589,7 @@ namespace Files.ViewModels
                     DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
                 }
 
-                if (CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
+                if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
                 {
                     await Task.Run(ApplyChanges);
                     UpdateUI();
@@ -624,7 +624,7 @@ namespace Files.ViewModels
                 filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection).ToList();
             }
 
-            if (CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
+            if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
             {
                 return Task.Run(OrderEntries);
             }
@@ -1463,7 +1463,7 @@ namespace Files.ViewModels
                 {
                     //TODO: proper dialog
                     await DialogDisplayHelper.ShowDialogAsync(
-                        "AccessDeniedDeleteDialog/Title".GetLocalized(),
+                        "AccessDenied".GetLocalized(),
                         "SubDirectoryAccessDenied".GetLocalized());
                     return -1;
                 }

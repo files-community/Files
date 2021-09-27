@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:helpers="using:Files.Helpers"
     d:DesignHeight="700"
     d:DesignWidth="400"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"
@@ -121,12 +121,11 @@
                 Style="{StaticResource AccentButtonStyle}" />
             <Button
                 x:Name="CancelButton"
-                x:Uid="PropertiesDialogCancelButton"
                 Grid.Column="2"
                 MinWidth="100"
                 HorizontalAlignment="Right"
                 Click="CancelButton_Click"
-                Content="Cancel" />
+                Content="{helpers:ResourceString Name=Cancel}" />
         </Grid>
     </Grid>
 </Page>

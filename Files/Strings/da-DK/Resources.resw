@@ -66,9 +66,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Spring over</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Annullér</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Emnetype:</value>
   </data>
@@ -114,7 +111,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Tredjepartslicenser</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>Om</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -125,9 +122,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Eksperimentel</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Om</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Udseende</value>
@@ -282,9 +276,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Ændr navn</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Annullér</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>Ny fane</value>
   </data>
@@ -339,9 +330,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Et emne med dette navn findes allerede i denne mappe.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Generér nyt navn</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Erstat eksisterende emne</value>
   </data>
@@ -368,9 +356,6 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Vi kunne ikke slette dette emne</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Adgang nægtet</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Indsæt det nødvendige drev for at få adgang til dette emne.</value>
@@ -480,11 +465,8 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Flytter filer til papirkurven</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Ja</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Annullér</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Er du sikker på, at du vil slette alle disse emner permanent?</value>
@@ -518,9 +500,6 @@
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Lås op</value>
-  </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Annullér</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Indtast kodeord for at låse op for drevet</value>
@@ -738,11 +717,8 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Vi kunne ikke oprette dette emne</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Adgang nægtet</value>
-  </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Annullér</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Tilføj fane</value>
@@ -762,7 +738,7 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Kopiér placering</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Annullér</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
@@ -815,9 +791,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Luk alligevel</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Annullér</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Bedømmelse</value>
@@ -1185,14 +1158,11 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Detaljer</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>Nej</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Vil du downloade og installere den nyeste version af Files?</value>
-  </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Ja</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Opdateringer tilgængelige</value>
@@ -1214,9 +1184,6 @@
   </data>
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Fjern</value>
-  </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>Annullér</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Åbn i sekundærrude</value>
@@ -1287,9 +1254,6 @@
   <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
     <value>Indtast navnet på samlingen</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Annuller</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>Ønsket navn</value>
   </data>
@@ -1301,9 +1265,6 @@
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>Omdøb "{0}"</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Annuller</value>
   </data>
   <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
     <value>Ønsket navn</value>
@@ -1527,9 +1488,6 @@
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Nej</value>
   </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ja</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Denne handling kræver administrator-rettigheder</value>
   </data>
@@ -1575,9 +1533,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Opret</value>
   </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>Annuller</value>
-  </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Slet</value>
   </data>
@@ -1587,29 +1542,17 @@
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Kopiér</value>
   </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Annuller</value>
-  </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Flyt</value>
   </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Annuller</value>
-  </data>
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Slet</value>
-  </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Annuller</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} elementer bliver slettet.</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Fortsæt</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Annuller</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Slet permanent?</value>
@@ -1755,12 +1698,6 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Afvis</value>
   </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Annuller</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Annuller</value>
-  </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgets</value>
   </data>
@@ -1790,12 +1727,6 @@
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Layout</value>
-  </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Luk</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Synkroniseringsstatus</value>
   </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nyt vindue</value>
@@ -1899,9 +1830,6 @@
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Nej</value>
   </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>JA</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Tilladelser</value>
   </data>
@@ -1971,9 +1899,6 @@
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Filversion</value>
   </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Synkroniseringsstatus</value>
-  </data>
   <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
     <value>Søg</value>
   </data>
@@ -2019,7 +1944,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Opdateringer er klar til at blive installeret</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Luk</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -2094,14 +2019,11 @@
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Faldende</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Synkroniseringsstatus</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Ukendt</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>Luk</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Indsæt en disk</value>

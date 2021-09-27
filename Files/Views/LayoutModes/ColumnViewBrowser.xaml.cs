@@ -610,7 +610,11 @@ namespace Files.Views.LayoutModes
                 ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected
                 var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
-                if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
+                if (item == null)
+                {
+                    return;
+                }
+                else if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
                     //var pane = new ModernShellPage();
                     //pane.FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);

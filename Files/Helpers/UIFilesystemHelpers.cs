@@ -332,7 +332,7 @@ namespace Files.Helpers
 
             if (created == FileSystemStatusCode.Unauthorized)
             {
-                await DialogDisplayHelper.ShowDialogAsync("AccessDeniedCreateDialog/Title".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
+                await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
             }
 
             return created.Result.Item2;

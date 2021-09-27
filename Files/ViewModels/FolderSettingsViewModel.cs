@@ -560,8 +560,12 @@ namespace Files.ViewModels
 
         private static LayoutPreferences ReadLayoutPreferencesFromSettings(string folderPath)
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            if (string.IsNullOrEmpty(folderPath))
+            {
+                return LayoutPreferences.DefaultLayoutPreferences;
+            }
 
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
             ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
             folderPath = new string(folderPath.TakeLast(254).ToArray());
             if (dataContainer.Values.ContainsKey(folderPath))
@@ -590,6 +594,10 @@ namespace Files.ViewModels
 
         private static void WriteLayoutPreferencesToSettings(string folderPath, LayoutPreferences prefs)
         {
+            if (string.IsNullOrEmpty(folderPath))
+            {
+                return;
+            }
             ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
             folderPath = new string(folderPath.TakeLast(254).ToArray());
             if (!dataContainer.Values.ContainsKey(folderPath))

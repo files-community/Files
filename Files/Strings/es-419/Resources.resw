@@ -129,7 +129,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Licencias de terceros</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>Acerca de Files</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -504,7 +504,7 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Moviendo archivos a la papelera de reciclaje</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Sí</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
@@ -768,7 +768,7 @@
   <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Cerrar</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Acceso Denegado</value>
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
@@ -792,7 +792,7 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Copiar ubicación</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Cancelar</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
@@ -1218,7 +1218,7 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Detalles</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>No</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
@@ -1779,7 +1779,7 @@
   <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
     <value>Omitir</value>
   </data>
-  <data name="ConflictingItemsDialogItemDefaultOption.Content" xml:space="preserve">
+  <data name="GenerateNewName" xml:space="preserve">
     <value>Generar nuevo nombre</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
@@ -2421,7 +2421,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Las actualizaciones están listas para la instalación</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Cerrar</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -2560,7 +2560,7 @@ Usamos App Center para realizar un seguimiento del uso de la aplicación, encont
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Descendente</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Estado de sincronización</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">

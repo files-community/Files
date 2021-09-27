@@ -216,19 +216,18 @@
 
                             <Button
                                 x:Name="CancelBannerButton"
-                                x:Uid="OngoingTasksCancelBannerButton"
                                 Grid.Column="2"
                                 Height="32"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
                                 x:Load="{x:Bind CancelButtonVisible}"
-                                AutomationProperties.Name="Cancel"
+                                AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
                                 Command="{x:Bind CancelCommand}"
                                 DataContext="{x:Bind}"
                                 IsEnabled="{x:Bind IsCancelled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-                                ToolTipService.ToolTip="Cancel">
+                                ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
                                 <Button.Content>
                                     <FontIcon FontSize="11" Glyph="&#xE711;" />
                                 </Button.Content>

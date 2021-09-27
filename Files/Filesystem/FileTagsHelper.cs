@@ -43,7 +43,7 @@ namespace Files.Filesystem
             {
                 NativeFileOperationsHelper.DeleteFileFromApp($"{filePath}:files");
             }
-            else
+            else if (ReadFileTag(filePath) != tag)
             {
                 NativeFileOperationsHelper.WriteStringToFile($"{filePath}:files", tag);
             }
