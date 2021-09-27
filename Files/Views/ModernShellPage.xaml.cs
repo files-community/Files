@@ -641,11 +641,21 @@ namespace Files.Views
 
                 case (true, true, false, true, VirtualKey.C):
                     {
-                        if (!InstanceViewModel.IsPageTypeSearchResults)
-                        {
-                            DataPackage dataPackage = new DataPackage();
-                            dataPackage.SetText(this.FilesystemViewModel.WorkingDirectory);
+                        DataPackage dataPackage = null;
 
+                        if (!InstanceViewModel.IsPageTypeSearchResults && ContentPage.SelectedItem != null)
+                        {
+                            dataPackage = new DataPackage();
+                            dataPackage.SetText(this.FilesystemViewModel.WorkingDirectory);
+                        }
+                        else
+                        {
+                            dataPackage = new DataPackage();
+                            dataPackage.SetText(ContentPage.SelectedItem.ItemPath);
+                        }
+
+                        if (dataPackage != null)
+                        {
                             Clipboard.SetContent(dataPackage);
                             Clipboard.Flush();
                         }
