@@ -120,10 +120,6 @@ namespace Files
             DrivesManager?.ResumeDeviceWatcher();
         }
 
-        public static Windows.UI.Xaml.UnhandledExceptionEventArgs ExceptionInfo { get; set; }
-        public static string ExceptionStackTrace { get; set; }
-        public static List<string> pathsToDeleteAfterPaste = new List<string>();
-
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
