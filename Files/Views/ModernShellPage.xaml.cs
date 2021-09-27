@@ -22,6 +22,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
@@ -637,6 +638,19 @@ namespace Files.Views
                         await storageHistoryHelpers.TryRedo();
                     }
                     break;
+
+                case (true, true, false, true, VirtualKey.C):
+                    {
+                        if (!InstanceViewModel.IsPageTypeSearchResults)
+                        {
+                            DataPackage dataPackage = new DataPackage();
+                            dataPackage.SetText(this.FilesystemViewModel.WorkingDirectory);
+
+                            Clipboard.SetContent(dataPackage);
+                            Clipboard.Flush();
+                        }
+                        break;
+                    }
 
                 case (false, false, false, true, VirtualKey.F3): //f3
                 case (true, false, false, true, VirtualKey.F): // ctrl + f
