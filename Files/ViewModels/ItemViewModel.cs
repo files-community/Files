@@ -2110,7 +2110,7 @@ namespace Files.ViewModels
                 {
                     foreach (var result in results)
                     {
-                        if (result.HasValue)
+                        if (result != null)
                         {
                             var item = result.Value.Item;
                             item.ItemDateModifiedReal = result.Value.Modified;
@@ -2121,7 +2121,7 @@ namespace Files.ViewModels
                                 item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(result.Value.SyncStatus.Value);
                             }
 
-                            if (result.Value.Size.HasValue)
+                            if (result.Value.Size != null)
                             {
                                 item.FileSizeBytes = result.Value.Size.Value;
                                 item.FileSize = ByteSizeLib.ByteSize.FromBytes(item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
