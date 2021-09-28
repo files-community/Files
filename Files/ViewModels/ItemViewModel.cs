@@ -2053,7 +2053,7 @@ namespace Files.ViewModels
             await AddFileOrFolderAsync(listedItem);
         }
 
-        private async Task<(ListedItem Item, CloudDriveSyncStatusUI SyncUI, long? Size, DateTimeOffset Created, DateTimeOffset Modified)?> GetFileOrFolderUpdateInfoAsync(ListedItem item, bool hasSyncStatus)
+        private async Task<(ListedItem Item, CloudDriveSyncStatus? SyncStatus, long? Size, DateTimeOffset Created, DateTimeOffset Modified)?> GetFileOrFolderUpdateInfoAsync(ListedItem item, bool hasSyncStatus)
         {
             IStorageItem storageItem = null;
             if (item.PrimaryItemAttribute == StorageItemTypes.File)
@@ -2066,7 +2066,7 @@ namespace Files.ViewModels
             }
             if (storageItem != null)
             {
-                CloudDriveSyncStatusUI syncUI = hasSyncStatus ? CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(await CheckCloudDriveSyncStatusAsync(storageItem)) : null;
+                CloudDriveSyncStatus? syncStatus = hasSyncStatus ? await CheckCloudDriveSyncStatusAsync(storageItem) : null;
                 long? size = null;
                 DateTimeOffset created = default, modified = default;
 
@@ -2084,7 +2084,7 @@ namespace Files.ViewModels
                     created = properties.ItemDate;
                 }
 
-                return (item, syncUI, size, created, modified);
+                return (item, syncStatus, size, created, modified);
             }
 
             return null;
@@ -2116,9 +2116,9 @@ namespace Files.ViewModels
                             item.ItemDateModifiedReal = result.Value.Modified;
                             item.ItemDateCreatedReal = result.Value.Created;
 
-                            if (result.Value.SyncUI != null)
+                            if (result.Value.SyncStatus != null)
                             {
-                                item.SyncStatusUI = result.Value.SyncUI;
+                                item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(result.Value.SyncStatus.Value);
                             }
 
                             if (result.Value.Size.HasValue)
