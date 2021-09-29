@@ -69,9 +69,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Lewati</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Batal</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Jenis item:</value>
   </data>
@@ -117,7 +114,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Lisensi pihak ketiga</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>Tentang</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -128,9 +125,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimental</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Tentang</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Tampilan</value>
@@ -288,9 +282,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Tetapkan</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Batal</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>Tab baru</value>
   </data>
@@ -345,9 +336,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Item dengan nama ini sudah ada di direktori ini.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Buat nama baru</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>ganti item yang sudah ada</value>
   </data>
@@ -374,9 +362,6 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Kami tidak dapat menghapus item ini</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Akses Ditolak</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Harap masukkan drive yang diperlukan untuk mengakses item ini.</value>
@@ -492,11 +477,8 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Pindahkan file ke keranjang sampah</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Ya</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Batal</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Anda yakin ingin menghapus semua item ini secara permanen?</value>
@@ -530,9 +512,6 @@
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Buka kunci</value>
-  </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Batal</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Masukkan kata sandi untuk membuka drive </value>
@@ -753,14 +732,8 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Kami tidak dapat membuat item ini</value>
   </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tutup</value>
-  </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Akses Ditolak</value>
-  </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Batal</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Tambahkan tab</value>
@@ -780,7 +753,7 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Salin lokasi</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Batal</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
@@ -833,9 +806,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Tetap tutup</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Batal</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Peringkat</value>
@@ -1218,14 +1188,11 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Rincian</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>Tidak</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Apakah Anda ingin mengunduh dan menginstal Files versi terbaru? </value>
-  </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Ya</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Pembaruan Tersedia</value>
@@ -1247,9 +1214,6 @@
   </data>
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Hapus</value>
-  </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>Batal</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Buka di panel sekunder</value>
@@ -1371,9 +1335,6 @@
   <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
     <value>Masukkan nama Bundel</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Batal</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>Nama yang diinginkan</value>
   </data>
@@ -1388,9 +1349,6 @@
   </data>
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>Buat Bundel</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Batal</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>Konfirmasi</value>
@@ -1569,9 +1527,6 @@
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Tidak</value>
   </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ya</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Tindakan memerlukan hak administrator </value>
   </data>
@@ -1644,9 +1599,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Buat</value>
   </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>Batal</value>
-  </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>Hapus</value>
   </data>
@@ -1658,9 +1610,6 @@
   </data>
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Salin</value>
-  </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Batal</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} Item akan disalin</value>
@@ -1674,9 +1623,6 @@
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Pindahkan</value>
   </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Batal</value>
-  </data>
   <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} item akan dipindahkan</value>
   </data>
@@ -1686,17 +1632,11 @@
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Hapus</value>
   </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Batal</value>
-  </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} item akan dihapus</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Lanjutkan</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Batal</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
     <value>Ada {0} nama file yang bertentangan, dan {1} item keluar.</value>
@@ -1749,17 +1689,11 @@
   <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
     <value>Kelola Widget</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
-    <value>Buat nama baru</value>
-  </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Ganti yang ada</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
     <value>Lewati</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionGenerateNewName.Text" xml:space="preserve">
-    <value>Buat nama baru</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>Ganti yang ada</value>
@@ -1767,16 +1701,13 @@
   <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
     <value>Lewati</value>
   </data>
-  <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
-    <value>Buat nama baru</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>Ganti yang ada</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
     <value>Lewati</value>
   </data>
-  <data name="ConflictingItemsDialogItemDefaultOption.Content" xml:space="preserve">
+  <data name="GenerateNewName" xml:space="preserve">
     <value>Buat nama baru</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
@@ -2004,17 +1935,8 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Hentikan</value>
   </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Batal</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Batal</value>
-  </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widget</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Status sinkronisasi</value>
   </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Jendela baru</value>
@@ -2115,9 +2037,6 @@
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Tidak</value>
   </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>Ya</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Izin</value>
   </data>
@@ -2156,9 +2075,6 @@
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Versi file</value>
-  </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Status sinkronisasi</value>
   </data>
   <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
     <value>Jelajahi</value>
@@ -2202,7 +2118,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Pembaruan siap untuk diinstal</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Tutup</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -2274,14 +2190,11 @@
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Turun</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Status sinkronisasi</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>Tidak diketahui</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>Tutup</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Masukkan disk</value>

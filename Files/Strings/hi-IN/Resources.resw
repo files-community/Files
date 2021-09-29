@@ -66,9 +66,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>छोड़ें</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>रद्द करें</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>वस्तु प्रकार:</value>
   </data>
@@ -114,7 +111,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>तृतीय पक्ष लाइसेंस</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>बारे में</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -125,9 +122,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>प्रयोगात्मक</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>बारे में</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>उपस्थिति</value>
@@ -279,9 +273,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>नाम निर्धारित करें</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>रद्द करें</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>नया टैब</value>
   </data>
@@ -333,9 +324,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>इस नाम के साथ एक आइटम पहले से ही इस निर्देशिका में मौजूद है ।</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>नया नाम जनरेट करें</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>मौजूदा वस्तु को बदलें</value>
   </data>
@@ -362,9 +350,6 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>हम इस आइटम को हटाने में सक्षम नहीं हुए</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>पहुंच अस्वीकृत</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>कृपया इस आइटम को एक्सेस करने के लिए आवश्यक ड्राइव डालें।</value>
@@ -468,11 +453,8 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>फ़ाइलों को रीसायकल बिन में ले जा रहा है</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>ठीक है</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>रद्द करें</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>क्या आप सुनिश्चित हैं कि आप सभी वस्तुओं को हटाना चाहते हैं?</value>
@@ -506,9 +488,6 @@
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>अनवरोधित</value>
-  </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>रद्द करें</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>ड्राइव अनलॉक करने के लिए पासवर्ड दर्ज करें</value>
@@ -666,9 +645,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>अधिक</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>रद्द करें</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>मल्टिटास्किंग</value>
   </data>
@@ -690,7 +666,7 @@
   <data name="ButtonYes.Content" xml:space="preserve">
     <value>हाँ</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>रद्द करें</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
@@ -699,7 +675,7 @@
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>आगे नेविगेट करें</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>प्रवेश निषेध</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -915,9 +891,6 @@
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>फिर भी बंद करें</value>
   </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>रद्द करें</value>
-  </data>
   <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
     <value>साफ़ करें</value>
   </data>
@@ -930,11 +903,8 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>विवरण</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>नहीं</value>
-  </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>हाँ</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>अद्यतन उपलब्ध</value>
@@ -957,9 +927,6 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>निकालें</value>
   </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>रद्द करें</value>
-  </data>
   <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>फ़ोल्डर्स</value>
   </data>
@@ -981,17 +948,11 @@
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>पुष्टि करें</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>रद्द करें</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>पुष्टि करें</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>"{0}" का नाम बदलें</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>रद्द करें</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>पुष्टि करें</value>
@@ -1095,9 +1056,6 @@
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>नहीं</value>
   </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>हाँ</value>
-  </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>दाईं ओर टैब को बंद करें</value>
   </data>
@@ -1128,38 +1086,23 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>बनाएँ</value>
   </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>रद्द करें</value>
-  </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>हटायें</value>
   </data>
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>प्रतिलिपि बनाएँ</value>
   </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>रद्द करें</value>
-  </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>ले जाएँ</value>
   </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>रद्द करें</value>
-  </data>
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>हटायें</value>
-  </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>रद्द करें</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} आइटम्स हटा दिए जाएँगे.</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>ज़ारी रखें</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>रद्द करें</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>स्थायी रूप से हटाएँ</value>
@@ -1296,12 +1239,6 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ख़ारिज करें</value>
   </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>रद्द करें</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>रद्द करें</value>
-  </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>विजेट्स</value>
   </data>
@@ -1331,12 +1268,6 @@
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>लेआउट</value>
-  </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>बंद करें</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>सिंक्रनाइज़ेशन स्थिति</value>
   </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>नई विंडो</value>
@@ -1437,9 +1368,6 @@
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>नहीं</value>
   </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>हाँ</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>अनुमतियाँ</value>
   </data>
@@ -1472,9 +1400,6 @@
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>File version</value>
-  </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>सिंक्रनाइज़ेशन स्थिति</value>
   </data>
   <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
     <value>ब्राउज़</value>
@@ -1518,7 +1443,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>स्थापित करने के लिए अद्यतन तैयार हैं</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>बंद करें</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -1593,14 +1518,11 @@
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>अवरोही</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>सिंक्रनाइज़ेशन स्थिति</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>अज्ञात</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>बंद करें</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>कोई डिस्क डालें</value>

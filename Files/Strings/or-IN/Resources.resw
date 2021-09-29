@@ -66,9 +66,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>ଛାଡିଦିଅ</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>ବାତିଲ୍ କର</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>ଆଇଟମ୍ ପ୍ରକାର:</value>
   </data>
@@ -114,7 +111,7 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>ତୃତୀୟ ପକ୍ଷ ଲାଇସେନ୍ସ</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>ବିଷୟରେ</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
@@ -125,9 +122,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>ପରୀକ୍ଷାମୂଳକ</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>ବିଷୟରେ</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>ରୂପ</value>
@@ -279,9 +273,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>ନାମ ଚୟନ କର</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍ କର</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>ନୂତନ ଟ୍ୟାବ୍</value>
   </data>
@@ -333,9 +324,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>ଏହି ନାମ ସହିତ ଏକ ଆଇଟମ୍ ଏହି ଡିରେକ୍ଟୋରୀରେ ପୂର୍ବରୁ ବିଦ୍ୟମାନ ଅଛି |</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>ନୂତନ ନାମ ସୃଷ୍ଟି କରନ୍ତୁ</value>
-  </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>ବିଦ୍ୟମାନ ଆଇଟମ୍ ବଦଳାନ୍ତୁ</value>
   </data>
@@ -362,9 +350,6 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>ଆମେ ଏହି ଆଇଟମ୍ ବିଲୋପ କରିବାକୁ ସମର୍ଥ ହେଲୁ ନାହିଁ</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>ଉପଲବ୍ଧି ନିଷେଧ</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>ଏହି ଆଇଟମକୁ ଉପଲବ୍ଧି କରିବାକୁ ଦୟାକରି ଆବଶ୍ୟକ ଡ୍ରାଇଭ ସନ୍ନିବେଶ କରନ୍ତୁ |</value>
@@ -468,11 +453,8 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>ଫାଇଲଗୁଡ଼ିକୁ ରିସାଇକ୍ଲବିନ୍ କୁ ଘୁଞ୍ଚାଇବା</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>ଠିକ୍ ଅଛି</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍ କର</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>ଆପଣ ନିଶ୍ଚିତ କି ଆପଣ ସମସ୍ତ ଆଇଟମ୍ ବିଲୋପ କରିବାକୁ ଚାହୁଁଛନ୍ତି କି?</value>
@@ -506,9 +488,6 @@
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>ଅନଲକ୍ କର</value>
-  </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍ କର</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>ଡ୍ରାଇଭକୁ ଅନଲକ୍ କରିବାକୁ ପାସୱାର୍ଡ ପ୍ରବେଶ କରନ୍ତୁ</value>
@@ -657,9 +636,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>ଅଧିକ</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>ମଲ୍ଟିଟାସ୍କିଂ</value>
   </data>
@@ -678,7 +654,7 @@
   <data name="ButtonYes.Content" xml:space="preserve">
     <value>ହଁ</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>ବାତିଲ୍</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
@@ -687,7 +663,7 @@
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>ଅଗ୍ରଗାମୀ ନେଭିଗେଟ୍ କରନ୍ତୁ</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>ପ୍ରବେଶ ପ୍ରତ୍ୟାଖ୍ୟାତ</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
@@ -882,9 +858,6 @@
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>ଯେକୌଣସିଭାବରେ ବନ୍ଦ କରିବା</value>
   </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
-  </data>
   <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
     <value>ଖାଲି କରନ୍ତୁ</value>
   </data>
@@ -897,11 +870,8 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>ସବିଶେଷ</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>ନାଁ</value>
-  </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>ହଁ</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>ଅଦ୍ୟତନଗୁଡିକ ଉପଲବ୍ଧ</value>
@@ -924,9 +894,6 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>ଅପସାରଣ</value>
   </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
-  </data>
   <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>ଫୋଲ୍ଡରଗୁଡିକ</value>
   </data>
@@ -939,17 +906,11 @@
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>ସୁନିଶ୍ଚିତ</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>ସୁନିଶ୍ଚିତ</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>ପୁନଃନାମ |0</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>ସୁନିଶ୍ଚିତ</value>
@@ -1044,9 +1005,6 @@
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>ନାଁ</value>
   </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>ହଁ</value>
-  </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>ଡାହାଣରେ ଟାବ୍‍ଗୁଡିକ ବନ୍ଦ କରନ୍ତୁ</value>
   </data>
@@ -1077,38 +1035,23 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>ସୃଷ୍ଟି</value>
   </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
-  </data>
   <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
     <value>ବିଲୋପ</value>
   </data>
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>କପି</value>
   </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
-  </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>ଘୁଞ୍ଚାନ୍ତୁ</value>
   </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
-  </data>
   <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>ବିଲୋପ</value>
-  </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} ସମ୍ପର୍କସମୂହ ବିଲୋପିତ ହେବ.</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>ଜାରି</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>ସ୍ଥାୟୀଭାବରେ ବିଲୋପ କରନ୍ତୁ</value>
@@ -1239,12 +1182,6 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ବରଖାସ୍ତ</value>
   </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ବାତିଲ୍</value>
-  </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>ଚୟନ</value>
   </data>
@@ -1271,12 +1208,6 @@
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>ଲେଆଉଟ୍‌</value>
-  </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ବନ୍ଦ କରନ୍ତୁ</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>ସିଂକ୍ରୋନାଇଜ୍ ଫଳାଫଳ</value>
   </data>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>ନୂତନ ୱିଣ୍ଡୋ</value>
@@ -1365,9 +1296,6 @@
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>ନାଁ</value>
   </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>ହଁ</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>ଅନୁମତିଗୁଡିକ</value>
   </data>
@@ -1400,9 +1328,6 @@
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>ଫାଇଲ୍ ପାଠାନ୍ତର</value>
-  </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>ସିଂକ୍ରୋନାଇଜ୍ ଫଳାଫଳ</value>
   </data>
   <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
     <value>ବ୍ରାଉଜ୍ କରନ୍ତୁ</value>
@@ -1440,7 +1365,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>ସଂସ୍ଥାପନ କରିବାକୁ ଅଦ୍ୟତନଗୁଡିକ ପ୍ରସ୍ତୁତ ଅଟେ</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>ବନ୍ଦ କରନ୍ତୁ</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -1512,14 +1437,11 @@
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>ଅବରୋହ</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>ସିଂକ୍ରୋନାଇଜ୍ ଫଳାଫଳ</value>
   </data>
   <data name="FileTagUnknown" xml:space="preserve">
     <value>ଅଜ୍ଞାତ</value>
-  </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>ବନ୍ଦ କରନ୍ତୁ</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>ଏକ ଡିସ୍କ୍ ସନ୍ନିବେଶ କରନ୍ତୁ</value>

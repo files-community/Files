@@ -20,7 +20,7 @@ namespace Files.Helpers
                 SubtitleText = "PropertySaveErrorMessage/Text".GetLocalized(), // We can use subtitle here as our content
                 PrimaryButtonText = "PropertySaveErrorDialog/PrimaryButtonText".GetLocalized(),
                 SecondaryButtonText = "PropertySaveErrorDialog/SecondaryButtonText".GetLocalized(),
-                CloseButtonText = "PropertySaveErrorDialog/CloseButtonText".GetLocalized(),
+                CloseButtonText = "Cancel".GetLocalized(),
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel
             });
             return dialog;
@@ -110,7 +110,7 @@ namespace Files.Helpers
                     vm.HideDialog(); // Rename successful
                 },
                 PrimaryButtonText = "RenameDialog/PrimaryButtonText".GetLocalized(),
-                CloseButtonText = "RenameDialog/SecondaryButtonText".GetLocalized(),
+                CloseButtonText = "Cancel".GetLocalized(),
                 DynamicButtonsEnabled = DynamicDialogButtons.Cancel,
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
             });

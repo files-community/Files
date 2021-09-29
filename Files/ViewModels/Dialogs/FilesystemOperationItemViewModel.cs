@@ -88,7 +88,7 @@ namespace Files.ViewModels.Dialogs
                 {
                     case FileNameConflictResolveOptionType.GenerateNewName:
                         {
-                            return "ConflictingItemsDialogTakenActionGenerateNewName".GetLocalized();
+                            return "GenerateNewName".GetLocalized();
                         }
 
                     case FileNameConflictResolveOptionType.ReplaceExisting:

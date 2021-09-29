@@ -606,7 +606,7 @@
     "ID": null
   },
   {
-    "NameResource": "PropertySyncStatus",
+    "NameResource": "SyncStatus",
     "SectionResource": "PropertySectionCore",
     "Property": "System.FilePlaceholderStatus",
     "IsReadOnly": true,
