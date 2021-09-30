@@ -2770,4 +2770,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Date created column</value>
   </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
+    <value>Item size column</value>
+  </data>
 </root>
