@@ -331,7 +331,7 @@ namespace Files.ViewModels
                     try
                     {
                         // add last session tabs to closed tabs stack if those tabs are not about to be opened
-                        if(!App.AppSettings.ResumeAfterRestart && !App.AppSettings.ContinueLastSessionOnStartUp)
+                        if(!App.AppSettings.ResumeAfterRestart && !App.AppSettings.ContinueLastSessionOnStartUp && App.AppSettings.LastSessionPages != null)
                         {
                             var items = new TabItemArguments[App.AppSettings.LastSessionPages.Length];
                             for(int i = 0; i < items.Length; i++)
