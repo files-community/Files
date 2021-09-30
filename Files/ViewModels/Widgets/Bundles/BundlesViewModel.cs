@@ -148,7 +148,7 @@ namespace Files.ViewModels.Widgets.Bundles
                 TitleText = "BundlesWidgetCreateBundleDialogTitleText".GetLocalized(),
                 SubtitleText = "BundlesWidgetCreateBundleDialogSubtitleText".GetLocalized(),
                 PrimaryButtonText = "BundlesWidgetCreateBundleDialogPrimaryButtonText".GetLocalized(),
-                CloseButtonText = "BundlesWidgetCreateBundleDialogCloseButtonText".GetLocalized(),
+                CloseButtonText = "Cancel".GetLocalized(),
                 PrimaryButtonAction = (vm, e) =>
                 {
                     var (result, reason) = CanAddBundle(inputText.Text);
