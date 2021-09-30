@@ -45,6 +45,7 @@ namespace Files
         public static MainViewModel MainViewModel { get; private set; }
         public static JumpListManager JumpList { get; private set; }
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
+        public static TerminalController TerminalController { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
         public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
         public static DrivesManager DrivesManager { get; private set; }
@@ -73,10 +74,7 @@ namespace Files
 
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
         {
-            if (AppSettings == null)
-            {
-                AppSettings = await SettingsViewModel.CreateInstance();
-            }
+            AppSettings ??= new SettingsViewModel();
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
@@ -89,6 +87,7 @@ namespace Files
             CloudDrivesManager ??= new CloudDrivesManager();
             WSLDistroManager ??= new WSLDistroManager();
             SidebarPinnedController ??= new SidebarPinnedController();
+            TerminalController ??= new TerminalController();
         }
 
         public static async Task LoadOtherStuffAsync()
@@ -97,13 +96,17 @@ namespace Files
             await Task.Run(async () =>
             {
                 await Task.WhenAll(
-                    JumpList.InitializeAsync(),
-                    SidebarPinnedController.InitializeAsync(),
                     DrivesManager.EnumerateDrivesAsync(),
                     CloudDrivesManager.EnumerateDrivesAsync(),
                     LibraryManager.EnumerateLibrariesAsync(),
                     NetworkDrivesManager.EnumerateDrivesAsync(),
                     WSLDistroManager.EnumerateDrivesAsync(),
+                    SidebarPinnedController.InitializeAsync()
+                );
+                await Task.WhenAll(
+                    AppSettings.DetectQuickLook(),
+                    TerminalController.InitializeAsync(),
+                    JumpList.InitializeAsync(),
                     ExternalResourcesHelper.LoadOtherThemesAsync()
                 );
             });
@@ -116,10 +119,6 @@ namespace Files
         {
             DrivesManager?.ResumeDeviceWatcher();
         }
-
-        public static Windows.UI.Xaml.UnhandledExceptionEventArgs ExceptionInfo { get; set; }
-        public static string ExceptionStackTrace { get; set; }
-        public static List<string> pathsToDeleteAfterPaste = new List<string>();
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points

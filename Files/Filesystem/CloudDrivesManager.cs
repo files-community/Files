@@ -3,7 +3,6 @@ using Files.DataModels.NavigationControlItems;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
 using Files.UserControls;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ using Windows.UI.Core;
 
 namespace Files.Filesystem
 {
-    public class CloudDrivesManager : ObservableObject
+    public class CloudDrivesManager
     {
         private static readonly Logger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();

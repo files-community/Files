@@ -3,7 +3,6 @@ using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
 using Files.Helpers;
 using Files.UserControls;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ using Windows.UI.Core;
 
 namespace Files.Filesystem
 {
-    public class NetworkDrivesManager : ObservableObject
+    public class NetworkDrivesManager
     {
         private static readonly Logger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
@@ -125,7 +124,7 @@ namespace Files.Filesystem
                             Text = "SidebarNetworkDrives".GetLocalized(),
                             Section = SectionType.Network,
                             SelectsOnInvoked = false,
-                            Icon = UIHelpers.GetImageForIconOrNull(SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.NetworkDrives)?.Image),
+                            Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
                         };
                         var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
@@ -143,9 +142,12 @@ namespace Files.Filesystem
                         .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                         .ThenBy(o => o.Text))
                         {
-                            var resource = SidebarPinnedModel.IconResources?.FirstOrDefault(x => x.Index == Constants.ImageRes.Folder);
-                            drive.Icon = UIHelpers.GetImageForIconOrNull(resource?.Image);
-                            drive.IconData = resource?.IconDataBytes;
+                            var resource = await UIHelpers.GetIconResourceInfo(Constants.ImageRes.Folder);
+                            if (resource != null)
+                            {
+                                drive.IconData = resource.IconDataBytes;
+                                drive.Icon = await drive.IconData.ToBitmapAsync();
+                            }
                             if (!section.ChildItems.Contains(drive))
                             {
                                 section.ChildItems.Add(drive);

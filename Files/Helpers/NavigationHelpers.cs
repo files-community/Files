@@ -46,7 +46,7 @@ namespace Files.Helpers
 
         public static async Task OpenDirectoryInTerminal(string workingDir)
         {
-            var terminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
+            var terminal = App.TerminalController.Model.GetDefaultTerminal();
 
             var connection = await AppServiceConnectionHelper.Instance;
 

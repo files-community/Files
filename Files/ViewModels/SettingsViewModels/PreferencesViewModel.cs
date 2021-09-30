@@ -18,7 +18,7 @@ namespace Files.ViewModels.SettingsViewModels
     {
         private int selectedLanguageIndex = App.AppSettings.DefaultLanguages.IndexOf(App.AppSettings.DefaultLanguage);
         private bool showRestartControl;
-        private Terminal selectedTerminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
+        private Terminal selectedTerminal = App.TerminalController.Model.GetDefaultTerminal();
         private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
         private bool openFoldersNewTab = App.AppSettings.OpenFoldersNewTab;
         private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
@@ -26,7 +26,7 @@ namespace Files.ViewModels.SettingsViewModels
         public PreferencesViewModel()
         {
             DefaultLanguages = App.AppSettings.DefaultLanguages;
-            Terminals = App.AppSettings.TerminalController.Model.Terminals;
+            Terminals = App.TerminalController.Model.Terminals;
 
             DateFormats = new List<string>
             {
@@ -90,8 +90,8 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref selectedTerminal, value))
                 {
-                    App.AppSettings.TerminalController.Model.DefaultTerminalName = value.Name;
-                    App.AppSettings.TerminalController.SaveModel();
+                    App.TerminalController.Model.DefaultTerminalName = value.Name;
+                    App.TerminalController.SaveModel();
                 }
             }
         }
