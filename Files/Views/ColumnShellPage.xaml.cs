@@ -601,24 +601,7 @@ namespace Files.Views
 
                 case (true, true, false, true, VirtualKey.C):
                     {
-                        DataPackage dataPackage = null;
-
-                        if (ContentPage.SelectedItem != null)
-                        {
-                            dataPackage = new DataPackage();
-                            dataPackage.SetText(ContentPage.SelectedItem.ItemPath);
-                        }
-                        else if (!InstanceViewModel.IsPageTypeSearchResults)
-                        {
-                            dataPackage = new DataPackage();
-                            dataPackage.SetText(this.FilesystemViewModel.WorkingDirectory);
-                        }
-
-                        if (dataPackage != null)
-                        {
-                            Clipboard.SetContent(dataPackage);
-                            Clipboard.Flush();
-                        }
+                        SlimContentPage?.CommandsViewModel.CopyPathOfSelectedItemCommand.Execute(null);
                         break;
                     }
 
