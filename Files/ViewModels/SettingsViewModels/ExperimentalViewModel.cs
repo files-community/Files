@@ -35,12 +35,24 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public RelayCommand EditFileTagsCommand => new RelayCommand(() => LaunchFileTagsConfigFile());
+        public IRelayCommand EditFileTagsCommand => new AsyncRelayCommand(() => LaunchFileTagsConfigFile());
 
-        private async void LaunchFileTagsConfigFile()
+        private async Task LaunchFileTagsConfigFile()
         {
-            await Launcher.LaunchFileAsync(
-                await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json")));
+            var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json"));
+            if (!await Launcher.LaunchFileAsync(configFile))
+            {
+                var connection = await AppServiceConnectionHelper.Instance;
+                if (connection != null)
+                {
+                    await connection.SendMessageAsync(new ValueSet()
+                    {
+                        { "Arguments", "InvokeVerb" },
+                        { "FilePath", configFile.Path },
+                        { "Verb", "open" }
+                    });
+                }
+            }
         }
 
         public AsyncRelayCommand SetAsDefaultExplorerCommand => new AsyncRelayCommand(() => SetAsDefaultExplorer());

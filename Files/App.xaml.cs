@@ -163,6 +163,23 @@ namespace Files
                 Window.Current.Activate();
                 Window.Current.CoreWindow.Activated += CoreWindow_Activated;
             }
+            else
+            {
+                if (rootFrame.Content == null)
+                {
+                    // When the navigation stack isn't restored navigate to the first page,
+                    // configuring the new page by passing required information as a navigation
+                    // parameter
+                    rootFrame.Navigate(typeof(MainPage), e.Arguments, new SuppressNavigationTransitionInfo());
+                }
+                else
+                {
+                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPageViewModel.AppInstances.Count > 0))
+                    {
+                        await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
+                    }
+                }
+            }
         }
 
         protected override async void OnFileActivated(FileActivatedEventArgs e)
@@ -402,7 +419,6 @@ namespace Files
                 }, Logger);
             }
 
-            LibraryManager?.Dispose();
             DrivesManager?.Dispose();
             deferral.Complete();
         }
