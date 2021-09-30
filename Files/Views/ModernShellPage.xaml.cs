@@ -643,15 +643,15 @@ namespace Files.Views
                     {
                         DataPackage dataPackage = null;
 
-                        if (!InstanceViewModel.IsPageTypeSearchResults && ContentPage.SelectedItem != null)
-                        {
-                            dataPackage = new DataPackage();
-                            dataPackage.SetText(this.FilesystemViewModel.WorkingDirectory);
-                        }
-                        else
+                        if (ContentPage.SelectedItem != null)
                         {
                             dataPackage = new DataPackage();
                             dataPackage.SetText(ContentPage.SelectedItem.ItemPath);
+                        }
+                        else if (!InstanceViewModel.IsPageTypeSearchResults)
+                        {
+                            dataPackage = new DataPackage();
+                            dataPackage.SetText(this.FilesystemViewModel.WorkingDirectory);
                         }
 
                         if (dataPackage != null)
