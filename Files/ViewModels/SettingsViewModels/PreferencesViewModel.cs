@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
@@ -25,16 +26,19 @@ namespace Files.ViewModels.SettingsViewModels
         private Terminal selectedTerminal = App.TerminalController.Model.GetDefaultTerminal();
         private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
 
+        public ICommand EditTerminalApplicationsCommand { get; }
+
         public PreferencesViewModel()
         {
             DefaultLanguages = App.AppSettings.DefaultLanguages;
             Terminals = App.TerminalController.Model.Terminals;
-
             DateFormats = new List<string>
             {
                 "ApplicationTimeStye".GetLocalized(),
                 "SystemTimeStye".GetLocalized()
             };
+
+            EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
         }
 
         public List<string> DateFormats { get; set; }
@@ -97,8 +101,6 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
-
-        public IAsyncRelayCommand EditTerminalApplicationsCommand { get; } = new AsyncRelayCommand(LaunchTerminalsConfigFile);
 
         public bool ShowConfirmDeleteDialog
         {

@@ -39,43 +39,6 @@ namespace Files.ViewModels
             {
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
-
-
-            // Send analytics to AppCenter
-            StartAppCenter();
-        }
-
-        private async void StartAppCenter()
-        {
-            //JObject obj;
-            //try
-            //{
-            //    StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
-            //    var lines = await FileIO.ReadTextAsync(file);
-            //    obj = JObject.Parse(lines);
-            //}
-            //catch
-            //{
-            //    return;
-            //}
-
-            //AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
-
-            //Analytics.TrackEvent($"{nameof(DisplayedTimeStyle)} {DisplayedTimeStyle}");
-            //Analytics.TrackEvent($"{nameof(ThemeHelper.RootTheme)} {ThemeHelper.RootTheme}");
-            //Analytics.TrackEvent($"{nameof(PinRecycleBinToSideBar)} {PinRecycleBinToSideBar}");
-            //Analytics.TrackEvent($"{nameof(ShowFileExtensions)} {ShowFileExtensions}");
-            //Analytics.TrackEvent($"{nameof(ShowConfirmDeleteDialog)} {ShowConfirmDeleteDialog}");
-            //Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutEnabled)} {IsVerticalTabFlyoutEnabled}");
-            //Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)} {IsDualPaneEnabled}");
-            //Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)} {AlwaysOpenDualPaneInNewTab}");
-            //Analytics.TrackEvent($"{nameof(AreHiddenItemsVisible)} {AreHiddenItemsVisible}");
-            //Analytics.TrackEvent($"{nameof(AreLayoutPreferencesPerFolder)} {AreLayoutPreferencesPerFolder}");
-            //Analytics.TrackEvent($"{nameof(ShowDrivesWidget)} {ShowDrivesWidget}");
-            //Analytics.TrackEvent($"{nameof(ShowLibrarySection)} {ShowLibrarySection}");
-            //Analytics.TrackEvent($"{nameof(ShowBundlesWidget)} {ShowBundlesWidget}");
-            //Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)} {ListAndSortDirectoriesAlongsideFiles}");
-            //Analytics.TrackEvent($"{nameof(AreFileTagsEnabled)} {AreFileTagsEnabled}");
         }
 
         public static async void OpenLogLocation()
