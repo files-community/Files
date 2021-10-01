@@ -16,31 +16,7 @@ namespace Files
 
         private static async Task Main()
         {
-            var args = Environment.GetCommandLineArgs();
             var proc = System.Diagnostics.Process.GetCurrentProcess();
-
-            if (args.Length == 2)
-            {
-                var parsedCommands = CommandLineParser.ParseUntrustedCommands(args);
-
-                if (parsedCommands != null && parsedCommands.Count > 0)
-                {
-                    foreach (var command in parsedCommands)
-                    {
-                        switch (command.Type)
-                        {
-                            case ParsedCommandType.ExplorerShellCommand:
-                                await OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
-                                //Exit..
-
-                                return;
-
-                            default:
-                                break;
-                        }
-                    }
-                }
-            }
 
             if (!ApplicationData.Current.LocalSettings.Values.Get("AlwaysOpenANewInstance", false))
             {
@@ -85,17 +61,41 @@ namespace Files
                         
                     }
                 }
-                else if (activatedArgs is FileActivatedEventArgs)
+                else if (activatedArgs is CommandLineActivatedEventArgs cmdLineArgs)
                 {
-                    var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-                    var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
-                    if (!instance.IsCurrentInstance)
+                    var operation = cmdLineArgs.Operation;
+                    var cmdLineString = operation.Arguments;
+                    var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
+                    
+                    if (parsedCommands != null)
                     {
-                        instance.RedirectActivationTo();
-                        return;
+                        foreach (var command in parsedCommands)
+                        {
+                            switch (command.Type)
+                            {
+                                case ParsedCommandType.ExplorerShellCommand:
+                                    await OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
+                                    return; // Exit
+
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+
+                    // Always open a new instance for OpenDialog
+                    if (parsedCommands == null || !parsedCommands.Any(x => x.Type == ParsedCommandType.OutputPath))
+                    {
+                        var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+                        var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
+                        if (!instance.IsCurrentInstance)
+                        {
+                            instance.RedirectActivationTo();
+                            return;
+                        }
                     }
                 }
-                else if (activatedArgs is CommandLineActivatedEventArgs)
+                else if (activatedArgs is FileActivatedEventArgs)
                 {
                     var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
                     var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());

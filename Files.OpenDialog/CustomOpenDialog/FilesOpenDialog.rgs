@@ -1,0 +1,16 @@
+HKCR
+{
+	NoRemove CLSID
+	{
+		ForceRemove {DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7} = s 'FilesOpenDialog class'
+		{
+			ForceRemove Programmable
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			TypeLib = s '{14533360-0b0c-44e6-9e5f-8ec8a478158d}'
+			Version = s '1.0'
+		}
+	}
+}

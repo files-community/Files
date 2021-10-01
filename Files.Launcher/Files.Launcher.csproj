@@ -171,7 +171,13 @@
       <Project>{0533133f-2559-4b53-a0fd-0970bc0e312e}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <Content Include="Assets\FilesOpenDialog\SetFilesAsDefault.reg" />
+    <Content Include="Assets\FilesOpenDialog\UnsetFilesAsDefault.reg" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\FilesOpenDialog\CustomOpenDialog32.dll" />
+    <Content Include="Assets\FilesOpenDialog\CustomOpenDialog64.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
