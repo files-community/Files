@@ -1,6 +1,5 @@
 ﻿using Files.DataModels.NavigationControlItems;
 using Files.UserControls;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
@@ -12,7 +11,7 @@ using Windows.UI.Core;
 
 namespace Files.Filesystem
 {
-    public class WSLDistroManager : ObservableObject
+    public class WSLDistroManager
     {
         public WSLDistroManager()
         {
