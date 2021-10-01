@@ -3,6 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
@@ -69,6 +72,44 @@
                         </HyperlinkButton>
                     </local:SettingsBlockControl>
                 </local:SettingsBlockControl.ExpandableContent>
+            </local:SettingsBlockControl>
+
+            <TextBlock
+                Padding="0,12,0,0"
+                FontSize="14"
+                FontWeight="Medium"
+                Text="{helpers:ResourceString Name=SettingsDefaultExplorer}" />
+
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsSetAsDefaultExplorer}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xEC50;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch IsOn="{Binding IsSetAsDefaultFileManager, Mode=TwoWay}" Style="{StaticResource RightAlignedToggleSwitchStyle}">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Toggled">
+                            <icore:InvokeCommandAction Command="{Binding SetAsDefaultExplorerCommand, Mode=OneWay}" />
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </ToggleSwitch>
+            </local:SettingsBlockControl>
+
+            <local:SettingsBlockControl
+                Title="{helpers:ResourceString Name=SettingsSetAsOpenDialog}"
+                HorizontalAlignment="Stretch"
+                Visibility="Collapsed">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE1A5;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch
+                    IsEnabled="{Binding IsSetAsDefaultFileManager, Mode=OneWay}"
+                    IsOn="{Binding IsSetAsOpenFileDialog, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}">
+                    <i:Interaction.Behaviors>
+                        <icore:EventTriggerBehavior EventName="Toggled">
+                            <icore:InvokeCommandAction Command="{Binding SetAsOpenFileDialogCommand, Mode=OneWay}" />
+                        </icore:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </ToggleSwitch>
             </local:SettingsBlockControl>
         </StackPanel>
     </Grid>

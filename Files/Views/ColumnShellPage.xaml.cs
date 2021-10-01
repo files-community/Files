@@ -24,6 +24,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
@@ -602,6 +603,12 @@ namespace Files.Views
                         await storageHistoryHelpers.TryRedo();
                     }
                     break;
+
+                case (true, true, false, true, VirtualKey.C):
+                    {
+                        SlimContentPage?.CommandsViewModel.CopyPathOfSelectedItemCommand.Execute(null);
+                        break;
+                    }
 
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
                     if (InstanceViewModel.CanCreateFileInPage)

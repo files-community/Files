@@ -14,7 +14,7 @@ using Windows.UI.Core;
 
 namespace Files.Filesystem
 {
-    public class WSLDistroManager : ObservableObject
+    public class WSLDistroManager
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 

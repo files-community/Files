@@ -17,7 +17,7 @@ using Windows.UI.Core;
 
 namespace Files.Filesystem
 {
-    public class CloudDrivesManager : ObservableObject
+    public class CloudDrivesManager
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 

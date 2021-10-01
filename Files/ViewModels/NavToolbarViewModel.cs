@@ -843,7 +843,7 @@ namespace Files.ViewModels
                                 : shellPage.FilesystemViewModel.WorkingDirectory;
 
                             // Launch terminal application if possible
-                            foreach (var terminal in App.AppSettings.TerminalController.Model.Terminals)
+                            foreach (var terminal in App.TerminalController.Model.Terminals)
                             {
                                 if (terminal.Path.Equals(currentInput, StringComparison.OrdinalIgnoreCase)
                                     || terminal.Path.Equals(currentInput + ".exe", StringComparison.OrdinalIgnoreCase) || terminal.Name.Equals(currentInput, StringComparison.OrdinalIgnoreCase))

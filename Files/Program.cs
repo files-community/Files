@@ -1,6 +1,7 @@
 ﻿using Files.CommandLine;
 using Files.Common;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -11,33 +12,11 @@ namespace Files
 {
     internal class Program
     {
+        const string PrelaunchInstanceKey = "PrelaunchInstance";
+
         private static async Task Main()
         {
-            var args = Environment.GetCommandLineArgs();
             var proc = System.Diagnostics.Process.GetCurrentProcess();
-
-            if (args.Length == 2)
-            {
-                var parsedCommands = CommandLineParser.ParseUntrustedCommands(args);
-
-                if (parsedCommands != null && parsedCommands.Count > 0)
-                {
-                    foreach (var command in parsedCommands)
-                    {
-                        switch (command.Type)
-                        {
-                            case ParsedCommandType.ExplorerShellCommand:
-                                await OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
-                                //Exit..
-
-                                return;
-
-                            default:
-                                break;
-                        }
-                    }
-                }
-            }
 
             if (!ApplicationData.Current.LocalSettings.Values.Get("AlwaysOpenANewInstance", false))
             {
@@ -52,25 +31,71 @@ namespace Files
                 {
                     var launchArgs = activatedArgs as LaunchActivatedEventArgs;
 
-                    var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-                    var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
-                    if (!instance.IsCurrentInstance && !string.IsNullOrEmpty(launchArgs.Arguments))
+                    if (launchArgs.PrelaunchActivated && AppInstance.GetInstances().Count == 0)
                     {
-                        instance.RedirectActivationTo();
+                        AppInstance.FindOrRegisterInstanceForKey(PrelaunchInstanceKey);
+                        ApplicationData.Current.LocalSettings.Values["WAS_PRELAUNCH_INSTANCE_ACTIVATED"] = false;
+                        Application.Start(_ => new App());
                         return;
+                    }
+                    else
+                    {
+                        bool wasPrelaunchInstanceActivated = ApplicationData.Current.LocalSettings.Values.Get("WAS_PRELAUNCH_INSTANCE_ACTIVATED", true);
+                        if (AppInstance.GetInstances().Any(x => x.Key.Equals(PrelaunchInstanceKey)) && !wasPrelaunchInstanceActivated)
+                        {
+                            var plInstance = AppInstance.GetInstances().First(x => x.Key.Equals(PrelaunchInstanceKey));
+                            ApplicationData.Current.LocalSettings.Values["WAS_PRELAUNCH_INSTANCE_ACTIVATED"] = true;
+                            plInstance.RedirectActivationTo();
+                            return;
+                        }
+                        else
+                        {
+                            var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+                            var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
+                            if (!instance.IsCurrentInstance && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
+                            {
+                                instance.RedirectActivationTo();
+                                return;
+                            }
+                        }
+                        
+                    }
+                }
+                else if (activatedArgs is CommandLineActivatedEventArgs cmdLineArgs)
+                {
+                    var operation = cmdLineArgs.Operation;
+                    var cmdLineString = operation.Arguments;
+                    var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
+                    
+                    if (parsedCommands != null)
+                    {
+                        foreach (var command in parsedCommands)
+                        {
+                            switch (command.Type)
+                            {
+                                case ParsedCommandType.ExplorerShellCommand:
+                                    await OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
+                                    return; // Exit
+
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+
+                    // Always open a new instance for OpenDialog
+                    if (parsedCommands == null || !parsedCommands.Any(x => x.Type == ParsedCommandType.OutputPath))
+                    {
+                        var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+                        var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
+                        if (!instance.IsCurrentInstance)
+                        {
+                            instance.RedirectActivationTo();
+                            return;
+                        }
                     }
                 }
                 else if (activatedArgs is FileActivatedEventArgs)
-                {
-                    var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-                    var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
-                    if (!instance.IsCurrentInstance)
-                    {
-                        instance.RedirectActivationTo();
-                        return;
-                    }
-                }
-                else if (activatedArgs is CommandLineActivatedEventArgs)
                 {
                     var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
                     var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());

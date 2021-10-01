@@ -42,6 +42,7 @@ namespace Files
     sealed partial class App : Application
     {
         private static bool ShowErrorNotification = false;
+        private static string OutputPath = null;
 
         public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
@@ -49,6 +50,7 @@ namespace Files
         public static MainViewModel MainViewModel { get; private set; }
         public static JumpListManager JumpList { get; private set; }
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
+        public static TerminalController TerminalController { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
         public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
         public static DrivesManager DrivesManager { get; private set; }
@@ -119,13 +121,8 @@ namespace Files
 
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
         {
-            StartAppCenter();
-
-            if (AppSettings == null)
-            {
-                AppSettings = await SettingsViewModel.CreateInstance();
-                RegistryToJsonSettingsMerger.MergeSettings();
-            }
+            AppSettings ??= new SettingsViewModel();
+            RegistryToJsonSettingsMerger.MergeSettings();
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
@@ -138,6 +135,7 @@ namespace Files
             CloudDrivesManager ??= new CloudDrivesManager();
             WSLDistroManager ??= new WSLDistroManager();
             SidebarPinnedController ??= new SidebarPinnedController();
+            TerminalController ??= new TerminalController();
         }
 
         private static async void StartAppCenter()
@@ -164,13 +162,17 @@ namespace Files
             await Task.Run(async () =>
             {
                 await Task.WhenAll(
-                    JumpList.InitializeAsync(),
-                    SidebarPinnedController.InitializeAsync(),
                     DrivesManager.EnumerateDrivesAsync(),
                     CloudDrivesManager.EnumerateDrivesAsync(),
                     LibraryManager.EnumerateLibrariesAsync(),
                     NetworkDrivesManager.EnumerateDrivesAsync(),
                     WSLDistroManager.EnumerateDrivesAsync(),
+                    SidebarPinnedController.InitializeAsync()
+                );
+                await Task.WhenAll(
+                    AppSettings.DetectQuickLook(),
+                    TerminalController.InitializeAsync(),
+                    JumpList.InitializeAsync(),
                     ExternalResourcesHelper.LoadOtherThemesAsync()
                 );
             });
@@ -183,10 +185,6 @@ namespace Files
         {
             DrivesManager?.ResumeDeviceWatcher();
         }
-
-        public static Windows.UI.Xaml.UnhandledExceptionEventArgs ExceptionInfo { get; set; }
-        public static string ExceptionStackTrace { get; set; }
-        public static List<string> pathsToDeleteAfterPaste = new List<string>();
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -232,6 +230,23 @@ namespace Files
                 // Ensure the current window is active
                 Window.Current.Activate();
                 Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+            }
+            else
+            {
+                if (rootFrame.Content == null)
+                {
+                    // When the navigation stack isn't restored navigate to the first page,
+                    // configuring the new page by passing required information as a navigation
+                    // parameter
+                    rootFrame.Navigate(typeof(MainPage), e.Arguments, new SuppressNavigationTransitionInfo());
+                }
+                else
+                {
+                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPageViewModel.AppInstances.Count > 0))
+                    {
+                        await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
+                    }
+                }
             }
         }
 
@@ -352,68 +367,57 @@ namespace Files
 
                     if (parsedCommands != null && parsedCommands.Count > 0)
                     {
+                        async Task PerformNavigation(string payload)
+                        {
+                            if (rootFrame.Content != null)
+                            {
+                                await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), payload);
+                            }
+                            else
+                            {
+                                rootFrame.Navigate(typeof(MainPage), payload, new SuppressNavigationTransitionInfo());
+                            }
+                        }
                         foreach (var command in parsedCommands)
                         {
                             switch (command.Type)
                             {
                                 case ParsedCommandType.OpenDirectory:
-                                    rootFrame.Navigate(typeof(MainPage), command.Payload, new SuppressNavigationTransitionInfo());
-
-                                    // Ensure the current window is active.
-                                    Window.Current.Activate();
-                                    Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                                    return;
-
                                 case ParsedCommandType.OpenPath:
-
-                                    try
-                                    {
-                                        var det = await StorageFolder.GetFolderFromPathAsync(command.Payload);
-
-                                        rootFrame.Navigate(typeof(MainPage), command.Payload, new SuppressNavigationTransitionInfo());
-
-                                        // Ensure the current window is active.
-                                        Window.Current.Activate();
-                                        Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-
-                                        return;
-                                    }
-                                    catch (System.IO.FileNotFoundException ex)
-                                    {
-                                        //Not a folder
-                                        Debug.WriteLine($"File not found exception App.xaml.cs\\OnActivated with message: {ex.Message}");
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Debug.WriteLine($"Exception in App.xaml.cs\\OnActivated with message: {ex.Message}");
-                                    }
-
+                                    await PerformNavigation(command.Payload);
                                     break;
 
                                 case ParsedCommandType.Unknown:
                                     if (command.Payload.Equals("."))
                                     {
-                                        rootFrame.Navigate(typeof(MainPage), activationPath, new SuppressNavigationTransitionInfo());
+                                        await PerformNavigation(activationPath);
                                     }
                                     else
                                     {
                                         var target = Path.GetFullPath(Path.Combine(activationPath, command.Payload));
                                         if (!string.IsNullOrEmpty(command.Payload))
                                         {
-                                            rootFrame.Navigate(typeof(MainPage), target, new SuppressNavigationTransitionInfo());
+                                            await PerformNavigation(target);
                                         }
                                         else
                                         {
-                                            rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+                                            await PerformNavigation(null);
                                         }
                                     }
+                                    break;
 
-                                    // Ensure the current window is active.
-                                    Window.Current.Activate();
-                                    Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-
-                                    return;
+                                case ParsedCommandType.OutputPath:
+                                    OutputPath = command.Payload;
+                                    break;
                             }
+                        }
+
+                        if (rootFrame.Content != null)
+                        {
+                            // Ensure the current window is active.
+                            Window.Current.Activate();
+                            Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+                            return;
                         }
                     }
                     break;
@@ -458,14 +462,31 @@ namespace Files
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
+            // Save application state and stop any background activity
+            var deferral = e.SuspendingOperation.GetDeferral();
+
             SaveSessionTabs();
 
-            var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
+            if (OutputPath != null)
+            {
+                await Common.Extensions.IgnoreExceptions(async () =>
+                {
+                    var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
+                    if (instance == null)
+                    {
+                        return;
+                    }
+                    var items = (instance.Control.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
+                    if (items == null)
+                    {
+                        return;
+                    }
+                    await FileIO.WriteLinesAsync(await StorageFile.GetFileFromPathAsync(OutputPath), items.Select(x => x.ItemPath));
+                }, Logger);
+            }
 
-            LibraryManager?.Dispose();
             DrivesManager?.Dispose();
             deferral.Complete();
         }
