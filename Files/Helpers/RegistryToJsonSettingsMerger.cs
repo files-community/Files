@@ -58,7 +58,7 @@ namespace Files.Helpers
                     userSettingsService.SidebarSettingsService.ShowCloudDrivesSection = appSettings.Get(true, "ShowCloudDrivesSection");
                     userSettingsService.SidebarSettingsService.ShowNetworkDrivesSection = appSettings.Get(true, "ShowNetworkDrivesSection");
                     userSettingsService.SidebarSettingsService.ShowWslSection = appSettings.Get(true, "ShowWslSection");
-                    userSettingsService.SidebarSettingsService.PinRecycleBinToSideBar = appSettings.Get(true, "PinRecycleBinToSideBar");
+                    userSettingsService.SidebarSettingsService.PinRecycleBinToSidebar = appSettings.Get(true, "PinRecycleBinToSideBar");
 
                     // Preferences
                     userSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog = appSettings.Get(true, "ShowConfirmDeleteDialog");

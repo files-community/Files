@@ -20,7 +20,7 @@ namespace Files.Services.Implementation
                 case nameof(ShowCloudDrivesSection):
                 case nameof(ShowNetworkDrivesSection):
                 case nameof(ShowWslSection):
-                case nameof(PinRecycleBinToSideBar):
+                case nameof(PinRecycleBinToSidebar):
                     Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{nameof(e.settingName)} {e.newValue}");
                     break;
             }
@@ -79,7 +79,7 @@ namespace Files.Services.Implementation
             set => Set(value);
         }
 
-        public bool PinRecycleBinToSideBar
+        public bool PinRecycleBinToSidebar
         {
             get => Get(true);
             set => Set(value);

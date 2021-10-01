@@ -24,12 +24,12 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool PinRecycleBinToSideBar
         {
-            get => UserSettingsService.SidebarSettingsService.PinRecycleBinToSideBar;
+            get => UserSettingsService.SidebarSettingsService.PinRecycleBinToSidebar;
             set
             {
-                if (value != UserSettingsService.SidebarSettingsService.PinRecycleBinToSideBar)
+                if (value != UserSettingsService.SidebarSettingsService.PinRecycleBinToSidebar)
                 {
-                    UserSettingsService.SidebarSettingsService.PinRecycleBinToSideBar = value;
+                    UserSettingsService.SidebarSettingsService.PinRecycleBinToSidebar = value;
                     _= App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(value);
                     OnPropertyChanged();
                 }

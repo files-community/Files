@@ -49,6 +49,6 @@
         /// <summary>
         /// Gets or sets a value indicating whether or not recycle bin should be pinned to the sidebar.
         /// </summary>
-        bool PinRecycleBinToSideBar { get; set; }
+        bool PinRecycleBinToSidebar { get; set; }
     }
 }

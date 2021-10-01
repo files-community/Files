@@ -188,7 +188,7 @@ namespace Files.UserControls
         {
             if (string.Equals(CommonPaths.RecycleBinPath, RightClickedItem.Path, StringComparison.OrdinalIgnoreCase))
             {
-                UserSettingsService.SidebarSettingsService.PinRecycleBinToSideBar = false;
+                UserSettingsService.SidebarSettingsService.PinRecycleBinToSidebar = false;
             }
             else if (RightClickedItem.Section == SectionType.Favorites)
             {
