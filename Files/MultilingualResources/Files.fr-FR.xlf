@@ -3271,7 +3271,6 @@ Files ne collecte, ne stocke, ne partage ni ne publie aucune information personn
 
 Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver des bogues et réparer les pannes. Toutes les informations envoyées à App Center sont anonymes et exemptes de toute donnée relative à l'utilisateur ou au contexte.
   </target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavToolbarGroupByOptionNone.Text" translate="yes" xml:space="preserve">
           <source>None</source>
