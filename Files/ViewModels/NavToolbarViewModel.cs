@@ -432,7 +432,7 @@ namespace Files.ViewModels
                 }
             }
 
-            if (!Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+            if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 e.AcceptedOperation = DataPackageOperation.None;
                 return;
@@ -457,6 +457,7 @@ namespace Files.ViewModels
             }
 
             if (!storageItems.Any(storageItem =>
+                !string.IsNullOrEmpty(storageItem?.Path) &&
                 storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
                 Trim(Path.DirectorySeparatorChar).
                 Contains(Path.DirectorySeparatorChar)))
