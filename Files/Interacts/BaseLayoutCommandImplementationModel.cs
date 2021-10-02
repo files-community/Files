@@ -740,7 +740,13 @@ namespace Files.Interacts
 
         public async void DecompressArchiveToChildFolder()
         {
-            BaseStorageFile archive = await StorageItemHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
+            var selectedItem = associatedInstance?.SlimContentPage?.SelectedItem;
+            if (selectedItem == null)
+            {
+                return;
+            }
+
+            BaseStorageFile archive = await StorageItemHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
             BaseStorageFolder currentFolder = await StorageItemHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
             BaseStorageFolder destinationFolder = null;
 
