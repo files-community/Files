@@ -413,7 +413,7 @@ namespace Files
                 await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.NavPathParam);
 
                 // pathRoot will be empty on recycle bin path
-                var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
+                var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
                 string pathRoot = GetPathRoot(workingDir);
                 if (string.IsNullOrEmpty(pathRoot) || workingDir.StartsWith(AppSettings.RecycleBinPath)) // Can't go up from recycle bin
                 {
