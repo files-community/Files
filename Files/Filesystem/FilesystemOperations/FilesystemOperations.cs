@@ -951,7 +951,7 @@ namespace Files.Filesystem
                         var fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
                             && response.Get("Success", false));
                         var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", "{\"Items\": []}"));
-                        fsResult &= (FilesystemResult)shellOpResult.Items.All(x => x.Succeeded);
+                        fsResult &= (FilesystemResult)(shellOpResult?.Items != null && shellOpResult.Items.All(x => x.Succeeded));
                         return (fsResult, shellOpResult);
                     }
                 }
