@@ -739,7 +739,7 @@ namespace Files.UserControls
                 isDropOnProcess = false;
                 deferral.Complete();
             }
-            else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem sourceLocationItem)
+            else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
             {
                 // Else if the dropped item is a location item
 
