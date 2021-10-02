@@ -187,11 +187,11 @@ namespace Files.Filesystem.StorageItems
                 using (ZipFile zipFile = new ZipFile(new FileStream(hFile, FileAccess.Read)))
                 {
                     zipFile.IsStreamOwner = true;
-                    var wnt = new WindowsNameTransform(ContainerPath);
+                    var wnt = new WindowsNameTransform(ContainerPath, true); // Check with Path.GetFullPath
                     var items = new List<IStorageItem>();
                     foreach (var entry in zipFile.OfType<ZipEntry>()) // Returns all items recursively
                     {
-                        string winPath = entry.IsDirectory ? wnt.TransformDirectory(entry.Name) : wnt.TransformFile(entry.Name);
+                        string winPath = System.IO.Path.GetFullPath(entry.IsDirectory ? wnt.TransformDirectory(entry.Name) : wnt.TransformFile(entry.Name));
                         if (winPath.StartsWith(Path)) // Child of self
                         {
                             var split = winPath.Substring(Path.Length).Split(new[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
