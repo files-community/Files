@@ -714,7 +714,7 @@ namespace Files.ViewModels
             {
                 await Task.Run(async () =>
                 {
-                    foreach (var gp in FilesAndFolders.GroupedCollection)
+                    foreach (var gp in FilesAndFolders.GroupedCollection.ToList())
                     {
                         var img = await GetItemTypeGroupIcon(gp.FirstOrDefault());
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
