@@ -282,7 +282,10 @@ namespace Files.Views
                     }
             }
 
-            SidebarAdaptiveViewModel.PaneHolder.ActivePane?.NavigateToPath(navigationPath, sourcePageType);
+            if (SidebarAdaptiveViewModel.PaneHolder?.ActivePane is IShellPage shellPage)
+            {
+                shellPage.NavigateToPath(navigationPath, sourcePageType);
+            }
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
