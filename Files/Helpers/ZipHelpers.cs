@@ -14,7 +14,12 @@ namespace Files.Helpers
     {
         public static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder, IProgress<float> progressDelegate, CancellationToken cancellationToken)
         {
-            using (ZipFile zipFile = new ZipFile(await archive.OpenStreamForReadAsync()))
+            ZipFile zipFile = await Filesystem.FilesystemTasks.Wrap(async () => new ZipFile(await archive.OpenStreamForReadAsync()));
+            if (zipFile == null)
+            {
+                return;
+            }
+            using (zipFile)
             {
                 zipFile.IsStreamOwner = true;
                 List<ZipEntry> directoryEntries = new List<ZipEntry>();
