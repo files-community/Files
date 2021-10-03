@@ -10,7 +10,7 @@ namespace Files.Extensions
         {
             var elapsed = DateTimeOffset.Now - d;
 
-            if (d.Year == 1601)
+            if (d.Year == 1601 || d.Year == 9999)
             {
                 return " ";
             }
