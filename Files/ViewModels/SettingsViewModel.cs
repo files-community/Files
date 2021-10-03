@@ -821,11 +821,6 @@ namespace Files.ViewModels
             return defaultValue;
         }
 
-        internal static void CopyVersionInfo()
-        {
-            throw new NotImplementedException();
-        }
-
         private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
 
         #endregion ReadAndSaveSettings
