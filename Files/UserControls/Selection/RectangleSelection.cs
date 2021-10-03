@@ -28,7 +28,7 @@ namespace Files.UserControls.Selection
         /// <param name="selectionRectangle">Rectangle inside a Canvas</param>
         /// <param name="selectionChanged">SelectionChanged event associated with uiElement</param>
         /// <returns></returns>
-        public static RectangleSelection Create(UIElement uiElement, Rectangle selectionRectangle, SelectionChangedEventHandler selectionChanged = null)
+        public static RectangleSelection Create(FrameworkElement uiElement, Rectangle selectionRectangle, SelectionChangedEventHandler selectionChanged = null)
         {
             if (uiElement is ListViewBase)
             {
@@ -63,12 +63,12 @@ namespace Files.UserControls.Selection
             Active
         }
 
-        protected void DrawRectangle(PointerPoint currentPoint, Point originDragPointShifted, UIElement uiElement)
+        protected void DrawRectangle(PointerPoint currentPoint, Point originDragPointShifted, FrameworkElement uiElement)
         {
             // Redraw selection rectangle according to the new point
             if (currentPoint.Position.X >= originDragPointShifted.X)
             {
-                double maxWidth = uiElement.ActualSize.X - originDragPointShifted.X;
+                double maxWidth = uiElement.ActualWidth - originDragPointShifted.X;
                 if (currentPoint.Position.Y <= originDragPointShifted.Y)
                 {
                     // Pointer was moved up and right
