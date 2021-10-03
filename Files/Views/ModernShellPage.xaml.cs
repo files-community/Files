@@ -1017,11 +1017,10 @@ namespace Files.Views
         private void SetLoadingIndicatorForTabs(bool isLoading)
         {
             var multitaskingControls = ((Window.Current.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
-            var tabItemControl = this.FindAscendant<TabItemControl>();
 
             foreach (var x in multitaskingControls)
             {
-                x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.Control == tabItemControl), isLoading);
+                x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.Control.TabItemContent == PaneHolder), isLoading);
             }
         }
 
