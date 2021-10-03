@@ -225,6 +225,8 @@ namespace FilesFullTrust.MessageHandlers
                                                 | ShellFileOperations.OperationFlags.WantNukeWarning;
                                 }
 
+                                var taskbar = Win32API.CreateTaskbarObject();
+
                                 var shellOperationResult = new ShellOperationResult();
 
                                 for (var i = 0; i < fileToDeletePath.Length; i++)
@@ -264,6 +266,7 @@ namespace FilesFullTrust.MessageHandlers
                                     {
                                         throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
                                     }
+                                    taskbar.SetProgressValue(op.OwnerWindow.Handle, (ulong)e.ProgressPercentage, 100);
                                 };
 
                                 try
@@ -276,6 +279,8 @@ namespace FilesFullTrust.MessageHandlers
                                 }
 
                                 handleTable.RemoveValue(operationID);
+
+                                taskbar.SetProgressState(op.OwnerWindow.Handle, Shell32.TBPFLAG.TBPF_NOPROGRESS);
 
                                 return (await deleteTcs.Task, shellOperationResult);
                             }
@@ -348,6 +353,7 @@ namespace FilesFullTrust.MessageHandlers
                         var moveDestination = ((string)message["destpath"]).Split('|');
                         var operationID = (string)message["operationID"];
                         var overwriteOnMove = (bool)message["overwrite"];
+                        var ownerHwnd = (long)message["HWND"];
                         var (success, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
                             using (var op = new ShellFileOperations())
@@ -357,9 +363,11 @@ namespace FilesFullTrust.MessageHandlers
                                 op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
                                             | ShellFileOperations.OperationFlags.Silent
                                             | ShellFileOperations.OperationFlags.NoErrorUI;
-
+                                op.OwnerWindow = Win32API.Win32Window.FromLong(ownerHwnd);
                                 op.Options |= !overwriteOnMove ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
                                     : ShellFileOperations.OperationFlags.NoConfirmation;
+
+                                var taskbar = Win32API.CreateTaskbarObject();
 
                                 for (var i = 0; i < fileToMovePath.Length; i++)
                                 {
@@ -394,6 +402,7 @@ namespace FilesFullTrust.MessageHandlers
                                     {
                                         throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
                                     }
+                                    taskbar.SetProgressValue(op.OwnerWindow.Handle, (ulong)e.ProgressPercentage, 100);
                                 };
 
                                 try
@@ -406,6 +415,8 @@ namespace FilesFullTrust.MessageHandlers
                                 }
 
                                 handleTable.RemoveValue(operationID);
+
+                                taskbar.SetProgressState(op.OwnerWindow.Handle, Shell32.TBPFLAG.TBPF_NOPROGRESS);
 
                                 return (await moveTcs.Task, shellOperationResult);
                             }
@@ -423,6 +434,7 @@ namespace FilesFullTrust.MessageHandlers
                         var copyDestination = ((string)message["destpath"]).Split('|');
                         var operationID = (string)message["operationID"];
                         var overwriteOnCopy = (bool)message["overwrite"];
+                        var ownerHwnd = (long)message["HWND"];
                         var (succcess, shellOperationResult) = await Win32API.StartSTATask(async () =>
                         {
                             using (var op = new ShellFileOperations())
@@ -432,9 +444,11 @@ namespace FilesFullTrust.MessageHandlers
                                 op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
                                             | ShellFileOperations.OperationFlags.Silent
                                             | ShellFileOperations.OperationFlags.NoErrorUI;
-
+                                op.OwnerWindow = Win32API.Win32Window.FromLong(ownerHwnd);
                                 op.Options |= !overwriteOnCopy ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
                                     : ShellFileOperations.OperationFlags.NoConfirmation;
+
+                                var taskbar = Win32API.CreateTaskbarObject();
 
                                 for (var i = 0; i < fileToCopyPath.Length; i++)
                                 {
@@ -469,6 +483,7 @@ namespace FilesFullTrust.MessageHandlers
                                     {
                                         throw new Win32Exception(unchecked((int)0x80004005)); // E_FAIL, stops operation
                                     }
+                                    taskbar.SetProgressValue(op.OwnerWindow.Handle, (ulong)e.ProgressPercentage, 100);
                                 };
 
                                 try
@@ -481,6 +496,8 @@ namespace FilesFullTrust.MessageHandlers
                                 }
 
                                 handleTable.RemoveValue(operationID);
+
+                                taskbar.SetProgressState(op.OwnerWindow.Handle, Shell32.TBPFLAG.TBPF_NOPROGRESS);
 
                                 return (await copyTcs.Task, shellOperationResult);
                             }
@@ -720,6 +737,10 @@ namespace FilesFullTrust.MessageHandlers
 
         public void Dispose()
         {
+            while (handleTable.HasValues())
+            {
+                System.Threading.Thread.Sleep(100);
+            }
             handleTable?.Dispose();
             dbInstance?.Dispose();
         }

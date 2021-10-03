@@ -97,7 +97,8 @@ namespace Files.Filesystem
                     { "operationID", operationID },
                     { "filepath", string.Join('|', sourceRename.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationRename) },
-                    { "overwrite", false }
+                    { "overwrite", false },
+                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
@@ -113,7 +114,8 @@ namespace Files.Filesystem
                     { "operationID", operationID },
                     { "filepath", string.Join('|', sourceReplace.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationReplace) },
-                    { "overwrite", true }
+                    { "overwrite", true },
+                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
@@ -342,7 +344,8 @@ namespace Files.Filesystem
                     { "operationID", operationID },
                     { "filepath", string.Join('|', sourceRename.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationRename) },
-                    { "overwrite", false }
+                    { "overwrite", false },
+                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
@@ -358,7 +361,8 @@ namespace Files.Filesystem
                     { "operationID", operationID },
                     { "filepath", string.Join('|', sourceReplace.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationReplace) },
-                    { "overwrite", true }
+                    { "overwrite", true },
+                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
@@ -469,7 +473,8 @@ namespace Files.Filesystem
                 { "operationID", operationID },
                 { "filepath", source.Path },
                 { "destpath", destination },
-                { "overwrite", false }
+                { "overwrite", false },
+                { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));

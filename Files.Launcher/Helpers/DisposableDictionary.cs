@@ -56,6 +56,11 @@ namespace FilesFullTrust.Helpers
             (elem as IDisposable)?.Dispose();
         }
 
+        public bool HasValues()
+        {
+            return dict.Keys.Count > 0;
+        }
+
         public void Dispose()
         {
             foreach (var elem in dict)

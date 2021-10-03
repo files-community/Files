@@ -71,6 +71,7 @@ namespace Files
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
+            AppServiceConnectionHelper.Register();
         }
 
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
