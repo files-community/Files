@@ -66,6 +66,9 @@ namespace FilesFullTrust
 
                 // Wait until the connection gets closed
                 appServiceExit.WaitOne();
+
+                // Wait for ongoing file operations
+                messageHandlers.OfType<FileOperationsHandler>().Single().WaitForCompletion();
             }
             finally
             {
