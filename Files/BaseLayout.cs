@@ -405,6 +405,7 @@ namespace Files
             FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
             ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
             FolderSettings.SetLayoutInformation();
+            ParentShellPageInstance.NavToolbarViewModel.UpdateSortAndGroupOptions();
 
             if (!navigationArguments.IsSearchResultPage)
             {

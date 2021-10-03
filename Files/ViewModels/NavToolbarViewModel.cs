@@ -335,6 +335,13 @@ namespace Files.ViewModels
 
         private string dragOverPath = null;
 
+        public void UpdateSortAndGroupOptions()
+        {
+            FolderSettings_SortDirectionPreferenceUpdated(null, 0);
+            FolderSettings_SortOptionPreferenceUpdated(null, 0);
+            FolderSettings_GroupOptionPreferenceUpdated(null, 0);
+        }
+
         private void FolderSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
         {
             OnPropertyChanged(nameof(IsSortedAscending));
