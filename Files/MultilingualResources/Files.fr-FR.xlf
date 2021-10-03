@@ -36,7 +36,7 @@
         </trans-unit>
         <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
           <source>Files you've previously accessed will show up here</source>
-          <target state="translated">Les fichiers auxquels vous avez accédé précédemment s'affichent ici</target>
+          <target state="translated">Les fichiers précédemment ouverts s'afficheront ici</target>
         </trans-unit>
         <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
@@ -64,7 +64,7 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
           <source>Files &amp; Folders</source>
-          <target state="translated">Fichiers &amp; Dossiers</target>
+          <target state="translated">Fichiers et dossiers</target>
         </trans-unit>
         <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
           <source>Appearance</source>
@@ -72,11 +72,11 @@
         </trans-unit>
         <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
           <source>Files &amp; Folders</source>
-          <target state="translated">Fichiers &amp; Dossiers</target>
+          <target state="translated">Fichiers et dossiers</target>
         </trans-unit>
         <trans-unit id="SettingsNavOnStartup.Content" translate="yes" xml:space="preserve">
           <source>On Startup</source>
-          <target state="translated">Au Démarrage</target>
+          <target state="translated">Au démarrage</target>
         </trans-unit>
         <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
           <source>Preferences</source>
@@ -96,7 +96,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
           <source>On Startup</source>
-          <target state="translated">Au Démarrage</target>
+          <target state="translated">Au démarrage</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
           <source>Preferences</source>
@@ -152,11 +152,11 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByAscending.Text" translate="yes" xml:space="preserve">
           <source>Ascending</source>
-          <target state="translated" state-qualifier="tm-suggestion">Ascendant</target>
+          <target state="translated">Croissant</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByDescending.Text" translate="yes" xml:space="preserve">
           <source>Descending</source>
-          <target state="translated" state-qualifier="tm-suggestion">Descendant</target>
+          <target state="translated">Décroissant</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRefresh.Text" translate="yes" xml:space="preserve">
           <source>Refresh</source>
@@ -228,11 +228,11 @@
         </trans-unit>
         <trans-unit id="NavToolbarSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
-          <target state="translated" state-qualifier="tm-suggestion">Sélectionner Tout</target>
+          <target state="translated">Sélectionner tout</target>
         </trans-unit>
         <trans-unit id="NavToolbarClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
-          <target state="translated" state-qualifier="tm-suggestion">Effacer la Sélection</target>
+          <target state="translated">Effacer la sélection</target>
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewFolder.Text" translate="yes" xml:space="preserve">
           <source>Folder</source>
@@ -240,11 +240,11 @@
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewBitmapImage.Text" translate="yes" xml:space="preserve">
           <source>Bitmap Image</source>
-          <target state="translated" state-qualifier="tm-suggestion">Image Bitmap</target>
+          <target state="translated">Image bitmap</target>
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewTextDocument.Text" translate="yes" xml:space="preserve">
           <source>Text Document</source>
-          <target state="translated" state-qualifier="tm-suggestion">Document Texte</target>
+          <target state="translated">Document texte</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutDetails.Text" translate="yes" xml:space="preserve">
           <source>Details</source>
@@ -296,7 +296,7 @@
         </trans-unit>
         <trans-unit id="WelcomeDialogTextBlock.Text" translate="yes" xml:space="preserve">
           <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </source>
-          <target state="translated">Pour commencer, vous devez nous permettre d'afficher vos fichiers. Une fenêtre de Configuration va s'ouvrir où vous pourrez nous donner la permission. Vous devrez relancer l'application une fois cette étape terminée. </target>
+          <target state="translated">Pour commencer, vous devez nous permettre d'afficher vos fichiers. Une fenêtre de configuration va s'ouvrir où vous pourrez nous donner la permission. Vous devrez relancer l'application une fois cette étape terminée. </target>
         </trans-unit>
         <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
           <source>File folder</source>
@@ -320,7 +320,7 @@
         </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
           <source>Default</source>
-          <target state="translated">Défaut</target>
+          <target state="translated">Système</target>
         </trans-unit>
         <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
           <source>Light</source>
@@ -340,7 +340,7 @@
         </trans-unit>
         <trans-unit id="NewFolder" translate="yes" xml:space="preserve">
           <source>New Folder</source>
-          <target state="translated" state-qualifier="tm-suggestion">Nouveau Dossier</target>
+          <target state="translated">Nouveau dossier</target>
         </trans-unit>
         <trans-unit id="EmptyFolder.Text" translate="yes" xml:space="preserve">
           <source>This folder is empty.</source>
@@ -348,15 +348,15 @@
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Back (Alt+Left Arrow)</source>
-          <target state="translated">Précédent (Alt + Flèche Gauche)</target>
+          <target state="translated">Précédent (Alt + Flèche gauche)</target>
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Forward (Alt+Right Arrow)</source>
-          <target state="translated">Suivant (Alt + Flèche Droite)</target>
+          <target state="translated">Suivant (Alt + Flèche droite)</target>
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Up (Alt+Up Arrow)</source>
-          <target state="translated">Remonter (Alt + Flèche Haut)</target>
+          <target state="translated">Remonter (Alt + Flèche haut)</target>
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Refresh (F5)</source>
@@ -376,7 +376,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
-          <target state="translated" state-qualifier="tm-suggestion">Inverser la Sélection</target>
+          <target state="translated">Inverser la sélection</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
           <source>Open</source>
@@ -452,7 +452,7 @@
         </trans-unit>
         <trans-unit id="AccessDeniedDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>We weren't able to delete this item</source>
-          <target state="translated">Nous n'avons pas été en mesure de supprimer cet élément</target>
+          <target state="translated">Impossible de supprimer cet élément</target>
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Text" translate="yes" xml:space="preserve">
           <source>Please insert the necessary drive to access this item.</source>
@@ -460,7 +460,7 @@
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Title" translate="yes" xml:space="preserve">
           <source>Drive Unplugged</source>
-          <target state="translated">Disque Déconnecté</target>
+          <target state="translated">Disque déconnecté</target>
         </trans-unit>
         <trans-unit id="FileNotFoundDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to access may have been moved or deleted.</source>
@@ -468,7 +468,7 @@
         </trans-unit>
         <trans-unit id="FileNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>File Not Found</source>
-          <target state="translated" state-qualifier="tm-suggestion">Fichier Introuvable</target>
+          <target state="translated">Fichier introuvable</target>
         </trans-unit>
         <trans-unit id="FileNotFoundPreviewDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to preview may have been moved or deleted.</source>
@@ -536,7 +536,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" translate="yes" xml:space="preserve">
           <source>New Tab</source>
-          <target state="translated" state-qualifier="tm-suggestion">Nouvel Onglet</target>
+          <target state="translated">Nouvel onglet</target>
         </trans-unit>
         <trans-unit id="ErrorDialogUnsupportedOperation" translate="yes" xml:space="preserve">
           <source>The requested operation is not supported</source>
@@ -628,11 +628,11 @@
         </trans-unit>
         <trans-unit id="PasteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Pasting files</source>
-          <target state="translated">Collage des fichiers</target>
+          <target state="translated">Copie des fichiers</target>
         </trans-unit>
         <trans-unit id="RecycleInProgress.Title" translate="yes" xml:space="preserve">
           <source>Moving files to the Recycle Bin</source>
-          <target state="translated">Déplacer des fichiers vers la Corbeille</target>
+          <target state="translated">Déplacement vers la Corbeille en cours</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Unlock</source>
@@ -728,7 +728,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
           <source>Windows default</source>
-          <target state="translated">Défauts de Windows</target>
+          <target state="translated">Système</target>
         </trans-unit>
         <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
           <source>Move tab here</source>
@@ -1004,7 +1004,7 @@
         </trans-unit>
         <trans-unit id="AccessDenied" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
-          <target state="translated">Accès Refusé</target>
+          <target state="translated">Accès refusé</target>
         </trans-unit>
         <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
           <source>File</source>
@@ -1020,7 +1020,7 @@
         </trans-unit>
         <trans-unit id="ShortcutItemAutomation" translate="yes" xml:space="preserve">
           <source>Shortcut item</source>
-          <target state="translated">Élément de raccourci</target>
+          <target state="translated">Raccourci</target>
         </trans-unit>
         <trans-unit id="PinToSidebarByDraggingCaptionText" translate="yes" xml:space="preserve">
           <source>Move here</source>
@@ -1316,7 +1316,7 @@
         </trans-unit>
         <trans-unit id="PropertyWriter" translate="yes" xml:space="preserve">
           <source>Writer</source>
-          <target state="translated" state-qualifier="tm-suggestion">Écrivain</target>
+          <target state="translated">Auteur</target>
         </trans-unit>
         <trans-unit id="PropertyYear" translate="yes" xml:space="preserve">
           <source>Year</source>
@@ -1588,23 +1588,23 @@
         </trans-unit>
         <trans-unit id="NavToolbarDetails.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Details (Ctrl+Shift+1)</source>
-          <target state="translated">Vue détaillée (Ctrl+Shift+1)</target>
+          <target state="translated">Détails (Ctrl+Shift+1)</target>
         </trans-unit>
         <trans-unit id="NavToolbarLargeIcons.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Large Icons (Ctrl+Shift+5)</source>
-          <target state="translated">Vue grille (Grande) (Ctrl+Shift+5)</target>
+          <target state="translated">Grandes Icônes (Ctrl+Shift+5)</target>
         </trans-unit>
         <trans-unit id="NavToolbarMediumIcons.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Medium Icons (Ctrl+Shift+4)</source>
-          <target state="translated">Vue grille (Moyenne) (Ctrl+Shift+4)</target>
+          <target state="translated">Moyennes Icônes (Ctrl+Shift+4)</target>
         </trans-unit>
         <trans-unit id="NavToolbarSmallIcons.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Small Icons (Ctrl+Shift+3)</source>
-          <target state="translated">Vue grille (Petite) (Ctrl+Shift+3)</target>
+          <target state="translated">Petites Icônes (Ctrl+Shift+3)</target>
         </trans-unit>
         <trans-unit id="NavToolbarTiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Tiles (Ctrl+Shift+2)</source>
-          <target state="translated">Vue tuiles (Ctrl+Shift+2)</target>
+          <target state="translated">Tuiles (Ctrl+Shift+2)</target>
         </trans-unit>
         <trans-unit id="NavToolbarLargeIcons.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Large Icons</source>
@@ -1800,7 +1800,7 @@
         </trans-unit>
         <trans-unit id="OngoingTasksFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Ongoing tasks flyout</source>
-          <target state="translated">Menu volant des tâches en cours</target>
+          <target state="translated">Menu des tâches en cours</target>
         </trans-unit>
         <trans-unit id="CloudDriveSyncStatus_Online" translate="yes" xml:space="preserve">
           <source>Available when online</source>
@@ -2008,7 +2008,7 @@
         </trans-unit>
         <trans-unit id="NavToolbarColumnView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Columns (Ctrl+Shift+6)</source>
-          <target state="translated">Vue colonne (Ctrl+Shift+6)</target>
+          <target state="translated">Colonnes (Ctrl+Shift+6)</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutColumn.Text" translate="yes" xml:space="preserve">
           <source>Columns</source>
@@ -2060,7 +2060,7 @@
         </trans-unit>
         <trans-unit id="ErrorNameInputRestrictedCharacters" translate="yes" xml:space="preserve">
           <source>The name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
-          <target state="translated">Le nom ne peut contenir les caractères suivants : \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
+          <target state="translated">Le nom ne peut pas contenir les caractères suivants : \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
         <trans-unit id="ErrorNameInputRestricted" translate="yes" xml:space="preserve">
           <source>Using this name is not allowed!</source>
@@ -2256,11 +2256,11 @@
         </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
-          <target state="translated">Options de sélection</target>
+          <target state="translated">Sélection</target>
         </trans-unit>
         <trans-unit id="NavToolbarSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
-          <target state="translated">Options de sélection</target>
+          <target state="translated">Sélection</target>
         </trans-unit>
         <trans-unit id="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>File icon</source>
@@ -2268,19 +2268,19 @@
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowOriginalPath.Text" translate="yes" xml:space="preserve">
           <source>Original path column</source>
-          <target state="translated">Colonne du chemin original</target>
+          <target state="translated">Chemin d'origine</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowItemType.Text" translate="yes" xml:space="preserve">
           <source>Item type column</source>
-          <target state="translated">Colonne de type d'élément</target>
+          <target state="translated">Type</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowDateModified.Text" translate="yes" xml:space="preserve">
           <source>Date modified column</source>
-          <target state="translated">Colonne de la date de modification</target>
+          <target state="translated">Date de modification</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowDateDeleted.Text" translate="yes" xml:space="preserve">
           <source>Date deleted column</source>
-          <target state="translated">Colonne de la date de suppression</target>
+          <target state="translated">Date de suppression</target>
         </trans-unit>
         <trans-unit id="ResizeElementKeyboardControl.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Sidebar resizer</source>
@@ -2528,11 +2528,11 @@
         </trans-unit>
         <trans-unit id="OngoingTasksDismissBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Dismiss</source>
-          <target state="translated">Rejeter</target>
+          <target state="translated">Ignorer</target>
         </trans-unit>
         <trans-unit id="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Dismiss</source>
-          <target state="translated">Rejeter</target>
+          <target state="translated">Ignorer</target>
         </trans-unit>
         <trans-unit id="NavToolbarWidgets.Label" translate="yes" xml:space="preserve">
           <source>Widgets</source>
@@ -2748,7 +2748,7 @@
         </trans-unit>
         <trans-unit id="SecuritySpecialLabel.Text" translate="yes" xml:space="preserve">
           <source>Special</source>
-          <target state="translated">Spécial</target>
+          <target state="translated">Autorisations spéciales</target>
         </trans-unit>
         <trans-unit id="SecurityAdvancedAccessLabel.Text" translate="yes" xml:space="preserve">
           <source>Access</source>
@@ -3012,7 +3012,7 @@
         </trans-unit>
         <trans-unit id="SettingsVerticalTabFlyout" translate="yes" xml:space="preserve">
           <source>Display the vertical tab flyout on the title bar</source>
-          <target state="translated">Afficher le menu volant de l'onglet vertical sur la barre de titre</target>
+          <target state="translated">Afficher le menu de l'onglet vertical sur la barre de titre</target>
         </trans-unit>
         <trans-unit id="SettingsShowCloudDrivesSection.Title" translate="yes" xml:space="preserve">
           <source>Show cloud drives section</source>
@@ -3064,23 +3064,23 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersHideSystemItems" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
-          <target state="translated">Masquer les fichiers protégés du système d'exploitation (Recommandé)</target>
+          <target state="translated">Masquer les fichiers protégés du système (Recommandé)</target>
         </trans-unit>
         <trans-unit id="SettingsOpenItemsWithOneclick" translate="yes" xml:space="preserve">
           <source>Open items with a single click</source>
-          <target state="translated">Ouvrir des éléments en un seul clic</target>
+          <target state="translated">Ouvrir les éléments d'un seul clic</target>
         </trans-unit>
         <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
-          <target state="translated">Lister et trier les répertoires avec les fichiers</target>
+          <target state="translated">Lister et trier les dossiers avec les fichiers</target>
         </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
-          <target state="translated">Afficher les éléments non indexés lors de la recherche de fichiers et de dossiers (les recherches peuvent être plus longues)</target>
+          <target state="translated">Afficher les éléments non indexés lors de la recherche de fichiers et dossiers (peut prendre plus de temps)</target>
         </trans-unit>
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
-          <target state="translated">Activer les préférences individuelles pour les répertoires individuels</target>
+          <target state="translated">Activer les préférences individuelles pour les dossiers</target>
         </trans-unit>
         <trans-unit id="SettingsUsefulLinks.Title" translate="yes" xml:space="preserve">
           <source>Useful links</source>
@@ -3256,7 +3256,7 @@
         </trans-unit>
         <trans-unit id="SettingsPrivacyPolicyMarkdownBlock.Text" translate="yes" xml:space="preserve">
           <source>
-*Personal Information Collection* 
+*Personal Information Collection*
 Files does not collect, store, share or publish any personal information.
 
 *Non-personal Information Collection*
@@ -3264,7 +3264,7 @@ Files does not collect, store, share or publish any personal information.
 We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
   </source>
           <target state="translated">
-*Collecte d'informations personnelles* 
+*Collecte d'informations personnelles*
 Files ne collecte, ne stocke, ne partage ni ne publie aucune information personnelle.
 
 *Collecte d'informations non personnelles
@@ -3306,11 +3306,11 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
         </trans-unit>
         <trans-unit id="NavToolbarSortDirectionOptionAscending.Text" translate="yes" xml:space="preserve">
           <source>Ascending</source>
-          <target state="translated">Ascendant</target>
+          <target state="translated">Croissant</target>
         </trans-unit>
         <trans-unit id="NavToolbarSortDirectionOptionDescending.Text" translate="yes" xml:space="preserve">
           <source>Descending</source>
-          <target state="translated">Descendant</target>
+          <target state="translated">Décroissant</target>
         </trans-unit>
         <trans-unit id="SyncStatus" translate="yes" xml:space="preserve">
           <source>Sync status</source>
@@ -3442,7 +3442,7 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
         </trans-unit>
         <trans-unit id="NavToolbarMediumIconsHeader.Text" translate="yes" xml:space="preserve">
           <source>Medium Icons</source>
-          <target state="translated">Icônes Moyennes</target>
+          <target state="translated">Moyennes Icônes</target>
         </trans-unit>
         <trans-unit id="NavToolbarSmallIconsHeader.Text" translate="yes" xml:space="preserve">
           <source>Small Icons</source>
