@@ -782,12 +782,7 @@ namespace Files.Filesystem
                         CloseButtonText = "Cancel".GetLocalized()
                     };
 
-                    if (UIHelpers.IsAnyContentDialogOpen())
-                    {
-                        // Only a single ContentDialog can be open at any time.
-                        return null;
-                    }
-                    ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
+                    ContentDialogResult result = await ItemAlreadyExistsDialog.TryShowAsync();
 
                     if (result == ContentDialogResult.Primary)
                     {

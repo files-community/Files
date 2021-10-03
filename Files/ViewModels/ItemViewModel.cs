@@ -1373,13 +1373,9 @@ namespace Files.ViewModels
                         {
                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
-                                if (UIHelpers.IsAnyContentDialogOpen())
-                                {
-                                    return;
-                                }
                                 var dialog = new CredentialDialog();
 
-                                if (await dialog.ShowAsync() == Windows.UI.Xaml.Controls.ContentDialogResult.Primary)
+                                if (await dialog.TryShowAsync() == Windows.UI.Xaml.Controls.ContentDialogResult.Primary)
                                 {
                                     var result = await dialog.Result;
 
