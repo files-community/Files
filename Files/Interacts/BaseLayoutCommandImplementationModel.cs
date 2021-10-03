@@ -366,13 +366,13 @@ namespace Files.Interacts
 
                 foreach (ListedItem item in SlimContentPage.SelectedItems)
                 {
-                    if (item.IsShortcutItem)
+                    if (item is ShortcutItem shItem)
                     {
-                        if (item.IsLinkItem)
+                        if (shItem.IsLinkItem && !string.IsNullOrEmpty(shItem.TargetPath))
                         {
                             dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalized(), item.ItemName);
                             dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalized();
-                            dataRequest.Data.SetWebLink(new Uri(((ShortcutItem)item).TargetPath));
+                            dataRequest.Data.SetWebLink(new Uri(shItem.TargetPath));
                             dataRequestDeferral.Complete();
                             return;
                         }
