@@ -782,12 +782,7 @@ namespace Files.Filesystem
                         CloseButtonText = "Cancel".GetLocalized()
                     };
 
-                    if (UIHelpers.IsAnyContentDialogOpen())
-                    {
-                        // Only a single ContentDialog can be open at any time.
-                        return null;
-                    }
-                    ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
+                    ContentDialogResult result = await ItemAlreadyExistsDialog.TryShowAsync();
 
                     if (result == ContentDialogResult.Primary)
                     {
@@ -951,7 +946,7 @@ namespace Files.Filesystem
                         var fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
                             && response.Get("Success", false));
                         var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", "{\"Items\": []}"));
-                        fsResult &= (FilesystemResult)shellOpResult.Items.All(x => x.Succeeded);
+                        fsResult &= (FilesystemResult)(shellOpResult?.Items != null && shellOpResult.Items.All(x => x.Succeeded));
                         return (fsResult, shellOpResult);
                     }
                 }

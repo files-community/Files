@@ -714,7 +714,7 @@ namespace Files.ViewModels
             {
                 await Task.Run(async () =>
                 {
-                    foreach (var gp in FilesAndFolders.GroupedCollection)
+                    foreach (var gp in FilesAndFolders.GroupedCollection.ToList())
                     {
                         var img = await GetItemTypeGroupIcon(gp.FirstOrDefault());
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
@@ -1373,13 +1373,9 @@ namespace Files.ViewModels
                         {
                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
-                                if (UIHelpers.IsAnyContentDialogOpen())
-                                {
-                                    return;
-                                }
                                 var dialog = new CredentialDialog();
 
-                                if (await dialog.ShowAsync() == Windows.UI.Xaml.Controls.ContentDialogResult.Primary)
+                                if (await dialog.TryShowAsync() == Windows.UI.Xaml.Controls.ContentDialogResult.Primary)
                                 {
                                     var result = await dialog.Result;
 
@@ -1612,6 +1608,11 @@ namespace Files.ViewModels
 
         private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, Type sourcePageType, CancellationToken cancellationToken)
         {
+            if (rootFolder == null)
+            {
+                return;
+            }
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 

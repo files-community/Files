@@ -403,7 +403,7 @@ namespace Files.Views
 
         private async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
         {
-            await NavToolbarViewModel.CheckPathInput(e.QueryText, NavToolbarViewModel.PathComponents[NavToolbarViewModel.PathComponents.Count - 1].Path, this);
+            await NavToolbarViewModel.CheckPathInput(e.QueryText, NavToolbarViewModel.PathComponents.LastOrDefault()?.Path, this);
         }
 
         private void NavigationToolbar_EditModeEnabled(object sender, EventArgs e)

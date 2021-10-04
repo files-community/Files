@@ -1,7 +1,4 @@
 ﻿using Files.Common;
-using Files.DataModels;
-using Files.Extensions;
-using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,20 +6,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
-using Windows.System;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Helpers
 {
     public static class UIHelpers
     {
-        public static bool IsAnyContentDialogOpen()
+        public static async Task<ContentDialogResult> TryShowAsync(this ContentDialog dialog)
         {
-            var openedPopups = VisualTreeHelper.GetOpenPopups(Window.Current);
-            return openedPopups.Any(popup => popup.Child is ContentDialog);
+            try
+            {
+                return await dialog.ShowAsync();
+            }
+            catch // A content dialog is already open
+            {
+                return ContentDialogResult.None;
+            }
         }
 
         private static async Task<IList<IconFileInfo>> LoadSelectedIconsAsync(string filePath, IList<int> indexes, int iconSize = 48)
