@@ -46,10 +46,10 @@ namespace Files.DataModels.NavigationControlItems
 
         public bool IsExpanded
         {
-            get => App.AppSettings.Get(Text == "SidebarFavorites".GetLocalized(), $"section:{Text}");
+            get => App.AppSettings.Get(Text == "SidebarFavorites".GetLocalized(), $"section:{Text.Replace('\\', '_')}");
             set
             {
-                App.AppSettings.Set(value, $"section:{Text}");
+                App.AppSettings.Set(value, $"section:{Text.Replace('\\', '_')}");
                 OnPropertyChanged(nameof(IsExpanded));
             }
         }
