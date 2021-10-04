@@ -1582,7 +1582,6 @@ namespace Files.ViewModels
                 }
                 else if (hFile.ToInt64() == -1)
                 {
-                    rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
                     await EnumFromStorageFolderAsync(path, currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken);
                     return 1;
                 }
