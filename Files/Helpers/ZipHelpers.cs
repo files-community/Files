@@ -42,6 +42,7 @@ namespace Files.Helpers
                 }
 
                 var wnt = new WindowsNameTransform(destinationFolder.Path);
+                var zipEncoding = ZipStorageFolder.DetectFileEncoding(zipFile);
 
                 var directories = new List<string>();
                 try
@@ -98,7 +99,7 @@ namespace Files.Helpers
                         continue; // TODO: support password protected archives
                     }
 
-                    string filePath = wnt.TransformFile(ZipStorageFolder.DecodeEntryName(entry));
+                    string filePath = wnt.TransformFile(ZipStorageFolder.DecodeEntryName(entry, zipEncoding));
 
                     var hFile = NativeFileOperationsHelper.CreateFileForWrite(filePath);
                     if (hFile.IsInvalid)
