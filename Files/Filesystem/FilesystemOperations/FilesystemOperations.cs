@@ -263,7 +263,6 @@ namespace Files.Filesystem
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "CopyItem" },
-                            { "operationID", Guid.NewGuid().ToString() },
                             { "filepath", source.Path },
                             { "destpath", destination },
                             { "overwrite", collision == NameCollisionOption.ReplaceExisting }
@@ -321,7 +320,6 @@ namespace Files.Filesystem
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "CopyItem" },
-                            { "operationID", Guid.NewGuid().ToString() },
                             { "filepath", source.Path },
                             { "destpath", destination },
                             { "overwrite", collision == NameCollisionOption.ReplaceExisting }
@@ -486,7 +484,6 @@ namespace Files.Filesystem
                             {
                                 { "Arguments", "FileOperation" },
                                 { "fileop", "MoveItem" },
-                                { "operationID", Guid.NewGuid().ToString() },
                                 { "filepath", source.Path },
                                 { "destpath", destination },
                                 { "overwrite", collision == NameCollisionOption.ReplaceExisting }
@@ -532,7 +529,6 @@ namespace Files.Filesystem
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "MoveItem" },
-                            { "operationID", Guid.NewGuid().ToString() },
                             { "filepath", source.Path },
                             { "destpath", destination },
                             { "overwrite", collision == NameCollisionOption.ReplaceExisting }
@@ -626,10 +622,8 @@ namespace Files.Filesystem
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "DeleteItem" },
-                        { "operationID", Guid.NewGuid().ToString() },
                         { "filepath", source.Path },
-                        { "permanently", permanently },
-                        { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                        { "permanently", permanently }
                     });
                 }
             }
@@ -742,7 +736,6 @@ namespace Files.Filesystem
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "RenameItem" },
-                            { "operationID", Guid.NewGuid().ToString() },
                             { "filepath", source.Path },
                             { "newName", newName },
                             { "overwrite", collision == NameCollisionOption.ReplaceExisting }
@@ -848,7 +841,6 @@ namespace Files.Filesystem
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "MoveItem" },
-                        { "operationID", Guid.NewGuid().ToString() },
                         { "filepath", source.Path },
                         { "destpath", destination },
                         { "overwrite", false }
@@ -942,6 +934,8 @@ namespace Files.Filesystem
                     connection = await AppServiceConnectionHelper.Instance;
                     if (connection != null)
                     {
+                        operation.Add("operationID", Guid.NewGuid().ToString());
+                        operation.Add("HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64());
                         var (status, response) = await connection.SendMessageForResponseAsync(operation);
                         var fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
                             && response.Get("Success", false));
