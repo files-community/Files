@@ -101,6 +101,11 @@ namespace Files.ViewModels
             var basicModel = new BasicPreviewViewModel(SelectedItem);
             await basicModel.LoadAsync();
             control = new BasicPreview(basicModel);
+
+            if (token.IsCancellationRequested)
+            {
+                return;
+            }
             PreviewPaneContent = control;
             PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
         }

@@ -161,14 +161,18 @@ namespace Files.UserControls.MultitaskingControl
                 return;
             }
 
-            var indexOfTabViewItem = sender.TabItems.IndexOf(args.Tab);
+            var indexOfTabViewItem = sender.TabItems.IndexOf(args.Item);
             var tabViewItemArgs = (args.Item as TabItem).TabItemArguments;
             var selectedTabViewItemIndex = sender.SelectedIndex;
-            CloseTab(args.Item as TabItem);
+            Items.Remove(args.Item as TabItem);
             if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
             {
-                sender.TabItems.Insert(indexOfTabViewItem, args.Tab);
+                Items.Insert(indexOfTabViewItem, args.Item as TabItem);
                 sender.SelectedIndex = selectedTabViewItemIndex;
+            }
+            else
+            {
+                CloseTab(args.Item as TabItem);
             }
         }
 

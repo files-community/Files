@@ -142,12 +142,7 @@ namespace Files.Filesystem
                     incomingItems,
                     new List<FilesystemItemsOperationItemModel>()));
 
-                if (UIHelpers.IsAnyContentDialogOpen())
-                {
-                    // Only a single ContentDialog can be open at any time.
-                    return ReturnResult.Cancelled;
-                }
-                ContentDialogResult result = await dialog.ShowAsync();
+                ContentDialogResult result = await dialog.TryShowAsync();
 
                 if (result != ContentDialogResult.Primary)
                 {
@@ -329,12 +324,7 @@ namespace Files.Filesystem
                     incomingItems,
                     new List<FilesystemItemsOperationItemModel>()));
 
-                if (UIHelpers.IsAnyContentDialogOpen())
-                {
-                    // Only a single ContentDialog can be open at any time.
-                    return ReturnResult.Cancelled;
-                }
-                ContentDialogResult result = await dialog.ShowAsync();
+                ContentDialogResult result = await dialog.TryShowAsync();
 
                 if (result != ContentDialogResult.Primary)
                 {
@@ -1021,12 +1011,7 @@ namespace Files.Filesystem
                     incomingItems,
                     conflictingItems));
 
-                if (UIHelpers.IsAnyContentDialogOpen())
-                {
-                    // Only a single ContentDialog can be open at any time.
-                    return (new List<FileNameConflictResolveOptionType>(), true);
-                }
-                ContentDialogResult result = await dialog.ShowAsync();
+                ContentDialogResult result = await dialog.TryShowAsync();
 
                 if (mustResolveConflicts) // If there were conflicts, result buttons are different
                 {

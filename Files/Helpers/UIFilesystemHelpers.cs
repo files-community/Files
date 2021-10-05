@@ -233,7 +233,7 @@ namespace Files.Helpers
             if (packageView && packageView.Result != null)
             {
                 await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.Result.RequestedOperation, packageView, destinationPath, false, true);
-                associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
+                associatedInstance?.SlimContentPage?.ItemManipulationModel?.RefreshItemsOpacity();
             }
         }
 

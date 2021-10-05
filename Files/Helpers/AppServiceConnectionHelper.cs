@@ -20,7 +20,7 @@ namespace Files.Helpers
 
         public static event EventHandler<Task<NamedPipeAsAppServiceConnection>> ConnectionChanged;
 
-        static AppServiceConnectionHelper()
+        public static void Register()
         {
             App.Current.Suspending += OnSuspending;
             App.Current.LeavingBackground += OnLeavingBackground;

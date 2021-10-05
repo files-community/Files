@@ -20,10 +20,13 @@ namespace Files.ViewModels.SettingsViewModels
 
         public void CopyVersionInfo()
         {
-            DataPackage dataPackage = new DataPackage();
-            dataPackage.RequestedOperation = DataPackageOperation.Copy;
-            dataPackage.SetText(Version + "\nOS Version: " + SystemInformation.Instance.OperatingSystemVersion);
-            Clipboard.SetContent(dataPackage);
+            Common.Extensions.IgnoreExceptions(() =>
+            {
+                DataPackage dataPackage = new DataPackage();
+                dataPackage.RequestedOperation = DataPackageOperation.Copy;
+                dataPackage.SetText(Version + "\nOS Version: " + SystemInformation.Instance.OperatingSystemVersion);
+                Clipboard.SetContent(dataPackage);
+            });
         }
 
         public string Version
