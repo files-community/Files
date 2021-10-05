@@ -3051,7 +3051,7 @@
         </trans-unit>
         <trans-unit id="SettingsPinRecycleBin.Title" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to favorites</source>
-          <target state="needs-review-translation">Закрепить Корзину на боковой панели</target>
+          <target state="translated">Закрепить Корзину на боковой панели</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowLibrarySection.Title" translate="yes" xml:space="preserve">
@@ -3113,7 +3113,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutPinToFavorites.Text" translate="yes" xml:space="preserve">
           <source>Pin to Favorites</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Добавить в Избранное</target>
+          <target state="translated" state-qualifier="tm-suggestion">Добавить в Избранное</target>
         </trans-unit>
         <trans-unit id="SideBarUnpinFromFavorites.Text" translate="yes" xml:space="preserve">
           <source>Unpin from Favorites</source>
@@ -3121,11 +3121,11 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutUnpinFromFavorites.Text" translate="yes" xml:space="preserve">
           <source>Unpin from Favorites</source>
-          <target state="new">Убрать из Избранного</target>
+          <target state="translated">Убрать из Избранного</target>
         </trans-unit>
         <trans-unit id="NavSettingsButton" translate="yes" xml:space="preserve">
           <source>Settings</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Параметры</target>
+          <target state="translated" state-qualifier="tm-suggestion">Параметры</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarCopy.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Copy</source>
@@ -3145,7 +3145,7 @@
         </trans-unit>
         <trans-unit id="Close" translate="yes" xml:space="preserve">
           <source>Close</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Закрыть</target>
+          <target state="translated" state-qualifier="tm-suggestion">Закрыть</target>
         </trans-unit>
         <trans-unit id="ConsentDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Update</source>
@@ -3165,7 +3165,7 @@
         </trans-unit>
         <trans-unit id="Home" translate="yes" xml:space="preserve">
           <source>Home</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Главная</target>
+          <target state="translated" state-qualifier="tm-suggestion">Главная</target>
         </trans-unit>
         <trans-unit id="TabViewVerticalNewTab.Text" translate="yes" xml:space="preserve">
           <source>New tab</source>
@@ -3233,7 +3233,7 @@
         </trans-unit>
         <trans-unit id="ArchiveExtractionCompletedSuccessfullyText" translate="yes" xml:space="preserve">
           <source>The archive extraction completed successfully.</source>
-          <target state="new">Распаковка архива успешно завершена.</target>
+          <target state="translated">Распаковка архива успешно завершена.</target>
         </trans-unit>
         <trans-unit id="ExtractingArchiveText" translate="yes" xml:space="preserve">
           <source>Extracting archive</source>
@@ -3241,7 +3241,7 @@
         </trans-unit>
         <trans-unit id="ExtractingCompleteText" translate="yes" xml:space="preserve">
           <source>Extracting complete!</source>
-          <target state="new">Распаковка завершена!</target>
+          <target state="translated">Распаковка завершена!</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" translate="yes" xml:space="preserve">
           <source>Ctrl+Shift+N</source>
@@ -3257,11 +3257,11 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="new">Показывать диалоговое окно подтверждения при удалении файлов или папок</target>
+          <target state="translated">Показывать диалоговое окно подтверждения при удалении файлов или папок</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesOpenFoldersNewTab.Title" translate="yes" xml:space="preserve">
           <source>Open folders in new tab</source>
-          <target state="new">Открывать папки в новой вкладке</target>
+          <target state="translated">Открывать папки в новой вкладке</target>
         </trans-unit>
         <trans-unit id="SettingsPrivacy.Title" translate="yes" xml:space="preserve">
           <source>Privacy policy</source>

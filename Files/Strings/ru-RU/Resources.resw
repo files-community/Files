@@ -34,7 +34,7 @@
     <value>Очистить все</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Файлы, с которыми вы ранее взаимодействовали, будут отображаться здесь</value>
+    <value>Файлы с которыми вы ранее взаимодействовали будут отображаться здесь</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
     <value>Открыть расположение файла</value>
@@ -256,7 +256,7 @@
     <value>Назад (Alt+Стрелка влево)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Вперед (Alt+Стрелка вправо)</value>
+    <value>Вперед (Alt+Стрелка вперед)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Вверх (Alt+Стрелка вверх)</value>
@@ -274,7 +274,7 @@
     <value>Файл</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
-    <value>Это действие не может быть завершено</value>
+    <value>Это действие не моет быть завершено</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
     <value>Папка назначения</value>
@@ -820,7 +820,7 @@
     <value>Тип файла</value>
   </data>
   <data name="PropertyTitle" xml:space="preserve">
-    <value>Название</value>
+    <value>Заглавие</value>
   </data>
   <data name="PropertySubject" xml:space="preserve">
     <value>Тема</value>
@@ -1759,7 +1759,7 @@
     <value>Политика конфиденциальности</value>
   </data>
   <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>Посмотреть политику конфиденциальности Files</value>
+    <value>Посмотреть политику конфиденциальности Files </value>
   </data>
   <data name="RenameFileDialogTitle" xml:space="preserve">
     <value>Переименовать</value>
@@ -1795,7 +1795,7 @@
     <value>Успешно перемещено {0} элементов из {1} в {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>Неудачно перемещен {0} элемент из {1} в {2}</value>
+    <value>Неудачно перемещено {0} элемент из {1} в {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
     <value>Неудачно перемещено {0} элементов из {1} в {2}</value>
@@ -1816,7 +1816,7 @@
     <value>Копирование {0} элементов в {1}</value>
   </data>
   <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
-    <value>Успешно скопирован {0} элемент в {1}</value>
+    <value>Успешно скопировано {0} элемент в {1}</value>
   </data>
   <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
     <value>Успешно скопировано {0} элементов в {1}</value>
@@ -1837,7 +1837,7 @@
     <value>Удаление {0} элементов из {1}</value>
   </data>
   <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
-    <value>Успешно удален {0} элемент из {1}</value>
+    <value>Успешно удалено {0} элемент из {1}</value>
   </data>
   <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
     <value>Успешно удалено {0} элементов из {1}</value>
@@ -2239,7 +2239,7 @@
     <value>Закрепить секцию Сетевые диски на боковой панели</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Закрепить Корзину на боковой панели</value>
+    <value>Закрепить Коризину на боковой панели</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
     <value>Закрепить секцию Библиотеки на боковой панели</value>
@@ -2284,16 +2284,10 @@
     <value>Копировать</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
-    <value>Добавить в Избранное</value>
-  </data>
-  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Убрать из Избранного</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
-    <value>Убрать из Избранного</value>
+    <value>Закрепить в избранном</value>
   </data>
   <data name="NavSettingsButton" xml:space="preserve">
-    <value>Параметры</value>
+    <value>параметры</value>
   </data>
   <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
     <value>Копировать</value>
@@ -2308,7 +2302,7 @@
     <value>Обновления готовы к установке</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Закрыть</value>
+    <value>закрыть</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>Обновить</value>
@@ -2323,7 +2317,7 @@
     <value>Добавить элемент</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>Главная</value>
+    <value>домашний</value>
   </data>
   <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
     <value>Новая вкладка</value>
@@ -2346,26 +2340,14 @@
   <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+T</value>
   </data>
-  <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
-    <value>Распаковка архива успешно завершена.</value>
-  </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
     <value>Идет распаковка архива</value>
-  </data>
-  <data name="ExtractingCompleteText" xml:space="preserve">
-    <value>Распаковка завершена!</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+N</value>
   </data>
   <data name="SettingsDateFormat.Title" xml:space="preserve">
     <value>Формат даты</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Показывать диалоговое окно подтверждения при удалении файлов или папок</value>
-  </data>
-  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
-    <value>Открывать папки в новой вкладке</value>
   </data>
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Политика конфиденциальности</value>
