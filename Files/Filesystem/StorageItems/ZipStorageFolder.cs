@@ -1,4 +1,5 @@
-﻿using Files.Helpers;
+﻿using Files.Extensions;
+using Files.Helpers;
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -248,7 +249,7 @@ namespace Files.Filesystem.StorageItems
                     foreach (var entry in zipFile.OfType<ZipEntry>()) // Returns all items recursively
                     {
                         string winPath = System.IO.Path.GetFullPath(entry.IsDirectory ? wnt.TransformDirectory(DecodeEntryName(entry, ZipEncoding)) : wnt.TransformFile(DecodeEntryName(entry, ZipEncoding)));
-                        if (winPath.StartsWith(Path)) // Child of self
+                        if (winPath.StartsWith(Path.WithEnding("\\"))) // Child of self
                         {
                             var split = winPath.Substring(Path.Length).Split(new[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
                             if (split.Length > 0)
