@@ -47,8 +47,8 @@ namespace Files.Helpers
                 var directories = new List<string>();
                 try
                 {
-                    directories.AddRange(directoryEntries.Select((item) => wnt.TransformDirectory(item.Name)));
-                    directories.AddRange(fileEntries.Select((item) => Path.GetDirectoryName(wnt.TransformFile(item.Name))));
+                    directories.AddRange(directoryEntries.Select((entry) => wnt.TransformDirectory(ZipStorageFolder.DecodeEntryName(entry, zipEncoding))));
+                    directories.AddRange(fileEntries.Select((entry) => Path.GetDirectoryName(wnt.TransformFile(ZipStorageFolder.DecodeEntryName(entry, zipEncoding)))));
                 }
                 catch (InvalidNameException ex)
                 {
