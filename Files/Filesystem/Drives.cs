@@ -61,14 +61,11 @@ namespace Files.Filesystem
 
             if (await GetDrivesAsync())
             {
-                if (!Drives.Any(d => d.Type != DriveType.Removable))
+                if (!Drives.Any(d => d.Type != DriveType.Removable && d.Path == "C:\\"))
                 {
-                    // Only show consent dialog if the exception is UnauthorizedAccessException
-                    // and the drives list is empty (except for Removable drives which don't require FileSystem access)
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        ShowUserConsentOnInit = true;
-                    });
+                    // Show consent dialog if the exception is UnauthorizedAccessException
+                    // and the C: drive could not be accessed
+                    ShowUserConsentOnInit = true;
                 }
             }
 

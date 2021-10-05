@@ -27,8 +27,8 @@ namespace Files.Filesystem.Cloud.Providers
             using var clsidKey = Registry.ClassesRoot.OpenSubKey(@"CLSID");
             foreach (var subKeyName in clsidKey.GetSubKeyNames())
             {
-                using var subKey = clsidKey.OpenSubKey(subKeyName);
-                if ((int?)subKey.GetValue("System.IsPinnedToNameSpaceTree") == 1)
+                using var subKey = Common.Extensions.IgnoreExceptions(() => clsidKey.OpenSubKey(subKeyName));
+                if (subKey != null && (int?)subKey.GetValue("System.IsPinnedToNameSpaceTree") == 1)
                 {
                     using var namespaceKey = Registry.CurrentUser.OpenSubKey($@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{subKeyName}");
                     var driveType = (string)namespaceKey?.GetValue("");

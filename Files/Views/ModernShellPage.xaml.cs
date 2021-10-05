@@ -455,8 +455,11 @@ namespace Files.Views
             if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
             {
                 App.DrivesManager.ShowUserConsentOnInit = false;
-                DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
-                await dialog.ShowAsync(ContentDialogPlacement.Popup);
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
+                    await dialog.ShowAsync(ContentDialogPlacement.Popup);
+                });
             }
         }
 
