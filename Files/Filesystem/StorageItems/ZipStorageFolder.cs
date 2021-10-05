@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
@@ -16,6 +17,34 @@ namespace Files.Filesystem.StorageItems
 {
     public sealed class ZipStorageFolder : BaseStorageFolder
     {
+        static ZipStorageFolder()
+        {
+            // Register all supported codepages (default is UTF-X only)
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            ZipStrings.CodePage = 437; // Use extended ascii so you can convert the string back to bytes
+        }
+
+        public static string DecodeEntryName(ZipEntry entry)
+        {
+            if (entry.IsUnicodeText)
+            {
+                return entry.Name;
+            }
+            var decoded = Common.Extensions.IgnoreExceptions(() =>
+            {
+                var rawBytes = Encoding.GetEncoding(437).GetBytes(entry.Name);
+                Ude.CharsetDetector cdet = new Ude.CharsetDetector();
+                cdet.Feed(rawBytes, 0, rawBytes.Length);
+                cdet.DataEnd();
+                if (cdet.Charset != null)
+                {
+                    return Encoding.GetEncoding(cdet.Charset).GetString(rawBytes);
+                }
+                return null;
+            });
+            return decoded ?? entry.Name;
+        }
+
         public ZipStorageFolder(string path, string containerPath)
         {
             Name = System.IO.Path.GetFileName(path.TrimEnd('\\', '/'));
@@ -147,11 +176,11 @@ namespace Files.Filesystem.StorageItems
                         var wnt = new WindowsNameTransform(ContainerPath);
                         if (entry.IsDirectory)
                         {
-                            return new ZipStorageFolder(wnt.TransformDirectory(entry.Name), ContainerPath, entry);
+                            return new ZipStorageFolder(wnt.TransformDirectory(DecodeEntryName(entry)), ContainerPath, entry);
                         }
                         else
                         {
-                            return new ZipStorageFile(wnt.TransformFile(entry.Name), ContainerPath, entry);
+                            return new ZipStorageFile(wnt.TransformFile(DecodeEntryName(entry)), ContainerPath, entry);
                         }
                     }
                     return null;
@@ -191,7 +220,7 @@ namespace Files.Filesystem.StorageItems
                     var items = new List<IStorageItem>();
                     foreach (var entry in zipFile.OfType<ZipEntry>()) // Returns all items recursively
                     {
-                        string winPath = System.IO.Path.GetFullPath(entry.IsDirectory ? wnt.TransformDirectory(entry.Name) : wnt.TransformFile(entry.Name));
+                        string winPath = System.IO.Path.GetFullPath(entry.IsDirectory ? wnt.TransformDirectory(DecodeEntryName(entry)) : wnt.TransformFile(DecodeEntryName(entry)));
                         if (winPath.StartsWith(Path)) // Child of self
                         {
                             var split = winPath.Substring(Path.Length).Split(new[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);

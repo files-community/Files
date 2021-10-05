@@ -98,7 +98,7 @@ namespace Files.Helpers
                         continue; // TODO: support password protected archives
                     }
 
-                    string filePath = wnt.TransformFile(entry.Name);
+                    string filePath = wnt.TransformFile(ZipStorageFolder.DecodeEntryName(entry));
 
                     var hFile = NativeFileOperationsHelper.CreateFileForWrite(filePath);
                     if (hFile.IsInvalid)
