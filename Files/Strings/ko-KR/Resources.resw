@@ -51,14 +51,11 @@
   <data name="About" xml:space="preserve">
     <value>정보</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>모양</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>파일 및 폴더</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>모양</value>
   </data>
   <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
     <value>파일 및 폴더</value>
@@ -161,9 +158,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>복사</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>삭제</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>이름 바꾸기</value>
@@ -1539,9 +1533,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>만들기</value>
   </data>
-  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
-    <value>삭제</value>
-  </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO 감도</value>
   </data>
@@ -1553,9 +1544,6 @@
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>이동</value>
-  </data>
-  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>삭제</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0}개 항목이 삭제됩니다.</value>
@@ -1869,7 +1857,7 @@
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>파일 만들기</value>
   </data>
-  <data name="SecurityDeleteLabel.Text" xml:space="preserve">
+  <data name="Delete" xml:space="preserve">
     <value>삭제</value>
   </data>
   <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">

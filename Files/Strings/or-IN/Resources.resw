@@ -114,7 +114,7 @@
   <data name="About" xml:space="preserve">
     <value>ବିଷୟରେ</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>ରୂପ</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
@@ -122,9 +122,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>ପରୀକ୍ଷାମୂଳକ</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>ରୂପ</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>ପରୀକ୍ଷାମୂଳକ</value>
@@ -239,9 +236,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>କପି କର</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>ବିଲୋପ କର</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>ନାମ ପରିବର୍ତ୍ତନ କର</value>
@@ -1035,17 +1029,11 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>ସୃଷ୍ଟି</value>
   </data>
-  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
-    <value>ବିଲୋପ</value>
-  </data>
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>କପି</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>ଘୁଞ୍ଚାନ୍ତୁ</value>
-  </data>
-  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>ବିଲୋପ</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} ସମ୍ପର୍କସମୂହ ବିଲୋପିତ ହେବ.</value>
@@ -1305,7 +1293,7 @@
   <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
     <value>ସ୍ଵତନ୍ତ୍ର</value>
   </data>
-  <data name="SecurityDeleteLabel.Text" xml:space="preserve">
+  <data name="Delete" xml:space="preserve">
     <value>ବିଲୋପ</value>
   </data>
   <data name="SecurityNoneLabel.Text" xml:space="preserve">

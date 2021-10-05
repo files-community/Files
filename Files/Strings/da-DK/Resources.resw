@@ -114,7 +114,7 @@
   <data name="About" xml:space="preserve">
     <value>Om</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>Udseende</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
@@ -122,9 +122,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Eksperimentel</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>Udseende</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Eksperimentel</value>
@@ -242,9 +239,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>Kopiér</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>Slet</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Omdøb</value>
@@ -1533,9 +1527,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Opret</value>
   </data>
-  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
-    <value>Slet</value>
-  </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>ISO-hastighed</value>
   </data>
@@ -1544,9 +1535,6 @@
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Flyt</value>
-  </data>
-  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Slet</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} elementer bliver slettet.</value>
@@ -1854,7 +1842,7 @@
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>Opret filer</value>
   </data>
-  <data name="SecurityDeleteLabel.Text" xml:space="preserve">
+  <data name="Delete" xml:space="preserve">
     <value>Slet</value>
   </data>
   <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
