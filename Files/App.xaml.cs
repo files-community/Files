@@ -71,6 +71,7 @@ namespace Files
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
+            AppServiceConnectionHelper.Register();
         }
 
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
@@ -304,6 +305,14 @@ namespace Files
                     {
                         async Task PerformNavigation(string payload)
                         {
+                            if (!string.IsNullOrEmpty(payload))
+                            {
+                                var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
+                                if (folder != null && !string.IsNullOrEmpty(folder.Path))
+                                {
+                                    payload = folder.Path; // Convert short name to long name (#6190)
+                                }
+                            }
                             if (rootFrame.Content != null)
                             {
                                 await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), payload);

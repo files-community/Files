@@ -709,7 +709,7 @@ namespace Files.UserControls
             }
 
             // If the dropped item is a folder or file from a file system
-            if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+            if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
@@ -717,10 +717,10 @@ namespace Files.UserControls
 
                 if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Favorites.Equals(locationItem.Section) && isDropOnProcess) // Pin to Favorites section
                 {
-                    var storageItems = await e.DataView.GetStorageItemsAsync();
+                    var (_, storageItems) = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
                     foreach (var item in storageItems)
                     {
-                        if (item.IsOfType(StorageItemTypes.Folder) && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
+                        if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
                         {
                             SidebarPinnedModel.AddItem(item.Path);
                         }
@@ -739,7 +739,7 @@ namespace Files.UserControls
                 isDropOnProcess = false;
                 deferral.Complete();
             }
-            else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem sourceLocationItem)
+            else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
             {
                 // Else if the dropped item is a location item
 

@@ -263,7 +263,7 @@ namespace Files.ViewModels.Dialogs
         /// <summary>
         /// The result of the dialog, value of this property is automatically handled.
         /// </summary>
-        public DynamicDialogResult DynamicResult { get; set; }
+        public DynamicDialogResult DynamicResult { get; set; } = DynamicDialogResult.Cancel;
 
         #endregion Public Properties
 

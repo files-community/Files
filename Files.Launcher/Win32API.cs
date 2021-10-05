@@ -312,6 +312,13 @@ namespace FilesFullTrust
             }
         }
 
+        public static Shell32.ITaskbarList4 CreateTaskbarObject()
+        {
+            var taskbar2 = new Shell32.ITaskbarList2();
+            taskbar2.HrInit();
+            return taskbar2 as Shell32.ITaskbarList4;
+        }
+
         private static Bitmap GetAlphaBitmapFromBitmapData(BitmapData bmpData)
         {
             using var tmp = new Bitmap(bmpData.Width, bmpData.Height, bmpData.Stride, PixelFormat.Format32bppArgb, bmpData.Scan0);
@@ -344,10 +351,13 @@ namespace FilesFullTrust
 
         public static async Task SendMessageAsync(NamedPipeServerStream pipe, ValueSet valueSet, string requestID = null)
         {
-            var message = new Dictionary<string, object>(valueSet);
-            message.Add("RequestID", requestID);
-            var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
-            await pipe.WriteAsync(serialized, 0, serialized.Length);
+            await Extensions.IgnoreExceptions(async () =>
+            {
+                var message = new Dictionary<string, object>(valueSet);
+                message.Add("RequestID", requestID);
+                var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
+                await pipe.WriteAsync(serialized, 0, serialized.Length);
+            });
         }
 
         // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.

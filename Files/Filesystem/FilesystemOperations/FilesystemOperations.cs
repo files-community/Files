@@ -263,7 +263,6 @@ namespace Files.Filesystem
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "CopyItem" },
-                            { "operationID", Guid.NewGuid().ToString() },
                             { "filepath", source.Path },
                             { "destpath", destination },
                             { "overwrite", collision == NameCollisionOption.ReplaceExisting }
@@ -321,7 +320,6 @@ namespace Files.Filesystem
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "CopyItem" },
-                            { "operationID", Guid.NewGuid().ToString() },
                             { "filepath", source.Path },
                             { "destpath", destination },
                             { "overwrite", collision == NameCollisionOption.ReplaceExisting }
@@ -486,7 +484,6 @@ namespace Files.Filesystem
                             {
                                 { "Arguments", "FileOperation" },
                                 { "fileop", "MoveItem" },
-                                { "operationID", Guid.NewGuid().ToString() },
                                 { "filepath", source.Path },
                                 { "destpath", destination },
                                 { "overwrite", collision == NameCollisionOption.ReplaceExisting }
@@ -532,7 +529,6 @@ namespace Files.Filesystem
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "MoveItem" },
-                            { "operationID", Guid.NewGuid().ToString() },
                             { "filepath", source.Path },
                             { "destpath", destination },
                             { "overwrite", collision == NameCollisionOption.ReplaceExisting }
@@ -626,10 +622,8 @@ namespace Files.Filesystem
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "DeleteItem" },
-                        { "operationID", Guid.NewGuid().ToString() },
                         { "filepath", source.Path },
-                        { "permanently", permanently },
-                        { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
+                        { "permanently", permanently }
                     });
                 }
             }
@@ -742,7 +736,6 @@ namespace Files.Filesystem
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "RenameItem" },
-                            { "operationID", Guid.NewGuid().ToString() },
                             { "filepath", source.Path },
                             { "newName", newName },
                             { "overwrite", collision == NameCollisionOption.ReplaceExisting }
@@ -782,12 +775,7 @@ namespace Files.Filesystem
                         CloseButtonText = "Cancel".GetLocalized()
                     };
 
-                    if (UIHelpers.IsAnyContentDialogOpen())
-                    {
-                        // Only a single ContentDialog can be open at any time.
-                        return null;
-                    }
-                    ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
+                    ContentDialogResult result = await ItemAlreadyExistsDialog.TryShowAsync();
 
                     if (result == ContentDialogResult.Primary)
                     {
@@ -853,7 +841,6 @@ namespace Files.Filesystem
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "MoveItem" },
-                        { "operationID", Guid.NewGuid().ToString() },
                         { "filepath", source.Path },
                         { "destpath", destination },
                         { "overwrite", false }
@@ -947,11 +934,13 @@ namespace Files.Filesystem
                     connection = await AppServiceConnectionHelper.Instance;
                     if (connection != null)
                     {
+                        operation.Add("operationID", Guid.NewGuid().ToString());
+                        operation.Add("HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64());
                         var (status, response) = await connection.SendMessageForResponseAsync(operation);
                         var fsResult = (FilesystemResult)(status == AppServiceResponseStatus.Success
                             && response.Get("Success", false));
                         var shellOpResult = JsonConvert.DeserializeObject<ShellOperationResult>(response.Get("Result", "{\"Items\": []}"));
-                        fsResult &= (FilesystemResult)shellOpResult.Items.All(x => x.Succeeded);
+                        fsResult &= (FilesystemResult)(shellOpResult?.Items != null && shellOpResult.Items.All(x => x.Succeeded));
                         return (fsResult, shellOpResult);
                     }
                 }

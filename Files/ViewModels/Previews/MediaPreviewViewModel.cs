@@ -19,7 +19,7 @@ namespace Files.ViewModels.Previews
             // Video
             ".mp4", ".webm", ".ogg", ".mov", ".qt", ".mp4", ".m4v", ".mp4v", ".3g2", ".3gp2", ".3gp", ".3gpp", ".mkv",
             // Audio
-            ".mp3", ".m4a", ".wav", ".wma", ".aac", ".adt", ".adts", ".cda",
+            ".mp3", ".m4a", ".wav", ".wma", ".aac", ".adt", ".adts", ".cda", ".flac"
         };
 
         public MediaSource Source

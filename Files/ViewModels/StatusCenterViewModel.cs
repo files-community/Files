@@ -112,6 +112,7 @@ namespace Files.ViewModels
             }
 
             StatusBannersSource.Remove(banner);
+            UpdateBanner(banner);
             return true;
         }
 
