@@ -269,7 +269,7 @@ namespace Files.Filesystem.Permissions
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.Delete,
-                    Name = "SecurityDeleteLabel/Text".GetLocalized(),
+                    Name = "Delete".GetLocalized(),
                     IsEditable = !IsInherited
                 });
                 gpl.Add(new GrantedPermission(this)

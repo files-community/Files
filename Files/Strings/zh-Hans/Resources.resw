@@ -51,14 +51,11 @@
   <data name="About" xml:space="preserve">
     <value>关于</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>外观</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>文件 &amp; 文件夹</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>外观</value>
   </data>
   <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
     <value>文件 &amp; 文件夹</value>
@@ -161,9 +158,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>复制</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>删除</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>重命名</value>
@@ -1568,9 +1562,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>创建</value>
   </data>
-  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
-    <value>删除</value>
-  </data>
   <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>打开存储感知</value>
   </data>
@@ -1600,9 +1591,6 @@
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
     <value>移动项</value>
-  </data>
-  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>删除</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} 个项将被删除</value>
@@ -2141,7 +2129,7 @@
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>创建文件</value>
   </data>
-  <data name="SecurityDeleteLabel.Text" xml:space="preserve">
+  <data name="Delete" xml:space="preserve">
     <value>删除</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
@@ -2444,6 +2432,16 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>隐私策略</value>
   </data>
+  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
+    <value>
+*个人信息收集相关* 
+Files 不收集、存储、共享或发布任何个人信息。
+
+*非个人信息收集相关*
+
+我们通过应用商店跟踪应用程序的使用情况，定位bug，并修复可能导致崩溃的因素。发送到应用商店的信息均以匿名形式发送，且不包含任何用户或相关数据。
+  </value>
+  </data>
   <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
     <value>无</value>
   </data>
@@ -2477,10 +2475,172 @@
   <data name="SyncStatus" xml:space="preserve">
     <value>同步状态</value>
   </data>
+  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
+    <value>显示“收藏夹”栏</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
+    <value>文件标签</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
+    <value>文件标签</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
+    <value>打开上级目录</value>
+  </data>
   <data name="FileTagUnknown" xml:space="preserve">
-    <value>unknown</value>
+    <value>未知</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
+    <value>文件标签</value>
+  </data>
+  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
+    <value>编辑文件标签</value>
+  </data>
+  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
+    <value>编辑文件标签</value>
+  </data>
+  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+    <value>编辑文件标签</value>
+  </data>
+  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
+    <value>启用文件标签</value>
+  </data>
+  <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
+    <value>打开驱动器</value>
+  </data>
+  <data name="InsertDiscDialog.Text" xml:space="preserve">
+    <value>请将光盘插入驱动器 {0}</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>插入一张光盘</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>全部应用</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>需要访问凭证</value>
+  </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>匿名</value>
+  </data>
+  <data name="CredentialDialogDescription.Text" xml:space="preserve">
+    <value>提供您的访问凭证：</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>用户名</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>没有与搜索条件匹配的项</value>
+  </data>
+  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>包</value>
+  </data>
+  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>驱动器</value>
+  </data>
+  <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>库</value>
+  </data>
+  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>最近使用的文件</value>
+  </data>
+  <data name="OpenLogLocation" xml:space="preserve">
+    <value>打开日志文件夹</value>
+  </data>
+  <data name="LinkToFolderCaptionText" xml:space="preserve">
+    <value>在 {0} 处创建链接</value>
+  </data>
+  <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
+    <value>列表</value>
+  </data>
+  <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
+    <value>详细信息</value>
+  </data>
+  <data name="NavToolbarLargeIconsHeader.Text" xml:space="preserve">
+    <value>大图标</value>
+  </data>
+  <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
+    <value>中图标</value>
+  </data>
+  <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
+    <value>小图标</value>
+  </data>
+  <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
+    <value>内容</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>显示文件扩展名</value>
+  </data>
+  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>显示隐藏的项目</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>显示文件扩展名</value>
+  </data>
+  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
+    <value>显示隐藏的项目</value>
+  </data>
+  <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>显示收藏夹部分</value>
+  </data>
+  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>将回收站固定到收藏夹</value>
+  </data>
+  <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>显示云端驱动器部分</value>
+  </data>
+  <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>显示驱动器部分</value>
+  </data>
+  <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>显示库部分</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>显示网络驱动器部分</value>
+  </data>
+  <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>显示 WSL 部分</value>
+  </data>
+  <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>日期格式</value>
+  </data>
+  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>在新标签页打开文件夹</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>在删除文件或文件夹时显示确认框</value>
+  </data>
+  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>终端应用</value>
+  </data>
+  <data name="OngoingTasks" xml:space="preserve">
+    <value>进行中的任务</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
+    <value>加载完整预览</value>
+  </data>
+  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
+    <value>只显示预览</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
+    <value>下移一层</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
+    <value>上移一层</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>置于底部</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>置于顶部</value>
   </data>
 </root>

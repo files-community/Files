@@ -51,14 +51,11 @@
   <data name="About" xml:space="preserve">
     <value>關於</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>外觀</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>檔案和資料夾</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>外觀</value>
   </data>
   <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
     <value>檔案和資料夾</value>
@@ -161,9 +158,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>複製</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>刪除</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>重新命名</value>
@@ -1566,9 +1560,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>新增</value>
   </data>
-  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
-    <value>刪除</value>
-  </data>
   <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>開啟儲存空間感知器</value>
   </data>
@@ -1598,9 +1589,6 @@
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
     <value>移動項目</value>
-  </data>
-  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>刪除</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>將刪除 {0} 個項目</value>
@@ -2139,7 +2127,7 @@
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>新增檔案</value>
   </data>
-  <data name="SecurityDeleteLabel.Text" xml:space="preserve">
+  <data name="Delete" xml:space="preserve">
     <value>刪除</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">

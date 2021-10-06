@@ -111,7 +111,7 @@
   <data name="About" xml:space="preserve">
     <value>பற்றி</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>தோற்றம்</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
@@ -119,9 +119,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>சோதனை</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>தோற்றம்</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>சோதனை</value>
@@ -236,9 +233,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>நகலெடு</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>நீக்கு</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>மறுபெயரிடு</value>
@@ -1109,17 +1103,11 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>உருவாக்கு</value>
   </data>
-  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
-    <value>நீக்கு</value>
-  </data>
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>நகலெடு</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>நகர்த்து</value>
-  </data>
-  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>நீக்கு</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} உருப்படிகள் நீக்கப்படும்.</value>
@@ -1379,7 +1367,7 @@
   <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
     <value>சிறப்பு</value>
   </data>
-  <data name="SecurityDeleteLabel.Text" xml:space="preserve">
+  <data name="Delete" xml:space="preserve">
     <value>நீக்கு</value>
   </data>
   <data name="SecurityNoneLabel.Text" xml:space="preserve">

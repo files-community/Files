@@ -59,17 +59,13 @@
           <source>About</source>
           <target state="translated">O programie</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Appearance" translate="yes" xml:space="preserve">
           <source>Appearance</source>
           <target state="translated">Wygląd</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
           <source>Files &amp; Folders</source>
           <target state="translated">Pliki i foldery</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
-          <source>Appearance</source>
-          <target state="translated">Wygląd</target>
         </trans-unit>
         <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
           <source>Files &amp; Folders</source>
@@ -206,10 +202,6 @@
         <trans-unit id="BaseLayoutItemContextFlyoutCopy.Text" translate="yes" xml:space="preserve">
           <source>Copy</source>
           <target state="translated">Kopiuj</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutDelete.Text" translate="yes" xml:space="preserve">
-          <source>Delete</source>
-          <target state="translated">Usuń</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutRename.Text" translate="yes" xml:space="preserve">
           <source>Rename</source>
@@ -2081,10 +2073,6 @@
           <source>Create</source>
           <target state="translated">Utwórz</target>
         </trans-unit>
-        <trans-unit id="DialogDeleteLibraryButtonText" translate="yes" xml:space="preserve">
-          <source>Delete</source>
-          <target state="translated">Usuń</target>
-        </trans-unit>
         <trans-unit id="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Open Storage Sense</source>
           <target state="translated">Otwórz Storage Sense</target>
@@ -2124,10 +2112,6 @@
         <trans-unit id="MoveItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Move item(s)</source>
           <target state="translated">Przenieś element(y)</target>
-        </trans-unit>
-        <trans-unit id="DeleteItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Delete</source>
-          <target state="translated">Usuń</target>
         </trans-unit>
         <trans-unit id="DeleteItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be deleted</source>
@@ -2845,7 +2829,7 @@
           <source>Create files</source>
           <target state="translated">Utwórz pliki</target>
         </trans-unit>
-        <trans-unit id="SecurityDeleteLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Delete" translate="yes" xml:space="preserve">
           <source>Delete</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Usuń</target>
         </trans-unit>
@@ -3259,14 +3243,14 @@
         </trans-unit>
         <trans-unit id="SettingsPrivacyPolicyMarkdownBlock.Text" translate="yes" xml:space="preserve">
           <source>
-*Personal Information Collection* 
+*Personal Information Collection*
 Files does not collect, store, share or publish any personal information.
 
 *Non-personal Information Collection*
 
 We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
   </source>
-          <target state="translated">
+          <target state="needs-review-translation">
 *Zbieranie danych osobowych*
 Files nie zbiera, nie przechowuje, nie udostępnia ani nie publikuje żadnych danych osobowych.
 
@@ -3274,6 +3258,7 @@ Files nie zbiera, nie przechowuje, nie udostępnia ani nie publikuje żadnych da
 
 Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błędy i naprawiać awarie. Wszystkie informacje przesyłane do App Center są anonimowe i wolne od jakichkolwiek danych użytkownika lub kontekstowych.
   </target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavToolbarGroupByOptionNone.Text" translate="yes" xml:space="preserve">
           <source>None</source>
@@ -3546,6 +3531,26 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
         <trans-unit id="SideBarFavoritesMoveToTop" translate="yes" xml:space="preserve">
           <source>Move to top</source>
           <target state="new">Move to top</target>
+        </trans-unit>
+        <trans-unit id="DetailsViewHeaderFlyout_ShowDateCreated.Text" translate="yes" xml:space="preserve">
+          <source>Date created column</source>
+          <target state="new">Date created column</target>
+        </trans-unit>
+        <trans-unit id="DetailsViewHeaderFlyout_ShowItemSize.Text" translate="yes" xml:space="preserve">
+          <source>Item size column</source>
+          <target state="new">Item size column</target>
+        </trans-unit>
+        <trans-unit id="SettingsDefaultExplorer" translate="yes" xml:space="preserve">
+          <source>Default file explorer</source>
+          <target state="new">Default file explorer</target>
+        </trans-unit>
+        <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
+          <source>Set Files as default file explorer</source>
+          <target state="new">Set Files as default file explorer</target>
+        </trans-unit>
+        <trans-unit id="SettingsSetAsOpenDialog" translate="yes" xml:space="preserve">
+          <source>Use Files as Open File Dialog</source>
+          <target state="new">Use Files as Open File Dialog</target>
         </trans-unit>
       </group>
     </body>

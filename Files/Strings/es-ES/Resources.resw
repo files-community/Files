@@ -51,14 +51,11 @@
   <data name="About" xml:space="preserve">
     <value>Acerca de Files</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>Apariencia</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Archivos y carpetas</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>Apariencia</value>
   </data>
   <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
     <value>Archivos y carpetas</value>
@@ -161,9 +158,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>Copiar</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>Eliminar</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Renombrar</value>
@@ -1566,9 +1560,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Crear</value>
   </data>
-  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
-    <value>Eliminar</value>
-  </data>
   <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Abrir sensor de almacenamiento</value>
   </data>
@@ -1598,9 +1589,6 @@
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
     <value>Mover elementos(s)</value>
-  </data>
-  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Eliminar</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>Se eliminarán {0} elementos</value>
@@ -2139,7 +2127,7 @@
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>Crear archivos</value>
   </data>
-  <data name="SecurityDeleteLabel.Text" xml:space="preserve">
+  <data name="Delete" xml:space="preserve">
     <value>Eliminar</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">

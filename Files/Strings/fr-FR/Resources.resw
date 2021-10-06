@@ -34,7 +34,7 @@
     <value>Supprimer tous les éléments</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Les fichiers auxquels vous avez accédé précédemment s'affichent ici</value>
+    <value>Les fichiers précédemment ouverts s'afficheront ici</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
     <value>Ouvrir l'emplacement du fichier</value>
@@ -51,20 +51,17 @@
   <data name="About" xml:space="preserve">
     <value>À propos</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>Apparence</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Fichiers &amp; Dossiers</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>Apparence</value>
+    <value>Fichiers et dossiers</value>
   </data>
   <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Fichiers &amp; Dossiers</value>
+    <value>Fichiers et dossiers</value>
   </data>
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Au Démarrage</value>
+    <value>Au démarrage</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Préférences</value>
@@ -79,7 +76,7 @@
     <value>Ouvrir un ensemble de pages</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>Au Démarrage</value>
+    <value>Au démarrage</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Préférences</value>
@@ -121,10 +118,10 @@
     <value>Taille</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
-    <value>Ascendant</value>
+    <value>Croissant</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>Descendant</value>
+    <value>Décroissant</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>Actualiser</value>
@@ -162,9 +159,6 @@
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>Copier</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>Supprimer</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Renommer</value>
   </data>
@@ -178,19 +172,19 @@
     <value>Rechercher</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
-    <value>Sélectionner Tout</value>
+    <value>Sélectionner tout</value>
   </data>
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
-    <value>Effacer la Sélection</value>
+    <value>Effacer la sélection</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>Dossier</value>
   </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
-    <value>Image Bitmap</value>
+    <value>Image bitmap</value>
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
-    <value>Document Texte</value>
+    <value>Document texte</value>
   </data>
   <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
     <value>Détails</value>
@@ -229,7 +223,7 @@
     <value>Accorder l'autorisation</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Pour commencer, vous devez nous permettre d'afficher vos fichiers. Une fenêtre de Configuration va s'ouvrir où vous pourrez nous donner la permission. Vous devrez relancer l'application une fois cette étape terminée. </value>
+    <value>Pour commencer, vous devez nous permettre d'afficher vos fichiers. Une fenêtre de configuration va s'ouvrir où vous pourrez nous donner la permission. Vous devrez relancer l'application une fois cette étape terminée. </value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Dossier de fichiers</value>
@@ -247,7 +241,7 @@
     <value>Nouvel onglet</value>
   </data>
   <data name="SystemTheme" xml:space="preserve">
-    <value>Défaut</value>
+    <value>Système</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Clair</value>
@@ -262,19 +256,19 @@
     <value>Système</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>Nouveau Dossier</value>
+    <value>Nouveau dossier</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Ce dossier est vide.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Précédent (Alt + Flèche Gauche)</value>
+    <value>Précédent (Alt + Flèche gauche)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Suivant (Alt + Flèche Droite)</value>
+    <value>Suivant (Alt + Flèche droite)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Remonter (Alt + Flèche Haut)</value>
+    <value>Remonter (Alt + Flèche haut)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Actualiser (F5)</value>
@@ -289,7 +283,7 @@
     <value>Fichier</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
-    <value>Inverser la Sélection</value>
+    <value>Inverser la sélection</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
     <value>Ouvrir</value>
@@ -346,19 +340,19 @@
     <value>OK</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
-    <value>Nous n'avons pas été en mesure de supprimer cet élément</value>
+    <value>Impossible de supprimer cet élément</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Veuillez insérer le disque nécessaire pour accéder à cet élément.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Disque Déconnecté</value>
+    <value>Disque déconnecté</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Le fichier auquel vous tentez d'accéder a peut-être été déplacé ou supprimé.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
-    <value>Fichier Introuvable</value>
+    <value>Fichier introuvable</value>
   </data>
   <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
     <value>Le fichier que vous tentez de prévisualiser a peut-être été déplacé ou supprimé.</value>
@@ -409,7 +403,7 @@
     <value>il y a {0} secondes</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
-    <value>Nouvel Onglet</value>
+    <value>Nouvel onglet</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>L'opération demandée n'est pas prise en charge</value>
@@ -478,10 +472,10 @@
     <value>Suppression des fichiers</value>
   </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
-    <value>Collage des fichiers</value>
+    <value>Copie des fichiers</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Déplacer des fichiers vers la Corbeille</value>
+    <value>Déplacement vers la Corbeille en cours</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Déverrouiller</value>
@@ -553,7 +547,7 @@
     <value>Ouvrir le dossier dans un nouvel onglet</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Défauts de Windows</value>
+    <value>Système</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Déplacer l'onglet ici</value>
@@ -760,7 +754,7 @@
     <value>Cet élément n'a pas pu être créé</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
-    <value>Accès Refusé</value>
+    <value>Accès refusé</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Fichier</value>
@@ -772,7 +766,7 @@
     <value>Élément de la Corbeille</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
-    <value>Élément de raccourci</value>
+    <value>Raccourci</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>Déplacer ici</value>
@@ -994,7 +988,7 @@
     <value>Url du site de l'utilisateur</value>
   </data>
   <data name="PropertyWriter" xml:space="preserve">
-    <value>Écrivain</value>
+    <value>Auteur</value>
   </data>
   <data name="PropertyYear" xml:space="preserve">
     <value>Année</value>
@@ -1198,19 +1192,19 @@
     <value>Dossiers</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vue détaillée (Ctrl+Shift+1)</value>
+    <value>Détails (Ctrl+Shift+1)</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vue grille (Grande) (Ctrl+Shift+5)</value>
+    <value>Grandes Icônes (Ctrl+Shift+5)</value>
   </data>
   <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vue grille (Moyenne) (Ctrl+Shift+4)</value>
+    <value>Moyennes Icônes (Ctrl+Shift+4)</value>
   </data>
   <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vue grille (Petite) (Ctrl+Shift+3)</value>
+    <value>Petites Icônes (Ctrl+Shift+3)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vue tuiles (Ctrl+Shift+2)</value>
+    <value>Tuiles (Ctrl+Shift+2)</value>
   </data>
   <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
     <value>Grandes Icônes</value>
@@ -1357,7 +1351,7 @@
     <value>Propriétés</value>
   </data>
   <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>Menu volant des tâches en cours</value>
+    <value>Menu des tâches en cours</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>Disponible en ligne</value>
@@ -1513,7 +1507,7 @@
     <value>Colonnes</value>
   </data>
   <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vue colonne (Ctrl+Shift+6)</value>
+    <value>Colonnes (Ctrl+Shift+6)</value>
   </data>
   <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
     <value>Colonnes</value>
@@ -1552,7 +1546,7 @@
     <value>Le champ ne peut pas être vide !</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
-    <value>Le nom ne peut contenir les caractères suivants : \ / : * ? " &lt; &gt; |</value>
+    <value>Le nom ne peut pas contenir les caractères suivants : \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ErrorNameInputRestricted" xml:space="preserve">
     <value>Ce nom n'est pas autorisé !</value>
@@ -1565,9 +1559,6 @@
   </data>
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Créer</value>
-  </data>
-  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
-    <value>Supprimer</value>
   </data>
   <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ouvrir le Sense de Stockage</value>
@@ -1598,9 +1589,6 @@
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
     <value>Déplacer les éléments</value>
-  </data>
-  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Supprimer</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} éléments seront supprimés</value>
@@ -1699,25 +1687,25 @@
     <value>Date de modification :</value>
   </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Options de sélection</value>
+    <value>Sélection</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
-    <value>Options de sélection</value>
+    <value>Sélection</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Icône de fichier</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
-    <value>Colonne du chemin original</value>
+    <value>Chemin d'origine</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
-    <value>Colonne de type d'élément</value>
+    <value>Type</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
-    <value>Colonne de la date de modification</value>
+    <value>Date de modification</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
-    <value>Colonne de la date de suppression</value>
+    <value>Date de suppression</value>
   </data>
   <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
     <value>Redimensionneur de la barre latérale</value>
@@ -1903,10 +1891,10 @@
     <value>annulé</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Rejeter</value>
+    <value>Ignorer</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Rejeter</value>
+    <value>Ignorer</value>
   </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widgets</value>
@@ -2068,7 +2056,7 @@
     <value>Autorisations avancées pour {0}</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
-    <value>Spécial</value>
+    <value>Autorisations spéciales</value>
   </data>
   <data name="SecurityAdvancedAccessLabel.Text" xml:space="preserve">
     <value>Accéder</value>
@@ -2139,7 +2127,7 @@
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>Créer des fichiers</value>
   </data>
-  <data name="SecurityDeleteLabel.Text" xml:space="preserve">
+  <data name="Delete" xml:space="preserve">
     <value>Supprimer</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
@@ -2266,7 +2254,7 @@
     <value>Activer l'affichage à double panneau</value>
   </data>
   <data name="SettingsVerticalTabFlyout" xml:space="preserve">
-    <value>Afficher le menu volant de l'onglet vertical sur la barre de titre</value>
+    <value>Afficher le menu de l'onglet vertical sur la barre de titre</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
     <value>Afficher la section Disques Cloud</value>
@@ -2305,19 +2293,19 @@
     <value>Afficher les fichiers et dossiers cachés</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>Masquer les fichiers protégés du système d'exploitation (Recommandé)</value>
+    <value>Masquer les fichiers protégés du système (Recommandé)</value>
   </data>
   <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
-    <value>Ouvrir des éléments en un seul clic</value>
+    <value>Ouvrir les éléments d'un seul clic</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Lister et trier les répertoires avec les fichiers</value>
+    <value>Lister et trier les dossiers avec les fichiers</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Afficher les éléments non indexés lors de la recherche de fichiers et de dossiers (les recherches peuvent être plus longues)</value>
+    <value>Afficher les éléments non indexés lors de la recherche de fichiers et dossiers (peut prendre plus de temps)</value>
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
-    <value>Activer les préférences individuelles pour les répertoires individuels</value>
+    <value>Activer les préférences individuelles pour les dossiers</value>
   </data>
   <data name="SettingsUsefulLinks.Title" xml:space="preserve">
     <value>Liens utiles</value>
@@ -2450,7 +2438,7 @@
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
-*Collecte d'informations personnelles* 
+*Collecte d'informations personnelles*
 Files ne collecte, ne stocke, ne partage ni ne publie aucune information personnelle.
 
 *Collecte d'informations non personnelles
@@ -2483,10 +2471,10 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
     <value>Type</value>
   </data>
   <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
-    <value>Ascendant</value>
+    <value>Croissant</value>
   </data>
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
-    <value>Descendant</value>
+    <value>Décroissant</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Statut de la synchronisation</value>
@@ -2585,7 +2573,7 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
     <value>Grandes Icônes</value>
   </data>
   <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
-    <value>Icônes Moyennes</value>
+    <value>Moyennes Icônes</value>
   </data>
   <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
     <value>Petites Icônes</value>

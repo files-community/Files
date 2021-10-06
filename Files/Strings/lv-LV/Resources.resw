@@ -117,7 +117,7 @@
   <data name="About" xml:space="preserve">
     <value>Par</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>Izskats</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
@@ -125,9 +125,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Eksperimentāli</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>Izskats</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Eksperimentāli</value>
@@ -248,9 +245,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>Kopēt</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>Dzēst</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Pārdēvēt</value>
@@ -1566,9 +1560,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Izveidot</value>
   </data>
-  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
-    <value>Dzēst</value>
-  </data>
   <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Atvērt krātuves sensoru</value>
   </data>
@@ -1598,9 +1589,6 @@
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
     <value>Pārvietot vienumu(s)</value>
-  </data>
-  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Dzēst</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} vienumi tiks dzēsti</value>
@@ -2139,7 +2127,7 @@
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>Izveidot failus</value>
   </data>
-  <data name="SecurityDeleteLabel.Text" xml:space="preserve">
+  <data name="Delete" xml:space="preserve">
     <value>Dzēst</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">

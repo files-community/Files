@@ -114,7 +114,7 @@
   <data name="About" xml:space="preserve">
     <value>बारे में</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>उपस्थिति</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
@@ -122,9 +122,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>प्रयोगात्मक</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>उपस्थिति</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>प्रयोगात्मक</value>
@@ -239,9 +236,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>प्रतिलिपि</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>हटाएँ</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>पुनर्नाम</value>
@@ -1086,17 +1080,11 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>बनाएँ</value>
   </data>
-  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
-    <value>हटायें</value>
-  </data>
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>प्रतिलिपि बनाएँ</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>ले जाएँ</value>
-  </data>
-  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>हटायें</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} आइटम्स हटा दिए जाएँगे.</value>
@@ -1377,7 +1365,7 @@
   <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
     <value>विशेष</value>
   </data>
-  <data name="SecurityDeleteLabel.Text" xml:space="preserve">
+  <data name="Delete" xml:space="preserve">
     <value>हटायें</value>
   </data>
   <data name="SecurityNoneLabel.Text" xml:space="preserve">

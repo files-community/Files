@@ -881,7 +881,7 @@ namespace Files.Helpers
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
-                    Text = "BaseLayoutItemContextFlyoutDelete/Text".GetLocalized(),
+                    Text = "Delete".GetLocalized(),
                     //Glyph = "\uF74D",
                     IsPrimary = true,
                     ColoredIcon = new ColoredIconModel()

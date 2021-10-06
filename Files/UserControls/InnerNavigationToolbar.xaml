@@ -170,14 +170,13 @@
                 </AppBarButton>
                 <AppBarButton
                     x:Name="DeleteButton"
-                    x:Uid="NavigationToolbarDelete"
                     Width="Auto"
                     MinWidth="40"
                     Command="{x:Bind ViewModel.DeleteCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
-                    Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutDelete/Text')}"
+                    Label="{helpers:ResourceString Name=Delete}"
                     LabelPosition="Collapsed"
-                    ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutDelete/Text')}">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
                     <AppBarButton.Content>
                         <local:ColoredIcon BaseLayerGlyph="&#xF035;" OverlayLayerGlyph="&#xF036;" />
                     </AppBarButton.Content>

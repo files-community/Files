@@ -145,7 +145,7 @@
           <source>About</source>
           <target state="translated" state-qualifier="tm-suggestion">حول التطبيق</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Appearance" translate="yes" xml:space="preserve">
           <source>Appearance</source>
           <target state="translated" state-qualifier="tm-suggestion">المظهر</target>
         </trans-unit>
@@ -157,10 +157,6 @@
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
           <target state="translated">تجريبي</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
-          <source>Appearance</source>
-          <target state="translated" state-qualifier="tm-suggestion">المظهر</target>
         </trans-unit>
         <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
           <source>Experimental</source>
@@ -318,10 +314,6 @@
         <trans-unit id="BaseLayoutItemContextFlyoutCopy.Text" translate="yes" xml:space="preserve">
           <source>Copy</source>
           <target state="translated" state-qualifier="tm-suggestion">نسخ</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutDelete.Text" translate="yes" xml:space="preserve">
-          <source>Delete</source>
-          <target state="translated" state-qualifier="tm-suggestion">حذف</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutRename.Text" translate="yes" xml:space="preserve">
           <source>Rename</source>
@@ -2112,10 +2104,6 @@
           <source>Create</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">إنشاء</target>
         </trans-unit>
-        <trans-unit id="DialogDeleteLibraryButtonText" translate="yes" xml:space="preserve">
-          <source>Delete</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">حذف</target>
-        </trans-unit>
         <trans-unit id="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Open Storage Sense</source>
           <target state="new">Open Storage Sense</target>
@@ -2155,10 +2143,6 @@
         <trans-unit id="MoveItemsDialogTitle" translate="yes" xml:space="preserve">
           <source>Move item(s)</source>
           <target state="new">Move item(s)</target>
-        </trans-unit>
-        <trans-unit id="DeleteItemsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Delete</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">حذف</target>
         </trans-unit>
         <trans-unit id="DeleteItemsDialogSubtitleMultiple" translate="yes" xml:space="preserve">
           <source>{0} items will be deleted</source>
@@ -2876,7 +2860,7 @@
           <source>Create files</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">إنشاء ملفات</target>
         </trans-unit>
-        <trans-unit id="SecurityDeleteLabel.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="Delete" translate="yes" xml:space="preserve">
           <source>Delete</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">حذف</target>
         </trans-unit>
@@ -3290,7 +3274,7 @@
         </trans-unit>
         <trans-unit id="SettingsPrivacyPolicyMarkdownBlock.Text" translate="yes" xml:space="preserve">
           <source>
-*Personal Information Collection* 
+*Personal Information Collection*
 Files does not collect, store, share or publish any personal information.
 
 *Non-personal Information Collection*
@@ -3298,7 +3282,7 @@ Files does not collect, store, share or publish any personal information.
 We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
   </source>
           <target state="new">
-*Personal Information Collection* 
+*Personal Information Collection*
 Files does not collect, store, share or publish any personal information.
 
 *Non-personal Information Collection*
@@ -3577,6 +3561,26 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="SideBarFavoritesMoveToTop" translate="yes" xml:space="preserve">
           <source>Move to top</source>
           <target state="new">Move to top</target>
+        </trans-unit>
+        <trans-unit id="DetailsViewHeaderFlyout_ShowDateCreated.Text" translate="yes" xml:space="preserve">
+          <source>Date created column</source>
+          <target state="new">Date created column</target>
+        </trans-unit>
+        <trans-unit id="DetailsViewHeaderFlyout_ShowItemSize.Text" translate="yes" xml:space="preserve">
+          <source>Item size column</source>
+          <target state="new">Item size column</target>
+        </trans-unit>
+        <trans-unit id="SettingsDefaultExplorer" translate="yes" xml:space="preserve">
+          <source>Default file explorer</source>
+          <target state="new">Default file explorer</target>
+        </trans-unit>
+        <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
+          <source>Set Files as default file explorer</source>
+          <target state="new">Set Files as default file explorer</target>
+        </trans-unit>
+        <trans-unit id="SettingsSetAsOpenDialog" translate="yes" xml:space="preserve">
+          <source>Use Files as Open File Dialog</source>
+          <target state="new">Use Files as Open File Dialog</target>
         </trans-unit>
       </group>
     </body>
