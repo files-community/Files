@@ -4,6 +4,7 @@ using Files.Helpers;
 using Files.Models.JsonSettings.Implementation;
 using System;
 using Files.EventArguments;
+using System.IO;
 
 namespace Files.Models.JsonSettings
 {
@@ -115,6 +116,7 @@ namespace Files.Models.JsonSettings
         protected virtual void Initialize()
         {
             // Create the file
+            NativeFileOperationsHelper.CreateDirectoryFromApp(Path.GetDirectoryName(FilePath), IntPtr.Zero);
             NativeFileOperationsHelper.CreateFileForWrite(FilePath, false).Dispose();
         }
 
