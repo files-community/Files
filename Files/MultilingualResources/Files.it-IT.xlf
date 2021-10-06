@@ -56,7 +56,7 @@
         </trans-unit>
         <trans-unit id="ErrorDialogThisActionCannotBeDone" translate="yes" xml:space="preserve">
           <source>This action cannot be done</source>
-          <target state="translated">Cartella</target>
+          <target state="translated">Impossibile eseguire questa operazione</target>
         </trans-unit>
         <trans-unit id="ErrorDialogTheDestinationFolder" translate="yes" xml:space="preserve">
           <source>The destination folder</source>
@@ -292,7 +292,7 @@
         </trans-unit>
         <trans-unit id="WelcomeDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Grant Permission</source>
-          <target state="translated">Numero Paragrafi</target>
+          <target state="translated">Concedi i permessi</target>
         </trans-unit>
         <trans-unit id="WelcomeDialogTextBlock.Text" translate="yes" xml:space="preserve">
           <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </source>
@@ -924,7 +924,7 @@
         </trans-unit>
         <trans-unit id="VerticalTabViewHeader.Text" translate="yes" xml:space="preserve">
           <source>Open tabs</source>
-          <target state="translated">Sì</target>
+          <target state="translated">Apri schede</target>
         </trans-unit>
         <trans-unit id="ButtonNo.Content" translate="yes" xml:space="preserve">
           <source>No</source>
@@ -1408,7 +1408,7 @@
         </trans-unit>
         <trans-unit id="PropertyParagraphCount" translate="yes" xml:space="preserve">
           <source>Paragraph Count</source>
-          <target state="translated">Impossibile eseguire questa operazione</target>
+          <target state="translated">Numero Paragrafi</target>
         </trans-unit>
         <trans-unit id="PropertyPageCount" translate="yes" xml:space="preserve">
           <source>Page Count</source>
@@ -1560,11 +1560,11 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
-          <target state="translated">Apri nel pannello secondario</target>
+          <target state="translated">Apri nel riquadro secondario</target>
         </trans-unit>
         <trans-unit id="SideBarOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
-          <target state="translated">Apri nel pannello secondario</target>
+          <target state="translated">Apri nel riquadro secondario</target>
         </trans-unit>
         <trans-unit id="SettingsDualPane.Text" translate="yes" xml:space="preserve">
           <source>Dual pane</source>
@@ -1929,7 +1929,7 @@
         </trans-unit>
         <trans-unit id="SidebarLibraries" translate="yes" xml:space="preserve">
           <source>Libraries</source>
-          <target state="translated">{0} liberi su {1}</target>
+          <target state="translated">Raccolte</target>
         </trans-unit>
         <trans-unit id="PropertyItemCount" translate="yes" xml:space="preserve">
           <source>Item count</source>
@@ -2633,7 +2633,7 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarNewPane.Label" translate="yes" xml:space="preserve">
           <source>New pane</source>
-          <target state="translated">Nuovo pannello</target>
+          <target state="translated">Nuovo riquadro</target>
         </trans-unit>
         <trans-unit id="SecurityUnknownAccount" translate="yes" xml:space="preserve">
           <source>Unknown account</source>
@@ -2873,7 +2873,7 @@
         </trans-unit>
         <trans-unit id="BundlesOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in new Pane</source>
-          <target state="translated">Apri nel pannello secondario</target>
+          <target state="translated">Apri nel riquadro secondario</target>
         </trans-unit>
         <trans-unit id="SideBarCreateNewLibrary.Text" translate="yes" xml:space="preserve">
           <source>Create new library</source>
@@ -2909,7 +2909,7 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarClosePane.Label" translate="yes" xml:space="preserve">
           <source>Close pane</source>
-          <target state="translated">Chiudi pannello</target>
+          <target state="translated">Chiudi riquadro</target>
         </trans-unit>
         <trans-unit id="PropertyFileDescription" translate="yes" xml:space="preserve">
           <source>File description</source>
