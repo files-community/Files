@@ -235,7 +235,6 @@
     <Compile Include="Helpers\ZipHelpers.cs" />
     <Compile Include="Interacts\ItemManipulationModel.cs" />
     <Compile Include="ISearchBox.cs" />
-    <Compile Include="Models\JsonSettings\BaseObservableJsonSettingsModel.cs" />
     <Compile Include="Models\JsonSettings\ISettingsSharingContext.cs" />
     <Compile Include="Models\JsonSettings\IJsonSettingsDatabase.cs" />
     <Compile Include="Models\JsonSettings\IJsonSettingsSerializer.cs" />
