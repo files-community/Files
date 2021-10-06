@@ -170,7 +170,7 @@ namespace Files.Helpers
                     }
 
                     // Begin a new reading operation
-                    var nextInfo = (Buffer: new byte[clientStream.InBufferSize], Message: new StringBuilder());
+                    var nextInfo = (Buffer: new byte[clientStream?.InBufferSize ?? 0], Message: new StringBuilder());
                     BeginRead(nextInfo);
                 }
             }
