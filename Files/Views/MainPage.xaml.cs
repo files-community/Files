@@ -49,6 +49,8 @@ namespace Files.Views
         private ICommand ToggleCompactOverlayCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleCompactOverlay());
         private ICommand SetCompactOverlayCommand => new RelayCommand<bool>(x => SetCompactOverlay(x));
 
+        public bool IsVerticalTabFlyoutEnabled => UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled;
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -76,6 +78,10 @@ namespace Files.Views
             {
                 case nameof(UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled):
                     LoadPreviewPaneChanged();
+                    break;
+
+                case nameof(UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled):
+                    OnPropertyChanged(nameof(IsVerticalTabFlyoutEnabled));
                     break;
             }
         }
@@ -430,8 +436,8 @@ namespace Files.Views
 
         private void LoadPreviewPaneChanged()
         {
-            NotifyPropertyChanged(nameof(LoadPreviewPane));
-            NotifyPropertyChanged(nameof(IsPreviewPaneDisabled));
+            OnPropertyChanged(nameof(LoadPreviewPane));
+            OnPropertyChanged(nameof(IsPreviewPaneDisabled));
             UpdatePositioning();
         }
 
@@ -444,7 +450,7 @@ namespace Files.Views
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -476,7 +482,7 @@ namespace Files.Views
                 if (value != isCompactOverlay)
                 {
                     isCompactOverlay = value;
-                    NotifyPropertyChanged(nameof(IsCompactOverlay));
+                    OnPropertyChanged(nameof(IsCompactOverlay));
                 }
             }
         }
