@@ -286,6 +286,10 @@
           <source>Name</source>
           <target state="translated" state-qualifier="tm-suggestion">Name</target>
         </trans-unit>
+		  <trans-unit id="BaseLayoutContextFlyoutSortByNone.Text" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="translated" state-qualifier="tm-suggestion">None</target>
+        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortByDate.Text" translate="yes" xml:space="preserve">
           <source>Date modified</source>
           <target state="translated" state-qualifier="tm-suggestion">Date modified</target>

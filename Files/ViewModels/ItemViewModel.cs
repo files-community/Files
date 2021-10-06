@@ -213,6 +213,19 @@ namespace Files.ViewModels
             }
         }
 
+        public bool IsSortedByNone
+        {
+            get => folderSettings.DirectorySortOption == SortOption.None;
+            set
+            {
+                if (value)
+                {
+                    folderSettings.DirectorySortOption = SortOption.None;
+                    OnPropertyChanged(nameof(IsSortedByNone));
+                }
+            }
+        }
+
         public bool IsSortedByOriginalPath
         {
             get => folderSettings.DirectorySortOption == SortOption.OriginalFolder;

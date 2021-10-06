@@ -10,7 +10,8 @@
         SyncStatus,
         FileTag,
         OriginalFolder,
-        DateDeleted
+        DateDeleted,
+        None
     }
 
     public enum GroupOption : byte

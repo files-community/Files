@@ -227,6 +227,17 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
+                            Text = "BaseLayoutContextFlyoutSortByNone/Text".GetLocalized(),
+                            IsChecked = itemViewModel.IsSortedByNone,
+                            ShowInRecycleBin = true,
+                            ShowInSearchPage = true,
+                            ShowInFtpPage = true,
+                            ShowInZipPage = true,
+                            Command = new RelayCommand(() => itemViewModel.IsSortedByNone = true),
+                            ItemType = ItemType.Toggle,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
                             Text = "BaseLayoutContextFlyoutSortByDate/Text".GetLocalized(),
                             IsChecked = itemViewModel.IsSortedByDate,
                             Command = new RelayCommand(() => itemViewModel.IsSortedByDate = true),
