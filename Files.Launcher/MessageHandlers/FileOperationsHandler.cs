@@ -810,6 +810,10 @@ namespace FilesFullTrust.MessageHandlers
 
             private void UpdateTaskbarProgress()
             {
+                if (OwnerWindow == null || taskbar == null)
+                {
+                    return;
+                }
                 if (operations.Any())
                 {
                     taskbar.SetProgressValue(OwnerWindow.Handle, (ulong)Progress, 100);
