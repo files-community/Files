@@ -12,7 +12,7 @@ namespace Files.Services.Implementation
             this.RegisterSettingsContext(settingsSharingContext);
         }
 
-        protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
+        public override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
             switch (e.settingName)
             {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Files.EventArguments;
 
 namespace Files.Models.JsonSettings
 {
@@ -13,5 +9,7 @@ namespace Files.Models.JsonSettings
         IJsonSettingsDatabase JsonSettingsDatabase { get; }
 
         ISettingsSharingContext GetSharingContext();
+
+        void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e);
     }
 }

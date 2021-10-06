@@ -11,7 +11,7 @@ namespace Files.Services.Implementation
             this.RegisterSettingsContext(settingsSharingContext);
         }
 
-        protected override void RaiseOnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        public override void RaiseOnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
         {
             switch (e.settingName)
             {
@@ -24,6 +24,7 @@ namespace Files.Services.Implementation
                     Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{nameof(e.settingName)} {e.newValue}");
                     break;
             }
+
             base.RaiseOnSettingChangedEvent(sender, e);
         }
 
