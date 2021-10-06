@@ -141,7 +141,7 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>აირჩიეთ თქვენი ფერი</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>შესახედაობა</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
@@ -155,9 +155,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>ექსპერიმენტალური</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>შესახედაობა</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>ექსპერიმენტალური</value>
@@ -281,9 +278,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>ასლის შექმნა</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>წაშლა</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>გადარქმევა</value>
@@ -1689,9 +1683,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>შექმნა</value>
   </data>
-  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
-    <value>წაშლა</value>
-  </data>
   <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>შენახვის გრძნობის გახსნა</value>
   </data>
@@ -1718,9 +1709,6 @@
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
     <value>ელემენტ(ებ)ის გადატანა</value>
-  </data>
-  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>წაშლა</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} ელემენტი წაიშლება</value>
@@ -2217,7 +2205,7 @@
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>ფაილების შექმნა</value>
   </data>
-  <data name="SecurityDeleteLabel.Text" xml:space="preserve">
+  <data name="Delete" xml:space="preserve">
     <value>წაშლა</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">

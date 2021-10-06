@@ -141,7 +141,7 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Chọn màu của bạn</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>Diện mạo</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
@@ -155,9 +155,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Thực nghiệm</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>Diện mạo</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Thực nghiệm</value>
@@ -281,9 +278,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>Sao chép</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>Xóa</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Đổi tên</value>
@@ -1668,9 +1662,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Tạo</value>
   </data>
-  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
-    <value>Xóa</value>
-  </data>
   <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
     <value>Mở Storage Sense</value>
   </data>
@@ -1694,9 +1685,6 @@
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
     <value>Di chuyển mục</value>
-  </data>
-  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Xóa</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} mục sẽ bị xóa.</value>
@@ -2187,7 +2175,7 @@
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>Tạo tệp tin</value>
   </data>
-  <data name="SecurityDeleteLabel.Text" xml:space="preserve">
+  <data name="Delete" xml:space="preserve">
     <value>Xóa bỏ</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">

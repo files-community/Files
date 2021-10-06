@@ -117,7 +117,7 @@
   <data name="About" xml:space="preserve">
     <value>Tentang</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>Tampilan</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
@@ -125,9 +125,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimental</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>Tampilan</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Experimental</value>
@@ -248,9 +245,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>Salin</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>Hapus</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Ubah nama</value>
@@ -1599,9 +1593,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Buat</value>
   </data>
-  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
-    <value>Hapus</value>
-  </data>
   <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Buka Storage Sense</value>
   </data>
@@ -1628,9 +1619,6 @@
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
     <value>Pindahkan item(s)</value>
-  </data>
-  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Hapus</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} item akan dihapus</value>
@@ -2052,7 +2040,7 @@
   <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
     <value>Buat folder?</value>
   </data>
-  <data name="SecurityDeleteLabel.Text" xml:space="preserve">
+  <data name="Delete" xml:space="preserve">
     <value>Hapus</value>
   </data>
   <data name="SecurityNoneLabel.Text" xml:space="preserve">

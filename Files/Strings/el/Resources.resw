@@ -141,7 +141,7 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Επιλέξτε το χρώμα σας</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>Εμφάνιση</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
@@ -155,9 +155,6 @@
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Πειραματικό</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>Εμφάνιση</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Πειραματικό</value>
@@ -284,9 +281,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>Αντιγραφή</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>Διαγραφή</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Μετονομασία</value>
@@ -1695,9 +1689,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Δημιουργία</value>
   </data>
-  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
-    <value>Διαγραφή</value>
-  </data>
   <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ανοιχτή αίσθηση αποθήκευσης</value>
   </data>
@@ -1724,9 +1715,6 @@
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
     <value>Μετακίνηση αντικειμένου(ων)</value>
-  </data>
-  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Διαγραφή</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} στοιχεία θα διαγραφούν</value>
@@ -2223,7 +2211,7 @@
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>Δημιουργία αρχείων</value>
   </data>
-  <data name="SecurityDeleteLabel.Text" xml:space="preserve">
+  <data name="Delete" xml:space="preserve">
     <value>Διαγραφή</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
