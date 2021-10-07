@@ -168,7 +168,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
           <source>Third party licenses</source>
-          <target state="translated">Third party licenses</target>
+          <target state="translated">Third party licences</target>
         </trans-unit>
         <trans-unit id="About" translate="yes" xml:space="preserve">
           <source>About</source>
@@ -452,7 +452,7 @@
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Back (Alt+Left Arrow)</source>
-          <target state="translated" state-qualifier="tm-suggestion">Back	(Alt+Left Arrow)</target>
+          <target state="translated" state-qualifier="tm-suggestion">Back (Alt+Left Arrow)</target>
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Forward (Alt+Right Arrow)</source>
@@ -1128,7 +1128,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">Show a confirmation dialog when deleting files or folders</target>
+          <target state="translated">Show a confirmation dialogue when deleting files or folders</target>
         </trans-unit>
         <trans-unit id="PropertySaveErrorMessage.Text" translate="yes" xml:space="preserve">
           <source>There was an issue saving some properties.</source>
@@ -1628,7 +1628,7 @@
         </trans-unit>
         <trans-unit id="OngoingTasksTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Status Center</source>
-          <target state="translated">Status Center</target>
+          <target state="translated">Status Centre</target>
         </trans-unit>
         <trans-unit id="NavSearchButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Search</source>
@@ -2572,23 +2572,23 @@
         </trans-unit>
         <trans-unit id="StatusMoveCanceled" translate="yes" xml:space="preserve">
           <source>Move canceled</source>
-          <target state="translated">Move canceled</target>
+          <target state="translated">Move cancelled</target>
         </trans-unit>
         <trans-unit id="StatusCopyCanceled" translate="yes" xml:space="preserve">
           <source>Copy canceled</source>
-          <target state="translated">Copy canceled</target>
+          <target state="translated">Copy cancelled</target>
         </trans-unit>
         <trans-unit id="StatusMoveCanceledDetails_Singular" translate="yes" xml:space="preserve">
           <source>Moving {0} item from {1} to {2} was canceled</source>
-          <target state="translated">Moving {0} item from {1} to {2} was canceled</target>
+          <target state="translated">Moving {0} item from {1} to {2} was cancelled</target>
         </trans-unit>
         <trans-unit id="StatusMoveCanceledDetails_Plural" translate="yes" xml:space="preserve">
           <source>Moving {0} items from {1} to {2} was canceled after moving {3} items</source>
-          <target state="translated">Moving {0} items from {1} to {2} was canceled after moving {3} items</target>
+          <target state="translated">Moving {0} items from {1} to {2} was cancelled after moving {3} items</target>
         </trans-unit>
         <trans-unit id="StatusMoveCanceledDetails_Plural2" translate="yes" xml:space="preserve">
           <source>Moving {0} items from {1} to {2} was canceled after moving {3} item</source>
-          <target state="translated">Moving {0} items from {1} to {2} was canceled after moving {3} item</target>
+          <target state="translated">Moving {0} items from {1} to {2} was cancelled after moving {3} item</target>
         </trans-unit>
         <trans-unit id="StatusMovingItemsDetails_Singular" translate="yes" xml:space="preserve">
           <source>Moving {0} item from {1} to {2}</source>
@@ -2616,15 +2616,15 @@
         </trans-unit>
         <trans-unit id="StatusCopyCanceledDetails_Singular" translate="yes" xml:space="preserve">
           <source>Copying {0} item to {1} was canceled</source>
-          <target state="translated">Copying {0} item to {1} was canceled</target>
+          <target state="translated">Copying {0} item to {1} was cancelled</target>
         </trans-unit>
         <trans-unit id="StatusCopyCanceledDetails_Plural" translate="yes" xml:space="preserve">
           <source>Copying {0} items to {1} was canceled after copying {2} items</source>
-          <target state="translated">Copying {0} items to {1} was canceled after copying {2} items</target>
+          <target state="translated">Copying {0} items to {1} was cancelled after copying {2} items</target>
         </trans-unit>
         <trans-unit id="StatusCopyCanceledDetails_Plural2" translate="yes" xml:space="preserve">
           <source>Copying {0} items to {1} was canceled after copying {2} item</source>
-          <target state="translated">Copying {0} items to {1} was canceled after copying {2} item</target>
+          <target state="translated">Copying {0} items to {1} was cancelled after copying {2} item</target>
         </trans-unit>
         <trans-unit id="StatusCopyingItemsDetails_Singular" translate="yes" xml:space="preserve">
           <source>Copying {0} item to {1}</source>
@@ -2644,15 +2644,15 @@
         </trans-unit>
         <trans-unit id="StatusDeleteCanceledDetails_Singular" translate="yes" xml:space="preserve">
           <source>Deleting {0} item from {1} was canceled</source>
-          <target state="translated">Deleting {0} item from {1} was canceled</target>
+          <target state="translated">Deleting {0} item from {1} was cancelled</target>
         </trans-unit>
         <trans-unit id="StatusDeleteCanceledDetails_Plural" translate="yes" xml:space="preserve">
           <source>Deleting {0} items from {1} was canceled after deleting {3} items</source>
-          <target state="translated">Deleting {0} items from {1} was canceled after deleting {3} items</target>
+          <target state="translated">Deleting {0} items from {1} was cancelled after deleting {3} items</target>
         </trans-unit>
         <trans-unit id="StatusDeleteCanceledDetails_Plural2" translate="yes" xml:space="preserve">
           <source>Deleting {0} items from {1} was canceled after deleting {3} item</source>
-          <target state="translated">Deleting {0} items from {1} was canceled after deleting {3} item</target>
+          <target state="translated">Deleting {0} items from {1} was cancelled after deleting {3} item</target>
         </trans-unit>
         <trans-unit id="StatusDeletingItemsDetails_Singular" translate="yes" xml:space="preserve">
           <source>Deleting {0} item from {1}</source>
@@ -2700,7 +2700,7 @@
         </trans-unit>
         <trans-unit id="StatusCancellingOp" translate="yes" xml:space="preserve">
           <source>canceling</source>
-          <target state="translated">canceling</target>
+          <target state="translated">cancelling</target>
         </trans-unit>
         <trans-unit id="OngoingTasksDismissBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Dismiss</source>
@@ -3247,15 +3247,14 @@ Files does not collect, store, share or publish any personal information.
 
 We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
   </source>
-          <target state="needs-review-translation">
-*Personal Information Collection* 
+          <target state="translated">
+*Personal Information Collection*
 Files does not collect, store, share or publish any personal information.
 
 *Non-personal Information Collection*
 
 We use App Center to keep track of app usage, find bugs, and fix crashes. All information sent to App Center is anonymous and free of any user or contextual data.
   </target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavToolbarGroupByOptionNone.Text" translate="yes" xml:space="preserve">
           <source>None</source>
@@ -3495,7 +3494,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         </trans-unit>
         <trans-unit id="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">Show a confirmation dialog when deleting files or folders</target>
+          <target state="translated">Show a confirmation dialogue when deleting files or folders</target>
         </trans-unit>
         <trans-unit id="TerminalApplicationsComboBox.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Terminal application</source>
@@ -3515,39 +3514,39 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveOneDown" translate="yes" xml:space="preserve">
           <source>Move one down</source>
-          <target state="new">Move one down</target>
+          <target state="translated">Move one down</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveOneUp" translate="yes" xml:space="preserve">
           <source>Move one up</source>
-          <target state="new">Move one up</target>
+          <target state="translated">Move one up</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveToBottom" translate="yes" xml:space="preserve">
           <source>Move to bottom</source>
-          <target state="new">Move to bottom</target>
+          <target state="translated">Move to bottom</target>
         </trans-unit>
         <trans-unit id="SideBarFavoritesMoveToTop" translate="yes" xml:space="preserve">
           <source>Move to top</source>
-          <target state="new">Move to top</target>
+          <target state="translated">Move to top</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowDateCreated.Text" translate="yes" xml:space="preserve">
           <source>Date created column</source>
-          <target state="new">Date created column</target>
+          <target state="translated">Date created column</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowItemSize.Text" translate="yes" xml:space="preserve">
           <source>Item size column</source>
-          <target state="new">Item size column</target>
+          <target state="translated">Item size column</target>
         </trans-unit>
         <trans-unit id="SettingsDefaultExplorer" translate="yes" xml:space="preserve">
           <source>Default file explorer</source>
-          <target state="new">Default file explorer</target>
+          <target state="translated">Default file explorer</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
           <source>Set Files as default file explorer</source>
-          <target state="new">Set Files as default file explorer</target>
+          <target state="translated">Set Files as default file explorer</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsOpenDialog" translate="yes" xml:space="preserve">
           <source>Use Files as Open File Dialog</source>
-          <target state="new">Use Files as Open File Dialog</target>
+          <target state="translated">Use Files as Open File Dialogue</target>
         </trans-unit>
       </group>
     </body>
