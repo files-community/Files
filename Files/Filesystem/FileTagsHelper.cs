@@ -1,7 +1,7 @@
 ﻿using Common;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
-using Files.Models.Settings;
+using Files.Models.JsonSettings;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
@@ -69,7 +69,7 @@ namespace Files.Filesystem
         }
     }
 
-    public class FileTag
+    public class FileTag // TODO: Change name to FileTagModel
     {
         public string TagName { get; set; }
         public string Uid { get; set; }
@@ -93,44 +93,6 @@ namespace Files.Filesystem
             TagName = tagName;
             ColorString = colorString;
             Uid = uid;
-        }
-    }
-
-    public class FileTagsSettings : BaseJsonSettingsModel
-    {
-        public FileTagsSettings()
-            : base(System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.FileTagSettingsFileName),
-                  isCachingEnabled: true)
-        {
-        }
-
-        public IList<FileTag> FileTagList
-        {
-            get => Get<IList<FileTag>>(() => new List<FileTag>()
-            {
-                new FileTag("Blue", "#0072BD"),
-                new FileTag("Orange", "#D95319"),
-                new FileTag("Yellow", "#EDB120"),
-                new FileTag("Green", "#77AC30"),
-                new FileTag("Azure", "#4DBEEE")
-            });
-            set => Set(value);
-        }
-
-        public FileTag GetTagByID(string uid)
-        {
-            var tag = FileTagList.SingleOrDefault(x => x.Uid == uid);
-            if (!string.IsNullOrEmpty(uid) && tag == null)
-            {
-                tag = new FileTag("FileTagUnknown".GetLocalized(), "#9ea3a1", uid);
-                FileTagList = FileTagList.Append(tag).ToList();
-            }
-            return tag;
-        }
-
-        public IEnumerable<FileTag> GetTagsByName(string tagName)
-        {
-            return FileTagList.Where(x => x.TagName.Equals(tagName, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

@@ -1,9 +1,12 @@
 ﻿using Files.Helpers;
+using Files.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
@@ -12,30 +15,36 @@ namespace Files.ViewModels.SettingsViewModels
 {
     public class ExperimentalViewModel : ObservableObject
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
+        public ICommand EditFileTagsCommand { get; }
+
+        public ICommand SetAsDefaultExplorerCommand { get; }
+
+        public ICommand SetAsOpenFileDialogCommand { get; }
+
         public ExperimentalViewModel()
         {
             IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
             IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
-        }
 
-        private bool areFileTagsEnabled = App.AppSettings.AreFileTagsEnabled;
+            EditFileTagsCommand =  new AsyncRelayCommand(LaunchFileTagsConfigFile);
+            SetAsDefaultExplorerCommand = new AsyncRelayCommand(SetAsDefaultExplorer);
+            SetAsOpenFileDialogCommand = new AsyncRelayCommand(SetAsOpenFileDialog);
+        }
 
         public bool AreFileTagsEnabled
         {
-            get
-            {
-                return areFileTagsEnabled;
-            }
+            get => UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled;
             set
             {
-                if (SetProperty(ref areFileTagsEnabled, value))
+                if (value != UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled)
                 {
-                    App.AppSettings.AreFileTagsEnabled = value;
+                    UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled = value;
+                    OnPropertyChanged();
                 }
             }
         }
-
-        public IRelayCommand EditFileTagsCommand => new AsyncRelayCommand(() => LaunchFileTagsConfigFile());
 
         private async Task LaunchFileTagsConfigFile()
         {
@@ -54,8 +63,6 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
-
-        public AsyncRelayCommand SetAsDefaultExplorerCommand => new AsyncRelayCommand(() => SetAsDefaultExplorer());
 
         private async Task SetAsDefaultExplorer()
         {
@@ -80,8 +87,6 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public AsyncRelayCommand SetAsOpenFileDialogCommand => new AsyncRelayCommand(() => SetAsOpenFileDialog());
-
         private async Task SetAsOpenFileDialog()
         {
             if (IsSetAsOpenFileDialog == DetectIsSetAsOpenFileDialog())
@@ -103,13 +108,13 @@ namespace Files.ViewModels.SettingsViewModels
         private bool DetectIsSetAsDefaultFileManager()
         {
             using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\Directory\shell");
-            return subkey?.GetValue("") as string == "openinfiles";
+            return subkey?.GetValue(string.Empty) as string == "openinfiles";
         }
 
         private bool DetectIsSetAsOpenFileDialog()
         {
             using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7}");
-            return subkey?.GetValue("") as string == "FilesOpenDialog class";
+            return subkey?.GetValue(string.Empty) as string == "FilesOpenDialog class";
         }
 
         private bool isSetAsDefaultFileManager;

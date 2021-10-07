@@ -1,4 +1,6 @@
-﻿using Files.ViewModels;
+﻿using Files.Services;
+using Files.ViewModels;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -10,7 +12,7 @@ namespace Files.UserControls
 {
     public sealed partial class PreviewPane : UserControl
     {
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         public PreviewPaneViewModel Model
         {

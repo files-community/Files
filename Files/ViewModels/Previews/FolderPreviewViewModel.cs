@@ -2,7 +2,9 @@
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
+using Files.Services;
 using Files.ViewModels.Properties;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -14,6 +16,8 @@ namespace Files.ViewModels.Previews
 {
     public class FolderPreviewViewModel
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         private BaseStorageFolder Folder { get; set; }
 
         public ListedItem Item { get; set; }
@@ -70,7 +74,7 @@ namespace Files.ViewModels.Previews
                 }
             };
 
-            if (App.AppSettings.AreFileTagsEnabled)
+            if (UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled)
             {
                 Item.FileDetails.Add(new FileProperty()
                 {
