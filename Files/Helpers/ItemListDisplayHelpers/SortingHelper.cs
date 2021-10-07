@@ -25,7 +25,8 @@ namespace Files.Helpers
                 SortOption.FileTag => item => item.FileTag,
                 SortOption.OriginalFolder => item => (item as RecycleBinItem)?.ItemOriginalFolder,
                 SortOption.DateDeleted => item => (item as RecycleBinItem)?.ItemDateDeletedReal,
-                _ => null,
+                //_ => null,
+                _ => item => item.ItemName,
             };
         }
 
