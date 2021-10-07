@@ -1,4 +1,6 @@
 ﻿using Files.Filesystem;
+using Files.Services;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,8 @@ namespace Files.UserControls
 {
     public sealed partial class MenuFlyoutItemFileTag : UserControl
     {
+        private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
+
         public List<ListedItem> SelectedItems
         {
             get { return (List<ListedItem>)GetValue(SelectedItemsProperty); }
@@ -66,12 +70,12 @@ namespace Files.UserControls
             }
             else if (selectedItems.Count == 1)
             {
-                return App.AppSettings.FileTagsSettings.GetTagByID(selectedItems.First().FileTag);
+                return FileTagsSettingsService.GetTagById(selectedItems.First().FileTag);
             }
             else
             {
                 var tag = selectedItems.First().FileTag;
-                return selectedItems.All(x => x.FileTag == tag) ? App.AppSettings.FileTagsSettings.GetTagByID(tag) : null;
+                return selectedItems.All(x => x.FileTag == tag) ? FileTagsSettingsService.GetTagById(tag) : null;
             }
         }
 

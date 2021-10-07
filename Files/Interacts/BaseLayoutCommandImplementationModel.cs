@@ -546,7 +546,7 @@ namespace Files.Interacts
                 }
                 else if (handledByFtp)
                 {
-                    if (pwd.StartsWith(App.AppSettings.RecycleBinPath))
+                    if (pwd.StartsWith(CommonPaths.RecycleBinPath))
                     {
                         e.AcceptedOperation = DataPackageOperation.None;
                     }
@@ -564,7 +564,7 @@ namespace Files.Interacts
                 else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
-                    if (pwd.StartsWith(App.AppSettings.RecycleBinPath))
+                    if (pwd.StartsWith(CommonPaths.RecycleBinPath))
                     {
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Move;

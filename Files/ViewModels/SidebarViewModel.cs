@@ -2,8 +2,10 @@
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Services;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
@@ -19,6 +21,7 @@ namespace Files.ViewModels
 {
     public class SidebarViewModel : ObservableObject, IDisposable
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
         public ICommand EmptyRecycleBinCommand { get; private set; }
 
         private IPaneHolder paneHolder;
@@ -102,13 +105,13 @@ namespace Files.ViewModels
 
         public bool IsSidebarOpen
         {
-            get => App.AppSettings.IsSidebarOpen;
+            get => UserSettingsService.SidebarSettingsService.IsSidebarOpen;
             set
             {
-                if (App.AppSettings.IsSidebarOpen != value)
+                if (value != UserSettingsService.SidebarSettingsService.IsSidebarOpen)
                 {
-                    App.AppSettings.IsSidebarOpen = value;
-                    OnPropertyChanged(nameof(IsSidebarOpen));
+                    UserSettingsService.SidebarSettingsService.IsSidebarOpen = value;
+                    OnPropertyChanged();
                 }
             }
         }
@@ -124,7 +127,7 @@ namespace Files.ViewModels
         public SidebarViewModel()
         {
             EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(EmptyRecycleBin);
-            App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
+            UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
         }
 
         public async void EmptyRecycleBin(RoutedEventArgs e)
@@ -132,12 +135,12 @@ namespace Files.ViewModels
             await RecycleBinHelpers.S_EmptyRecycleBin();
         }
 
-        private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
         {
-            switch (e.PropertyName)
+            switch (e.settingName)
             {
-                case nameof(App.AppSettings.IsSidebarOpen):
-                    if (App.AppSettings.IsSidebarOpen != IsSidebarOpen)
+                case nameof(UserSettingsService.SidebarSettingsService.IsSidebarOpen):
+                    if (UserSettingsService.SidebarSettingsService.IsSidebarOpen != IsSidebarOpen)
                     {
                         OnPropertyChanged(nameof(IsSidebarOpen));
                     }
@@ -147,7 +150,7 @@ namespace Files.ViewModels
 
         public void Dispose()
         {
-            App.AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
+            UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
         }
 
         public void SidebarControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)

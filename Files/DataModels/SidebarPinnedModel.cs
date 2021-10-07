@@ -3,8 +3,10 @@ using Files.Controllers;
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Services;
 using Files.UserControls;
 using Files.ViewModels;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -22,12 +24,11 @@ namespace Files.DataModels
 {
     public class SidebarPinnedModel
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         private SidebarPinnedController controller;
 
         private LocationItem favoriteSection, homeSection;
-
-        [JsonIgnore]
-        public SettingsViewModel AppSettings => App.AppSettings;
 
         [JsonIgnore]
         public MainViewModel MainViewModel => App.MainViewModel;
@@ -51,8 +52,8 @@ namespace Files.DataModels
         {
             var udp = UserDataPaths.GetDefault();
 
-            FavoriteItems.Add(AppSettings.DesktopPath);
-            FavoriteItems.Add(AppSettings.DownloadsPath);
+            FavoriteItems.Add(CommonPaths.DesktopPath);
+            FavoriteItems.Add(CommonPaths.DownloadsPath);
             FavoriteItems.Add(udp.Documents);
         }
 
@@ -61,7 +62,7 @@ namespace Files.DataModels
             try
             {
                 var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarFavorites".GetLocalized()) select n).FirstOrDefault();
-                if (!App.AppSettings.ShowFavoritesSection && item != null)
+                if (!UserSettingsService.SidebarSettingsService.ShowFavoritesSection && item != null)
                 {
                     SidebarControl.SideBarItems.Remove(item);
                 }
@@ -72,7 +73,7 @@ namespace Files.DataModels
 
         public async void UpdateFavoritesSectionVisibility()
         {
-            if (App.AppSettings.ShowFavoritesSection)
+            if (UserSettingsService.SidebarSettingsService.ShowFavoritesSection)
             {
                 await AddAllItemsToSidebar();
             }
@@ -113,11 +114,11 @@ namespace Files.DataModels
                     Text = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                     IsDefaultLocation = true,
                     Icon = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.GetIconResource(Constants.ImageRes.RecycleBin)),
-                    Path = App.AppSettings.RecycleBinPath
+                    Path = CommonPaths.RecycleBinPath
                 };
                 // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
                 // TODO: the very first time the app is launched localized name not available
-                if (!favoriteSection.ChildItems.Any(x => x.Path == App.AppSettings.RecycleBinPath))
+                if (!favoriteSection.ChildItems.Any(x => x.Path == CommonPaths.RecycleBinPath))
                 {
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => favoriteSection.ChildItems.Add(recycleBinItem));
                 }
@@ -126,7 +127,7 @@ namespace Files.DataModels
             {
                 foreach (INavigationControlItem item in favoriteSection.ChildItems.ToList())
                 {
-                    if (item is LocationItem && item.Path == App.AppSettings.RecycleBinPath)
+                    if (item is LocationItem && item.Path == CommonPaths.RecycleBinPath)
                     {
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => favoriteSection.ChildItems.Remove(item));
                     }
@@ -251,7 +252,7 @@ namespace Files.DataModels
             var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
             if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
             {
-                var lastItem = favoriteSection.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(App.AppSettings.RecycleBinPath));
+                var lastItem = favoriteSection.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(CommonPaths.RecycleBinPath));
                 int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
                 var locationItem = new LocationItem
                 {
@@ -299,7 +300,7 @@ namespace Files.DataModels
         /// <param name="section">The section.</param>
         private void AddItemToSidebarAsync(LocationItem section)
         {
-            var lastItem = favoriteSection.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(App.AppSettings.RecycleBinPath));
+            var lastItem = favoriteSection.ChildItems.LastOrDefault(x => x.ItemType == NavigationControlItemType.Location && !x.Path.Equals(CommonPaths.RecycleBinPath));
             int insertIndex = lastItem != null ? favoriteSection.ChildItems.IndexOf(lastItem) + 1 : 0;
 
             if (!favoriteSection.ChildItems.Contains(section))
@@ -313,7 +314,7 @@ namespace Files.DataModels
         /// </summary>
         public async Task AddAllItemsToSidebar()
         {
-            if (!App.AppSettings.ShowFavoritesSection)
+            if (!UserSettingsService.SidebarSettingsService.ShowFavoritesSection)
             {
                 return;
             }
@@ -365,7 +366,7 @@ namespace Files.DataModels
                 await AddItemToSidebarAsync(path);
             }
 
-            await ShowHideRecycleBinItemAsync(App.AppSettings.PinRecycleBinToSideBar);
+            await ShowHideRecycleBinItemAsync(UserSettingsService.SidebarSettingsService.PinRecycleBinToSidebar);
         }
 
         /// <summary>

@@ -1,6 +1,8 @@
 ﻿using Files.DataModels;
 using Files.Helpers;
+using Files.Services;
 using Files.ViewModels;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -22,8 +24,10 @@ namespace Files.UserControls
             this.InitializeComponent();
         }
 
+        public IUserSettingsService UserSettingsService { get; } = 
+            Ioc.Default.GetService<IUserSettingsService>();
+
         public MainViewModel MainViewModel => App.MainViewModel;
-        public SettingsViewModel AppSettings => App.AppSettings;
 
         public NavToolbarViewModel ViewModel
         {

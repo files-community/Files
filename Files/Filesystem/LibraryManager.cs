@@ -3,8 +3,11 @@ using Files.DataModels;
 using Files.DataModels.NavigationControlItems;
 using Files.Extensions;
 using Files.Helpers;
+using Files.Services;
 using Files.UserControls;
 using Files.ViewModels;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
@@ -19,6 +22,8 @@ namespace Files.Filesystem
 {
     public class LibraryManager : IDisposable
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         public MainViewModel MainViewModel => App.MainViewModel;
 
         private LocationItem librarySection;
@@ -32,7 +37,7 @@ namespace Files.Filesystem
 
         private async void Libraries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (!App.AppSettings.ShowLibrarySection)
+            if (!UserSettingsService.SidebarSettingsService.ShowLibrarySection)
             {
                 return;
             }
@@ -133,18 +138,17 @@ namespace Files.Filesystem
             try
             {
                 var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarLibraries".GetLocalized()) select n).FirstOrDefault();
-                if (!App.AppSettings.ShowLibrarySection && item != null)
+                if (!UserSettingsService.SidebarSettingsService.ShowLibrarySection && item != null)
                 {
                     SidebarControl.SideBarItems.Remove(item);
                 }
             }
-            catch (Exception)
-            { }
+            catch (Exception) { }
         }
 
         public async void UpdateLibrariesSectionVisibility()
         {
-            if (App.AppSettings.ShowLibrarySection)
+            if (UserSettingsService.SidebarSettingsService.ShowLibrarySection)
             {
                 await EnumerateLibrariesAsync();
             }
@@ -190,7 +194,7 @@ namespace Files.Filesystem
                 try
                 {
                     var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarLibraries".GetLocalized()) as LocationItem;
-                    if (App.AppSettings.ShowLibrarySection && section == null)
+                    if (UserSettingsService.SidebarSettingsService.ShowLibrarySection && section == null)
                     {
                         librarySection = new LocationItem
                         {

@@ -59,7 +59,7 @@
                     <ToggleMenuFlyoutItem
                         x:Uid="PreviewPaneShowPreviewOnly"
                         Command="{x:Bind Model.ShowPreviewOnlyInvoked, Mode=OneWay}"
-                        IsChecked="{x:Bind AppSettings.ShowPreviewOnly, Mode=TwoWay}"
+                        IsChecked="{x:Bind UserSettingsService.PreviewPaneSettingsService.ShowPreviewOnly, Mode=TwoWay}"
                         Text="Show preview only" />
 
                     <MenuFlyoutItem
@@ -274,12 +274,12 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <triggers:IsEqualStateTrigger Value="{x:Bind AppSettings.ShowPreviewOnly, Mode=OneWay}" To="False" />
+                        <triggers:IsEqualStateTrigger Value="{x:Bind UserSettingsService.PreviewPaneSettingsService.ShowPreviewOnly, Mode=OneWay}" To="False" />
                     </VisualState.StateTriggers>
                 </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <triggers:IsEqualStateTrigger Value="{x:Bind AppSettings.ShowPreviewOnly, Mode=OneWay}" To="True" />
+                        <triggers:IsEqualStateTrigger Value="{x:Bind UserSettingsService.PreviewPaneSettingsService.ShowPreviewOnly, Mode=OneWay}" To="True" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="RootPropertiesGrid.Visibility" Value="Collapsed" />

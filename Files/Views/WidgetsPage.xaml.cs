@@ -2,9 +2,11 @@
 using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Services;
 using Files.UserControls.Widgets;
 using Files.ViewModels;
 using Files.ViewModels.Pages;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.IO;
@@ -17,6 +19,8 @@ namespace Files.Views
 {
     public sealed partial class WidgetsPage : Page, IDisposable
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         private IShellPage AppInstance = null;
         public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
 
@@ -56,10 +60,10 @@ namespace Files.Views
 
         private void ReloadWidgets()
         {
-            folderWidget = WidgetsHelpers.TryGetWidget<FolderWidget>(Widgets.ViewModel, out bool shouldReloadFolderWidget, folderWidget);
-            drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
-            bundlesWidget = WidgetsHelpers.TryGetWidget<BundlesWidget>(Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
-            recentFilesWidget = WidgetsHelpers.TryGetWidget<RecentFilesWidget>(Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
+            folderWidget = WidgetsHelpers.TryGetWidget<FolderWidget>(UserSettingsService.WidgetsSettingsService, Widgets.ViewModel, out bool shouldReloadFolderWidget, folderWidget);
+            drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(UserSettingsService.WidgetsSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
+            bundlesWidget = WidgetsHelpers.TryGetWidget<BundlesWidget>(UserSettingsService.WidgetsSettingsService, Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
+            recentFilesWidget = WidgetsHelpers.TryGetWidget<RecentFilesWidget>(UserSettingsService.WidgetsSettingsService, Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
 
             if (shouldReloadFolderWidget && folderWidget != null)
             {

@@ -6,8 +6,10 @@ using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.Interacts;
+using Files.Services;
 using Files.ViewModels;
 using Files.ViewModels.Dialogs;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -61,6 +63,12 @@ namespace Files.Filesystem
 
         #endregion Private Members
 
+        #region Properties
+
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
+        #endregion
+
         #region Constructor
 
         public FilesystemHelpers(IShellPage associatedInstance, CancellationToken cancellationToken)
@@ -107,7 +115,7 @@ namespace Files.Filesystem
             var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => recycleBinHelpers.IsPathUnderRecycleBin(path));
             var canBeSentToBin = !deleteFromRecycleBin && await recycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
 
-            if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
+            if (UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
                 List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
 
@@ -292,7 +300,7 @@ namespace Files.Filesystem
 
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
+            if (UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
                 List<FilesystemItemsOperationItemModel> incomingItems = new List<FilesystemItemsOperationItemModel>();
 
@@ -391,7 +399,7 @@ namespace Files.Filesystem
                 {
                     return default;
                 }
-                if (destination.StartsWith(App.AppSettings.RecycleBinPath))
+                if (destination.StartsWith(CommonPaths.RecycleBinPath))
                 {
                     return await RecycleItemsFromClipboard(packageView, destination, showDialog, registerHistory);
                 }
