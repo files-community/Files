@@ -44,7 +44,7 @@ body:
     attributes:
       label: Relevant Assets
       description: |
-        A list of assets (logs, screenshots, etc) relevants to this bug.
+        A list of assets (logs, screenshots, etc) relevant to this bug.
 
         Tip: You can attach image(s) or log file(s) by clicking this area to highlight it and then dragging files in.
       placeholder: |
