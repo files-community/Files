@@ -1,55 +1,48 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Files.Services;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
 namespace Files.ViewModels.SettingsViewModels
 {
     public class MultitaskingViewModel : ObservableObject
     {
-        private bool isVerticalTabFlyoutEnabled = App.AppSettings.IsVerticalTabFlyoutEnabled;
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         public bool IsVerticalTabFlyoutEnabled
         {
-            get
-            {
-                return isVerticalTabFlyoutEnabled;
-            }
+            get => UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled;
             set
             {
-                if (SetProperty(ref isVerticalTabFlyoutEnabled, value))
+                if (value != UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled)
                 {
-                    App.AppSettings.IsVerticalTabFlyoutEnabled = value;
+                    UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
-        private bool isDualPaneEnabled = App.AppSettings.IsDualPaneEnabled;
-        private bool alwaysOpenDualPaneInNewTab = App.AppSettings.AlwaysOpenDualPaneInNewTab;
-
         public bool IsDualPaneEnabled
         {
-            get
-            {
-                return isDualPaneEnabled;
-            }
+            get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled;
             set
             {
-                if (SetProperty(ref isDualPaneEnabled, value))
+                if (value != UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled)
                 {
-                    App.AppSettings.IsDualPaneEnabled = value;
+                    UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool AlwaysOpenDualPaneInNewTab
         {
-            get
-            {
-                return alwaysOpenDualPaneInNewTab;
-            }
+            get => UserSettingsService.MultitaskingSettingsService.AlwaysOpenDualPaneInNewTab;
             set
             {
-                if (SetProperty(ref alwaysOpenDualPaneInNewTab, value))
+                if (value != UserSettingsService.MultitaskingSettingsService.AlwaysOpenDualPaneInNewTab)
                 {
-                    App.AppSettings.AlwaysOpenDualPaneInNewTab = value;
+                    UserSettingsService.MultitaskingSettingsService.AlwaysOpenDualPaneInNewTab = value;
+                    OnPropertyChanged();
                 }
             }
         }

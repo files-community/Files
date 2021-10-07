@@ -5,6 +5,7 @@
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
     xmlns:local="using:Files.Views"
@@ -508,12 +509,11 @@
                 Style="{StaticResource AccentButtonStyle}" />
             <Button
                 x:Name="CancelButton"
-                x:Uid="PropertiesDialogCancelButton"
                 Grid.Column="2"
                 MinWidth="100"
                 HorizontalAlignment="Right"
                 Click="CancelButton_Click"
-                Content="Cancel" />
+                Content="{helpers:ResourceString Name=Cancel}" />
         </Grid>
     </Grid>
 </Page>

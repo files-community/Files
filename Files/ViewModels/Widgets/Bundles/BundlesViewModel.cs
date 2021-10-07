@@ -3,8 +3,10 @@ using Files.Enums;
 using Files.EventArguments.Bundles;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Services;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
@@ -41,7 +43,9 @@ namespace Files.ViewModels.Widgets.Bundles
 
         public event EventHandler<string> OpenPathInNewPaneEvent;
 
-        #region Public Properties
+        #region Properties
+
+        private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetService<IBundlesSettingsService>();
 
         /// <summary>
         /// Collection of all bundles
@@ -72,7 +76,7 @@ namespace Files.ViewModels.Widgets.Bundles
             set => SetProperty(ref noBundlesAddItemLoad, value);
         }
 
-        #endregion Public Properties
+        #endregion Properties
 
         #region Commands
 
@@ -148,7 +152,7 @@ namespace Files.ViewModels.Widgets.Bundles
                 TitleText = "BundlesWidgetCreateBundleDialogTitleText".GetLocalized(),
                 SubtitleText = "BundlesWidgetCreateBundleDialogSubtitleText".GetLocalized(),
                 PrimaryButtonText = "BundlesWidgetCreateBundleDialogPrimaryButtonText".GetLocalized(),
-                CloseButtonText = "BundlesWidgetCreateBundleDialogCloseButtonText".GetLocalized(),
+                CloseButtonText = "Cancel".GetLocalized(),
                 PrimaryButtonAction = (vm, e) =>
                 {
                     var (result, reason) = CanAddBundle(inputText.Text);
@@ -194,9 +198,9 @@ namespace Files.ViewModels.Widgets.Bundles
             string savedBundleNameTextInput = name;
             BundleNameTextInput = string.Empty;
 
-            if (App.BundlesSettings.SavedBundles == null || (App.BundlesSettings.SavedBundles?.ContainsKey(savedBundleNameTextInput) ?? false)) // Init
+            if (BundlesSettingsService.SavedBundles == null || (BundlesSettingsService.SavedBundles?.ContainsKey(savedBundleNameTextInput) ?? false)) // Init
             {
-                App.BundlesSettings.SavedBundles = new Dictionary<string, List<string>>()
+                BundlesSettingsService.SavedBundles = new Dictionary<string, List<string>>()
                 {
                     { savedBundleNameTextInput, new List<string>() { null } }
                 };
@@ -231,7 +235,7 @@ namespace Files.ViewModels.Widgets.Bundles
                 {
                     string data = NativeFileOperationsHelper.ReadStringFromFile(file.Path);
                     var deserialized = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data);
-                    App.BundlesSettings.ImportSettings(JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data));
+                    BundlesSettingsService.ImportSettings(JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data));
                     await Load(); // Update the collection
                 }
                 catch // Couldn't deserialize, data is corrupted
@@ -249,7 +253,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
             if (file != null)
             {
-                NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)App.BundlesSettings.ExportSettings());
+                NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)BundlesSettingsService.ExportSettings());
             }
         }
 
@@ -330,7 +334,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
         public void Save()
         {
-            if (App.BundlesSettings.SavedBundles != null)
+            if (BundlesSettingsService.SavedBundles != null)
             {
                 Dictionary<string, List<string>> bundles = new Dictionary<string, List<string>>();
 
@@ -351,18 +355,18 @@ namespace Files.ViewModels.Widgets.Bundles
                     bundles.Add(bundle.BundleName, bundleItems);
                 }
 
-                App.BundlesSettings.SavedBundles = bundles; // Calls Set()
+                BundlesSettingsService.SavedBundles = bundles; // Calls Set()
             }
         }
 
         public async Task Load()
         {
-            if (App.BundlesSettings.SavedBundles != null)
+            if (BundlesSettingsService.SavedBundles != null)
             {
                 Items.Clear();
 
                 // For every bundle in saved bundle collection:
-                foreach (var bundle in App.BundlesSettings.SavedBundles)
+                foreach (var bundle in BundlesSettingsService.SavedBundles)
                 {
                     List<BundleItemViewModel> bundleItems = new List<BundleItemViewModel>();
 

@@ -115,7 +115,7 @@ namespace Files.Filesystem.StorageItems
 
     public abstract class BaseStorageFolder : IBaseStorageFolder
     {
-        public static implicit operator BaseStorageFolder(StorageFolder value) => new SystemStorageFolder(value);
+        public static implicit operator BaseStorageFolder(StorageFolder value) => value != null ? new SystemStorageFolder(value) : null;
 
         public abstract IAsyncOperation<BaseStorageFile> CreateFileAsync(string desiredName);
         public abstract IAsyncOperation<BaseStorageFile> CreateFileAsync(string desiredName, CreationCollisionOption options);
@@ -332,7 +332,7 @@ namespace Files.Filesystem.StorageItems
 
     public abstract class BaseStorageFile : IBaseStorageFile
     {
-        public static implicit operator BaseStorageFile(StorageFile value) => new SystemStorageFile(value);
+        public static implicit operator BaseStorageFile(StorageFile value) => value != null ? new SystemStorageFile(value) : null;
 
         public abstract IAsyncOperation<StorageFile> ToStorageFileAsync();
         public abstract IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode);

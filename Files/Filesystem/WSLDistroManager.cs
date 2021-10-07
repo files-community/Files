@@ -1,6 +1,8 @@
 ﻿using Files.DataModels.NavigationControlItems;
+using Files.Services;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
@@ -12,11 +14,9 @@ using Windows.UI.Core;
 
 namespace Files.Filesystem
 {
-    public class WSLDistroManager : ObservableObject
+    public class WSLDistroManager
     {
-        public WSLDistroManager()
-        {
-        }
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         public async Task EnumerateDrivesAsync()
         {
@@ -49,7 +49,7 @@ namespace Files.Filesystem
                     if ((await distroFolder.GetFoldersAsync()).Count != 0)
                     {
                         var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "WSL".GetLocalized()) as LocationItem;
-                        if (App.AppSettings.ShowWslSection && section == null)
+                        if (UserSettingsService.SidebarSettingsService.ShowWslSection && section == null)
                         {
                             section = new LocationItem()
                             {
@@ -128,7 +128,7 @@ namespace Files.Filesystem
             try
             {
                 var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("WSL".GetLocalized()) select n).FirstOrDefault();
-                if (!App.AppSettings.ShowWslSection && item != null)
+                if (!UserSettingsService.SidebarSettingsService.ShowWslSection && item != null)
                 {
                     SidebarControl.SideBarItems.Remove(item);
                 }
@@ -139,7 +139,7 @@ namespace Files.Filesystem
 
         public async void UpdateWslSectionVisibility()
         {
-            if (App.AppSettings.ShowWslSection)
+            if (UserSettingsService.SidebarSettingsService.ShowWslSection)
             {
                 await EnumerateDrivesAsync();
             }

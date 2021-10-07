@@ -32,8 +32,12 @@ namespace Files.CommandLine
 
                 switch (kvp.Key)
                 {
-                    case "-Directory":
+                    case string s when "-Directory".Equals(s, StringComparison.OrdinalIgnoreCase):
                         command.Type = ParsedCommandType.OpenDirectory;
+                        break;
+
+                    case string s when "-OutputPath".Equals(s, StringComparison.OrdinalIgnoreCase):
+                        command.Type = ParsedCommandType.OutputPath;
                         break;
 
                     default:

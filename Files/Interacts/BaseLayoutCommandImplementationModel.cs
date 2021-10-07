@@ -199,9 +199,9 @@ namespace Files.Interacts
 
         public virtual async void DeleteItem(RoutedEventArgs e)
         {
-            var items = await Task.WhenAll(SlimContentPage.SelectedItems.Select((item) => Task.Run(() => StorageItemHelpers.FromPathAndType(
-                    item.ItemPath,
-                    item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory))));
+            var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageItemHelpers.FromPathAndType(
+                item.ItemPath,
+                item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)));
             await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
         }
 
@@ -366,13 +366,13 @@ namespace Files.Interacts
 
                 foreach (ListedItem item in SlimContentPage.SelectedItems)
                 {
-                    if (item.IsShortcutItem)
+                    if (item is ShortcutItem shItem)
                     {
-                        if (item.IsLinkItem)
+                        if (shItem.IsLinkItem && !string.IsNullOrEmpty(shItem.TargetPath))
                         {
                             dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalized(), item.ItemName);
                             dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalized();
-                            dataRequest.Data.SetWebLink(new Uri(((ShortcutItem)item).TargetPath));
+                            dataRequest.Data.SetWebLink(new Uri(shItem.TargetPath));
                             dataRequestDeferral.Complete();
                             return;
                         }
@@ -546,7 +546,7 @@ namespace Files.Interacts
                 }
                 else if (handledByFtp)
                 {
-                    if (pwd.StartsWith(App.AppSettings.RecycleBinPath))
+                    if (pwd.StartsWith(CommonPaths.RecycleBinPath))
                     {
                         e.AcceptedOperation = DataPackageOperation.None;
                     }
@@ -564,7 +564,7 @@ namespace Files.Interacts
                 else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
-                    if (pwd.StartsWith(App.AppSettings.RecycleBinPath))
+                    if (pwd.StartsWith(CommonPaths.RecycleBinPath))
                     {
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Move;
@@ -740,7 +740,13 @@ namespace Files.Interacts
 
         public async void DecompressArchiveToChildFolder()
         {
-            BaseStorageFile archive = await StorageItemHelpers.ToStorageItem<BaseStorageFile>(associatedInstance.SlimContentPage.SelectedItem.ItemPath);
+            var selectedItem = associatedInstance?.SlimContentPage?.SelectedItem;
+            if (selectedItem == null)
+            {
+                return;
+            }
+
+            BaseStorageFile archive = await StorageItemHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
             BaseStorageFolder currentFolder = await StorageItemHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
             BaseStorageFolder destinationFolder = null;
 

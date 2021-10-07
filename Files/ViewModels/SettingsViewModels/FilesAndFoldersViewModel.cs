@@ -1,118 +1,100 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Files.Services;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
 namespace Files.ViewModels.SettingsViewModels
 {
     public class FilesAndFoldersViewModel : ObservableObject
     {
-        private bool areHiddenItemsVisible = App.AppSettings.AreHiddenItemsVisible;
-        private bool areSystemItemsHidden = App.AppSettings.AreSystemItemsHidden;
-        private bool showFileExtensions = App.AppSettings.ShowFileExtensions;
-        private bool openItemsWithOneclick = App.AppSettings.OpenItemsWithOneclick;
-        private bool listAndSortDirectoriesAlongsideFiles = App.AppSettings.ListAndSortDirectoriesAlongsideFiles;
-        private bool searchUnindexedItems = App.AppSettings.SearchUnindexedItems;
-        private bool areLayoutPreferencesPerFolder = App.AppSettings.AreLayoutPreferencesPerFolder;
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         public bool AreHiddenItemsVisible
         {
-            get
-            {
-                return areHiddenItemsVisible;
-            }
+            get => UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible;
             set
             {
-                if (SetProperty(ref areHiddenItemsVisible, value))
+                if (value != UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible)
                 {
-                    App.AppSettings.AreHiddenItemsVisible = value;
+                    UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool AreSystemItemsHidden
         {
-            get
-            {
-                return areSystemItemsHidden;
-            }
+            get => UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden;
             set
             {
-                if (SetProperty(ref areSystemItemsHidden, value))
+                if (value != UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden)
                 {
-                    App.AppSettings.AreSystemItemsHidden = value;
+                    UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool ShowFileExtensions
         {
-            get
-            {
-                return showFileExtensions;
-            }
+            get => UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions;
             set
             {
-                if (SetProperty(ref showFileExtensions, value))
+                if (value != UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions)
                 {
-                    App.AppSettings.ShowFileExtensions = value;
+                    UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool OpenItemsWithOneclick
         {
-            get
-            {
-                return openItemsWithOneclick;
-            }
+            get => UserSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick;
             set
             {
-                if (SetProperty(ref openItemsWithOneclick, value))
+                if (value != UserSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick)
                 {
-                    App.AppSettings.OpenItemsWithOneclick = value;
+                    UserSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool ListAndSortDirectoriesAlongsideFiles
         {
-            get
-            {
-                return listAndSortDirectoriesAlongsideFiles;
-            }
+            get => UserSettingsService.FilesAndFoldersSettingsService.ListAndSortDirectoriesAlongsideFiles;
             set
             {
-                if (SetProperty(ref listAndSortDirectoriesAlongsideFiles, value))
+                if (value != UserSettingsService.FilesAndFoldersSettingsService.ListAndSortDirectoriesAlongsideFiles)
                 {
-                    App.AppSettings.ListAndSortDirectoriesAlongsideFiles = value;
+                    UserSettingsService.FilesAndFoldersSettingsService.ListAndSortDirectoriesAlongsideFiles = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool SearchUnindexedItems
         {
-            get
-            {
-                return searchUnindexedItems;
-            }
+            get => UserSettingsService.FilesAndFoldersSettingsService.SearchUnindexedItems;
             set
             {
-                if (SetProperty(ref searchUnindexedItems, value))
+                if (value != UserSettingsService.FilesAndFoldersSettingsService.SearchUnindexedItems)
                 {
-                    App.AppSettings.SearchUnindexedItems = value;
+                    UserSettingsService.FilesAndFoldersSettingsService.SearchUnindexedItems = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool AreLayoutPreferencesPerFolder
         {
-            get
-            {
-                return areLayoutPreferencesPerFolder;
-            }
+            get => UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder;
             set
             {
-                if (SetProperty(ref areLayoutPreferencesPerFolder, value))
+                if (value != UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder)
                 {
-                    App.AppSettings.AreLayoutPreferencesPerFolder = value;
+                    UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder = value;
+                    OnPropertyChanged();
                 }
             }
         }

@@ -10,7 +10,7 @@ namespace Files.Extensions
         {
             var elapsed = DateTimeOffset.Now - d;
 
-            if (d.Year == 1601)
+            if (d.Year == 1601 || d.Year == 9999)
             {
                 return " ";
             }
@@ -69,22 +69,25 @@ namespace Files.Extensions
             var today = DateTime.Today;
 
             var diff = t - dt;
-            if (t.Month == t2.Month && t.Day == t2.Day)
+            var y = t.AddDays(-1);
+            var w = t.AddDays(diff.Days*-1);
+
+            if (t.Month == t2.Month && t.Day == t2.Day && t.Year == t2.Year)
             {
                 return ("ItemTimeText_Today".GetLocalized(), today.ToUserDateString(), "\ue184", 0);
             }
 
-            if (t.Month == t2.Month && t.Day - t2.Day < 2)
+            if (y.Month == t2.Month && y.Day == t2.Day && y.Year == t2.Year)
             {
                 return ("ItemTimeText_Yesterday".GetLocalized(), today.Subtract(TimeSpan.FromDays(1)).ToUserDateString(), "\ue161", 1);
             }
 
-            if (diff.Days <= 7 && t.GetWeekOfYear() == t2.GetWeekOfYear())
+            if (diff.Days <= 7 && w.GetWeekOfYear() == t2.GetWeekOfYear() && w.Year == t2.Year)
             {
                 return ("ItemTimeText_ThisWeek".GetLocalized(), t.Subtract(TimeSpan.FromDays((int)t.DayOfWeek)).ToUserDateString(), "\uE162", 2);
             }
 
-            if (diff.Days <= 14 && t.GetWeekOfYear() - 1 == t2.GetWeekOfYear())
+            if (diff.Days <= 14 && w.GetWeekOfYear() == t2.GetWeekOfYear() && w.Year == t2.Year)
             {
                 return ("ItemTimeText_LastWeek".GetLocalized(), t.Subtract(TimeSpan.FromDays((int)t.DayOfWeek + 7)).Date.ToShortDateString(), "\uE162", 3);
             }
@@ -94,7 +97,7 @@ namespace Files.Extensions
                 return ("ItemTimeText_ThisMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day - 1)).ToUserDateString(), "\ue163", 4);
             }
 
-            if (t.Year == t2.Year && t.Month - 1 == t2.Month)
+            if (t.AddMonths(-1).Year == t2.Year && t.AddMonths(-1).Month == t2.Month)
             {
                 return ("ItemTimeText_LastMonth".GetLocalized(), t.Subtract(TimeSpan.FromDays(t.Day - 1 + calendar.GetDaysInMonth(t.Year, t.Month - 1))).ToUserDateString(), "\ue163", 5);
             }

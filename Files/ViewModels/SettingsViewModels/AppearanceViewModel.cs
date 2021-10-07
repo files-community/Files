@@ -1,5 +1,7 @@
 ﻿using Files.Helpers;
+using Files.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -10,10 +12,10 @@ namespace Files.ViewModels.SettingsViewModels
 {
     public class AppearanceViewModel : ObservableObject
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
-        private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
         private AppTheme selectedTheme = App.AppSettings.SelectedTheme;
-        private bool showRestartControl = false;
 
         public AppearanceViewModel()
         {
@@ -48,15 +50,13 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool MoveOverflowMenuItemsToSubMenu
         {
-            get
-            {
-                return moveOverflowMenuItemsToSubMenu;
-            }
+            get => UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu;
             set
             {
-                if (SetProperty(ref moveOverflowMenuItemsToSubMenu, value))
+                if (value != UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
                 {
-                    App.AppSettings.MoveOverflowMenuItemsToSubMenu = value;
+                    UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu = value;
+                    OnPropertyChanged();
                 }
             }
         }

@@ -78,7 +78,7 @@ namespace Files.Filesystem
             var operationID = Guid.NewGuid().ToString();
             using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
-            EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
+            EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
             connection.RequestReceived += handler;
 
             var sourceReplace = source.Where((src, index) => collisions.ElementAt(index) == FileNameConflictResolveOptionType.ReplaceExisting);
@@ -97,7 +97,8 @@ namespace Files.Filesystem
                     { "operationID", operationID },
                     { "filepath", string.Join('|', sourceRename.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationRename) },
-                    { "overwrite", false }
+                    { "overwrite", false },
+                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
@@ -113,7 +114,8 @@ namespace Files.Filesystem
                     { "operationID", operationID },
                     { "filepath", string.Join('|', sourceReplace.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationReplace) },
-                    { "overwrite", true }
+                    { "overwrite", true },
+                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
@@ -236,7 +238,7 @@ namespace Files.Filesystem
             var operationID = Guid.NewGuid().ToString();
             using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
-            EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
+            EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
             connection.RequestReceived += handler;
 
             var deleteResult = new ShellOperationResult();
@@ -323,7 +325,7 @@ namespace Files.Filesystem
             var operationID = Guid.NewGuid().ToString();
             using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
-            EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
+            EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
             connection.RequestReceived += handler;
 
             var sourceReplace = source.Where((src, index) => collisions.ElementAt(index) == FileNameConflictResolveOptionType.ReplaceExisting);
@@ -342,7 +344,8 @@ namespace Files.Filesystem
                     { "operationID", operationID },
                     { "filepath", string.Join('|', sourceRename.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationRename) },
-                    { "overwrite", false }
+                    { "overwrite", false },
+                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
@@ -358,7 +361,8 @@ namespace Files.Filesystem
                     { "operationID", operationID },
                     { "filepath", string.Join('|', sourceReplace.Select(s => s.Path)) },
                     { "destpath", string.Join('|', destinationReplace) },
-                    { "overwrite", true }
+                    { "overwrite", true },
+                    { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
                 });
                 result &= (FilesystemResult)(status == AppServiceResponseStatus.Success
                     && response.Get("Success", false));
@@ -458,7 +462,7 @@ namespace Files.Filesystem
             var operationID = Guid.NewGuid().ToString();
             using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
-            EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, progress);
+            EventHandler<Dictionary<string, object>> handler = (s, e) => OnProgressUpdated(s, e, operationID, progress);
             connection.RequestReceived += handler;
 
             var moveResult = new ShellOperationResult();
@@ -469,7 +473,8 @@ namespace Files.Filesystem
                 { "operationID", operationID },
                 { "filepath", source.Path },
                 { "destpath", destination },
-                { "overwrite", false }
+                { "overwrite", false },
+                { "HWND", NativeWinApiHelper.CoreWindowHandle.ToInt64() }
             });
             var result = (FilesystemResult)(status == AppServiceResponseStatus.Success
                 && response.Get("Success", false));
@@ -506,12 +511,16 @@ namespace Files.Filesystem
             }
         }
 
-        private void OnProgressUpdated(object sender, Dictionary<string, object> message, IProgress<float> progress)
+        private void OnProgressUpdated(object sender, Dictionary<string, object> message, string currentOperation, IProgress<float> progress)
         {
             if (message.ContainsKey("OperationID"))
             {
-                var value = (long)message["Progress"];
-                progress?.Report(value);
+                var operationID = (string)message["OperationID"];
+                if (operationID == currentOperation)
+                {
+                    var value = (long)message["Progress"];
+                    progress?.Report(value);
+                }
             }
         }
 

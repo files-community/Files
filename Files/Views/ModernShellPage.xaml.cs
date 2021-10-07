@@ -6,10 +6,12 @@ using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.Search;
 using Files.Helpers;
+using Files.Services;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views.LayoutModes;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -22,6 +24,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
@@ -33,6 +36,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
+using SortDirection = Files.Enums.SortDirection;
+
 namespace Files.Views
 {
     public sealed partial class ModernShellPage : Page, IShellPage, INotifyPropertyChanged
@@ -41,12 +46,13 @@ namespace Files.Views
         public IBaseLayout SlimContentPage => ContentPage;
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
         private CancellationTokenSource cancellationTokenSource;
-        public SettingsViewModel AppSettings => App.AppSettings;
         public bool CanNavigateBackward => ItemDisplayFrame.CanGoBack;
         public bool CanNavigateForward => ItemDisplayFrame.CanGoForward;
         public FolderSettingsViewModel FolderSettings => InstanceViewModel?.FolderSettings;
         public MainViewModel MainViewModel => App.MainViewModel;
         private bool isCurrentInstance { get; set; } = false;
+
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         public bool IsCurrentInstance
         {
@@ -261,7 +267,7 @@ namespace Files.Views
                         Query = sender.Query,
                         Folder = FilesystemViewModel.WorkingDirectory,
                         MaxItemCount = 10,
-                        SearchUnindexedItems = App.AppSettings.SearchUnindexedItems
+                        SearchUnindexedItems = UserSettingsService.FilesAndFoldersSettingsService.SearchUnindexedItems
                     };
                     sender.SetSuggestions(await search.SearchAsync());
                 }
@@ -293,7 +299,7 @@ namespace Files.Views
         {
             if (e.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(sender.Query))
             {
-                SubmitSearch(sender.Query, AppSettings.SearchUnindexedItems);
+                SubmitSearch(sender.Query, UserSettingsService.FilesAndFoldersSettingsService.SearchUnindexedItems);
             }
         }
 
@@ -402,7 +408,7 @@ namespace Files.Views
 
         private async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
         {
-            await NavToolbarViewModel.CheckPathInput(e.QueryText, NavToolbarViewModel.PathComponents[NavToolbarViewModel.PathComponents.Count - 1].Path, this);
+            await NavToolbarViewModel.CheckPathInput(e.QueryText, NavToolbarViewModel.PathComponents.LastOrDefault()?.Path, this);
         }
 
         private void NavigationToolbar_EditModeEnabled(object sender, EventArgs e)
@@ -410,7 +416,7 @@ namespace Files.Views
             NavToolbarViewModel.ManualEntryBoxLoaded = true;
             NavToolbarViewModel.ClickablePathLoaded = false;
             NavToolbarViewModel.PathText = string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory)
-                ? AppSettings.HomePath
+                ? CommonPaths.HomePath
                 : FilesystemViewModel.WorkingDirectory;
         }
 
@@ -454,8 +460,11 @@ namespace Files.Views
             if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
             {
                 App.DrivesManager.ShowUserConsentOnInit = false;
-                DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
-                await dialog.ShowAsync(ContentDialogPlacement.Popup);
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
+                    await dialog.ShowAsync(ContentDialogPlacement.Popup);
+                });
             }
         }
 
@@ -638,6 +647,12 @@ namespace Files.Views
                     }
                     break;
 
+                case (true, true, false, true, VirtualKey.C):
+                    {
+                        SlimContentPage?.CommandsViewModel.CopyPathOfSelectedItemCommand.Execute(null);
+                        break;
+                    }
+
                 case (false, false, false, true, VirtualKey.F3): //f3
                 case (true, false, false, true, VirtualKey.F): // ctrl + f
                     NavToolbarViewModel.SwitchSearchBoxVisibility();
@@ -661,9 +676,9 @@ namespace Files.Views
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (ContentPage.IsItemSelected && !NavToolbarViewModel.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
                     {
-                        var items = await Task.WhenAll(ContentPage.SelectedItems.Select((item) => Task.Run(() => StorageItemHelpers.FromPathAndType(
-                                item.ItemPath,
-                                item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory))));
+                        var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageItemHelpers.FromPathAndType(
+                            item.ItemPath,
+                            item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)));
                         await FilesystemHelpers.DeleteItemsAsync(items, true, true, true);
                     }
 
@@ -705,9 +720,9 @@ namespace Files.Views
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
                     {
-                        var items = await Task.WhenAll(ContentPage.SelectedItems.Select((item) => Task.Run(() => StorageItemHelpers.FromPathAndType(
-                                item.ItemPath,
-                                item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory))));
+                        var items = await Task.Run(() => SlimContentPage.SelectedItems.ToList().Select((item) => StorageItemHelpers.FromPathAndType(
+                            item.ItemPath,
+                            item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)));
                         await FilesystemHelpers.DeleteItemsAsync(items, true, false, true);
                     }
 
@@ -724,7 +739,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.P):
-                    AppSettings.PreviewPaneEnabled = !AppSettings.PreviewPaneEnabled;
+                    UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled = !UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled;
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
@@ -862,7 +877,7 @@ namespace Files.Views
                 return;
             }
 
-            bool isPathRooted = FilesystemViewModel.WorkingDirectory == PathNormalization.GetPathRoot(FilesystemViewModel.WorkingDirectory);
+            bool isPathRooted = string.Equals(FilesystemViewModel.WorkingDirectory, PathNormalization.GetPathRoot(FilesystemViewModel.WorkingDirectory), StringComparison.OrdinalIgnoreCase);
 
             if (isPathRooted)
             {
@@ -1010,11 +1025,10 @@ namespace Files.Views
         private void SetLoadingIndicatorForTabs(bool isLoading)
         {
             var multitaskingControls = ((Window.Current.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
-            var tabItemControl = this.FindAscendant<TabItemControl>();
 
             foreach (var x in multitaskingControls)
             {
-                x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.Control == tabItemControl), isLoading);
+                x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.Control.TabItemContent == PaneHolder), isLoading);
             }
         }
 

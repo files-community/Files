@@ -1,11 +1,17 @@
 ﻿using Files.DataModels;
 using Files.Enums;
+using Files.Helpers;
+using Files.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 
@@ -13,23 +19,26 @@ namespace Files.ViewModels.SettingsViewModels
 {
     public class PreferencesViewModel : ObservableObject
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         private int selectedLanguageIndex = App.AppSettings.DefaultLanguages.IndexOf(App.AppSettings.DefaultLanguage);
         private bool showRestartControl;
-        private Terminal selectedTerminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
-        private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
-        private bool openFoldersNewTab = App.AppSettings.OpenFoldersNewTab;
+        private Terminal selectedTerminal = App.TerminalController.Model.GetDefaultTerminal();
         private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
+
+        public ICommand EditTerminalApplicationsCommand { get; }
 
         public PreferencesViewModel()
         {
             DefaultLanguages = App.AppSettings.DefaultLanguages;
-            Terminals = App.AppSettings.TerminalController.Model.Terminals;
-
+            Terminals = App.TerminalController.Model.Terminals;
             DateFormats = new List<string>
             {
                 "ApplicationTimeStye".GetLocalized(),
                 "SystemTimeStye".GetLocalized()
             };
+
+            EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
         }
 
         public List<string> DateFormats { get; set; }
@@ -87,48 +96,54 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref selectedTerminal, value))
                 {
-                    App.AppSettings.TerminalController.Model.DefaultTerminalName = value.Name;
-                    App.AppSettings.TerminalController.SaveModel();
+                    App.TerminalController.Model.DefaultTerminalName = value.Name;
+                    App.TerminalController.SaveModel();
                 }
             }
         }
 
-        public RelayCommand EditTerminalApplicationsCommand => new RelayCommand(() => LaunchTerminalsConfigFile());
-
         public bool ShowConfirmDeleteDialog
         {
-            get
-            {
-                return showConfirmDeleteDialog;
-            }
+            get => UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog;
             set
             {
-                if (SetProperty(ref showConfirmDeleteDialog, value))
+                if (value != UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog)
                 {
-                    App.AppSettings.ShowConfirmDeleteDialog = value;
+                    UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool OpenFoldersNewTab
         {
-            get
-            {
-                return openFoldersNewTab;
-            }
+            get => UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab;
             set
             {
-                if (SetProperty(ref openFoldersNewTab, value))
+                if (value != UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                 {
-                    App.AppSettings.OpenFoldersNewTab = value;
+                    UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
-        private async void LaunchTerminalsConfigFile()
+        private async Task LaunchTerminalsConfigFile()
         {
-            await Launcher.LaunchFileAsync(
-                await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json")));
+            var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
+            if (!await Launcher.LaunchFileAsync(configFile))
+            {
+                var connection = await AppServiceConnectionHelper.Instance;
+                if (connection != null)
+                {
+                    await connection.SendMessageAsync(new ValueSet()
+                    {
+                        { "Arguments", "InvokeVerb" },
+                        { "FilePath", configFile.Path },
+                        { "Verb", "open" }
+                    });
+                }
+            }
         }
     }
 }

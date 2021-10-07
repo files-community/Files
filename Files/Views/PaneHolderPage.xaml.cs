@@ -1,7 +1,9 @@
 ﻿using Files.Filesystem;
+using Files.Services;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views.LayoutModes;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.ComponentModel;
@@ -18,6 +20,8 @@ namespace Files.Views
 {
     public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         public bool IsLeftPaneActive => ActivePane == PaneLeft;
         public bool IsRightPaneActive => ActivePane == PaneRight;
 
@@ -25,7 +29,6 @@ namespace Files.Views
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public SettingsViewModel AppSettings => App.AppSettings;
         public IFilesystemHelpers FilesystemHelpers => ActivePane?.FilesystemHelpers;
 
         private TabItemArguments tabItemArguments;
@@ -77,7 +80,7 @@ namespace Files.Views
 
         public bool IsMultiPaneEnabled
         {
-            get => AppSettings.IsDualPaneEnabled && !(Window.Current.Bounds.Width <= 750);
+            get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled && !(Window.Current.Bounds.Width <= 750);
         }
 
         private string navParamsLeft;
@@ -197,10 +200,20 @@ namespace Files.Views
             this.InitializeComponent();
             Window.Current.SizeChanged += Current_SizeChanged;
             this.ActivePane = PaneLeft;
-            this.IsRightPaneVisible = IsMultiPaneEnabled && AppSettings.AlwaysOpenDualPaneInNewTab;
-            App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
+            this.IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.MultitaskingSettingsService.AlwaysOpenDualPaneInNewTab;
+            UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 
             // TODO: fallback / error when failed to get NavigationViewCompactPaneLength value?
+        }
+
+        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        {
+            switch (e.settingName)
+            {
+                case nameof(UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled):
+                    NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
+                    break;
+            }
         }
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
@@ -233,16 +246,6 @@ namespace Files.Views
                     RightPaneNavPathParam = IsRightPaneVisible ? NavParamsRight : null
                 }
             };
-        }
-
-        private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(App.AppSettings.IsDualPaneEnabled):
-                    NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
-                    break;
-            }
         }
 
         private void PaneLeft_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -298,14 +301,14 @@ namespace Files.Views
             switch (c: ctrl, s: shift, m: menu, k: args.KeyboardAccelerator.Key)
             {
                 case (true, true, false, VirtualKey.Left): // ctrl + shift + "<-" select left pane
-                    if (AppSettings.IsDualPaneEnabled)
+                    if (UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled)
                     {
                         ActivePane = PaneLeft;
                     }
                     break;
 
                 case (true, true, false, VirtualKey.Right): // ctrl + shift + "->" select right pane
-                    if (AppSettings.IsDualPaneEnabled)
+                    if (UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled)
                     {
                         if (string.IsNullOrEmpty(NavParamsRight))
                         {
@@ -321,7 +324,7 @@ namespace Files.Views
                     break;
 
                 case (false, true, true, VirtualKey.Add): // alt + shift + "+" open pane
-                    if (AppSettings.IsDualPaneEnabled)
+                    if (UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled)
                     {
                         if (string.IsNullOrEmpty(NavParamsRight))
                         {
@@ -338,14 +341,6 @@ namespace Files.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void Dispose()
-        {
-            App.AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
-            Window.Current.SizeChanged -= Current_SizeChanged;
-            PaneLeft?.Dispose();
-            PaneRight?.Dispose();
-        }
-
         public void CloseActivePane()
         {
             // Can only close right pane atm
@@ -360,6 +355,14 @@ namespace Files.Views
         private void PaneRight_Loaded(object sender, RoutedEventArgs e)
         {
             (sender as UIElement).AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler(PaneRight_PointerPressed), true);
+        }
+
+        public void Dispose()
+        {
+            UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+            Window.Current.SizeChanged -= Current_SizeChanged;
+            PaneLeft?.Dispose();
+            PaneRight?.Dispose();
         }
     }
 

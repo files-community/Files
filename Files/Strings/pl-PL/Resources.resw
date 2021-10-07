@@ -48,20 +48,14 @@
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Licencje firm trzecich</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>O programie</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>Wygląd</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Pliki i foldery</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>O programie</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>Wygląd</value>
   </data>
   <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
     <value>Pliki i foldery</value>
@@ -165,9 +159,6 @@
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>Kopiuj</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>Usuń</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Zmień nazwę</value>
   </data>
@@ -231,9 +222,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Ustaw nazwę</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Anuluj</value>
-  </data>
   <data name="NewTab" xml:space="preserve">
     <value>Nowa karta</value>
   </data>
@@ -294,9 +282,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Pomiń</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Anuluj</value>
-  </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>Odwróć zaznaczenie</value>
   </data>
@@ -330,9 +315,6 @@
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Element z tą nazwą już istnieje w tym katalogu.</value>
   </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Utwórz nową nazwę</value>
-  </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Element już istnieje</value>
   </data>
@@ -359,9 +341,6 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nie mogliśmy usunąć tego elementu</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Odmowa dostępu</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Włóż właściwy dysk aby uzyskać dostęp do tego elementu.</value>
@@ -459,16 +438,13 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Ostatnio używany:</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Anuluj</value>
-  </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Czy na pewno chcesz trwale usunąć wszystkie elementy?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Opróżnij Kosz</value>
   </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
@@ -503,9 +479,6 @@
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Odblokuj</value>
-  </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Anuluj</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Wprowadź hasło, aby odblokować dysk</value>
@@ -711,9 +684,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Więcej</value>
   </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Anuluj</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Wielozadaniowość</value>
   </data>
@@ -747,7 +717,7 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Wybierz poniżej typ tego nowego elementu</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Anuluj</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
@@ -783,7 +753,7 @@
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Nie udało się nam utworzyć tego elementu</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Odmowa dostępu</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1125,9 +1095,6 @@
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Zamkinj mimo wszystko</value>
   </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Anuluj</value>
-  </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Wystąpił problem przy zapisywaniu niektórych właściwości.</value>
   </data>
@@ -1173,14 +1140,11 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Szczegóły</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>Nie</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Czy chcesz pobrać i zainstalować najnowszą wersję Files?</value>
-  </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Tak</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Dostępne aktualizacje</value>
@@ -1211,9 +1175,6 @@
   </data>
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Usuń</value>
-  </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>Anuluj</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Otwórz w drugim panelu</value>
@@ -1287,9 +1248,6 @@
   <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
     <value>Wprowadź nazwę Paczki</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Anuluj</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>Żądana nazwa</value>
   </data>
@@ -1301,9 +1259,6 @@
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>Zmień nazwę "{0}"</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Anuluj</value>
   </data>
   <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
     <value>Żądana nazwa</value>
@@ -1527,9 +1482,6 @@
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Nie</value>
   </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Tak</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Ta czynność wymaga uprawnień administatora</value>
   </data>
@@ -1608,12 +1560,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Utwórz</value>
   </data>
-  <data name="DialogCancelButtonText" xml:space="preserve">
-    <value>Anuluj</value>
-  </data>
-  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
-    <value>Usuń</value>
-  </data>
   <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Otwórz Storage Sense</value>
   </data>
@@ -1625,9 +1571,6 @@
   </data>
   <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Kopiuj</value>
-  </data>
-  <data name="CopyItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Anuluj</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} elementów zostanie skopiowanych</value>
@@ -1641,29 +1584,17 @@
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Przenoszenie</value>
   </data>
-  <data name="MoveItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Anuluj</value>
-  </data>
   <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} elementów zostanie przeniesionych</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
     <value>Przenieś element(y)</value>
   </data>
-  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Usuń</value>
-  </data>
-  <data name="DeleteItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Anuluj</value>
-  </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} elementów zostanie usuniętych</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Kontynuuj</value>
-  </data>
-  <data name="ConflictingItemsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Anuluj</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
     <value>Konfliktujące nazwy plików</value>
@@ -1713,17 +1644,11 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
     <value>Jest jedna konfliktująca nazwa plików, oraz {0} wychodzących plik(ów).</value>
   </data>
-  <data name="ConflictingItemsDialogItemOptionGenerateNewName.Text" xml:space="preserve">
-    <value>Wygeneruj nową nazwę</value>
-  </data>
   <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
     <value>Zamień istniejące</value>
   </data>
   <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
     <value>Pomiń</value>
-  </data>
-  <data name="ConflictingItemsDialogOptionGenerateNewName.Text" xml:space="preserve">
-    <value>Wygeneruj nową nazwę</value>
   </data>
   <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
     <value>Zamień istniejące</value>
@@ -1731,16 +1656,13 @@
   <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
     <value>Pomiń</value>
   </data>
-  <data name="ConflictingItemsDialogTakenActionGenerateNewName" xml:space="preserve">
-    <value>Wygeneruj nową nazwę</value>
-  </data>
   <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
     <value>Zamień istniejące</value>
   </data>
   <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
     <value>Pomiń</value>
   </data>
-  <data name="ConflictingItemsDialogItemDefaultOption.Content" xml:space="preserve">
+  <data name="GenerateNewName" xml:space="preserve">
     <value>Wygeneruj nową nazwę</value>
   </data>
   <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
@@ -1974,12 +1896,6 @@
   <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Odrzuć</value>
   </data>
-  <data name="OngoingTasksCancelBannerButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Anuluj</value>
-  </data>
-  <data name="OngoingTasksCancelBannerButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Anuluj</value>
-  </data>
   <data name="NavToolbarWidgets.Label" xml:space="preserve">
     <value>Widżety</value>
   </data>
@@ -2009,12 +1925,6 @@
   </data>
   <data name="NavToolbarLayout.Text" xml:space="preserve">
     <value>Układ</value>
-  </data>
-  <data name="SettingsDialogCloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Zamknij</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySyncStatus.Text" xml:space="preserve">
-    <value>Stan synchronizacji</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
     <value>Nie udało się usunąć {0} elementów z {1}</value>
@@ -2172,9 +2082,6 @@
   <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
     <value>Nie</value>
   </data>
-  <data name="SecurityAdvancedInheritedYesLabel" xml:space="preserve">
-    <value>Tak</value>
-  </data>
   <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
     <value>Uprawnienia</value>
   </data>
@@ -2220,7 +2127,7 @@
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>Utwórz pliki</value>
   </data>
-  <data name="SecurityDeleteLabel.Text" xml:space="preserve">
+  <data name="Delete" xml:space="preserve">
     <value>Usuń</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
@@ -2297,9 +2204,6 @@
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
     <value>Wersja pliku:</value>
-  </data>
-  <data name="PropertySyncStatus" xml:space="preserve">
-    <value>Stan synchronizacji</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Pobiera element z chmury i ładuje podgląd</value>
@@ -2433,7 +2337,7 @@
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>Aktualizacje są gotowe do zainstalowania</value>
   </data>
-  <data name="ConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="Close" xml:space="preserve">
     <value>Zamknij</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
@@ -2572,7 +2476,7 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
   <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
     <value>Malejąco</value>
   </data>
-  <data name="NavToolbarArrangementOptionSyncStatus.Text" xml:space="preserve">
+  <data name="SyncStatus" xml:space="preserve">
     <value>Stan synchronizacji</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
@@ -2605,9 +2509,6 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">
     <value>Włącz tagi plików</value>
   </data>
-  <data name="InsertDiscDialog.CloseDialogButton" xml:space="preserve">
-    <value>Zamknij</value>
-  </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
     <value>Otwórz dysk</value>
   </data>
@@ -2625,9 +2526,6 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
   </data>
   <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
     <value>OK</value>
-  </data>
-  <data name="AskCredentialDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Anuluj</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Wymagane poświadczenie</value>
@@ -2718,9 +2616,6 @@ Korzystamy z App Center, aby śledzić wykorzystanie aplikacji, znajdować błę
   </data>
   <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Format daty</value>
-  </data>
-  <data name="SettingsDialogCloseButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Zamknij</value>
   </data>
   <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Otwórz foldery w nowej karcie</value>

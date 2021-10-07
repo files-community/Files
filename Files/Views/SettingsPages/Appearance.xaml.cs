@@ -34,6 +34,7 @@ namespace Files.SettingsPages
 
         private void OpenThemesFolderButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            ThemesTeachingTip.IsOpen = false;
             this.FindAscendant<SettingsDialog>()?.Hide();
             SettingsViewModel.OpenThemesFolder();
         }

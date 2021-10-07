@@ -1,10 +1,11 @@
 ﻿using Files.Enums;
 using Files.EventArguments;
 using Files.Helpers;
+using Files.Services;
 using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace Files.ViewModels
         private static readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
         public event EventHandler<LayoutPreferenceEventArgs> LayoutPreferencesUpdateRequired;
+
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         public FolderSettingsViewModel()
         {
@@ -167,7 +170,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeGridViewLarge => new RelayCommand<bool>((manuallySet) =>
         {
-            if (App.AppSettings.AreLayoutPreferencesPerFolder && App.AppSettings.AdaptiveLayoutEnabled)
+            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.GridViewLarge && LayoutPreference.IsAdaptiveLayoutOverridden)
                 {
@@ -196,7 +199,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeColumnView => new RelayCommand<bool>((manuallySet) =>
         {
-            if (App.AppSettings.AreLayoutPreferencesPerFolder && App.AppSettings.AdaptiveLayoutEnabled)
+            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.ColumnView)
                 {
@@ -218,7 +221,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeGridViewMedium => new RelayCommand<bool>((manuallySet) =>
         {
-            if (App.AppSettings.AreLayoutPreferencesPerFolder && App.AppSettings.AdaptiveLayoutEnabled)
+            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.GridViewMedium && LayoutPreference.IsAdaptiveLayoutOverridden)
                 {
@@ -247,7 +250,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeGridViewSmall => new RelayCommand<bool>((manuallySet) =>
         {
-            if (App.AppSettings.AreLayoutPreferencesPerFolder && App.AppSettings.AdaptiveLayoutEnabled)
+            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.GridViewSmall && LayoutPreference.IsAdaptiveLayoutOverridden)
                 {
@@ -289,7 +292,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeTiles => new RelayCommand<bool>((manuallySet) =>
         {
-            if (App.AppSettings.AreLayoutPreferencesPerFolder && App.AppSettings.AdaptiveLayoutEnabled)
+            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.TilesView && LayoutPreference.IsAdaptiveLayoutOverridden)
                 {
@@ -312,7 +315,7 @@ namespace Files.ViewModels
 
         public RelayCommand<bool> ToggleLayoutModeDetailsView => new RelayCommand<bool>((manuallySet) =>
         {
-            if (App.AppSettings.AreLayoutPreferencesPerFolder && App.AppSettings.AdaptiveLayoutEnabled)
+            if (UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && UserSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled)
             {
                 if (LastLayoutModeSelected == FolderLayout.DetailsView && LayoutPreference.IsAdaptiveLayoutOverridden)
                 {
@@ -484,7 +487,8 @@ namespace Files.ViewModels
 
         public static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
         {
-            if (App.AppSettings.AreLayoutPreferencesPerFolder)
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            if (userSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder)
             {
                 var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath.TrimEnd('\\'));
                 return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath.TrimEnd('\\').Replace('\\', '_'));
@@ -495,7 +499,8 @@ namespace Files.ViewModels
 
         public void UpdateLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
-            if (App.AppSettings.AreLayoutPreferencesPerFolder)
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            if (userSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder)
             {
                 // Sanitize the folderPath by removing the trailing '\\'. This has to be performed because paths to drives
                 // include an '\\' at the end (unlike paths to folders)
@@ -506,27 +511,27 @@ namespace Files.ViewModels
             }
             else
             {
-                App.AppSettings.DefaultLayoutMode = prefs.LayoutMode;
-                App.AppSettings.DefaultGridViewSize = prefs.GridViewSize;
+                UserSettingsService.LayoutSettingsService.DefaultLayoutMode = prefs.LayoutMode;
+                UserSettingsService.LayoutSettingsService.DefaultGridViewSize = prefs.GridViewSize;
                 // Do not save OriginalPath as global sort option (only works in recycle bin)
                 if (prefs.DirectorySortOption != SortOption.OriginalFolder &&
                     prefs.DirectorySortOption != SortOption.DateDeleted &&
                     prefs.DirectorySortOption != SortOption.SyncStatus)
                 {
-                    App.AppSettings.DefaultDirectorySortOption = prefs.DirectorySortOption;
+                    UserSettingsService.LayoutSettingsService.DefaultDirectorySortOption = prefs.DirectorySortOption;
                 }
                 if (prefs.DirectoryGroupOption != GroupOption.OriginalFolder &&
                     prefs.DirectoryGroupOption != GroupOption.DateDeleted &&
                     prefs.DirectoryGroupOption != GroupOption.SyncStatus)
                 {
-                    App.AppSettings.DefaultDirectoryGroupOption = prefs.DirectoryGroupOption;
+                    UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption = prefs.DirectoryGroupOption;
                 }
-                App.AppSettings.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
-                App.AppSettings.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
-                App.AppSettings.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
-                App.AppSettings.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
-                App.AppSettings.ShowSizeColumn = !prefs.ColumnsViewModel.SizeColumn.UserCollapsed;
-                App.AppSettings.ShowFileTagColumn = !prefs.ColumnsViewModel.TagColumn.UserCollapsed;
+                UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
+                UserSettingsService.LayoutSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
+                UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
+                UserSettingsService.LayoutSettingsService.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
+                UserSettingsService.LayoutSettingsService.ShowSizeColumn = !prefs.ColumnsViewModel.SizeColumn.UserCollapsed;
+                UserSettingsService.LayoutSettingsService.ShowFileTagColumn = !prefs.ColumnsViewModel.TagColumn.UserCollapsed;
             }
         }
 
@@ -555,6 +560,12 @@ namespace Files.ViewModels
 
         private static LayoutPreferences ReadLayoutPreferencesFromSettings(string folderPath)
         {
+            if (string.IsNullOrEmpty(folderPath))
+            {
+                return LayoutPreferences.DefaultLayoutPreferences;
+            }
+
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
             ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
             folderPath = new string(folderPath.TakeLast(254).ToArray());
             if (dataContainer.Values.ContainsKey(folderPath))
@@ -562,15 +573,15 @@ namespace Files.ViewModels
                 ApplicationDataCompositeValue adcv = (ApplicationDataCompositeValue)dataContainer.Values[folderPath];
                 return LayoutPreferences.FromCompositeValue(adcv);
             }
-            else if (folderPath == App.AppSettings.DownloadsPath)
+            else if (folderPath == CommonPaths.DownloadsPath)
             {
                 // Default for downloads folder is to group by date created
                 return new LayoutPreferences
                 {
-                    LayoutMode = App.AppSettings.DefaultLayoutMode,
-                    GridViewSize = App.AppSettings.DefaultGridViewSize,
-                    DirectorySortOption = App.AppSettings.DefaultDirectorySortOption,
-                    DirectorySortDirection = App.AppSettings.DefaultDirectorySortDirection,
+                    LayoutMode = userSettingsService.LayoutSettingsService.DefaultLayoutMode,
+                    GridViewSize = userSettingsService.LayoutSettingsService.DefaultGridViewSize,
+                    DirectorySortOption = userSettingsService.LayoutSettingsService.DefaultDirectorySortOption,
+                    DirectorySortDirection = userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection,
                     ColumnsViewModel = new ColumnsViewModel(),
                     DirectoryGroupOption = GroupOption.DateCreated,
                 };
@@ -583,6 +594,10 @@ namespace Files.ViewModels
 
         private static void WriteLayoutPreferencesToSettings(string folderPath, LayoutPreferences prefs)
         {
+            if (string.IsNullOrEmpty(folderPath))
+            {
+                return;
+            }
             ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
             folderPath = new string(folderPath.TakeLast(254).ToArray());
             if (!dataContainer.Values.ContainsKey(folderPath))
@@ -613,6 +628,8 @@ namespace Files.ViewModels
 
         public class LayoutPreferences
         {
+            private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
             public SortOption DirectorySortOption;
             public SortDirection DirectorySortDirection;
             public GroupOption DirectoryGroupOption;
@@ -627,18 +644,18 @@ namespace Files.ViewModels
 
             public LayoutPreferences()
             {
-                this.LayoutMode = App.AppSettings.DefaultLayoutMode;
-                this.GridViewSize = App.AppSettings.DefaultGridViewSize;
-                this.DirectorySortOption = App.AppSettings.DefaultDirectorySortOption;
-                this.DirectoryGroupOption = App.AppSettings.DefaultDirectoryGroupOption;
-                this.DirectorySortDirection = App.AppSettings.DefaultDirectorySortDirection;
+                this.LayoutMode = UserSettingsService.LayoutSettingsService.DefaultLayoutMode;
+                this.GridViewSize = UserSettingsService.LayoutSettingsService.DefaultGridViewSize;
+                this.DirectorySortOption = UserSettingsService.LayoutSettingsService.DefaultDirectorySortOption;
+                this.DirectoryGroupOption = UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption;
+                this.DirectorySortDirection = UserSettingsService.LayoutSettingsService.DefaultDirectorySortDirection;
 
                 this.ColumnsViewModel = new ColumnsViewModel();
-                this.ColumnsViewModel.DateCreatedColumn.UserCollapsed = !App.AppSettings.ShowDateCreatedColumn;
-                this.ColumnsViewModel.DateModifiedColumn.UserCollapsed = !App.AppSettings.ShowDateColumn;
-                this.ColumnsViewModel.ItemTypeColumn.UserCollapsed = !App.AppSettings.ShowTypeColumn;
-                this.ColumnsViewModel.SizeColumn.UserCollapsed = !App.AppSettings.ShowSizeColumn;
-                this.ColumnsViewModel.TagColumn.UserCollapsed = !App.AppSettings.ShowFileTagColumn;
+                this.ColumnsViewModel.DateCreatedColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowDateCreatedColumn;
+                this.ColumnsViewModel.DateModifiedColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowDateColumn;
+                this.ColumnsViewModel.ItemTypeColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowTypeColumn;
+                this.ColumnsViewModel.SizeColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowSizeColumn;
+                this.ColumnsViewModel.TagColumn.UserCollapsed = !UserSettingsService.LayoutSettingsService.ShowFileTagColumn;
 
                 this.IsAdaptiveLayoutOverridden = false; // Default is always turned on for every dir
             }

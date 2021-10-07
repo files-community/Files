@@ -27,11 +27,13 @@
             </Setter>
         </Style>
 
-        <x:String x:Key="SortIconAscending">&#xE74A;</x:String>
+        <x:String x:Key="SortIconAscending">&#xE018;</x:String>
     </UserControl.Resources>
 
     <Grid>
         <Button
+            Padding="12,12,12,0"
+            VerticalAlignment="Stretch"
             AutomationProperties.Name="{x:Bind Header, Mode=OneWay}"
             Command="{x:Bind Command}"
             CommandParameter="{x:Bind CommandParameter}"
@@ -46,7 +48,8 @@
                     x:Name="HeaderTextBlock"
                     Grid.ColumnSpan="2"
                     HorizontalAlignment="{x:Bind HorizontalContentAlignment}"
-                    Style="{ThemeResource NavigationViewItemHeaderTextStyle}"
+                    FontSize="12"
+                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
                     Text="{x:Bind Header, Mode=OneWay}"
                     TextTrimming="CharacterEllipsis" />
                 <FontIcon
@@ -92,7 +95,7 @@
                         <DoubleAnimation
                             Storyboard.TargetName="SortIcon"
                             Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
-                            To="180"
+                            To="-180"
                             Duration="0:0:0.2" />
                     </Storyboard>
                 </VisualState>

@@ -32,4 +32,4 @@ We welcome discussions and contributions on our repository, however to help main
 View our [Contributing guidelines](https://github.com/files-community/Files/blob/main/.github/CONTRIBUTING.md)
 
 ## FAQ
-Have any questions? Check out our [documentation site](https://files-community.github.io/docs/#/)!
+Have any questions? Check out our [documentation site](https://files.community/docs)!

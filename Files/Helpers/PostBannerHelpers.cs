@@ -19,7 +19,7 @@ namespace Files.Helpers
                 if (status == ReturnResult.AccessUnauthorized)
                 {
                     OngoingTasksViewModel.PostBanner(
-                        "AccessDeniedDeleteDialog/Title".GetLocalized(),
+                        "AccessDenied".GetLocalized(),
                         "AccessDeniedDeleteDialog/Text".GetLocalized(),
                         0,
                         status,

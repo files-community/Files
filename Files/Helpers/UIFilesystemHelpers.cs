@@ -4,6 +4,8 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Interacts;
+using Files.Services;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Concurrent;
@@ -39,11 +41,11 @@ namespace Files.Helpers
                 {
                     await Task.WhenAll(associatedInstance.SlimContentPage.SelectedItems.ToList().Select(async listedItem =>
                     {
-                    // FTP don't support cut, fallback to copy
-                    if (listedItem is not FtpItem)
+                        // FTP don't support cut, fallback to copy
+                        if (listedItem is not FtpItem)
                         {
-                        // Dim opacities accordingly
-                        listedItem.Opacity = Constants.UI.DimItemOpacity;
+                            // Dim opacities accordingly
+                            listedItem.Opacity = Constants.UI.DimItemOpacity;
                         }
 
                         if (listedItem is FtpItem ftpItem)
@@ -80,31 +82,24 @@ namespace Files.Helpers
                 }
                 catch
                 {
-                    return;
-                }
-
-                if (result.ErrorCode == FileSystemStatusCode.NotFound)
-                {
-                    associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
-                    return;
-                }
-                else if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
-                {
-                    // Try again with fulltrust process
-                    var connection = await AppServiceConnectionHelper.Instance;
-                    if (connection != null)
+                    if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
                     {
-                        string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
-                        AppServiceResponseStatus status = await connection.SendMessageAsync(new ValueSet()
+                        // Try again with fulltrust process
+                        var connection = await AppServiceConnectionHelper.Instance;
+                        if (connection != null)
                         {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "Clipboard" },
-                            { "filepath", filePaths },
-                            { "operation", (int)DataPackageOperation.Move }
-                        });
-                        if (status == AppServiceResponseStatus.Success)
-                        {
-                            return;
+                            string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
+                            AppServiceResponseStatus status = await connection.SendMessageAsync(new ValueSet()
+                            {
+                                { "Arguments", "FileOperation" },
+                                { "fileop", "Clipboard" },
+                                { "filepath", filePaths },
+                                { "operation", (int)DataPackageOperation.Move }
+                            });
+                            if (status == AppServiceResponseStatus.Success)
+                            {
+                                return;
+                            }
                         }
                     }
                     associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
@@ -188,23 +183,21 @@ namespace Files.Helpers
                 }
                 catch
                 {
-                    return;
-                }
-
-                if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
-                {
-                    // Try again with fulltrust process
-                    var connection = await AppServiceConnectionHelper.Instance;
-                    if (connection != null)
+                    if (result.ErrorCode == FileSystemStatusCode.Unauthorized)
                     {
-                        string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
-                        await connection.SendMessageAsync(new ValueSet()
+                        // Try again with fulltrust process
+                        var connection = await AppServiceConnectionHelper.Instance;
+                        if (connection != null)
                         {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "Clipboard" },
-                            { "filepath", filePaths },
-                            { "operation", (int)DataPackageOperation.Copy }
-                        });
+                            string filePaths = string.Join('|', associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath));
+                            await connection.SendMessageAsync(new ValueSet()
+                            {
+                                { "Arguments", "FileOperation" },
+                                { "fileop", "Clipboard" },
+                                { "filepath", filePaths },
+                                { "operation", (int)DataPackageOperation.Copy }
+                            });
+                        }
                     }
                     return;
                 }
@@ -240,12 +233,14 @@ namespace Files.Helpers
             if (packageView && packageView.Result != null)
             {
                 await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.Result.RequestedOperation, packageView, destinationPath, false, true);
-                associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
+                associatedInstance?.SlimContentPage?.ItemManipulationModel?.RefreshItemsOpacity();
             }
         }
 
         public static async Task<bool> RenameFileItemAsync(ListedItem item, string oldName, string newName, IShellPage associatedInstance)
         {
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
             if (oldName == newName || string.IsNullOrEmpty(newName))
             {
                 return true;
@@ -259,7 +254,7 @@ namespace Files.Helpers
             }
             else
             {
-                if (item.IsShortcutItem || !App.AppSettings.ShowFileExtensions)
+                if (item.IsShortcutItem || !userSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions)
                 {
                     newName += item.FileExtension;
                 }
@@ -337,7 +332,7 @@ namespace Files.Helpers
 
             if (created == FileSystemStatusCode.Unauthorized)
             {
-                await DialogDisplayHelper.ShowDialogAsync("AccessDeniedCreateDialog/Title".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
+                await DialogDisplayHelper.ShowDialogAsync("AccessDenied".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
             }
 
             return created.Result.Item2;

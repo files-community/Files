@@ -406,7 +406,10 @@ namespace Files.ViewModels.Properties
                 {
                     break;
                 }
-                progress?.Report(isProgressSupported ? (float)stream.Position / stream.Length * 100.0f : 20);
+                if (stream.Length > 0)
+                {
+                    progress?.Report(isProgressSupported ? (float)stream.Position / stream.Length * 100.0f : 20);
+                }
             }
             inputStream.Dispose();
             stream.Dispose();

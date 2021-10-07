@@ -21,26 +21,6 @@ namespace Files.Extensions
         /// <returns></returns>
         public static bool IsEmpty<T>(this IEnumerable<T> enumerable) => enumerable == null || !enumerable.Any();
 
-        public static T PreventNull<T>(this T element, T defaultValue, bool throwOnNullDefaultValue = true)
-        {
-            if (element.IsNull()) // Is null
-            {
-                if (defaultValue.IsNull() && throwOnNullDefaultValue) // Default value is null
-                {
-                    Debugger.Break();
-                    throw new NullReferenceException($"[PreventNull] Provided defautValue was null! Type: {typeof(T)}");
-                }
-                else
-                {
-                    return defaultValue;
-                }
-            }
-            else
-            {
-                return element;
-            }
-        }
-
         /// <summary>
         /// Enumerates through <see cref="IEnumerable{T}"/> of elements and executes <paramref name="action"/>
         /// </summary>

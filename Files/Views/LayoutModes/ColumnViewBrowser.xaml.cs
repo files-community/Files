@@ -312,7 +312,7 @@ namespace Files.Views.LayoutModes
             textBox.KeyDown += RenameTextBox_KeyDown;
 
             int selectedTextLength = SelectedItem.ItemName.Length;
-            if (!SelectedItem.IsShortcutItem && App.AppSettings.ShowFileExtensions)
+            if (!SelectedItem.IsShortcutItem && UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions)
             {
                 selectedTextLength -= extensionLength;
             }
@@ -496,7 +496,7 @@ namespace Files.Views.LayoutModes
 
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
+            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !UserSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick)
             {
                 if (listViewItem != null)
                 {
@@ -605,12 +605,16 @@ namespace Files.Views.LayoutModes
                 return;
             }
             // Check if the setting to open items with a single click is turned on
-            if (AppSettings.OpenItemsWithOneclick)
+            if (UserSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick)
             {
                 ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected
                 var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
-                if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
+                if (item == null)
+                {
+                    return;
+                }
+                else if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
                     //var pane = new ModernShellPage();
                     //pane.FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);

@@ -60,15 +60,15 @@ namespace Files.Helpers
             if (instance != null && !JumpListItemPaths.Contains(path))
             {
                 string displayName;
-                if (path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
+                if (path.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
                 {
                     displayName = "ms-resource:///Resources/SidebarDesktop";
                 }
-                else if (path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+                else if (path.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
                 {
                     displayName = "ms-resource:///Resources/SidebarDownloads";
                 }
-                else if (path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                else if (path.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
                     var localSettings = ApplicationData.Current.LocalSettings;
                     displayName = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");

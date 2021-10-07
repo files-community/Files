@@ -32,7 +32,7 @@ namespace Files.Helpers
                 {
                     { "Arguments", "ShellFolder" },
                     { "action", "Enumerate" },
-                    { "folder", App.AppSettings.RecycleBinPath }
+                    { "folder", CommonPaths.RecycleBinPath }
                 };
                 var (status, response) = await connection.SendMessageForResponseAsync(value);
 
@@ -79,8 +79,8 @@ namespace Files.Helpers
             {
                 Title = "ConfirmEmptyBinDialogTitle".GetLocalized(),
                 Content = "ConfirmEmptyBinDialogContent".GetLocalized(),
-                PrimaryButtonText = "ConfirmEmptyBinDialog/PrimaryButtonText".GetLocalized(),
-                SecondaryButtonText = "ConfirmEmptyBinDialog/SecondaryButtonText".GetLocalized()
+                PrimaryButtonText = "Yes".GetLocalized(),
+                SecondaryButtonText = "Cancel".GetLocalized()
             };
 
             ContentDialogResult result = await ConfirmEmptyBinDialog.ShowAsync();
