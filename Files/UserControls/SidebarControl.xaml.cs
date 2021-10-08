@@ -702,8 +702,16 @@ namespace Files.UserControls
             }
         }
 
+        private bool lockFlag = false;
+
         private async void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
         {
+            if (lockFlag)
+            {
+                return;
+            }
+            lockFlag = true;
+
             dragOverItem = null; // Reset dragged over item
             dragOverSection = null; // Reset dragged over section
 
@@ -753,6 +761,9 @@ namespace Files.UserControls
                 // Swap the two items
                 SidebarPinnedModel.SwapItems(sourceLocationItem, locationItem);
             }
+
+            await Task.Yield();
+            lockFlag = false;
         }
 
         private async void NavigationViewDriveItem_DragOver(object sender, DragEventArgs e)
@@ -819,6 +830,12 @@ namespace Files.UserControls
 
         private async void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
         {
+            if (lockFlag)
+            {
+                return;
+            }
+            lockFlag = true;
+
             dragOverItem = null; // Reset dragged over item
             dragOverSection = null; // Reset dragged over section
 
@@ -842,6 +859,8 @@ namespace Files.UserControls
             await signal.WaitAsync();
 
             deferral.Complete();
+            await Task.Yield();
+            lockFlag = false;
         }
 
         private void Properties_Click(object sender, RoutedEventArgs e)

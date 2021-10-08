@@ -395,8 +395,16 @@ namespace Files.ViewModels
             }
         }
 
+        private bool lockFlag = false;
+
         public async void PathBoxItem_Drop(object sender, DragEventArgs e)
         {
+            if (lockFlag)
+            {
+                return;
+            }
+            lockFlag = true;
+
             dragOverPath = null; // Reset dragged over pathbox item
 
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
@@ -418,6 +426,8 @@ namespace Files.ViewModels
             await signal.WaitAsync();
 
             deferral.Complete();
+            await Task.Yield();
+            lockFlag = false;
         }
 
         public async void PathBoxItem_DragOver(object sender, DragEventArgs e)
