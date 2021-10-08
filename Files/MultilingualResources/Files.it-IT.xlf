@@ -3254,7 +3254,7 @@ Files non raccoglie, archivia, condivide o pubblica nessuna informazione persona
 
 *Dati non-personali raccolti*
 
-Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi e risolvere problemi. Tutte le informazioni inviate ad App Center sono anonime e non contengono dati utente o contestuali.
+Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risolvere problemi. Tutte le informazioni inviate ad App Center sono anonime e non contengono dati utente o contestuali.
   </target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
