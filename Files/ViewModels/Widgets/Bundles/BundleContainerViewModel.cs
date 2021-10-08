@@ -312,8 +312,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
                 if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
                 {
-                    var (_, items) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-                    items ??= new List<IStorageItemWithPath>();
+                    var items = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
                     if (await AddItemsFromPath(items.ToDictionary((item) => item.Path, (item) => item.ItemType)))
                     {
