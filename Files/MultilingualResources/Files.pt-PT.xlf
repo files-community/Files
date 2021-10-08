@@ -2252,19 +2252,19 @@
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowOriginalPath.Text" translate="yes" xml:space="preserve">
           <source>Original path column</source>
-          <target state="translated">Coluna localização original</target>
+          <target state="translated">Coluna de localização original</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowItemType.Text" translate="yes" xml:space="preserve">
           <source>Item type column</source>
-          <target state="translated">Coluna tipo de item</target>
+          <target state="translated">Coluna de tipo de item</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowDateModified.Text" translate="yes" xml:space="preserve">
           <source>Date modified column</source>
-          <target state="translated">Coluna data de modificação</target>
+          <target state="translated">Coluna de data de modificação</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowDateDeleted.Text" translate="yes" xml:space="preserve">
           <source>Date deleted column</source>
-          <target state="translated">Coluna data da eliminação</target>
+          <target state="translated">Coluna de data da eliminação</target>
         </trans-unit>
         <trans-unit id="ResizeElementKeyboardControl.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Sidebar resizer</source>
@@ -3532,11 +3532,11 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowDateCreated.Text" translate="yes" xml:space="preserve">
           <source>Date created column</source>
-          <target state="translated">Coluna data de criação</target>
+          <target state="translated">Coluna de data de criação</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowItemSize.Text" translate="yes" xml:space="preserve">
           <source>Item size column</source>
-          <target state="translated">Coluna tamanho do item</target>
+          <target state="translated">Coluna de tamanho do item</target>
         </trans-unit>
         <trans-unit id="SettingsDefaultExplorer" translate="yes" xml:space="preserve">
           <source>Default file explorer</source>
