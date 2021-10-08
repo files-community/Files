@@ -395,7 +395,7 @@ namespace Files.ViewModels
             }
         }
 
-        public void PathBoxItem_Drop(object sender, DragEventArgs e)
+        public async void PathBoxItem_Drop(object sender, DragEventArgs e)
         {
             dragOverPath = null; // Reset dragged over pathbox item
 
@@ -406,13 +406,18 @@ namespace Files.ViewModels
             }
 
             var deferral = e.GetDeferral();
+
+            var signal = new AsyncManualResetEvent();
             PathBoxItemDropped?.Invoke(this, new PathBoxItemDroppedEventArgs()
             {
                 AcceptedOperation = e.AcceptedOperation,
                 Package = e.DataView,
                 Path = pathBoxItem.Path,
-                Deferral = deferral
+                SignalEvent = signal
             });
+            await signal.WaitAsync();
+
+            deferral.Complete();
         }
 
         public async void PathBoxItem_DragOver(object sender, DragEventArgs e)

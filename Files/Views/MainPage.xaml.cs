@@ -216,7 +216,7 @@ namespace Files.Views
         private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
         {
             await SidebarAdaptiveViewModel.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.ItemPath, false, true);
-            e.Deferral?.Complete();
+            e.SignalEvent?.Set();
         }
 
         private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)

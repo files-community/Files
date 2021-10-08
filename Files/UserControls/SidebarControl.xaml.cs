@@ -732,16 +732,19 @@ namespace Files.UserControls
                 }
                 else
                 {
+                    var signal = new AsyncManualResetEvent();
                     SidebarItemDropped?.Invoke(this, new SidebarItemDroppedEventArgs()
                     {
                         Package = e.DataView,
                         ItemPath = locationItem.Path,
                         AcceptedOperation = e.AcceptedOperation,
-                        Deferral = deferral
+                        SignalEvent = signal
                     });
+                    await signal.WaitAsync();
                 }
 
                 isDropOnProcess = false;
+                deferral.Complete();
             }
             else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
             {
@@ -814,7 +817,7 @@ namespace Files.UserControls
             deferral.Complete();
         }
 
-        private void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
+        private async void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
         {
             dragOverItem = null; // Reset dragged over item
             dragOverSection = null; // Reset dragged over section
@@ -827,13 +830,18 @@ namespace Files.UserControls
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
             var deferral = e.GetDeferral();
+
+            var signal = new AsyncManualResetEvent();
             SidebarItemDropped?.Invoke(this, new SidebarItemDroppedEventArgs()
             {
                 Package = e.DataView,
                 ItemPath = driveItem.Path,
                 AcceptedOperation = e.AcceptedOperation,
-                Deferral = deferral
+                SignalEvent = signal
             });
+            await signal.WaitAsync();
+
+            deferral.Complete();
         }
 
         private void Properties_Click(object sender, RoutedEventArgs e)
@@ -1186,7 +1194,7 @@ namespace Files.UserControls
         public DataPackageView Package { get; set; }
         public string ItemPath { get; set; }
         public DataPackageOperation AcceptedOperation { get; set; }
-        public DragOperationDeferral Deferral { get; set; }
+        public AsyncManualResetEvent SignalEvent { get; set; }
     }
 
     public class SidebarItemInvokedEventArgs : EventArgs
