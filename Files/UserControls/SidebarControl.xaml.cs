@@ -580,8 +580,8 @@ namespace Files.UserControls
                 e.Handled = true;
                 isDropOnProcess = true;
 
-                var (handledByFtp, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-                storageItems ??= new List<IStorageItemWithPath>();
+                var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
+                var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
                 if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Favorites.Equals(locationItem.Section) && storageItems.Any())
                 {
@@ -702,8 +702,16 @@ namespace Files.UserControls
             }
         }
 
+        private bool lockFlag = false;
+
         private async void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
         {
+            if (lockFlag)
+            {
+                return;
+            }
+            lockFlag = true;
+
             dragOverItem = null; // Reset dragged over item
             dragOverSection = null; // Reset dragged over section
 
@@ -721,7 +729,7 @@ namespace Files.UserControls
 
                 if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Favorites.Equals(locationItem.Section) && isDropOnProcess) // Pin to Favorites section
                 {
-                    var (_, storageItems) = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+                    var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
                     foreach (var item in storageItems)
                     {
                         if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
@@ -732,12 +740,15 @@ namespace Files.UserControls
                 }
                 else
                 {
+                    var signal = new AsyncManualResetEvent();
                     SidebarItemDropped?.Invoke(this, new SidebarItemDroppedEventArgs()
                     {
                         Package = e.DataView,
                         ItemPath = locationItem.Path,
-                        AcceptedOperation = e.AcceptedOperation
+                        AcceptedOperation = e.AcceptedOperation,
+                        SignalEvent = signal
                     });
+                    await signal.WaitAsync();
                 }
 
                 isDropOnProcess = false;
@@ -750,6 +761,9 @@ namespace Files.UserControls
                 // Swap the two items
                 SidebarPinnedModel.SwapItems(sourceLocationItem, locationItem);
             }
+
+            await Task.Yield();
+            lockFlag = false;
         }
 
         private async void NavigationViewDriveItem_DragOver(object sender, DragEventArgs e)
@@ -763,8 +777,8 @@ namespace Files.UserControls
             var deferral = e.GetDeferral();
             e.Handled = true;
 
-            var (handledByFtp, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-            storageItems ??= new List<IStorageItemWithPath>();
+            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
+            var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
             if ("DriveCapacityUnknown".GetLocalized().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
                 (storageItems.Any() && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
@@ -814,8 +828,14 @@ namespace Files.UserControls
             deferral.Complete();
         }
 
-        private void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
+        private async void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
         {
+            if (lockFlag)
+            {
+                return;
+            }
+            lockFlag = true;
+
             dragOverItem = null; // Reset dragged over item
             dragOverSection = null; // Reset dragged over section
 
@@ -827,13 +847,20 @@ namespace Files.UserControls
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
             var deferral = e.GetDeferral();
+
+            var signal = new AsyncManualResetEvent();
             SidebarItemDropped?.Invoke(this, new SidebarItemDroppedEventArgs()
             {
                 Package = e.DataView,
                 ItemPath = driveItem.Path,
-                AcceptedOperation = e.AcceptedOperation
+                AcceptedOperation = e.AcceptedOperation,
+                SignalEvent = signal
             });
+            await signal.WaitAsync();
+
             deferral.Complete();
+            await Task.Yield();
+            lockFlag = false;
         }
 
         private void Properties_Click(object sender, RoutedEventArgs e)
@@ -1186,6 +1213,7 @@ namespace Files.UserControls
         public DataPackageView Package { get; set; }
         public string ItemPath { get; set; }
         public DataPackageOperation AcceptedOperation { get; set; }
+        public AsyncManualResetEvent SignalEvent { get; set; }
     }
 
     public class SidebarItemInvokedEventArgs : EventArgs

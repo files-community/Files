@@ -1,7 +1,9 @@
-﻿using Files.Views;
+﻿using Files.Helpers;
+using Files.Views;
 using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls
@@ -76,5 +78,6 @@ namespace Files.UserControls
         public DataPackageView Package { get; set; }
         public string Path { get; set; }
         public DataPackageOperation AcceptedOperation { get; set; }
+        public AsyncManualResetEvent SignalEvent { get; set; }
     }
 }
