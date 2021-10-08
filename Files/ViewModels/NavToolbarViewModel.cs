@@ -410,9 +410,9 @@ namespace Files.ViewModels
             {
                 AcceptedOperation = e.AcceptedOperation,
                 Package = e.DataView,
-                Path = pathBoxItem.Path
+                Path = pathBoxItem.Path,
+                Deferral = deferral
             });
-            deferral.Complete();
         }
 
         public async void PathBoxItem_DragOver(object sender, DragEventArgs e)

@@ -736,12 +736,12 @@ namespace Files.UserControls
                     {
                         Package = e.DataView,
                         ItemPath = locationItem.Path,
-                        AcceptedOperation = e.AcceptedOperation
+                        AcceptedOperation = e.AcceptedOperation,
+                        Deferral = deferral
                     });
                 }
 
                 isDropOnProcess = false;
-                deferral.Complete();
             }
             else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
             {
@@ -831,9 +831,9 @@ namespace Files.UserControls
             {
                 Package = e.DataView,
                 ItemPath = driveItem.Path,
-                AcceptedOperation = e.AcceptedOperation
+                AcceptedOperation = e.AcceptedOperation,
+                Deferral = deferral
             });
-            deferral.Complete();
         }
 
         private void Properties_Click(object sender, RoutedEventArgs e)
@@ -1186,6 +1186,7 @@ namespace Files.UserControls
         public DataPackageView Package { get; set; }
         public string ItemPath { get; set; }
         public DataPackageOperation AcceptedOperation { get; set; }
+        public DragOperationDeferral Deferral { get; set; }
     }
 
     public class SidebarItemInvokedEventArgs : EventArgs
