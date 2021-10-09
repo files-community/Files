@@ -455,10 +455,12 @@ namespace Files.Filesystem.Search
 
         private QueryOptions ToQueryOptions()
         {
+            var settings = Settings.Default;
+
             var query = new QueryOptions
             {
-                FolderDepth = FolderDepth.Deep,
-                UserSearchFilter = AQSQuery ?? string.Empty,
+                FolderDepth = settings.Location.Options.HasFlag(LocationOptions.SubFolders) ? FolderDepth.Deep : FolderDepth.Shallow,
+                UserSearchFilter = ((AQSQuery ?? string.Empty) + ' ' + settings.Filter.ToAdvancedQuerySyntax()).Trim(),
             };
 
             query.IndexerOption = SearchUnindexedItems
