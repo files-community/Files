@@ -2,9 +2,10 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.SettingsInterfaces;
+using Files.Services;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -30,7 +31,7 @@ namespace Files.ViewModels.Widgets.Bundles
     {
         #region Singleton
 
-        private IBundlesSettings BundlesSettings => App.BundlesSettings;
+        private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetService<IBundlesSettingsService>();
 
         #endregion Singleton
 
@@ -162,11 +163,11 @@ namespace Files.ViewModels.Widgets.Bundles
 
         private void RemoveBundle()
         {
-            if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
+            if (BundlesSettingsService.SavedBundles.ContainsKey(BundleName))
             {
-                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles;
+                Dictionary<string, List<string>> allBundles = BundlesSettingsService.SavedBundles;
                 allBundles.Remove(BundleName);
-                BundlesSettings.SavedBundles = allBundles;
+                BundlesSettingsService.SavedBundles = allBundles;
                 NotifyItemRemoved(this);
             }
         }
@@ -256,9 +257,9 @@ namespace Files.ViewModels.Widgets.Bundles
         {
             if (CanRenameBundle(bundleRenameText).result)
             {
-                if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
+                if (BundlesSettingsService.SavedBundles.ContainsKey(BundleName))
                 {
-                    Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles; // We need to do it this way for Set() to be called
+                    Dictionary<string, List<string>> allBundles = BundlesSettingsService.SavedBundles; // We need to do it this way for Set() to be called
                     Dictionary<string, List<string>> newBundles = new Dictionary<string, List<string>>();
 
                     foreach (var item in allBundles)
@@ -279,7 +280,7 @@ namespace Files.ViewModels.Widgets.Bundles
                         }
                     }
 
-                    BundlesSettings.SavedBundles = newBundles;
+                    BundlesSettingsService.SavedBundles = newBundles;
                     BundleName = bundleRenameText;
                 }
             }
@@ -311,8 +312,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
                 if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
                 {
-                    var (_, items) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-                    items ??= new List<IStorageItemWithPath>();
+                    var items = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
                     if (await AddItemsFromPath(items.ToDictionary((item) => item.Path, (item) => item.ItemType)))
                     {
@@ -359,11 +359,11 @@ namespace Files.ViewModels.Widgets.Bundles
                     if (itemsAdded && dragFromBundle)
                     {
                         // Also remove the item from the collection
-                        if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
+                        if (BundlesSettingsService.SavedBundles.ContainsKey(BundleName))
                         {
-                            Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles;
+                            Dictionary<string, List<string>> allBundles = BundlesSettingsService.SavedBundles;
                             allBundles[originBundle].Remove(itemPath);
-                            BundlesSettings.SavedBundles = allBundles;
+                            BundlesSettingsService.SavedBundles = allBundles;
 
                             NotifyBundleItemRemoved(originBundle, itemPath);
                         }
@@ -427,12 +427,12 @@ namespace Files.ViewModels.Widgets.Bundles
 
         private bool SaveBundle()
         {
-            if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
+            if (BundlesSettingsService.SavedBundles.ContainsKey(BundleName))
             {
-                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles;
+                Dictionary<string, List<string>> allBundles = BundlesSettingsService.SavedBundles;
                 allBundles[BundleName] = Contents.Select((item) => item.Path).ToList();
 
-                BundlesSettings.SavedBundles = allBundles;
+                BundlesSettingsService.SavedBundles = allBundles;
 
                 return true;
             }
@@ -535,7 +535,7 @@ namespace Files.ViewModels.Widgets.Bundles
                 return (false, "BundlesWidgetAddBundleErrorInputEmpty".GetLocalized());
             }
 
-            if (!BundlesSettings.SavedBundles.Any((item) => item.Key == name))
+            if (!BundlesSettingsService.SavedBundles.Any((item) => item.Key == name))
             {
                 return (true, string.Empty);
             }

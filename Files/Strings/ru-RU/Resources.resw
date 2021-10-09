@@ -51,14 +51,11 @@
   <data name="About" xml:space="preserve">
     <value>О приложении</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>Внешний вид</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Файлы и папки</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>Внешний вид</value>
   </data>
   <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
     <value>Файлы и папки</value>
@@ -167,9 +164,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>Скопировать</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>Удалить</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Переименовать</value>
@@ -1527,9 +1521,6 @@
   <data name="DialogCreateLibraryButtonText" xml:space="preserve">
     <value>Создать</value>
   </data>
-  <data name="DialogDeleteLibraryButtonText" xml:space="preserve">
-    <value>Удалить</value>
-  </data>
   <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Открыть системные настройки Хранилища</value>
   </data>
@@ -1559,9 +1550,6 @@
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
     <value>Переместить элемент(ы)</value>
-  </data>
-  <data name="DeleteItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Удалить</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
     <value>{0} элементов будет удалено</value>
@@ -2097,7 +2085,7 @@
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>Создание файлов</value>
   </data>
-  <data name="SecurityDeleteLabel.Text" xml:space="preserve">
+  <data name="Delete" xml:space="preserve">
     <value>Удаление</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">

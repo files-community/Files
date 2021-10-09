@@ -2,7 +2,10 @@ using Files.Common;
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
+using Files.Services;
 using Files.UserControls;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -16,6 +19,8 @@ namespace Files.Filesystem
 {
     public class CloudDrivesManager
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         private static readonly Logger Logger = App.Logger;
         private readonly List<DriveItem> drivesList = new List<DriveItem>();
 
@@ -30,13 +35,9 @@ namespace Files.Filesystem
             }
         }
 
-        public CloudDrivesManager()
-        {
-        }
-
         public async Task EnumerateDrivesAsync()
         {
-            if (!App.AppSettings.ShowCloudDrivesSection)
+            if (!UserSettingsService.SidebarSettingsService.ShowCloudDrivesSection)
             {
                 return;
             }
@@ -105,7 +106,7 @@ namespace Files.Filesystem
                 try
                 {
                     var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "SidebarCloudDrives".GetLocalized()) as LocationItem;
-                    if (App.AppSettings.ShowCloudDrivesSection && section == null && Drives.Any())
+                    if (UserSettingsService.SidebarSettingsService.ShowCloudDrivesSection && section == null && Drives.Any())
                     {
                         section = new LocationItem()
                         {
@@ -146,7 +147,7 @@ namespace Files.Filesystem
             try
             {
                 var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("SidebarCloudDrives".GetLocalized()) select n).FirstOrDefault();
-                if (!App.AppSettings.ShowCloudDrivesSection && item != null)
+                if (!UserSettingsService.SidebarSettingsService.ShowCloudDrivesSection && item != null)
                 {
                     SidebarControl.SideBarItems.Remove(item);
                 }
@@ -157,7 +158,7 @@ namespace Files.Filesystem
 
         public async void UpdateCloudDrivesSectionVisibility()
         {
-            if (App.AppSettings.ShowCloudDrivesSection)
+            if (UserSettingsService.SidebarSettingsService.ShowCloudDrivesSection)
             {
                 await EnumerateDrivesAsync();
             }

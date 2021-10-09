@@ -533,8 +533,8 @@ namespace Files.Interacts
             {
                 e.Handled = true;
 
-                var (handledByFtp, draggedItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-                draggedItems ??= new List<IStorageItemWithPath>();
+                var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
+                var draggedItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
                 var pwd = associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
                 var folderName = (Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd) ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
@@ -546,7 +546,7 @@ namespace Files.Interacts
                 }
                 else if (handledByFtp)
                 {
-                    if (pwd.StartsWith(App.AppSettings.RecycleBinPath))
+                    if (pwd.StartsWith(CommonPaths.RecycleBinPath))
                     {
                         e.AcceptedOperation = DataPackageOperation.None;
                     }
@@ -564,7 +564,7 @@ namespace Files.Interacts
                 else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
-                    if (pwd.StartsWith(App.AppSettings.RecycleBinPath))
+                    if (pwd.StartsWith(CommonPaths.RecycleBinPath))
                     {
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
                         e.AcceptedOperation = DataPackageOperation.Move;

@@ -170,14 +170,13 @@
                 </AppBarButton>
                 <AppBarButton
                     x:Name="DeleteButton"
-                    x:Uid="NavigationToolbarDelete"
                     Width="Auto"
                     MinWidth="40"
                     Command="{x:Bind ViewModel.DeleteCommand, Mode=OneWay}"
                     IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
-                    Label="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutDelete/Text')}"
+                    Label="{helpers:ResourceString Name=Delete}"
                     LabelPosition="Collapsed"
-                    ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutDelete/Text')}">
+                    ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
                     <AppBarButton.Content>
                         <local:ColoredIcon BaseLayerGlyph="&#xF035;" OverlayLayerGlyph="&#xF036;" />
                     </AppBarButton.Content>
@@ -344,7 +343,7 @@
                                 x:Uid="NavToolbarArrangementOptionFileTag"
                                 IsChecked="{x:Bind ViewModel.IsSortedByFileTag, Mode=TwoWay}"
                                 Text="File tag"
-                                Visibility="{x:Bind AppSettings.AreFileTagsEnabled, Mode=OneWay}" />
+                                Visibility="{x:Bind UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled, Mode=OneWay}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionOriginalFolder"
                                 IsChecked="{x:Bind ViewModel.IsSortedByOriginalFolder, Mode=TwoWay}"
@@ -390,7 +389,7 @@
                                 x:Uid="NavToolbarArrangementOptionFileTag"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByFileTag, Mode=TwoWay}"
                                 Text="File tag"
-                                Visibility="{x:Bind AppSettings.AreFileTagsEnabled, Mode=OneWay}" />
+                                Visibility="{x:Bind UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled, Mode=OneWay}" />
                             <ToggleMenuFlyoutItem
                                 x:Uid="NavToolbarArrangementOptionOriginalFolder"
                                 IsChecked="{x:Bind ViewModel.IsGroupedByOriginalFolder, Mode=TwoWay}"
@@ -652,7 +651,7 @@
                                     Grid.Column="1"
                                     HorizontalAlignment="Right"
                                     AutomationProperties.Name="Show hidden items"
-                                    IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}"
+                                    IsOn="{x:Bind UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible, Mode=TwoWay}"
                                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 
                                 <TextBlock
@@ -667,7 +666,7 @@
                                     Grid.Column="1"
                                     HorizontalAlignment="Right"
                                     AutomationProperties.Name="Show file extensions"
-                                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}"
+                                    IsOn="{x:Bind UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions, Mode=TwoWay}"
                                     Rotation="1"
                                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
                             </Grid>
@@ -682,7 +681,7 @@
                 MinWidth="40"
                 AccessKey="P"
                 AutomationProperties.Name="Toggle preview pane"
-                IsChecked="{x:Bind AppSettings.PreviewPaneEnabled, Mode=TwoWay}"
+                IsChecked="{x:Bind UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled, Mode=TwoWay}"
                 IsEnabled="{x:Bind ShowPreviewPaneButton, Mode=OneWay}"
                 Label="Preview"
                 LabelPosition="Collapsed"

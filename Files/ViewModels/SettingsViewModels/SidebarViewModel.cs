@@ -1,128 +1,107 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Files.Services;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
 namespace Files.ViewModels.SettingsViewModels
 {
     public class SidebarViewModel : ObservableObject
     {
-        private bool showFavoritesSection = App.AppSettings.ShowFavoritesSection;
-        private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
-        private bool showLibrarySection = App.AppSettings.ShowLibrarySection;
-        private bool showDrivesSection = App.AppSettings.ShowDrivesSection;
-        private bool showCloudDrivesSection = App.AppSettings.ShowCloudDrivesSection;
-        private bool showNetworkDrivesSection = App.AppSettings.ShowNetworkDrivesSection;
-        private bool showWslSection = App.AppSettings.ShowWslSection;
-
-        public SidebarViewModel()
-        {
-        }
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         public bool ShowFavoritesSection
         {
-            get
-            {
-                return showFavoritesSection;
-            }
+            get => UserSettingsService.SidebarSettingsService.ShowFavoritesSection;
             set
             {
-                if (SetProperty(ref showFavoritesSection, value))
+                if (value != UserSettingsService.SidebarSettingsService.ShowFavoritesSection)
                 {
-                    App.AppSettings.ShowFavoritesSection = value;
+                    UserSettingsService.SidebarSettingsService.ShowFavoritesSection = value;
                     App.SidebarPinnedController.Model.UpdateFavoritesSectionVisibility();
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool PinRecycleBinToSideBar
         {
-            get
-            {
-                return pinRecycleBinToSideBar;
-            }
+            get => UserSettingsService.SidebarSettingsService.PinRecycleBinToSidebar;
             set
             {
-                if (SetProperty(ref pinRecycleBinToSideBar, value))
+                if (value != UserSettingsService.SidebarSettingsService.PinRecycleBinToSidebar)
                 {
-                    App.AppSettings.PinRecycleBinToSideBar = value;
+                    UserSettingsService.SidebarSettingsService.PinRecycleBinToSidebar = value;
+                    _= App.SidebarPinnedController.Model.ShowHideRecycleBinItemAsync(value);
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool ShowLibrarySection
         {
-            get
-            {
-                return showLibrarySection;
-            }
+            get => UserSettingsService.SidebarSettingsService.ShowLibrarySection;
             set
             {
-                if (SetProperty(ref showLibrarySection, value))
+                if (value != UserSettingsService.SidebarSettingsService.ShowLibrarySection)
                 {
-                    App.AppSettings.ShowLibrarySection = value;
+                    UserSettingsService.SidebarSettingsService.ShowLibrarySection = value;
                     App.LibraryManager.UpdateLibrariesSectionVisibility();
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool ShowDrivesSection
         {
-            get
-            {
-                return showDrivesSection;
-            }
+            get => UserSettingsService.SidebarSettingsService.ShowDrivesSection;
             set
             {
-                if (SetProperty(ref showDrivesSection, value))
+                if (value != UserSettingsService.SidebarSettingsService.ShowDrivesSection)
                 {
-                    App.AppSettings.ShowDrivesSection = value;
+                    UserSettingsService.SidebarSettingsService.ShowDrivesSection = value;
                     App.DrivesManager.UpdateDrivesSectionVisibility();
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool ShowCloudDrivesSection
         {
-            get
-            {
-                return showCloudDrivesSection;
-            }
+            get => UserSettingsService.SidebarSettingsService.ShowCloudDrivesSection;
             set
             {
-                if (SetProperty(ref showCloudDrivesSection, value))
+                if (value != UserSettingsService.SidebarSettingsService.ShowCloudDrivesSection)
                 {
-                    App.AppSettings.ShowCloudDrivesSection = value;
+                    UserSettingsService.SidebarSettingsService.ShowCloudDrivesSection = value;
                     App.CloudDrivesManager.UpdateCloudDrivesSectionVisibility();
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool ShowNetworkDrivesSection
         {
-            get
-            {
-                return showNetworkDrivesSection;
-            }
+            get => UserSettingsService.SidebarSettingsService.ShowNetworkDrivesSection;
             set
             {
-                if (SetProperty(ref showNetworkDrivesSection, value))
+                if (value != UserSettingsService.SidebarSettingsService.ShowNetworkDrivesSection)
                 {
-                    App.AppSettings.ShowNetworkDrivesSection = value;
+                    UserSettingsService.SidebarSettingsService.ShowNetworkDrivesSection = value;
                     App.NetworkDrivesManager.UpdateNetworkDrivesSectionVisibility();
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool ShowWslSection
         {
-            get
-            {
-                return showWslSection;
-            }
+            get => UserSettingsService.SidebarSettingsService.ShowWslSection;
             set
             {
-                if (SetProperty(ref showWslSection, value))
+                if (value != UserSettingsService.SidebarSettingsService.ShowWslSection)
                 {
-                    App.AppSettings.ShowWslSection = value;
+                    UserSettingsService.SidebarSettingsService.ShowWslSection = value;
                     App.WSLDistroManager.UpdateWslSectionVisibility();
+                    OnPropertyChanged();
                 }
             }
         }

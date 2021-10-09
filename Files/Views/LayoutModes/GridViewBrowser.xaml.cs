@@ -269,7 +269,7 @@ namespace Files.Views.LayoutModes
             textBox.KeyDown += RenameTextBox_KeyDown;
 
             int selectedTextLength = SelectedItem.ItemName.Length;
-            if (!SelectedItem.IsShortcutItem && App.AppSettings.ShowFileExtensions)
+            if (!SelectedItem.IsShortcutItem && UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions)
             {
                 selectedTextLength -= extensionLength;
             }
@@ -498,7 +498,7 @@ namespace Files.Views.LayoutModes
             }
 
             // Check if the setting to open items with a single click is turned on
-            if (AppSettings.OpenItemsWithOneclick)
+            if (UserSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick)
             {
                 ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected
@@ -507,14 +507,13 @@ namespace Files.Views.LayoutModes
             else
             {
                 var clickedItem = e.OriginalSource as FrameworkElement;
-                if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
+                if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
                 {
                     CheckRenameDoubleClick(clickedItem?.DataContext);
                 }
                 else if (IsRenamingItem)
                 {
-                    GridViewItem gridViewItem = FileList.ContainerFromItem(RenamingItem) as GridViewItem;
-                    if (gridViewItem != null)
+                    if (FileList.ContainerFromItem(RenamingItem) is GridViewItem gridViewItem)
                     {
                         if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
                         {
@@ -535,7 +534,7 @@ namespace Files.Views.LayoutModes
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             // Skip opening selected items if the double tap doesn't capture an item
-            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
+            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !UserSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick)
             {
                 if (!MainViewModel.MultiselectEnabled)
                 {

@@ -26,4 +26,10 @@
         OriginalFolder,
         DateDeleted
     }
+
+    public enum SortDirection : byte // We cannot use Microsoft.Toolkit.Uwp.UI.SortDirection since it's UI-tied and we need Model-tied
+    {
+        Ascending = 0,
+        Descending = 1
+    }
 }

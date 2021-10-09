@@ -162,6 +162,7 @@
     <Compile Include="Enums\FilesystemOperationType.cs" />
     <Compile Include="Enums\FolderLayout.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
+    <Compile Include="EventArguments\BaseJsonSettingsModelEventArgs.cs" />
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />
     <Compile Include="Events\ContextItemsChangedEventArgs.cs" />
@@ -186,6 +187,8 @@
     <Compile Include="Filesystem\StorageItems\SystemStorageFolder.cs" />
     <Compile Include="Filesystem\StorageItems\ZipStorageFile.cs" />
     <Compile Include="Filesystem\StorageItems\ZipStorageFolder.cs" />
+    <Compile Include="Helpers\CommonPaths.cs" />
+    <Compile Include="Helpers\RegistryToJsonSettingsMerger.cs" />
     <Compile Include="Helpers\ResourceHelpers.cs" />
     <Compile Include="Helpers\FtpHelpers.cs" />
     <Compile Include="Helpers\ItemListDisplayHelpers\GroupedCollection.cs" />
@@ -232,6 +235,38 @@
     <Compile Include="Helpers\ZipHelpers.cs" />
     <Compile Include="Interacts\ItemManipulationModel.cs" />
     <Compile Include="ISearchBox.cs" />
+    <Compile Include="Models\JsonSettings\ISettingsSharingContext.cs" />
+    <Compile Include="Models\JsonSettings\IJsonSettingsDatabase.cs" />
+    <Compile Include="Models\JsonSettings\IJsonSettingsSerializer.cs" />
+    <Compile Include="Models\JsonSettings\Implementation\CachingJsonSettingsDatabase.cs" />
+    <Compile Include="Models\JsonSettings\Implementation\DefaultJsonSettingsDatabase.cs" />
+    <Compile Include="Models\JsonSettings\Implementation\DefaultJsonSettingsSerializer.cs" />
+    <Compile Include="Models\JsonSettings\Implementation\DefaultSettingsSerializer.cs" />
+    <Compile Include="Models\JsonSettings\ISettingsSerializer.cs" />
+    <Compile Include="Services\IAppearanceSettingsService.cs" />
+    <Compile Include="Services\IBundlesSettingsService.cs" />
+    <Compile Include="Services\IFilesAndFoldersSettingsService.cs" />
+    <Compile Include="Services\IFileTagsSettingsService.cs" />
+    <Compile Include="Services\ILayoutSettingsService.cs" />
+    <Compile Include="Services\Implementation\AppearanceSettingsService.cs" />
+    <Compile Include="Services\Implementation\BundlesSettingsService.cs" />
+    <Compile Include="Services\Implementation\FilesAndFoldersSettingsService.cs" />
+    <Compile Include="Services\Implementation\FileTagsSettingsService.cs" />
+    <Compile Include="Services\Implementation\LayoutSettingsService.cs" />
+    <Compile Include="Services\Implementation\MultitaskingSettingsService.cs" />
+    <Compile Include="Services\Implementation\PreferencesSettingsService.cs" />
+    <Compile Include="Services\Implementation\PreviewPaneSettingsService.cs" />
+    <Compile Include="Services\Implementation\SidebarSettingsService.cs" />
+    <Compile Include="Services\Implementation\StartupSettingsService.cs" />
+    <Compile Include="Services\Implementation\UserSettingsService.cs" />
+    <Compile Include="Services\Implementation\WidgetsSettingsService.cs" />
+    <Compile Include="Services\IMultitaskingSettingsService.cs" />
+    <Compile Include="Services\IPreferencesSettingsService.cs" />
+    <Compile Include="Services\IPreviewPaneSettingsService.cs" />
+    <Compile Include="Services\ISidebarSettingsService.cs" />
+    <Compile Include="Services\IStartupSettingsService.cs" />
+    <Compile Include="Services\IUserSettingsService.cs" />
+    <Compile Include="Services\IWidgetsSettingsService.cs" />
     <Compile Include="UserControls\ColoredIcon.xaml.cs">
       <DependentUpon>ColoredIcon.xaml</DependentUpon>
     </Compile>
@@ -340,7 +375,7 @@
     <Compile Include="ViewModels\SettingsViewModels\SidebarViewModel.cs" />
     <Compile Include="ViewModels\SearchBoxViewModel.cs" />
     <Compile Include="ViewModels\SidebarViewModel.cs" />
-    <Compile Include="Models\Settings\BaseJsonSettingsModel.cs" />
+    <Compile Include="Models\JsonSettings\BaseJsonSettingsModel.cs" />
     <Compile Include="ViewModels\ColumnsViewModel.cs" />
     <Compile Include="ViewModels\Pages\YourHomeViewModel.cs" />
     <Compile Include="ViewModels\StatusCenterViewModel.cs" />
@@ -366,8 +401,6 @@
     <Compile Include="ViewModels\Previews\RichTextPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\ShortcutPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\TextPreviewViewModel.cs" />
-    <Compile Include="SettingsInterfaces\IBundlesSettings.cs" />
-    <Compile Include="Models\Settings\BundlesSettingsModel.cs" />
     <Compile Include="ViewModels\Properties\FileProperty.cs" />
     <Compile Include="UserControls\PreviewPane.xaml.cs">
       <DependentUpon>PreviewPane.xaml</DependentUpon>
@@ -458,7 +491,7 @@
     </Compile>
     <Compile Include="Enums\FormFactorMode.cs" />
     <Compile Include="Enums\SidebarOpacity.cs" />
-    <Compile Include="Enums\SortOption.cs" />
+    <Compile Include="Enums\SortOptions.cs" />
     <Compile Include="Enums\TimeStyle.cs" />
     <Compile Include="Enums\WallpaperType.cs" />
     <Compile Include="DataModels\NavigationControlItems\DriveItem.cs" />
@@ -1410,6 +1443,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Data.Sqlite.Core">
       <Version>5.0.10</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection">
+      <Version>5.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.12</Version>

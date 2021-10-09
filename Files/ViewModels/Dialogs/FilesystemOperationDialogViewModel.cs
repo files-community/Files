@@ -263,7 +263,7 @@ namespace Files.ViewModels.Dialogs
                         {
                             titleText = "DeleteItemsDialogTitle".GetLocalized();
                             subtitleText = itemsData.IncomingItems.Count == 1 ? "DeleteItemsDialogSubtitleSingle".GetLocalized() : string.Format("DeleteItemsDialogSubtitleMultiple".GetLocalized(), itemsData.IncomingItems.Count);
-                            primaryButtonText = "DeleteItemsDialogPrimaryButtonText".GetLocalized();
+                            primaryButtonText = "Delete".GetLocalized();
                             secondaryButtonText = "Cancel".GetLocalized();
                             permanentlyDeleteLoad = true;
                             break;

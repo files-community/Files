@@ -4,6 +4,8 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Interacts;
+using Files.Services;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Concurrent;
@@ -237,6 +239,8 @@ namespace Files.Helpers
 
         public static async Task<bool> RenameFileItemAsync(ListedItem item, string oldName, string newName, IShellPage associatedInstance)
         {
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
             if (oldName == newName || string.IsNullOrEmpty(newName))
             {
                 return true;
@@ -250,7 +254,7 @@ namespace Files.Helpers
             }
             else
             {
-                if (item.IsShortcutItem || !App.AppSettings.ShowFileExtensions)
+                if (item.IsShortcutItem || !userSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions)
                 {
                     newName += item.FileExtension;
                 }
