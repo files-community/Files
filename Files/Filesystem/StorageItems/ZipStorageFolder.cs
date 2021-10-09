@@ -24,7 +24,8 @@ namespace Files.Filesystem.StorageItems
         {
             // Register all supported codepages (default is UTF-X only)
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            ZipStrings.CodePage = 437; // Use extended ascii so you can convert the string back to bytes
+            // Use extended ascii so you can convert the string back to bytes
+            ZipStrings.CodePage = Constants.Filesystem.ExtendedAsciiCodePage;
         }
 
         public static string DecodeEntryName(ZipEntry entry, Encoding zipEncoding)
@@ -35,7 +36,7 @@ namespace Files.Filesystem.StorageItems
             }
             var decoded = Common.Extensions.IgnoreExceptions(() =>
             {
-                var rawBytes = Encoding.GetEncoding(437).GetBytes(entry.Name);
+                var rawBytes = Encoding.GetEncoding(Constants.Filesystem.ExtendedAsciiCodePage).GetBytes(entry.Name);
                 return zipEncoding.GetString(rawBytes);
             });
             return decoded ?? entry.Name;
@@ -54,7 +55,7 @@ namespace Files.Filesystem.StorageItems
                 }
                 var guessedEncoding = Common.Extensions.IgnoreExceptions(() =>
                 {
-                    var rawBytes = Encoding.GetEncoding(437).GetBytes(entry.Name);
+                    var rawBytes = Encoding.GetEncoding(Constants.Filesystem.ExtendedAsciiCodePage).GetBytes(entry.Name);
                     cdet.Feed(rawBytes, 0, rawBytes.Length);
                     cdet.DataEnd();
                     if (cdet.Charset != null && cdet.Confidence >= 0.9 && (readEntries >= Math.Min(zipFile.Count, 50)))
