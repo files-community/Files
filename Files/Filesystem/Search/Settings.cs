@@ -44,11 +44,19 @@ namespace Files.Filesystem.Search
     public interface IFilterCollection : ICollection<IFilter>, IContainerFilter, INotifyCollectionChanged
     {
     }
-
     public interface IContainerFilter : IFilter
     {
         void Set(IFilter filter);
         void Unset(IFilter filter);
+    }
+
+    public interface IDateRangeFilter : IFilter
+    {
+        DateRange Range { get; set; }
+    }
+    public interface ISizeRangeFilter : IFilter
+    {
+        SizeRange Range { get; set; }
     }
 
     public class Settings : ObservableObject, ISettings
@@ -56,7 +64,11 @@ namespace Files.Filesystem.Search
         public static Settings Default { get; } = new();
 
         public ILocation Location { get; } = new Location();
-        public IFilter Filter { get; } = new AndFilter();
+
+        IFilter ISettings.Filter => Filter;
+        public AndFilter Filter { get; } = new AndFilter();
+
+        private Settings() {}
     }
 
     public class Location : ObservableObject, ILocation
@@ -151,7 +163,7 @@ namespace Files.Filesystem.Search
             }
         }
     }
-    public class NotFilter : ObservableObject, IFilter
+    public class NotFilter : ObservableObject, IContainerFilter
     {
         public bool IsEmpty => subFilter is null;
 
@@ -184,14 +196,13 @@ namespace Files.Filesystem.Search
         public void Unset(IFilter filter) => SubFilter = null;
     }
 
-    public abstract class DateRangeFilter : ObservableObject
+    public abstract class DateRangeFilter : ObservableObject, IDateRangeFilter
     {
         public bool IsEmpty => range.Equals(DateRange.Always);
 
         public abstract string Key { get; }
-        public string Glyph => "\xE163";
-        public abstract string ShortLabel { get; }
-        public virtual string FullLabel => ShortLabel;
+        public virtual string Glyph => "\xE163";
+        public abstract string Label { get; }
         protected abstract string QueryLabel { get; }
 
         private DateRange range = DateRange.Always;
@@ -228,19 +239,17 @@ namespace Files.Filesystem.Search
     public class CreatedFilter : DateRangeFilter
     {
         public override string Key => "file.created";
-        public override string ShortLabel => "Created";
-        public override string FullLabel => "Creation Date";
+        public override string Label => "Created";
         protected override string QueryLabel => "System.ItemDate";
     }
     public class ModifiedFilter : DateRangeFilter
     {
         public override string Key => "file.modified";
-        public override string ShortLabel => "Modified";
-        public override string FullLabel => "Last modified Date";
+        public override string Label => "Modified";
         protected override string QueryLabel => "System.DateModified";
     }
 
-    public class FileSizeFilter : ObservableObject
+    public class SizeFilter : ObservableObject, ISizeRangeFilter
     {
         public bool IsEmpty => range.Equals(SizeRange.All);
 
