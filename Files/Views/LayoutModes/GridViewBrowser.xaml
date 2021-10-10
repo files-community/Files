@@ -86,24 +86,26 @@
                             Source="{x:Bind FileImage, Mode=OneWay}"
                             Stretch="Uniform" />
                     </ContentPresenter>
-                    <Rectangle
+                    <Border
                         x:Name="FolderGlyphIcon"
                         MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                         MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                         Margin="12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        CornerRadius="4"
                         x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
-                        Fill="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" />
-                    <Rectangle
+                        Background="{ThemeResource SystemChromeHighColor}" />
+                    <Border
                         x:Name="TypeUnknownGlyph"
                         MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                         MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                         Margin="12"
+                        CornerRadius="4"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
-                        Fill="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" />
+                        Background="{ThemeResource SystemChromeHighColor}" />
                     <Image
                         x:Name="IconOverlay"
                         Width="60"
@@ -266,6 +268,8 @@
                         x:Name="FolderGlyphIcon"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        Width="72"
+                        Height="72"
                         x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
                         Background="{ThemeResource SystemChromeHighColor}"
                         CornerRadius="4" />
@@ -273,6 +277,8 @@
                         x:Name="TypeUnknownGlyph"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        Width="72"
+                        Height="72"
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                         Background="{ThemeResource SystemChromeHighColor}"
                         CornerRadius="4" />

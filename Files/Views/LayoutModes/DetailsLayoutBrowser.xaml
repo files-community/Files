@@ -550,7 +550,8 @@
                                             Stretch="Uniform" />
                                     </ContentPresenter>
                                     <Border
-                                        x:Name="FolderGlyphIcon" Width="20"
+                                        x:Name="FolderGlyphIcon" 
+                                        Width="20"
                                         Height="20"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
@@ -559,7 +560,8 @@
                                         CornerRadius="4" />
                                     <Border
                                         x:Name="TypeUnknownGlyph"
-                                        Height="20" Width="20"
+                                        Height="20" 
+                                        Width="20"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
                                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
