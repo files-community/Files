@@ -263,7 +263,7 @@ namespace Files.Filesystem
                 var libItem = Libraries.FirstOrDefault(l => string.Equals(l.Path, libraryPath, StringComparison.OrdinalIgnoreCase));
                 if (libItem != null)
                 {
-                    Libraries[Libraries.IndexOf(libItem)] = libItem;
+                    Libraries[Libraries.IndexOf(libItem)] = newLib;
                 }
                 return newLib;
             }

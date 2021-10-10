@@ -3,12 +3,14 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 
@@ -189,7 +191,7 @@ namespace Files.Views
                     using var dialog = DynamicDialogFactory.GetFor_PropertySaveErrorDialog();
                     try
                     {
-                        var newLib = await App.LibraryManager.UpdateLibrary(props.Library.ItemPath, newDefaultSaveFolder, newFolders, newIsPinned);
+                        var newLib = await Task.Run(() => App.LibraryManager.UpdateLibrary(props.Library.ItemPath, newDefaultSaveFolder, newFolders, newIsPinned));
                         if (newLib != null)
                         {
                             props.UpdateLibrary(new LibraryItem(newLib));
