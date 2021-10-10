@@ -3312,6 +3312,10 @@ Files не собирает, хранит, распространяет или �
           <source>File tag</source>
           <target state="translated">Метка</target>
         </trans-unit>
+        <trans-unit id="tagColumn.Header" translate="yes" xml:space="preserve">
+          <source>Tag</source>
+          <target state="translated">Метка</target>
+        </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionFileTag.Text" translate="yes" xml:space="preserve">
           <source>File tag</source>
           <target state="translated">Метка</target>
