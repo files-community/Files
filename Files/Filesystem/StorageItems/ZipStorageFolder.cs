@@ -1,4 +1,5 @@
-﻿using Files.Helpers;
+﻿using Files.Extensions;
+using Files.Helpers;
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
@@ -16,6 +18,60 @@ namespace Files.Filesystem.StorageItems
 {
     public sealed class ZipStorageFolder : BaseStorageFolder
     {
+        public Encoding ZipEncoding { get; set; } = null;
+
+        static ZipStorageFolder()
+        {
+            // Register all supported codepages (default is UTF-X only)
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            // Use extended ascii so you can convert the string back to bytes
+            ZipStrings.CodePage = Constants.Filesystem.ExtendedAsciiCodePage;
+        }
+
+        public static string DecodeEntryName(ZipEntry entry, Encoding zipEncoding)
+        {
+            if (zipEncoding == null || entry.IsUnicodeText)
+            {
+                return entry.Name;
+            }
+            var decoded = Common.Extensions.IgnoreExceptions(() =>
+            {
+                var rawBytes = Encoding.GetEncoding(Constants.Filesystem.ExtendedAsciiCodePage).GetBytes(entry.Name);
+                return zipEncoding.GetString(rawBytes);
+            });
+            return decoded ?? entry.Name;
+        }
+
+        public static Encoding DetectFileEncoding(ZipFile zipFile)
+        {
+            long readEntries = 0;
+            Ude.CharsetDetector cdet = new Ude.CharsetDetector();
+            foreach (var entry in zipFile.OfType<ZipEntry>())
+            {
+                readEntries++;
+                if (entry.IsUnicodeText)
+                {
+                    return Encoding.UTF8;
+                }
+                var guessedEncoding = Common.Extensions.IgnoreExceptions(() =>
+                {
+                    var rawBytes = Encoding.GetEncoding(Constants.Filesystem.ExtendedAsciiCodePage).GetBytes(entry.Name);
+                    cdet.Feed(rawBytes, 0, rawBytes.Length);
+                    cdet.DataEnd();
+                    if (cdet.Charset != null && cdet.Confidence >= 0.9 && (readEntries >= Math.Min(zipFile.Count, 50)))
+                    {
+                        return Encoding.GetEncoding(cdet.Charset);
+                    }
+                    return null;
+                });
+                if (guessedEncoding != null)
+                {
+                    return guessedEncoding;
+                }
+            }
+            return Encoding.UTF8;
+        }
+
         public ZipStorageFolder(string path, string containerPath)
         {
             Name = System.IO.Path.GetFileName(path.TrimEnd('\\', '/'));
@@ -108,7 +164,7 @@ namespace Files.Filesystem.StorageItems
                     zipFile.CommitUpdate();
 
                     var wnt = new WindowsNameTransform(ContainerPath);
-                    return new ZipStorageFolder(wnt.TransformFile(zipDesiredName), ContainerPath);
+                    return new ZipStorageFolder(wnt.TransformFile(zipDesiredName), ContainerPath) { ZipEncoding = ZipEncoding };
                 }
             });
         }
@@ -141,17 +197,18 @@ namespace Files.Filesystem.StorageItems
                 using (ZipFile zipFile = new ZipFile(new FileStream(hFile, FileAccess.Read)))
                 {
                     zipFile.IsStreamOwner = true;
+                    ZipEncoding ??= DetectFileEncoding(zipFile);
                     var entry = zipFile.GetEntry(name);
                     if (entry != null)
                     {
                         var wnt = new WindowsNameTransform(ContainerPath);
                         if (entry.IsDirectory)
                         {
-                            return new ZipStorageFolder(wnt.TransformDirectory(entry.Name), ContainerPath, entry);
+                            return new ZipStorageFolder(wnt.TransformDirectory(DecodeEntryName(entry, ZipEncoding)), ContainerPath, entry) { ZipEncoding = ZipEncoding };
                         }
                         else
                         {
-                            return new ZipStorageFile(wnt.TransformFile(entry.Name), ContainerPath, entry);
+                            return new ZipStorageFile(wnt.TransformFile(DecodeEntryName(entry, ZipEncoding)), ContainerPath, entry);
                         }
                     }
                     return null;
@@ -187,12 +244,13 @@ namespace Files.Filesystem.StorageItems
                 using (ZipFile zipFile = new ZipFile(new FileStream(hFile, FileAccess.Read)))
                 {
                     zipFile.IsStreamOwner = true;
+                    ZipEncoding ??= DetectFileEncoding(zipFile);
                     var wnt = new WindowsNameTransform(ContainerPath, true); // Check with Path.GetFullPath
                     var items = new List<IStorageItem>();
                     foreach (var entry in zipFile.OfType<ZipEntry>()) // Returns all items recursively
                     {
-                        string winPath = System.IO.Path.GetFullPath(entry.IsDirectory ? wnt.TransformDirectory(entry.Name) : wnt.TransformFile(entry.Name));
-                        if (winPath.StartsWith(Path)) // Child of self
+                        string winPath = System.IO.Path.GetFullPath(entry.IsDirectory ? wnt.TransformDirectory(DecodeEntryName(entry, ZipEncoding)) : wnt.TransformFile(DecodeEntryName(entry, ZipEncoding)));
+                        if (winPath.StartsWith(Path.WithEnding("\\"))) // Child of self
                         {
                             var split = winPath.Substring(Path.Length).Split(new[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
                             if (split.Length > 0)
@@ -202,7 +260,7 @@ namespace Files.Filesystem.StorageItems
                                     var itemPath = System.IO.Path.Combine(Path, split[0]);
                                     if (!items.Any(x => x.Path == itemPath))
                                     {
-                                        items.Add(new ZipStorageFolder(itemPath, ContainerPath, entry));
+                                        items.Add(new ZipStorageFolder(itemPath, ContainerPath, entry) { ZipEncoding = ZipEncoding });
                                     }
                                 }
                                 else

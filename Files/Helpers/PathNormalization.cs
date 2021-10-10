@@ -16,7 +16,7 @@ namespace Files.Helpers
             {
                 var pathAsUri = new Uri(path.Replace("\\", "/"));
                 rootPath = pathAsUri.GetLeftPart(UriPartial.Authority);
-                if (pathAsUri.IsFile)
+                if (pathAsUri.IsFile && !string.IsNullOrEmpty(rootPath))
                 {
                     rootPath = new Uri(rootPath).LocalPath;
                 }
