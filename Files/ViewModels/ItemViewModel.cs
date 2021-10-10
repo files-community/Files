@@ -49,7 +49,7 @@ namespace Files.ViewModels
         private readonly SemaphoreSlim enumFolderSemaphore;
         private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
         private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
-        private readonly AsyncManualResetEvent operationEvent, itemLoadEvent;
+        private readonly AsyncManualResetEvent operationEvent;
         private IntPtr hWatchDir;
         private IAsyncAction aWatcherAction;
 
@@ -355,7 +355,6 @@ namespace Files.ViewModels
             loadPropsCTS = new CancellationTokenSource();
             operationEvent = new AsyncManualResetEvent();
             enumFolderSemaphore = new SemaphoreSlim(1, 1);
-            itemLoadEvent = new AsyncManualResetEvent();
             shouldDisplayFileExtensions =  UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions;
 
             UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -921,8 +920,6 @@ namespace Files.ViewModels
             {
                 await Task.Run(async () =>
                 {
-                    await itemLoadEvent.WaitAsync(cts.Token);
-
                     if (itemLoadQueue.TryGetValue(item.ItemPath, out var canceled) && canceled)
                     {
                         return;
@@ -1151,8 +1148,6 @@ namespace Files.ViewModels
                 return;
             }
 
-            itemLoadEvent.Reset();
-
             try
             {
                 // Drop all the other waiting instances
@@ -1209,7 +1204,6 @@ namespace Files.ViewModels
             {
                 DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty); // Make sure item count is updated
                 enumFolderSemaphore.Release();
-                itemLoadEvent.Set();
             }
 
             postLoadCallback?.Invoke();
@@ -1841,7 +1835,6 @@ namespace Files.ViewModels
                     if (await operationEvent.WaitAsync(200, cancellationToken))
                     {
                         operationEvent.Reset();
-                        itemLoadEvent.Reset();
 
                         while (operationQueue.TryDequeue(out var operation))
                         {
@@ -1890,13 +1883,11 @@ namespace Files.ViewModels
                         }
 
                         await UpdateFilesOrFoldersAsync(itemsToUpdate, hasSyncStatus);
-                        itemLoadEvent.Set();
                     }
 
 
                     if (updateQueue.Count > 0)
                     {
-                        itemLoadEvent.Reset();
                         var itemsToUpdate = new List<string>();
                         for (var i = 0; i < UPDATE_BATCH_SIZE && updateQueue.Count > 0; i++)
                         {
@@ -1904,7 +1895,6 @@ namespace Files.ViewModels
                         }
 
                         await UpdateFilesOrFoldersAsync(itemsToUpdate, hasSyncStatus);
-                        itemLoadEvent.Set();
                     }
 
                     if (anyEdits && sampler.CheckNow())
