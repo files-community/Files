@@ -367,11 +367,10 @@
 
                             <uc:DataGridHeader
                                 x:Name="TagHeader"
-                                x:Uid="tagColumn"
                                 Grid.Column="4"
                                 Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
                                 CommandParameter="FileTag"
-                                Header="Tag"
+                                Header="{helpers:ResourceString Name=Tag}"
                                 Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
 
                             <controls:GridSplitter

@@ -1,6 +1,7 @@
 using Files.Common;
 using Files.Dialogs;
 using Files.Enums;
+using Files.EventArguments;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.Cloud;
@@ -9,11 +10,12 @@ using Files.Filesystem.StorageEnumerators;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
+using Files.Services;
 using Files.UserControls;
 using FluentFTP;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -53,6 +55,8 @@ namespace Files.ViewModels
 
         // files and folders list for manipulating
         private List<ListedItem> filesAndFolders;
+
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         // only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -352,20 +356,20 @@ namespace Files.ViewModels
             operationEvent = new AsyncManualResetEvent();
             enumFolderSemaphore = new SemaphoreSlim(1, 1);
             itemLoadEvent = new AsyncManualResetEvent();
-            shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
+            shouldDisplayFileExtensions =  UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions;
 
+            UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
             AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
-            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
         }
 
-        private async void AppSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private async void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
         {
-            switch (e.PropertyName)
+            switch (e.settingName)
             {
-                case nameof(AppSettings.ShowFileExtensions):
-                case nameof(AppSettings.AreHiddenItemsVisible):
-                case nameof(AppSettings.AreSystemItemsHidden):
-                case nameof(AppSettings.AreFileTagsEnabled):
+                case nameof(UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions):
+                case nameof(UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible):
+                case nameof(UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden):
+                case nameof(UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled):
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                     {
                         if (WorkingDirectory != "Home".GetLocalized() && WorkingDirectory != "NewTab".GetLocalized())
@@ -497,7 +501,7 @@ namespace Files.ViewModels
                         UpdateEmptyTextType();
                         DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
                     }
-                    if (CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
+                    if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
                     {
                         ClearDisplay();
                     }
@@ -585,7 +589,7 @@ namespace Files.ViewModels
                     DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
                 }
 
-                if (CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
+                if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
                 {
                     await Task.Run(ApplyChanges);
                     UpdateUI();
@@ -620,7 +624,7 @@ namespace Files.ViewModels
                 filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection).ToList();
             }
 
-            if (CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
+            if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && CoreApplication.MainView.DispatcherQueue.HasThreadAccess)
             {
                 return Task.Run(OrderEntries);
             }
@@ -714,7 +718,7 @@ namespace Files.ViewModels
             {
                 await Task.Run(async () =>
                 {
-                    foreach (var gp in FilesAndFolders.GroupedCollection)
+                    foreach (var gp in FilesAndFolders.GroupedCollection.ToList())
                     {
                         var img = await GetItemTypeGroupIcon(gp.FirstOrDefault());
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
@@ -1050,9 +1054,10 @@ namespace Files.ViewModels
         private async Task<ImageSource> GetItemTypeGroupIcon(ListedItem item, BaseStorageFile matchingStorageItem = null)
         {
             ImageSource groupImage = null;
-            if (item.PrimaryItemAttribute != StorageItemTypes.Folder)
+            if (item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsZipItem)
             {
-                var headerIconInfo = await FileThumbnailHelper.LoadIconFromPathAsync(item.ItemPath, 76, ThumbnailMode.ListView);
+                var headerIconInfo = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(item.ItemPath, 64u);
+
                 if (headerIconInfo != null && !item.IsShortcutItem)
                 {
                     groupImage = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => headerIconInfo.ToBitmapAsync(), Windows.System.DispatcherQueuePriority.Low);
@@ -1165,7 +1170,7 @@ namespace Files.ViewModels
                     AdaptiveLayoutHelpers.PredictLayoutMode(folderSettings, this);
                 }
 
-                if (AppSettings.PreviewPaneEnabled)
+                if (UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled)
                 {
                     // Find and select README file
                     foreach (var item in filesAndFolders)
@@ -1198,9 +1203,9 @@ namespace Files.ViewModels
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            var isRecycleBin = path.StartsWith(AppSettings.RecycleBinPath);
+            var isRecycleBin = path.StartsWith(CommonPaths.RecycleBinPath);
             if (isRecycleBin ||
-                path.StartsWith(AppSettings.NetworkFolderPath) ||
+                path.StartsWith(CommonPaths.NetworkFolderPath) ||
                 FtpHelpers.IsFtpPath(path))
             {
                 // Recycle bin and network are enumerated by the fulltrust process
@@ -1278,8 +1283,8 @@ namespace Files.ViewModels
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
                 ItemPropertiesInitialized = true,
-                ItemName = path.StartsWith(AppSettings.RecycleBinPath) ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin") :
-                           path.StartsWith(AppSettings.NetworkFolderPath) ? "Network".GetLocalized() : isFtp ? "FTP" : "Unknown",
+                ItemName = path.StartsWith(CommonPaths.RecycleBinPath) ? ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin") :
+                           path.StartsWith(CommonPaths.NetworkFolderPath) ? "Network".GetLocalized() : isFtp ? "FTP" : "Unknown",
                 ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
                 ItemDateCreatedReal = DateTimeOffset.Now, // Fake for now
                 ItemType = "FileFolderListItem".GetLocalized(),
@@ -1350,13 +1355,9 @@ namespace Files.ViewModels
                         {
                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
-                                if (UIHelpers.IsAnyContentDialogOpen())
-                                {
-                                    return;
-                                }
                                 var dialog = new CredentialDialog();
 
-                                if (await dialog.ShowAsync() == Windows.UI.Xaml.Controls.ContentDialogResult.Primary)
+                                if (await dialog.TryShowAsync() == Windows.UI.Xaml.Controls.ContentDialogResult.Primary)
                                 {
                                     var result = await dialog.Result;
 
@@ -1408,7 +1409,7 @@ namespace Files.ViewModels
 
             BaseStorageFolder rootFolder = null;
 
-            if (FolderHelpers.CheckFolderAccessWithWin32(path))
+            if (!enumFromStorageFolder && FolderHelpers.CheckFolderAccessWithWin32(path))
             {
                 // Will enumerate with FindFirstFileExFromApp, rootFolder only used for Bitlocker
                 currentStorageFolder = null;
@@ -1436,7 +1437,7 @@ namespace Files.ViewModels
                 {
                     //TODO: proper dialog
                     await DialogDisplayHelper.ShowDialogAsync(
-                        "AccessDeniedDeleteDialog/Title".GetLocalized(),
+                        "AccessDenied".GetLocalized(),
                         "SubDirectoryAccessDenied".GetLocalized());
                     return -1;
                 }
@@ -1589,6 +1590,11 @@ namespace Files.ViewModels
 
         private async Task EnumFromStorageFolderAsync(string path, ListedItem currentFolder, BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, Type sourcePageType, CancellationToken cancellationToken)
         {
+            if (rootFolder == null)
+            {
+                return;
+            }
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
@@ -1929,7 +1935,7 @@ namespace Files.ViewModels
             {
                 // File
                 string itemName;
-                if (App.AppSettings.ShowFileExtensions && !item.FileName.EndsWith(".lnk") && !item.FileName.EndsWith(".url"))
+                if (UserSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions && !item.FileName.EndsWith(".lnk") && !item.FileName.EndsWith(".url"))
                 {
                     itemName = item.FileName; // never show extension for shortcuts
                 }
@@ -2011,7 +2017,7 @@ namespace Files.ViewModels
 
             var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
             var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-            if (isHidden && (!AppSettings.AreHiddenItemsVisible || (isSystem && AppSettings.AreSystemItemsHidden)))
+            if (isHidden && (!UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible || (isSystem && UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden)))
             {
                 // Do not add to file list if hidden/system attribute is set and system/hidden file are not to be shown
                 return;
@@ -2030,7 +2036,7 @@ namespace Files.ViewModels
             await AddFileOrFolderAsync(listedItem);
         }
 
-        private async Task<(ListedItem Item, CloudDriveSyncStatusUI SyncUI, long? Size, DateTimeOffset Created, DateTimeOffset Modified)?> GetFileOrFolderUpdateInfoAsync(ListedItem item, bool hasSyncStatus)
+        private async Task<(ListedItem Item, CloudDriveSyncStatus? SyncStatus, long? Size, DateTimeOffset Created, DateTimeOffset Modified)?> GetFileOrFolderUpdateInfoAsync(ListedItem item, bool hasSyncStatus)
         {
             IStorageItem storageItem = null;
             if (item.PrimaryItemAttribute == StorageItemTypes.File)
@@ -2043,7 +2049,7 @@ namespace Files.ViewModels
             }
             if (storageItem != null)
             {
-                CloudDriveSyncStatusUI syncUI = hasSyncStatus ? CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(await CheckCloudDriveSyncStatusAsync(storageItem)) : null;
+                CloudDriveSyncStatus? syncStatus = hasSyncStatus ? await CheckCloudDriveSyncStatusAsync(storageItem) : null;
                 long? size = null;
                 DateTimeOffset created = default, modified = default;
 
@@ -2061,7 +2067,7 @@ namespace Files.ViewModels
                     created = properties.ItemDate;
                 }
 
-                return (item, syncUI, size, created, modified);
+                return (item, syncStatus, size, created, modified);
             }
 
             return null;
@@ -2087,18 +2093,18 @@ namespace Files.ViewModels
                 {
                     foreach (var result in results)
                     {
-                        if (result.HasValue)
+                        if (result != null)
                         {
                             var item = result.Value.Item;
                             item.ItemDateModifiedReal = result.Value.Modified;
                             item.ItemDateCreatedReal = result.Value.Created;
 
-                            if (result.Value.SyncUI != null)
+                            if (result.Value.SyncStatus != null)
                             {
-                                item.SyncStatusUI = result.Value.SyncUI;
+                                item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(result.Value.SyncStatus.Value);
                             }
 
-                            if (result.Value.Size.HasValue)
+                            if (result.Value.Size != null)
                             {
                                 item.FileSizeBytes = result.Value.Size.Value;
                                 item.FileSize = ByteSizeLib.ByteSize.FromBytes(item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
@@ -2197,8 +2203,8 @@ namespace Files.ViewModels
             {
                 Connection.RequestReceived -= Connection_RequestReceived;
             }
+            UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
             AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
-            AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
         }
     }
 

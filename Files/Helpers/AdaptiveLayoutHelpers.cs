@@ -1,5 +1,7 @@
-﻿using Files.ViewModels;
+﻿using Files.Services;
+using Files.ViewModels;
 using Files.ViewModels.Previews;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
 using System.Linq;
 using Windows.Storage;
@@ -10,7 +12,9 @@ namespace Files.Helpers
     {
         public static bool PredictLayoutMode(FolderSettingsViewModel folderSettings, ItemViewModel filesystemViewModel)
         {
-            if (App.AppSettings.AreLayoutPreferencesPerFolder && App.AppSettings.AdaptiveLayoutEnabled && !folderSettings.LayoutPreference.IsAdaptiveLayoutOverridden)
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
+            if (userSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder && userSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled && !folderSettings.LayoutPreference.IsAdaptiveLayoutOverridden)
             {
                 Action layoutDetails = () => folderSettings.ToggleLayoutModeDetailsView.Execute(false);
                 Action layoutTiles = () => folderSettings.ToggleLayoutModeTiles.Execute(false);

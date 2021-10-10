@@ -6,10 +6,12 @@ using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.ContextFlyouts;
 using Files.Interacts;
+using Files.Services;
 using Files.UserControls;
 using Files.ViewModels;
 using Files.ViewModels.Previews;
 using Files.Views;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -41,6 +43,10 @@ namespace Files
     public abstract class BaseLayout : Page, IBaseLayout, INotifyPropertyChanged
     {
         private readonly DispatcherTimer jumpTimer;
+
+        protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
+        protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
 
         protected Task<NamedPipeAsAppServiceConnection> Connection => AppServiceConnectionHelper.Instance;
 
@@ -405,6 +411,7 @@ namespace Files
             FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
             ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
             FolderSettings.SetLayoutInformation();
+            ParentShellPageInstance.NavToolbarViewModel.UpdateSortAndGroupOptions();
 
             if (!navigationArguments.IsSearchResultPage)
             {
@@ -413,9 +420,9 @@ namespace Files
                 await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.NavPathParam);
 
                 // pathRoot will be empty on recycle bin path
-                var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
+                var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
                 string pathRoot = GetPathRoot(workingDir);
-                if (string.IsNullOrEmpty(pathRoot) || workingDir.StartsWith(AppSettings.RecycleBinPath)) // Can't go up from recycle bin
+                if (string.IsNullOrEmpty(pathRoot) || workingDir.StartsWith(CommonPaths.RecycleBinPath)) // Can't go up from recycle bin
                 {
                     ParentShellPageInstance.NavToolbarViewModel.CanNavigateToParent = false;
                 }
@@ -424,7 +431,7 @@ namespace Files
                     ParentShellPageInstance.NavToolbarViewModel.CanNavigateToParent = true;
                 }
 
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(CommonPaths.RecycleBinPath);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
@@ -618,7 +625,7 @@ namespace Files
             secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250); // Set menu min width
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 
-            if (AppSettings.AreFileTagsEnabled && !InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin && !InstanceViewModel.IsPageTypeFtp && !InstanceViewModel.IsPageTypeZipFolder)
+            if (UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled && !InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin && !InstanceViewModel.IsPageTypeFtp && !InstanceViewModel.IsPageTypeZipFolder)
             {
                 AddFileTagsItemToMenu(ItemContextMenuFlyout);
             }
@@ -639,7 +646,7 @@ namespace Files
         {
             var fileTagMenuFlyout = new MenuFlyoutItemFileTag()
             {
-                ItemsSource = AppSettings.FileTagsSettings.FileTagList,
+                ItemsSource = FileTagsSettingsService.FileTagList,
                 SelectedItems = SelectedItems
             };
             var overflowSeparator = contextMenu.SecondaryCommands.FirstOrDefault(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator;
@@ -655,7 +662,7 @@ namespace Files
         private void AddShellItemsToMenu(List<ContextMenuFlyoutItemViewModel> shellMenuItems, Microsoft.UI.Xaml.Controls.CommandBarFlyout contextMenuFlyout, bool shiftPressed)
         {
             var openWithSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetOpenWithItems(shellMenuItems));
-            var mainShellMenuItems = shellMenuItems.RemoveFrom(!App.AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4);
+            var mainShellMenuItems = shellMenuItems.RemoveFrom(!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4);
             var overflowShellMenuItems = shellMenuItems.Except(mainShellMenuItems).ToList();
 
             var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
@@ -877,7 +884,8 @@ namespace Files
                 {
                     e.Handled = true;
 
-                    var (handledByFtp, draggedItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+                    var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
+                    var draggedItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
                     if (draggedItems.IsEmpty())
                     {

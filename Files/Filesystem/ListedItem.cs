@@ -4,9 +4,11 @@ using Files.Extensions;
 using Files.Filesystem.Cloud;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
+using Files.Services;
 using Files.ViewModels.Properties;
 using FluentFTP;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -21,6 +23,9 @@ namespace Files.Filesystem
 {
     public class ListedItem : ObservableObject, IGroupableItem
     {
+        private static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+        private static IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
+
         public bool IsHiddenItem { get; set; } = false;
         public StorageItemTypes PrimaryItemAttribute { get; set; }
 
@@ -120,7 +125,7 @@ namespace Files.Filesystem
 
         public FileTag FileTagUI
         {
-            get => App.AppSettings.AreFileTagsEnabled ? App.AppSettings.FileTagsSettings.GetTagByID(FileTag) : null;
+            get => UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled ? FileTagsSettingsService.GetTagById(FileTag) : null;
         }
 
         private Uri customIconSource;

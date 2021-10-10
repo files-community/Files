@@ -2,6 +2,8 @@
 using Files.Extensions;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
+using Files.Services;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -37,11 +39,13 @@ namespace Files.Filesystem.StorageEnumerators
             var hasNextFile = false;
             var count = 0;
 
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
             do
             {
                 var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
                 var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-                if (!isHidden || (App.AppSettings.AreHiddenItemsVisible && (!isSystem || !App.AppSettings.AreSystemItemsHidden)))
+                if (!isHidden || (userSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible && (!isSystem || !userSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden)))
                 {
                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
@@ -158,10 +162,12 @@ namespace Files.Filesystem.StorageEnumerators
             CancellationToken cancellationToken
         )
         {
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
             string itemName;
-            if (App.AppSettings.ShowFileExtensions && !findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
+            if (userSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions && !findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
             {
                 itemName = findData.cFileName; // never show extension for shortcuts
             }

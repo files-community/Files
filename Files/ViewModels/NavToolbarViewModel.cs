@@ -3,9 +3,11 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
+using Files.Services;
 using Files.UserControls;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
@@ -27,11 +29,14 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using static Files.UserControls.INavigationToolbar;
 using SearchBox = Files.UserControls.SearchBox;
+using SortDirection = Files.Enums.SortDirection;
 
 namespace Files.ViewModels
 {
     public class NavToolbarViewModel : ObservableObject, INavigationToolbar, IDisposable
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
         public delegate void ToolbarFlyoutOpenedEventHandler(object sender, ToolbarFlyoutOpenedEventArgs e);
@@ -335,6 +340,13 @@ namespace Files.ViewModels
 
         private string dragOverPath = null;
 
+        public void UpdateSortAndGroupOptions()
+        {
+            FolderSettings_SortDirectionPreferenceUpdated(null, 0);
+            FolderSettings_SortOptionPreferenceUpdated(null, 0);
+            FolderSettings_GroupOptionPreferenceUpdated(null, 0);
+        }
+
         private void FolderSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
         {
             OnPropertyChanged(nameof(IsSortedAscending));
@@ -383,8 +395,16 @@ namespace Files.ViewModels
             }
         }
 
-        public void PathBoxItem_Drop(object sender, DragEventArgs e)
+        private bool lockFlag = false;
+
+        public async void PathBoxItem_Drop(object sender, DragEventArgs e)
         {
+            if (lockFlag)
+            {
+                return;
+            }
+            lockFlag = true;
+
             dragOverPath = null; // Reset dragged over pathbox item
 
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
@@ -394,13 +414,20 @@ namespace Files.ViewModels
             }
 
             var deferral = e.GetDeferral();
+
+            var signal = new AsyncManualResetEvent();
             PathBoxItemDropped?.Invoke(this, new PathBoxItemDroppedEventArgs()
             {
                 AcceptedOperation = e.AcceptedOperation,
                 Package = e.DataView,
-                Path = pathBoxItem.Path
+                Path = pathBoxItem.Path,
+                SignalEvent = signal
             });
+            await signal.WaitAsync();
+
             deferral.Complete();
+            await Task.Yield();
+            lockFlag = false;
         }
 
         public async void PathBoxItem_DragOver(object sender, DragEventArgs e)
@@ -432,7 +459,7 @@ namespace Files.ViewModels
                 }
             }
 
-            if (!Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+            if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
             {
                 e.AcceptedOperation = DataPackageOperation.None;
                 return;
@@ -446,8 +473,8 @@ namespace Files.ViewModels
             e.Handled = true;
             var deferral = e.GetDeferral();
 
-            var (handledByFtp, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-            storageItems ??= new List<IStorageItemWithPath>();
+            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
+            var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
             if (handledByFtp)
             {
@@ -457,6 +484,7 @@ namespace Files.ViewModels
             }
 
             if (!storageItems.Any(storageItem =>
+                !string.IsNullOrEmpty(storageItem?.Path) &&
                 storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
                 Trim(Path.DirectorySeparatorChar).
                 Contains(Path.DirectorySeparatorChar)))
@@ -599,16 +627,16 @@ namespace Files.ViewModels
 
         private NavigationToolbar NavToolbar => (Window.Current.Content as Frame).FindDescendant<NavigationToolbar>();
 
-        #region YourHome Widgets
+        #region WidgetsPage Widgets
 
         public bool ShowFolderWidgetWidget
         {
-            get => App.AppSettings.ShowFolderWidgetWidget;
+            get => UserSettingsService.WidgetsSettingsService.ShowFoldersWidget;
             set
             {
-                if (App.AppSettings.ShowFolderWidgetWidget != value)
+                if (value != UserSettingsService.WidgetsSettingsService.ShowFoldersWidget)
                 {
-                    App.AppSettings.ShowFolderWidgetWidget = value;
+                    UserSettingsService.WidgetsSettingsService.ShowFoldersWidget = value;
 
                     RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
                 }
@@ -617,12 +645,12 @@ namespace Files.ViewModels
 
         public bool ShowDrivesWidget
         {
-            get => App.AppSettings.ShowDrivesWidget;
+            get => UserSettingsService.WidgetsSettingsService.ShowDrivesWidget;
             set
             {
-                if (App.AppSettings.ShowDrivesWidget != value)
+                if (value != UserSettingsService.WidgetsSettingsService.ShowDrivesWidget)
                 {
-                    App.AppSettings.ShowDrivesWidget = value;
+                    UserSettingsService.WidgetsSettingsService.ShowDrivesWidget = value;
 
                     RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
                 }
@@ -631,12 +659,12 @@ namespace Files.ViewModels
 
         public bool ShowBundlesWidget
         {
-            get => App.AppSettings.ShowBundlesWidget;
+            get => UserSettingsService.WidgetsSettingsService.ShowBundlesWidget;
             set
             {
-                if (App.AppSettings.ShowBundlesWidget != value)
+                if (value != UserSettingsService.WidgetsSettingsService.ShowBundlesWidget)
                 {
-                    App.AppSettings.ShowBundlesWidget = value;
+                    UserSettingsService.WidgetsSettingsService.ShowBundlesWidget = value;
 
                     RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
                 }
@@ -645,12 +673,12 @@ namespace Files.ViewModels
 
         public bool ShowRecentFilesWidget
         {
-            get => App.AppSettings.ShowRecentFilesWidget;
+            get => UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget;
             set
             {
-                if (App.AppSettings.ShowRecentFilesWidget != value)
+                if (value != UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget)
                 {
-                    App.AppSettings.ShowRecentFilesWidget = value;
+                    UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget = value;
 
                     RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
                 }
@@ -808,7 +836,7 @@ namespace Files.ViewModels
                         var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path)));
                         if (matchingDrive != null && matchingDrive.Type == DataModels.NavigationControlItems.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
                         {
-                            bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "InsertDiscDialog/CloseDialogButton".GetLocalized());
+                            bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalized(), string.Format("InsertDiscDialog/Text".GetLocalized(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalized(), "Close".GetLocalized());
                             if (ejectButton)
                             {
                                 await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
@@ -834,11 +862,11 @@ namespace Files.ViewModels
                         {
                             var workingDir = string.IsNullOrEmpty(shellPage.FilesystemViewModel.WorkingDirectory)
                                     || shellPage.CurrentPageType == typeof(WidgetsPage)
-                                ? App.AppSettings.HomePath
+                                ? CommonPaths.HomePath
                                 : shellPage.FilesystemViewModel.WorkingDirectory;
 
                             // Launch terminal application if possible
-                            foreach (var terminal in App.AppSettings.TerminalController.Model.Terminals)
+                            foreach (var terminal in App.TerminalController.Model.Terminals)
                             {
                                 if (terminal.Path.Equals(currentInput, StringComparison.OrdinalIgnoreCase)
                                     || terminal.Path.Equals(currentInput + ".exe", StringComparison.OrdinalIgnoreCase) || terminal.Name.Equals(currentInput, StringComparison.OrdinalIgnoreCase))

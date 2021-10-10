@@ -2,8 +2,10 @@
 using Files.DataModels.NavigationControlItems;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Services;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.UI.Xaml.Controls;
@@ -13,48 +15,13 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
-using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
 
 namespace Files.ViewModels
 {
     public class SidebarViewModel : ObservableObject, IDisposable
     {
-        public static async System.Threading.Tasks.Task<IEnumerable<IconFileInfo>> LoadSidebarIconResources()
-        {
-            const string imageres = @"C:\Windows\System32\imageres.dll";
-            var imageResList = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.LoadSelectedIconsAsync(imageres, new List<int>() {
-                    Constants.ImageRes.RecycleBin,
-                    Constants.ImageRes.NetworkDrives,
-                    Constants.ImageRes.Libraries,
-                    Constants.ImageRes.ThisPC,
-                    Constants.ImageRes.CloudDrives,
-                    Constants.ImageRes.Folder
-                }, 32, false));
-
-            const string shell32 = @"C:\Windows\System32\shell32.dll";
-            var shell32List = await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIHelpers.LoadSelectedIconsAsync(shell32, new List<int>() {
-                    Constants.Shell32.QuickAccess
-                }, 32, false));
-
-            if (shell32List != null && imageResList != null)
-            {
-                return imageResList.Concat(shell32List);
-            }
-            else if (shell32List != null && imageResList == null)
-            {
-                return shell32List;
-            }
-            else if (shell32List == null && imageResList != null)
-            {
-                return imageResList;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
         public ICommand EmptyRecycleBinCommand { get; private set; }
 
         private IPaneHolder paneHolder;
@@ -138,13 +105,13 @@ namespace Files.ViewModels
 
         public bool IsSidebarOpen
         {
-            get => App.AppSettings.IsSidebarOpen;
+            get => UserSettingsService.SidebarSettingsService.IsSidebarOpen;
             set
             {
-                if (App.AppSettings.IsSidebarOpen != value)
+                if (value != UserSettingsService.SidebarSettingsService.IsSidebarOpen)
                 {
-                    App.AppSettings.IsSidebarOpen = value;
-                    OnPropertyChanged(nameof(IsSidebarOpen));
+                    UserSettingsService.SidebarSettingsService.IsSidebarOpen = value;
+                    OnPropertyChanged();
                 }
             }
         }
@@ -160,7 +127,7 @@ namespace Files.ViewModels
         public SidebarViewModel()
         {
             EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(EmptyRecycleBin);
-            App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
+            UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
         }
 
         public async void EmptyRecycleBin(RoutedEventArgs e)
@@ -168,12 +135,12 @@ namespace Files.ViewModels
             await RecycleBinHelpers.S_EmptyRecycleBin();
         }
 
-        private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
         {
-            switch (e.PropertyName)
+            switch (e.settingName)
             {
-                case nameof(App.AppSettings.IsSidebarOpen):
-                    if (App.AppSettings.IsSidebarOpen != IsSidebarOpen)
+                case nameof(UserSettingsService.SidebarSettingsService.IsSidebarOpen):
+                    if (UserSettingsService.SidebarSettingsService.IsSidebarOpen != IsSidebarOpen)
                     {
                         OnPropertyChanged(nameof(IsSidebarOpen));
                     }
@@ -183,7 +150,7 @@ namespace Files.ViewModels
 
         public void Dispose()
         {
-            App.AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
+            UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
         }
 
         public void SidebarControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)

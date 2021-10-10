@@ -14,7 +14,12 @@ namespace Files.Helpers
             string rootPath = "";
             try
             {
-                rootPath = new Uri(path.Replace("\\", "/")).GetLeftPart(UriPartial.Authority);
+                var pathAsUri = new Uri(path.Replace("\\", "/"));
+                rootPath = pathAsUri.GetLeftPart(UriPartial.Authority);
+                if (pathAsUri.IsFile && !string.IsNullOrEmpty(rootPath))
+                {
+                    rootPath = new Uri(rootPath).LocalPath;
+                }
             }
             catch (UriFormatException)
             {

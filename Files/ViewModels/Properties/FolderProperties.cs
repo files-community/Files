@@ -124,7 +124,7 @@ namespace Files.ViewModels.Properties
                 }
                 GetFolderSize(storageFolder, TokenSource.Token);
             }
-            else if (Item.ItemPath.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            else if (Item.ItemPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 // GetFolderFromPathAsync cannot access recyclebin folder
                 var connection = await AppServiceConnectionHelper.Instance;

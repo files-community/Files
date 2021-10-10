@@ -15,6 +15,13 @@
             public const float ExtraSmallThreshold = 15.0f;
         }
 
+        public static class CommonPaths
+        {
+            public const string RecycleBinPath = @"Shell:RecycleBinFolder";
+
+            public const string NetworkFolderPath = @"Shell:NetworkPlacesFolder";
+        }
+
         public static class ImageRes
         {
             // See imageres.dll for more icon indexes to add
@@ -106,6 +113,8 @@
 
             public const string BundlesSettingsFileName = "bundles.json";
 
+            public const string UserSettingsFileName = "user_settings.json";
+
             public const string FileTagSettingsFileName = "filetags.json";
         }
 
@@ -149,6 +158,11 @@
         public static class OptionalPackages
         {
             public const string ThemesOptionalPackagesName = "49306atecsolution.ThemesforFiles";
+        }
+
+        public static class Filesystem
+        {
+            public const int ExtendedAsciiCodePage = 437;
         }
     }
 }

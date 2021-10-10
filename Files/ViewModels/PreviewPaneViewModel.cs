@@ -1,8 +1,10 @@
 ﻿using Files.Filesystem;
+using Files.Services;
 using Files.UserControls.FilePreviews;
 using Files.ViewModels.Previews;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System;
@@ -23,6 +25,8 @@ namespace Files.ViewModels
 {
     public class PreviewPaneViewModel : ObservableObject, IDisposable
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         private CancellationTokenSource loadCancellationTokenSource;
 
         private bool isItemSelected;
@@ -67,7 +71,7 @@ namespace Files.ViewModels
 
         public PreviewPaneViewModel()
         {
-            App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
+            UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
         }
 
         private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
@@ -97,6 +101,11 @@ namespace Files.ViewModels
             var basicModel = new BasicPreviewViewModel(SelectedItem);
             await basicModel.LoadAsync();
             control = new BasicPreview(basicModel);
+
+            if (token.IsCancellationRequested)
+            {
+                return;
+            }
             PreviewPaneContent = control;
             PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
         }
@@ -278,11 +287,11 @@ namespace Files.ViewModels
 
         public ICommand ShowPreviewOnlyInvoked => new RelayCommand(() => UpdateSelectedItemPreview());
 
-        private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
         {
-            switch (e.PropertyName)
+            switch (e.settingName)
             {
-                case nameof(App.AppSettings.ShowPreviewOnly):
+                case nameof(UserSettingsService.PreviewPaneSettingsService.ShowPreviewOnly):
                     // the preview will need refreshing as the file details won't be accurate
                     needsRefresh = true;
                     break;
@@ -307,7 +316,7 @@ namespace Files.ViewModels
 
         public void Dispose()
         {
-            App.AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
+            UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
         }
     }
 

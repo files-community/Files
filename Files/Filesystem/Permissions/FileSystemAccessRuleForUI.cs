@@ -108,7 +108,7 @@ namespace Files.Filesystem.Permissions
             _ => "\xF140"
         };
 
-        public string IsInheritedForUI => IsInherited ? "SecurityAdvancedInheritedYesLabel".GetLocalized() : "SecurityAdvancedInheritedNoLabel".GetLocalized();
+        public string IsInheritedForUI => IsInherited ? "Yes".GetLocalized() : "SecurityAdvancedInheritedNoLabel".GetLocalized();
 
         public string FileSystemRightsForUI => string.Join(", ", GetPermissionStrings());
 
@@ -269,7 +269,7 @@ namespace Files.Filesystem.Permissions
                 gpl.Add(new GrantedPermission(this)
                 {
                     Permission = FileSystemRights.Delete,
-                    Name = "SecurityDeleteLabel/Text".GetLocalized(),
+                    Name = "Delete".GetLocalized(),
                     IsEditable = !IsInherited
                 });
                 gpl.Add(new GrantedPermission(this)

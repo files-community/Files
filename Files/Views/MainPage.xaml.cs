@@ -2,9 +2,11 @@
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Services;
 using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -28,7 +30,8 @@ namespace Files.Views
     /// </summary>
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         public MainViewModel MainViewModel => App.MainViewModel;
 
         public MainPageViewModel ViewModel
@@ -45,6 +48,8 @@ namespace Files.Views
 
         private ICommand ToggleCompactOverlayCommand => new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(x => ToggleCompactOverlay());
         private ICommand SetCompactOverlayCommand => new RelayCommand<bool>(x => SetCompactOverlay(x));
+
+        public bool IsVerticalTabFlyoutEnabled => UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled;
 
         public MainPage()
         {
@@ -64,15 +69,19 @@ namespace Files.Views
 
             ToggleFullScreenAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ToggleFullScreenAccelerator);
 
-            App.AppSettings.PropertyChanged += AppSettings_PropertyChanged;
+            UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
         }
 
-        private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
         {
-            switch (e.PropertyName)
+            switch (e.settingName)
             {
-                case nameof(App.AppSettings.PreviewPaneEnabled):
+                case nameof(UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled):
                     LoadPreviewPaneChanged();
+                    break;
+
+                case nameof(UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled):
+                    OnPropertyChanged(nameof(IsVerticalTabFlyoutEnabled));
                     break;
             }
         }
@@ -119,7 +128,7 @@ namespace Files.Views
                 ViewModel.MultitaskingControls.Add(horizontalMultitaskingControl);
                 ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
             }
-            if (AppSettings.IsVerticalTabFlyoutEnabled)
+            if (UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled)
             {
                 FindName(nameof(VerticalTabStripInvokeButton));
             }
@@ -191,7 +200,7 @@ namespace Files.Views
             LoadPreviewPaneChanged();
             if (PreviewPane != null)
             {
-                PreviewPane.Model = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.PreviewPaneViewModel;
+                PreviewPane.Model = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn?.SlimContentPage?.PreviewPaneViewModel;
             }
         }
 
@@ -207,6 +216,7 @@ namespace Files.Views
         private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
         {
             await SidebarAdaptiveViewModel.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.ItemPath, false, true);
+            e.SignalEvent?.Set();
         }
 
         private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)
@@ -282,7 +292,10 @@ namespace Files.Views
                     }
             }
 
-            SidebarAdaptiveViewModel.PaneHolder.ActivePane?.NavigateToPath(navigationPath, sourcePageType);
+            if (SidebarAdaptiveViewModel.PaneHolder?.ActivePane is IShellPage shellPage)
+            {
+                shellPage.NavigateToPath(navigationPath, sourcePageType);
+            }
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -377,14 +390,14 @@ namespace Files.Views
                 PreviewPaneRow.MinHeight = 0;
                 PreviewPaneRow.Height = new GridLength(0);
                 PreviewPaneColumn.MinWidth = 150;
-                PreviewPaneColumn.Width = AppSettings.PreviewPaneSizeVertical;
+                PreviewPaneColumn.Width = new GridLength(UserSettingsService.PreviewPaneSettingsService.PreviewPaneSizeVerticalPx, GridUnitType.Pixel);
 
                 PreviewPane.IsHorizontal = false;
             }
             else if (RootGrid.ActualWidth <= 700)
             {
                 PreviewPaneRow.MinHeight = 140;
-                PreviewPaneRow.Height = AppSettings.PreviewPaneSizeHorizontal;
+                PreviewPaneRow.Height = new GridLength(UserSettingsService.PreviewPaneSettingsService.PreviewPaneSizeHorizontalPx, GridUnitType.Pixel);
                 PreviewPaneColumn.MinWidth = 0;
                 PreviewPaneColumn.Width = new GridLength(0);
 
@@ -409,23 +422,23 @@ namespace Files.Views
 
             if (PreviewPane.IsHorizontal)
             {
-                AppSettings.PreviewPaneSizeHorizontal = new GridLength(PreviewPane.ActualHeight);
+                UserSettingsService.PreviewPaneSettingsService.PreviewPaneSizeHorizontalPx = Math.Max(50d, Math.Min(PreviewPane.ActualHeight, 600d));
             }
             else
             {
-                AppSettings.PreviewPaneSizeVertical = new GridLength(PreviewPane.ActualWidth);
+                UserSettingsService.PreviewPaneSettingsService.PreviewPaneSizeVerticalPx = Math.Max(50d, Math.Min(PreviewPane.ActualWidth, 600d));
             }
         }
 
-        public bool LoadPreviewPane => App.AppSettings.PreviewPaneEnabled && !IsPreviewPaneDisabled;
+        public bool LoadPreviewPane => UserSettingsService.PreviewPaneSettingsService.PreviewPaneEnabled && !IsPreviewPaneDisabled;
 
         public bool IsPreviewPaneDisabled => (!(SidebarAdaptiveViewModel.PaneHolder?.ActivePane.InstanceViewModel.IsPageTypeNotHome ?? false) && !(SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false)) // hide the preview pane when on home page unless multi pane is in use
             || Window.Current.Bounds.Width <= 450 || Window.Current.Bounds.Height <= 400; // Disable the preview pane for small windows as it won't function properly
 
         private void LoadPreviewPaneChanged()
         {
-            NotifyPropertyChanged(nameof(LoadPreviewPane));
-            NotifyPropertyChanged(nameof(IsPreviewPaneDisabled));
+            OnPropertyChanged(nameof(LoadPreviewPane));
+            OnPropertyChanged(nameof(IsPreviewPaneDisabled));
             UpdatePositioning();
         }
 
@@ -438,7 +451,7 @@ namespace Files.Views
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -470,7 +483,7 @@ namespace Files.Views
                 if (value != isCompactOverlay)
                 {
                     isCompactOverlay = value;
-                    NotifyPropertyChanged(nameof(IsCompactOverlay));
+                    OnPropertyChanged(nameof(IsCompactOverlay));
                 }
             }
         }

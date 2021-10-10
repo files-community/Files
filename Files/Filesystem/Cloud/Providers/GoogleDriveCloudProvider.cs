@@ -16,7 +16,7 @@ namespace Files.Filesystem.Cloud.Providers
             {
                 // Google Drive's sync database can be in a couple different locations. Go find it.
                 string appDataPath = UserDataPaths.GetDefault().LocalAppData;
-                string dbPath = @"Google\Drive\user_default\sync_config.db";
+                string dbPath = @"Google\DriveFS\root_preference_sqlite.db";
                 var configFile = await StorageFile.GetFileFromPathAsync(Path.Combine(appDataPath, dbPath));
                 await configFile.CopyAsync(ApplicationData.Current.TemporaryFolder, "google_drive.db", NameCollisionOption.ReplaceExisting);
                 var syncDbPath = Path.Combine(ApplicationData.Current.TemporaryFolder.Path, "google_drive.db");
@@ -24,7 +24,7 @@ namespace Files.Filesystem.Cloud.Providers
                 // Build the connection and sql command
                 SQLitePCL.Batteries_V2.Init();
                 using (var con = new SqliteConnection($"Data Source='{syncDbPath}'"))
-                using (var cmd = new SqliteCommand("select * from data where entry_key='root_config__0'", con)) //local_sync_root_path
+                using (var cmd = new SqliteCommand("select * from roots", con))
                 {
                     // Open the connection and execute the command
                     con.Open();
@@ -34,7 +34,7 @@ namespace Files.Filesystem.Cloud.Providers
                     while (reader.Read())
                     {
                         // Extract the data from the reader
-                        string path = reader["data_value"]?.ToString();
+                        string path = reader["last_seen_absolute_path"]?.ToString();
                         if (string.IsNullOrWhiteSpace(path))
                         {
                             return Array.Empty<CloudProvider>();
@@ -55,14 +55,8 @@ namespace Files.Filesystem.Cloud.Providers
                             SyncFolder = path
                         };
 
-                        if (!folder.Name.Contains("Google"))
-                        {
-                            googleCloud.Name = $"Google Drive ({folder.Name})";
-                        }
-                        else
-                        {
-                            googleCloud.Name = "Google Drive";
-                        }
+                        string title = reader["title"]?.ToString() ?? folder.Name;
+                        googleCloud.Name = $"Google Drive ({title})";
 
                         results.Add(googleCloud);
                     }

@@ -4,11 +4,16 @@ using Files.Controllers;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
-using Files.Models.Settings;
-using Files.SettingsInterfaces;
+using Files.Services;
+using Files.Services.Implementation;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -37,14 +42,15 @@ namespace Files
     sealed partial class App : Application
     {
         private static bool ShowErrorNotification = false;
+        private static string OutputPath = null;
 
         public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
-        public static IBundlesSettings BundlesSettings = new BundlesSettingsModel();
         public static SettingsViewModel AppSettings { get; private set; }
         public static MainViewModel MainViewModel { get; private set; }
         public static JumpListManager JumpList { get; private set; }
         public static SidebarPinnedController SidebarPinnedController { get; private set; }
+        public static TerminalController TerminalController { get; private set; }
         public static CloudDrivesManager CloudDrivesManager { get; private set; }
         public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
         public static DrivesManager DrivesManager { get; private set; }
@@ -59,6 +65,10 @@ namespace Files
         public static OngoingTasksViewModel OngoingTasksViewModel { get; } = new OngoingTasksViewModel();
         public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
 
+        public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
+
+        public IServiceProvider Services { get; private set; }
+
         public App()
         {
             // Initialize logger
@@ -69,14 +79,52 @@ namespace Files
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
+            
+            AppServiceConnectionHelper.Register();
+            
+            this.Services = ConfigureServices();
+            Ioc.Default.ConfigureServices(Services);
+        }
+
+        private IServiceProvider ConfigureServices()
+        {
+            ServiceCollection services = new ServiceCollection();
+
+            services
+                // TODO: Loggers:
+
+                // Settings:
+                // Base IUserSettingsService as parent settings store (to get ISettingsSharingContext from)
+                .AddSingleton<IUserSettingsService, UserSettingsService>()
+                // Children settings (from IUserSettingsService)
+                .AddSingleton<IFilesAndFoldersSettingsService, FilesAndFoldersSettingsService>((sp) => new FilesAndFoldersSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IStartupSettingsService, StartupSettingsService>((sp) => new StartupSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IMultitaskingSettingsService, MultitaskingSettingsService>((sp) => new MultitaskingSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IWidgetsSettingsService, WidgetsSettingsService>((sp) => new WidgetsSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<ISidebarSettingsService, SidebarSettingsService>((sp) => new SidebarSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IPreferencesSettingsService, PreferencesSettingsService>((sp) => new PreferencesSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>((sp) => new PreviewPaneSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                .AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService(sp.GetService<IUserSettingsService>().GetSharingContext()))
+                // Settings not related to IUserSettingsService:
+                .AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
+                .AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
+
+                // TODO: Dialogs:
+
+                // TODO: FileSystem operations:
+                // (IFilesystemHelpersService, IFilesystemOperationsService)
+
+                ; // End of service configuration
+
+
+            return services.BuildServiceProvider();
         }
 
         private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
         {
-            if (AppSettings == null)
-            {
-                AppSettings = await SettingsViewModel.CreateInstance();
-            }
+            AppSettings ??= new SettingsViewModel();
+            RegistryToJsonSettingsMerger.MergeSettings();
 
             ExternalResourcesHelper ??= new ExternalResourcesHelper();
             await ExternalResourcesHelper.LoadSelectedTheme();
@@ -89,6 +137,25 @@ namespace Files
             CloudDrivesManager ??= new CloudDrivesManager();
             WSLDistroManager ??= new WSLDistroManager();
             SidebarPinnedController ??= new SidebarPinnedController();
+            TerminalController ??= new TerminalController();
+        }
+
+        private static async void StartAppCenter()
+        {
+            try
+            {
+                if (!AppCenter.Configured)
+                {
+                    var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
+                    var lines = await FileIO.ReadTextAsync(file);
+                    var obj = Newtonsoft.Json.Linq.JObject.Parse(lines);
+                    AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex, "AppCenter could not be started.");
+            }
         }
 
         public static async Task LoadOtherStuffAsync()
@@ -97,13 +164,17 @@ namespace Files
             await Task.Run(async () =>
             {
                 await Task.WhenAll(
-                    JumpList.InitializeAsync(),
-                    SidebarPinnedController.InitializeAsync(),
                     DrivesManager.EnumerateDrivesAsync(),
                     CloudDrivesManager.EnumerateDrivesAsync(),
                     LibraryManager.EnumerateLibrariesAsync(),
                     NetworkDrivesManager.EnumerateDrivesAsync(),
                     WSLDistroManager.EnumerateDrivesAsync(),
+                    SidebarPinnedController.InitializeAsync()
+                );
+                await Task.WhenAll(
+                    AppSettings.DetectQuickLook(),
+                    TerminalController.InitializeAsync(),
+                    JumpList.InitializeAsync(),
                     ExternalResourcesHelper.LoadOtherThemesAsync()
                 );
             });
@@ -116,10 +187,6 @@ namespace Files
         {
             DrivesManager?.ResumeDeviceWatcher();
         }
-
-        public static Windows.UI.Xaml.UnhandledExceptionEventArgs ExceptionInfo { get; set; }
-        public static string ExceptionStackTrace { get; set; }
-        public static List<string> pathsToDeleteAfterPaste = new List<string>();
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -165,6 +232,23 @@ namespace Files
                 // Ensure the current window is active
                 Window.Current.Activate();
                 Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+            }
+            else
+            {
+                if (rootFrame.Content == null)
+                {
+                    // When the navigation stack isn't restored navigate to the first page,
+                    // configuring the new page by passing required information as a navigation
+                    // parameter
+                    rootFrame.Navigate(typeof(MainPage), e.Arguments, new SuppressNavigationTransitionInfo());
+                }
+                else
+                {
+                    if (!(string.IsNullOrEmpty(e.Arguments) && MainPageViewModel.AppInstances.Count > 0))
+                    {
+                        await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
+                    }
+                }
             }
         }
 
@@ -285,68 +369,65 @@ namespace Files
 
                     if (parsedCommands != null && parsedCommands.Count > 0)
                     {
+                        async Task PerformNavigation(string payload)
+                        {
+                            if (!string.IsNullOrEmpty(payload))
+                            {
+                                var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
+                                if (folder != null && !string.IsNullOrEmpty(folder.Path))
+                                {
+                                    payload = folder.Path; // Convert short name to long name (#6190)
+                                }
+                            }
+                            if (rootFrame.Content != null)
+                            {
+                                await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), payload);
+                            }
+                            else
+                            {
+                                rootFrame.Navigate(typeof(MainPage), payload, new SuppressNavigationTransitionInfo());
+                            }
+                        }
                         foreach (var command in parsedCommands)
                         {
                             switch (command.Type)
                             {
                                 case ParsedCommandType.OpenDirectory:
-                                    rootFrame.Navigate(typeof(MainPage), command.Payload, new SuppressNavigationTransitionInfo());
-
-                                    // Ensure the current window is active.
-                                    Window.Current.Activate();
-                                    Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                                    return;
-
                                 case ParsedCommandType.OpenPath:
-
-                                    try
-                                    {
-                                        var det = await StorageFolder.GetFolderFromPathAsync(command.Payload);
-
-                                        rootFrame.Navigate(typeof(MainPage), command.Payload, new SuppressNavigationTransitionInfo());
-
-                                        // Ensure the current window is active.
-                                        Window.Current.Activate();
-                                        Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-
-                                        return;
-                                    }
-                                    catch (System.IO.FileNotFoundException ex)
-                                    {
-                                        //Not a folder
-                                        Debug.WriteLine($"File not found exception App.xaml.cs\\OnActivated with message: {ex.Message}");
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Debug.WriteLine($"Exception in App.xaml.cs\\OnActivated with message: {ex.Message}");
-                                    }
-
+                                    await PerformNavigation(command.Payload);
                                     break;
 
                                 case ParsedCommandType.Unknown:
                                     if (command.Payload.Equals("."))
                                     {
-                                        rootFrame.Navigate(typeof(MainPage), activationPath, new SuppressNavigationTransitionInfo());
+                                        await PerformNavigation(activationPath);
                                     }
                                     else
                                     {
                                         var target = Path.GetFullPath(Path.Combine(activationPath, command.Payload));
                                         if (!string.IsNullOrEmpty(command.Payload))
                                         {
-                                            rootFrame.Navigate(typeof(MainPage), target, new SuppressNavigationTransitionInfo());
+                                            await PerformNavigation(target);
                                         }
                                         else
                                         {
-                                            rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+                                            await PerformNavigation(null);
                                         }
                                     }
+                                    break;
 
-                                    // Ensure the current window is active.
-                                    Window.Current.Activate();
-                                    Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-
-                                    return;
+                                case ParsedCommandType.OutputPath:
+                                    OutputPath = command.Payload;
+                                    break;
                             }
+                        }
+
+                        if (rootFrame.Content != null)
+                        {
+                            // Ensure the current window is active.
+                            Window.Current.Activate();
+                            Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+                            return;
                         }
                     }
                     break;
@@ -391,23 +472,47 @@ namespace Files
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
+            // Save application state and stop any background activity
+            var deferral = e.SuspendingOperation.GetDeferral();
+
             SaveSessionTabs();
 
-            var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
+            if (OutputPath != null)
+            {
+                await Common.Extensions.IgnoreExceptions(async () =>
+                {
+                    var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
+                    if (instance == null)
+                    {
+                        return;
+                    }
+                    var items = (instance.Control.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
+                    if (items == null)
+                    {
+                        return;
+                    }
+                    await FileIO.WriteLinesAsync(await StorageFile.GetFileFromPathAsync(OutputPath), items.Select(x => x.ItemPath));
+                }, Logger);
+            }
 
-            LibraryManager?.Dispose();
             DrivesManager?.Dispose();
             deferral.Complete();
         }
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
-            if (AppSettings != null)
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetService<IBundlesSettingsService>();
+
+            if (bundlesSettingsService != null)
             {
-                AppSettings.LastSessionPages = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
+                bundlesSettingsService.FlushSettings();
+            }
+            if (userSettingsService?.StartupSettingsService != null)
+            {
+                userSettingsService.StartupSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
                 {
                     if (tab != null && tab.TabItemArguments != null)
                     {
@@ -418,7 +523,7 @@ namespace Files
                         var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
                         return defaultArg.Serialize();
                     }
-                }).ToArray();
+                }).ToList();
             }
         }
 

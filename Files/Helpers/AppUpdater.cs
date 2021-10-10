@@ -54,7 +54,7 @@ namespace Files.Helpers
             {
                 Title = "ConsentDialogTitle".GetLocalized(),
                 Content = "ConsentDialogContent".GetLocalized(),
-                CloseButtonText = "ConsentDialogCloseButtonText".GetLocalized(),
+                CloseButtonText = "Close".GetLocalized(),
                 PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalized()
             };
             ContentDialogResult result = await dialog.ShowAsync();

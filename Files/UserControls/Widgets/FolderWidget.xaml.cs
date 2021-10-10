@@ -1,8 +1,10 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
+using Files.Services;
 using Files.ViewModels;
 using Files.ViewModels.Widgets;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -55,6 +57,8 @@ namespace Files.UserControls.Widgets
 
     public sealed partial class FolderWidget : UserControl, IWidgetItemModel, INotifyPropertyChanged
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         public BulkConcurrentObservableCollection<LibraryCardItem> ItemsAdded = new BulkConcurrentObservableCollection<LibraryCardItem>();
         private bool showMultiPaneControls;
 
@@ -82,9 +86,7 @@ namespace Files.UserControls.Widgets
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public SettingsViewModel AppSettings => App.AppSettings;
-
-        public bool IsWidgetSettingEnabled => App.AppSettings.ShowFolderWidgetWidget;
+        public bool IsWidgetSettingEnabled => UserSettingsService.WidgetsSettingsService.ShowFoldersWidget;
 
         public RelayCommand<LibraryCardItem> LibraryCardClicked => new RelayCommand<LibraryCardItem>(async (item) =>
         {
@@ -140,23 +142,18 @@ namespace Files.UserControls.Widgets
 
         private async Task GetItemsAddedIcon()
         {
-            try
+            foreach (var item in ItemsAdded.ToList()) // ToList() is necessary
             {
-                foreach (var item in ItemsAdded.ToList()) // ToList() is necessary
-                {
-                    item.SelectCommand = LibraryCardClicked;
-                    item.AutomationProperties = item.Text;
-                    await this.LoadLibraryIcon(item);
-                }
-            }
-            catch
-            {
-                // Collection modified
+                item.SelectCommand = LibraryCardClicked;
+                item.AutomationProperties = item.Text;
+                await this.LoadLibraryIcon(item);
             }
         }
 
         private async void FolderWidget_Loaded(object sender, RoutedEventArgs e)
         {
+            Loaded -= FolderWidget_Loaded;
+
             ItemsAdded.BeginBulkOperation();
             ItemsAdded.Add(new LibraryCardItem
             {
@@ -192,7 +189,6 @@ namespace Files.UserControls.Widgets
             await GetItemsAddedIcon();
 
             ItemsAdded.EndBulkOperation();
-            Loaded -= FolderWidget_Loaded;
         }
 
         private void FolderWidget_Unloaded(object sender, RoutedEventArgs e)

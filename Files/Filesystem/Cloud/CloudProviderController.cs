@@ -31,7 +31,7 @@ namespace Files.Filesystem.Cloud
 
             await Task.WhenAll(tasks);
 
-            return tasks.SelectMany(o => o.Result).Distinct().ToList();
+            return tasks.SelectMany(o => o.Result).OrderBy(o => o.ID.ToString()).ThenBy(o => o.Name).Distinct().ToList();
         }
     }
 }

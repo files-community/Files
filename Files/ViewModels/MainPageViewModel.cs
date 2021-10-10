@@ -2,9 +2,11 @@
 using Files.Filesystem;
 using Files.Filesystem.StorageItems;
 using Files.Helpers;
+using Files.Services;
 using Files.UserControls.MultitaskingControl;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -23,6 +25,8 @@ namespace Files.ViewModels
 {
     public class MainPageViewModel : ObservableObject
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         public IMultitaskingControl MultitaskingControl { get; set; }
         public List<IMultitaskingControl> MultitaskingControls { get; } = new List<IMultitaskingControl>();
 
@@ -228,20 +232,20 @@ namespace Files.ViewModels
                 tabLocationHeader = "NewTab".GetLocalized();
                 iconSource.ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"));
             }
-            else if (currentPath.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarDesktop".GetLocalized();
             }
-            else if (currentPath.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarDownloads".GetLocalized();
             }
-            else if (currentPath.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 var localSettings = ApplicationData.Current.LocalSettings;
                 tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
             }
-            else if (currentPath.Equals(App.AppSettings.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarNetworkDrives".GetLocalized();
             }
@@ -331,12 +335,12 @@ namespace Files.ViewModels
                     try
                     {
                         // add last session tabs to closed tabs stack if those tabs are not about to be opened
-                        if(!App.AppSettings.ResumeAfterRestart && !App.AppSettings.ContinueLastSessionOnStartUp)
+                        if(!App.AppSettings.ResumeAfterRestart && !UserSettingsService.StartupSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.StartupSettingsService.LastSessionTabList != null)
                         {
-                            var items = new TabItemArguments[App.AppSettings.LastSessionPages.Length];
+                            var items = new TabItemArguments[UserSettingsService.StartupSettingsService.LastSessionTabList.Count];
                             for(int i = 0; i < items.Length; i++)
                             {
-                                var tabArgs = TabItemArguments.Deserialize(App.AppSettings.LastSessionPages[i]);
+                                var tabArgs = TabItemArguments.Deserialize(UserSettingsService.StartupSettingsService.LastSessionTabList[i]);
                                 items[i] = tabArgs;
                             }
                             BaseMultitaskingControl.RecentlyClosedTabs.Add(items);
@@ -346,22 +350,22 @@ namespace Files.ViewModels
                         {
                             App.AppSettings.ResumeAfterRestart = false;
 
-                            foreach (string tabArgsString in App.AppSettings.LastSessionPages)
+                            foreach (string tabArgsString in UserSettingsService.StartupSettingsService.LastSessionTabList)
                             {
                                 var tabArgs = TabItemArguments.Deserialize(tabArgsString);
                                 await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
                             }
 
-                            if (!App.AppSettings.ContinueLastSessionOnStartUp)
+                            if (!UserSettingsService.StartupSettingsService.ContinueLastSessionOnStartUp)
                             {
-                                App.AppSettings.LastSessionPages = null;
+                                UserSettingsService.StartupSettingsService.LastSessionTabList = null;
                             }
                         }
-                        else if (App.AppSettings.OpenASpecificPageOnStartup)
+                        else if (UserSettingsService.StartupSettingsService.OpenSpecificPageOnStartup)
                         {
-                            if (App.AppSettings.PagesOnStartupList != null)
+                            if (UserSettingsService.StartupSettingsService.TabsOnStartupList != null)
                             {
-                                foreach (string path in App.AppSettings.PagesOnStartupList)
+                                foreach (string path in UserSettingsService.StartupSettingsService.TabsOnStartupList)
                                 {
                                     await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
                                 }
@@ -371,17 +375,17 @@ namespace Files.ViewModels
                                 await AddNewTabAsync();
                             }
                         }
-                        else if (App.AppSettings.ContinueLastSessionOnStartUp)
+                        else if (UserSettingsService.StartupSettingsService.ContinueLastSessionOnStartUp)
                         {
-                            if (App.AppSettings.LastSessionPages != null)
+                            if (UserSettingsService.StartupSettingsService.LastSessionTabList != null)
                             {
-                                foreach (string tabArgsString in App.AppSettings.LastSessionPages)
+                                foreach (string tabArgsString in UserSettingsService.StartupSettingsService.LastSessionTabList)
                                 {
                                     var tabArgs = TabItemArguments.Deserialize(tabArgsString);
                                     await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
                                 }
                                 var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
-                                App.AppSettings.LastSessionPages = new string[] { defaultArg.Serialize() };
+                                UserSettingsService.StartupSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
                             }
                             else
                             {

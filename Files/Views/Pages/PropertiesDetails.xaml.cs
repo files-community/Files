@@ -45,13 +45,7 @@ namespace Files.Views
                 }
                 catch
                 {
-                    // Attempting to open more than one ContentDialog
-                    // at a time will throw an error)
-                    if (UIHelpers.IsAnyContentDialogOpen())
-                    {
-                        return false;
-                    }
-                    await dialog.ShowAsync();
+                    await dialog.TryShowAsync();
                     switch (dialog.DynamicResult)
                     {
                         case DynamicDialogResult.Primary:
