@@ -218,7 +218,6 @@ namespace Files.Filesystem.StorageEnumerators
                     Opacity = 1,
                     LoadUnknownTypeGlyph = itemEmptyImgVis,
                     FileImage = null,
-                    //CustomIconData = null,
                     LoadFileIcon = itemThumbnailImgVis,
                     LoadFolderGlyph = itemFolderImgVis,
                     ItemName = itemName,
