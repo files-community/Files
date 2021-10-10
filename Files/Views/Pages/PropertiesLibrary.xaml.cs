@@ -3,14 +3,12 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 
