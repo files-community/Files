@@ -60,7 +60,7 @@ namespace Files.ViewModels
 
         // only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
         public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
-
+        private string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
         private SettingsViewModel AppSettings => App.AppSettings;
         private FolderSettingsViewModel folderSettings = null;
         private bool shouldDisplayFileExtensions = false;
@@ -1566,7 +1566,7 @@ namespace Files.ViewModels
                     ItemName = Path.GetFileName(path.TrimEnd('\\')),
                     ItemDateModifiedReal = itemModifiedDate,
                     ItemDateCreatedReal = itemCreatedDate,
-                    ItemType = "FileFolderListItem".GetLocalized(),
+                    ItemType = folderTypeTextLocalized,
                     LoadFolderGlyph = true,
                     FileImage = null,
                     IsHiddenItem = isHidden,
