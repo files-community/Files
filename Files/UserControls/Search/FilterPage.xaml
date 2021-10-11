@@ -1,0 +1,52 @@
+﻿<Page
+    x:Class="Files.UserControls.Search.FilterPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files.UserControls.Search"
+    xmlns:vm="using:Files.ViewModels.Search"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style x:Key="TitleButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate x:DataType="vm:IFilterViewModel">
+                        <StackPanel Orientation="Vertical">
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="32" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon FontSize="18" HorizontalAlignment="Left" Glyph="{x:Bind Filter.Glyph}" />
+                                <TextBlock Grid.Column="1" FontSize="16" FontWeight="SemiBold" Text="{x:Bind Filter.Label}" />
+                                <FontIcon Grid.Column="2" FontSize="18" HorizontalAlignment="Right" Glyph="&#xE973;" />
+                            </Grid>
+                            <Rectangle Height="1" Margin="0,0,0,8" HorizontalAlignment="Stretch" Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <StackPanel Orientation="Vertical" Width="200">
+        <Button x:Name="TitleButton" Style="{StaticResource TitleButtonStyle}"
+            Content="{x:Bind ViewModel, Mode=OneWay}" Command="{x:Bind navigator.BackCommand}" />
+        <local:FilterPicker x:Name="Picker" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+        <Grid HorizontalAlignment="Stretch" Margin="0,24,0,8" ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="SaveButton" HorizontalAlignment="Stretch" Content="Save" Command="{x:Bind navigator.BackCommand}" />
+            <Button x:Name="CancelButton" Grid.Column="1" HorizontalAlignment="Stretch" Content="Cancel" Command="{x:Bind navigator.BackCommand}" />
+        </Grid>
+    </StackPanel>
+</Page>

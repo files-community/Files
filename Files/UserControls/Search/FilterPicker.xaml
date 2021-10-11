@@ -34,8 +34,8 @@
                     ItemsSource="{x:Bind Filter}"
                     ItemTemplateSelector="{StaticResource ButtonTemplateSelector}" />
                 <StackPanel Orientation="Horizontal" Margin="0,8,8,8" Spacing="8">
-                    <Button x:Name="AddFilterButton" Content="Add" />
-                    <Button Content="Clear" />
+                    <Button x:Name="AddFilterButton" Content="Add" Loaded="AddFilterButton_Loaded" />
+                    <Button Content="Clear" Command="{x:Bind ClearCommand}" />
                 </StackPanel>
             </StackPanel>
         </DataTemplate>
@@ -128,7 +128,7 @@
                                 Margin="0,8,0,0" HorizontalAlignment="Stretch"
                                 FontSize="14" FontWeight="SemiBold"
                                 IsChecked="{x:Bind IsSelected, Mode=OneWay}" Command="{x:Bind ToggleCommand}"
-                                Content="{x:Bind Range, Converter={StaticResource ToStringConverter}, ConverterParameter='\{0:n}'}" />
+                                Content="{x:Bind Label}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -218,7 +218,7 @@
 
     <ContentControl
         x:Name="MainControl" Width="200"
-        Content="{x:Bind ViewModel.Filter, Mode=OneWay}"
+        Content="{x:Bind ViewModel, Mode=OneWay}"
         ContentTemplateSelector="{StaticResource PickerTemplateSelector}" />
 
 </UserControl>

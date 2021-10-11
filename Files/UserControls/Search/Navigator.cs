@@ -43,11 +43,11 @@ namespace Files.UserControls.Search
         {
             switch (viewModel)
             {
-                case ISettingsViewModel _:
-                    //frame.Navigate(typeof(SettingsPage), viewModel, emptyTransition);
+                case ISettingsViewModel :
+                    frame.Navigate(typeof(SettingsPage), viewModel, emptyTransition);
                     break;
-                case IFilterViewModel _:
-                    //frame.Navigate(typeof(FilterPage), viewModel, toRightTransition);
+                case IFilterViewModel :
+                    frame.Navigate(typeof(FilterPage), viewModel, toRightTransition);
                     break;
             }
         }

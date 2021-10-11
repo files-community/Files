@@ -1,13 +1,16 @@
 ﻿using Files.Filesystem.Search;
 using Files.ViewModels.Search;
+using Microsoft.Toolkit.Mvvm.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Files.UserControls.Search
 {
     public sealed partial class FilterPicker : UserControl
     {
         private readonly INavigatorViewModel navigator = NavigatorViewModel.Default;
+        private readonly IFilterViewModelFactory factory = new FilterViewModelFactory();
 
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register(nameof(ViewModel), typeof(IFilterViewModel), typeof(FilterPicker), new PropertyMetadata(null));
@@ -20,15 +23,24 @@ namespace Files.UserControls.Search
 
         public FilterPicker() => InitializeComponent();
 
-        /*private MenuFlyout GetMenu()
+        private MenuFlyout GetMenu()
         {
             var menu = new MenuFlyout { Placement = FlyoutPlacementMode.BottomEdgeAlignedRight };
 
             var file = new MenuFlyoutSubItem { Text = "File" };
             file.Items.Add(GetMenuItem(new CreatedFilter()));
             file.Items.Add(GetMenuItem(new ModifiedFilter()));
+            file.Items.Add(new MenuFlyoutSeparator());
             file.Items.Add(GetMenuItem(new SizeFilter()));
             menu.Items.Add(file);
+
+            var op = new MenuFlyoutSubItem { Text = "Operator" };
+            op.Items.Add(GetMenuItem(new AndFilter()));
+            op.Items.Add(GetMenuItem(new OrFilter()));
+            op.Items.Add(GetMenuItem(new NotFilter()));
+            menu.Items.Add(op);
+
+            menu.Items.Add(new MenuFlyoutSeparator());
 
             var image = new MenuFlyoutSubItem { Text = "Image" };
             image.Items.Add(GetMenuItem("Aspect Ratio"));
@@ -42,42 +54,29 @@ namespace Files.UserControls.Search
             video.Items.Add(GetMenuItem("Format"));
             menu.Items.Add(video);
 
-            var op = new MenuFlyoutSubItem { Text = "Operator" };
-            op.Items.Add(GetMenuItem(new AndFilter()));
-            op.Items.Add(GetMenuItem(new OrFilter()));
-            op.Items.Add(GetMenuItem(new NotFilter()));
-            menu.Items.Add(op);
-
             return menu;
         }
 
         private MenuFlyoutItem GetMenuItem(IFilter filter) => new()
         {
             Icon = new FontIcon { FontSize = 14, Glyph = filter.Glyph },
-            Text = filter.ShortLabel,
+            Text = filter.Label,
             Command = new RelayCommand(() => Select(filter)),
         };
         private static MenuFlyoutItem GetMenuItem(string text) => new() { Text = text };
 
         private void Select(IFilter filter)
         {
-            //Navigator?.OpenPage(filter);
-            var factory = new FilterViewModelFactory();
-            var viewModel = new FilterPageViewModel
-            {
-                Navigator = ViewModel.Navigator,
-                Parent = ViewModel.Filter as IContainerFilterViewModel,
-                Filter = factory.GetViewModel(filter),
-            };
-            ViewModel.Navigator.OpenPage(viewModel);
+            var viewModel = factory.GetViewModel(filter);
+            navigator.OpenPage(viewModel);
         }
 
-        private void AddFilter_Loaded(object sender, RoutedEventArgs e)
+        private void AddFilterButton_Loaded(object sender, RoutedEventArgs e)
             => (sender as Button).Flyout = GetMenu();
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
-        }*/
+        }
     }
 
     public class FilterPickerTemplateSelector : DataTemplateSelector

@@ -26,6 +26,7 @@ namespace Files.ViewModels.Search
     {
         bool IsSelected { get; }
         DateRange Range { get; }
+        string Label { get; }
         ICommand ToggleCommand { get; }
     }
 
@@ -103,6 +104,8 @@ namespace Files.ViewModels.Search
             private readonly IDateRangeFilter filter;
 
             public DateRange Range { get; set; }
+
+            public string Label => Range.ToString("N");
 
             private bool isSelected = false;
             public bool IsSelected
