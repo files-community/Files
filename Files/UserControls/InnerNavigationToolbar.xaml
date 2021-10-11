@@ -400,6 +400,11 @@
                                 IsChecked="{x:Bind ViewModel.IsGroupedByDateDeleted, Mode=TwoWay}"
                                 IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}"
                                 Text="Date deleted" />
+                            <ToggleMenuFlyoutItem
+                                x:Uid="NavToolbarArrangementOptionFolderPath"
+                                IsChecked="{x:Bind ViewModel.IsGroupedByFolderPath, Mode=TwoWay}"
+                                IsEnabled="{x:Bind ViewModel.InstanceViewModel.IsPageTypeLibrary, Mode=OneWay}"
+                                Text="Folder path" />
                         </MenuFlyoutSubItem>
                         <MenuFlyoutSeparator />
                         <ToggleMenuFlyoutItem

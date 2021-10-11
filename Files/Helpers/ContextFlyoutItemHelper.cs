@@ -427,7 +427,7 @@ namespace Files.Helpers
                         },
                         new ContextMenuFlyoutItemViewModel()
                         {
-                            Text = "SyncStatuss".GetLocalized(),
+                            Text = "SyncStatus".GetLocalized(),
                             IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.SyncStatus,
                             ShowItem = currentInstanceViewModel.IsPageTypeCloudDrive,
                             Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
@@ -464,6 +464,15 @@ namespace Files.Helpers
                             CommandParameter = GroupOption.DateDeleted,
                             ItemType = ItemType.Toggle,
                             ShowItem = currentInstanceViewModel.IsPageTypeRecycleBin,
+                        },
+                        new ContextMenuFlyoutItemViewModel()
+                        {
+                            Text = "NavToolbarArrangementOptionFolderPath/Text".GetLocalized(),
+                            IsChecked = currentInstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FolderPath,
+                            Command = currentInstanceViewModel.FolderSettings.ChangeGroupOptionCommand,
+                            CommandParameter = GroupOption.FolderPath,
+                            ItemType = ItemType.Toggle,
+                            ShowItem = currentInstanceViewModel.IsPageTypeLibrary,
                         },
                     }
                 },

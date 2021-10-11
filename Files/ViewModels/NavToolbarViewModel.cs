@@ -205,6 +205,12 @@ namespace Files.ViewModels
             set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.FileTag; }
         }
 
+        public bool IsGroupedByFolderPath
+        {
+            get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FolderPath;
+            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.FolderPath; }
+        }
+
         private bool canCopyPathInPage;
 
         public bool CanCopyPathInPage
@@ -378,6 +384,7 @@ namespace Files.ViewModels
             OnPropertyChanged(nameof(IsGroupedByOriginalFolder));
             OnPropertyChanged(nameof(IsGroupedByDateDeleted));
             OnPropertyChanged(nameof(IsGroupedByFileTag));
+            OnPropertyChanged(nameof(IsGroupedByFolderPath));
         }
 
         public void PathBoxItem_DragLeave(object sender, DragEventArgs e)

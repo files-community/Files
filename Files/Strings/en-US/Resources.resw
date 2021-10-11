@@ -2776,4 +2776,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Open folders with a single click</value>
   </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>Folder path</value>
+  </data>
 </root>
