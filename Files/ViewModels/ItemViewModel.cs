@@ -751,7 +751,7 @@ namespace Files.ViewModels
             }
         }
 
-        private async Task LoadItemThumbnail(ListedItem item, uint thumbnailSize = 20, IStorageItem matchingStorageItem = null, bool forceReload = false)
+        private async Task LoadItemThumbnail(ListedItem item, uint thumbnailSize = 20, IStorageItem matchingStorageItem = null)
         {
             var wasIconLoaded = false;
             if (item.IsLibraryItem || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
@@ -923,7 +923,7 @@ namespace Files.ViewModels
                                 if (matchingStorageFile != null)
                                 {
                                     cts.Token.ThrowIfCancellationRequested();
-                                    await LoadItemThumbnail(item, thumbnailSize, matchingStorageFile, true);
+                                    await LoadItemThumbnail(item, thumbnailSize, matchingStorageFile);
 
                                     var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
                                     var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
@@ -944,7 +944,7 @@ namespace Files.ViewModels
                             }
                             if (!wasSyncStatusLoaded)
                             {
-                                await LoadItemThumbnail(item, thumbnailSize, null, true);
+                                await LoadItemThumbnail(item, thumbnailSize, null);
                             }
                         }
                         else
@@ -956,7 +956,7 @@ namespace Files.ViewModels
                                 if (matchingStorageFolder != null)
                                 {
                                     cts.Token.ThrowIfCancellationRequested();
-                                    await LoadItemThumbnail(item, thumbnailSize, matchingStorageFolder, true);
+                                    await LoadItemThumbnail(item, thumbnailSize, matchingStorageFolder);
                                     if (matchingStorageFolder.DisplayName != item.ItemName && !matchingStorageFolder.DisplayName.StartsWith("$R"))
                                     {
                                         cts.Token.ThrowIfCancellationRequested();
@@ -992,7 +992,7 @@ namespace Files.ViewModels
                             if (!wasSyncStatusLoaded)
                             {
                                 cts.Token.ThrowIfCancellationRequested();
-                                await LoadItemThumbnail(item, thumbnailSize, null, true);
+                                await LoadItemThumbnail(item, thumbnailSize, null);
                             }
                         }
 
