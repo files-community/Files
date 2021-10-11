@@ -581,7 +581,7 @@ namespace Files.Views.LayoutModes
             }
 
             // Check if the setting to open items with a single click is turned on
-            if (UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick & item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder || UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick & item.PrimaryItemAttribute != Windows.Storage.StorageItemTypes.Folder)
+            if (UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick & item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder || UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick & item.PrimaryItemAttribute != Windows.Storage.StorageItemTypes.Folder)
             {
                 ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected

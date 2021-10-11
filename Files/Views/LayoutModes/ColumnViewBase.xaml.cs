@@ -461,17 +461,17 @@ namespace Files.Views.LayoutModes
             }
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
 
             if (ctrlPressed || shiftPressed) // Allow for Ctrl+Shift selection
             {
                 return;
             }
             // Check if the setting to open items with a single click is turned on
-            if (UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick)
+            if (UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick & item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder || UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick & item.PrimaryItemAttribute != Windows.Storage.StorageItemTypes.Folder)
             {
                 ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected
-                var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
                 if (item == null)
                 {
                     return;
