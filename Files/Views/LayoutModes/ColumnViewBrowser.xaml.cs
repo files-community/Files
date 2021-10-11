@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -496,20 +497,12 @@ namespace Files.Views.LayoutModes
 
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick)
+            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
+                 && ((!UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)
+                 || (!UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
             {
-                if (listViewItem != null)
-                {
-                    //_ = VisualStateManager.GoToState(listViewItem, "CurrentItem", true);
-                }
-                var item = (e.OriginalSource as FrameworkElement).DataContext as ListedItem;
                 if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
-                    //var pane = new ModernShellPage();
-                    //pane.FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
-                    //await pane.FilesystemViewModel.SetWorkingDirectoryAsync(item.ItemPath);
-                    //pane.IsPageMainPane = false;
-                    //pane.NavParams = item.ItemPath;
                     DismissOtherBlades(sender as ListView);
 
                     listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
@@ -518,11 +511,6 @@ namespace Files.Views.LayoutModes
                     var blade = new BladeItem();
                     blade.Content = frame;
                     ColumnHost.Items.Add(blade);
-                    //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
-                    //{
-                    //    NavPathParam = item.ItemPath,
-                    //    AssociatedTabInstance = ParentShellPageInstance
-                    //});
 
                     frame.Navigate(typeof(ColumnShellPage), new ColumnParam
                     {
@@ -535,6 +523,7 @@ namespace Files.Views.LayoutModes
                     NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
                 }
             }
+
             ResetRenameDoubleClick();
         }
 
@@ -606,28 +595,15 @@ namespace Files.Views.LayoutModes
                 return;
             }
             // Check if the setting to open items with a single click is turned on
-            if (UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick & item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder || UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick & item.PrimaryItemAttribute != Windows.Storage.StorageItemTypes.Folder)
+            if (item != null
+                && ((UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
             {
                 ResetRenameDoubleClick();
-                await Task.Delay(200); // The delay gives time for the item to be selected
-                if (item == null)
+                await Task.Delay(100); // The delay gives time for the item to be selected
+                if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    return;
-                }
-                else if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
-                {
-                    //var pane = new ModernShellPage();
-                    //pane.FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
-                    //await pane.FilesystemViewModel.SetWorkingDirectoryAsync(item.ItemPath);
-                    //pane.IsPageMainPane = false;
-                    //pane.NavParams = item.ItemPath;
                     DismissOtherBlades(sender as ListView);
 
-                    //pane.NavigateWithArguments(typeof(ColumnViewBase), new NavigationArguments()
-                    //{
-                    //    NavPathParam = item.ItemPath,
-                    //    AssociatedTabInstance = ParentShellPageInstance
-                    //});
                     listViewItem = (FileList.ContainerFromItem(item) as ListViewItem);
                     var frame = new Frame();
                     frame.Navigated += Frame_Navigated;
