@@ -599,6 +599,7 @@ namespace Files.Views.LayoutModes
                 && ((UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
             {
                 ResetRenameDoubleClick();
+                await Task.Delay(100); // The delay gives time for the item to be selected
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     DismissOtherBlades(sender as ListView);
