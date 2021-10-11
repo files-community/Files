@@ -13,6 +13,9 @@ namespace Files.ViewModels.Search
     {
         new IDateRangeFilter Filter { get; }
 
+        string ShortRangeLabel { get; }
+        string FullRangeLabel { get; }
+
         DateTimeOffset? MinDateTime { get; set; }
         DateTimeOffset? MaxDateTime { get; set; }
 
@@ -28,6 +31,9 @@ namespace Files.ViewModels.Search
 
     public class DateRangeFilterViewModel : FilterViewModel<IDateRangeFilter>, IDateRangeFilterViewModel
     {
+        public string ShortRangeLabel => Filter.Range.ToString("n");
+        public string FullRangeLabel => Filter.Range.ToString("N");
+
         public DateTimeOffset? MinDateTime
         {
             get

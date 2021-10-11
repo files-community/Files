@@ -18,17 +18,17 @@ namespace Files.ViewModels.Search
         public bool UseSubFolders
         {
             get => location.Options.HasFlag(LocationOptions.SubFolders);
-            set => SetOption(value, LocationOptions.SubFolders);
+            set => SetOption(LocationOptions.SubFolders, value);
         }
         public bool UseSystemFiles
         {
             get => location.Options.HasFlag(LocationOptions.SystemFiles);
-            set => SetOption(value, LocationOptions.SystemFiles);
+            set => SetOption(LocationOptions.SystemFiles, value);
         }
         public bool UseCompressedFiles
         {
             get => location.Options.HasFlag(LocationOptions.CompressedFiles);
-            set => SetOption(value, LocationOptions.CompressedFiles);
+            set => SetOption(LocationOptions.CompressedFiles, value);
         }
 
         public LocationViewModel(ILocation location)
@@ -37,7 +37,7 @@ namespace Files.ViewModels.Search
             location.PropertyChanged += Location_PropertyChanged;
         }
 
-        private void SetOption(bool value, LocationOptions option)
+        private void SetOption(LocationOptions option, bool value)
         {
             if (value)
             {

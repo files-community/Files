@@ -1,0 +1,224 @@
+﻿<UserControl
+    x:Class="Files.UserControls.Search.FilterPicker"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="using:System"
+    xmlns:local="using:Files.UserControls.Search"
+    xmlns:search="using:Files.Filesystem.Search"
+    xmlns:vm="using:Files.ViewModels.Search"
+    xmlns:converters="using:Files.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignWidth="400" d:DesignHeight="300" mc:Ignorable="d">
+
+    <UserControl.Resources>
+
+        <converters:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
+
+        <local:FilterPickerTemplateSelector x:Key="PickerTemplateSelector"
+            CollectionTemplate="{StaticResource CollectionPickerTemplate}"
+            KindTemplate="{StaticResource KindPickerTemplate}"
+            DateRangeTemplate="{StaticResource DateRangePickerTemplate}"
+            SizeRangeTemplate="{StaticResource SizeRangePickerTemplate}" />
+        <local:FilterButtonTemplateSelector x:Key="ButtonTemplateSelector"
+            DefaultTemplate="{StaticResource DefaultButtonTemplate}" />
+        <local:FilterButtonContentTemplateSelector x:Key="ButtonContentTemplateSelector"
+            CollectionTemplate="{StaticResource CollectionButtonContentTemplate}"
+            DateRangeTemplate="{StaticResource DateRangeButtonContentTemplate}"
+            SizeRangeTemplate="{StaticResource SizeRangeButtonContentTemplate}" />
+
+        <DataTemplate x:Key="CollectionPickerTemplate" x:DataType="vm:IFilterCollectionViewModel">
+            <StackPanel Orientation="Vertical" Width="200">
+                <TextBlock Text="No filter selected. Add a new filter." TextWrapping="Wrap" Visibility="{x:Bind Filter.IsEmpty}" />
+                <ItemsControl
+                    ItemsSource="{x:Bind Filter}"
+                    ItemTemplateSelector="{StaticResource ButtonTemplateSelector}" />
+                <StackPanel Orientation="Horizontal" Margin="0,8,8,8" Spacing="8">
+                    <Button x:Name="AddFilterButton" Content="Add" />
+                    <Button Content="Clear" />
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="KindPickerTemplate" x:DataType="vm:IKindViewModel">
+            <StackPanel Orientation="Vertical" Width="200">
+                <Grid Width="200" RowSpacing="4" ColumnSpacing="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ToggleButton Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch">
+                        <ToggleButton.Content>
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <FontIcon Glyph="&#xED25;" />
+                                <TextBlock Text="Folder" FontSize="10" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </ToggleButton.Content>
+                    </ToggleButton>
+                    <ToggleButton Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch">
+                        <ToggleButton.Content>
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <FontIcon Glyph="&#xE8A5;" />
+                                <TextBlock Text="Document" FontSize="10" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </ToggleButton.Content>
+                    </ToggleButton>
+                    <ToggleButton Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch">
+                        <ToggleButton.Content>
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <FontIcon Glyph="&#xE714;" />
+                                <TextBlock Text="Video" FontSize="10" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </ToggleButton.Content>
+                    </ToggleButton>
+                    <ToggleButton Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch">
+                        <ToggleButton.Content>
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <FontIcon Glyph="&#xEC4F;" />
+                                <TextBlock Text="Music" FontSize="10" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </ToggleButton.Content>
+                    </ToggleButton>
+                    <ToggleButton Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch">
+                        <ToggleButton.Content>
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <FontIcon Glyph="&#xE8A5;" />
+                                <TextBlock Text="Program" FontSize="10" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </ToggleButton.Content>
+                    </ToggleButton>
+                    <ToggleButton Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch">
+                        <ToggleButton.Content>
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <FontIcon Glyph="&#xE8A5;" />
+                                <TextBlock Text="Other" FontSize="10" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </ToggleButton.Content>
+                    </ToggleButton>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DateRangePickerTemplate" x:DataType="vm:IDateRangeFilterViewModel">
+            <StackPanel Orientation="Vertical" Width="200">
+                <StackPanel MinHeight="64">
+                    <StackPanel Orientation="Vertical" Margin="8,0,8,16" Visibility="{x:Bind Filter.IsEmpty, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
+                        <TextBlock Margin="8,8,0,0"  TextWrapping="Wrap" Text="{x:Bind Filter.Label}" />
+                        <TextBlock
+                            Margin="8,0,0,0" FontSize="13" TextWrapping="Wrap" FontWeight="Bold"
+                            Text="{x:Bind Filter.Range, Mode=OneWay, Converter={StaticResource ToStringConverter}, ConverterParameter='\{0:N}'}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="8,0,8,16" Visibility="{x:Bind Filter.IsEmpty, Mode=OneWay}">
+                        <TextBlock Margin="8,8,0,0" TextWrapping="Wrap" Text="No file size range selected" />
+                    </StackPanel>
+                </StackPanel>
+                <CalendarDatePicker Header="From" Date="{x:Bind MinDateTime, Mode=TwoWay}" HorizontalAlignment="Stretch"  />
+                <CalendarDatePicker Header="To" Date="{x:Bind MaxDateTime, Mode=TwoWay}" HorizontalAlignment="Stretch"  />
+                <HyperlinkButton x:Name="ClearButton" HorizontalAlignment="Right" Content="Clear" Command="{x:Bind ClearCommand, Mode=OneWay}" />
+                <TextBlock Text="Or choose a file date range" Margin="0,16,0,0" />
+                <ItemsControl ItemsSource="{x:Bind Links}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:IDateRangeLink">
+                            <ToggleButton
+                                Margin="0,8,0,0" HorizontalAlignment="Stretch"
+                                FontSize="14" FontWeight="SemiBold"
+                                IsChecked="{x:Bind IsSelected, Mode=OneWay}" Command="{x:Bind ToggleCommand}"
+                                Content="{x:Bind Range, Converter={StaticResource ToStringConverter}, ConverterParameter='\{0:n}'}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SizeRangePickerTemplate" x:DataType="vm:ISizeRangeFilterViewModel">
+            <StackPanel Orientation="Vertical" Width="200">
+                <StackPanel MinHeight="64">
+                    <StackPanel Orientation="Vertical" Margin="8,0,8,16" Visibility="{x:Bind Filter.IsEmpty, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
+                        <TextBlock Margin="8,8,0,0"  TextWrapping="Wrap" Text="Only files whose size is" />
+                        <TextBlock
+                            Margin="8,0,0,0" FontSize="13" TextWrapping="Wrap" FontWeight="Bold"
+                            Text="{x:Bind Filter.Range, Mode=OneWay, Converter={StaticResource ToStringConverter}, ConverterParameter='\{0:N}'}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="8,0,8,16" Visibility="{x:Bind Filter.IsEmpty, Mode=OneWay}">
+                        <TextBlock Margin="8,8,0,0" TextWrapping="Wrap" Text="No file size range selected" />
+                    </StackPanel>
+                </StackPanel>
+                <local:SizeRangeSlider Range="{x:Bind Filter.Range, Mode=TwoWay}" />
+                <HyperlinkButton x:Name="ClearButton" HorizontalAlignment="Right" Content="Clear" Command="{x:Bind ClearCommand, Mode=OneWay}" />
+                <TextBlock Text="Or choose a file size range" Margin="0,16,0,0" />
+                <ItemsControl ItemsSource="{x:Bind Links}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ISizeRangeLink">
+                            <ToggleButton
+                                Margin="0,8,0,0" HorizontalAlignment="Stretch"
+                                IsChecked="{x:Bind IsSelected, Mode=OneWay}" Command="{x:Bind ToggleCommand}"
+                                Content="{x:Bind Range}" ContentTemplate="{StaticResource LinkTemplate}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="LinkTemplate" x:DataType="system:IFormattable">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="12">
+                <TextBlock
+                    FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"
+                    Text="{Binding Converter={StaticResource ToStringConverter}, ConverterParameter='\{0:n}'}" />
+                <TextBlock
+                    Grid.Row="1" FontSize="12" VerticalAlignment="Center"
+                    Text="{Binding Converter={StaticResource ToStringConverter}, ConverterParameter='\{0:r}'}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DefaultButtonTemplate" x:DataType="search:IFilter">
+            <Button
+                x:Name="OpenButton" CornerRadius="8"
+                Content="{Binding}" ContentTemplateSelector="{StaticResource ButtonContentTemplateSelector}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="CollectionButtonContentTemplate" x:DataType="search:IFilterCollection">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="12">
+                <TextBlock
+                    FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"
+                    Text="{x:Bind Label, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="1" FontSize="12" VerticalAlignment="Center"
+                    Text="{x:Bind Count}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DateRangeButtonContentTemplate" x:DataType="search:IDateRangeFilter">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="12">
+                <TextBlock
+                    FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"
+                    Text="{x:Bind Label, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="1" FontSize="12" VerticalAlignment="Center"
+                    Text="{x:Bind Range, Converter={StaticResource ToStringConverter}, ConverterParameter='\{0:n}'}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SizeRangeButtonContentTemplate" x:DataType="search:ISizeRangeFilter">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="12">
+                <TextBlock
+                    FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"
+                    Text="{Binding ShortLabel, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="1" FontSize="12" VerticalAlignment="Center"
+                    Text="{Binding Range, Converter={StaticResource ToStringConverter}, ConverterParameter='\{0:n}'}" />
+            </StackPanel>
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <ContentControl
+        x:Name="MainControl" Width="200"
+        Content="{x:Bind ViewModel.Filter, Mode=OneWay}"
+        ContentTemplateSelector="{StaticResource PickerTemplateSelector}" />
+
+</UserControl>

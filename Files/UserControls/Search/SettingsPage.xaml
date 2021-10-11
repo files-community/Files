@@ -1,0 +1,29 @@
+﻿<Page
+    x:Class="Files.UserControls.Search.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files.UserControls.Search"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Orientation="Vertical">
+        <TextBlock Text="Search Options" FontSize="18" FontWeight="SemiBold" />
+        <local:FilterPicker ViewModel="{x:Bind ViewModel.Filter, Mode=OneWay}" />
+        <StackPanel Orientation="Vertical" Spacing="4" Margin="0,16,0,0">
+            <TextBlock FontSize="14" FontWeight="SemiBold" Text="Search in" />
+            <CheckBox Content="Subfolders" IsChecked="{x:Bind ViewModel.Location.UseSubFolders, Mode=TwoWay}" />
+            <CheckBox Content="System files" IsChecked="{x:Bind ViewModel.Location.UseSystemFiles, Mode=TwoWay}" />
+            <CheckBox Content="Compressed files" IsChecked="{x:Bind ViewModel.Location.UseCompressedFiles, Mode=TwoWay}" />
+        </StackPanel>
+        <HyperlinkButton Content="Search &amp; indexing options…" />
+        <Grid Width="200" ColumnSpacing="8" Margin="0,16,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" HorizontalAlignment="Stretch" Content="Search" />
+            <Button Grid.Column="1" Content="Filters" HorizontalAlignment="Stretch" />
+        </Grid>
+    </StackPanel>
+</Page>

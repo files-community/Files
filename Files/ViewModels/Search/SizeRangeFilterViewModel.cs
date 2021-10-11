@@ -13,6 +13,9 @@ namespace Files.ViewModels.Search
     {
         new ISizeRangeFilter Filter { get; }
 
+        string ShortRangeLabel { get; }
+        string FullRangeLabel { get; }
+
         IReadOnlyList<ISizeRangeLink> Links { get; }
     }
 
@@ -25,6 +28,9 @@ namespace Files.ViewModels.Search
 
     public class SizeRangeFilterViewModel : FilterViewModel<ISizeRangeFilter>, ISizeRangeFilterViewModel
     {
+        public string ShortRangeLabel => Filter.Range.ToString("n");
+        public string FullRangeLabel => Filter.Range.ToString("N");
+
         private readonly Lazy<IReadOnlyList<ISizeRangeLink>> links;
         public IReadOnlyList<ISizeRangeLink> Links => links.Value;
 
