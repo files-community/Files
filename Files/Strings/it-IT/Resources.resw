@@ -103,16 +103,16 @@
     <value>Condizioni di licenza per software di terze parti</value>
   </data>
   <data name="About" xml:space="preserve">
-    <value>Info app</value>
+    <value>Informazioni app</value>
   </data>
   <data name="Appearance" xml:space="preserve">
-    <value>Grafica</value>
+    <value>Aspetto</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Opzioni esplorazione</value>
+    <value>Navigazione</value>
   </data>
   <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Opzioni Esplorazione</value>
+    <value>Navigazione</value>
   </data>
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
     <value>All'avvio</value>
@@ -124,7 +124,7 @@
     <value>Riprendi da dove eri rimasto</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
-    <value>Apri in una nuova scheda</value>
+    <value>Apri una nuova scheda</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Apri una specifica pagina/pagine</value>
@@ -538,16 +538,16 @@
     <value>Pagine:</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Quando si avvia una cartella</value>
+    <value>All'apertura di una cartella</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>Apri sempre una nuova finestra</value>
+    <value>Apri sempre in una nuova istanza</value>
   </data>
   <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
     <value>Apri la cartella in una nuova scheda</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Lingua di Windows</value>
+    <value>Predefinita di sistema</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Sposta la scheda qui</value>
@@ -682,7 +682,7 @@
     <value>Il nome dell'elemento è troppo lungo</value>
   </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
-    <value>Altri elementi</value>
+    <value>Altre opzioni</value>
   </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitasking</value>
@@ -1231,13 +1231,13 @@
     <value>Percorso</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Mostra anteprima (Ctrl + P)</value>
+    <value>Riquadro anteprima (Ctrl + P)</value>
   </data>
   <data name="SettingsTabCustomization.Text" xml:space="preserve">
     <value>Impostazioni schede</value>
   </data>
   <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>Quando si apre Files</value>
+    <value>All'apertura di Files</value>
   </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>OK</value>
@@ -1432,7 +1432,7 @@
     <value>Altre opzioni delle unità</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
-    <value>Accesso rapido</value>
+    <value>Preferiti</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Esplora</value>
@@ -1498,10 +1498,10 @@
     <value>Files è eseguito come amministratore</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
-    <value>Fissa al Menu Start</value>
+    <value>Aggiungi a Start</value>
   </data>
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
-    <value>Rimuovi dal Menu Start</value>
+    <value>Rimuovi da Start</value>
   </data>
   <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
     <value>Colonne</value>
@@ -2167,7 +2167,7 @@
     <value>Crea nuova raccolta</value>
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
-    <value>Ripristina raccolte predefinite</value>
+    <value>Ripristina Raccolte predefinite</value>
   </data>
   <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
     <value>Ripristina</value>
@@ -2176,7 +2176,7 @@
     <value>Sei sicuro di voler ripristinare le raccolte predefinite? Nessun file verrà cancellato..</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
-    <value>Ripristina le raccolte</value>
+    <value>Ripristina Raccolte</value>
   </data>
   <data name="RecentFilesHeader.Text" xml:space="preserve">
     <value>File recenti</value>
@@ -2257,22 +2257,22 @@
     <value>Mostra il pulsante barra delle schede verticale nella barra del titolo</value>
   </data>
   <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
-    <value>Mostra la sezione archivi cloud</value>
+    <value>Mostra sezione Archivi Cloud</value>
   </data>
   <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
-    <value>Mostra la sezione dischi</value>
+    <value>Mostra sezione Dispositivi e Unità</value>
   </data>
   <data name="SettingsShowWslSection.Title" xml:space="preserve">
-    <value>Mostra la sezione WSL</value>
+    <value>Mostra sezione WSL</value>
   </data>
   <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
-    <value>Mostra la sezione dischi di rete</value>
+    <value>Mostra sezione Rete</value>
   </data>
   <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
-    <value>Pinna il Cestino ai preferiti</value>
+    <value>Aggiungi il Cestino ai Preferiti</value>
   </data>
   <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
-    <value>Mostra la sezione librerie</value>
+    <value>Mostra sezione Raccolte</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Scegli il tuo colore</value>
@@ -2443,7 +2443,7 @@ Files non raccoglie, archivia, condivide o pubblica nessuna informazione persona
 
 *Dati non-personali raccolti*
 
-Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e risolvere problemi. Tutte le informazioni inviate ad App Center sono anonime e non contengono dati utente o contestuali.
+Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risolvere problemi. Tutte le informazioni inviate ad App Center sono anonime e non contengono dati utente o contestuali.
   </value>
   </data>
   <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
@@ -2480,7 +2480,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
     <value>Stato sincronizzazione</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>Mostra la sezione Preferiti</value>
+    <value>Mostra sezione Preferiti</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
     <value>Tag del file</value>
@@ -2552,7 +2552,7 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
     <value>Widget Dischi</value>
   </data>
   <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget Librerie</value>
+    <value>Widget Raccolte</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget File Recenti</value>
@@ -2594,25 +2594,25 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
     <value>Mostra elementi nascosti</value>
   </data>
   <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra sezione preferiti</value>
+    <value>Mostra sezione Preferiti</value>
   </data>
   <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Pinna il cestino alla barra laterale</value>
+    <value>Aggiungi il Cestino ai Preferiti</value>
   </data>
   <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra la sezione archivi cloud</value>
+    <value>Mostra sezione Archivi Cloud</value>
   </data>
   <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra la sezione dischi</value>
+    <value>Mostra sezione Dispositivi e Unità</value>
   </data>
   <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra la sezione librerie</value>
+    <value>Mostra sezione Raccolte</value>
   </data>
   <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra la sezione dischi di rete</value>
+    <value>Mostra sezione Rete</value>
   </data>
   <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra la sezione WSL</value>
+    <value>Mostra sezione WSL</value>
   </data>
   <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Formato data</value>
@@ -2649,5 +2649,20 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bachi, e ri
   </data>
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>Sposta in cima</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
+    <value>Data creazione</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
+    <value>Dimensione</value>
+  </data>
+  <data name="SettingsDefaultExplorer" xml:space="preserve">
+    <value>Gestore file predefinito</value>
+  </data>
+  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+    <value>Imposta Files come gestore file predefinito</value>
+  </data>
+  <data name="SettingsSetAsOpenDialog" xml:space="preserve">
+    <value>Usa Files per le finestre di dialogo "Apri" e "Salva con nome"</value>
   </data>
 </root>

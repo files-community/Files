@@ -3550,6 +3550,10 @@ Usiamo App Center per tenere traccia dell'utilizzo dell'app, trovare bug e risol
           <source>Use Files as Open File Dialog</source>
           <target state="translated">Usa Files per le finestre di dialogo "Apri" e "Salva con nome"</target>
         </trans-unit>
+        <trans-unit id="Tag" translate="yes" xml:space="preserve">
+          <source>Tag</source>
+          <target state="new">Tag</target>
+        </trans-unit>
       </group>
     </body>
   </file>

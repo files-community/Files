@@ -3549,6 +3549,10 @@ Files 不會收集、存儲、共享或發布任何使用者的個資。
           <source>Use Files as Open File Dialog</source>
           <target state="new">Use Files as Open File Dialog</target>
         </trans-unit>
+        <trans-unit id="Tag" translate="yes" xml:space="preserve">
+          <source>Tag</source>
+          <target state="new">Tag</target>
+        </trans-unit>
       </group>
     </body>
   </file>

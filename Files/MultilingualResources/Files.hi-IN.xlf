@@ -3575,6 +3575,10 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
           <source>Use Files as Open File Dialog</source>
           <target state="new">Use Files as Open File Dialog</target>
         </trans-unit>
+        <trans-unit id="Tag" translate="yes" xml:space="preserve">
+          <source>Tag</source>
+          <target state="new">Tag</target>
+        </trans-unit>
       </group>
     </body>
   </file>
