@@ -775,9 +775,7 @@ namespace Files.ViewModels
                                 item.FileImage ??= new BitmapImage();
                                 item.FileImage.DecodePixelType = DecodePixelType.Logical;
                                 item.FileImage.DecodePixelWidth = (int)thumbnailSize;
-                                item.FileImage.DecodePixelHeight = (int)thumbnailSize;
                                 await item.FileImage.SetSourceAsync(Thumbnail);
-
                             }, Windows.System.DispatcherQueuePriority.Normal);
                             wasIconLoaded = true;
                         }
@@ -837,9 +835,7 @@ namespace Files.ViewModels
                                 item.FileImage ??= new BitmapImage();
                                 item.FileImage.DecodePixelType = DecodePixelType.Logical;
                                 item.FileImage.DecodePixelWidth = (int)thumbnailSize;
-                                item.FileImage.DecodePixelHeight = (int)thumbnailSize;
                                 await item.FileImage.SetSourceAsync(Thumbnail);
-                                
                             }, Windows.System.DispatcherQueuePriority.Normal);
                             wasIconLoaded = true;
                         }
