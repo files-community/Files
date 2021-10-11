@@ -20,6 +20,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FilesOpenDialog", "FilesOpe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CustomOpenDialog", "Files.OpenDialog\CustomOpenDialog\CustomOpenDialog.vcxproj", "{A2FF3F3B-8EBC-4108-B99D-1476B7876656}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{D3D29077-F302-4ECA-95E3-6AF4A9B23FE7}"
+	ProjectSection(SolutionItems) = preProject
+		Patches\0001-Change-5834.patch = Patches\0001-Change-5834.patch
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

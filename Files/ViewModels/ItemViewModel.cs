@@ -213,6 +213,8 @@ namespace Files.ViewModels
             }
         }
 
+        // Added this property to include removing of the filtered results
+        // part of the #5834 fix
         public bool IsSortedByNone
         {
             get => folderSettings.DirectorySortOption == SortOption.None;

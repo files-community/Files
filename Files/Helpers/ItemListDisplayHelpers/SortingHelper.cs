@@ -40,14 +40,13 @@ namespace Files.Helpers
             // So, we use == StorageItemTypes.File to make the value for a folder equal to 0, and equal to 1 for the rest.
             static bool folderThenFileAsync(ListedItem listedItem) => (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem.IsZipItem);
 
+            // creating a prototype for the removal of sorting #5834
             static bool allFileAsync(ListedItem listedItem) => (listedItem.PrimaryItemAttribute == StorageItemTypes.None);
 
             IOrderedEnumerable<ListedItem> ordered;
 
             if (directorySortDirection == SortDirection.Ascending)
             {
-                //directorySortOption = SortOption.None;
-
                 if (directorySortOption == SortOption.Name)
                 {
                     if (App.AppSettings.ListAndSortDirectoriesAlongsideFiles)
@@ -59,7 +58,10 @@ namespace Files.Helpers
                         ordered = filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(orderFunc, naturalStringComparer);
                     }
                 }
-                if (directorySortOption == SortOption.None)
+
+                // Checking if the "none" option is set
+                // this will remove the order by listing
+                else if (directorySortOption == SortOption.None)
                 {
                     ordered = filesAndFolders.OrderBy(allFileAsync).ThenBy(orderByNoneFunc);
                 }

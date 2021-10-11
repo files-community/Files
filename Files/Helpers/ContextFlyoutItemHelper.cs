@@ -225,6 +225,9 @@ namespace Files.Helpers
                             Command = new RelayCommand(() => itemViewModel.IsSortedByName = true),
                             ItemType = ItemType.Toggle,
                         },
+
+                        // Added the option here to be able to remove the filteing
+                        // #5834
                         new ContextMenuFlyoutItemViewModel()
                         {
                             Text = "BaseLayoutContextFlyoutSortByNone/Text".GetLocalized(),
