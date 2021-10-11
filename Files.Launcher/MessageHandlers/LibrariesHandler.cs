@@ -195,6 +195,8 @@ namespace FilesFullTrust.MessageHandlers
                             if (updated)
                             {
                                 library.Commit();
+                                var libField = typeof(ShellLibrary).GetField("folders", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                                libField.SetValue(library, null); // Force library folder reload
                                 response.Add("Update", JsonConvert.SerializeObject(ShellFolderExtensions.GetShellLibraryItem(library, libPath)));
                             }
                         }

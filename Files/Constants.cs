@@ -159,5 +159,10 @@
         {
             public const string ThemesOptionalPackagesName = "49306atecsolution.ThemesforFiles";
         }
+
+        public static class Filesystem
+        {
+            public const int ExtendedAsciiCodePage = 437;
+        }
     }
 }
