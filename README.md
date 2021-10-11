@@ -10,10 +10,11 @@
 ![Files](Files/Assets/FilesHome.png)
 
 ## What is Files?
-Files is a file manager which leverages the latest features of the Windows platform including Fluent Design, seamless updates, and APIs which enable the performance and lifecycle behavior that users expect. Whether you want to simplify your experience with your files or try something new, Files is a one-stop solution for exploring your files on the fly.
-
+`Files` is a file manager which leverages the latest features of the Windows platform including Fluent Design, seamless updates, and APIs which enable the performance and lifecycle behavior that users expect. Whether you want to simplify your experience with your files or try something new, Files is a one-stop solution for exploring your files on the fly.
+`Files` is a File manager which is a very tough competitor for **Windows's default file manager** called `file explorer` and `Files` is more visualized than file explorer e.g. :- This contain more Fluent Design of `Windows 11`. This uses less resources than default file manager. This App contain most expected feature of` Windows/ File explorer` the `TABS!!`
 ## Where to get Files
 - [Microsoft Store](https://www.microsoft.com/store/apps/9NGHP3DX8HDX)
+- [From Github](https://github.com/files-community/Files)
 
 ## Vision for Files
 Our vision for Files is to be fully functional while keeping it simple and easy to use. Whether it's implementing new features, or pushing the boundaries of the platform, your input will help shape the future of Files.
