@@ -2295,7 +2295,7 @@
   <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Ocultar arquivos protegidos do sistema operacional (Recomendado)</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
+  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
     <value>Abra os itens com um único clique</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">

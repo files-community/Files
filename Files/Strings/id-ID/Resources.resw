@@ -2295,7 +2295,7 @@
   <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Sembunyikan file sistem operasi yang dilindungi (Disarankan)</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
+  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
     <value>Buka menu dengan sekali klik</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">

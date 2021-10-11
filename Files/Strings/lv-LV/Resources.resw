@@ -2292,7 +2292,7 @@
   <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Paslēpt aizsargātos operētājsistēmas failus (Ieteicams)</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
+  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
     <value>Atvērt vienumus ar vienu klikšķi</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">

@@ -2295,7 +2295,7 @@
   <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Védett rendszerfájlok elrejtése (Ajánlott)</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
+  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
     <value>Elemek megnyitása egy kattintással</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">

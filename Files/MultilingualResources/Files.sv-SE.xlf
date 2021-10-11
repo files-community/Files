@@ -3088,9 +3088,9 @@
           <source>Hide protected operating system files (Recommended)</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Dölj skyddade operativsystemfiler (rekommenderas)</target>
         </trans-unit>
-        <trans-unit id="SettingsOpenItemsWithOneclick" translate="yes" xml:space="preserve">
-          <source>Open items with a single click</source>
-          <target state="new">Open items with a single click</target>
+        <trans-unit id="SettingsOpenFilesWithOneClick" translate="yes" xml:space="preserve">
+          <source>Open files with a single click</source>
+          <target state="new">Open files with a single click</target>
         </trans-unit>
         <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
@@ -3589,6 +3589,10 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="Tag" translate="yes" xml:space="preserve">
           <source>Tag</source>
           <target state="new">Tag</target>
+        </trans-unit>
+        <trans-unit id="SettingsOpenFoldersWithOneClick" translate="yes" xml:space="preserve">
+          <source>Open folders with a single click</source>
+          <target state="new">Open folders with a single click</target>
         </trans-unit>
       </group>
     </body>
