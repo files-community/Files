@@ -108,10 +108,10 @@
             <StackPanel Orientation="Vertical" Width="200">
                 <StackPanel MinHeight="64">
                     <StackPanel Orientation="Vertical" Margin="8,0,8,16" Visibility="{x:Bind Filter.IsEmpty, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
-                        <TextBlock Margin="8,8,0,0"  TextWrapping="Wrap" Text="{x:Bind Filter.Label}" />
+                        <TextBlock Margin="8,8,0,0" TextWrapping="Wrap" Text="{x:Bind Filter.Label}" />
                         <TextBlock
                             Margin="8,0,0,0" FontSize="13" TextWrapping="Wrap" FontWeight="Bold"
-                            Text="{x:Bind Filter.Range, Mode=OneWay, Converter={StaticResource ToStringConverter}, ConverterParameter='\{0:N}'}" />
+                            Text="{x:Bind FullRangeLabel, Mode=OneWay}" />
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="8,0,8,16" Visibility="{x:Bind Filter.IsEmpty, Mode=OneWay}">
                         <TextBlock Margin="8,8,0,0" TextWrapping="Wrap" Text="No file size range selected" />
@@ -142,7 +142,7 @@
                         <TextBlock Margin="8,8,0,0"  TextWrapping="Wrap" Text="Only files whose size is" />
                         <TextBlock
                             Margin="8,0,0,0" FontSize="13" TextWrapping="Wrap" FontWeight="Bold"
-                            Text="{x:Bind Filter.Range, Mode=OneWay, Converter={StaticResource ToStringConverter}, ConverterParameter='\{0:N}'}" />
+                            Text="{x:Bind FullRangeLabel, Mode=OneWay}" />
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="8,0,8,16" Visibility="{x:Bind Filter.IsEmpty, Mode=OneWay}">
                         <TextBlock Margin="8,8,0,0" TextWrapping="Wrap" Text="No file size range selected" />
@@ -156,22 +156,22 @@
                         <DataTemplate x:DataType="vm:ISizeRangeLink">
                             <ToggleButton
                                 Margin="0,8,0,0" HorizontalAlignment="Stretch"
-                                IsChecked="{x:Bind IsSelected, Mode=OneWay}" Command="{x:Bind ToggleCommand}"
-                                Content="{x:Bind Range}" ContentTemplate="{StaticResource LinkTemplate}" />
+                                IsChecked="{x:Bind IsSelected,Mode=OneWay}" Command="{x:Bind ToggleCommand}"
+                                Content="{Binding}" ContentTemplate="{StaticResource SizeRangeLinkTemplate}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="LinkTemplate" x:DataType="system:IFormattable">
+        <DataTemplate x:Key="SizeRangeLinkTemplate" x:DataType="vm:ISizeRangeLink">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="12">
                 <TextBlock
                     FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"
-                    Text="{Binding Converter={StaticResource ToStringConverter}, ConverterParameter='\{0:n}'}" />
+                    Text="{Binding NameLabel}" />
                 <TextBlock
                     Grid.Row="1" FontSize="12" VerticalAlignment="Center"
-                    Text="{Binding Converter={StaticResource ToStringConverter}, ConverterParameter='\{0:r}'}" />
+                    Text="{Binding ValueLabel}" />
             </StackPanel>
         </DataTemplate>
 

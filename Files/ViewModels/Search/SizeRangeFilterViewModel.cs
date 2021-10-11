@@ -23,6 +23,8 @@ namespace Files.ViewModels.Search
     {
         bool IsSelected { get; }
         SizeRange Range { get; }
+        string NameLabel { get; }
+        string ValueLabel { get; }
         ICommand ToggleCommand { get; }
     }
 
@@ -59,6 +61,11 @@ namespace Files.ViewModels.Search
                 {
                     Filter.Range = SizeRange.All;
                 }
+                else
+                {
+                    OnPropertyChanged(nameof(ShortRangeLabel));
+                    OnPropertyChanged(nameof(FullRangeLabel));
+                }
             }
         }
 
@@ -67,6 +74,8 @@ namespace Files.ViewModels.Search
             private readonly ISizeRangeFilter filter;
 
             public SizeRange Range { get; set; }
+            public string NameLabel => Range.ToString("n");
+            public string ValueLabel => Range.ToString("r");
 
             private bool isSelected = false;
             public bool IsSelected

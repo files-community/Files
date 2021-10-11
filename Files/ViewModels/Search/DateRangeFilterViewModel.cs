@@ -93,6 +93,8 @@ namespace Files.ViewModels.Search
                 }
                 else
                 {
+                    OnPropertyChanged(nameof(ShortRangeLabel));
+                    OnPropertyChanged(nameof(FullRangeLabel));
                     OnPropertyChanged(nameof(MinDateTime));
                     OnPropertyChanged(nameof(MaxDateTime));
                 }
