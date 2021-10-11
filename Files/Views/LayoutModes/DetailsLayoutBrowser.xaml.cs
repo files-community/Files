@@ -572,6 +572,7 @@ namespace Files.Views.LayoutModes
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
 
             // Skip code if the control or shift key is pressed or if the user is using multiselect
             if (ctrlPressed || shiftPressed || MainViewModel.MultiselectEnabled)
@@ -580,7 +581,7 @@ namespace Files.Views.LayoutModes
             }
 
             // Check if the setting to open items with a single click is turned on
-            if (UserSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick)
+            if (UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick & item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder || UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick & item.PrimaryItemAttribute != Windows.Storage.StorageItemTypes.Folder)
             {
                 ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected
@@ -608,7 +609,7 @@ namespace Files.Views.LayoutModes
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             // Skip opening selected items if the double tap doesn't capture an item
-            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !UserSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick)
+            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick)
             {
                 if (!MainViewModel.MultiselectEnabled)
                 {

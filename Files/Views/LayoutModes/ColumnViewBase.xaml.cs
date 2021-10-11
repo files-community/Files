@@ -405,7 +405,7 @@ namespace Files.Views.LayoutModes
 
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !UserSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick)
+            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick)
             {
                 if (listViewItem != null)
                 {
@@ -467,7 +467,7 @@ namespace Files.Views.LayoutModes
                 return;
             }
             // Check if the setting to open items with a single click is turned on
-            if (UserSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick)
+            if (UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick)
             {
                 ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected

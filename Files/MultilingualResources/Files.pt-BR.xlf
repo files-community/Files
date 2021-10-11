@@ -3069,9 +3069,10 @@
           <source>Hide protected operating system files (Recommended)</source>
           <target state="translated">Ocultar arquivos protegidos do sistema operacional (Recomendado)</target>
         </trans-unit>
-        <trans-unit id="SettingsOpenItemsWithOneclick" translate="yes" xml:space="preserve">
-          <source>Open items with a single click</source>
-          <target state="translated">Abra os itens com um único clique</target>
+        <trans-unit id="SettingsOpenFilesWithOneClick" translate="yes" xml:space="preserve">
+          <source>Open files with a single click</source>
+          <target state="needs-review-translation">Abra os itens com um único clique</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
@@ -3572,6 +3573,10 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
         <trans-unit id="Tag" translate="yes" xml:space="preserve">
           <source>Tag</source>
           <target state="new">Tag</target>
+        </trans-unit>
+        <trans-unit id="SettingsOpenFoldersWithOneClick" translate="yes" xml:space="preserve">
+          <source>Open folders with a single click</source>
+          <target state="new">Open folders with a single click</target>
         </trans-unit>
       </group>
     </body>
