@@ -628,9 +628,10 @@ namespace Files.Views
             var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
             var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser)
-                || CurrentPageType == typeof(DetailsLayoutBrowser)
-                || CurrentPageType == typeof(GridViewBrowser);
+            var tabInstance = CurrentPageType == (typeof(DetailsLayoutBrowser))
+                || CurrentPageType == typeof(GridViewBrowser)
+                || CurrentPageType == typeof(ColumnViewBrowser)
+                || CurrentPageType == typeof(ColumnViewBase);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
