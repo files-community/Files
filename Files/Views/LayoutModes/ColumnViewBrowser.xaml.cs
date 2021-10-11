@@ -616,6 +616,10 @@ namespace Files.Views.LayoutModes
                         Path = item.ItemPath
                     });
                 }
+                else
+                {
+                    NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+                }
             }
             else
             {
