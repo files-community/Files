@@ -788,7 +788,10 @@ namespace Files.Views
             switch (args.KeyboardAccelerator.Key)
             {
                 case VirtualKey.F2: //F2, rename
-                    if (CurrentPageType == typeof(DetailsLayoutBrowser) || CurrentPageType == typeof(GridViewBrowser))
+                    if (CurrentPageType == typeof(DetailsLayoutBrowser)
+                        || CurrentPageType == typeof(GridViewBrowser)
+                        || CurrentPageType == typeof(ColumnViewBrowser)
+                        || CurrentPageType == typeof(ColumnViewBase))
                     {
                         if (ContentPage.IsItemSelected)
                         {
