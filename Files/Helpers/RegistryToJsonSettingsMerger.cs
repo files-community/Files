@@ -32,7 +32,8 @@ namespace Files.Helpers
                     userSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible = appSettings.Get(false, "AreHiddenItemsVisible");
                     userSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden = appSettings.Get(true, "AreSystemItemsHidden");
                     userSettingsService.FilesAndFoldersSettingsService.ListAndSortDirectoriesAlongsideFiles = appSettings.Get(false, "ListAndSortDirectoriesAlongsideFiles");
-                    userSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick = appSettings.Get(false, "OpenItemsWithOneclick");
+                    userSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick = appSettings.Get(false, "OpenItemsWithOneClick");
+                    userSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick = appSettings.Get(false, "OpenItemsWithOneClick");
                     userSettingsService.FilesAndFoldersSettingsService.SearchUnindexedItems = appSettings.Get(false, "SearchUnindexedItems");
                     userSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder = appSettings.Get(true, "AreLayoutPreferencesPerFolder");
                     userSettingsService.FilesAndFoldersSettingsService.AdaptiveLayoutEnabled = appSettings.Get(true, "AdaptiveLayoutEnabled");

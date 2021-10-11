@@ -1146,7 +1146,7 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>არჩევა</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
+  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
     <value>ელემენტების გახსნა ერთი დაჭერით</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">

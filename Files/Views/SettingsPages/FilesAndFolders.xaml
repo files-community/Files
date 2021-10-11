@@ -66,13 +66,23 @@
                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenItemsWithOneclick}" HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE8B0;" />
                 </local:SettingsBlockControl.Icon>
                 <ToggleSwitch
-                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenItemsWithOneclick}"
-                    IsOn="{Binding OpenItemsWithOneclick, Mode=TwoWay}"
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFilesWithOneClick}"
+                    IsOn="{Binding OpenFilesWithOneClick, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
+
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE8B0;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenFoldersWithOneClick}"
+                    IsOn="{Binding OpenFoldersWithOneClick, Mode=TwoWay}"
                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
 

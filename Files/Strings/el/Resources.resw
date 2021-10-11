@@ -1149,7 +1149,7 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Επιλέξτε</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
+  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
     <value>Άνοιγμα αντικειμένων με ένα μόνο κλικ</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">

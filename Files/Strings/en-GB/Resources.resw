@@ -1161,7 +1161,7 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Select</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
+  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
     <value>Open items with a single click</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
