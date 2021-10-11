@@ -600,7 +600,10 @@ namespace Files.Views.LayoutModes
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
-
+            if (item == null)
+            {
+                return;
+            }
             if (ctrlPressed || shiftPressed) // Allow for Ctrl+Shift selection
             {
                 return;
@@ -610,10 +613,6 @@ namespace Files.Views.LayoutModes
             {
                 ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected
-                if (item == null)
-                {
-                    return;
-                }
                 else if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder)
                 {
                     //var pane = new ModernShellPage();
