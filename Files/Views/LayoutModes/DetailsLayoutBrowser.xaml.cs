@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -584,7 +585,8 @@ namespace Files.Views.LayoutModes
             }
 
             // Check if the setting to open items with a single click is turned on
-            if (UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick & item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder || UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick & item.PrimaryItemAttribute != Windows.Storage.StorageItemTypes.Folder)
+            if (item != null
+                && ((UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder) || (UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File)))
             {
                 ResetRenameDoubleClick();
                 await Task.Delay(200); // The delay gives time for the item to be selected
@@ -612,7 +614,9 @@ namespace Files.Views.LayoutModes
         private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             // Skip opening selected items if the double tap doesn't capture an item
-            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick)
+            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
+                 && ((!UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.File) 
+                 || (!UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick && item.PrimaryItemAttribute == StorageItemTypes.Folder)))
             {
                 if (!MainViewModel.MultiselectEnabled)
                 {
