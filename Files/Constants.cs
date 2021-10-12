@@ -1,4 +1,7 @@
-﻿namespace Files
+﻿using Microsoft.Toolkit.Uwp;
+using System.Collections.Generic;
+
+namespace Files
 {
     public static class Constants
     {
@@ -20,6 +23,16 @@
             public const string RecycleBinPath = @"Shell:RecycleBinFolder";
 
             public const string NetworkFolderPath = @"Shell:NetworkPlacesFolder";
+
+            public const string MyComputerPath = @"Shell:MyComputerFolder";
+
+            public static Dictionary<string, string> ShellPlaces = new Dictionary<string, string>() {
+                { "::{645FF040-5081-101B-9F08-00AA002F954E}", RecycleBinPath },
+                { "::{5E5F29CE-E0A8-49D3-AF32-7A7BDC173478}", "NewTab".GetLocalized() /*MyComputerPath*/ },
+                { "::{20D04FE0-3AEA-1069-A2D8-08002B30309D}", "NewTab".GetLocalized() /*MyComputerPath*/ },
+                { "::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}", NetworkFolderPath },
+                { "::{208D2C60-3AEA-1069-A2D7-08002B30309D}", NetworkFolderPath },
+            };
         }
 
         public static class ImageRes

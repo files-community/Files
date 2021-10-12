@@ -373,6 +373,7 @@ namespace Files
                         {
                             if (!string.IsNullOrEmpty(payload))
                             {
+                                payload = Constants.CommonPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload);
                                 var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
                                 if (folder != null && !string.IsNullOrEmpty(folder.Path))
                                 {
@@ -394,6 +395,7 @@ namespace Files
                             {
                                 case ParsedCommandType.OpenDirectory:
                                 case ParsedCommandType.OpenPath:
+                                case ParsedCommandType.ExplorerShellCommand:
                                     await PerformNavigation(command.Payload);
                                     break;
 

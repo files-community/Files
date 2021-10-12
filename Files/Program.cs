@@ -68,7 +68,7 @@ namespace Files
                     var operation = cmdLineArgs.Operation;
                     var cmdLineString = operation.Arguments;
                     var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
-                    
+
                     if (parsedCommands != null)
                     {
                         foreach (var command in parsedCommands)
@@ -76,9 +76,12 @@ namespace Files
                             switch (command.Type)
                             {
                                 case ParsedCommandType.ExplorerShellCommand:
-                                    await OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
-                                    return; // Exit
-
+                                    if (!Constants.CommonPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
+                                    {
+                                        await OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
+                                        return; // Exit
+                                    }
+                                    break;
                                 default:
                                     break;
                             }
