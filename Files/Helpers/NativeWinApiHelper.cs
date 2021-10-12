@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
-using Windows.Foundation.Collections;
 
 namespace Files.Helpers
 {
@@ -260,23 +258,5 @@ namespace Files.Helpers
         }
 
         public static IntPtr CoreWindowHandle => ((ICoreWindowInterop)(object)Windows.UI.Core.CoreWindow.GetForCurrentThread()).WindowHandle;
-
-        public static async Task<string> GetFileAssociationAsync(string filePath)
-        {
-            var connection = await AppServiceConnectionHelper.Instance;
-            if (connection != null)
-            {
-                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
-                {
-                    { "Arguments", "GetFileAssociation" },
-                    { "filepath", filePath }
-                });
-                if (status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && response.ContainsKey("FileAssociation"))
-                {
-                    return (string)response["FileAssociation"];
-                }
-            }
-            return null;
-        }
     }
 }
