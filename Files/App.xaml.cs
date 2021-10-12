@@ -175,7 +175,8 @@ namespace Files
                     AppSettings.DetectQuickLook(),
                     TerminalController.InitializeAsync(),
                     JumpList.InitializeAsync(),
-                    ExternalResourcesHelper.LoadOtherThemesAsync()
+                    ExternalResourcesHelper.LoadOtherThemesAsync(),
+                    MainViewModel.LoadFolderPlaceholderAsync()
                 );
             });
 

@@ -4,6 +4,7 @@ using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -25,12 +26,11 @@ namespace Files.ViewModels
             Clipboard.ContentChanged += Clipboard_ContentChanged;
 
             DetectFontName();
-            LoadFolderPlaceholder();
         }
 
         public static BitmapImage FolderGlyphIcon;
 
-        private async void LoadFolderPlaceholder()
+        public async Task LoadFolderPlaceholderAsync()
         {
             StorageFolder localFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
             using var thumbnail = await localFolder.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
