@@ -16,6 +16,7 @@ namespace Files.Services.Implementation
             {
                 case nameof(ShowConfirmDeleteDialog):
                 case nameof(OpenFoldersInNewTab):
+                case nameof(OpenArchivesInFiles):
                     Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{nameof(e.settingName)} {e.newValue}");
                     break;
             }
@@ -32,6 +33,12 @@ namespace Files.Services.Implementation
         public bool OpenFoldersInNewTab
         {
             get => Get(false);
+            set => Set(value);
+        }
+
+        public bool OpenArchivesInFiles
+        {
+            get => Get(true);
             set => Set(value);
         }
     }

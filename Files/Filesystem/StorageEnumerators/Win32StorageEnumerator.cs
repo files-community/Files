@@ -305,7 +305,7 @@ namespace Files.Filesystem.StorageEnumerators
                     opacity = Constants.UI.DimItemOpacity;
                 }
 
-                if (itemFileExtension == ".zip")
+                if (itemFileExtension == ".zip" && userSettingsService.PreferencesSettingsService.OpenArchivesInFiles)
                 {
                     return new ZipItem(null, dateReturnFormat)
                     {

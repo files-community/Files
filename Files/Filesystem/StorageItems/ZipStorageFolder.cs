@@ -1,6 +1,8 @@
 ﻿using Files.Extensions;
 using Files.Helpers;
+using Files.Services;
 using ICSharpCode.SharpZipLib.Zip;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -488,6 +490,11 @@ namespace Files.Filesystem.StorageItems
 
         public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
         {
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+            if (!userSettingsService.PreferencesSettingsService.OpenArchivesInFiles)
+            {
+                return null;
+            }
             var marker = path.IndexOf(".zip");
             if (marker != -1)
             {

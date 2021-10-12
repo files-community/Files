@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:datamodels="using:Files.DataModels"
     xmlns:local="using:Files.UserControls.Settings"
+    xmlns:local2="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
@@ -144,6 +145,16 @@
                     x:Uid="SettingsOpenFoldersNewTabToggleSwitch"
                     AutomationProperties.Name="Open folders in new tab"
                     IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
+
+            <local:SettingsBlockControl Title="{local2:ResourceString Name=SettingsPreferencesOpenArchivesInFiles}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE17D;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch
+                    AutomationProperties.Name="{local2:ResourceString Name=SettingsPreferencesOpenArchivesInFiles}"
+                    IsOn="{Binding OpenArchivesInFiles, Mode=TwoWay}"
                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
         </StackPanel>

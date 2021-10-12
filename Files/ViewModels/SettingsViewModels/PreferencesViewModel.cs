@@ -128,6 +128,19 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
+        public bool OpenArchivesInFiles
+        {
+            get => UserSettingsService.PreferencesSettingsService.OpenArchivesInFiles;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.OpenArchivesInFiles)
+                {
+                    UserSettingsService.PreferencesSettingsService.OpenArchivesInFiles = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         private async Task LaunchTerminalsConfigFile()
         {
             var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));

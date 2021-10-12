@@ -369,6 +369,7 @@ namespace Files.ViewModels
                 case nameof(UserSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible):
                 case nameof(UserSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden):
                 case nameof(UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled):
+                case nameof(UserSettingsService.PreferencesSettingsService.OpenArchivesInFiles):
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                     {
                         if (WorkingDirectory != "Home".GetLocalized() && WorkingDirectory != "NewTab".GetLocalized())
