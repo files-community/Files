@@ -21,7 +21,7 @@ This app contains more latest features like `seamless updates` and `APIs` which 
 We are doing this project as a open source so you can [contribute](https://github.com/files-community/Files) to us
 and its free not like other products we are doing this for free you don't need to pay anything to download
 
-if you like you can also sponsor us see 
+if you like you can also sponsor us[ see](https://github.com/sponsors/yaichenbaum) 
 
 
 ## Where to download Files
