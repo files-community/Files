@@ -21,6 +21,7 @@ namespace Files.Filesystem.StorageEnumerators
 {
     public static class Win32StorageEnumerator
     {
+        private static string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
         private static IFileListCache fileListCache = FileListCacheController.GetInstance();
 
         public static async Task<List<ListedItem>> ListEntries(
@@ -140,7 +141,7 @@ namespace Files.Filesystem.StorageEnumerators
                 ItemName = itemName,
                 ItemDateModifiedReal = itemModifiedDate,
                 ItemDateCreatedReal = itemCreatedDate,
-                ItemType = "FileFolderListItem".GetLocalized(),
+                ItemType = folderTypeTextLocalized,
                 LoadFolderGlyph = true,
                 FileImage = null,
                 IsHiddenItem = isHidden,
@@ -150,7 +151,6 @@ namespace Files.Filesystem.StorageEnumerators
                 LoadUnknownTypeGlyph = false,
                 FileSize = null,
                 FileSizeBytes = 0,
-                ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(itemPath)
             };
         }
 
@@ -250,12 +250,6 @@ namespace Files.Filesystem.StorageEnumerators
                     {
                         var isUrl = findData.cFileName.EndsWith(".url");
                         string target = (string)response["TargetPath"];
-                        bool containsFilesOrFolders = false;
-
-                        if ((bool)response["IsFolder"])
-                        {
-                            containsFilesOrFolders = FolderHelpers.CheckForFilesFolders(target);
-                        }
 
                         bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
                         double opacity = 1;
@@ -289,7 +283,6 @@ namespace Files.Filesystem.StorageEnumerators
                             WorkingDirectory = (string)response["WorkingDirectory"],
                             RunAsAdmin = (bool)response["RunAsAdmin"],
                             IsUrl = isUrl,
-                            ContainsFilesOrFolders = containsFilesOrFolders
                         };
                     }
                 }

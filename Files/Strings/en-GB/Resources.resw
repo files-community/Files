@@ -133,7 +133,7 @@
     <value>Submit feedback</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Third party licenses</value>
+    <value>Third party licences</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>About</value>
@@ -346,7 +346,7 @@
     <value>This folder is empty.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Back	(Alt+Left Arrow)</value>
+    <value>Back (Alt+Left Arrow)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Forward (Alt+Right Arrow)</value>
@@ -853,7 +853,7 @@
     <value>Pin Recycle Bin to Favourites</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Show a confirmation dialog when deleting files or folders</value>
+    <value>Show a confirmation dialogue when deleting files or folders</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>There was an issue saving some properties.</value>
@@ -1161,7 +1161,7 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Select</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
+  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
     <value>Open items with a single click</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
@@ -1228,7 +1228,7 @@
     <value>Check the status of file operations here</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Status Center</value>
+    <value>Status Centre</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Search</value>
@@ -1936,19 +1936,19 @@
     <value>Rename</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
-    <value>Move canceled</value>
+    <value>Move cancelled</value>
   </data>
   <data name="StatusCopyCanceled" xml:space="preserve">
-    <value>Copy canceled</value>
+    <value>Copy cancelled</value>
   </data>
   <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
-    <value>Moving {0} item from {1} to {2} was canceled</value>
+    <value>Moving {0} item from {1} to {2} was cancelled</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2} was canceled after moving {3} items</value>
+    <value>Moving {0} items from {1} to {2} was cancelled after moving {3} items</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2} was canceled after moving {3} item</value>
+    <value>Moving {0} items from {1} to {2} was cancelled after moving {3} item</value>
   </data>
   <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
     <value>Moving {0} item from {1} to {2}</value>
@@ -1969,13 +1969,13 @@
     <value>Failed to move {0} items from {1} to {2}</value>
   </data>
   <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
-    <value>Copying {0} item to {1} was canceled</value>
+    <value>Copying {0} item to {1} was cancelled</value>
   </data>
   <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
-    <value>Copying {0} items to {1} was canceled after copying {2} items</value>
+    <value>Copying {0} items to {1} was cancelled after copying {2} items</value>
   </data>
   <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
-    <value>Copying {0} items to {1} was canceled after copying {2} item</value>
+    <value>Copying {0} items to {1} was cancelled after copying {2} item</value>
   </data>
   <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
     <value>Copying {0} item to {1}</value>
@@ -1990,13 +1990,13 @@
     <value>Successfully copied {0} items to {1}</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
-    <value>Deleting {0} item from {1} was canceled</value>
+    <value>Deleting {0} item from {1} was cancelled</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
-    <value>Deleting {0} items from {1} was canceled after deleting {3} items</value>
+    <value>Deleting {0} items from {1} was cancelled after deleting {3} items</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
-    <value>Deleting {0} items from {1} was canceled after deleting {3} item</value>
+    <value>Deleting {0} items from {1} was cancelled after deleting {3} item</value>
   </data>
   <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
     <value>Deleting {0} item from {1}</value>
@@ -2032,7 +2032,7 @@
     <value>Recycle cancelled</value>
   </data>
   <data name="StatusCancellingOp" xml:space="preserve">
-    <value>canceling</value>
+    <value>cancelling</value>
   </data>
   <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
     <value>Dismiss</value>
@@ -2438,7 +2438,7 @@
   </data>
   <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
     <value>
-*Personal Information Collection* 
+*Personal Information Collection*
 Files does not collect, store, share or publish any personal information.
 
 *Non-personal Information Collection*
@@ -2624,7 +2624,7 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
     <value>Language</value>
   </data>
   <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Show a confirmation dialog when deleting files or folders</value>
+    <value>Show a confirmation dialogue when deleting files or folders</value>
   </data>
   <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>Terminal application</value>
@@ -2637,5 +2637,32 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
     <value>Show preview only</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
+    <value>Move one down</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
+    <value>Move one up</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>Move to bottom</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>Move to top</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
+    <value>Date created column</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
+    <value>Item size column</value>
+  </data>
+  <data name="SettingsDefaultExplorer" xml:space="preserve">
+    <value>Default file explorer</value>
+  </data>
+  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+    <value>Set Files as default file explorer</value>
+  </data>
+  <data name="SettingsSetAsOpenDialog" xml:space="preserve">
+    <value>Use Files as Open File Dialogue</value>
   </data>
 </root>

@@ -50,7 +50,7 @@ namespace Files.Filesystem
         }
 
         public string FolderRelativeId { get; set; }
-        public bool ContainsFilesOrFolders { get; set; }
+        public bool ContainsFilesOrFolders { get; set; } = true;
         private bool loadFolderGlyph;
         private bool loadFileIcon;
 
@@ -134,15 +134,6 @@ namespace Files.Filesystem
         {
             get => customIconSource;
             set => SetProperty(ref customIconSource, value);
-        }
-
-        private byte[] customIconData;
-
-        [JsonIgnore]
-        public byte[] CustomIconData
-        {
-            get => customIconData;
-            set => SetProperty(ref customIconData, value);
         }
 
         private double opacity;
@@ -382,6 +373,15 @@ namespace Files.Filesystem
         public RecycleBinItem AsRecycleBinItem => this as RecycleBinItem;
 
         public string Key { get; set; }
+
+        /// <summary>
+        /// Manually check if a folder path contains child items, 
+        /// updating the ContainsFilesOrFolders property from its default value of true
+        /// </summary>
+        public void UpdateContainsFilesFolders()
+        {
+            ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(ItemPath);
+        }
     }
 
     public class RecycleBinItem : ListedItem
@@ -490,8 +490,7 @@ namespace Files.Filesystem
             LoadCustomIcon = true;
             CustomIcon = lib.Icon;
             //CustomIconSource = lib.IconSource;
-            CustomIconData = lib.IconData;
-            LoadFileIcon = CustomIconData != null;
+            LoadFileIcon = true;
 
             IsEmpty = lib.IsEmpty;
             DefaultSaveFolder = lib.DefaultSaveFolder;

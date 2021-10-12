@@ -29,9 +29,14 @@ namespace Files.Services
         bool ListAndSortDirectoriesAlongsideFiles { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not items should open with one click.
+        /// Gets or sets a value indicating whether or not files should open with one click.
         /// </summary>
-        bool OpenItemsWithOneclick { get; set; }
+        bool OpenFilesWithOneClick { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not folders should open with one click.
+        /// </summary>
+        bool OpenFoldersWithOneClick { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to search unindexed items.

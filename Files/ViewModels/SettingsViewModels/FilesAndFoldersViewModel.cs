@@ -47,14 +47,27 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public bool OpenItemsWithOneclick
+        public bool OpenFilesWithOneClick
         {
-            get => UserSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick;
+            get => UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick;
             set
             {
-                if (value != UserSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick)
+                if (value != UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick)
                 {
-                    UserSettingsService.FilesAndFoldersSettingsService.OpenItemsWithOneclick = value;
+                    UserSettingsService.FilesAndFoldersSettingsService.OpenFilesWithOneClick = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool OpenFoldersWithOneClick
+        {
+            get => UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick;
+            set
+            {
+                if (value != UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick)
+                {
+                    UserSettingsService.FilesAndFoldersSettingsService.OpenFoldersWithOneClick = value;
                     OnPropertyChanged();
                 }
             }

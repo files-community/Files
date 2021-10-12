@@ -47,7 +47,6 @@ namespace Files.ViewModels.Properties
                 ViewModel.ItemType = Library.ItemType;
                 ViewModel.LoadCustomIcon = Library.LoadCustomIcon;
                 ViewModel.CustomIconSource = Library.CustomIconSource;
-                ViewModel.IconData = Library.CustomIconData;
                 ViewModel.LoadFolderGlyph = Library.LoadFolderGlyph;
                 ViewModel.LoadUnknownTypeGlyph = Library.LoadUnknownTypeGlyph;
                 ViewModel.LoadFileIcon = Library.LoadFileIcon;

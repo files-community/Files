@@ -884,7 +884,8 @@ namespace Files
                 {
                     e.Handled = true;
 
-                    var (handledByFtp, draggedItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+                    var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
+                    var draggedItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
                     if (draggedItems.IsEmpty())
                     {

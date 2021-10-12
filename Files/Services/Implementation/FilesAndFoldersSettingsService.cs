@@ -18,7 +18,8 @@ namespace Files.Services.Implementation
                 case nameof(AreHiddenItemsVisible):
                 case nameof(AreSystemItemsHidden):
                 case nameof(ListAndSortDirectoriesAlongsideFiles):
-                case nameof(OpenItemsWithOneclick):
+                case nameof(OpenFilesWithOneClick):
+                case nameof(OpenFoldersWithOneClick):
                 case nameof(SearchUnindexedItems):
                 case nameof(AreLayoutPreferencesPerFolder):
                 case nameof(AdaptiveLayoutEnabled):
@@ -54,7 +55,13 @@ namespace Files.Services.Implementation
             set => Set(value);
         }
 
-        public bool OpenItemsWithOneclick
+        public bool OpenFilesWithOneClick
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+        
+        public bool OpenFoldersWithOneClick
         {
             get => Get(false);
             set => Set(value);

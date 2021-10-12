@@ -395,8 +395,16 @@ namespace Files.ViewModels
             }
         }
 
-        public void PathBoxItem_Drop(object sender, DragEventArgs e)
+        private bool lockFlag = false;
+
+        public async void PathBoxItem_Drop(object sender, DragEventArgs e)
         {
+            if (lockFlag)
+            {
+                return;
+            }
+            lockFlag = true;
+
             dragOverPath = null; // Reset dragged over pathbox item
 
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
@@ -406,13 +414,20 @@ namespace Files.ViewModels
             }
 
             var deferral = e.GetDeferral();
+
+            var signal = new AsyncManualResetEvent();
             PathBoxItemDropped?.Invoke(this, new PathBoxItemDroppedEventArgs()
             {
                 AcceptedOperation = e.AcceptedOperation,
                 Package = e.DataView,
-                Path = pathBoxItem.Path
+                Path = pathBoxItem.Path,
+                SignalEvent = signal
             });
+            await signal.WaitAsync();
+
             deferral.Complete();
+            await Task.Yield();
+            lockFlag = false;
         }
 
         public async void PathBoxItem_DragOver(object sender, DragEventArgs e)
@@ -458,8 +473,8 @@ namespace Files.ViewModels
             e.Handled = true;
             var deferral = e.GetDeferral();
 
-            var (handledByFtp, storageItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-            storageItems ??= new List<IStorageItemWithPath>();
+            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
+            var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
             if (handledByFtp)
             {
