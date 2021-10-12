@@ -1,4 +1,5 @@
-﻿using Files.DataModels;
+﻿using Files.Controllers;
+using Files.DataModels;
 using Files.Enums;
 using Files.Helpers;
 using Files.Services;
@@ -17,7 +18,7 @@ using Windows.System;
 
 namespace Files.ViewModels.SettingsViewModels
 {
-    public class PreferencesViewModel : ObservableObject
+    public class PreferencesViewModel : ObservableObject, IDisposable
     {
         private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
@@ -25,6 +26,8 @@ namespace Files.ViewModels.SettingsViewModels
         private bool showRestartControl;
         private Terminal selectedTerminal = App.TerminalController.Model.GetDefaultTerminal();
         private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
+        private List<Terminal> terminals;
+        private bool disposed;
 
         public ICommand EditTerminalApplicationsCommand { get; }
 
@@ -39,6 +42,13 @@ namespace Files.ViewModels.SettingsViewModels
             };
 
             EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
+            App.TerminalController.ModelChanged += ReloadTerminals;
+        }
+
+        private void ReloadTerminals(TerminalController controller)
+        {
+            Terminals = controller.Model.Terminals;
+            SelectedTerminal = controller.Model.GetDefaultTerminal();
         }
 
         public List<string> DateFormats { get; set; }
@@ -87,14 +97,18 @@ namespace Files.ViewModels.SettingsViewModels
             set => SetProperty(ref showRestartControl, value);
         }
 
-        public List<Terminal> Terminals { get; set; }
+        public List<Terminal> Terminals
+        {
+            get => terminals;
+            set => SetProperty(ref terminals, value);
+        }
 
         public Terminal SelectedTerminal
         {
             get { return selectedTerminal; }
             set
             {
-                if (SetProperty(ref selectedTerminal, value))
+                if (value is not null && SetProperty(ref selectedTerminal, value))
                 {
                     App.TerminalController.Model.DefaultTerminalName = value.Name;
                     App.TerminalController.SaveModel();
@@ -131,6 +145,7 @@ namespace Files.ViewModels.SettingsViewModels
         private async Task LaunchTerminalsConfigFile()
         {
             var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
+
             if (!await Launcher.LaunchFileAsync(configFile))
             {
                 var connection = await AppServiceConnectionHelper.Instance;
@@ -144,6 +159,21 @@ namespace Files.ViewModels.SettingsViewModels
                     });
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            if (!disposed)
+            {
+                App.TerminalController.ModelChanged -= ReloadTerminals;
+                disposed = true;
+                GC.SuppressFinalize(this);
+            }
+        }
+
+        ~PreferencesViewModel()
+        {
+            Dispose();
         }
     }
 }
