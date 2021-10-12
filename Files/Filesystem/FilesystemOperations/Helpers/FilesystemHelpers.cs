@@ -580,8 +580,8 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
         {
-            var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
-            source ??= new List<IStorageItemWithPath>();
+            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
+            var source = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
 
             if (handledByFtp)
             {
@@ -815,8 +815,8 @@ namespace Files.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
-            source ??= new List<IStorageItemWithPath>();
+            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
+            var source = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
 
             if (handledByFtp)
             {
@@ -918,8 +918,8 @@ namespace Files.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
-            source ??= new List<IStorageItemWithPath>();
+            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
+            var source = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
 
             if (handledByFtp)
             {
@@ -954,8 +954,8 @@ namespace Files.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            var (handledByFtp, source) = await GetDraggedStorageItems(packageView);
-            source ??= new List<IStorageItemWithPath>();
+            var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(packageView);
+            var source = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(packageView);
 
             if (handledByFtp)
             {
@@ -1057,7 +1057,29 @@ namespace Files.Filesystem
             return packageView != null && (packageView.Contains(StandardDataFormats.StorageItems) || (packageView.Properties.TryGetValue("FileDrop", out var data)));
         }
 
-        public static async Task<(bool handledByFtp, IEnumerable<IStorageItemWithPath> items)> GetDraggedStorageItems(DataPackageView packageView)
+        public static async Task<bool> CheckDragNeedsFulltrust(DataPackageView packageView)
+        {
+            if (packageView.Contains(StandardDataFormats.StorageItems))
+            {
+                try
+                {
+                    _ = await packageView.GetStorageItemsAsync();
+                    return false;
+                }
+                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
+                {
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.Warn(ex, ex.Message);
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public static async Task<IEnumerable<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
         {
             var itemsList = new List<IStorageItemWithPath>();
             if (packageView.Contains(StandardDataFormats.StorageItems))
@@ -1069,12 +1091,12 @@ namespace Files.Filesystem
                 }
                 catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
                 {
-                    return (true, itemsList);
+                    return itemsList;
                 }
                 catch (Exception ex)
                 {
                     App.Logger.Warn(ex, ex.Message);
-                    return (false, itemsList);
+                    return itemsList;
                 }
             }
             if (packageView.Properties.TryGetValue("FileDrop", out var data))
@@ -1084,7 +1106,7 @@ namespace Files.Filesystem
                     itemsList.AddRange(source);
                 }
             }
-            return (false, itemsList);
+            return itemsList;
         }
 
         public static bool ContainsRestrictedCharacters(string input)

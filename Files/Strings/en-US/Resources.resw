@@ -1269,8 +1269,8 @@
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Select</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
-    <value>Open items with a single click</value>
+  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
+    <value>Open files with a single click</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>File</value>
@@ -2769,5 +2769,11 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Use Files as Open File Dialog</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
+    <value>Open folders with a single click</value>
   </data>
 </root>

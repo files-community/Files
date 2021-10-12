@@ -69,7 +69,7 @@ namespace Files.Models.JsonSettings.Implementation
                 bool isDifferent;
                 if (newValue is IEnumerable enumerableNewValue && value is IEnumerable enumerableValue)
                 {
-                    isDifferent = enumerableValue.Cast<object>().SequenceEqual(enumerableNewValue.Cast<object>());
+                    isDifferent = !enumerableValue.Cast<object>().SequenceEqual(enumerableNewValue.Cast<object>());
                 }
                 else
                 {

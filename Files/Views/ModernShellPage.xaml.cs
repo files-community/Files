@@ -380,6 +380,7 @@ namespace Files.Views
         private async void ModernShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
         {
             await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, false, true);
+            e.SignalEvent?.Set();
         }
 
         private void ModernShellPage_AddressBarTextEntered(object sender, AddressBarTextEnteredEventArgs e)
@@ -627,9 +628,10 @@ namespace Files.Views
             var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
             var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-            var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser)
-                || CurrentPageType == typeof(DetailsLayoutBrowser)
-                || CurrentPageType == typeof(GridViewBrowser);
+            var tabInstance = CurrentPageType == (typeof(DetailsLayoutBrowser))
+                || CurrentPageType == typeof(GridViewBrowser)
+                || CurrentPageType == typeof(ColumnViewBrowser)
+                || CurrentPageType == typeof(ColumnViewBase);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
@@ -786,7 +788,10 @@ namespace Files.Views
             switch (args.KeyboardAccelerator.Key)
             {
                 case VirtualKey.F2: //F2, rename
-                    if (CurrentPageType == typeof(DetailsLayoutBrowser) || CurrentPageType == typeof(GridViewBrowser))
+                    if (CurrentPageType == typeof(DetailsLayoutBrowser)
+                        || CurrentPageType == typeof(GridViewBrowser)
+                        || CurrentPageType == typeof(ColumnViewBrowser)
+                        || CurrentPageType == typeof(ColumnViewBase))
                     {
                         if (ContentPage.IsItemSelected)
                         {

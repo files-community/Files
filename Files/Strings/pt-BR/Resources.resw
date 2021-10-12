@@ -2295,7 +2295,7 @@
   <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
     <value>Ocultar arquivos protegidos do sistema operacional (Recomendado)</value>
   </data>
-  <data name="SettingsOpenItemsWithOneclick" xml:space="preserve">
+  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
     <value>Abra os itens com um único clique</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
@@ -2649,5 +2649,20 @@ Usamos o App Center para controlar o uso do aplicativo, encontrar bugs e corrigi
   </data>
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>Mover para o topo</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
+    <value>Coluna de data de criação</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
+    <value>Coluna de tamanho do item</value>
+  </data>
+  <data name="SettingsDefaultExplorer" xml:space="preserve">
+    <value>Explorador de ficheiros pré-definido</value>
+  </data>
+  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+    <value>Definir Files como explorador de ficheiros pré-definido</value>
+  </data>
+  <data name="SettingsSetAsOpenDialog" xml:space="preserve">
+    <value>Utilizar Files como diálogo para Abrir Ficheiros</value>
   </data>
 </root>

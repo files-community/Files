@@ -22,7 +22,7 @@ namespace FilesFullTrust.Helpers
             var folders = library.Folders;
             if (folders.Count > 0)
             {
-                libraryItem.DefaultSaveFolder = library.DefaultSaveFolder.FileSystemPath;
+                libraryItem.DefaultSaveFolder = Extensions.IgnoreExceptions(() => library.DefaultSaveFolder.FileSystemPath);
                 libraryItem.Folders = folders.Select(f => f.FileSystemPath).ToArray();
             }
             return libraryItem;

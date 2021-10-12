@@ -533,8 +533,8 @@ namespace Files.Interacts
             {
                 e.Handled = true;
 
-                var (handledByFtp, draggedItems) = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
-                draggedItems ??= new List<IStorageItemWithPath>();
+                var handledByFtp = await Filesystem.FilesystemHelpers.CheckDragNeedsFulltrust(e.DataView);
+                var draggedItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
                 var pwd = associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
                 var folderName = (Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd) ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
