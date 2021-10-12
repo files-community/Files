@@ -83,24 +83,39 @@ namespace FilesFullTrust
             return tcs.Task;
         }
 
-        public static async Task<string> GetFileAssociationAsync(string filename)
+        public static async Task<string> GetFileAssociationAsync(string filename, bool checkDesktopFirst = false)
         {
             // Find UWP apps
-            var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
-            if (uwpApps.Any())
+            async Task<string> GetUwpAssoc()
             {
-                return uwpApps.First().PackageFamilyName;
-            }
+                var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
+                if (uwpApps.Any())
+                {
+                    return uwpApps.First().PackageFamilyName;
+                }
+                return null;
+            };
 
             // Find desktop apps
-            var lpResult = new StringBuilder(2048);
-            var hResult = Shell32.FindExecutable(filename, null, lpResult);
-            if (hResult.ToInt64() > 32)
+            string GetDesktopAssoc()
             {
-                return lpResult.ToString();
+                var lpResult = new StringBuilder(2048);
+                var hResult = Shell32.FindExecutable(filename, null, lpResult);
+                if (hResult.ToInt64() > 32)
+                {
+                    return lpResult.ToString();
+                }
+                return null;
             }
 
-            return null;
+            if (checkDesktopFirst)
+            {
+                return GetDesktopAssoc() ?? await GetUwpAssoc();
+            }
+            else
+            {
+                return await GetUwpAssoc() ?? GetDesktopAssoc();
+            }
         }
 
         public static string ExtractStringFromDLL(string file, int number)

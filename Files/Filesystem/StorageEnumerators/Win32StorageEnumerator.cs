@@ -1,5 +1,6 @@
 ﻿using ByteSizeLib;
 using Files.Extensions;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
 using Files.Services;
@@ -305,7 +306,7 @@ namespace Files.Filesystem.StorageEnumerators
                     opacity = Constants.UI.DimItemOpacity;
                 }
 
-                if (itemFileExtension == ".zip")
+                if (itemFileExtension == ".zip" && await ZipStorageFolder.CheckDefaultZipApp(itemPath))
                 {
                     return new ZipItem(null, dateReturnFormat)
                     {
