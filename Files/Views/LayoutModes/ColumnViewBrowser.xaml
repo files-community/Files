@@ -242,7 +242,7 @@
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch"
                                                     x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
-                                                    Source="{x:Bind ViewModels:MainViewModel.FolderGlyphIcon, Mode=OneWay}" />
+                                                    Source="{x:Bind ViewModels:MainViewModel.FolderGlyphIcon, Mode=OneTime}" />
                                                 <Border
                                                     x:Name="TypeUnknownGlyph"
                                                     Width="20"
@@ -375,6 +375,7 @@
                                 <ListView.ItemContainerStyle>
                                     <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="Height" Value="36" />
                                     </Style>
                                 </ListView.ItemContainerStyle>
                                 <ListView.ItemsPanel>
