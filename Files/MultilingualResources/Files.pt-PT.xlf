@@ -3553,11 +3553,11 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
         </trans-unit>
         <trans-unit id="Tag" translate="yes" xml:space="preserve">
           <source>Tag</source>
-          <target state="new">Tag</target>
+          <target state="translated">Tag</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersWithOneClick" translate="yes" xml:space="preserve">
           <source>Open folders with a single click</source>
-          <target state="new">Open folders with a single click</target>
+          <target state="translated">Abrir pastas com um clique único</target>
         </trans-unit>
       </group>
     </body>
