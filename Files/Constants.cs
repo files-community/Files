@@ -32,6 +32,9 @@ namespace Files
                 { "::{20D04FE0-3AEA-1069-A2D8-08002B30309D}", "NewTab".GetLocalized() /*MyComputerPath*/ },
                 { "::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}", NetworkFolderPath },
                 { "::{208D2C60-3AEA-1069-A2D7-08002B30309D}", NetworkFolderPath },
+                { RecycleBinPath.ToUpperInvariant(), RecycleBinPath },
+                { MyComputerPath.ToUpperInvariant(), "NewTab".GetLocalized() /*MyComputerPath*/ },
+                { NetworkFolderPath.ToUpperInvariant(), NetworkFolderPath },
             };
         }
 
