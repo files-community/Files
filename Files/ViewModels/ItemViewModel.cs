@@ -770,8 +770,8 @@ namespace Files.ViewModels
                             {
                                 item.LoadUnknownTypeGlyph = false;
                                 item.LoadWebShortcutGlyph = false;
-                                item.LoadFolderGlyph = false;
                                 item.LoadFileIcon = true;
+                                item.LoadFolderGlyph = false;
                                 item.FileImage ??= new BitmapImage();
                                 item.FileImage.DecodePixelType = DecodePixelType.Logical;
                                 item.FileImage.DecodePixelWidth = (int)thumbnailSize;
@@ -830,8 +830,8 @@ namespace Files.ViewModels
                             {
                                 item.LoadUnknownTypeGlyph = false;
                                 item.LoadWebShortcutGlyph = false;
-                                item.LoadFolderGlyph = false;
                                 item.LoadFileIcon = true;
+                                item.LoadFolderGlyph = false;
                                 item.FileImage ??= new BitmapImage();
                                 item.FileImage.DecodePixelType = DecodePixelType.Logical;
                                 item.FileImage.DecodePixelWidth = (int)thumbnailSize;

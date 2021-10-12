@@ -5,10 +5,13 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels
 {
@@ -22,6 +25,17 @@ namespace Files.ViewModels
             Clipboard.ContentChanged += Clipboard_ContentChanged;
 
             DetectFontName();
+            LoadFolderPlaceholder();
+        }
+
+        public static BitmapImage FolderGlyphIcon;
+
+        private async void LoadFolderPlaceholder()
+        {
+            StorageFolder localFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            using var thumbnail = await localFolder.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
+            FolderGlyphIcon = new BitmapImage();
+            await FolderGlyphIcon.SetSourceAsync(thumbnail);
         }
 
         public void Clipboard_ContentChanged(object sender, object e)
