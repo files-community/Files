@@ -522,6 +522,7 @@ namespace Files.ViewModels
                 }
                 if (prefs.DirectoryGroupOption != GroupOption.OriginalFolder &&
                     prefs.DirectoryGroupOption != GroupOption.DateDeleted &&
+                    prefs.DirectoryGroupOption != GroupOption.FolderPath &&
                     prefs.DirectoryGroupOption != GroupOption.SyncStatus)
                 {
                     UserSettingsService.LayoutSettingsService.DefaultDirectoryGroupOption = prefs.DirectoryGroupOption;
@@ -584,6 +585,19 @@ namespace Files.ViewModels
                     DirectorySortDirection = userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection,
                     ColumnsViewModel = new ColumnsViewModel(),
                     DirectoryGroupOption = GroupOption.DateCreated,
+                };
+            }
+            else if (LibraryHelper.IsLibraryPath(folderPath))
+            {
+                // Default for libraries is to group by folder path
+                return new LayoutPreferences
+                {
+                    LayoutMode = userSettingsService.LayoutSettingsService.DefaultLayoutMode,
+                    GridViewSize = userSettingsService.LayoutSettingsService.DefaultGridViewSize,
+                    DirectorySortOption = userSettingsService.LayoutSettingsService.DefaultDirectorySortOption,
+                    DirectorySortDirection = userSettingsService.LayoutSettingsService.DefaultDirectorySortDirection,
+                    ColumnsViewModel = new ColumnsViewModel(),
+                    DirectoryGroupOption = GroupOption.FolderPath,
                 };
             }
             else
