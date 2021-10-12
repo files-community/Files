@@ -32,7 +32,7 @@ namespace Files.ViewModels
 
         private async void LoadFolderPlaceholder()
         {
-            StorageFolder localFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            StorageFolder localFolder = ApplicationData.Current.RoamingFolder;
             using var thumbnail = await localFolder.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale);
             FolderGlyphIcon = new BitmapImage();
             await FolderGlyphIcon.SetSourceAsync(thumbnail);
