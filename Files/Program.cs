@@ -25,6 +25,7 @@ namespace Files
                 if (AppInstance.RecommendedInstance != null)
                 {
                     AppInstance.RecommendedInstance.RedirectActivationTo();
+                    await TerminateUwpAppInstance(proc.Id);
                     return;
                 }
                 else if (activatedArgs is LaunchActivatedEventArgs)
@@ -46,6 +47,7 @@ namespace Files
                             var plInstance = AppInstance.GetInstances().First(x => x.Key.Equals(PrelaunchInstanceKey));
                             ApplicationData.Current.LocalSettings.Values["WAS_PRELAUNCH_INSTANCE_ACTIVATED"] = true;
                             plInstance.RedirectActivationTo();
+                            await TerminateUwpAppInstance(proc.Id);
                             return;
                         }
                         else
@@ -55,10 +57,10 @@ namespace Files
                             if (!instance.IsCurrentInstance && !string.IsNullOrWhiteSpace(launchArgs.Arguments))
                             {
                                 instance.RedirectActivationTo();
+                                await TerminateUwpAppInstance(proc.Id);
                                 return;
                             }
                         }
-                        
                     }
                 }
                 else if (activatedArgs is CommandLineActivatedEventArgs cmdLineArgs)
@@ -91,6 +93,7 @@ namespace Files
                         if (!instance.IsCurrentInstance)
                         {
                             instance.RedirectActivationTo();
+                            await TerminateUwpAppInstance(proc.Id);
                             return;
                         }
                     }
@@ -102,6 +105,7 @@ namespace Files
                     if (!instance.IsCurrentInstance)
                     {
                         instance.RedirectActivationTo();
+                        await TerminateUwpAppInstance(proc.Id);
                         return;
                     }
                 }
@@ -114,9 +118,15 @@ namespace Files
 
         public static async Task OpenShellCommandInExplorerAsync(string shellCommand, int pid)
         {
-            System.Diagnostics.Debug.WriteLine("Launching shell command in FullTrustProcess");
             ApplicationData.Current.LocalSettings.Values["ShellCommand"] = shellCommand;
             ApplicationData.Current.LocalSettings.Values["Arguments"] = "ShellCommand";
+            ApplicationData.Current.LocalSettings.Values["pid"] = pid;
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+        }
+
+        public static async Task TerminateUwpAppInstance(int pid)
+        {
+            ApplicationData.Current.LocalSettings.Values["Arguments"] = "TerminateUwp";
             ApplicationData.Current.LocalSettings.Values["pid"] = pid;
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }

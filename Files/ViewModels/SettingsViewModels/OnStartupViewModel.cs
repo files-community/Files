@@ -193,6 +193,7 @@ namespace Files.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.StartupSettingsService.AlwaysOpenNewInstance)
                 {
                     UserSettingsService.StartupSettingsService.AlwaysOpenNewInstance = value;
+                    ApplicationData.Current.LocalSettings.Values["AlwaysOpenANewInstance"] = value; // Needed in Program.cs
                     OnPropertyChanged();
                 }
             }
