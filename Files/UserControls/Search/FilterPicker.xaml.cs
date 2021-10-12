@@ -9,7 +9,7 @@ namespace Files.UserControls.Search
 {
     public sealed partial class FilterPicker : UserControl
     {
-        private readonly INavigatorViewModel navigator = NavigatorViewModel.Default;
+        private readonly INavigator navigator = Navigator.Instance;
         private readonly IFilterViewModelFactory factory = new FilterViewModelFactory();
 
         public static readonly DependencyProperty ViewModelProperty =
@@ -67,8 +67,12 @@ namespace Files.UserControls.Search
 
         private void Select(IFilter filter)
         {
-            var viewModel = factory.GetViewModel(filter);
-            navigator.OpenPage(viewModel);
+            var viewModel = new FilterPageViewModel
+            {
+                Parent = ViewModel as IContainerFilterViewModel,
+                Filter = factory.GetViewModel(filter),
+            };
+            navigator.GoPage(viewModel);
         }
 
         private void AddFilterButton_Loaded(object sender, RoutedEventArgs e)

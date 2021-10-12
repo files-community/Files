@@ -13,6 +13,7 @@
 
     <UserControl.Resources>
 
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         <converters:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
 
         <local:FilterPickerTemplateSelector x:Key="PickerTemplateSelector"
@@ -33,10 +34,19 @@
                 <ItemsControl
                     ItemsSource="{x:Bind Filter}"
                     ItemTemplateSelector="{StaticResource ButtonTemplateSelector}" />
-                <StackPanel Orientation="Horizontal" Margin="0,8,8,8" Spacing="8">
-                    <Button x:Name="AddFilterButton" Content="Add" Loaded="AddFilterButton_Loaded" />
+
+                <CommandBar Margin="0,8,0,8" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" IsDynamicOverflowEnabled="False">
+                    <AppBarButton x:Name="AddFilterButton"
+                        Icon="Add" Label="Add" Loaded="AddFilterButton_Loaded" />
+                    <AppBarButton
+                        Icon="Delete" Label="Remove"
+                        IsEnabled="{x:Bind Filter.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}" />
+                </CommandBar>
+
+                <!--<StackPanel Orientation="Horizontal" Margin="0,8,8,8" Spacing="8">
+                    <Button x:Name="AddFilterButton" Content="Add" />
                     <Button Content="Clear" Command="{x:Bind ClearCommand}" />
-                </StackPanel>
+                </StackPanel>-->
             </StackPanel>
         </DataTemplate>
 

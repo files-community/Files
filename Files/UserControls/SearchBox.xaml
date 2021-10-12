@@ -396,9 +396,9 @@
             </ContentPresenter>
         </ControlTemplate>
 
-        <DataTemplate x:Key="SuggestionTemplate" x:DataType="fs:ListedItem">
-            <Grid Tag="{x:Bind ItemPath}">
-                <StackPanel Orientation="Horizontal" Spacing="8">
+        <DataTemplate x:Key="SuggestionTemplate">
+            <Grid>
+                <!--<StackPanel Orientation="Horizontal" Spacing="8">
                     <Grid
                         Width="24"
                         Height="24"
@@ -428,7 +428,7 @@
                             Glyph="&#xF12B;" />
                     </Grid>
                     <TextBlock VerticalAlignment="Center" Text="{x:Bind ItemName}" />
-                </StackPanel>
+                </StackPanel>-->
             </Grid>
         </DataTemplate>
 

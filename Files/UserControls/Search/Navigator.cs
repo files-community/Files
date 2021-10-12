@@ -1,55 +1,51 @@
 ﻿using Files.ViewModels.Search;
-using System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Files.UserControls.Search
 {
-    public class Navigator
+    public interface INavigator
     {
-        private readonly NavigationTransitionInfo emptyTransition
-            = new SuppressNavigationTransitionInfo();
-        private readonly NavigationTransitionInfo toRightTransition
-            = new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight };
+        void Clear();
+        void GoRoot();
+        void GoPage(object viewModel);
 
-        private readonly Frame frame;
+        void GoBack();
+        void GoForward();
+    }
 
-        public INavigatorViewModel ViewModel { get; }
+    public class Navigator : INavigator
+    {
+        private readonly NavigationTransitionInfo emptyTransition =
+            new SuppressNavigationTransitionInfo();
+        private readonly NavigationTransitionInfo toRightTransition =
+            new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight };
 
-        public Navigator(Frame frame) : this(frame, NavigatorViewModel.Default)
-        {
-        }
-        public Navigator(Frame frame, INavigatorViewModel viewModel)
-        {
-            this.frame = frame;
-            ViewModel = viewModel;
+        public static Navigator Instance { get; } = new Navigator();
 
-            ViewModel.PageOpened += ViewModel_PageOpened;
-            ViewModel.BackRequested += ViewModel_BackRequested;
-            ViewModel.ForwardRequested += ViewModel_ForwardRequested;
-        }
+        public Frame Frame { get; set; }
 
-        public void GoRoot() => ViewModel.OpenPage(new SettingsViewModel());
-        public void Clean() => ViewModel.OpenPage(null);
+        private Navigator() {}
 
-        private void ViewModel_PageOpened(INavigatorViewModel sender, PageOpenedNavigatorEventArgs e)
-            => Go(e.ViewModel);
-        private void ViewModel_BackRequested(INavigatorViewModel sender, EventArgs e)
-            => frame.GoBack(toRightTransition);
-        private void ViewModel_ForwardRequested(INavigatorViewModel sender, EventArgs e)
-            => frame.GoForward();
-
-        private void Go(object viewModel)
+        public void Clear() => GoPage(null);
+        public void GoRoot() => GoPage(new SettingsViewModel());
+        public void GoPage(object viewModel)
         {
             switch (viewModel)
             {
                 case ISettingsViewModel :
-                    frame.Navigate(typeof(SettingsPage), viewModel, emptyTransition);
+                    Frame?.Navigate(typeof(SettingsPage), viewModel, emptyTransition);
                     break;
-                case IFilterViewModel :
-                    frame.Navigate(typeof(FilterPage), viewModel, toRightTransition);
+                case IFilterPageViewModel :
+                    Frame?.Navigate(typeof(FilterPage), viewModel, toRightTransition);
+                    break;
+                default:
+                    Frame.Content = null;
                     break;
             }
         }
+
+        public void GoBack() => Frame?.GoBack(toRightTransition);
+        public void GoForward() => Frame?.GoForward();
     }
 }

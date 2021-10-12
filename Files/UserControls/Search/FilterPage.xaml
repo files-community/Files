@@ -38,15 +38,15 @@
 
     <StackPanel Orientation="Vertical" Width="200">
         <Button x:Name="TitleButton" Style="{StaticResource TitleButtonStyle}"
-            Content="{x:Bind ViewModel, Mode=OneWay}" Command="{x:Bind navigator.BackCommand}" />
-        <local:FilterPicker x:Name="Picker" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+            Content="{x:Bind ViewModel.Filter, Mode=OneWay}" Click="TitleButton_Click" />
+        <local:FilterPicker x:Name="Picker" ViewModel="{x:Bind ViewModel.Filter, Mode=OneWay}" />
         <Grid HorizontalAlignment="Stretch" Margin="0,24,0,8" ColumnSpacing="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button x:Name="SaveButton" HorizontalAlignment="Stretch" Content="Save" Command="{x:Bind navigator.BackCommand}" />
-            <Button x:Name="CancelButton" Grid.Column="1" HorizontalAlignment="Stretch" Content="Cancel" Command="{x:Bind navigator.BackCommand}" />
+            <Button x:Name="SaveButton" HorizontalAlignment="Stretch" Content="Save" Click="SaveButton_Click" />
+            <Button x:Name="CancelButton" Grid.Column="1" HorizontalAlignment="Stretch" Content="Cancel" Click="CancelButton_Click" />
         </Grid>
     </StackPanel>
 </Page>

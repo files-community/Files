@@ -8,6 +8,8 @@ namespace Files.UserControls
 {
     public sealed partial class SearchBox : UserControl
     {
+        private readonly INavigator navigator = Navigator.Instance;
+
         public SearchBoxViewModel SearchBoxViewModel
         {
             get => (SearchBoxViewModel)GetValue(SearchBoxViewModelProperty);
@@ -32,14 +34,10 @@ namespace Files.UserControls
         private void SearchRegion_Escaped(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs e)
             => SearchBoxViewModel.SearchRegion_Escaped(sender, e);
 
-        private Navigator navigator;
         private void MenuFrame_Loaded(object sender, RoutedEventArgs e)
         {
-            if (navigator is null && sender is Frame frame)
-            {
-                navigator = new Navigator(frame);
-                navigator.GoRoot();
-            }
+            Navigator.Instance.Frame = sender as Frame;
+            navigator.GoRoot();
         }
 
         private void MenuButton_Loaded(object sender, RoutedEventArgs e)
@@ -58,7 +56,7 @@ namespace Files.UserControls
             }
         }
 
-        private void Flyout_Opened(object sender, object e) => navigator?.GoRoot();
-        private void Flyout_Closed(object sender, object e) => navigator?.Clean();
+        private void Flyout_Opened(object sender, object e) => navigator.GoRoot();
+        private void Flyout_Closed(object sender, object e) => navigator.Clear();
     }
 }
