@@ -165,6 +165,13 @@ namespace FilesFullTrust.MessageHandlers
                         }
                     }
                     break;
+
+                case "GetFileAssociation":
+                    {
+                        var filePath = (string)message["filepath"];
+                        await Win32API.SendMessageAsync(connection, new ValueSet() { { "FileAssociation", await Win32API.GetFileAssociationAsync(filePath, true) } }, message.Get("RequestID", (string)null));
+                    }
+                    break;
             }
         }
 

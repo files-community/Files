@@ -1,8 +1,6 @@
 ﻿using Files.Extensions;
 using Files.Helpers;
-using Files.Services;
 using ICSharpCode.SharpZipLib.Zip;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -11,6 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -21,6 +20,22 @@ namespace Files.Filesystem.StorageItems
     public sealed class ZipStorageFolder : BaseStorageFolder
     {
         public Encoding ZipEncoding { get; set; } = null;
+
+        private static bool? IsDefaultZipApp;
+        public static async Task<bool> CheckDefaultZipApp(string filePath)
+        {
+            Func<Task<bool>> queryFileAssoc = async () =>
+            {
+                var assoc = await NativeWinApiHelper.GetFileAssociationAsync(filePath);
+                if (assoc != null)
+                {
+                    IsDefaultZipApp = assoc == Package.Current.Id.FamilyName
+                        || assoc.Equals(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"), StringComparison.OrdinalIgnoreCase);
+                }
+                return true;
+            };
+            return IsDefaultZipApp ?? await queryFileAssoc();
+        }
 
         static ZipStorageFolder()
         {
@@ -490,21 +505,23 @@ namespace Files.Filesystem.StorageItems
 
         public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
         {
-            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
-            if (!userSettingsService.PreferencesSettingsService.OpenArchivesInFiles)
+            return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
             {
-                return null;
-            }
-            var marker = path.IndexOf(".zip");
-            if (marker != -1)
-            {
-                var containerPath = path.Substring(0, marker + ".zip".Length);
-                if (CheckAccess(containerPath))
+                var marker = path.IndexOf(".zip");
+                if (marker != -1)
                 {
-                    return Task.FromResult<BaseStorageFolder>(new ZipStorageFolder(path, containerPath)).AsAsyncOperation();
+                    var containerPath = path.Substring(0, marker + ".zip".Length);
+                    if (!await CheckDefaultZipApp(path))
+                    {
+                        return null;
+                    }
+                    if (CheckAccess(containerPath))
+                    {
+                        return new ZipStorageFolder(path, containerPath);
+                    }
                 }
-            }
-            return Task.FromResult<BaseStorageFolder>(null).AsAsyncOperation();
+                return null;
+            });
         }
 
         public static bool IsZipPath(string path)
