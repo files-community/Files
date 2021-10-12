@@ -176,7 +176,6 @@ namespace Files
                     TerminalController.InitializeAsync(),
                     JumpList.InitializeAsync(),
                     ExternalResourcesHelper.LoadOtherThemesAsync(),
-                    MainViewModel.LoadFolderPlaceholderAsync()
                 );
             });
 
