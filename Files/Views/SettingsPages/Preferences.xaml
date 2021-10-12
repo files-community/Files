@@ -69,12 +69,12 @@
                     Width="Auto"
                     MaxWidth="140"
                     AutomationProperties.Name="Terminal application"
-                    ItemsSource="{Binding Terminals}"
+                    ItemsSource="{Binding Terminals, Mode=OneWay}"
                     SelectedItem="{Binding SelectedTerminal, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="datamodels:Terminal">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{x:Bind Name}" />
+                                <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                             </StackPanel>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
