@@ -373,7 +373,7 @@ namespace Files
                         {
                             if (!string.IsNullOrEmpty(payload))
                             {
-                                payload = Constants.CommonPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload);
+                                payload = CommonPaths.ShellPlaces.Get(payload.ToUpperInvariant(), payload);
                                 var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(payload).AsTask());
                                 if (folder != null && !string.IsNullOrEmpty(folder.Path))
                                 {

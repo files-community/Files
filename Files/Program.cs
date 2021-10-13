@@ -1,5 +1,6 @@
 ﻿using Files.CommandLine;
 using Files.Common;
+using Files.Helpers;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -76,7 +77,7 @@ namespace Files
                             switch (command.Type)
                             {
                                 case ParsedCommandType.ExplorerShellCommand:
-                                    if (!Constants.CommonPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
+                                    if (!CommonPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
                                     {
                                         await OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
                                         return; // Exit
