@@ -20,6 +20,8 @@
             public const string RecycleBinPath = @"Shell:RecycleBinFolder";
 
             public const string NetworkFolderPath = @"Shell:NetworkPlacesFolder";
+
+            public const string MyComputerPath = @"Shell:MyComputerFolder";
         }
 
         public static class ImageRes
