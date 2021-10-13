@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem.StorageEnumerators
 {
@@ -26,7 +27,8 @@ namespace Files.Filesystem.StorageEnumerators
             Type sourcePageType,
             CancellationToken cancellationToken,
             int countLimit,
-            Func<List<ListedItem>, Task> intermediateAction
+            Func<List<ListedItem>, Task> intermediateAction,
+            Dictionary<string, BitmapImage> defaultIconPairs = null
         )
         {
             var sampler = new IntervalSampler(500);
@@ -75,6 +77,13 @@ namespace Files.Filesystem.StorageEnumerators
                         var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, returnformat, cancellationToken);
                         if (folder != null)
                         {
+                            if (defaultIconPairs != null)
+                            {
+                                if (defaultIconPairs.ContainsKey(string.Empty))
+                                {
+                                    folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
+                                }
+                            }
                             tempList.Add(folder);
                         }
                     }
@@ -83,6 +92,17 @@ namespace Files.Filesystem.StorageEnumerators
                         var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, returnformat, cancellationToken);
                         if (fileEntry != null)
                         {
+                            if (defaultIconPairs != null)
+                            {
+                                if (!string.IsNullOrEmpty(fileEntry.FileExtension))
+                                {
+                                    var lowercaseExt = fileEntry.FileExtension.ToLowerInvariant();
+                                    if (defaultIconPairs.ContainsKey(lowercaseExt))
+                                    {
+                                        fileEntry.SetDefaultIcon(defaultIconPairs[lowercaseExt]);
+                                    }
+                                }
+                            }
                             tempList.Add(fileEntry);
                         }
                     }

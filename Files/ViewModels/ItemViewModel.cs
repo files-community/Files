@@ -1641,7 +1641,7 @@ namespace Files.ViewModels
                     filesAndFolders.AddRange(intermediateList);
                     await OrderFilesAndFoldersAsync();
                     await ApplyFilesAndFoldersChangesAsync();
-                });
+                }, defaultIconPairs: DefaultIcons);
                 filesAndFolders.AddRange(finalList);
                 await OrderFilesAndFoldersAsync();
                 await ApplyFilesAndFoldersChangesAsync();
@@ -1932,7 +1932,7 @@ namespace Files.ViewModels
             if (item.IsFolder)
             {
                 // Folder
-                return new RecycleBinItem(null, dateReturnFormat)
+                var binItem = new RecycleBinItem(null, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemName = item.FileName,
@@ -1950,6 +1950,11 @@ namespace Files.ViewModels
                     FileSizeBytes = 0,
                     //FolderTooltipText = tooltipString,
                 };
+                if (DefaultIcons.ContainsKey(string.Empty))
+                {
+                    binItem.SetDefaultIcon(DefaultIcons[string.Empty]);
+                }
+                return binItem;
             }
             else
             {
@@ -1976,7 +1981,7 @@ namespace Files.ViewModels
                 {
                     itemFileExtension = Path.GetExtension(item.FileName);
                 }
-                return new RecycleBinItem(null, dateReturnFormat)
+                var binItem = new RecycleBinItem(null, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
                     FileExtension = itemFileExtension,
@@ -1994,6 +1999,15 @@ namespace Files.ViewModels
                     FileSize = item.FileSize,
                     FileSizeBytes = (long)item.FileSizeBytes
                 };
+                if (!string.IsNullOrEmpty(binItem?.FileExtension))
+                {
+                    var lowercaseExt = binItem.FileExtension.ToLowerInvariant();
+                    if (DefaultIcons.ContainsKey(lowercaseExt))
+                    {
+                        binItem.SetDefaultIcon(DefaultIcons[lowercaseExt]);
+                    }
+                }
+                return binItem;
             }
         }
 

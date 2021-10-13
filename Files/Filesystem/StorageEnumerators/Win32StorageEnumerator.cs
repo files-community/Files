@@ -54,20 +54,19 @@ namespace Files.Filesystem.StorageEnumerators
                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
                         var file = await GetFile(findData, path, returnformat, connection, cancellationToken);
-                        if (defaultIconPairs != null)
-                        {
-                            if (!string.IsNullOrEmpty(file?.FileExtension))
-                            {
-                                var lowercaseExt = file.FileExtension.ToLowerInvariant();
-                                if (defaultIconPairs.ContainsKey(lowercaseExt))
-                                {
-                                    file.SetDefaultIcon(defaultIconPairs[lowercaseExt]);
-                                }
-                            }
-                        }
-
                         if (file != null)
                         {
+                            if (defaultIconPairs != null)
+                            {
+                                if (!string.IsNullOrEmpty(file.FileExtension))
+                                {
+                                    var lowercaseExt = file.FileExtension.ToLowerInvariant();
+                                    if (defaultIconPairs.ContainsKey(lowercaseExt))
+                                    {
+                                        file.SetDefaultIcon(defaultIconPairs[lowercaseExt]);
+                                    }
+                                }
+                            }
                             tempList.Add(file);
                             ++count;
                         }
@@ -77,9 +76,9 @@ namespace Files.Filesystem.StorageEnumerators
                         if (findData.cFileName != "." && findData.cFileName != "..")
                         {
                             var folder = await GetFolder(findData, path, returnformat, cancellationToken);
-                            if (defaultIconPairs != null)
+                            if (folder != null)
                             {
-                                if (folder != null)
+                                if (defaultIconPairs != null)
                                 {
                                     if (defaultIconPairs.ContainsKey(string.Empty))
                                     {
@@ -87,10 +86,6 @@ namespace Files.Filesystem.StorageEnumerators
                                         folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
                                     }
                                 }
-                            }
-
-                            if (folder != null)
-                            {
                                 tempList.Add(folder);
                                 ++count;
                             }
