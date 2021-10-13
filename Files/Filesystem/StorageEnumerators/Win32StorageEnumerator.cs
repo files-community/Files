@@ -246,7 +246,6 @@ namespace Files.Filesystem.StorageEnumerators
                 itemType = itemFileExtension.Trim('.') + " " + itemType;
             }
 
-            bool itemFolderImgVis = false;
             bool itemThumbnailImgVis = false;
             bool itemEmptyImgVis = true;
 

@@ -182,9 +182,7 @@ namespace Files.Filesystem.StorageEnumerators
             var itemSize = ByteSize.FromBytes(basicProperties.Size).ToBinaryString().ConvertSizeAbbreviation();
             var itemSizeBytes = basicProperties.Size;
             var itemType = file.DisplayType;
-            var itemFolderImgVis = false;
             var itemFileExtension = file.FileType;
-            var itemEmptyImgVis = true;
             var itemThumbnailImgVis = false;
 
             if (cancellationToken.IsCancellationRequested)
