@@ -25,6 +25,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -676,7 +677,16 @@ namespace Files
             if (itemsControl is not null)
             {
                 contextMenuFlyout.SetValue(ContextMenuExtensions.ItemsControlProperty, itemsControl);
-                itemsControl.MaxHeight = Math.Min(480, itemsControl.ActualHeight); // Set menu max height to current height (avoids menu repositioning)
+
+                var ttv = secondaryMenu.TransformToVisual(Window.Current.Content);
+                var cMenuPos = ttv.TransformPoint(new Point(0, 0));
+                var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Where(x => x is not AppBarSeparator).Count() * 32;
+                var availableHeight = Window.Current.Bounds.Height - cMenuPos.Y - 48;
+                if (requiredHeight > availableHeight)
+                {
+                    itemsControl.MaxHeight = Math.Min(480, Math.Max(itemsControl.ActualHeight, Math.Min(availableHeight, requiredHeight))); // Set menu max height to current height (avoids menu repositioning)
+                }
+
                 mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - 10); // Set items max width to current menu width (#5555)
             }
 
