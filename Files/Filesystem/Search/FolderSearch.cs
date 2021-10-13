@@ -341,8 +341,6 @@ namespace Files.Filesystem.Search
                     ItemPath = itemPath,
                     IsHiddenItem = isHidden,
                     LoadFileIcon = false,
-                    LoadUnknownTypeGlyph = true,
-                    LoadFolderGlyph = false,
                     FileExtension = itemFileExtension,
                     ItemType = itemType,
                     Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
@@ -359,8 +357,6 @@ namespace Files.Filesystem.Search
                         ItemPath = itemPath,
                         IsHiddenItem = isHidden,
                         LoadFileIcon = false,
-                        LoadUnknownTypeGlyph = false,
-                        LoadFolderGlyph = true,
                         Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
                     };
                 }
@@ -375,8 +371,6 @@ namespace Files.Filesystem.Search
                             _ = FilesystemTasks.Wrap(() => CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
                                 listedItem.FileImage = await t.Result.ToBitmapAsync();
-                                listedItem.LoadFolderGlyph = false;
-                                listedItem.LoadUnknownTypeGlyph = false;
                                 listedItem.LoadWebShortcutGlyph = false;
                                 listedItem.LoadFileIcon = true;
                             }, Windows.System.DispatcherQueuePriority.Low));
@@ -398,10 +392,9 @@ namespace Files.Filesystem.Search
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemName = folder.DisplayName,
                     ItemPath = folder.Path,
-                    LoadFolderGlyph = true,
                     ItemDateModifiedReal = props.DateModified,
                     ItemDateCreatedReal = folder.DateCreated,
-                    LoadUnknownTypeGlyph = false,
+                    NeedsPlaceholderGlyph = false,
                     Opacity = 1
                 };
             }
@@ -425,14 +418,13 @@ namespace Files.Filesystem.Search
                     ItemName = file.DisplayName,
                     ItemPath = file.Path,
                     LoadFileIcon = false,
-                    LoadUnknownTypeGlyph = true,
-                    LoadFolderGlyph = false,
                     FileExtension = itemFileExtension,
                     FileSizeBytes = (long)props.Size,
                     FileSize = itemSize,
                     ItemDateModifiedReal = props.DateModified,
                     ItemDateCreatedReal = file.DateCreated,
                     ItemType = itemType,
+                    NeedsPlaceholderGlyph = false,
                     Opacity = 1
                 };
             }
@@ -442,10 +434,12 @@ namespace Files.Filesystem.Search
                 if (iconData != null)
                 {
                     listedItem.FileImage = await iconData.ToBitmapAsync();
-                    listedItem.LoadUnknownTypeGlyph = false;
                     listedItem.LoadWebShortcutGlyph = false;
-                    listedItem.LoadFolderGlyph = false;
                     listedItem.LoadFileIcon = true;
+                }
+                else
+                {
+                    listedItem.NeedsPlaceholderGlyph = true;
                 }
             }
             return listedItem;

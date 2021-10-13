@@ -241,15 +241,15 @@
                                                     Height="20"
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch"
-                                                    x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
-                                                    Source="{x:Bind ViewModels:MainViewModel.FolderGlyphIcon, Mode=OneWay}" />
+                                                    x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
+                                                    Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
                                                 <Border
                                                     x:Name="TypeUnknownGlyph"
                                                     Width="20"
                                                     Height="20"
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch"
-                                                    x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
+                                                    x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
                                                     Background="{ThemeResource SystemChromeHighColor}"
                                                     CornerRadius="4" />
                                                 <Image

@@ -153,11 +153,9 @@ namespace Files.Filesystem.StorageEnumerators
                     ItemType = folder.DisplayType,
                     IsHiddenItem = false,
                     Opacity = 1,
-                    LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
                     ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
-                    LoadUnknownTypeGlyph = false,
                     FileSize = null,
                     FileSizeBytes = 0
                 };
@@ -216,10 +214,8 @@ namespace Files.Filesystem.StorageEnumerators
                     FileExtension = itemFileExtension,
                     IsHiddenItem = false,
                     Opacity = 1,
-                    LoadUnknownTypeGlyph = itemEmptyImgVis,
                     FileImage = null,
                     LoadFileIcon = itemThumbnailImgVis,
-                    LoadFolderGlyph = itemFolderImgVis,
                     ItemName = itemName,
                     ItemDateModifiedReal = itemModifiedDate,
                     ItemDateCreatedReal = itemCreatedDate,

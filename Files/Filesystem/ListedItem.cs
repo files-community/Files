@@ -51,13 +51,13 @@ namespace Files.Filesystem
 
         public string FolderRelativeId { get; set; }
         public bool ContainsFilesOrFolders { get; set; } = true;
-        private bool loadFolderGlyph;
         private bool loadFileIcon;
+        private bool needsPlaceholderGlyph = true;
 
-        public bool LoadFolderGlyph
+        public bool NeedsPlaceholderGlyph
         {
-            get => loadFolderGlyph;
-            set => SetProperty(ref loadFolderGlyph, value);
+            get => needsPlaceholderGlyph;
+            set => SetProperty(ref needsPlaceholderGlyph, value);
         }
 
         public bool LoadFileIcon
@@ -66,12 +66,12 @@ namespace Files.Filesystem
             set => SetProperty(ref loadFileIcon, value);
         }
 
-        private bool loadUnknownTypeGlyph;
+        private bool loadDefaultIcon = false;
 
-        public bool LoadUnknownTypeGlyph
+        public bool LoadDefaultIcon
         {
-            get => loadUnknownTypeGlyph;
-            set => SetProperty(ref loadUnknownTypeGlyph, value);
+            get => loadDefaultIcon;
+            internal set => SetProperty(ref loadDefaultIcon, value);
         }
 
         private bool loadWebShortcutGlyph;
@@ -79,7 +79,14 @@ namespace Files.Filesystem
         public bool LoadWebShortcutGlyph
         {
             get => loadWebShortcutGlyph;
-            set => SetProperty(ref loadWebShortcutGlyph, value);
+            set 
+            {
+                SetProperty(ref loadWebShortcutGlyph, value);
+                if (value)
+                {
+                    LoadDefaultIcon = false;
+                }
+            } 
         }
 
         private bool loadCustomIcon;
@@ -176,7 +183,26 @@ namespace Files.Filesystem
         public BitmapImage FileImage
         {
             get => fileImage;
-            set => SetProperty(ref fileImage, value);
+            set 
+            {
+                SetProperty(ref fileImage, value);
+                if (value is BitmapImage img)
+                {
+                    img.ImageOpened += Img_ImageOpened;
+                }
+            }
+        }
+
+        private void Img_ImageOpened(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var image = ((BitmapImage)sender);
+            if (image.PixelWidth > 0)
+            {
+                PlaceholderDefaultIcon = null;
+                NeedsPlaceholderGlyph = false;
+                LoadDefaultIcon = false;
+            }
+            image.ImageOpened -= Img_ImageOpened;
         }
 
         public bool IsItemPinnedToStart => App.SecondaryTileHelper.CheckFolderPinned(ItemPath);
@@ -194,6 +220,14 @@ namespace Files.Filesystem
                     SetProperty(ref iconOverlay, value);
                 }
             }
+        }
+        private BitmapImage placeholderDefaultIcon;
+
+        [JsonIgnore]
+        public BitmapImage PlaceholderDefaultIcon
+        {
+            get => placeholderDefaultIcon;
+            set => SetProperty(ref placeholderDefaultIcon, value);
         }
 
         private string itemPath;
@@ -382,6 +416,13 @@ namespace Files.Filesystem
         {
             ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(ItemPath);
         }
+
+        public void SetDefaultIcon(BitmapImage img)
+        {
+            NeedsPlaceholderGlyph = false;
+            LoadDefaultIcon = true;
+            PlaceholderDefaultIcon = img;
+        }
     }
 
     public class RecycleBinItem : ListedItem
@@ -437,10 +478,8 @@ namespace Files.Filesystem
             }
 
             ItemType = itemType;
-            LoadFolderGlyph = !isFile;
             FileSizeBytes = item.Size;
             ContainsFilesOrFolders = !isFile;
-            LoadUnknownTypeGlyph = isFile;
             FileImage = null;
             FileSize = ByteSize.FromBytes(FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
             Opacity = 1;

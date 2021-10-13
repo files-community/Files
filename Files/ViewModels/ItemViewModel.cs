@@ -737,6 +737,23 @@ namespace Files.ViewModels
             FilesAndFolders.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
         }
 
+        public Dictionary<string, BitmapImage> DefaultIcons = new Dictionary<string, BitmapImage>();
+
+        private uint currentDefaultIconSize = 0;
+        public async void GetDefaultItemIcons(uint size)
+        {
+            if (currentDefaultIconSize != size)
+            {
+                DefaultIcons.Clear();
+                // TODO: Add more than just the folder icon
+                BitmapImage img = new BitmapImage();
+                using var icon = await StorageItemIconHelpers.GetIconForItemType(size, StorageItemIconHelpers.IconPersistenceOptions.Persist);
+                await img.SetSourceAsync(icon);
+                DefaultIcons.Add(String.Empty, img);
+                currentDefaultIconSize = size;
+            }
+        }
+
         private bool isLoadingItems = false;
 
         public bool IsLoadingItems
@@ -768,10 +785,8 @@ namespace Files.ViewModels
                         {
                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
-                                item.LoadUnknownTypeGlyph = false;
-                                item.LoadWebShortcutGlyph = false;
                                 item.LoadFileIcon = true;
-                                item.LoadFolderGlyph = false;
+                                item.LoadWebShortcutGlyph = false;
                                 item.FileImage ??= new BitmapImage();
                                 item.FileImage.DecodePixelType = DecodePixelType.Logical;
                                 item.FileImage.DecodePixelWidth = (int)thumbnailSize;
@@ -800,7 +815,6 @@ namespace Files.ViewModels
                         {
                             item.FileImage = await iconInfo.IconData.ToBitmapAsync();
                             item.LoadFileIcon = true;
-                            item.LoadUnknownTypeGlyph = false;
                             item.LoadWebShortcutGlyph = false;
                         }, Windows.System.DispatcherQueuePriority.Low);
                     }
@@ -828,10 +842,8 @@ namespace Files.ViewModels
                         {
                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
-                                item.LoadUnknownTypeGlyph = false;
-                                item.LoadWebShortcutGlyph = false;
                                 item.LoadFileIcon = true;
-                                item.LoadFolderGlyph = false;
+                                item.LoadWebShortcutGlyph = false;
                                 item.FileImage ??= new BitmapImage();
                                 item.FileImage.DecodePixelType = DecodePixelType.Logical;
                                 item.FileImage.DecodePixelWidth = (int)thumbnailSize;
@@ -860,8 +872,6 @@ namespace Files.ViewModels
                         {
                             item.FileImage = await iconInfo.IconData.ToBitmapAsync();
                             item.LoadFileIcon = true;
-                            item.LoadFolderGlyph = false;
-                            item.LoadUnknownTypeGlyph = false;
                             item.LoadWebShortcutGlyph = false;
                         }, Windows.System.DispatcherQueuePriority.Low);
                     }
@@ -1193,6 +1203,8 @@ namespace Files.ViewModels
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
+            GetDefaultItemIcons(folderSettings.GetIconSize());
+
             var isRecycleBin = path.StartsWith(CommonPaths.RecycleBinPath);
             if (isRecycleBin ||
                 path.StartsWith(CommonPaths.NetworkFolderPath) ||
@@ -1240,6 +1252,31 @@ namespace Files.ViewModels
             Debug.WriteLine($"Loading of items in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
 
+        private void AssignDefaultIcons()
+        {
+            foreach (string key in DefaultIcons.Keys)
+            {
+                if (key.Equals(string.Empty))
+                {
+                    var icon = DefaultIcons[key];
+                    var folders = FilesAndFolders.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder);
+                    foreach (ListedItem folder in folders)
+                    {
+                        folder.SetDefaultIcon(icon);
+                    }
+                }
+                else
+                {
+                    var icon = DefaultIcons[key];
+                    var filesMatching = FilesAndFolders.Where(x => x.FileExtension.Equals(key));
+                    foreach (ListedItem file in filesMatching)
+                    {
+                        file.SetDefaultIcon(icon);
+                    }
+                }
+            }
+        }
+
         public void CloseWatcher()
         {
             if (aWatcherAction != null)
@@ -1278,11 +1315,9 @@ namespace Files.ViewModels
                 ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
                 ItemDateCreatedReal = DateTimeOffset.Now, // Fake for now
                 ItemType = "FileFolderListItem".GetLocalized(),
-                LoadFolderGlyph = true,
                 FileImage = null,
                 LoadFileIcon = false,
                 ItemPath = path,
-                LoadUnknownTypeGlyph = false,
                 FileSize = null,
                 FileSizeBytes = 0
             };
@@ -1474,11 +1509,9 @@ namespace Files.ViewModels
                     ItemName = rootFolder.DisplayName,
                     ItemDateModifiedReal = basicProps.DateModified,
                     ItemType = rootFolder.DisplayType,
-                    LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
                     ItemPath = string.IsNullOrEmpty(rootFolder.Path) ? currentStorageFolder.Path : rootFolder.Path,
-                    LoadUnknownTypeGlyph = false,
                     FileSize = null,
                     FileSizeBytes = 0,
                 };
@@ -1535,13 +1568,11 @@ namespace Files.ViewModels
                     ItemDateModifiedReal = itemModifiedDate,
                     ItemDateCreatedReal = itemCreatedDate,
                     ItemType = folderTypeTextLocalized,
-                    LoadFolderGlyph = true,
                     FileImage = null,
                     IsHiddenItem = isHidden,
                     Opacity = opacity,
                     LoadFileIcon = false,
                     ItemPath = path,
-                    LoadUnknownTypeGlyph = false,
                     FileSize = null,
                     FileSizeBytes = 0,
                 };
@@ -1566,7 +1597,7 @@ namespace Files.ViewModels
                             filesAndFolders.AddRange(intermediateList);
                             await OrderFilesAndFoldersAsync();
                             await ApplyFilesAndFoldersChangesAsync();
-                        });
+                        }, defaultIconPairs: DefaultIcons);
 
                         filesAndFolders.AddRange(fileList);
                         await OrderFilesAndFoldersAsync();
@@ -1906,12 +1937,10 @@ namespace Files.ViewModels
                     ItemType = item.FileType,
                     IsHiddenItem = false,
                     Opacity = 1,
-                    LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
                     ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
                     ItemOriginalPath = item.FilePath,
-                    LoadUnknownTypeGlyph = false,
                     FileSize = null,
                     FileSizeBytes = 0,
                     //FolderTooltipText = tooltipString,
@@ -1946,10 +1975,8 @@ namespace Files.ViewModels
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
                     FileExtension = itemFileExtension,
-                    LoadUnknownTypeGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
-                    LoadFolderGlyph = false,
                     IsHiddenItem = false,
                     Opacity = 1,
                     ItemName = itemName,

@@ -94,8 +94,8 @@
                         Margin="12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
-                        Source="{x:Bind ViewModels:MainViewModel.FolderGlyphIcon, Mode=OneWay}" />
+                        x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
+                        Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
                     <Border
                         x:Name="TypeUnknownGlyph"
                         MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
@@ -103,7 +103,7 @@
                         Margin="12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
+                        x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
                         Background="{ThemeResource SystemChromeHighColor}"
                         CornerRadius="4" />
                     <Image
@@ -264,22 +264,21 @@
                             Source="{x:Bind FileImage, Mode=OneWay}"
                             Stretch="Uniform" />
                     </ContentPresenter>
-                    <Border
+                    <Image
                         x:Name="FolderGlyphIcon"
                         Width="72"
                         Height="72"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
-                        Background="{ThemeResource SystemChromeHighColor}"
-                        CornerRadius="4" />
+                        x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
+                        Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
                     <Border
                         x:Name="TypeUnknownGlyph"
                         Width="72"
                         Height="72"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
+                        x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
                         Background="{ThemeResource SystemChromeHighColor}"
                         CornerRadius="4" />
                     <Image
