@@ -192,7 +192,14 @@ namespace Files.Filesystem
                 {
                     if (value is BitmapImage img)
                     {
-                        img.ImageOpened += Img_ImageOpened;
+                        if (img.PixelWidth > 0)
+                        {
+                            Img_ImageOpened(img, null);
+                        }
+                        else
+                        {
+                            img.ImageOpened += Img_ImageOpened;
+                        }
                     }
                 }
             }
