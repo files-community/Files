@@ -375,6 +375,8 @@
                                 <ListView.ItemContainerStyle>
                                     <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="Height" Value="36" />
+                                        <Setter Property="MinHeight" Value="1" />
                                     </Style>
                                 </ListView.ItemContainerStyle>
                                 <ListView.ItemsPanel>
