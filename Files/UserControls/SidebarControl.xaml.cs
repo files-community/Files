@@ -383,7 +383,7 @@ namespace Files.UserControls
 
                 if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
                 {
-                    secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250); // Set menu min width if the overflow menu setting is disabled
+                    secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
                 }
 
                 secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
@@ -435,7 +435,7 @@ namespace Files.UserControls
 
             if (!UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
             {
-                secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250); // Set menu min width if the overflow menu setting is disabled
+                secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width if the overflow menu setting is disabled
             }
 
             secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
@@ -1064,7 +1064,7 @@ namespace Files.UserControls
                             var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
                             if (itemsControl is not null)
                             {
-                                secondaryElements.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - 10); // Set items max width to current menu width (#5555)
+                                secondaryElements.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin); // Set items max width to current menu width (#5555)
                             }
 
                             itemContextMenuFlyout.SecondaryCommands.Add(new AppBarSeparator());

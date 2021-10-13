@@ -256,15 +256,14 @@ namespace FilesFullTrust
             {
                 localSettings.Values.Remove("Arguments");
 
-                if (arguments == "ShellCommand")
+                if (arguments == "TerminateUwp")
                 {
-                    // Kill the process. This is a BRUTAL WAY to kill a process.
-#if DEBUG
-                    // In debug mode this kills this process too??
-#else
-                    var pid = (int)localSettings.Values["pid"];
-                    Process.GetProcessById(pid).Kill();
-#endif
+                    TerminateProcess((int)localSettings.Values["pid"]);
+                    return true;
+                }
+                else if (arguments == "ShellCommand")
+                {
+                    TerminateProcess((int)localSettings.Values["pid"]);
 
                     using Process process = new Process();
                     process.StartInfo.UseShellExecute = true;
@@ -277,6 +276,16 @@ namespace FilesFullTrust
                 }
             }
             return false;
+        }
+
+        private static void TerminateProcess(int processId)
+        {
+            // Kill the process. This is a BRUTAL WAY to kill a process.
+#if DEBUG
+            // In debug mode this kills this process too??
+#else
+            Process.GetProcessById(processId).Kill();
+#endif
         }
     }
 }
