@@ -65,6 +65,7 @@
             public const double ContextMenuSecondaryItemsHeight = 32; // For contextmenu hacks, must match WinUI style
             public const double ContextMenuPrimaryItemsHeight = 48; // For contextmenu hacks, must match WinUI style
             public const double ContextMenuLabelMargin = 10; // For contextmenu hacks
+            public const double ContextMenuItemsMaxWidth = 250; // For contextmenu hacks
         }
 
         public static class Browser
