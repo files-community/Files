@@ -371,8 +371,6 @@ namespace Files.Filesystem.Search
                             _ = FilesystemTasks.Wrap(() => CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
                                 listedItem.FileImage = await t.Result.ToBitmapAsync();
-                                listedItem.LoadWebShortcutGlyph = false;
-                                listedItem.LoadFileIcon = true;
                             }, Windows.System.DispatcherQueuePriority.Low));
                         }
                     });
@@ -434,8 +432,6 @@ namespace Files.Filesystem.Search
                 if (iconData != null)
                 {
                     listedItem.FileImage = await iconData.ToBitmapAsync();
-                    listedItem.LoadWebShortcutGlyph = false;
-                    listedItem.LoadFileIcon = true;
                 }
                 else
                 {

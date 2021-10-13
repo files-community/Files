@@ -206,6 +206,7 @@ namespace Files.Filesystem
                 PlaceholderDefaultIcon = null;
                 NeedsPlaceholderGlyph = false;
                 LoadDefaultIcon = false;
+                LoadWebShortcutGlyph = false;
             }
             image.ImageOpened -= Img_ImageOpened;
         }

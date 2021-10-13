@@ -786,8 +786,6 @@ namespace Files.ViewModels
                         {
                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
-                                item.LoadFileIcon = true;
-                                item.LoadWebShortcutGlyph = false;
                                 item.FileImage ??= new BitmapImage();
                                 item.FileImage.DecodePixelType = DecodePixelType.Logical;
                                 item.FileImage.DecodePixelWidth = (int)thumbnailSize;
@@ -821,8 +819,6 @@ namespace Files.ViewModels
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
                             item.FileImage = await iconInfo.IconData.ToBitmapAsync();
-                            item.LoadFileIcon = true;
-                            item.LoadWebShortcutGlyph = false;
                             if (!string.IsNullOrEmpty(item.FileExtension) &&
                                 !item.IsShortcutItem && !item.IsExecutable &&
                                 !ImagePreviewViewModel.Extensions.Contains(item.FileExtension))
@@ -855,8 +851,6 @@ namespace Files.ViewModels
                         {
                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
-                                item.LoadFileIcon = true;
-                                item.LoadWebShortcutGlyph = false;
                                 item.FileImage ??= new BitmapImage();
                                 item.FileImage.DecodePixelType = DecodePixelType.Logical;
                                 item.FileImage.DecodePixelWidth = (int)thumbnailSize;
@@ -884,8 +878,6 @@ namespace Files.ViewModels
                         await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                         {
                             item.FileImage = await iconInfo.IconData.ToBitmapAsync();
-                            item.LoadFileIcon = true;
-                            item.LoadWebShortcutGlyph = false;
                         }, Windows.System.DispatcherQueuePriority.Low);
                     }
 
