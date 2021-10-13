@@ -18,6 +18,8 @@ using System.Threading;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
+#pragma warning disable CS0618 // Type or member is obsolete
+
 namespace Files.Filesystem
 {
     public class ListedItem : ObservableObject, IGroupableItem
@@ -69,7 +71,8 @@ namespace Files.Filesystem
         public bool LoadDefaultIcon
         {
             get => loadDefaultIcon;
-            internal set => SetProperty(ref loadDefaultIcon, value);
+            [Obsolete("The set accessor is used internally and should not be used outside ListedItem and derived classes.")]
+            set => SetProperty(ref loadDefaultIcon, value);
         }
 
         private bool loadWebShortcutGlyph;
