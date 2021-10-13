@@ -55,7 +55,7 @@ namespace Files.Filesystem.StorageEnumerators
                         var file = await GetFile(findData, path, returnformat, connection, cancellationToken);
                         if (defaultIconPairs != null)
                         {
-                            if (file?.FileExtension != null)
+                            if (!string.IsNullOrEmpty(file?.FileExtension))
                             {
                                 if (defaultIconPairs.Keys.Contains(file.FileExtension))
                                 {

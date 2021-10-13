@@ -81,10 +81,9 @@ namespace Files.Filesystem
             get => loadWebShortcutGlyph;
             set 
             {
-                SetProperty(ref loadWebShortcutGlyph, value);
-                if (value)
+                if (SetProperty(ref loadWebShortcutGlyph, value))
                 {
-                    LoadDefaultIcon = false;
+                    LoadDefaultIcon = !value;
                 }
             } 
         }
@@ -185,17 +184,20 @@ namespace Files.Filesystem
             get => fileImage;
             set 
             {
-                SetProperty(ref fileImage, value);
-                if (value is BitmapImage img)
+                if (SetProperty(ref fileImage, value))
                 {
-                    img.ImageOpened += Img_ImageOpened;
+                    if (value is BitmapImage img)
+                    {
+                        img.ImageOpened -= Img_ImageOpened;
+                        img.ImageOpened += Img_ImageOpened;
+                    }
                 }
             }
         }
 
         private void Img_ImageOpened(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var image = ((BitmapImage)sender);
+            var image = (BitmapImage)sender;
             if (image.PixelWidth > 0)
             {
                 PlaceholderDefaultIcon = null;

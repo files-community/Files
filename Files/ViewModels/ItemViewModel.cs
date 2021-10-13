@@ -749,7 +749,7 @@ namespace Files.ViewModels
                 BitmapImage img = new BitmapImage();
                 using var icon = await StorageItemIconHelpers.GetIconForItemType(size, StorageItemIconHelpers.IconPersistenceOptions.Persist);
                 await img.SetSourceAsync(icon);
-                DefaultIcons.Add(String.Empty, img);
+                DefaultIcons.Add(string.Empty, img);
                 currentDefaultIconSize = size;
             }
         }
@@ -791,6 +791,10 @@ namespace Files.ViewModels
                                 item.FileImage.DecodePixelType = DecodePixelType.Logical;
                                 item.FileImage.DecodePixelWidth = (int)thumbnailSize;
                                 await item.FileImage.SetSourceAsync(Thumbnail);
+                                if (!string.IsNullOrEmpty(item.FileExtension))
+                                {
+                                    DefaultIcons.Add(item.FileExtension, item.FileImage);
+                                }
                             }, Windows.System.DispatcherQueuePriority.Normal);
                             wasIconLoaded = true;
                         }
@@ -816,6 +820,10 @@ namespace Files.ViewModels
                             item.FileImage = await iconInfo.IconData.ToBitmapAsync();
                             item.LoadFileIcon = true;
                             item.LoadWebShortcutGlyph = false;
+                            if (!string.IsNullOrEmpty(item.FileExtension) && !item.IsShortcutItem && !item.IsExecutable)
+                            {
+                                DefaultIcons.Add(item.FileExtension, item.FileImage);
+                            }
                         }, Windows.System.DispatcherQueuePriority.Low);
                     }
 
@@ -1250,31 +1258,6 @@ namespace Files.ViewModels
 
             stopwatch.Stop();
             Debug.WriteLine($"Loading of items in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
-        }
-
-        private void AssignDefaultIcons()
-        {
-            foreach (string key in DefaultIcons.Keys)
-            {
-                if (key.Equals(string.Empty))
-                {
-                    var icon = DefaultIcons[key];
-                    var folders = FilesAndFolders.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder);
-                    foreach (ListedItem folder in folders)
-                    {
-                        folder.SetDefaultIcon(icon);
-                    }
-                }
-                else
-                {
-                    var icon = DefaultIcons[key];
-                    var filesMatching = FilesAndFolders.Where(x => x.FileExtension.Equals(key));
-                    foreach (ListedItem file in filesMatching)
-                    {
-                        file.SetDefaultIcon(icon);
-                    }
-                }
-            }
         }
 
         public void CloseWatcher()
