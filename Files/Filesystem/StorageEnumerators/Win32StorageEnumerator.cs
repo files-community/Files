@@ -58,9 +58,10 @@ namespace Files.Filesystem.StorageEnumerators
                         {
                             if (!string.IsNullOrEmpty(file?.FileExtension))
                             {
-                                if (defaultIconPairs.Keys.Contains(file.FileExtension))
+                                var lowercaseExt = file.FileExtension.ToLowerInvariant();
+                                if (defaultIconPairs.ContainsKey(lowercaseExt))
                                 {
-                                    file.SetDefaultIcon(defaultIconPairs[file.FileExtension]);
+                                    file.SetDefaultIcon(defaultIconPairs[lowercaseExt]);
                                 }
                             }
                         }
@@ -80,7 +81,7 @@ namespace Files.Filesystem.StorageEnumerators
                             {
                                 if (folder != null)
                                 {
-                                    if (defaultIconPairs.Keys.Contains(string.Empty))
+                                    if (defaultIconPairs.ContainsKey(string.Empty))
                                     {
                                         // Set folder icon (found by empty extension string)
                                         folder.SetDefaultIcon(defaultIconPairs[string.Empty]);

@@ -12,6 +12,7 @@ using Files.Helpers;
 using Files.Helpers.FileListCache;
 using Files.Services;
 using Files.UserControls;
+using Files.ViewModels.Previews;
 using FluentFTP;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -791,9 +792,11 @@ namespace Files.ViewModels
                                 item.FileImage.DecodePixelType = DecodePixelType.Logical;
                                 item.FileImage.DecodePixelWidth = (int)thumbnailSize;
                                 await item.FileImage.SetSourceAsync(Thumbnail);
-                                if (!string.IsNullOrEmpty(item.FileExtension))
+                                if (!string.IsNullOrEmpty(item.FileExtension) && 
+                                    !item.IsShortcutItem && !item.IsExecutable &&
+                                    !ImagePreviewViewModel.Extensions.Contains(item.FileExtension))
                                 {
-                                    DefaultIcons.Add(item.FileExtension, item.FileImage);
+                                    DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
                                 }
                             }, Windows.System.DispatcherQueuePriority.Normal);
                             wasIconLoaded = true;
@@ -820,9 +823,14 @@ namespace Files.ViewModels
                             item.FileImage = await iconInfo.IconData.ToBitmapAsync();
                             item.LoadFileIcon = true;
                             item.LoadWebShortcutGlyph = false;
-                            if (!string.IsNullOrEmpty(item.FileExtension) && !item.IsShortcutItem && !item.IsExecutable)
+                            if (!string.IsNullOrEmpty(item.FileExtension) &&
+                                !item.IsShortcutItem && !item.IsExecutable &&
+                                !ImagePreviewViewModel.Extensions.Contains(item.FileExtension))
                             {
-                                DefaultIcons.Add(item.FileExtension, item.FileImage);
+                                DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
+                            }
+                            {
+                                DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
                             }
                         }, Windows.System.DispatcherQueuePriority.Low);
                     }
