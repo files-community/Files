@@ -203,6 +203,7 @@ namespace Files.Filesystem
             var image = (BitmapImage)sender;
             if (image.PixelWidth > 0)
             {
+                LoadFileIcon = true;
                 PlaceholderDefaultIcon = null;
                 NeedsPlaceholderGlyph = false;
                 LoadDefaultIcon = false;
