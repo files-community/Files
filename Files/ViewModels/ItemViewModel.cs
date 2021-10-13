@@ -829,9 +829,6 @@ namespace Files.ViewModels
                             {
                                 DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
                             }
-                            {
-                                DefaultIcons.AddIfNotPresent(item.FileExtension.ToLowerInvariant(), item.FileImage);
-                            }
                         }, Windows.System.DispatcherQueuePriority.Low);
                     }
 
