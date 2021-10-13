@@ -30,7 +30,7 @@ namespace Files.Helpers
         {
             if (string.IsNullOrWhiteSpace(fileExtension))
             {
-                StorageFolder localFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+                StorageFolder localFolder = ApplicationData.Current.RoamingFolder;
                 return await localFolder.GetThumbnailAsync(ThumbnailMode.ListView, requestedSize, ThumbnailOptions.UseCurrentScale);
             }
             else

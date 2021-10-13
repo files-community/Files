@@ -79,13 +79,13 @@ namespace Files.Filesystem
         public bool LoadWebShortcutGlyph
         {
             get => loadWebShortcutGlyph;
-            set 
+            set
             {
                 if (SetProperty(ref loadWebShortcutGlyph, value))
                 {
                     LoadDefaultIcon = !value;
                 }
-            } 
+            }
         }
 
         private bool loadCustomIcon;
@@ -182,13 +182,16 @@ namespace Files.Filesystem
         public BitmapImage FileImage
         {
             get => fileImage;
-            set 
+            set
             {
+                if (value is BitmapImage imgOld)
+                {
+                    imgOld.ImageOpened -= Img_ImageOpened;
+                }
                 if (SetProperty(ref fileImage, value))
                 {
                     if (value is BitmapImage img)
                     {
-                        img.ImageOpened -= Img_ImageOpened;
                         img.ImageOpened += Img_ImageOpened;
                     }
                 }
