@@ -32,21 +32,40 @@
             <StackPanel Orientation="Vertical" Width="200">
                 <TextBlock Text="No filter selected. Add a new filter." TextWrapping="Wrap" Visibility="{x:Bind Filter.IsEmpty}" />
                 <ItemsControl
-                    ItemsSource="{x:Bind Filter}"
-                    ItemTemplateSelector="{StaticResource ButtonTemplateSelector}" />
-
-                <CommandBar Margin="0,8,0,8" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" IsDynamicOverflowEnabled="False">
+                    ItemsSource="{x:Bind ItemViewModels, Mode=OneWay}" Margin="0,8,0,8"
+                     PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited"
+                    ItemTemplateSelector="{StaticResource ButtonTemplateSelector}">
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="0,2,0,2" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:IFilterViewModel">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="32" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon Width="32" FontSize="14" Glyph="{x:Bind Filter.Glyph}" />
+                                <ContentControl Grid.Column="1" Content="{Binding}" ContentTemplateSelector="{StaticResource ButtonTemplateSelector}" />
+                                <Button Width="32" x:Name="CloseButton" Grid.Column="2" Visibility="Collapsed" Background="Transparent" BorderBrush="Transparent">
+                                    <Button.Content>
+                                        <FontIcon FontSize="14" Glyph="&#xE710;" />
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <CommandBar Margin="0,0,0,8" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" IsDynamicOverflowEnabled="False">
                     <AppBarButton x:Name="AddFilterButton"
                         Icon="Add" Label="Add" Loaded="AddFilterButton_Loaded" />
                     <AppBarButton
                         Icon="Delete" Label="Remove"
                         IsEnabled="{x:Bind Filter.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}" />
                 </CommandBar>
-
-                <!--<StackPanel Orientation="Horizontal" Margin="0,8,8,8" Spacing="8">
-                    <Button x:Name="AddFilterButton" Content="Add" />
-                    <Button Content="Clear" Command="{x:Bind ClearCommand}" />
-                </StackPanel>-->
             </StackPanel>
         </DataTemplate>
 
@@ -185,42 +204,36 @@
             </StackPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="DefaultButtonTemplate" x:DataType="search:IFilter">
+        <DataTemplate x:Key="DefaultButtonTemplate" x:DataType="vm:IFilterViewModel">
             <Button
-                x:Name="OpenButton" CornerRadius="8"
+                x:Name="OpenButton" CornerRadius="8" Click="OpenButton_Click"
                 Content="{Binding}" ContentTemplateSelector="{StaticResource ButtonContentTemplateSelector}" />
         </DataTemplate>
 
-        <DataTemplate x:Key="CollectionButtonContentTemplate" x:DataType="search:IFilterCollection">
+        <DataTemplate x:Key="CollectionButtonContentTemplate">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="12">
-                <TextBlock
+                <!--<TextBlock
                     FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"
                     Text="{x:Bind Label, Mode=OneWay}" />
                 <TextBlock
                     Grid.Row="1" FontSize="12" VerticalAlignment="Center"
-                    Text="{x:Bind Count}" />
+                    Text="{x:Bind Count}" />-->
             </StackPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="DateRangeButtonContentTemplate" x:DataType="search:IDateRangeFilter">
+        <DataTemplate x:Key="DateRangeButtonContentTemplate" x:DataType="vm:IDateRangeFilterViewModel">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="12">
                 <TextBlock
-                    FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"
-                    Text="{x:Bind Label, Mode=OneWay}" />
-                <TextBlock
                     Grid.Row="1" FontSize="12" VerticalAlignment="Center"
-                    Text="{x:Bind Range, Converter={StaticResource ToStringConverter}, ConverterParameter='\{0:n}'}" />
+                    Text="{x:Bind ShortRangeLabel}" />
             </StackPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="SizeRangeButtonContentTemplate" x:DataType="search:ISizeRangeFilter">
+        <DataTemplate x:Key="SizeRangeButtonContentTemplate" x:DataType="vm:ISizeRangeFilterViewModel">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="12">
                 <TextBlock
                     FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"
-                    Text="{Binding ShortLabel, Mode=OneWay}" />
-                <TextBlock
-                    Grid.Row="1" FontSize="12" VerticalAlignment="Center"
-                    Text="{Binding Range, Converter={StaticResource ToStringConverter}, ConverterParameter='\{0:n}'}" />
+                    Text="{Binding ShortRangeLabel}" />
             </StackPanel>
         </DataTemplate>
 

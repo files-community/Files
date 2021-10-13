@@ -1,7 +1,9 @@
 ﻿using Files.Filesystem.Search;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace Files.ViewModels.Search
@@ -23,6 +25,7 @@ namespace Files.ViewModels.Search
     public interface IFilterCollectionViewModel : IContainerFilterViewModel
     {
         new IFilterCollection Filter { get; }
+        IEnumerable<IFilterViewModel> ItemViewModels { get; }
     }
 
     public class FilterViewModelFactory : IFilterViewModelFactory
@@ -56,6 +59,14 @@ namespace Files.ViewModels.Search
     {
         IContainerFilter IContainerFilterViewModel.Filter => Filter;
 
-        public FilterCollectionViewModel(IFilterCollection filter): base(filter) {}
+        public IEnumerable<IFilterViewModel> ItemViewModels => GetItemViewModels();
+
+        public FilterCollectionViewModel(IFilterCollection filter) : base(filter) {}
+
+        private IEnumerable<IFilterViewModel> GetItemViewModels()
+        {
+            var factory = new FilterViewModelFactory();
+            return Filter.Select(item => factory.GetViewModel(item));
+        }
     }
 }

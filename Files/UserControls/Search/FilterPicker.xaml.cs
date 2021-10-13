@@ -1,6 +1,8 @@
 ﻿using Files.Filesystem.Search;
 using Files.ViewModels.Search;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.UI;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -67,19 +69,35 @@ namespace Files.UserControls.Search
 
         private void Select(IFilter filter)
         {
+            var viewModel = factory.GetViewModel(filter);
+            Select(viewModel);
+        }
+        private void Select(IFilterViewModel filterViewModel)
+        {
+            var parentViewModel = ViewModel as IFilterCollectionViewModel;
+            filterViewModel = parentViewModel.ItemViewModels.FirstOrDefault(item => item.Filter.Key == filterViewModel.Filter.Key) ?? filterViewModel;
+
             var viewModel = new FilterPageViewModel
             {
-                Parent = ViewModel as IContainerFilterViewModel,
-                Filter = factory.GetViewModel(filter),
+                Parent = parentViewModel,
+                Filter = filterViewModel,
             };
             navigator.GoPage(viewModel);
         }
 
-        private void AddFilterButton_Loaded(object sender, RoutedEventArgs e)
-            => (sender as Button).Flyout = GetMenu();
+        private void AddFilterButton_Loaded(object sender, RoutedEventArgs e) => (sender as Button).Flyout = GetMenu();
+        private void OpenButton_Click(object sender, RoutedEventArgs e) => Select((sender as Button).Content as IFilterViewModel);
 
-        private void OpenButton_Click(object sender, RoutedEventArgs e)
+        private void Grid_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
+            var button = (sender as FrameworkElement).FindDescendant("CloseButton") as Button;
+            button.Visibility = Visibility.Visible;
+        }
+
+        private void Grid_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            var button = (sender as Grid).FindDescendant("CloseButton") as Button;
+            button.Visibility = Visibility.Collapsed;
         }
     }
 
@@ -109,9 +127,9 @@ namespace Files.UserControls.Search
 
         protected override DataTemplate SelectTemplateCore(object item) => item switch
         {
-            IFilterCollection => DefaultTemplate,
-            IDateRangeFilter => DefaultTemplate,
-            ISizeRangeFilter => DefaultTemplate,
+            IFilterCollectionViewModel => DefaultTemplate,
+            IDateRangeFilterViewModel => DefaultTemplate,
+            ISizeRangeFilterViewModel => DefaultTemplate,
             _ => null,
         };
 
@@ -128,9 +146,9 @@ namespace Files.UserControls.Search
 
         protected override DataTemplate SelectTemplateCore(object item) => item switch
         {
-            IFilterCollection => CollectionTemplate,
-            IDateRangeFilter => DateRangeTemplate,
-            ISizeRangeFilter => SizeRangeTemplate,
+            IFilterCollectionViewModel => CollectionTemplate,
+            IDateRangeFilterViewModel => DateRangeTemplate,
+            ISizeRangeFilterViewModel => SizeRangeTemplate,
             _ => null,
         };
 
