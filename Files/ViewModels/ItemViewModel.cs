@@ -741,14 +741,15 @@ namespace Files.ViewModels
         public Dictionary<string, BitmapImage> DefaultIcons = new Dictionary<string, BitmapImage>();
 
         private uint currentDefaultIconSize = 0;
-        public async void GetDefaultItemIcons(uint size)
+        public async Task GetDefaultItemIcons(uint size)
         {
             if (currentDefaultIconSize != size)
             {
-                DefaultIcons.Clear();
                 // TODO: Add more than just the folder icon
+
+                DefaultIcons.Clear();
                 BitmapImage img = new BitmapImage();
-                using var icon = await StorageItemIconHelpers.GetIconForItemType(size, StorageItemIconHelpers.IconPersistenceOptions.Persist);
+                using var icon = await StorageItemIconHelpers.GetIconForItemType(size, IconPersistenceOptions.Persist);
                 await img.SetSourceAsync(icon);
                 DefaultIcons.Add(string.Empty, img);
                 currentDefaultIconSize = size;
@@ -1208,7 +1209,7 @@ namespace Files.ViewModels
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            GetDefaultItemIcons(folderSettings.GetIconSize());
+            await GetDefaultItemIcons(folderSettings.GetIconSize());
 
             var isRecycleBin = path.StartsWith(CommonPaths.RecycleBinPath);
             if (isRecycleBin ||
@@ -1261,7 +1262,7 @@ namespace Files.ViewModels
         {
             foreach (string key in DefaultIcons.Keys)
             {
-                if (key.Equals(string.Empty))
+                if (string.IsNullOrEmpty(key))
                 {
                     var icon = DefaultIcons[key];
                     var folders = FilesAndFolders.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder);

@@ -162,6 +162,7 @@
     <Compile Include="Enums\FilesystemOperationType.cs" />
     <Compile Include="Enums\FolderLayout.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
+    <Compile Include="Enums\IconPersistenceOptions.cs" />
     <Compile Include="EventArguments\BaseJsonSettingsModelEventArgs.cs" />
     <Compile Include="EventArguments\Bundles\BundlesOpenPathEventArgs.cs" />
     <Compile Include="EventArguments\LayoutPreferenceEventArgs.cs" />

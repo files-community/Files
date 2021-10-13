@@ -77,12 +77,9 @@ namespace Files.Filesystem.StorageEnumerators
                         var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, returnformat, cancellationToken);
                         if (folder != null)
                         {
-                            if (defaultIconPairs != null)
+                            if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
                             {
-                                if (defaultIconPairs.ContainsKey(string.Empty))
-                                {
-                                    folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
-                                }
+                                folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
                             }
                             tempList.Add(folder);
                         }
@@ -96,10 +93,10 @@ namespace Files.Filesystem.StorageEnumerators
                             {
                                 if (!string.IsNullOrEmpty(fileEntry.FileExtension))
                                 {
-                                    var lowercaseExt = fileEntry.FileExtension.ToLowerInvariant();
-                                    if (defaultIconPairs.ContainsKey(lowercaseExt))
+                                    var lowercaseExtension = fileEntry.FileExtension.ToLowerInvariant();
+                                    if (defaultIconPairs.ContainsKey(lowercaseExtension))
                                     {
-                                        fileEntry.SetDefaultIcon(defaultIconPairs[lowercaseExt]);
+                                        fileEntry.SetDefaultIcon(defaultIconPairs[lowercaseExtension]);
                                     }
                                 }
                             }
