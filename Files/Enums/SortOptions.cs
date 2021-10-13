@@ -21,10 +21,11 @@
         DateCreated,
         Size,
         FileType,
-        SyncStatus,
+        SyncStatus, // Cloud drive
         FileTag,
-        OriginalFolder,
-        DateDeleted
+        OriginalFolder, // Recycle bin
+        DateDeleted, // Recycle bin
+        FolderPath, // Libraries
     }
 
     public enum SortDirection : byte // We cannot use Microsoft.Toolkit.Uwp.UI.SortDirection since it's UI-tied and we need Model-tied

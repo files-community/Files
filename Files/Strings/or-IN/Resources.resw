@@ -267,9 +267,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>ନାମ ଚୟନ କର</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>ନୂତନ ଟ୍ୟାବ୍</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>ୱିଣ୍ଡୋଜ୍ ଡିଫଲ୍ଟ</value>
   </data>

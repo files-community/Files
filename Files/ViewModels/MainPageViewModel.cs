@@ -178,7 +178,7 @@ namespace Files.ViewModels
         {
             if (string.IsNullOrEmpty(path))
             {
-                path = "NewTab".GetLocalized();
+                path = "Home".GetLocalized();
             }
 
             TabItem tabItem = new TabItem()
@@ -227,9 +227,9 @@ namespace Files.ViewModels
             string tabLocationHeader;
             var iconSource = new Microsoft.UI.Xaml.Controls.ImageIconSource();
 
-            if (currentPath == null || currentPath == "NewTab".GetLocalized() || currentPath == "Home".GetLocalized())
+            if (currentPath == null || currentPath == "Home".GetLocalized())
             {
-                tabLocationHeader = "NewTab".GetLocalized();
+                tabLocationHeader = "Home".GetLocalized();
                 iconSource.ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/FluentIcons/Home.png"));
             }
             else if (currentPath.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
@@ -384,7 +384,7 @@ namespace Files.ViewModels
                                     var tabArgs = TabItemArguments.Deserialize(tabArgsString);
                                     await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
                                 }
-                                var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
+                                var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home".GetLocalized() };
                                 UserSettingsService.StartupSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
                             }
                             else
@@ -418,7 +418,7 @@ namespace Files.ViewModels
 
         public static async Task AddNewTabAsync()
         {
-            await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+            await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalized());
         }
 
         public async void AddNewTab()
@@ -443,7 +443,7 @@ namespace Files.ViewModels
             }
             else
             {
-                await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+                await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home".GetLocalized());
             }
         }
 

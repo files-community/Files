@@ -222,9 +222,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Adı Ayarla</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>Yeni sekme</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>Varsayılan</value>
   </data>

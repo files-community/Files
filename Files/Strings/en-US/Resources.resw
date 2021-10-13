@@ -426,9 +426,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Set Name</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>New tab</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>Default</value>
   </data>
@@ -2775,5 +2772,8 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   </data>
   <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
     <value>Open folders with a single click</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>Folder path</value>
   </data>
 </root>
