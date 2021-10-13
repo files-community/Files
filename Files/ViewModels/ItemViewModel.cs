@@ -140,7 +140,7 @@ namespace Files.ViewModels
                 workingRoot = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(value));
             }
 
-            if (value == "Home".GetLocalized() || value == "NewTab".GetLocalized())
+            if (value == "Home".GetLocalized())
             {
                 currentStorageFolder = null;
             }
@@ -371,7 +371,7 @@ namespace Files.ViewModels
                 case nameof(UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled):
                     await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                     {
-                        if (WorkingDirectory != "Home".GetLocalized() && WorkingDirectory != "NewTab".GetLocalized())
+                        if (WorkingDirectory != "Home".GetLocalized())
                         {
                             RefreshItems(null);
                         }

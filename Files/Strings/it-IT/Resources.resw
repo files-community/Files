@@ -246,9 +246,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Imposta nome</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>Nuova scheda</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>Tema di Windows</value>
   </data>

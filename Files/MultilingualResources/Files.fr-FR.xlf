@@ -306,10 +306,6 @@
           <source>Set Name</source>
           <target state="translated" state-qualifier="tm-suggestion">Définir le nom</target>
         </trans-unit>
-        <trans-unit id="NewTab" translate="yes" xml:space="preserve">
-          <source>New tab</source>
-          <target state="translated" state-qualifier="tm-suggestion">Nouvel onglet</target>
-        </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="translated">Système</target>
@@ -3556,6 +3552,10 @@ Nous utilisons l'App Center pour suivre l'utilisation de l'application, trouver 
         <trans-unit id="SettingsOpenFoldersWithOneClick" translate="yes" xml:space="preserve">
           <source>Open folders with a single click</source>
           <target state="new">Open folders with a single click</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionFolderPath.Text" translate="yes" xml:space="preserve">
+          <source>Folder path</source>
+          <target state="new">Folder path</target>
         </trans-unit>
       </group>
     </body>

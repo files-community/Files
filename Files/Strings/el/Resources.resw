@@ -315,9 +315,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Όνομα σετ</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>Νέα καρτέλα</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>Προεπιλογή</value>
   </data>

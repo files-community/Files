@@ -264,9 +264,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>名前を変更</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>新しいタブ</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>システム設定の使用</value>
   </data>
