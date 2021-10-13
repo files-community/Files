@@ -284,10 +284,6 @@
           <source>Set Name</source>
           <target state="translated">이름 설정</target>
         </trans-unit>
-        <trans-unit id="NewTab" translate="yes" xml:space="preserve">
-          <source>New tab</source>
-          <target state="translated">새 탭</target>
-        </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="needs-review-translation">Windows 기본값</target>
@@ -3590,6 +3586,10 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
         <trans-unit id="SettingsOpenFoldersWithOneClick" translate="yes" xml:space="preserve">
           <source>Open folders with a single click</source>
           <target state="new">Open folders with a single click</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionFolderPath.Text" translate="yes" xml:space="preserve">
+          <source>Folder path</source>
+          <target state="new">Folder path</target>
         </trans-unit>
       </group>
     </body>

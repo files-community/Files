@@ -303,9 +303,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Estableix nom</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>Nova pestanya</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>Per defecte</value>
   </data>

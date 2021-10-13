@@ -270,9 +270,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Ændr navn</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>Ny fane</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>Windows-standard</value>
   </data>

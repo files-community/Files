@@ -228,7 +228,7 @@ namespace Files.Views
             if (eventArgs.Parameter is string navPath)
             {
                 NavParamsLeft = navPath;
-                NavParamsRight = "NewTab".GetLocalized();
+                NavParamsRight = "Home".GetLocalized();
             }
             if (eventArgs.Parameter is PaneNavigationArguments paneArgs)
             {
@@ -312,7 +312,7 @@ namespace Files.Views
                     {
                         if (string.IsNullOrEmpty(NavParamsRight))
                         {
-                            NavParamsRight = "NewTab".GetLocalized();
+                            NavParamsRight = "Home".GetLocalized();
                         }
                         IsRightPaneVisible = true;
                         ActivePane = PaneRight;
@@ -328,7 +328,7 @@ namespace Files.Views
                     {
                         if (string.IsNullOrEmpty(NavParamsRight))
                         {
-                            NavParamsRight = "NewTab".GetLocalized();
+                            NavParamsRight = "Home".GetLocalized();
                         }
                         IsRightPaneVisible = true;
                     }
