@@ -569,7 +569,7 @@ namespace Files
             {
                 if (BaseContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
                 {
-                    itc.MaxHeight = 480; // Reset menu max height
+                    itc.MaxHeight = Constants.UI.ContextMenuMaxHeight; // Reset menu max height
                 }
                 shellContextMenuItemCancellationToken?.Cancel();
                 shellContextMenuItemCancellationToken = new CancellationTokenSource();
@@ -610,7 +610,7 @@ namespace Files
         {
             if (ItemContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
             {
-                itc.MaxHeight = 480; // Reset menu max height
+                itc.MaxHeight = Constants.UI.ContextMenuMaxHeight; // Reset menu max height
             }
             shellContextMenuItemCancellationToken?.Cancel();
             shellContextMenuItemCancellationToken = new CancellationTokenSource();
@@ -680,14 +680,14 @@ namespace Files
 
                 var ttv = secondaryMenu.TransformToVisual(Window.Current.Content);
                 var cMenuPos = ttv.TransformPoint(new Point(0, 0));
-                var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Where(x => x is not AppBarSeparator).Count() * 32;
-                var availableHeight = Window.Current.Bounds.Height - cMenuPos.Y - 48;
+                var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Where(x => x is not AppBarSeparator).Count() * Constants.UI.ContextMenuSecondaryItemsHeight;
+                var availableHeight = Window.Current.Bounds.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
                 if (requiredHeight > availableHeight)
                 {
-                    itemsControl.MaxHeight = Math.Min(480, Math.Max(itemsControl.ActualHeight, Math.Min(availableHeight, requiredHeight))); // Set menu max height to current height (avoids menu repositioning)
+                    itemsControl.MaxHeight = Math.Min(Constants.UI.ContextMenuMaxHeight, Math.Max(itemsControl.ActualHeight, Math.Min(availableHeight, requiredHeight))); // Set menu max height to current height (avoids menu repositioning)
                 }
 
-                mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - 10); // Set items max width to current menu width (#5555)
+                mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin); // Set items max width to current menu width (#5555)
             }
 
             var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
