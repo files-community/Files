@@ -1,10 +1,12 @@
 ﻿using Files.Filesystem;
 using Files.ViewModels.Properties;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Data.Pdf;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
@@ -98,16 +100,20 @@ namespace Files.ViewModels.Previews
                 var decoder = await BitmapDecoder.CreateAsync(stream);
                 var sw = await decoder.GetSoftwareBitmapAsync();
 
-                var src = new BitmapImage();
-                await src.SetSourceAsync(stream);
-                var pageData = new PageViewModel()
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                 {
-                    PageImage = src,
-                    PageNumber = (int)i,
-                    PageImageSB = sw,
-                };
-                Pages.Add(pageData);
-                PageCount++;
+                    var src = new BitmapImage();
+                    var pageData = new PageViewModel()
+                    {
+                        PageImage = src,
+                        PageNumber = (int)i,
+                        PageImageSB = sw,
+                    };
+
+                    await src.SetSourceAsync(stream);
+                    Pages.Add(pageData);
+                    PageCount++;
+                });
             }
             LoadingBarVisibility = Visibility.Collapsed;
         }
