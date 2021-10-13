@@ -312,9 +312,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>სახელის დაყენება</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>ახალი ჩანართი</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>ნაგულისხმევი</value>
   </data>

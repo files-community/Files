@@ -252,9 +252,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>שם ערכה:</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>כרטיסיה חדשה</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>ברירת מחדל של Windows</value>
   </data>

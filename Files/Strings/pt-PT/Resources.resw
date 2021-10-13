@@ -267,9 +267,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Definir Nome</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>Novo separador</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>Predefinição</value>
   </data>
@@ -1696,16 +1693,16 @@
     <value>Ícone de ficheiro</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
-    <value>Coluna localização original</value>
+    <value>Coluna de localização original</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
-    <value>Coluna tipo de item</value>
+    <value>Coluna de tipo de item</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
-    <value>Coluna data de modificação</value>
+    <value>Coluna de data de modificação</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
-    <value>Coluna data da eliminação</value>
+    <value>Coluna de data da eliminação</value>
   </data>
   <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
     <value>Redimensionador da Barra Lateral</value>
@@ -2650,5 +2647,26 @@ Nós utilizamos o App Center para acompanhar a utilização da aplicação, enco
   </data>
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>Mover para o topo</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
+    <value>Coluna de data de criação</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
+    <value>Coluna de tamanho do item</value>
+  </data>
+  <data name="SettingsDefaultExplorer" xml:space="preserve">
+    <value>Explorador de ficheiros pré-definido</value>
+  </data>
+  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+    <value>Definir Files como explorador de ficheiros pré-definido</value>
+  </data>
+  <data name="SettingsSetAsOpenDialog" xml:space="preserve">
+    <value>Utilizar Files como diálogo para Abrir Ficheiros</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
+    <value>Abrir pastas com um clique único</value>
   </data>
 </root>

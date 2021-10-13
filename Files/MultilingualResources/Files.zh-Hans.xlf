@@ -287,10 +287,6 @@
           <source>Set Name</source>
           <target state="translated">设置名称</target>
         </trans-unit>
-        <trans-unit id="NewTab" translate="yes" xml:space="preserve">
-          <source>New tab</source>
-          <target state="translated">新选项卡</target>
-        </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
           <source>Default</source>
           <target state="translated">默认</target>
@@ -3578,6 +3574,10 @@ Files 不收集、存储、共享或发布任何个人信息。
         <trans-unit id="SettingsOpenFoldersWithOneClick" translate="yes" xml:space="preserve">
           <source>Open folders with a single click</source>
           <target state="new">Open folders with a single click</target>
+        </trans-unit>
+        <trans-unit id="NavToolbarArrangementOptionFolderPath.Text" translate="yes" xml:space="preserve">
+          <source>Folder path</source>
+          <target state="new">Folder path</target>
         </trans-unit>
       </group>
     </body>

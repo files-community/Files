@@ -318,9 +318,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Set Name</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>New tab</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>Default</value>
   </data>

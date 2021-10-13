@@ -264,9 +264,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>பெயரை அமை</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>புதியத் தாவல்</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>Windows இயல்புநிலை</value>
   </data>

@@ -267,9 +267,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Átnevezés</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>Új lap</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>Rendszer</value>
   </data>

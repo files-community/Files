@@ -273,9 +273,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Tillämpa namn</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>Ny flik</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>Windows-standard</value>
   </data>

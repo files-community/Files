@@ -91,7 +91,7 @@ namespace Files.ViewModels
             }
             if (item == null)
             {
-                if (value == "NewTab".GetLocalized())
+                if (value == "Home".GetLocalized())
                 {
                     item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home".GetLocalized()));
                 }

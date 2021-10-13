@@ -219,9 +219,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>이름 설정</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>새 탭</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>Windows 기본값</value>
   </data>
