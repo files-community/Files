@@ -120,6 +120,7 @@ namespace Files.Filesystem
                 {
                     FileTagsHelper.DbInstance.SetTag(ItemPath, FileFRN, value);
                     FileTagsHelper.WriteFileTag(ItemPath, value);
+                    OnPropertyChanged(nameof(FileTagUI));
                 }
             }
         }
