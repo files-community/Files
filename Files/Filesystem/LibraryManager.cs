@@ -238,8 +238,6 @@ namespace Files.Filesystem
             return library != null;
         }
 
-        public bool IsLibraryPath(string path) => TryGetLibrary(path, out _);
-
         public async Task<bool> CreateNewLibrary(string name)
         {
             if (!CanCreateLibrary(name).result)

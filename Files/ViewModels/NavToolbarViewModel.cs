@@ -205,6 +205,12 @@ namespace Files.ViewModels
             set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.FileTag; }
         }
 
+        public bool IsGroupedByFolderPath
+        {
+            get => InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FolderPath;
+            set { if (value) InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.FolderPath; }
+        }
+
         private bool canCopyPathInPage;
 
         public bool CanCopyPathInPage
@@ -378,12 +384,13 @@ namespace Files.ViewModels
             OnPropertyChanged(nameof(IsGroupedByOriginalFolder));
             OnPropertyChanged(nameof(IsGroupedByDateDeleted));
             OnPropertyChanged(nameof(IsGroupedByFileTag));
+            OnPropertyChanged(nameof(IsGroupedByFolderPath));
         }
 
         public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
         {
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home".GetLocalized() || pathBoxItem.Path == "NewTab".GetLocalized())
+                pathBoxItem.Path == "Home".GetLocalized())
             {
                 return;
             }
@@ -408,7 +415,7 @@ namespace Files.ViewModels
             dragOverPath = null; // Reset dragged over pathbox item
 
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home".GetLocalized() || pathBoxItem.Path == "NewTab".GetLocalized())
+                pathBoxItem.Path == "Home".GetLocalized())
             {
                 return;
             }
@@ -433,7 +440,7 @@ namespace Files.ViewModels
         public async void PathBoxItem_DragOver(object sender, DragEventArgs e)
         {
             if (IsSingleItemOverride || !((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home".GetLocalized() || pathBoxItem.Path == "NewTab".GetLocalized())
+                pathBoxItem.Path == "Home".GetLocalized())
             {
                 return;
             }
@@ -815,8 +822,7 @@ namespace Files.ViewModels
 
             if (currentInput != shellPage.FilesystemViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(WidgetsPage))
             {
-                if (currentInput.Equals("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase)
-                    || currentInput.Equals("NewTab".GetLocalized(), StringComparison.OrdinalIgnoreCase))
+                if (currentInput.Equals("Home".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
                     shellPage.NavigateHome();
                 }

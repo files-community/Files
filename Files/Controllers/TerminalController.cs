@@ -4,9 +4,12 @@ using Files.Filesystem;
 using Files.Helpers;
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.Storage.Search;
 
 namespace Files.Controllers
 {
@@ -16,7 +19,15 @@ namespace Files.Controllers
 
         private string folderPath => Path.Combine(ApplicationData.Current.LocalFolder.Path, "settings");
 
+        private StorageFileQueryResult query;
+
+        private bool suppressChangeEvent;
+
+        private string configContent;
+
         public TerminalFileModel Model { get; set; }
+
+        public event Action<TerminalController> ModelChanged;
 
         public string JsonFileName { get; } = "terminal.json";
 
@@ -28,6 +39,7 @@ namespace Files.Controllers
         {
             await LoadAsync();
             await GetInstalledTerminalsAsync();
+            await StartWatchConfigChangeAsync();
         }
 
         private async Task LoadAsync()
@@ -58,6 +70,7 @@ namespace Files.Controllers
             try
             {
                 var content = await FileIO.ReadTextAsync(JsonFile.Result);
+                configContent = content;
                 Model = JsonConvert.DeserializeObject<TerminalFileModel>(content);
                 if (Model == null)
                 {
@@ -72,6 +85,50 @@ namespace Files.Controllers
             catch (Exception)
             {
                 Model = await GetDefaultTerminalFileModel();
+            }
+        }
+
+        private async Task StartWatchConfigChangeAsync()
+        {
+            var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
+            var folder = await configFile.GetParentAsync();
+            query = folder.CreateFileQuery();
+            query.ContentsChanged += Query_ContentsChanged;
+            await query.GetFilesAsync();
+        }
+
+        private async void Query_ContentsChanged(IStorageQueryResultBase sender, object args)
+        {
+            if (suppressChangeEvent)
+            {
+                suppressChangeEvent = false;
+                return;
+            }
+
+            try
+            {
+                var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
+                var content = await FileIO.ReadTextAsync(configFile);
+
+                if (configContent != content)
+                {
+                    configContent = content;
+                }
+                else
+                {
+                    return;
+                }
+
+                await LoadAsync();
+                await GetInstalledTerminalsAsync();
+                CoreApplication.MainView.DispatcherQueue.TryEnqueue(() =>
+                {
+                    ModelChanged?.Invoke(this);
+                });
+            }
+            catch
+            {
+                // ignored
             }
         }
 
@@ -143,6 +200,7 @@ namespace Files.Controllers
 
         public void SaveModel()
         {
+            suppressChangeEvent = true;
             try
             {
                 using (var file = File.CreateText(Path.Combine(folderPath, JsonFileName)))

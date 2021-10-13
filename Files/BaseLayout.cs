@@ -25,6 +25,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -435,6 +436,7 @@ namespace Files
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryHelper.IsLibraryPath(workingDir);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
                 ParentShellPageInstance.NavToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
                 if (!navigationArguments.IsLayoutSwitch || previousDir != workingDir)
@@ -456,6 +458,7 @@ namespace Files
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = false;
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
                 if (!navigationArguments.IsLayoutSwitch)
                 {
@@ -566,7 +569,7 @@ namespace Files
             {
                 if (BaseContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
                 {
-                    itc.MaxHeight = 480; // Reset menu max height
+                    itc.MaxHeight = Constants.UI.ContextMenuMaxHeight; // Reset menu max height
                 }
                 shellContextMenuItemCancellationToken?.Cancel();
                 shellContextMenuItemCancellationToken = new CancellationTokenSource();
@@ -580,7 +583,7 @@ namespace Files
                     (i as AppBarButton).Click += new RoutedEventHandler((s, e) => BaseContextMenuFlyout.Hide());  // Workaround for WinUI (#5508)
                 });
                 primaryElements.ForEach(i => BaseContextMenuFlyout.PrimaryCommands.Add(i));
-                secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250); // Set menu min width
+                secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
                 secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
 
                 if (!InstanceViewModel.IsPageTypeSearchResults)
@@ -607,7 +610,7 @@ namespace Files
         {
             if (ItemContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
             {
-                itc.MaxHeight = 480; // Reset menu max height
+                itc.MaxHeight = Constants.UI.ContextMenuMaxHeight; // Reset menu max height
             }
             shellContextMenuItemCancellationToken?.Cancel();
             shellContextMenuItemCancellationToken = new CancellationTokenSource();
@@ -622,7 +625,7 @@ namespace Files
                 (i as AppBarButton).Click += new RoutedEventHandler((s, e) => ItemContextMenuFlyout.Hide()); // Workaround for WinUI (#5508)
             });
             primaryElements.ForEach(i => ItemContextMenuFlyout.PrimaryCommands.Add(i));
-            secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = 250); // Set menu min width
+            secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
             secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 
             if (UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled && !InstanceViewModel.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeRecycleBin && !InstanceViewModel.IsPageTypeFtp && !InstanceViewModel.IsPageTypeZipFolder)
@@ -674,8 +677,17 @@ namespace Files
             if (itemsControl is not null)
             {
                 contextMenuFlyout.SetValue(ContextMenuExtensions.ItemsControlProperty, itemsControl);
-                itemsControl.MaxHeight = Math.Min(480, itemsControl.ActualHeight); // Set menu max height to current height (avoids menu repositioning)
-                mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - 10); // Set items max width to current menu width (#5555)
+
+                var ttv = secondaryMenu.TransformToVisual(Window.Current.Content);
+                var cMenuPos = ttv.TransformPoint(new Point(0, 0));
+                var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Where(x => x is not AppBarSeparator).Count() * Constants.UI.ContextMenuSecondaryItemsHeight;
+                var availableHeight = Window.Current.Bounds.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
+                if (requiredHeight > availableHeight)
+                {
+                    itemsControl.MaxHeight = Math.Min(Constants.UI.ContextMenuMaxHeight, Math.Max(itemsControl.ActualHeight, Math.Min(availableHeight, requiredHeight))); // Set menu max height to current height (avoids menu repositioning)
+                }
+
+                mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin); // Set items max width to current menu width (#5555)
             }
 
             var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;

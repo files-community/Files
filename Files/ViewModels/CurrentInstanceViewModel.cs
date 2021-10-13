@@ -177,6 +177,24 @@ namespace Files.ViewModels
             }
         }
 
+        private bool isPageTypeLibrary = false;
+
+        public bool IsPageTypeLibrary
+        {
+            get => isPageTypeLibrary;
+            set
+            {
+                SetProperty(ref isPageTypeLibrary, value);
+                OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
+                OnPropertyChanged(nameof(CanCreateFileInPage));
+                OnPropertyChanged(nameof(CanPasteInPage));
+                OnPropertyChanged(nameof(CanOpenTerminalInPage));
+                OnPropertyChanged(nameof(CanCopyPathInPage));
+                OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
+                OnPropertyChanged(nameof(CanShareInPage));
+            }
+        }
+
         public bool IsCreateButtonEnabledInPage
         {
             get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults;

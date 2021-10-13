@@ -267,9 +267,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>नाम निर्धारित करें</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>नया टैब</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>विंडोज डिफ़ॉल्ट</value>
   </data>

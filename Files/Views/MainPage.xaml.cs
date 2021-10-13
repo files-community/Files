@@ -274,7 +274,7 @@ namespace Files.Views
                                 return; // return if already selected
                             }
 
-                            navigationPath = "NewTab".GetLocalized();
+                            navigationPath = "Home".GetLocalized();
                             sourcePageType = typeof(WidgetsPage);
                         }
                         else // Any other item

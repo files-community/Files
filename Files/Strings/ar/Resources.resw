@@ -270,9 +270,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>اسم المجموعة</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>علامة تبويب جديدة</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>ويندوز الافتراضي</value>
   </data>
