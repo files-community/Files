@@ -92,18 +92,18 @@ namespace Files.ViewModels.Previews
                     return;
                 }
 
-                var page = pdf.GetPage(i);
+                PdfPage page = pdf.GetPage(i);
                 await page.PreparePageAsync();
-                using var stream = new InMemoryRandomAccessStream();
+                using InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream();
                 await page.RenderToStreamAsync(stream);
 
-                var decoder = await BitmapDecoder.CreateAsync(stream);
-                var sw = await decoder.GetSoftwareBitmapAsync();
+                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+                using SoftwareBitmap sw = await decoder.GetSoftwareBitmapAsync();
 
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                 {
-                    var src = new BitmapImage();
-                    var pageData = new PageViewModel()
+                    BitmapImage src = new();
+                    PageViewModel pageData = new()
                     {
                         PageImage = src,
                         PageNumber = (int)i,
