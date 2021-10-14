@@ -90,14 +90,37 @@ namespace Files.UserControls.Search
 
         private void Grid_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            var button = (sender as FrameworkElement).FindDescendant("CloseButton") as Button;
-            button.Visibility = Visibility.Visible;
+            if (sender is FrameworkElement element)
+            {
+                var button = element.FindDescendant("CloseButton") as Button;
+                if (button is not null)
+                {
+                    button.Visibility = Visibility.Visible;
+                }
+            }
         }
 
         private void Grid_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            var button = (sender as Grid).FindDescendant("CloseButton") as Button;
-            button.Visibility = Visibility.Collapsed;
+            if (sender is FrameworkElement element)
+            {
+                var button = element.FindDescendant("CloseButton") as Button;
+                if (button is not null)
+                {
+                    button.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var parentViewModel = ViewModel as IFilterCollectionViewModel;
+            var viewModel = (sender as Button).DataContext as IFilterViewModel;
+
+            if (parentViewModel.Filter.Contains(viewModel.Filter))
+            {
+                parentViewModel.Filter.Remove(viewModel.Filter);
+            }
         }
     }
 

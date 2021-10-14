@@ -61,7 +61,11 @@ namespace Files.ViewModels.Search
 
         public IEnumerable<IFilterViewModel> ItemViewModels => GetItemViewModels();
 
-        public FilterCollectionViewModel(IFilterCollection filter) : base(filter) {}
+        public FilterCollectionViewModel(IFilterCollection filter) : base(filter)
+            => Filter.PropertyChanged += Filter_PropertyChanged;
+
+        private void Filter_PropertyChanged(object sender, PropertyChangedEventArgs e)
+            => OnPropertyChanged(nameof(ItemViewModels));
 
         private IEnumerable<IFilterViewModel> GetItemViewModels()
         {

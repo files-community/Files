@@ -33,7 +33,7 @@
                 <TextBlock Text="No filter selected. Add a new filter." TextWrapping="Wrap" Visibility="{x:Bind Filter.IsEmpty}" />
                 <ItemsControl
                     ItemsSource="{x:Bind ItemViewModels, Mode=OneWay}" Margin="0,8,0,8"
-                     PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited"
+
                     ItemTemplateSelector="{StaticResource ButtonTemplateSelector}">
                     <ItemsControl.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
@@ -42,7 +42,7 @@
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:IFilterViewModel">
-                            <Grid>
+                            <Grid Background="Transparent" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="32" />
                                     <ColumnDefinition Width="*" />
@@ -50,9 +50,10 @@
                                 </Grid.ColumnDefinitions>
                                 <FontIcon Width="32" FontSize="14" Glyph="{x:Bind Filter.Glyph}" />
                                 <ContentControl Grid.Column="1" Content="{Binding}" ContentTemplateSelector="{StaticResource ButtonTemplateSelector}" />
-                                <Button Width="32" x:Name="CloseButton" Grid.Column="2" Visibility="Collapsed" Background="Transparent" BorderBrush="Transparent">
+                                <Button Width="32" x:Name="CloseButton" Click="CloseButton_Click"
+                                        Grid.Column="2" Visibility="Collapsed" Background="Transparent" BorderBrush="Transparent">
                                     <Button.Content>
-                                        <FontIcon FontSize="14" Glyph="&#xE710;" />
+                                        <FontIcon FontSize="10" Glyph="&#xE10A;" />
                                     </Button.Content>
                                 </Button>
                             </Grid>
@@ -63,7 +64,7 @@
                     <AppBarButton x:Name="AddFilterButton"
                         Icon="Add" Label="Add" Loaded="AddFilterButton_Loaded" />
                     <AppBarButton
-                        Icon="Delete" Label="Remove"
+                        Icon="Clear" Label="Clear" Command="{x:Bind ClearCommand}"
                         IsEnabled="{x:Bind Filter.IsEmpty, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}" />
                 </CommandBar>
             </StackPanel>
