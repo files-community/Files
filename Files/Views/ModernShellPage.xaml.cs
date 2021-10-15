@@ -621,7 +621,9 @@ namespace Files.Views
             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
             var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser)
                 || CurrentPageType == typeof(DetailsLayoutBrowser)
-                || CurrentPageType == typeof(GridViewBrowser);
+                || CurrentPageType == typeof(GridViewBrowser)
+                || CurrentPageType == typeof(ColumnViewBase)
+                || CurrentPageType == typeof(ColumnViewBrowser);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
@@ -778,7 +780,7 @@ namespace Files.Views
             switch (args.KeyboardAccelerator.Key)
             {
                 case VirtualKey.F2: //F2, rename
-                    if (CurrentPageType == typeof(DetailsLayoutBrowser) || CurrentPageType == typeof(GridViewBrowser))
+                    if (CurrentPageType == typeof(DetailsLayoutBrowser) || CurrentPageType == typeof(GridViewBrowser) || CurrentPageType == typeof(ColumnViewBase) || CurrentPageType == typeof(ColumnViewBrowser))
                     {
                         if (ContentPage.IsItemSelected)
                         {
