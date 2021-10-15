@@ -12,6 +12,8 @@ namespace Files.Helpers
     {
         private static object orderByNameFunc(ListedItem item) => item.ItemName;
 
+        private static object orderByNoneFunc(ListedItem item) => item.ItemFile;
+
         public static Func<ListedItem, object> GetSortFunc(SortOption directorySortOption)
         {
             return directorySortOption switch
@@ -38,6 +40,10 @@ namespace Files.Helpers
             // In ascending order, show folders first, then files.
             // So, we use == StorageItemTypes.File to make the value for a folder equal to 0, and equal to 1 for the rest.
             static bool folderThenFileAsync(ListedItem listedItem) => (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem.IsZipItem);
+
+            // creating a prototype for the removal of sorting #5834
+            static bool allFileAsync(ListedItem listedItem) => (listedItem.PrimaryItemAttribute == StorageItemTypes.None);
+
             IOrderedEnumerable<ListedItem> ordered;
 
             if (directorySortDirection == SortDirection.Ascending)
@@ -52,6 +58,13 @@ namespace Files.Helpers
                     {
                         ordered = filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(orderFunc, naturalStringComparer);
                     }
+                }
+
+                // Checking if the "none" option is set
+                // this will remove the order by listing
+                else if (directorySortOption == SortOption.None)
+                {
+                    ordered = filesAndFolders.OrderBy(allFileAsync).ThenBy(orderByNoneFunc);
                 }
                 else if (directorySortOption == SortOption.FileTag)
                 {
