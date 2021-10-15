@@ -1,0 +1,37 @@
+From ebd57a5a5b1914a02e4bc1f0b86111f9a692ed91 Mon Sep 17 00:00:00 2001
+From: skreiter <sage.kreiter@wsu.edu>
+Date: Thu, 14 Oct 2021 17:41:08 -0700
+Subject: [PATCH] Added or conditions to make shortcuts also work in column
+ view.
+
+---
+ Files/Views/ModernShellPage.xaml.cs | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/Files/Views/ModernShellPage.xaml.cs b/Files/Views/ModernShellPage.xaml.cs
+index 130aaef8..7bf53e1a 100644
+--- a/Files/Views/ModernShellPage.xaml.cs
++++ b/Files/Views/ModernShellPage.xaml.cs
+@@ -621,7 +621,9 @@ namespace Files.Views
+             var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
+             var tabInstance = CurrentPageType == typeof(DetailsLayoutBrowser)
+                 || CurrentPageType == typeof(DetailsLayoutBrowser)
+-                || CurrentPageType == typeof(GridViewBrowser);
++                || CurrentPageType == typeof(GridViewBrowser)
++                || CurrentPageType == typeof(ColumnViewBase)
++                || CurrentPageType == typeof(ColumnViewBrowser);
+ 
+             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
+             {
+@@ -778,7 +780,7 @@ namespace Files.Views
+             switch (args.KeyboardAccelerator.Key)
+             {
+                 case VirtualKey.F2: //F2, rename
+-                    if (CurrentPageType == typeof(DetailsLayoutBrowser) || CurrentPageType == typeof(GridViewBrowser))
++                    if (CurrentPageType == typeof(DetailsLayoutBrowser) || CurrentPageType == typeof(GridViewBrowser) || CurrentPageType == typeof(ColumnViewBase) || CurrentPageType == typeof(ColumnViewBrowser))
+                     {
+                         if (ContentPage.IsItemSelected)
+                         {
+-- 
+2.33.0.windows.2
+
