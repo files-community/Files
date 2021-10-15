@@ -32,7 +32,7 @@ namespace Files.ViewModels.Previews
 
         public override async Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            IRandomAccessStream stream = await Item.ItemFile.OpenAsync(FileAccessMode.Read);
+            using IRandomAccessStream stream = await Item.ItemFile.OpenAsync(FileAccessMode.Read);
             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () => {
                 BitmapImage bitmap = new();
                 await bitmap.SetSourceAsync(stream);

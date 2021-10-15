@@ -111,7 +111,7 @@ namespace Files.ViewModels.Previews
         /// <returns>The task to run</returns>
         public virtual async Task LoadAsync()
         {
-            var detailsFull = new List<FileProperty>();
+            List<FileProperty> detailsFull = new();
             Item.ItemFile ??= await StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath);
             await Task.Run(async () =>
             {
@@ -120,8 +120,11 @@ namespace Files.ViewModels.Previews
                 {
                     // Add the details from the preview function, then the system file properties
                     DetailsFromPreview?.ForEach(i => detailsFull.Add(i));
-                    var props = await GetSystemFileProperties();
-                    props?.ForEach(i => detailsFull.Add(i));
+                    List<FileProperty> props = await GetSystemFileProperties();
+                    if(props is not null)
+                    {
+                        detailsFull.AddRange(props);
+                    }
                 }
             });
 
