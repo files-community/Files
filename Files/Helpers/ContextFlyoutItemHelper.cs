@@ -645,6 +645,21 @@ namespace Files.Helpers
                     ShowInSearchPage = true,
                     ShowItem = selectedItems.All(i => (i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.File && !i.IsShortcutItem && !i.IsExecutable) || (i.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && i.IsZipItem)),
                 },
+                // Adding properties here
+                new ContextMenuFlyoutItemViewModel()
+                {
+                    Text = "BaseLayoutItemContextFlyoutProperties/Text".GetLocalized(),
+                    ColoredIcon = new ColoredIconModel()
+                    {
+                        BaseLayerGlyph = "\uF031",
+                        OverlayLayerGlyph = "\uF032"
+                    },
+                    Command = commandsViewModel.ShowPropertiesCommand,
+                    Tag = "Properties",
+                    CollapseLabel = true,
+                    ShowInSearchPage = true,
+                    ShowItem = selectedItems.Count <= 10,
+                },
                 new ContextMenuFlyoutItemViewModel()
                 {
                     Text = "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalized(),
@@ -905,22 +920,6 @@ namespace Files.Helpers
                         Key = Windows.System.VirtualKey.Delete,
                         IsEnabled = false,
                     },
-                },
-                new ContextMenuFlyoutItemViewModel()
-                {
-                    Text = "BaseLayoutItemContextFlyoutProperties/Text".GetLocalized(),
-                    //Glyph = "\uF946",
-                    IsPrimary = true,
-                    ColoredIcon = new ColoredIconModel()
-                    {
-                        BaseLayerGlyph = "\uF031",
-                        OverlayLayerGlyph = "\uF032"
-                    },
-                    Command = commandsViewModel.ShowPropertiesCommand,
-                    ShowInRecycleBin = true,
-                    ShowInSearchPage = true,
-                    ShowInFtpPage = true,
-                    ShowInZipPage = true,
                 },
                 new ContextMenuFlyoutItemViewModel()
                 {
