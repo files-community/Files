@@ -25,6 +25,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{BCDE
 		Patches\JustFoundBug.patch = Patches\JustFoundBug.patch
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{BEA4C9E6-F499-487B-B89C-C0EBDA7F32CA}"
+	ProjectSection(SolutionItems) = preProject
+		History.txt = History.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

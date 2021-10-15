@@ -1,0 +1,3 @@
+10/15/2021
+Fixed a bug that cause the application to crash when the default sorting wasn't present.
+This change defaults all sorting if not set.
