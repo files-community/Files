@@ -46,8 +46,6 @@ namespace Files.ViewModels.Properties
                     (Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
                 ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
-                ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
-                ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
                 ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
                 ViewModel.CustomIconSource = Item.CustomIconSource;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;

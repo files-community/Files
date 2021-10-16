@@ -237,7 +237,6 @@ namespace Files.Views
                     ItemName = locationItem.Text,
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemType = "FileFolderListItem".GetLocalized(),
-                    LoadFolderGlyph = true
                 };
                 await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
             }
@@ -275,7 +274,7 @@ namespace Files.Views
                                 return; // return if already selected
                             }
 
-                            navigationPath = "NewTab".GetLocalized();
+                            navigationPath = "Home".GetLocalized();
                             sourcePageType = typeof(WidgetsPage);
                         }
                         else // Any other item

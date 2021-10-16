@@ -276,9 +276,6 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Nosaukt</value>
   </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>Jauna cilne</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
     <value>Noklusējums</value>
   </data>

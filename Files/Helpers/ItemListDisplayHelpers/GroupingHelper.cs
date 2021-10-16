@@ -23,6 +23,7 @@ namespace Files.Helpers
                 GroupOption.FileTag => x => x.FileTag,
                 GroupOption.OriginalFolder => x => (x as RecycleBinItem)?.ItemOriginalFolder,
                 GroupOption.DateDeleted => x => (x as RecycleBinItem)?.ItemDateDeletedReal.GetUserSettingsFriendlyTimeSpan().text,
+                GroupOption.FolderPath => x => PathNormalization.GetParentDir(x.ItemPath.TrimPath()),
                 _ => null,
             };
         }
@@ -114,6 +115,15 @@ namespace Files.Helpers
                         model.Subtext = (first as RecycleBinItem)?.ItemOriginalFolder;
                     }, null),
 
+                GroupOption.FolderPath => (x =>
+                {
+                    ListedItem first = x.First();
+                    var model = x.Model;
+                    model.ShowCountTextBelow = true;
+                    var parentPath = PathNormalization.GetParentDir(first.ItemPath.TrimPath());
+                    model.Text = System.IO.Path.GetFileName(parentPath);
+                    model.Subtext = parentPath;
+                }, null),
                 _ => (null, null)
             };
         }

@@ -164,7 +164,7 @@ namespace Files.Views
                 FlowDirection = FlowDirection.RightToLeft;
             }
 
-            NavToolbarViewModel.PathControlDisplayText = "NewTab".GetLocalized();
+            NavToolbarViewModel.PathControlDisplayText = "Home".GetLocalized();
 
             NavToolbarViewModel.ToolbarPathItemInvoked += ModernShellPage_NavigationRequested;
             NavToolbarViewModel.ToolbarFlyoutOpened += ModernShellPage_ToolbarFlyoutOpened;
@@ -196,7 +196,7 @@ namespace Files.Views
             NavToolbarViewModel.ClearContentPageSelectionCommand = new RelayCommand(() => SlimContentPage?.ItemManipulationModel.ClearSelection());
             NavToolbarViewModel.PasteItemsFromClipboardCommand = new RelayCommand(async () => await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this));
             NavToolbarViewModel.OpenNewWindowCommand = new RelayCommand(NavigationHelpers.LaunchNewWindow);
-            NavToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized()));
+            NavToolbarViewModel.OpenNewPaneCommand = new RelayCommand(() => PaneHolder?.OpenPathInNewPane("Home".GetLocalized()));
             NavToolbarViewModel.ClosePaneCommand = new RelayCommand(() => PaneHolder?.CloseActivePane());
             NavToolbarViewModel.OpenDirectoryInDefaultTerminalCommand = new RelayCommand(async () => await NavigationHelpers.OpenDirectoryInTerminal(this.FilesystemViewModel.WorkingDirectory));
             NavToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemType.File, x, this));
@@ -489,7 +489,7 @@ namespace Files.Views
 
         private void OnNavigationParamsChanged()
         {
-            if (string.IsNullOrEmpty(NavParams) || NavParams == "NewTab".GetLocalized() || NavParams == "Home".GetLocalized())
+            if (string.IsNullOrEmpty(NavParams) || NavParams == "Home".GetLocalized())
             {
                 ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                     new NavigationArguments()
@@ -889,7 +889,7 @@ namespace Files.Views
                 ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                                           new NavigationArguments()
                                           {
-                                              NavPathParam = "NewTab".GetLocalized(),
+                                              NavPathParam = "Home".GetLocalized(),
                                               AssociatedTabInstance = this
                                           },
                                           new SuppressNavigationTransitionInfo());
@@ -923,7 +923,7 @@ namespace Files.Views
         {
             if (incomingSourcePageType == typeof(WidgetsPage) && incomingSourcePageType != null)
             {
-                NavToolbarViewModel.PathControlDisplayText = "NewTab".GetLocalized();
+                NavToolbarViewModel.PathControlDisplayText = "Home".GetLocalized();
             }
         }
 
@@ -1046,7 +1046,7 @@ namespace Files.Views
             ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                 new NavigationArguments()
                 {
-                    NavPathParam = "NewTab".GetLocalized(),
+                    NavPathParam = "Home".GetLocalized(),
                     AssociatedTabInstance = this
                 },
                 new EntranceNavigationTransitionInfo());

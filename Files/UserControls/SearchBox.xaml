@@ -53,16 +53,8 @@
                         </Grid>
                         <FontIcon
                             x:Name="EmptyIconGlyph"
-                            x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
+                            x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
                             Glyph="&#xE7C3;" />
-                        <FontIcon
-                            x:Name="FolderGlyphIcon"
-                            Width="24"
-                            Height="24"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
-                            Glyph="&#xF12B;" />
                     </Grid>
                     <TextBlock VerticalAlignment="Center" Text="{x:Bind ItemName}" />
                 </StackPanel>
