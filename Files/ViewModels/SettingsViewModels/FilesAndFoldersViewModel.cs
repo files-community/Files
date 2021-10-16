@@ -111,5 +111,18 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
+
+        public bool IsSavingRecentItemsEnabled
+        {
+            get => UserSettingsService.FilesAndFoldersSettingsService.IsSavingRecentItemsEnabled;
+            set
+            {
+                if (value != UserSettingsService.FilesAndFoldersSettingsService.IsSavingRecentItemsEnabled)
+                {
+                    UserSettingsService.FilesAndFoldersSettingsService.IsSavingRecentItemsEnabled = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
     }
 }

@@ -115,6 +115,16 @@
                     IsOn="{Binding AreLayoutPreferencesPerFolder, Mode=TwoWay}"
                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
+
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsEnableSavingRecentItems}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE823;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsEnableSavingRecentItems}"
+                    IsOn="{Binding IsSavingRecentItemsEnabled, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
         </StackPanel>
     </Grid>
 </Page>

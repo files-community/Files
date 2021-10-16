@@ -22,6 +22,7 @@ namespace Files.Services.Implementation
                 case nameof(OpenFoldersWithOneClick):
                 case nameof(SearchUnindexedItems):
                 case nameof(AreLayoutPreferencesPerFolder):
+                case nameof(IsSavingRecentItemsEnabled):
                 case nameof(AdaptiveLayoutEnabled):
                 case nameof(AreFileTagsEnabled):
                     Microsoft.AppCenter.Analytics.Analytics.TrackEvent($"{nameof(e.settingName)} {e.newValue}");
@@ -74,6 +75,12 @@ namespace Files.Services.Implementation
         }
 
         public bool AreLayoutPreferencesPerFolder
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool IsSavingRecentItemsEnabled
         {
             get => Get(true);
             set => Set(value);

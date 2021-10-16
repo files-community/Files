@@ -302,7 +302,7 @@ namespace Files.Helpers
                     .OnSuccess(async (childFolder) =>
                     {
                         // Add location to MRU List
-                        if (childFolder.Folder is SystemStorageFolder)
+                        if (userSettingsService.FilesAndFoldersSettingsService.IsSavingRecentItemsEnabled && childFolder.Folder is SystemStorageFolder)
                         {
                             var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
                             mostRecentlyUsed.Add(await childFolder.Folder.ToStorageFolderAsync(), childFolder.Path);
@@ -335,6 +335,8 @@ namespace Files.Helpers
 
         private static async Task<FilesystemResult> OpenFile(string path, IShellPage associatedInstance, IEnumerable<string> selectItems, ShortcutItem shortcutInfo, bool openViaApplicationPicker = false, string args = default)
         {
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
             var opened = (FilesystemResult)false;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
             bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url"); // Determine
@@ -352,7 +354,7 @@ namespace Files.Helpers
                         if (childFile != null)
                         {
                             // Add location to MRU List
-                            if (childFile.File is SystemStorageFile)
+                            if (userSettingsService.FilesAndFoldersSettingsService.IsSavingRecentItemsEnabled && childFile.File is SystemStorageFile)
                             {
                                 var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
                                 mostRecentlyUsed.Add(await childFile.File.ToStorageFileAsync(), childFile.Path);
@@ -373,7 +375,7 @@ namespace Files.Helpers
                     .OnSuccess(async childFile =>
                     {
                         // Add location to MRU List
-                        if (childFile.File is SystemStorageFile)
+                        if (userSettingsService.FilesAndFoldersSettingsService.IsSavingRecentItemsEnabled && childFile.File is SystemStorageFile)
                         {
                             var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
                             mostRecentlyUsed.Add(await childFile.File.ToStorageFileAsync(), childFile.Path);
