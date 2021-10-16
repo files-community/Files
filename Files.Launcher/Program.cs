@@ -30,7 +30,7 @@ namespace FilesFullTrust
             await logWriter.InitializeAsync("debug_fulltrust.log");
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
-            if (HandleCommandLineArgs())
+            if (await HandleCommandLineArgs())
             {
                 // Handles OpenShellCommandInExplorer
                 return;
@@ -248,7 +248,7 @@ namespace FilesFullTrust
             }
         }
 
-        private static bool HandleCommandLineArgs()
+        private static async Task<bool> HandleCommandLineArgs()
         {
             var localSettings = ApplicationData.Current.LocalSettings;
             var arguments = (string)localSettings.Values["Arguments"];
@@ -256,7 +256,17 @@ namespace FilesFullTrust
             {
                 localSettings.Values.Remove("Arguments");
 
-                if (arguments == "TerminateUwp")
+                if (arguments == "StartUwp")
+                {
+                    var folder = localSettings.Values.Get("Folder", "");
+                    localSettings.Values.Remove("Folder");
+                    var uri = $"files-uwp:?folder={folder}";
+                    await Windows.System.Launcher.LaunchUriAsync(new Uri(uri));
+
+                    TerminateProcess((int)localSettings.Values["pid"]);
+                    return true;
+                }
+                else if (arguments == "TerminateUwp")
                 {
                     TerminateProcess((int)localSettings.Values["pid"]);
                     return true;

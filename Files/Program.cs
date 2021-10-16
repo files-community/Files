@@ -3,6 +3,7 @@ using Files.Common;
 using Files.Helpers;
 using System;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -15,9 +16,23 @@ namespace Files
     {
         const string PrelaunchInstanceKey = "PrelaunchInstance";
 
+        private static bool IsAdministrator()
+        {
+            using var identity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+
         private static async Task Main()
         {
             var proc = System.Diagnostics.Process.GetCurrentProcess();
+
+            if (IsAdministrator())
+            {
+                // UWP can't start as admin, restart as normal user from FTP
+                await SpawnUnelevatedUwpAppInstance(proc.Id);
+                return;
+            }
 
             if (!ApplicationData.Current.LocalSettings.Values.Get("AlwaysOpenANewInstance", false))
             {
@@ -124,6 +139,26 @@ namespace Files
         {
             ApplicationData.Current.LocalSettings.Values["ShellCommand"] = shellCommand;
             ApplicationData.Current.LocalSettings.Values["Arguments"] = "ShellCommand";
+            ApplicationData.Current.LocalSettings.Values["pid"] = pid;
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+        }
+
+        public static async Task SpawnUnelevatedUwpAppInstance(int pid)
+        {
+            IActivatedEventArgs activatedArgs = AppInstance.GetActivatedEventArgs();
+            if (activatedArgs is CommandLineActivatedEventArgs cmdLineArgs)
+            {
+                var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineArgs.Operation.Arguments);
+                switch (parsedCommands.FirstOrDefault()?.Type)
+                {
+                    case ParsedCommandType.ExplorerShellCommand:
+                    case ParsedCommandType.OpenDirectory:
+                    case ParsedCommandType.OpenPath:
+                        ApplicationData.Current.LocalSettings.Values["Folder"] = parsedCommands[0].Payload;
+                        break;
+                }
+            }
+            ApplicationData.Current.LocalSettings.Values["Arguments"] = "StartUwp";
             ApplicationData.Current.LocalSettings.Values["pid"] = pid;
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
