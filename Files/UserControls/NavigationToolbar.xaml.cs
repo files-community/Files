@@ -50,6 +50,7 @@ namespace Files.UserControls
         {
             InitializeComponent();
             Loading += NavigationToolbar_Loading;
+            DataContext = OngoingTasksViewModel;
         }
 
         private void NavigationToolbar_Loading(FrameworkElement sender, object args)
