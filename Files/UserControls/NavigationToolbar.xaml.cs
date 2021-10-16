@@ -1,4 +1,4 @@
-﻿using Files.Helpers.XamlHelpers;
+using Files.Helpers.XamlHelpers;
 using Files.ViewModels;
 using System.Windows.Input;
 using Windows.System;
@@ -50,7 +50,6 @@ namespace Files.UserControls
         {
             InitializeComponent();
             Loading += NavigationToolbar_Loading;
-            DataContext = OngoingTasksViewModel;
         }
 
         private void NavigationToolbar_Loading(FrameworkElement sender, object args)
