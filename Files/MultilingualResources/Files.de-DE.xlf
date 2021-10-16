@@ -3582,35 +3582,35 @@ Wir benutzen das App Center um einen Überblick über die Nutzung von Files zu e
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowDateCreated.Text" translate="yes" xml:space="preserve">
           <source>Date created column</source>
-          <target state="new">Date created column</target>
+          <target state="translated">Spalte für Erstellungsdatum</target>
         </trans-unit>
         <trans-unit id="DetailsViewHeaderFlyout_ShowItemSize.Text" translate="yes" xml:space="preserve">
           <source>Item size column</source>
-          <target state="new">Item size column</target>
+          <target state="translated">Spalte für Dateigröße</target>
         </trans-unit>
         <trans-unit id="SettingsDefaultExplorer" translate="yes" xml:space="preserve">
           <source>Default file explorer</source>
-          <target state="new">Default file explorer</target>
+          <target state="translated">Standard Explorer</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsDefaultExplorer" translate="yes" xml:space="preserve">
           <source>Set Files as default file explorer</source>
-          <target state="new">Set Files as default file explorer</target>
+          <target state="translated">Files als Standard-Explorer verwenden</target>
         </trans-unit>
         <trans-unit id="SettingsSetAsOpenDialog" translate="yes" xml:space="preserve">
           <source>Use Files as Open File Dialog</source>
-          <target state="new">Use Files as Open File Dialog</target>
+          <target state="translated">Files als Standard-Dateidialog verwenden</target>
         </trans-unit>
         <trans-unit id="Tag" translate="yes" xml:space="preserve">
           <source>Tag</source>
-          <target state="new">Tag</target>
+          <target state="translated">Tag</target>
         </trans-unit>
         <trans-unit id="SettingsOpenFoldersWithOneClick" translate="yes" xml:space="preserve">
           <source>Open folders with a single click</source>
-          <target state="new">Open folders with a single click</target>
+          <target state="translated">Dateien mit einfachem Klick öffnen</target>
         </trans-unit>
         <trans-unit id="NavToolbarArrangementOptionFolderPath.Text" translate="yes" xml:space="preserve">
           <source>Folder path</source>
-          <target state="new">Folder path</target>
+          <target state="translated">Ordnerpfad</target>
         </trans-unit>
       </group>
     </body>
