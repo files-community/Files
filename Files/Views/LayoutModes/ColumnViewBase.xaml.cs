@@ -317,15 +317,14 @@ namespace Files.Views.LayoutModes
         public static ColumnViewBase CurrentColumn;
         private ListViewItem listViewItem;
 
-        private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e != null)
-            {
-                // Do not commit rename if SelectionChanged is due to selction rectangle (#3660)
-                //FileList.CommitEdit();
-            }
             UnFocusPreviousListView?.Invoke(FileList, EventArgs.Empty);
             SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
+            if (App.MainViewModel.IsQuickLookEnabled && SelectedItems.Count == 1)
+            {
+                await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
+            }
         }
 
         private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)

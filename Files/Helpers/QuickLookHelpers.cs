@@ -11,9 +11,9 @@ namespace Files.Helpers
 {
     public static class QuickLookHelpers
     {
-        public static async Task ToggleQuickLook(IShellPage associatedInstance)
+        public static async Task ToggleQuickLook(IShellPage associatedInstance, bool switchPreview = false)
         {
-            try
+            await Common.Extensions.IgnoreExceptions(async () =>
             {
                 if (associatedInstance.SlimContentPage.IsItemSelected && !associatedInstance.SlimContentPage.IsRenamingItem)
                 {
@@ -25,21 +25,12 @@ namespace Files.Helpers
                         await connection.SendMessageAsync(new ValueSet()
                         {
                             { "path", associatedInstance.SlimContentPage.SelectedItem.ItemPath },
+                            { "switch", switchPreview },
                             { "Arguments", "ToggleQuickLook" }
                         });
                     }
                 }
-            }
-            catch (FileNotFoundException)
-            {
-                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundPreviewDialog/Text".GetLocalized());
-                associatedInstance.NavToolbarViewModel.CanRefresh = false;
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    var ContentOwnedViewModelInstance = associatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance?.RefreshItems(null);
-                });
-            }
+            }, App.Logger);
         }
     }
 }
