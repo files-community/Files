@@ -1,5 +1,7 @@
-﻿using Files.Models.JsonSettings;
+﻿using Files.Extensions;
+using Files.Models.JsonSettings;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;
 
@@ -65,6 +67,34 @@ namespace Files.Services.Implementation
             : base(Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.UserSettingsFileName),
                 isCachingEnabled: true)
         {
+        }
+
+        public override object ExportSettings()
+        {
+            var export = (Dictionary<string, object>)base.ExportSettings();
+            return jsonSettingsSerializer.SerializeToJson(export);
+        }
+
+        public override bool ImportSettings(object import)
+        {
+            var settingsImport = jsonSettingsSerializer.DeserializeFromJson<Dictionary<string, object>>((string)import);
+
+            if (!settingsImport.IsEmpty())
+            {
+                var diff = JsonSettingsDatabase.TakeDifferent(settingsImport);
+
+                if (base.ImportSettings(settingsImport))
+                {
+                    foreach (var item in diff)
+                    {
+                        RaiseOnSettingChangedEvent(this, new EventArguments.SettingChangedEventArgs(item.Key, item.Value));
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private TSettingsService GetSettingsService<TSettingsService>(ref TSettingsService settingsServiceMember)
