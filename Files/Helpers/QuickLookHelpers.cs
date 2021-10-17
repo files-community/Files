@@ -13,6 +13,10 @@ namespace Files.Helpers
     {
         public static async Task ToggleQuickLook(IShellPage associatedInstance, bool switchPreview = false)
         {
+            if (!App.MainViewModel.IsQuickLookEnabled)
+            {
+                return;
+            }
             await Common.Extensions.IgnoreExceptions(async () =>
             {
                 if (associatedInstance.SlimContentPage.IsItemSelected && !associatedInstance.SlimContentPage.IsRenamingItem)

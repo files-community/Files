@@ -225,7 +225,7 @@ namespace Files.Views.LayoutModes
         private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
-            if (App.MainViewModel.IsQuickLookEnabled && SelectedItems.Count == 1)
+            if (SelectedItems.Count == 1)
             {
                 await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
             }

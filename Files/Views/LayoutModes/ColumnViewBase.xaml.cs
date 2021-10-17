@@ -321,7 +321,7 @@ namespace Files.Views.LayoutModes
         {
             UnFocusPreviousListView?.Invoke(FileList, EventArgs.Empty);
             SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
-            if (App.MainViewModel.IsQuickLookEnabled && SelectedItems.Count == 1)
+            if (SelectedItems.Count == 1)
             {
                 await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance, true);
             }
@@ -380,10 +380,7 @@ namespace Files.Views.LayoutModes
                 if (!IsRenamingItem && !ParentShellPageInstance.NavToolbarViewModel.IsEditModeEnabled)
                 {
                     e.Handled = true;
-                    if (App.MainViewModel.IsQuickLookEnabled)
-                    {
-                        await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
-                    }
+                    await QuickLookHelpers.ToggleQuickLook(ParentShellPageInstance);
                 }
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))

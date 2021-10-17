@@ -689,10 +689,7 @@ namespace Files.Views
                 case (false, false, false, true, VirtualKey.Space): // space, quick look
                     if (!NavToolbarViewModel.IsEditModeEnabled && !NavToolbarViewModel.IsSearchBoxVisible)
                     {
-                        if (App.MainViewModel.IsQuickLookEnabled)
-                        {
-                            await QuickLookHelpers.ToggleQuickLook(this);
-                        }
+                        await QuickLookHelpers.ToggleQuickLook(this);
                     }
                     break;
 
