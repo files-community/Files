@@ -1,10 +1,12 @@
 ﻿using Files.Filesystem;
 using Files.ViewModels.Properties;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Data.Pdf;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
@@ -90,24 +92,28 @@ namespace Files.ViewModels.Previews
                     return;
                 }
 
-                var page = pdf.GetPage(i);
+                PdfPage page = pdf.GetPage(i);
                 await page.PreparePageAsync();
-                using var stream = new InMemoryRandomAccessStream();
+                using InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream();
                 await page.RenderToStreamAsync(stream);
 
-                var decoder = await BitmapDecoder.CreateAsync(stream);
-                var sw = await decoder.GetSoftwareBitmapAsync();
+                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+                using SoftwareBitmap sw = await decoder.GetSoftwareBitmapAsync();
 
-                var src = new BitmapImage();
-                await src.SetSourceAsync(stream);
-                var pageData = new PageViewModel()
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                 {
-                    PageImage = src,
-                    PageNumber = (int)i,
-                    PageImageSB = sw,
-                };
-                Pages.Add(pageData);
-                PageCount++;
+                    BitmapImage src = new();
+                    PageViewModel pageData = new()
+                    {
+                        PageImage = src,
+                        PageNumber = (int)i,
+                        PageImageSB = sw,
+                    };
+
+                    await src.SetSourceAsync(stream);
+                    Pages.Add(pageData);
+                    PageCount++;
+                });
             }
             LoadingBarVisibility = Visibility.Collapsed;
         }
