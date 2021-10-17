@@ -1,6 +1,7 @@
 ﻿using Files.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using Windows.Storage.AccessCache;
 
 namespace Files.ViewModels.SettingsViewModels
 {
@@ -120,6 +121,13 @@ namespace Files.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.FilesAndFoldersSettingsService.IsSavingRecentItemsEnabled)
                 {
                     UserSettingsService.FilesAndFoldersSettingsService.IsSavingRecentItemsEnabled = value;
+                    
+                    if (!UserSettingsService.FilesAndFoldersSettingsService.IsSavingRecentItemsEnabled)
+                    {
+                        var mru = StorageApplicationPermissions.MostRecentlyUsedList;
+                        mru.Clear();
+                    }
+                    
                     OnPropertyChanged();
                 }
             }
