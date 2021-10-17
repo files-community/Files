@@ -13,27 +13,26 @@ namespace Files.Helpers
     {
         public static async Task ToggleQuickLook(IShellPage associatedInstance, bool switchPreview = false)
         {
-            if (!App.MainViewModel.IsQuickLookEnabled)
+            if (!App.MainViewModel.IsQuickLookEnabled || !associatedInstance.SlimContentPage.IsItemSelected || associatedInstance.SlimContentPage.IsRenamingItem)
             {
                 return;
             }
+            
             await Common.Extensions.IgnoreExceptions(async () =>
             {
-                if (associatedInstance.SlimContentPage.IsItemSelected && !associatedInstance.SlimContentPage.IsRenamingItem)
-                {
-                    Debug.WriteLine("Toggle QuickLook");
-                    var connection = await AppServiceConnectionHelper.Instance;
+                Debug.WriteLine("Toggle QuickLook");
+                var connection = await AppServiceConnectionHelper.Instance;
 
-                    if (connection != null)
+                if (connection != null)
+                {
+                    await connection.SendMessageAsync(new ValueSet()
                     {
-                        await connection.SendMessageAsync(new ValueSet()
-                        {
-                            { "path", associatedInstance.SlimContentPage.SelectedItem.ItemPath },
-                            { "switch", switchPreview },
-                            { "Arguments", "ToggleQuickLook" }
-                        });
-                    }
+                        { "path", associatedInstance.SlimContentPage.SelectedItem.ItemPath },
+                        { "switch", switchPreview },
+                        { "Arguments", "ToggleQuickLook" }
+                    });
                 }
+                
             }, App.Logger);
         }
     }
