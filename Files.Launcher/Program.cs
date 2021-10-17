@@ -260,8 +260,11 @@ namespace FilesFullTrust
                 {
                     var folder = localSettings.Values.Get("Folder", "");
                     localSettings.Values.Remove("Folder");
-                    var uri = $"files-uwp:?folder={folder}";
-                    await Windows.System.Launcher.LaunchUriAsync(new Uri(uri));
+                    await Extensions.IgnoreExceptions(async () =>
+                    {
+                        var uri = $"files-uwp:?folder={Uri.EscapeDataString(folder)}";
+                        await Windows.System.Launcher.LaunchUriAsync(new Uri(uri));
+                    }, Logger);
 
                     TerminateProcess((int)localSettings.Values["pid"]);
                     return true;
