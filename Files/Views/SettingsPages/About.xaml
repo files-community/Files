@@ -55,7 +55,7 @@
                     Content="Copy" />
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl Title="Export or import settings">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAboutManageSettings}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE713;" />
                 </local:SettingsBlockControl.Icon>
@@ -63,12 +63,15 @@
                     <StackPanel>
 
                         <!--  Export  -->
-                        <local:SettingsBlockControl Title="Export Settings">
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAboutExportSettings}">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xEDE1;" />
                             </local:SettingsBlockControl.Icon>
 
-                            <Button Padding="8" Command="{Binding ExportSettingsCommand}">
+                            <Button
+                                Padding="8"
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsAboutExportSettings}"
+                                Command="{Binding ExportSettingsCommand}">
                                 <FontIcon
                                     FontSize="14"
                                     Foreground="{ThemeResource TextFillColorPrimaryBrush}"
@@ -77,12 +80,15 @@
                         </local:SettingsBlockControl>
 
                         <!--  Import  -->
-                        <local:SettingsBlockControl Title="Import Settings">
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAboutImportSettings}">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xE8B5;" />
                             </local:SettingsBlockControl.Icon>
 
-                            <Button Padding="8" Command="{Binding ImportSettingsCommand}">
+                            <Button
+                                Padding="8"
+                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsAboutImportSettings}"
+                                Command="{Binding ImportSettingsCommand}">
                                 <FontIcon
                                     FontSize="14"
                                     Foreground="{ThemeResource TextFillColorPrimaryBrush}"
