@@ -55,7 +55,7 @@
                     Content="Copy" />
             </local:SettingsBlockControl>
 
-            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAboutManageSettings}" HorizontalAlignment="Stretch">
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=ManageSettings}" HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE713;" />
                 </local:SettingsBlockControl.Icon>
@@ -63,14 +63,14 @@
                     <StackPanel>
 
                         <!--  Export  -->
-                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAboutExportSettings}">
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ExportSettings}">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xEDE1;" />
                             </local:SettingsBlockControl.Icon>
 
                             <Button
                                 Padding="8"
-                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsAboutExportSettings}"
+                                AutomationProperties.Name="{helpers:ResourceString Name=ExportSettings}"
                                 Command="{Binding ExportSettingsCommand}">
                                 <FontIcon
                                     FontSize="14"
@@ -80,14 +80,14 @@
                         </local:SettingsBlockControl>
 
                         <!--  Import  -->
-                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAboutImportSettings}">
+                        <local:SettingsBlockControl Title="{helpers:ResourceString Name=ImportSettings}">
                             <local:SettingsBlockControl.Icon>
                                 <FontIcon Glyph="&#xE8B5;" />
                             </local:SettingsBlockControl.Icon>
 
                             <Button
                                 Padding="8"
-                                AutomationProperties.Name="{helpers:ResourceString Name=SettingsAboutImportSettings}"
+                                AutomationProperties.Name="{helpers:ResourceString Name=ImportSettings}"
                                 Command="{Binding ImportSettingsCommand}">
                                 <FontIcon
                                     FontSize="14"

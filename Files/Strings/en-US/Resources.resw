@@ -2776,13 +2776,13 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Folder path</value>
   </data>
-  <data name="SettingsAboutExportSettings" xml:space="preserve">
+  <data name="ExportSettings" xml:space="preserve">
     <value>Export Settings</value>
   </data>
-  <data name="SettingsAboutImportSettings" xml:space="preserve">
+  <data name="ImportSettings" xml:space="preserve">
     <value>Import Settings</value>
   </data>
-  <data name="SettingsAboutManageSettings" xml:space="preserve">
+  <data name="ManageSettings" xml:space="preserve">
     <value>Manage Settings</value>
   </data>
 </root>
