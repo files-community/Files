@@ -4,52 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="using:Files.ViewModels.Search"
     xmlns:local="using:Files.UserControls.Search"
-    xmlns:converters="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <Page.Resources>
-
-        <converters:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
-
-        <local:FilterPickerTemplateSelector x:Key="PickerTemplateSelector"
-            DateRangeTemplate="{StaticResource DateRangePickerTemplate}" />
-
-        <DataTemplate x:Key="DateRangePickerTemplate" x:DataType="vm:IDateRangePageViewModel">
-            <StackPanel Orientation="Vertical" Width="200">
-                <StackPanel MinHeight="64">
-                    <StackPanel
-                        Margin="8,0,8,16" Orientation="Vertical"
-                        Visibility="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
-                        <TextBlock Margin="8,8,0,0" TextWrapping="Wrap" Text="{x:Bind SelectedSource.Description, Mode=OneWay}" />
-                        <TextBlock
-                            Margin="8,0,0,0" FontSize="13" TextWrapping="Wrap" FontWeight="Bold"
-                            Text="{x:Bind RangeLabel, Mode=OneWay}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Vertical" Margin="8,0,8,16" Visibility="{x:Bind IsEmpty, Mode=OneWay}">
-                        <TextBlock Margin="8,8,0,0" TextWrapping="Wrap" Text="No file size range selected" />
-                    </StackPanel>
-                </StackPanel>
-                <CalendarDatePicker Header="From" Date="{x:Bind MinOffset, Mode=TwoWay}" HorizontalAlignment="Stretch"  />
-                <CalendarDatePicker Header="To" Date="{x:Bind MaxOffset, Mode=TwoWay}" HorizontalAlignment="Stretch"  />
-                <HyperlinkButton x:Name="ClearButton" HorizontalAlignment="Right" Content="Clear" Command="{x:Bind ClearCommand, Mode=OneWay}" />
-                <TextBlock Text="Or choose a file date range" Margin="0,16,0,0" />
-                <ItemsControl ItemsSource="{x:Bind Links}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="vm:IDateRangeLink">
-                            <ToggleButton
-                                Margin="0,8,0,0" HorizontalAlignment="Stretch"
-                                FontSize="14" FontWeight="SemiBold"
-                                IsChecked="{x:Bind IsSelected, Mode=OneWay}" Command="{x:Bind ToggleCommand}"
-                                Content="{x:Bind Label}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
-        </DataTemplate>
-
-    </Page.Resources>
 
     <StackPanel Orientation="Vertical" Width="200">
         <ComboBox x:Name="Combo" Loaded="Combo_Loaded"
@@ -76,7 +33,7 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <Rectangle Margin="0,0,0,8" Height="1" HorizontalAlignment="Stretch" Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
-        <ContentControl Width="200" Content="{x:Bind ViewModel}" ContentTemplateSelector="{StaticResource PickerTemplateSelector}" />
+        <local:FilterPicker Width="200" ViewModel="{x:Bind ViewModel}" />
         <Grid HorizontalAlignment="Stretch" Margin="0,24,0,8" ColumnSpacing="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />

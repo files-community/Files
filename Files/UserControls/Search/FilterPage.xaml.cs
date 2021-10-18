@@ -31,18 +31,4 @@ namespace Files.UserControls.Search
             CancelButton.Focus(FocusState.Programmatic);
         }
     }
-
-    public class FilterPickerTemplateSelector : DataTemplateSelector
-    {
-        public DataTemplate DateRangeTemplate { get; set; }
-
-        protected override DataTemplate SelectTemplateCore(object item) => item switch
-        {
-            IDateRangePageViewModel => DateRangeTemplate,
-            _ => null,
-        };
-
-        protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
-            => SelectTemplateCore(item);
-    }
 }
