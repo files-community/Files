@@ -71,7 +71,8 @@
                             <Button
                                 Padding="8"
                                 AutomationProperties.Name="{helpers:ResourceString Name=ExportSettings}"
-                                Command="{Binding ExportSettingsCommand}">
+                                Command="{Binding ExportSettingsCommand}"
+                                ToolTipService.ToolTip="{helpers:ResourceString Name=ExportSettings}">
                                 <FontIcon
                                     FontSize="14"
                                     Foreground="{ThemeResource TextFillColorPrimaryBrush}"
@@ -88,7 +89,8 @@
                             <Button
                                 Padding="8"
                                 AutomationProperties.Name="{helpers:ResourceString Name=ImportSettings}"
-                                Command="{Binding ImportSettingsCommand}">
+                                Command="{Binding ImportSettingsCommand}"
+                                ToolTipService.ToolTip="{helpers:ResourceString Name=ImportSettings}">
                                 <FontIcon
                                     FontSize="14"
                                     Foreground="{ThemeResource TextFillColorPrimaryBrush}"
