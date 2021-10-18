@@ -237,7 +237,6 @@ namespace Files.Views
                     ItemName = locationItem.Text,
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemType = "FileFolderListItem".GetLocalized(),
-                    LoadFolderGlyph = true
                 };
                 await FilePropertiesHelpers.OpenPropertiesWindowAsync(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
             }

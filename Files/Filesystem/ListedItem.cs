@@ -10,7 +10,6 @@ using FluentFTP;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
-using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -19,24 +18,25 @@ using System.Threading;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
+#pragma warning disable CS0618 // Type or member is obsolete
+
 namespace Files.Filesystem
 {
     public class ListedItem : ObservableObject, IGroupableItem
     {
         private static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         private static IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>();
 
         public bool IsHiddenItem { get; set; } = false;
+
         public StorageItemTypes PrimaryItemAttribute { get; set; }
 
         private volatile int itemPropertiesInitialized = 0;
         public bool ItemPropertiesInitialized
         {
             get => itemPropertiesInitialized == 1;
-            set
-            {
-                Interlocked.Exchange(ref itemPropertiesInitialized, value ? 1 : 0);
-            }
+            set => Interlocked.Exchange(ref itemPropertiesInitialized, value ? 1 : 0);
         }
 
         public string ItemTooltipText
@@ -50,40 +50,45 @@ namespace Files.Filesystem
         }
 
         public string FolderRelativeId { get; set; }
-        public bool ContainsFilesOrFolders { get; set; } = true;
-        private bool loadFolderGlyph;
-        private bool loadFileIcon;
 
-        public bool LoadFolderGlyph
+        public bool ContainsFilesOrFolders { get; set; } = true;
+
+        private bool needsPlaceholderGlyph = true;
+        public bool NeedsPlaceholderGlyph
         {
-            get => loadFolderGlyph;
-            set => SetProperty(ref loadFolderGlyph, value);
+            get => needsPlaceholderGlyph;
+            set => SetProperty(ref needsPlaceholderGlyph, value);
         }
 
+        private bool loadFileIcon;
         public bool LoadFileIcon
         {
             get => loadFileIcon;
             set => SetProperty(ref loadFileIcon, value);
         }
 
-        private bool loadUnknownTypeGlyph;
-
-        public bool LoadUnknownTypeGlyph
+        private bool loadDefaultIcon = false;
+        public bool LoadDefaultIcon
         {
-            get => loadUnknownTypeGlyph;
-            set => SetProperty(ref loadUnknownTypeGlyph, value);
+            get => loadDefaultIcon;
+            [Obsolete("The set accessor is used internally and should not be used outside ListedItem and derived classes.")]
+            set => SetProperty(ref loadDefaultIcon, value);
         }
 
         private bool loadWebShortcutGlyph;
-
         public bool LoadWebShortcutGlyph
         {
             get => loadWebShortcutGlyph;
-            set => SetProperty(ref loadWebShortcutGlyph, value);
+            set
+            {
+                if (SetProperty(ref loadWebShortcutGlyph, value))
+                {
+                    LoadDefaultIcon = !value;
+                }
+            }
         }
 
         private bool loadCustomIcon;
-
         public bool LoadCustomIcon
         {
             get => loadCustomIcon;
@@ -93,7 +98,6 @@ namespace Files.Filesystem
         // Note: Never attempt to call this from a secondary window or another thread, create a new instance from CustomIconSource instead
         // TODO: eventually we should remove this b/c it's not thread safe
         private BitmapImage customIcon;
-
         public BitmapImage CustomIcon
         {
             get => customIcon;
@@ -107,19 +111,17 @@ namespace Files.Filesystem
         public ulong? FileFRN { get; set; }
 
         private string fileTag;
-
         public string FileTag
         {
             get => fileTag;
             set
             {
-                if (value != fileTag)
+                if (SetProperty(ref fileTag, value))
                 {
                     FileTagsHelper.DbInstance.SetTag(ItemPath, FileFRN, value);
                     FileTagsHelper.WriteFileTag(ItemPath, value);
+                    OnPropertyChanged(nameof(FileTagUI));
                 }
-                SetProperty(ref fileTag, value);
-                OnPropertyChanged(nameof(FileTagUI));
             }
         }
 
@@ -129,7 +131,6 @@ namespace Files.Filesystem
         }
 
         private Uri customIconSource;
-
         public Uri CustomIconSource
         {
             get => customIconSource;
@@ -137,7 +138,6 @@ namespace Files.Filesystem
         }
 
         private double opacity;
-
         public double Opacity
         {
             get => opacity;
@@ -145,8 +145,6 @@ namespace Files.Filesystem
         }
 
         private CloudDriveSyncStatusUI syncStatusUI = new CloudDriveSyncStatusUI();
-
-        [JsonIgnore]
         public CloudDriveSyncStatusUI SyncStatusUI
         {
             get => syncStatusUI;
@@ -172,18 +170,53 @@ namespace Files.Filesystem
 
         private BitmapImage fileImage;
 
-        [JsonIgnore]
         public BitmapImage FileImage
         {
             get => fileImage;
-            set => SetProperty(ref fileImage, value);
+            set
+            {
+                if (value is BitmapImage imgOld)
+                {
+                    imgOld.ImageOpened -= Img_ImageOpened;
+                }
+                if (SetProperty(ref fileImage, value))
+                {
+                    if (value is BitmapImage img)
+                    {
+                        if (img.PixelWidth > 0)
+                        {
+                            Img_ImageOpened(img, null);
+                        }
+                        else
+                        {
+                            img.ImageOpened += Img_ImageOpened;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void Img_ImageOpened(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if (sender is BitmapImage image)
+            {
+                image.ImageOpened -= Img_ImageOpened;
+
+                if (image.PixelWidth > 0)
+                {
+                    LoadFileIcon = true;
+                    PlaceholderDefaultIcon = null;
+                    NeedsPlaceholderGlyph = false;
+                    LoadDefaultIcon = false;
+                    LoadWebShortcutGlyph = false;
+                }
+            }
         }
 
         public bool IsItemPinnedToStart => App.SecondaryTileHelper.CheckFolderPinned(ItemPath);
 
         private BitmapImage iconOverlay;
 
-        [JsonIgnore]
         public BitmapImage IconOverlay
         {
             get => iconOverlay;
@@ -196,8 +229,14 @@ namespace Files.Filesystem
             }
         }
 
-        private string itemPath;
+        private BitmapImage placeholderDefaultIcon;
+        public BitmapImage PlaceholderDefaultIcon
+        {
+            get => placeholderDefaultIcon;
+            set => SetProperty(ref placeholderDefaultIcon, value);
+        }
 
+        private string itemPath;
         public string ItemPath
         {
             get => itemPath;
@@ -205,7 +244,6 @@ namespace Files.Filesystem
         }
 
         private string itemName;
-
         public string ItemName
         {
             get => itemName;
@@ -213,7 +251,6 @@ namespace Files.Filesystem
         }
 
         private string itemType;
-
         public string ItemType
         {
             get => itemType;
@@ -229,7 +266,6 @@ namespace Files.Filesystem
         public string FileExtension { get; set; }
 
         private string fileSize;
-
         public string FileSize
         {
             get => fileSize;
@@ -241,11 +277,16 @@ namespace Files.Filesystem
         }
 
         public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalcluated".GetLocalized() : FileSize;
+
         public long FileSizeBytes { get; set; }
+
         public string ItemDateModified { get; private set; }
+
         public string ItemDateCreated { get; private set; }
+
         public string ItemDateAccessed { get; private set; }
 
+        private DateTimeOffset itemDateModifiedReal;
         public DateTimeOffset ItemDateModifiedReal
         {
             get => itemDateModifiedReal;
@@ -257,8 +298,7 @@ namespace Files.Filesystem
             }
         }
 
-        private DateTimeOffset itemDateModifiedReal;
-
+        private DateTimeOffset itemDateCreatedReal;
         public DateTimeOffset ItemDateCreatedReal
         {
             get => itemDateCreatedReal;
@@ -270,8 +310,7 @@ namespace Files.Filesystem
             }
         }
 
-        private DateTimeOffset itemDateCreatedReal;
-
+        private DateTimeOffset itemDateAccessedReal;
         public DateTimeOffset ItemDateAccessedReal
         {
             get => itemDateAccessedReal;
@@ -283,10 +322,7 @@ namespace Files.Filesystem
             }
         }
 
-        private DateTimeOffset itemDateAccessedReal;
-
         private ObservableCollection<FileProperty> itemProperties;
-
         public ObservableCollection<FileProperty> ItemProperties
         {
             get => itemProperties;
@@ -314,14 +350,11 @@ namespace Files.Filesystem
         }
 
         // Parameterless constructor for JsonConvert
-        public ListedItem()
-        { }
+        public ListedItem() { }
 
         protected string DateReturnFormat { get; }
 
         private ObservableCollection<FileProperty> fileDetails;
-
-        [JsonIgnore]
         public ObservableCollection<FileProperty> FileDetails
         {
             get => fileDetails;
@@ -347,6 +380,7 @@ namespace Files.Filesystem
             {
                 suffix = PrimaryItemAttribute == StorageItemTypes.File ? "FileItemAutomation".GetLocalized() : "FolderItemAutomation".GetLocalized();
             }
+
             return $"{ItemName}, {suffix}";
         }
 
@@ -361,7 +395,6 @@ namespace Files.Filesystem
         public bool IsPinned => App.SidebarPinnedController.Model.FavoriteItems.Contains(itemPath);
 
         private BaseStorageFile itemFile;
-
         public BaseStorageFile ItemFile
         {
             get => itemFile;
@@ -369,7 +402,6 @@ namespace Files.Filesystem
         }
 
         // This is a hack used because x:Bind casting did not work properly
-        [JsonIgnore]
         public RecycleBinItem AsRecycleBinItem => this as RecycleBinItem;
 
         public string Key { get; set; }
@@ -382,6 +414,13 @@ namespace Files.Filesystem
         {
             ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(ItemPath);
         }
+
+        public void SetDefaultIcon(BitmapImage img)
+        {
+            NeedsPlaceholderGlyph = false;
+            LoadDefaultIcon = true;
+            PlaceholderDefaultIcon = img;
+        }
     }
 
     public class RecycleBinItem : ListedItem
@@ -389,10 +428,6 @@ namespace Files.Filesystem
         public RecycleBinItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
         {
         }
-
-        // Parameterless constructor for JsonConvert
-        public RecycleBinItem() : base()
-        { }
 
         public string ItemDateDeleted { get; private set; }
 
@@ -437,10 +472,8 @@ namespace Files.Filesystem
             }
 
             ItemType = itemType;
-            LoadFolderGlyph = !isFile;
             FileSizeBytes = item.Size;
             ContainsFilesOrFolders = !isFile;
-            LoadUnknownTypeGlyph = isFile;
             FileImage = null;
             FileSize = ByteSize.FromBytes(FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
             Opacity = 1;
