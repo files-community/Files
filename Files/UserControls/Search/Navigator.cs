@@ -1,4 +1,5 @@
-﻿using Files.ViewModels.Search;
+﻿using Files.Filesystem.Search;
+using Files.ViewModels.Search;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -9,9 +10,7 @@ namespace Files.UserControls.Search
         void Clear();
         void GoRoot();
         void GoPage(object viewModel);
-
         void GoBack();
-        void GoForward();
     }
 
     public class Navigator : INavigator
@@ -28,14 +27,14 @@ namespace Files.UserControls.Search
         private Navigator() {}
 
         public void Clear() => GoPage(null);
-        public void GoRoot() => GoPage(new SettingsViewModel());
+        public void GoRoot() => GoPage(new DateRangePageViewModel(null, new ModifiedFilter(DateRange.Always)));
         public void GoPage(object viewModel)
         {
             switch (viewModel)
             {
-                case ISettingsViewModel :
-                    Frame?.Navigate(typeof(SettingsPage), viewModel, emptyTransition);
-                    break;
+                //case ISettingsViewModel :
+                //    Frame?.Navigate(typeof(SettingsPage), viewModel, emptyTransition);
+                //    break;
                 case IFilterPageViewModel :
                     Frame?.Navigate(typeof(FilterPage), viewModel, toRightTransition);
                     break;
@@ -45,7 +44,12 @@ namespace Files.UserControls.Search
             }
         }
 
-        public void GoBack() => Frame?.GoBack(toRightTransition);
-        public void GoForward() => Frame?.GoForward();
+        public void GoBack()
+        {
+            if (Frame is not null && Frame.CanGoBack)
+            {
+                Frame.GoBack(toRightTransition);
+            }
+        }
     }
 }

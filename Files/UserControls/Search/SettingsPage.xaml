@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
     <StackPanel Orientation="Vertical">
-        <TextBlock Text="Search Options" FontSize="18" FontWeight="SemiBold" />
+        <!--<TextBlock Text="Search Options" FontSize="18" FontWeight="SemiBold" />
         <local:FilterPicker ViewModel="{x:Bind ViewModel.Filter, Mode=OneWay}" />
         <StackPanel Orientation="Vertical" Spacing="4" Margin="0,16,0,0">
             <TextBlock FontSize="14" FontWeight="SemiBold" Text="Search in" />
@@ -24,6 +24,6 @@
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" HorizontalAlignment="Stretch" Content="Search" />
             <Button Grid.Column="1" Content="Filters" HorizontalAlignment="Stretch" />
-        </Grid>
+        </Grid>-->
     </StackPanel>
 </Page>

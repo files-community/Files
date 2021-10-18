@@ -219,7 +219,7 @@
                     BorderThickness="{TemplateBinding BorderThickness}"
                     Template="{StaticResource ButtonTemplate}"
                     AutomationProperties.AccessibilityView="Raw" />
-                <Button x:Name="MenuButton" Foreground="{ThemeResource SystemAccentColor}"
+                <AppBarButton x:Name="MenuButton" Foreground="{ThemeResource SystemAccentColor}"
                     Grid.Row="1" Grid.Column="2" Loaded="MenuButton_Loaded"
                     VerticalAlignment="Stretch"
                     MinWidth="34" IsTabStop="False"
@@ -229,7 +229,7 @@
 	                Template="{StaticResource ButtonTemplate}"
                     Content="&#xE71C;"
                     AutomationProperties.AccessibilityView="Raw">
-                    <Button.Flyout>
+                    <AppBarButton.Flyout>
                         <Flyout Placement="BottomEdgeAlignedRight" Opened="Flyout_Opened" Closed="Flyout_Closed">
                             <Flyout.FlyoutPresenterStyle>
                                 <Style TargetType="FlyoutPresenter">
@@ -267,8 +267,8 @@
                                 <Frame x:Name="MenuFrame" Loaded="MenuFrame_Loaded" Width="200" />
                             </Grid>
                         </Flyout>
-                    </Button.Flyout>
-                </Button>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
                 <Button x:Name="QueryButton"
                     Grid.Row="1" Grid.Column="3" IsTabStop="False"
                     VerticalAlignment="Stretch"

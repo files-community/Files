@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace Files.ViewModels.Search
 {
-    public interface ISizeRangeFilterViewModel : IFilterViewModel
+    /*public interface ISizeRangeFilterViewModel : IFilterViewModel
     {
         new ISizeRangeFilter Filter { get; }
 
@@ -136,5 +136,5 @@ namespace Files.ViewModels.Search
                 }
             }
         }
-    }
+    }*/
 }

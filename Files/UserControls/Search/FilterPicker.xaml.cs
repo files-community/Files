@@ -11,7 +11,7 @@ namespace Files.UserControls.Search
 {
     public sealed partial class FilterPicker : UserControl
     {
-        private readonly INavigator navigator = Navigator.Instance;
+        /*private readonly INavigator navigator = Navigator.Instance;
         private readonly IFilterViewModelFactory factory = new FilterViewModelFactory();
 
         public static readonly DependencyProperty ViewModelProperty =
@@ -21,11 +21,11 @@ namespace Files.UserControls.Search
         {
             get => (IFilterViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
-        }
+        }*/
 
         public FilterPicker() => InitializeComponent();
 
-        private MenuFlyout GetMenu()
+        /*private MenuFlyout GetMenu()
         {
             var menu = new MenuFlyout { Placement = FlyoutPlacementMode.BottomEdgeAlignedRight };
 
@@ -121,10 +121,10 @@ namespace Files.UserControls.Search
             {
                 parentViewModel.Filter.Remove(viewModel.Filter);
             }
-        }
+        }*/
     }
 
-    public class FilterPickerTemplateSelector : DataTemplateSelector
+    /*public class FilterPickerTemplateSelector : DataTemplateSelector
     {
         public DataTemplate CollectionTemplate { get; set; }
         public DataTemplate OperatorTemplate { get; set; }
@@ -177,5 +177,5 @@ namespace Files.UserControls.Search
 
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
             => SelectTemplateCore(item);
-    }
+    }*/
 }

@@ -173,7 +173,7 @@
     <Compile Include="Filesystem\Permissions\RulesForUser.cs" />
     <Compile Include="Filesystem\Permissions\UserGroup.cs" />
     <Compile Include="Filesystem\Search\Date.cs" />
-    <Compile Include="Filesystem\Search\Settings.cs" />
+    <Compile Include="Filesystem\Search\SearchSettings.cs" />
     <Compile Include="Filesystem\Search\Size.cs" />
     <Compile Include="Filesystem\StorageItems\BaseQueryResults.cs" />
     <Compile Include="Filesystem\StorageItems\BaseStorageItem.cs" />
@@ -382,9 +382,9 @@
     <Compile Include="ViewModels\Previews\ArchivePreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
     <Compile Include="ViewModels\Properties\SecurityProperties.cs" />
-    <Compile Include="ViewModels\Search\DateRangeFilterViewModel.cs" />
+    <Compile Include="ViewModels\Search\GroupPageViewModel.cs" />
+    <Compile Include="ViewModels\Search\DateRangePageViewModel.cs" />
     <Compile Include="ViewModels\Search\FilterPageViewModel.cs" />
-    <Compile Include="ViewModels\Search\FilterViewModel.cs" />
     <Compile Include="ViewModels\Search\KindViewModel.cs" />
     <Compile Include="ViewModels\Search\LocationViewModel.cs" />
     <Compile Include="ViewModels\Search\SettingsViewModel.cs" />

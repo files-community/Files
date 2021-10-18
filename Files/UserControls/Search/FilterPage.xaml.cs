@@ -7,8 +7,6 @@ namespace Files.UserControls.Search
 {
     public sealed partial class FilterPage : Page
     {
-        private readonly INavigator navigator = Navigator.Instance;
-
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register(nameof(ViewModel), typeof(IFilterPageViewModel), typeof(FilterPage), new PropertyMetadata(null));
 
@@ -24,29 +22,27 @@ namespace Files.UserControls.Search
         {
             base.OnNavigatedTo(e);
             ViewModel = e.Parameter as IFilterPageViewModel;
+            Combo.SelectedItem = ViewModel?.SelectedSource;
         }
 
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        private void Combo_Loaded(object sender, RoutedEventArgs e)
         {
-            var parent = ViewModel?.Parent?.Filter;
-            var filter = ViewModel?.Filter?.Filter;
-
-            if (parent is not null && filter is not null)
-            {
-                if (!filter.IsEmpty)
-                {
-                    parent.Set(filter);
-                }
-                else
-                {
-                    parent.Unset(filter);
-                }
-            }
-
-            navigator.GoBack();
+            // prevent a bug of lost focus in uwp. This bug close the flyout when combobox is open.
+            CancelButton.Focus(FocusState.Programmatic);
         }
+    }
 
-        private void TitleButton_Click(object sender, RoutedEventArgs e) => navigator.GoBack();
-        private void CancelButton_Click(object sender, RoutedEventArgs e) => navigator.GoBack();
+    public class FilterPickerTemplateSelector : DataTemplateSelector
+    {
+        public DataTemplate DateRangeTemplate { get; set; }
+
+        protected override DataTemplate SelectTemplateCore(object item) => item switch
+        {
+            IDateRangePageViewModel => DateRangeTemplate,
+            _ => null,
+        };
+
+        protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
+            => SelectTemplateCore(item);
     }
 }

@@ -11,7 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignWidth="400" d:DesignHeight="300" mc:Ignorable="d">
 
-    <UserControl.Resources>
+    <!--<UserControl.Resources>
 
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         <converters:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
@@ -213,12 +213,12 @@
 
         <DataTemplate x:Key="CollectionButtonContentTemplate">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="12">
-                <!--<TextBlock
+                --><!--<TextBlock
                     FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"
                     Text="{x:Bind Label, Mode=OneWay}" />
                 <TextBlock
                     Grid.Row="1" FontSize="12" VerticalAlignment="Center"
-                    Text="{x:Bind Count}" />-->
+                    Text="{x:Bind Count}" />--><!--
             </StackPanel>
         </DataTemplate>
 
@@ -243,6 +243,6 @@
     <ContentControl
         x:Name="MainControl" Width="200"
         Content="{x:Bind ViewModel, Mode=OneWay}"
-        ContentTemplateSelector="{StaticResource PickerTemplateSelector}" />
-
+        ContentTemplateSelector="{StaticResource PickerTemplateSelector}" />-->
+    <Grid />
 </UserControl>

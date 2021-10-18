@@ -47,12 +47,9 @@ namespace Files.UserControls
                 "Windows.UI.Xaml.FrameworkElement",
                 "AllowFocusOnInteraction");
 
-            if (allowFocusOnInteractionAvailable)
+            if (allowFocusOnInteractionAvailable && sender is FrameworkElement s)
             {
-                if (sender is FrameworkElement s)
-                {
-                    s.AllowFocusOnInteraction = true;
-                }
+                s.AllowFocusOnInteraction = true;
             }
         }
 
