@@ -406,6 +406,10 @@ namespace Files
                                     break;
 
                                 case ParsedCommandType.SelectItem:
+                                    if (Path.IsPathRooted(command.Payload))
+                                    {
+                                        await PerformNavigation(Path.GetDirectoryName(command.Payload), Path.GetFileName(command.Payload));
+                                    }
                                     break;
 
                                 case ParsedCommandType.Unknown:
