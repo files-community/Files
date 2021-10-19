@@ -501,10 +501,6 @@ namespace Files
                     }
 
                     ItemManipulationModel.SetSelectedItems(liItemsToSelect);
-                    if (liItemsToSelect.Count > 0)
-                    {
-                        ItemManipulationModel.ScrollIntoView(liItemsToSelect[0]);
-                    }
                     ItemManipulationModel.FocusSelectedItems();
                 }
             }
