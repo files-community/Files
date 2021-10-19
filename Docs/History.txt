@@ -1,6 +1,16 @@
 10/15/2021
-Fixed a bug that cause the application to crash when the default sorting wasn't present.
+Bug: Fixed a bug that cause the application to crash when the default sorting wasn't present.
 This change defaults all sorting if not set.
+
+10/15/2021
+Feature request:  Added a sort option that will remove the sorting based on files and folders.  By
+having this option, the names will be sorted in alphanumerical disregarding the type of file it is.
+In other words, folders and files will be sorted together.
+
+10/15/2021
+Feature request: Modified the options popup on a file/directory that will move a menu item to a 
+location where it would be easier to see.  The change will similar Windows explorer.
+
 
 10/15/2021
 Added the ability to use shortcuts to delete files when in column view mode.
