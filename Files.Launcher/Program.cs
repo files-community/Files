@@ -256,7 +256,21 @@ namespace FilesFullTrust
             {
                 localSettings.Values.Remove("Arguments");
 
-                if (arguments == "TerminateUwp")
+                if (arguments == "StartUwp")
+                {
+                    var folder = localSettings.Values.Get("Folder", "");
+                    localSettings.Values.Remove("Folder");
+
+                    using Process process = new Process();
+                    process.StartInfo.UseShellExecute = true;
+                    process.StartInfo.FileName = "files.exe";
+                    process.StartInfo.Arguments = folder;
+                    process.Start();
+
+                    TerminateProcess((int)localSettings.Values["pid"]);
+                    return true;
+                }
+                else if (arguments == "TerminateUwp")
                 {
                     TerminateProcess((int)localSettings.Values["pid"]);
                     return true;
