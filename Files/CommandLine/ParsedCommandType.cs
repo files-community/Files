@@ -7,5 +7,6 @@
         OpenPath,
         ExplorerShellCommand,
         OutputPath,
+        SelectItem,
     }
 }

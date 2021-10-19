@@ -40,6 +40,10 @@ namespace Files.CommandLine
                         command.Type = ParsedCommandType.OutputPath;
                         break;
 
+                    case string s when "-Select".Equals(s, StringComparison.OrdinalIgnoreCase):
+                        command.Type = ParsedCommandType.SelectItem;
+                        break;
+
                     default:
                         //case "-Cmdless":
                         try

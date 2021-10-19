@@ -83,9 +83,9 @@ namespace Files.Views
             get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled && !(Window.Current.Bounds.Width <= 750);
         }
 
-        private string navParamsLeft;
+        private NavigationParams navParamsLeft;
 
-        public string NavParamsLeft
+        public NavigationParams NavParamsLeft
         {
             get => navParamsLeft;
             set
@@ -98,9 +98,9 @@ namespace Files.Views
             }
         }
 
-        private string navParamsRight;
+        private NavigationParams navParamsRight;
 
-        public string NavParamsRight
+        public NavigationParams NavParamsRight
         {
             get => navParamsRight;
             set
@@ -227,13 +227,21 @@ namespace Files.Views
 
             if (eventArgs.Parameter is string navPath)
             {
-                NavParamsLeft = navPath;
-                NavParamsRight = "Home".GetLocalized();
+                NavParamsLeft = new NavigationParams { NavPath = navPath };
+                NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalized() };
             }
             if (eventArgs.Parameter is PaneNavigationArguments paneArgs)
             {
-                NavParamsLeft = paneArgs.LeftPaneNavPathParam;
-                NavParamsRight = paneArgs.RightPaneNavPathParam;
+                NavParamsLeft = new NavigationParams
+                {
+                    NavPath = paneArgs.LeftPaneNavPathParam,
+                    SelectItem = paneArgs.LeftPaneSelectItemParam
+                };
+                NavParamsRight = new NavigationParams
+                {
+                    NavPath = paneArgs.RightPaneNavPathParam,
+                    SelectItem = paneArgs.RightPaneSelectItemParam
+                };
                 IsRightPaneVisible = IsMultiPaneEnabled && paneArgs.RightPaneNavPathParam != null;
             }
 
@@ -242,8 +250,10 @@ namespace Files.Views
                 InitialPageType = typeof(PaneHolderPage),
                 NavigationArg = new PaneNavigationArguments()
                 {
-                    LeftPaneNavPathParam = NavParamsLeft,
-                    RightPaneNavPathParam = IsRightPaneVisible ? NavParamsRight : null
+                    LeftPaneNavPathParam = NavParamsLeft?.NavPath,
+                    LeftPaneSelectItemParam = NavParamsLeft?.SelectItem,
+                    RightPaneNavPathParam = IsRightPaneVisible ? NavParamsRight?.NavPath : null,
+                    RightPaneSelectItemParam = IsRightPaneVisible ? NavParamsRight?.SelectItem : null,
                 }
             };
         }
@@ -288,7 +298,7 @@ namespace Files.Views
         public void OpenPathInNewPane(string path)
         {
             IsRightPaneVisible = true;
-            NavParamsRight = path;
+            NavParamsRight = new NavigationParams { NavPath = path };
         }
 
         private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -310,9 +320,9 @@ namespace Files.Views
                 case (true, true, false, VirtualKey.Right): // ctrl + shift + "->" select right pane
                     if (UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled)
                     {
-                        if (string.IsNullOrEmpty(NavParamsRight))
+                        if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
                         {
-                            NavParamsRight = "Home".GetLocalized();
+                            NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalized() };
                         }
                         IsRightPaneVisible = true;
                         ActivePane = PaneRight;
@@ -326,9 +336,9 @@ namespace Files.Views
                 case (false, true, true, VirtualKey.Add): // alt + shift + "+" open pane
                     if (UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled)
                     {
-                        if (string.IsNullOrEmpty(NavParamsRight))
+                        if (string.IsNullOrEmpty(NavParamsRight?.NavPath))
                         {
-                            NavParamsRight = "Home".GetLocalized();
+                            NavParamsRight = new NavigationParams { NavPath = "Home".GetLocalized() };
                         }
                         IsRightPaneVisible = true;
                     }
@@ -369,6 +379,8 @@ namespace Files.Views
     public class PaneNavigationArguments
     {
         public string LeftPaneNavPathParam { get; set; } = null;
+        public string LeftPaneSelectItemParam { get; set; } = null;
         public string RightPaneNavPathParam { get; set; } = null;
+        public string RightPaneSelectItemParam { get; set; } = null;
     }
 }

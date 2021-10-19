@@ -329,7 +329,7 @@ namespace Files.Views
         {
             base.OnNavigatedTo(eventArgs);
             Column = (eventArgs.Parameter as ColumnParam).Column;
-            NavParams = (eventArgs.Parameter as ColumnParam).Path.ToString();
+            NavParams = new NavigationParams { NavPath = (eventArgs.Parameter as ColumnParam).Path.ToString() };
         }
 
         private void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
@@ -435,10 +435,10 @@ namespace Files.Views
             }
         }
 
-        private string navParams;
+        private NavigationParams navParams;
         private int Column;
 
-        public string NavParams
+        public NavigationParams NavParams
         {
             get => navParams;
             set
@@ -456,12 +456,12 @@ namespace Files.Views
 
         private void OnNavigationParamsChanged()
         {
-            if (string.IsNullOrEmpty(NavParams) || NavParams == "Home".GetLocalized())
+            if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home".GetLocalized())
             {
                 ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                     new NavigationArguments()
                     {
-                        NavPathParam = NavParams,
+                        NavPathParam = NavParams?.NavPath,
                         AssociatedTabInstance = this
                     });
             }
@@ -470,14 +470,15 @@ namespace Files.Views
                 ItemDisplayFrame.Navigate(typeof(ColumnViewBase),
                     new NavigationArguments()
                     {
-                        NavPathParam = NavParams,
+                        NavPathParam = NavParams.NavPath,
+                        SelectItems = !string.IsNullOrWhiteSpace(NavParams.SelectItem) ? new[] { NavParams.SelectItem } : null,
                         AssociatedTabInstance = this
                     });
             }
         }
 
         public static readonly DependencyProperty NavParamsProperty =
-            DependencyProperty.Register("NavParams", typeof(string), typeof(ColumnShellPage), new PropertyMetadata(null));
+            DependencyProperty.Register("NavParams", typeof(NavigationParams), typeof(ColumnShellPage), new PropertyMetadata(null));
 
         private TabItemArguments tabItemArguments;
 
