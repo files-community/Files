@@ -53,9 +53,9 @@
                 BasedOn="{StaticResource DefaultGridSplitterStyle}"
                 TargetType="controls:GridSplitter">
                 <Setter Property="Background" Value="Transparent" />
-                <Setter Property="Width" Value="1" />
+                <Setter Property="Width" Value="8" />
                 <Setter Property="Margin" Value="0,4,0,4" />
-                <Setter Property="Opacity" Value="0.8" />
+                <Setter Property="Opacity" Value="1.8" />
             </Style>
 
             <Style TargetType="ListViewHeaderItem">
