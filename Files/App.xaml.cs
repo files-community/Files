@@ -342,6 +342,11 @@ namespace Files
                     {
                         var parsedArgs = eventArgs.Uri.Query.TrimStart('?').Split('=');
                         var unescapedValue = Uri.UnescapeDataString(parsedArgs[1]);
+                        var folder = (StorageFolder)await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(unescapedValue).AsTask());
+                        if (folder != null && !string.IsNullOrEmpty(folder.Path))
+                        {
+                            unescapedValue = folder.Path; // Convert short name to long name (#6190)
+                        }
                         switch (parsedArgs[0])
                         {
                             case "tab":

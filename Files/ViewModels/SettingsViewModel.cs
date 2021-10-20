@@ -77,7 +77,7 @@ namespace Files.ViewModels
                     });
                     if (status == AppServiceResponseStatus.Success)
                     {
-                        localSettings.Values["quicklook_enabled"] = response.Get("IsAvailable", false);
+                        App.MainViewModel.IsQuickLookEnabled = response.Get("IsAvailable", false);
                     }
                 }
             }

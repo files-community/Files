@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Input;
+using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -62,6 +63,27 @@ namespace Files.ViewModels
         public bool AnyBannersPresent
         {
             get => StatusBannersSource.Any();
+        }
+
+        public int InfoBadgeState
+        {
+            get
+            {
+                var anyFailure = StatusBannersSource.Any(i => i.Status != ReturnResult.InProgress && i.Status != ReturnResult.Success);
+
+                return (anyFailure, AnyOperationsOngoing) switch
+                {
+                    (false, false) => 0, // all success
+                    (false, true) => 1, // ongoing
+                    (true, true) => 2, // onging with failure
+                    (true, false) => 3 // completed with failure
+                };
+            }
+        }
+
+        public int InfoBadgeValue
+        {
+            get => OngoingOperationsCount > 0 ? OngoingOperationsCount : -1;
         }
 
         #endregion Public Properties
@@ -120,6 +142,8 @@ namespace Files.ViewModels
         {
             OnPropertyChanged(nameof(OngoingOperationsCount));
             OnPropertyChanged(nameof(AnyOperationsOngoing));
+            OnPropertyChanged(nameof(InfoBadgeState));
+            OnPropertyChanged(nameof(InfoBadgeValue));
         }
 
         public void UpdateMedianProgress()
@@ -203,6 +227,8 @@ namespace Files.ViewModels
 
         private void ReportProgressToBanner(ReturnResult value)
         {
+            Banner.Status = value;
+            OngoingTasksActions.UpdateBanner(Banner);
         }
 
         #endregion Private Helpers
@@ -260,7 +286,16 @@ namespace Files.ViewModels
 
         public string Title { get; private set; }
 
-        public ReturnResult Status { get; private set; } = ReturnResult.InProgress;
+        private ReturnResult status = ReturnResult.InProgress;
+
+        public ReturnResult Status
+        {
+            get => status;
+            set
+            {
+                SetProperty(ref status, value);
+            }
+        }
 
         public FileOperationType Operation { get; private set; }
 

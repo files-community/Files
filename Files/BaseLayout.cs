@@ -298,15 +298,6 @@ namespace Files
             SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
             DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
 
-            // QuickLook Integration
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            var isQuickLookIntegrationEnabled = localSettings.Values["quicklook_enabled"];
-
-            if (isQuickLookIntegrationEnabled != null && isQuickLookIntegrationEnabled.Equals(true))
-            {
-                App.MainViewModel.IsQuickLookEnabled = true;
-            }
-
             dragOverTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
             tapDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         }
