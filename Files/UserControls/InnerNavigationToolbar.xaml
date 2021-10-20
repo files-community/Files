@@ -232,6 +232,7 @@
                                 <ToggleSwitch
                                     x:Uid="NavToolbarShowRecentFilesWidget"
                                     Header="Show Recent Files widget"
+                                    IsEnabled="{x:Bind UserSettingsService.FilesAndFoldersSettingsService.IsSavingRecentItemsEnabled, Mode=OneWay}"
                                     IsOn="{x:Bind ViewModel.ShowRecentFilesWidget, Mode=TwoWay}" />
                             </StackPanel>
                         </StackPanel>

@@ -126,6 +126,7 @@ namespace Files.ViewModels.SettingsViewModels
                     {
                         var mru = StorageApplicationPermissions.MostRecentlyUsedList;
                         mru.Clear();
+                        UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget = false;
                     }
                     
                     OnPropertyChanged();
