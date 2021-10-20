@@ -88,6 +88,8 @@ jobs:
     displayName: 'Publish Artifact: Sideload'
     inputs:
       PathtoPublish: '$(build.artifactstagingdirectory)'
+      ArtifactName: 'Sideload'
+      publishLocation: 'Container'
 
 ### Store release ###
 - job: StoreRelease
@@ -156,6 +158,8 @@ jobs:
     displayName: 'Publish Artifact: Store'
     inputs:
       PathtoPublish: '$(build.artifactstagingdirectory)'
+      ArtifactName: 'Store'
+      publishLocation: 'Container'
 
   - task: store-flight@0
     inputs:
