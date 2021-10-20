@@ -374,7 +374,7 @@ namespace Files
 
                     if (parsedCommands != null && parsedCommands.Count > 0)
                     {
-                        async Task PerformNavigation(string payload)
+                        async Task PerformNavigation(string payload, string selectItem = null)
                         {
                             if (!string.IsNullOrEmpty(payload))
                             {
@@ -385,13 +385,18 @@ namespace Files
                                     payload = folder.Path; // Convert short name to long name (#6190)
                                 }
                             }
+                            var paneNavigationArgs = new PaneNavigationArguments
+                            {
+                                LeftPaneNavPathParam = payload,
+                                LeftPaneSelectItemParam = selectItem,
+                            };
                             if (rootFrame.Content != null)
                             {
-                                await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), payload);
+                                await MainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
                             }
                             else
                             {
-                                rootFrame.Navigate(typeof(MainPage), payload, new SuppressNavigationTransitionInfo());
+                                rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
                             }
                         }
                         foreach (var command in parsedCommands)
@@ -401,7 +406,15 @@ namespace Files
                                 case ParsedCommandType.OpenDirectory:
                                 case ParsedCommandType.OpenPath:
                                 case ParsedCommandType.ExplorerShellCommand:
-                                    await PerformNavigation(command.Payload);
+                                    var selectItemCommand = parsedCommands.FirstOrDefault(x => x.Type == ParsedCommandType.SelectItem);
+                                    await PerformNavigation(command.Payload, selectItemCommand?.Payload);
+                                    break;
+
+                                case ParsedCommandType.SelectItem:
+                                    if (Path.IsPathRooted(command.Payload))
+                                    {
+                                        await PerformNavigation(Path.GetDirectoryName(command.Payload), Path.GetFileName(command.Payload));
+                                    }
                                     break;
 
                                 case ParsedCommandType.Unknown:
