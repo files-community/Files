@@ -18,4 +18,6 @@ Added the ability to use shortcuts to delete files when in column view mode.
 Fixed column resize hitbox so it is easier to click on and resize columns.
 
 10/21/2021: 12a422264d3d85d4590b208b86c44eb1765be399
-Added a toolbar button that empties the recycle bin. Currently the button works in the same way the delete button does in that it is only accessable if you have a file or folder selected. Application should be updated to make it usable when in the recycle bin tab.
+Added a toolbar button that empties the recycle bin. Currently the button works in the same way the delete button does in that
+it is only accessable if you have a file or folder selected. Application should be updated to make it usable when in the recycle bin tab.
+The symbol should also be changed.
