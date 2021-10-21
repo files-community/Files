@@ -349,7 +349,14 @@ namespace Files.Views
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            NavParams = eventArgs.Parameter.ToString();
+            if (eventArgs.Parameter is string navPath)
+            {
+                NavParams = new NavigationParams { NavPath = navPath };
+            }
+            else if (eventArgs.Parameter is NavigationParams navParams)
+            {
+                NavParams = navParams;
+            }
         }
 
         private void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
@@ -469,9 +476,9 @@ namespace Files.Views
             }
         }
 
-        private string navParams;
+        private NavigationParams navParams;
 
-        public string NavParams
+        public NavigationParams NavParams
         {
             get => navParams;
             set
@@ -489,28 +496,29 @@ namespace Files.Views
 
         private void OnNavigationParamsChanged()
         {
-            if (string.IsNullOrEmpty(NavParams) || NavParams == "Home".GetLocalized())
+            if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home".GetLocalized())
             {
                 ItemDisplayFrame.Navigate(typeof(WidgetsPage),
                     new NavigationArguments()
                     {
-                        NavPathParam = NavParams,
+                        NavPathParam = NavParams?.NavPath,
                         AssociatedTabInstance = this
                     }, new EntranceNavigationTransitionInfo());
             }
             else
             {
-                ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(NavParams),
+                ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(NavParams.NavPath),
                     new NavigationArguments()
                     {
-                        NavPathParam = NavParams,
+                        NavPathParam = NavParams.NavPath,
+                        SelectItems = !string.IsNullOrWhiteSpace(NavParams?.SelectItem) ? new[] { NavParams.SelectItem } : null,
                         AssociatedTabInstance = this
                     });
             }
         }
 
         public static readonly DependencyProperty NavParamsProperty =
-            DependencyProperty.Register("NavParams", typeof(string), typeof(ModernShellPage), new PropertyMetadata(null));
+            DependencyProperty.Register("NavParams", typeof(NavigationParams), typeof(ModernShellPage), new PropertyMetadata(null));
 
         private TabItemArguments tabItemArguments;
 
@@ -1128,6 +1136,12 @@ namespace Files.Views
     {
         public string Title { get; set; }
         public string Path { get; set; }
+    }
+
+    public class NavigationParams
+    {
+        public string NavPath { get; set; }
+        public string SelectItem { get; set;}
     }
 
     public class NavigationArguments

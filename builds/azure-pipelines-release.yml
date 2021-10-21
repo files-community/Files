@@ -85,9 +85,11 @@ jobs:
       TargetFolder: '$(build.artifactstagingdirectory)'
 
   - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: drop'
+    displayName: 'Publish Artifact: Sideload'
     inputs:
       PathtoPublish: '$(build.artifactstagingdirectory)'
+      ArtifactName: 'Sideload'
+      publishLocation: 'Container'
 
 ### Store release ###
 - job: StoreRelease
@@ -145,6 +147,20 @@ jobs:
       msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
       maximumCpuCount: true
     
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+    inputs:
+      SourceFolder: '$(system.defaultworkingdirectory)'
+      Contents: '**\bin\$(BuildConfiguration)\**'
+      TargetFolder: '$(build.artifactstagingdirectory)'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: Store'
+    inputs:
+      PathtoPublish: '$(build.artifactstagingdirectory)'
+      ArtifactName: 'Store'
+      publishLocation: 'Container'
+
   - task: store-flight@0
     inputs:
       serviceEndpoint: 'Files'
