@@ -182,6 +182,20 @@
                         <local:ColoredIcon BaseLayerGlyph="&#xF035;" OverlayLayerGlyph="&#xF036;" />
                     </AppBarButton.Content>
                 </AppBarButton>
+                <AppBarButton
+                    x:Name="EmptyButton"
+                    x:Uid="NavigationToolbarEmpty"
+                    Width="Auto"
+                    MinWidth="40"
+                    Command="{x:Bind ViewModel.EmptyCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
+                    Label="{x:Bind GetLocalizedString('Empty')}"
+                    LabelPosition="Collapsed"
+                    ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutDelete/Text')}">
+                    <AppBarButton.Content>
+                        <local:ColoredIcon BaseLayerGlyph="&#xF035;" OverlayLayerGlyph="&#xF036;" />
+                    </AppBarButton.Content>
+                </AppBarButton>
             </CommandBar.PrimaryCommands>
         </CommandBar>
         <CommandBar
