@@ -1,0 +1,99 @@
+From 12a422264d3d85d4590b208b86c44eb1765be399 Mon Sep 17 00:00:00 2001
+From: skreiter <sage.kreiter@wsu.edu>
+Date: Thu, 21 Oct 2021 12:44:35 -0700
+Subject: [PATCH] Added a button to empty recycle bin from the toolbar
+
+---
+ Files/Interacts/BaseLayoutCommandsViewModel.cs |  3 +++
+ Files/UserControls/InnerNavigationToolbar.xaml | 14 ++++++++++++++
+ Files/ViewModels/NavToolbarViewModel.cs        |  2 ++
+ Files/Views/ColumnShellPage.xaml.cs            |  1 +
+ Files/Views/ModernShellPage.xaml.cs            |  1 +
+ 5 files changed, 21 insertions(+)
+
+diff --git a/Files/Interacts/BaseLayoutCommandsViewModel.cs b/Files/Interacts/BaseLayoutCommandsViewModel.cs
+index bf871650..b5595c09 100644
+--- a/Files/Interacts/BaseLayoutCommandsViewModel.cs
++++ b/Files/Interacts/BaseLayoutCommandsViewModel.cs
+@@ -43,6 +43,7 @@ namespace Files.Interacts
+             CutItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CutItem);
+             RestoreItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreItem);
+             DeleteItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.DeleteItem);
++            EmptyCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.EmptyRecycleBin);
+             ShowFolderPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowFolderProperties);
+             ShowPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowProperties);
+             OpenFileLocationCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenFileLocation);
+@@ -110,6 +111,8 @@ namespace Files.Interacts
+ 
+         public ICommand DeleteItemCommand { get; private set; }
+ 
++        public ICommand EmptyCommand { get; private set; }
++
+         public ICommand ShowFolderPropertiesCommand { get; private set; }
+ 
+         public ICommand ShowPropertiesCommand { get; private set; }
+diff --git a/Files/UserControls/InnerNavigationToolbar.xaml b/Files/UserControls/InnerNavigationToolbar.xaml
+index 0ebd4176..62cb0f7d 100644
+--- a/Files/UserControls/InnerNavigationToolbar.xaml
++++ b/Files/UserControls/InnerNavigationToolbar.xaml
+@@ -182,6 +182,20 @@
+                         <local:ColoredIcon BaseLayerGlyph="&#xF035;" OverlayLayerGlyph="&#xF036;" />
+                     </AppBarButton.Content>
+                 </AppBarButton>
++                <AppBarButton
++                    x:Name="EmptyButton"
++                    x:Uid="NavigationToolbarEmpty"
++                    Width="Auto"
++                    MinWidth="40"
++                    Command="{x:Bind ViewModel.EmptyCommand, Mode=OneWay}"
++                    IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanCopy, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay}"
++                    Label="{x:Bind GetLocalizedString('Empty')}"
++                    LabelPosition="Collapsed"
++                    ToolTipService.ToolTip="{x:Bind GetLocalizedString('BaseLayoutItemContextFlyoutDelete/Text')}">
++                    <AppBarButton.Content>
++                        <local:ColoredIcon BaseLayerGlyph="&#xF035;" OverlayLayerGlyph="&#xF036;" />
++                    </AppBarButton.Content>
++                </AppBarButton>
+             </CommandBar.PrimaryCommands>
+         </CommandBar>
+         <CommandBar
+diff --git a/Files/ViewModels/NavToolbarViewModel.cs b/Files/ViewModels/NavToolbarViewModel.cs
+index e1a4aefa..c052420c 100644
+--- a/Files/ViewModels/NavToolbarViewModel.cs
++++ b/Files/ViewModels/NavToolbarViewModel.cs
+@@ -710,6 +710,8 @@ namespace Files.ViewModels
+ 
+         public ICommand CutCommand { get; set; }
+ 
++        public ICommand EmptyCommand { get; set; }
++
+         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
+         {
+             var nextPathItemTitle = PathComponents[PathComponents.IndexOf(pathItem) + 1].Title;
+diff --git a/Files/Views/ColumnShellPage.xaml.cs b/Files/Views/ColumnShellPage.xaml.cs
+index 449a83c3..3e05448f 100644
+--- a/Files/Views/ColumnShellPage.xaml.cs
++++ b/Files/Views/ColumnShellPage.xaml.cs
+@@ -215,6 +215,7 @@ namespace Files.Views
+             NavToolbarViewModel.Rename = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RenameItemCommand.Execute(null));
+             NavToolbarViewModel.Share = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShareItemCommand.Execute(null));
+             NavToolbarViewModel.DeleteCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DeleteItemCommand.Execute(null));
++            NavToolbarViewModel.EmptyCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.EmptyCommand.Execute(null));
+             NavToolbarViewModel.CutCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.CutItemCommand.Execute(null));
+         }
+ 
+diff --git a/Files/Views/ModernShellPage.xaml.cs b/Files/Views/ModernShellPage.xaml.cs
+index 7bf53e1a..b905c9bb 100644
+--- a/Files/Views/ModernShellPage.xaml.cs
++++ b/Files/Views/ModernShellPage.xaml.cs
+@@ -200,6 +200,7 @@ namespace Files.Views
+             NavToolbarViewModel.Rename = new RelayCommand(() => SlimContentPage?.CommandsViewModel.RenameItemCommand.Execute(null));
+             NavToolbarViewModel.Share = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShareItemCommand.Execute(null));
+             NavToolbarViewModel.DeleteCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.DeleteItemCommand.Execute(null));
++            NavToolbarViewModel.EmptyCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.EmptyCommand.Execute(null));
+             NavToolbarViewModel.CutCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.CutItemCommand.Execute(null));
+         }
+ 
+-- 
+2.33.0.windows.2
+
