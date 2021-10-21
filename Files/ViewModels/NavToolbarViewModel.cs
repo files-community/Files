@@ -710,6 +710,8 @@ namespace Files.ViewModels
 
         public ICommand CutCommand { get; set; }
 
+        public ICommand EmptyCommand { get; set; }
+
         public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
         {
             var nextPathItemTitle = PathComponents[PathComponents.IndexOf(pathItem) + 1].Title;

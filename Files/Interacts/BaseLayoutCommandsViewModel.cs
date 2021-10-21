@@ -43,6 +43,7 @@ namespace Files.Interacts
             CutItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CutItem);
             RestoreItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreItem);
             DeleteItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.DeleteItem);
+            EmptyCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.EmptyRecycleBin);
             ShowFolderPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowFolderProperties);
             ShowPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowProperties);
             OpenFileLocationCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenFileLocation);
@@ -109,6 +110,8 @@ namespace Files.Interacts
         public ICommand RestoreItemCommand { get; private set; }
 
         public ICommand DeleteItemCommand { get; private set; }
+
+        public ICommand EmptyCommand { get; private set; }
 
         public ICommand ShowFolderPropertiesCommand { get; private set; }
 
