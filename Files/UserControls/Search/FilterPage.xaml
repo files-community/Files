@@ -8,17 +8,13 @@
     mc:Ignorable="d">
 
     <StackPanel x:Name="RootPanel" Orientation="Vertical" Width="200">
-        <Grid Width="200">
+        <Grid Width="200" Height="34" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="32" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
             <FontIcon FontSize="18" HorizontalAlignment="Left" Glyph="{x:Bind ViewModel.Header.Glyph}" />
-            <TextBlock Grid.Column="1" FontSize="16" FontWeight="SemiBold" Text="{x:Bind ViewModel.Header.Title}" />
+            <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="16" FontWeight="SemiBold" Text="{x:Bind ViewModel.Header.Title}" />
         </Grid>
         <Rectangle Margin="0,0,0,8" Height="1" HorizontalAlignment="Stretch" Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
         <local:Picker Width="200" ViewModel="{x:Bind ViewModel.Picker, Mode=OneWay}" />

@@ -21,10 +21,6 @@
                                 <ColumnDefinition Width="32" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
                             <FontIcon FontSize="18" HorizontalAlignment="Left" Glyph="{x:Bind Glyph}" />
                             <TextBlock Grid.Column="1" FontSize="16" FontWeight="SemiBold" Text="{x:Bind Title}" />
                         </Grid>
