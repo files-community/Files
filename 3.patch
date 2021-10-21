@@ -1,0 +1,28 @@
+From 3d0aa824587dbe2dd96e45dba9f012604b04c7d9 Mon Sep 17 00:00:00 2001
+From: skreiter <sage.kreiter@wsu.edu>
+Date: Wed, 20 Oct 2021 16:55:33 -0700
+Subject: [PATCH] Increased clickable space for increasing column size.
+
+---
+ Files/Views/LayoutModes/DetailsLayoutBrowser.xaml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Files/Views/LayoutModes/DetailsLayoutBrowser.xaml b/Files/Views/LayoutModes/DetailsLayoutBrowser.xaml
+index 670a4db7..8102b7ca 100644
+--- a/Files/Views/LayoutModes/DetailsLayoutBrowser.xaml
++++ b/Files/Views/LayoutModes/DetailsLayoutBrowser.xaml
+@@ -53,9 +53,9 @@
+                 BasedOn="{StaticResource DefaultGridSplitterStyle}"
+                 TargetType="controls:GridSplitter">
+                 <Setter Property="Background" Value="Transparent" />
+-                <Setter Property="Width" Value="1" />
++                <Setter Property="Width" Value="8" />
+                 <Setter Property="Margin" Value="0,4,0,4" />
+-                <Setter Property="Opacity" Value="0.8" />
++                <Setter Property="Opacity" Value="1.8" />
+             </Style>
+ 
+             <Style TargetType="ListViewHeaderItem">
+-- 
+2.33.0.windows.2
+
