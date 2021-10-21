@@ -11,6 +11,8 @@ In other words, folders and files will be sorted together.
 Feature request: Modified the options popup on a file/directory that will move a menu item to a 
 location where it would be easier to see.  The change will similar Windows explorer.
 
-
 10/14/2021: ebd57a5a
 Added the ability to use shortcuts to delete files when in column view mode.
+
+10/20/2021: 3d0aa824587dbe2dd96e45dba9f012604b04c7d9
+Fixed column resize hitbox so it is easier to click on and resize columns.
