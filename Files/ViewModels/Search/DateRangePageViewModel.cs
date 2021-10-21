@@ -90,11 +90,23 @@ namespace Files.ViewModels.Search
 
         public DateRangePageViewModel()
         {
-            header = Headers.First();
-
             BackCommand = new RelayCommand(Back);
             SaveCommand = new RelayCommand(Save);
             AcceptCommand = new RelayCommand(Accept);
+        }
+        public DateRangePageViewModel(DateRangeFilter filter) : this()
+        {
+            header = filter switch
+            {
+                CreatedFilter => Headers.First(h => h is CreatedHeader),
+                ModifiedFilter => Headers.First(h => h is ModifiedHeader),
+                AccessedFilter => Headers.First(h => h is AccessedHeader),
+                _ => Headers.First(),
+            };
+            if (filter is not null)
+            {
+                Picker.Range = filter.Range;
+            }
         }
 
         public void Back()
