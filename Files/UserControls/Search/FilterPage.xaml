@@ -2,38 +2,26 @@
     x:Class="Files.UserControls.Search.FilterPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:vm="using:Files.ViewModels.Search"
     xmlns:local="using:Files.UserControls.Search"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Vertical" Width="200">
-        <ComboBox x:Name="Combo" Loaded="Combo_Loaded"
-            HorizontalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent"
-            ItemsSource="{x:Bind ViewModel.Sources}" SelectedValue="{x:Bind ViewModel.SelectedSource, Mode=TwoWay}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate x:DataType="vm:IFilterSource">
-                    <Grid HorizontalAlignment="Stretch">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="32" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <FontIcon FontSize="18" HorizontalAlignment="Left" Glyph="{x:Bind Glyph}" />
-                        <TextBlock Grid.Column="1" FontSize="16" FontWeight="SemiBold" Text="{x:Bind Title}" />
-                        <TextBlock
-                            Grid.Row="1" Grid.ColumnSpan="2" FontSize="14" TextWrapping="Wrap"
-                            Text="{x:Bind Description}" Visibility="{Binding IsDropDownOpen, ElementName=Combo}" />
-                    </Grid>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+    <StackPanel x:Name="RootPanel" Orientation="Vertical" Width="200">
+        <Grid Width="200">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="32" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <FontIcon FontSize="18" HorizontalAlignment="Left" Glyph="{x:Bind ViewModel.Header.Glyph}" />
+            <TextBlock Grid.Column="1" FontSize="16" FontWeight="SemiBold" Text="{x:Bind ViewModel.Header.Title}" />
+        </Grid>
         <Rectangle Margin="0,0,0,8" Height="1" HorizontalAlignment="Stretch" Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
-        <local:FilterPicker Width="200" ViewModel="{x:Bind ViewModel}" />
+        <local:Picker Width="200" ViewModel="{x:Bind ViewModel.Picker, Mode=OneWay}" />
         <Grid HorizontalAlignment="Stretch" Margin="0,24,0,8" ColumnSpacing="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -43,4 +31,5 @@
             <Button x:Name="CancelButton" Grid.Column="1" HorizontalAlignment="Stretch" Content="Cancel" Command="{x:Bind ViewModel.BackCommand}" />
         </Grid>
     </StackPanel>
+
 </Page>

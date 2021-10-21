@@ -118,6 +118,7 @@ namespace Files.Filesystem.Search
 
         protected abstract string QueryKey { get; }
 
+        public DateRangeFilter() => Range = DateRange.Always;
         public DateRangeFilter(DateRange range) => Range = range;
 
         public string ToAdvancedQuerySyntax()
@@ -140,18 +141,21 @@ namespace Files.Filesystem.Search
     {
         protected override string QueryKey => "System.ItemDate";
 
+        public CreatedFilter() : base() {}
         public CreatedFilter(DateRange range) : base(range) {}
     }
     public class ModifiedFilter : DateRangeFilter
     {
         protected override string QueryKey => "System.DateModified";
 
+        public ModifiedFilter() : base() {}
         public ModifiedFilter(DateRange range) : base(range) {}
     }
     public class AccessedFilter : DateRangeFilter
     {
         protected override string QueryKey => "System.DateAccessed";
 
+        public AccessedFilter() : base() {}
         public AccessedFilter(DateRange range) : base(range) {}
     }
 

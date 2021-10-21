@@ -1,0 +1,127 @@
+﻿<UserControl
+    x:Class="Files.UserControls.Search.Picker"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:Files.ViewModels.Search"
+    xmlns:local="using:Files.UserControls.Search"
+    xmlns:converters="using:Files.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignWidth="400" d:DesignHeight="300" mc:Ignorable="d">
+
+    <UserControl.Resources>
+
+        <converters:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
+
+        <local:PickerTemplateSelector x:Key="PickerTemplateSelector"
+            DateRangeTemplate="{StaticResource DateRangePickerTemplate}" />
+
+        <!--<DataTemplate x:Key="GroupPickerTemplate" x:DataType="vm:IGroupPageViewModel">
+            <StackPanel Orientation="Vertical" Width="200">
+                <TextBlock TextWrapping="Wrap" Text="No filter selected. Add a new filter." Visibility="{x:Bind IsEmpty}" />
+                <TextBlock TextWrapping="Wrap" Text="{x:Bind SelectedSource.Description}"
+                    Visibility="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}" />
+                <ItemsControl
+                    Margin="0,8,0,8" ItemsSource="{x:Bind Filters, Mode=OneWay}">
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="0,2,0,2" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:IFilters">
+                            <Grid Background="Transparent" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="32" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon Width="32" FontSize="14" Glyph="{x:Bind Filter.Glyph}" />
+                                <ContentControl Grid.Column="1" Content="{Binding}" ContentTemplateSelector="{StaticResource ButtonTemplateSelector}" />
+                                <Button Width="32" x:Name="CloseButton" Click="CloseButton_Click"
+                                        Grid.Column="2" Visibility="Collapsed" Background="Transparent" BorderBrush="Transparent">
+                                    <Button.Content>
+                                        <FontIcon FontSize="10" Glyph="&#xE10A;" />
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <CommandBar Margin="0,0,0,8" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" IsDynamicOverflowEnabled="False">
+                    <AppBarButton x:Name="AddFilterButton" Icon="Add" Label="Add" Loaded="AddFilterButton_Loaded" />
+                    <AppBarButton
+                        Icon="Clear" Label="Clear" Command="{x:Bind ClearCommand}"
+                        IsEnabled="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}" />
+                </CommandBar>
+            </StackPanel>
+        </DataTemplate>-->
+
+        <DataTemplate x:Key="DateRangePickerTemplate" x:DataType="vm:IDateRangePickerViewModel">
+            <StackPanel Orientation="Vertical" Width="200">
+                <StackPanel MinHeight="64">
+                    <StackPanel
+                        Margin="8,0,8,16" Orientation="Vertical"
+                        Visibility="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
+                        <!--<TextBlock Margin="8,8,0,0" TextWrapping="Wrap" Text="{x:Bind Header.Description, Mode=OneWay}" />-->
+                        <TextBlock
+                            Margin="8,0,0,0" FontSize="13" TextWrapping="Wrap" FontWeight="Bold"
+                            Text="{x:Bind Label, Mode=OneWay}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="8,0,8,16" Visibility="{x:Bind IsEmpty, Mode=OneWay}">
+                        <TextBlock Margin="8,8,0,0" TextWrapping="Wrap" Text="No file size range selected" />
+                    </StackPanel>
+                </StackPanel>
+                <CalendarDatePicker Header="From" Date="{x:Bind MinOffset, Mode=TwoWay}" HorizontalAlignment="Stretch"  />
+                <CalendarDatePicker Header="To" Date="{x:Bind MaxOffset, Mode=TwoWay}" HorizontalAlignment="Stretch"  />
+                <HyperlinkButton x:Name="ClearButton" HorizontalAlignment="Right" Content="Clear" Command="{x:Bind ClearCommand, Mode=OneWay}" />
+                <TextBlock Text="Or choose a file date range" Margin="0,16,0,0" />
+                <ItemsControl ItemsSource="{x:Bind Links}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:IDateRangeLink">
+                            <ToggleButton
+                                Margin="0,8,0,0" HorizontalAlignment="Stretch"
+                                FontSize="14" FontWeight="SemiBold"
+                                IsChecked="{x:Bind IsSelected, Mode=OneWay}" Command="{x:Bind ToggleCommand}"
+                                Content="{x:Bind Label}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </DataTemplate>
+
+        <!--<ControlTemplate x:Name="SourceItemTemplate" x:Key="SourceItemTemplate" TargetType="MenuFlyoutItem">
+            <Button
+                Background="Transparent" BorderBrush="Transparent"
+                HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                Content="{TemplateBinding Tag}" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}">
+                <Button.ContentTemplate>
+                    <DataTemplate x:DataType="vm:IFilterSource">
+                        <StackPanel Orientation="Vertical" Width="200">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <FontIcon FontSize="18" HorizontalAlignment="Left" Glyph="{x:Bind Glyph}" />
+                                <TextBlock Grid.Column="1" FontSize="16" FontWeight="SemiBold" Text="{x:Bind Title}" />
+                            </Grid>
+                            <TextBlock FontSize="14" TextWrapping="Wrap" Text="{x:Bind Description}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+        </ControlTemplate>-->
+
+    </UserControl.Resources>
+
+    <ContentControl
+        Content="{x:Bind ViewModel, Mode=OneWay}"
+        ContentTemplateSelector="{StaticResource PickerTemplateSelector}" />
+
+</UserControl>

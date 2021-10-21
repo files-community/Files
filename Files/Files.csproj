@@ -346,8 +346,11 @@
     <Compile Include="UserControls\Search\FilterPage.xaml.cs">
       <DependentUpon>FilterPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Search\FilterPicker.xaml.cs">
-      <DependentUpon>FilterPicker.xaml</DependentUpon>
+    <Compile Include="UserControls\Search\MultiFilterPage.xaml.cs">
+      <DependentUpon>MultiFilterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Search\Picker.xaml.cs">
+      <DependentUpon>Picker.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Search\Navigator.cs" />
     <Compile Include="UserControls\Search\SettingsPage.xaml.cs">
@@ -1284,10 +1287,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Search\FilterPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Search\MultiFilterPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Search\FilterPicker.xaml">
+    <Page Include="UserControls\Search\Picker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -10,7 +10,7 @@ namespace Files.UserControls.Search
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register(nameof(ViewModel), typeof(IFilterPageViewModel), typeof(FilterPage), new PropertyMetadata(null));
 
-        public IFilterPageViewModel ViewModel
+        private IFilterPageViewModel ViewModel
         {
             get => (IFilterPageViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
@@ -22,13 +22,6 @@ namespace Files.UserControls.Search
         {
             base.OnNavigatedTo(e);
             ViewModel = e.Parameter as IFilterPageViewModel;
-            Combo.SelectedItem = ViewModel?.SelectedSource;
-        }
-
-        private void Combo_Loaded(object sender, RoutedEventArgs e)
-        {
-            // prevent a bug of lost focus in uwp. This bug close the flyout when combobox is open.
-            CancelButton.Focus(FocusState.Programmatic);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Files.Extensions;
 using Files.Filesystem.Search;
+using Files.UserControls.Search;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
@@ -10,9 +11,14 @@ using System.Windows.Input;
 
 namespace Files.ViewModels.Search
 {
-    public interface IDateRangePageViewModel : IFilterPageViewModel, INotifyPropertyChanged
+    public interface IDateRangePageViewModel : IMultiFilterPageViewModel
     {
-        string RangeLabel { get; }
+        new IDateRangePickerViewModel Picker { get; }
+    }
+
+    public interface IDateRangePickerViewModel : IPickerViewModel
+    {
+        string Label { get; }
         DateRange Range { get; set; }
 
         DateTimeOffset? MinOffset { get; set; }
@@ -28,40 +34,88 @@ namespace Files.ViewModels.Search
         ICommand ToggleCommand { get; }
     }
 
-    public class CreatedSource : IFilterSource
+    public class CreatedHeader : IFilterHeader
     {
-        public string Key => "created";
         public string Glyph => "\uE163";
         public string Title => "Created";
         public string Description => "Date of creation";
+
+        IFilter IFilterHeader.GetFilter() => GetFilter();
+        public CreatedFilter GetFilter() => new(DateRange.Always);
+        public CreatedFilter GetFilter(DateRange range) => new(range);
     }
-    public class ModifiedSource : IFilterSource
+    public class ModifiedHeader : IFilterHeader
     {
-        public string Key => "modified";
         public string Glyph => "\uE163";
         public string Title => "Modified";
         public string Description => "Date of last modification";
+
+        IFilter IFilterHeader.GetFilter() => GetFilter();
+        public ModifiedFilter GetFilter() => new(DateRange.Always);
+        public ModifiedFilter GetFilter(DateRange range) => new(range);
     }
-    public class AccessedSource : IFilterSource
+    public class AccessedHeader : IFilterHeader
     {
-        public string Key => "accessed";
         public string Glyph => "\uE163";
         public string Title => "Accessed";
         public string Description => "Date of last access";
+
+        IFilter IFilterHeader.GetFilter() => GetFilter();
+        public AccessedFilter GetFilter() => new(DateRange.Always);
+        public AccessedFilter GetFilter(DateRange range) => new(range);
     }
 
-    public class DateRangePageViewModel : FilterPageViewModel, IDateRangePageViewModel
+    public class DateRangePageViewModel : ObservableObject, IDateRangePageViewModel
     {
-        public override IEnumerable<IFilterSource> Sources { get; } = new List<IFilterSource>
+        public IEnumerable<IFilterHeader> Headers { get; } = new List<IFilterHeader>
         {
-            new CreatedSource(),
-            new ModifiedSource(),
-            new AccessedSource(),
+            new CreatedHeader(),
+            new ModifiedHeader(),
+            new AccessedHeader(),
         };
 
-        public string RangeLabel => range.ToString("N");
+        private IFilterHeader header;
+        public IFilterHeader Header
+        {
+            get => header;
+            set => SetProperty(ref header, value);
+        }
 
-        public override bool IsEmpty => range == DateRange.Always;
+        IPickerViewModel IFilterPageViewModel.Picker => Picker;
+        public IDateRangePickerViewModel Picker { get; } = new DateRangePickerViewModel();
+
+        public ICommand BackCommand { get; }
+        public ICommand SaveCommand { get; }
+        public ICommand AcceptCommand { get; }
+
+        public DateRangePageViewModel()
+        {
+            header = Headers.First();
+
+            BackCommand = new RelayCommand(Back);
+            SaveCommand = new RelayCommand(Save);
+            AcceptCommand = new RelayCommand(Accept);
+        }
+
+        public void Back()
+        {
+            Navigator.Instance.GoBack();
+        }
+        public void Save()
+        {
+        }
+        public void Accept()
+        {
+            Save();
+            Back();
+        }
+    }
+
+    public class DateRangePickerViewModel : ObservableObject, IDateRangePickerViewModel
+    {
+        public bool IsEmpty => range == DateRange.Always;
+
+        public string Label => range.ToString("N");
 
         private DateRange range = DateRange.Always;
         public DateRange Range
@@ -72,9 +126,9 @@ namespace Files.ViewModels.Search
                 if (SetProperty(ref range, value))
                 {
                     OnPropertyChanged(nameof(IsEmpty));
+                    OnPropertyChanged(nameof(Label));
                     OnPropertyChanged(nameof(MinOffset));
                     OnPropertyChanged(nameof(MaxOffset));
-                    OnPropertyChanged(nameof(RangeLabel));
 
                     links.ForEach(link => link.UpdateProperties());
                 }
@@ -103,16 +157,14 @@ namespace Files.ViewModels.Search
         private readonly IReadOnlyList<DateRangeLink> links;
         public IReadOnlyList<IDateRangeLink> Links => links;
 
-        public DateRangePageViewModel(FilterCollection parent, DateRangeFilter filter) : base(parent, filter)
+        public ICommand ClearCommand { get; }
+
+        public DateRangePickerViewModel() : this(DateRange.Always)
         {
-            SelectedSource = filter switch
-            {
-                CreatedFilter => Sources.First(source => source.Key == "created"),
-                ModifiedFilter => Sources.First(source => source.Key == "modified"),
-                AccessedFilter => Sources.First(source => source.Key == "accessed"),
-                _ => SelectedSource,
-            };
-            Range = filter.Range;
+        }
+        public DateRangePickerViewModel(DateRange range)
+        {
+            Range = range;
 
             links = new List<DateRange>
             {
@@ -125,26 +177,20 @@ namespace Files.ViewModels.Search
                 DateRange.ThisYear,
                 DateRange.Older,
             }.Select(range => new DateRangeLink(this, range)).ToList().AsReadOnly();
+
+            ClearCommand = new RelayCommand(Clear);
         }
 
-        public override void Clear() => Range = DateRange.Always;
-
-        protected override IFilter CreateFilter() => SelectedSource.Key switch
-        {
-            "created" => new CreatedFilter(Range),
-            "modified" => new ModifiedFilter(Range),
-            "accessed" => new AccessedFilter(Range),
-            _ => throw new ArgumentException(),
-        };
+        public void Clear() => Range = DateRange.Always;
 
         private class DateRangeLink : ObservableObject, IDateRangeLink
         {
-            private readonly IDateRangePageViewModel viewModel;
+            private readonly IDateRangePickerViewModel picker;
             private readonly DateRange range;
 
             public bool IsSelected
             {
-                get => !viewModel.IsEmpty && viewModel.Range.IsNamed && viewModel.Range.Contains(range);
+                get => !picker.IsEmpty && picker.Range.IsNamed && picker.Range.Contains(range);
                 set
                 {
                     if (IsSelected != value)
@@ -158,9 +204,9 @@ namespace Files.ViewModels.Search
 
             public ICommand ToggleCommand { get; }
 
-            public DateRangeLink(IDateRangePageViewModel viewModel, DateRange range)
+            public DateRangeLink(IDateRangePickerViewModel picker, DateRange range)
             {
-                this.viewModel = viewModel;
+                this.picker = picker;
                 this.range = range;
                 ToggleCommand = new RelayCommand(Toggle);
             }
@@ -169,21 +215,21 @@ namespace Files.ViewModels.Search
 
             private void Toggle()
             {
-                if (viewModel.IsEmpty)
+                if (picker.IsEmpty)
                 {
-                    viewModel.Range = range;
+                    picker.Range = range;
                 }
                 else if (IsSelected)
                 {
-                    viewModel.Range -= range;
+                    picker.Range -= range;
                 }
-                else if (viewModel.Range.IsNamed)
+                else if (picker.Range.IsNamed)
                 {
-                    viewModel.Range += range;
+                    picker.Range += range;
                 }
                 else
                 {
-                    viewModel.Range = range;
+                    picker.Range = range;
                 }
             }
         }

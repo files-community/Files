@@ -7,9 +7,11 @@ namespace Files.UserControls.Search
 {
     public interface INavigator
     {
+        FilterCollection Parent { get; }
+
         void Clear();
         void GoRoot();
-        void GoPage(object viewModel);
+        void GoPage(IFilterPageViewModel viewModel);
         void GoBack();
     }
 
@@ -24,26 +26,41 @@ namespace Files.UserControls.Search
 
         public Frame Frame { get; set; }
 
+        public FilterCollection Parent { get; }
+
         private Navigator() {}
 
-        public void Clear() => GoPage(null);
-        public void GoRoot() => GoPage(new DateRangePageViewModel(null, new ModifiedFilter(DateRange.Always)));
-        public void GoPage(object viewModel)
+        public void Clear()
         {
+            GoPage(null);
+        }
+
+        public void GoRoot()
+        {
+            GoPage(new DateRangePageViewModel());
+        }
+        public void GoPage(IFilterPageViewModel viewModel)
+        {
+            if (Frame is null)
+            {
+                return;
+            }
             switch (viewModel)
             {
                 //case ISettingsViewModel :
                 //    Frame?.Navigate(typeof(SettingsPage), viewModel, emptyTransition);
                 //    break;
-                case IFilterPageViewModel :
-                    Frame?.Navigate(typeof(FilterPage), viewModel, toRightTransition);
+                case IMultiFilterPageViewModel :
+                    Frame.Navigate(typeof(MultiFilterPage), viewModel, toRightTransition);
+                    break;
+                case IFilterPageViewModel:
+                    Frame.Navigate(typeof(FilterPage), viewModel, toRightTransition);
                     break;
                 default:
                     Frame.Content = null;
                     break;
             }
         }
-
         public void GoBack()
         {
             if (Frame is not null && Frame.CanGoBack)
