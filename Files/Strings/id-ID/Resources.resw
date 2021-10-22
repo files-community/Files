@@ -2406,6 +2406,16 @@
   <data name="SettingsPrivacy.Title" xml:space="preserve">
     <value>Kebijakan privasi</value>
   </data>
+  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
+    <value>
+*Pengumpulan Informasi Pribadi*
+Files tidak mengumpulkan, menyimpan, membagikan, atau mempublikasikan informasi pribadi apa pun.
+
+*Pengumpulan Informasi Non-pribadi*
+
+Kami menggunakan App Center untuk melacak penggunaan aplikasi, menemukan bug, dan memperbaiki kerusakan. Semua informasi yang dikirim ke App Center bersifat anonim dan bebas dari pengguna atau data kontekstual apa pun.
+  </value>
+  </data>
   <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
     <value>Tidak ada</value>
   </data>
@@ -2440,7 +2450,7 @@
     <value>Status sinkronisasi</value>
   </data>
   <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
-    <value>nTampilka bagian favorit</value>
+    <value>Tampilkan bagian favorit</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
     <value>Tag file</value>
@@ -2490,11 +2500,17 @@
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Kredensial Diperlukan</value>
   </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>Anonim</value>
+  </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>Sediakan kredensial Anda:</value>
   </data>
   <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
     <value>Kata sandi</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>Nama Pengguna</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Tidak ada item ditemukan</value>
@@ -2618,5 +2634,11 @@
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Gunakan Files sebagai dialog Buka File</value>
+  </data>
+  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
+    <value>Buka folder dengan sekali klik</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>Jalur folder</value>
   </data>
 </root>
