@@ -1509,6 +1509,7 @@
     <XliffResource Include="MultilingualResources\Files.es-ES.xlf" />
     <XliffResource Include="MultilingualResources\Files.fr-FR.xlf" />
     <XliffResource Include="MultilingualResources\Files.he-IL.xlf" />
+    <XliffResource Include="MultilingualResources\Files.hr-HR.xlf" />
     <XliffResource Include="MultilingualResources\Files.hi-IN.xlf" />
     <XliffResource Include="MultilingualResources\Files.hu-HU.xlf" />
     <XliffResource Include="MultilingualResources\Files.it-IT.xlf" />
