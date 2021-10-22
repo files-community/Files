@@ -2290,13 +2290,13 @@
     <value>Rejtett fájlok és mappák megjelenítése</value>
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
-    <value>Védett rendszerfájlok elrejtése (Ajánlott)</value>
+    <value>Védett rendszerfájlok elrejtése (ajánlott)</value>
   </data>
   <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
-    <value>Elemek megnyitása egy kattintással</value>
+    <value>Fájlok megnyitása egy kattintással</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Könyvtárak rendezése a fájlokkal együtt</value>
+    <value>Mappák rendezése a fájlokkal együtt</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
     <value>Nem indexelt elemek megjelenítése a fájlok és mappák keresésekor (hoszabb keresési idő)</value>
@@ -2543,6 +2543,18 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Nincs a keresésnek megfelelő elem</value>
   </data>
+  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Munkaterületek</value>
+  </data>
+  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Meghajtók</value>
+  </data>
+  <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Könyvtárak</value>
+  </data>
+  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>Előzmények</value>
+  </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Naplózás helyének megnyitása</value>
   </data>
@@ -2635,5 +2647,29 @@ Az App Center szolgáltatásait használjuk az app használatának monitorozás�
   </data>
   <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
     <value>Felülre mozgatás</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
+    <value>Létrehozás dátuma</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
+    <value>Méret</value>
+  </data>
+  <data name="SettingsDefaultExplorer" xml:space="preserve">
+    <value>Alapértelmezett fájlkezelő</value>
+  </data>
+  <data name="SettingsSetAsDefaultExplorer" xml:space="preserve">
+    <value>A Files beállítása az alapértelmezett fájlkezelőként</value>
+  </data>
+  <data name="SettingsSetAsOpenDialog" xml:space="preserve">
+    <value>A Files használata Open File Dialog</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Címke</value>
+  </data>
+  <data name="SettingsOpenFoldersWithOneClick" xml:space="preserve">
+    <value>Mappák megnyitása egy kattintással</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
+    <value>Mappa útvonala</value>
   </data>
 </root>
