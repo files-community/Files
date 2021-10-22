@@ -32,20 +32,14 @@ namespace Files.ViewModels.Search
         ICommand ToggleCommand { get; }
     }
 
-    public class SizeHeader : IFilterHeader
+    public class SizeRangeHeader : FilterHeader<SizeRangeFilter>
     {
-        public string Glyph => "\uE163";
-        public string Title => "Size";
-        public string Description => "Size of the item";
-
-        IFilter IFilterHeader.GetFilter() => GetFilter();
-        public SizeRangeFilter GetFilter() => new(SizeRange.All);
         public SizeRangeFilter GetFilter(SizeRange range) => new(range);
     }
 
     public class SizeRangePageViewModel : ObservableObject, ISizeRangePageViewModel
     {
-        public IFilterHeader Header { get; } = new SizeHeader();
+        public IFilterHeader Header { get; } = new SizeRangeHeader();
 
         IPickerViewModel IFilterPageViewModel.Picker => Picker;
         public ISizeRangePickerViewModel Picker { get; } = new SizeRangePickerViewModel();
@@ -74,6 +68,15 @@ namespace Files.ViewModels.Search
         }
         public void Save()
         {
+            var collection = Navigator.Instance.CurrentCollection;
+            if (collection is not null)
+            {
+                if (!Picker.IsEmpty)
+                {
+                    var header = Header as SizeRangeHeader;
+                    collection.Add(header.GetFilter(Picker.Range));
+                }
+            }
         }
         public void Accept()
         {
@@ -119,7 +122,7 @@ namespace Files.ViewModels.Search
         }
         public SizeRangePickerViewModel(SizeRange range)
         {
-            Description = new SizeHeader().Description;
+            Description = new SizeRangeHeader().Description;
             Range = range;
 
             links = new List<SizeRange>

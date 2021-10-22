@@ -35,34 +35,16 @@ namespace Files.ViewModels.Search
         ICommand ToggleCommand { get; }
     }
 
-    public class CreatedHeader : IFilterHeader
+    public class CreatedHeader : FilterHeader<CreatedFilter>
     {
-        public string Glyph => "\uE163";
-        public string Title => "Created";
-        public string Description => "Date of creation";
-
-        IFilter IFilterHeader.GetFilter() => GetFilter();
-        public CreatedFilter GetFilter() => new(DateRange.Always);
         public CreatedFilter GetFilter(DateRange range) => new(range);
     }
-    public class ModifiedHeader : IFilterHeader
+    public class ModifiedHeader : FilterHeader<ModifiedFilter>
     {
-        public string Glyph => "\uE163";
-        public string Title => "Modified";
-        public string Description => "Date of last modification";
-
-        IFilter IFilterHeader.GetFilter() => GetFilter();
-        public ModifiedFilter GetFilter() => new(DateRange.Always);
         public ModifiedFilter GetFilter(DateRange range) => new(range);
     }
-    public class AccessedHeader : IFilterHeader
+    public class AccessedHeader : FilterHeader<AccessedFilter>
     {
-        public string Glyph => "\uE163";
-        public string Title => "Accessed";
-        public string Description => "Date of last access";
-
-        IFilter IFilterHeader.GetFilter() => GetFilter();
-        public AccessedFilter GetFilter() => new(DateRange.Always);
         public AccessedFilter GetFilter(DateRange range) => new(range);
     }
 

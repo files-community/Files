@@ -1,115 +1,157 @@
 ﻿using Files.Filesystem.Search;
 using Files.UserControls.Search;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
 namespace Files.ViewModels.Search
 {
-    /*public interface IGroupPageViewModel : IFilterPageViewModel, INotifyPropertyChanged
+    public interface IGroupPageViewModel : IMultiFilterPageViewModel
     {
-        FilterCollection Filters { get; }
+        new IGroupPickerViewModel Picker { get; }
+    }
+
+    public interface IGroupPickerViewModel : IPickerViewModel
+    {
+        string Description { get; set; }
+        ObservableCollection<IFilter> Filters { get; }
         ICommand OpenCommand { get; }
     }
 
-    public class AndSource : IFilterSource
+    public interface IGroupHeader : IFilterHeader
     {
-        public string Key => "and";
-        public string Glyph => "\uEC26";
-        public string Title => "And";
-        public string Description => "Finds items that meet all the conditions in the list.";
-    }
-    public class OrSource : IFilterSource
-    {
-        public string Key => "or";
-        public string Glyph => "\uEC26";
-        public string Title => "Or";
-        public string Description => "Finds items that meet at least one condition in the list.";
-    }
-    public class NotSource : IFilterSource
-    {
-        public string Key => "not";
-        public string Glyph => "\uEC26";
-        public string Title => "Not";
-        public string Description => "Finds items that do not meet any condition in the list.";
+        FilterCollection GetFilter(IEnumerable<IFilter> filters);
     }
 
-    public class GroupPageViewModel : FilterPageViewModel, IGroupPageViewModel
+    public class AndHeader : FilterHeader<AndFilterCollection>, IGroupHeader
     {
-        public override IEnumerable<IFilterSource> Sources { get; } = new List<IFilterSource>
+        FilterCollection IGroupHeader.GetFilter(IEnumerable<IFilter> filters) => GetFilter(filters);
+        public AndFilterCollection GetFilter(IEnumerable<IFilter> filters) => new(filters);
+    }
+    public class OrHeader : FilterHeader<OrFilterCollection>, IGroupHeader
+    {
+        FilterCollection IGroupHeader.GetFilter(IEnumerable<IFilter> filters) => GetFilter(filters);
+        public OrFilterCollection GetFilter(IEnumerable<IFilter> filters) => new(filters);
+    }
+    public class NotHeader : FilterHeader<NotFilterCollection>, IGroupHeader
+    {
+        FilterCollection IGroupHeader.GetFilter(IEnumerable<IFilter> filters) => GetFilter(filters);
+        public NotFilterCollection GetFilter(IEnumerable<IFilter> filters) => new(filters);
+    }
+
+    public class GroupPageViewModel : ObservableObject, IGroupPageViewModel
+    {
+        public IEnumerable<IFilterHeader> Headers { get; } = new List<IFilterHeader>
         {
-            new AndSource(),
-            new OrSource(),
-            new NotSource(),
+            new AndHeader(),
+            new OrHeader(),
+            new NotHeader(),
         };
 
-        public override bool IsEmpty => !Filters.Any();
-
-        public FilterCollection Filters { get; }
-
-        public ICommand OpenCommand { get; }
-
-        public GroupPageViewModel(FilterCollection parent, FilterCollection filter) : base(parent, filter)
+        private IFilterHeader header;
+        public IFilterHeader Header
         {
-            SelectedSource = filter switch
+            get => header;
+            set
             {
-                AndFilterCollection => Sources.First(source => source.Key == "and"),
-                OrFilterCollection => Sources.First(source => source.Key == "or"),
-                NotFilterCollection => Sources.First(source => source.Key == "not"),
-                _ => SelectedSource,
-            };
-
-            Filters = filter;
-            OpenCommand = new RelayCommand<string>(Open);
+                if (SetProperty(ref header, value))
+                {
+                    Picker.Description = header.Description;
+                }
+            }
         }
 
-        public override void Clear() => Filters.Clear();
+        IPickerViewModel IFilterPageViewModel.Picker => Picker;
+        public IGroupPickerViewModel Picker { get; } = new GroupPickerViewModel();
 
-        protected override IFilterLink CreateLink() => new FilterLink(this);
+        public ICommand BackCommand { get; }
+        public ICommand SaveCommand { get; }
+        public ICommand AcceptCommand { get; }
 
-        private void Open (string sourceKey)
+        public GroupPageViewModel()
         {
-            IFilter filter = sourceKey switch
+            BackCommand = new RelayCommand(Back);
+            SaveCommand = new RelayCommand(Save);
+            AcceptCommand = new RelayCommand(Accept);
+        }
+        public GroupPageViewModel(FilterCollection filter) : this()
+        {
+            header = filter switch
             {
-                "and" => new AndFilterCollection(),
-                "or" => new OrFilterCollection(),
-                "not" => new NotFilterCollection(),
-                "created" => new CreatedFilter(DateRange.Always),
-                "modified" => new ModifiedFilter(DateRange.Always),
-                "accessed" => new AccessedFilter(DateRange.Always),
-                _ => null,
+                AndFilterCollection => Headers.First(h => h is AndHeader),
+                OrFilterCollection => Headers.First(h => h is OrHeader),
+                NotFilterCollection => Headers.First(h => h is NotHeader),
+                _ => Headers.First(),
             };
+            if (filter is not null)
+            {
+                Picker = new GroupPickerViewModel(filter);
+            }
+            Picker.Description = header?.Description;
+        }
 
+        public void Back()
+        {
+            Navigator.Instance.GoBack();
+        }
+        public void Save()
+        {
+            var collection = Navigator.Instance.CurrentCollection;
+            if (collection is not null)
+            {
+                if (!Picker.IsEmpty)
+                {
+                    var header = Header as IGroupHeader;
+                    collection.Add(header.GetFilter(Picker.Filters));
+                }
+            }
+        }
+        public void Accept()
+        {
+            Save();
+            Back();
+        }
+    }
+
+    public class GroupPickerViewModel : ObservableObject, IGroupPickerViewModel
+    {
+        public bool IsEmpty => !Filters.Any();
+
+        private string description;
+        public string Description
+        {
+            get => description;
+            set => SetProperty(ref description, value);
+        }
+
+        public ObservableCollection<IFilter> Filters { get; } = new ObservableCollection<IFilter>();
+
+        public ICommand ClearCommand { get; }
+        public ICommand OpenCommand { get; }
+
+        public GroupPickerViewModel() : this(Enumerable.Empty<IFilter>())
+        {
+        }
+        public GroupPickerViewModel(IEnumerable<IFilter> filters) : base()
+        {
+            Filters = new ObservableCollection<IFilter>(filters);
+
+            ClearCommand = new RelayCommand(Clear);
+            OpenCommand = new RelayCommand<IFilterHeader>(Open);
+        }
+
+        public void Clear() => Filters.Clear();
+
+        private void Open(IFilterHeader header)
+        {
+            var filter = header.GetFilter();
             var factory = new FilterPageViewModelFactory();
-            var viewModel = factory.GetViewModel(Filters, filter);
+            var viewModel = factory.GetViewModel(filter);
 
             Navigator.Instance.GoPage(viewModel);
         }
-
-        private class FilterLink : IFilterLink
-        {
-            public IFilterSource Source { get; set; }
-
-            IFilter IFilterLink.Filter => throw new NotImplementedException();
-            public FilterCollection Filter { get; set; }
-
-            public string Text => $"{Filter.Count} items";
-
-            public FilterLink(IGroupPageViewModel viewModel)
-            {
-                Source = viewModel.SelectedSource;
-                Filter = viewModel.SelectedSource.Key switch
-                {
-                    "and" => new AndFilterCollection(viewModel.Filters),
-                    "or" => new OrFilterCollection(viewModel.Filters),
-                    "not" => new NotFilterCollection(viewModel.Filters),
-                    _ => throw new ArgumentException(),
-                };
-            }
-        }
-    }*/
+    }
 }

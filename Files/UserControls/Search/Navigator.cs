@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem.Search;
 using Files.ViewModels.Search;
+using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -7,7 +8,7 @@ namespace Files.UserControls.Search
 {
     public interface INavigator
     {
-        FilterCollection Parent { get; }
+        ObservableCollection<IFilter> CurrentCollection { get; }
 
         void Clear();
         void GoRoot();
@@ -26,7 +27,19 @@ namespace Files.UserControls.Search
 
         public Frame Frame { get; set; }
 
-        public FilterCollection Parent { get; }
+        public ObservableCollection<IFilter> CurrentCollection
+        {
+            get
+            {
+                int count = Frame.BackStack.Count;
+                if (count == 0)
+                {
+                    return null;
+                }
+                var parentViewModel = Frame.BackStack[count - 1].Parameter as IGroupPageViewModel;
+                return parentViewModel?.Picker?.Filters;
+            }
+        }
 
         private Navigator() {}
 
@@ -37,7 +50,7 @@ namespace Files.UserControls.Search
 
         public void GoRoot()
         {
-            GoPage(new SizeRangePageViewModel());
+            GoPage(new GroupPageViewModel(new AndFilterCollection()));
         }
         public void GoPage(IFilterPageViewModel viewModel)
         {

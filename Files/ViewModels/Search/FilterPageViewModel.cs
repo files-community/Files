@@ -25,6 +25,11 @@ namespace Files.ViewModels.Search
         new IFilterHeader Header { get; set; }
     }
 
+    public interface IFilterPageViewModelFactory
+    {
+        IFilterPageViewModel GetViewModel(IFilter filter);
+    }
+
     public interface IPickerViewModel : INotifyPropertyChanged
     {
         bool IsEmpty { get; }
@@ -38,6 +43,35 @@ namespace Files.ViewModels.Search
         string Description { get; }
 
         IFilter GetFilter();
+    }
+
+    public class FilterHeader<T> : IFilterHeader where T : IFilter, IHeader, new()
+    {
+        public string Glyph { get; }
+        public string Title { get; }
+        public string Description { get; }
+
+        public FilterHeader()
+        {
+            var filter = new T();
+            Glyph = filter.Glyph;
+            Title = filter.Title;
+            Description = filter.Description;
+        }
+
+        IFilter IFilterHeader.GetFilter() => GetFilter();
+        public T GetFilter() => new();
+    }
+
+    public class FilterPageViewModelFactory : IFilterPageViewModelFactory
+    {
+        public IFilterPageViewModel GetViewModel(IFilter filter) => filter switch
+        {
+            FilterCollection f => new GroupPageViewModel(f),
+            DateRangeFilter f => new DateRangePageViewModel(f),
+            SizeRangeFilter f => new SizeRangePageViewModel(f),
+            _ => null,
+        };
     }
 
     public abstract class FilterPageViewModel : ObservableObject, IFilterPageViewModel

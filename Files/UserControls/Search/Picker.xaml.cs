@@ -1,4 +1,5 @@
-﻿using Files.ViewModels.Search;
+﻿using Files.Filesystem.Search;
+using Files.ViewModels.Search;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -17,35 +18,41 @@ namespace Files.UserControls.Search
 
         public Picker() => InitializeComponent();
 
-        /*private void AddFilterButton_Loaded(object sender, RoutedEventArgs e)
+        private void AddFilterButton_Loaded(object sender, RoutedEventArgs e)
         {
             var menu = new MenuFlyout();
 
             var file = new MenuFlyoutSubItem{ Text = "File" };
+            file.Items.Add(GetItem(new SizeRangeHeader()));
             file.Items.Add(new MenuFlyoutSeparator());
-            file.Items.Add(GetItem(new CreatedSource()));
-            file.Items.Add(GetItem(new ModifiedSource()));
-            file.Items.Add(GetItem(new AccessedSource()));
+            file.Items.Add(GetItem(new CreatedHeader()));
+            file.Items.Add(GetItem(new ModifiedHeader()));
+            file.Items.Add(GetItem(new AccessedHeader()));
             menu.Items.Add(file);
 
             var group = new MenuFlyoutSubItem { Text = "Group" };
-            group.Items.Add(GetItem(new AndSource()));
-            group.Items.Add(GetItem(new OrSource()));
-            group.Items.Add(GetItem(new NotSource()));
+            group.Items.Add(GetItem(new AndHeader()));
+            group.Items.Add(GetItem(new OrHeader()));
+            group.Items.Add(GetItem(new NotHeader()));
             menu.Items.Add(group);
 
             menu.Items.Add(new MenuFlyoutSeparator());
 
+            menu.Items.Add(new MenuFlyoutSubItem { Text = "Document" });
+            menu.Items.Add(new MenuFlyoutSubItem { Text = "Image" });
+            menu.Items.Add(new MenuFlyoutSubItem { Text = "Music" });
+            menu.Items.Add(new MenuFlyoutSubItem { Text = "Video" });
+
             (sender as Button).Flyout = menu;
 
-            MenuFlyoutItem GetItem(IFilterSource source) => new MenuFlyoutItem
+            MenuFlyoutItem GetItem(IFilterHeader header) => new MenuFlyoutItem
             {
-                Tag = source,
-                Template = SourceItemTemplate,
-                Command = (ViewModel as IGroupPageViewModel).OpenCommand,
-                CommandParameter = source.Key,
+                Tag = header,
+                Template = HeaderItemTemplate,
+                Command = (ViewModel as IGroupPickerViewModel).OpenCommand,
+                CommandParameter = header,
             };
-        }*/
+        }
     }
 
     public class PickerTemplateSelector : DataTemplateSelector
@@ -56,7 +63,7 @@ namespace Files.UserControls.Search
 
         protected override DataTemplate SelectTemplateCore(object item) => item switch
         {
-            //IGroupPageViewModel => GroupTemplate,
+            IGroupPickerViewModel => GroupTemplate,
             IDateRangePickerViewModel => DateRangeTemplate,
             ISizeRangePickerViewModel => SizeRangeTemplate,
             _ => null,

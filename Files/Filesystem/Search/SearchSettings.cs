@@ -32,6 +32,12 @@ namespace Files.Filesystem.Search
     {
         string ToAdvancedQuerySyntax();
     }
+    public interface IHeader
+    {
+        string Glyph { get; }
+        string Title { get; }
+        string Description { get; }
+    }
 
     public class Settings : ObservableObject, ISettings
     {
@@ -55,16 +61,23 @@ namespace Files.Filesystem.Search
         }
     }
 
-    public class FilterCollection : ObservableCollection<IFilter>, IFilter
+    public abstract class FilterCollection : ObservableCollection<IFilter>, IFilter, IHeader
     {
+        public virtual string Glyph => "\uEC26";
+        public abstract string Title { get; }
+        public abstract string Description { get; }
+
         public FilterCollection() : base() {}
         public FilterCollection(IEnumerable<IFilter> filters) : base(filters) {}
         public FilterCollection(IList<IFilter> filters) : base(filters) {}
 
-        public virtual string ToAdvancedQuerySyntax() => string.Empty;
+        public abstract string ToAdvancedQuerySyntax();
     }
     public class AndFilterCollection : FilterCollection
     {
+        public override string Title => "And";
+        public override string Description => "Finds items that meet all the conditions in the list.";
+
         public AndFilterCollection() : base() {}
         public AndFilterCollection(IEnumerable<IFilter> filters) : base(filters) {}
         public AndFilterCollection(IList<IFilter> filters) : base(filters) {}
@@ -81,6 +94,9 @@ namespace Files.Filesystem.Search
     }
     public class OrFilterCollection : FilterCollection
     {
+        public override string Title => "Or";
+        public override string Description => "Finds items that meet at least one condition in the list.";
+
         public OrFilterCollection() : base() {}
         public OrFilterCollection(IEnumerable<IFilter> filters) : base(filters) {}
         public OrFilterCollection(IList<IFilter> filters) : base(filters) {}
@@ -97,6 +113,9 @@ namespace Files.Filesystem.Search
     }
     public class NotFilterCollection : FilterCollection
     {
+        public override string Title => "Not";
+        public override string Description => "Finds items that do not meet any condition in the list.";
+
         public NotFilterCollection() : base() {}
         public NotFilterCollection(IEnumerable<IFilter> filters) : base(filters) {}
         public NotFilterCollection(IList<IFilter> filters) : base(filters) {}
@@ -112,8 +131,12 @@ namespace Files.Filesystem.Search
         }
     }
 
-    public abstract class DateRangeFilter : IFilter
+    public abstract class DateRangeFilter : IFilter, IHeader
     {
+        public virtual string Glyph => "\uE163";
+        public abstract string Title { get; }
+        public abstract string Description { get; }
+
         public DateRange Range { get; }
 
         protected abstract string QueryKey { get; }
@@ -139,6 +162,9 @@ namespace Files.Filesystem.Search
     }
     public class CreatedFilter : DateRangeFilter
     {
+        public override string Title => "Created";
+        public override string Description => "Date of creation";
+
         protected override string QueryKey => "System.ItemDate";
 
         public CreatedFilter() : base() {}
@@ -146,6 +172,9 @@ namespace Files.Filesystem.Search
     }
     public class ModifiedFilter : DateRangeFilter
     {
+        public override string Title => "Modified";
+        public override string Description => "Date of last modification";
+
         protected override string QueryKey => "System.DateModified";
 
         public ModifiedFilter() : base() {}
@@ -153,16 +182,24 @@ namespace Files.Filesystem.Search
     }
     public class AccessedFilter : DateRangeFilter
     {
+        public override string Title => "Accessed";
+        public override string Description => "Date of last access";
+
         protected override string QueryKey => "System.DateAccessed";
 
         public AccessedFilter() : base() {}
         public AccessedFilter(DateRange range) : base(range) {}
     }
 
-    public class SizeRangeFilter : IFilter
+    public class SizeRangeFilter : IFilter, IHeader
     {
+        public string Glyph => "\uE163";
+        public string Title => "Size";
+        public string Description => "Size of the item";
+
         public SizeRange Range { get; }
 
+        public SizeRangeFilter() => Range = SizeRange.All;
         public SizeRangeFilter(SizeRange range) => Range = range;
 
         public string ToAdvancedQuerySyntax()
