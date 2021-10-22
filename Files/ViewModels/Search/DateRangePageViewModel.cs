@@ -18,6 +18,7 @@ namespace Files.ViewModels.Search
 
     public interface IDateRangePickerViewModel : IPickerViewModel
     {
+        string Description { get; set; }
         string Label { get; }
         DateRange Range { get; set; }
 
@@ -78,7 +79,13 @@ namespace Files.ViewModels.Search
         public IFilterHeader Header
         {
             get => header;
-            set => SetProperty(ref header, value);
+            set
+            {
+                if (SetProperty(ref header, value))
+                {
+                    Picker.Description = header.Description;
+                }
+            }
         }
 
         IPickerViewModel IFilterPageViewModel.Picker => Picker;
@@ -103,6 +110,7 @@ namespace Files.ViewModels.Search
                 AccessedFilter => Headers.First(h => h is AccessedHeader),
                 _ => Headers.First(),
             };
+            Picker.Description = header?.Description;
             if (filter is not null)
             {
                 Picker.Range = filter.Range;
@@ -127,8 +135,6 @@ namespace Files.ViewModels.Search
     {
         public bool IsEmpty => range == DateRange.Always;
 
-        public string Label => range.ToString("N");
-
         private DateRange range = DateRange.Always;
         public DateRange Range
         {
@@ -146,6 +152,15 @@ namespace Files.ViewModels.Search
                 }
             }
         }
+
+        private string description;
+        public string Description
+        {
+            get => description;
+            set => SetProperty(ref description, value);
+        }
+
+        public string Label => range.ToString("N");
 
         public DateTimeOffset? MinOffset
         {

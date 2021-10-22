@@ -1,7 +1,8 @@
-﻿using Files.Filesystem.Search;
+﻿using Files.Extensions;
+using Files.Filesystem.Search;
+using Files.UserControls.Search;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -9,12 +10,16 @@ using System.Windows.Input;
 
 namespace Files.ViewModels.Search
 {
-    /*public interface ISizeRangeFilterViewModel : IFilterViewModel
+    public interface ISizeRangePageViewModel : IFilterPageViewModel
     {
-        new ISizeRangeFilter Filter { get; }
+        new ISizeRangePickerViewModel Picker { get; }
+    }
 
-        string ShortRangeLabel { get; }
-        string FullRangeLabel { get; }
+    public interface ISizeRangePickerViewModel : IPickerViewModel
+    {
+        string Description { get; }
+        string Label { get; }
+        SizeRange Range { get; set; }
 
         IReadOnlyList<ISizeRangeLink> Links { get; }
     }
@@ -22,119 +27,167 @@ namespace Files.ViewModels.Search
     public interface ISizeRangeLink : INotifyPropertyChanged
     {
         bool IsSelected { get; }
-        SizeRange Range { get; }
         string NameLabel { get; }
         string ValueLabel { get; }
         ICommand ToggleCommand { get; }
     }
 
-    public class SizeRangeFilterViewModel : FilterViewModel<ISizeRangeFilter>, ISizeRangeFilterViewModel
+    public class SizeHeader : IFilterHeader
     {
-        public string ShortRangeLabel => Filter.Range.ToString("n");
-        public string FullRangeLabel => Filter.Range.ToString("N");
+        public string Glyph => "\uE163";
+        public string Title => "Size";
+        public string Description => "Size of the item";
 
-        private readonly Lazy<IReadOnlyList<ISizeRangeLink>> links;
-        public IReadOnlyList<ISizeRangeLink> Links => links.Value;
+        IFilter IFilterHeader.GetFilter() => GetFilter();
+        public SizeRangeFilter GetFilter() => new(SizeRange.All);
+        public SizeRangeFilter GetFilter(SizeRange range) => new(range);
+    }
 
-        public SizeRangeFilterViewModel(ISizeRangeFilter filter) : base(filter)
+    public class SizeRangePageViewModel : ObservableObject, ISizeRangePageViewModel
+    {
+        public IFilterHeader Header { get; } = new SizeHeader();
+
+        IPickerViewModel IFilterPageViewModel.Picker => Picker;
+        public ISizeRangePickerViewModel Picker { get; } = new SizeRangePickerViewModel();
+
+        public ICommand BackCommand { get; }
+        public ICommand SaveCommand { get; }
+        public ICommand AcceptCommand { get; }
+
+        public SizeRangePageViewModel()
         {
-            links = new(GetLinks);
-            filter.PropertyChanged += Filter_PropertyChanged;
+            BackCommand = new RelayCommand(Back);
+            SaveCommand = new RelayCommand(Save);
+            AcceptCommand = new RelayCommand(Accept);
+        }
+        public SizeRangePageViewModel(SizeRangeFilter filter) : this()
+        {
+            if (filter is not null)
+            {
+                Picker.Range = filter.Range;
+            }
         }
 
-        private IReadOnlyList<ISizeRangeLink> GetLinks() => new List<SizeRange>
+        public void Back()
         {
-            SizeRange.Empty,
-            SizeRange.Tiny,
-            SizeRange.Small,
-            SizeRange.Medium,
-            SizeRange.Large,
-            SizeRange.VeryLarge,
-            SizeRange.Huge,
-        }.Select(range => new SizeRangeLink(Filter, range)).Cast<ISizeRangeLink>().ToList().AsReadOnly();
+            Navigator.Instance.GoBack();
+        }
+        public void Save()
+        {
+        }
+        public void Accept()
+        {
+            Save();
+            Back();
+        }
+    }
 
-        private void Filter_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    public class SizeRangePickerViewModel : ObservableObject, ISizeRangePickerViewModel
+    {
+        public bool IsEmpty => range == SizeRange.All;
+
+        private SizeRange range = SizeRange.All;
+        public SizeRange Range
         {
-            if (e.PropertyName == nameof(ISizeRangeFilter.Range))
+            get => range;
+            set
             {
-                if (Filter.Range.Equals(SizeRange.None))
+                if (value.Equals(SizeRange.None))
                 {
-                    Filter.Range = SizeRange.All;
+                    value = SizeRange.All;
                 }
-                else
+                if (SetProperty(ref range, value))
                 {
-                    OnPropertyChanged(nameof(ShortRangeLabel));
-                    OnPropertyChanged(nameof(FullRangeLabel));
+                    OnPropertyChanged(nameof(IsEmpty));
+                    OnPropertyChanged(nameof(Label));
+
+                    links.ForEach(link => link.UpSizeProperties());
                 }
             }
         }
+
+        public string Description { get; }
+        public string Label => range.ToString("N");
+
+        private readonly IReadOnlyList<SizeRangeLink> links;
+        public IReadOnlyList<ISizeRangeLink> Links => links;
+
+        public ICommand ClearCommand { get; }
+
+        public SizeRangePickerViewModel() : this(SizeRange.All)
+        {
+        }
+        public SizeRangePickerViewModel(SizeRange range)
+        {
+            Description = new SizeHeader().Description;
+            Range = range;
+
+            links = new List<SizeRange>
+            {
+                SizeRange.Empty,
+                SizeRange.Tiny,
+                SizeRange.Small,
+                SizeRange.Medium,
+                SizeRange.Large,
+                SizeRange.VeryLarge,
+                SizeRange.Huge,
+            }.Select(range => new SizeRangeLink(this, range)).ToList().AsReadOnly();
+
+            ClearCommand = new RelayCommand(Clear);
+        }
+
+        public void Clear() => Range = SizeRange.All;
 
         private class SizeRangeLink : ObservableObject, ISizeRangeLink
         {
-            private readonly ISizeRangeFilter filter;
+            private readonly ISizeRangePickerViewModel picker;
+            private readonly SizeRange range;
 
-            public SizeRange Range { get; set; }
-            public string NameLabel => Range.ToString("n");
-            public string ValueLabel => Range.ToString("r");
-
-            private bool isSelected = false;
             public bool IsSelected
             {
-                get => isSelected;
-                set => SetProperty(ref isSelected, value);
+                get => !picker.IsEmpty && picker.Range.IsNamed && picker.Range.Contains(range);
+                set
+                {
+                    if (IsSelected != value)
+                    {
+                        Toggle();
+                    }
+                }
             }
 
-            public ICommand ToggleCommand { get; set; }
+            public string NameLabel => range.ToString("n");
+            public string ValueLabel => range.ToString("r");
 
-            public SizeRangeLink(ISizeRangeFilter filter, SizeRange range)
+            public ICommand ToggleCommand { get; }
+
+            public SizeRangeLink(ISizeRangePickerViewModel picker, SizeRange range)
             {
-                this.filter = filter;
-
-                IsSelected = GetIsSelected();
-                Range = range;
+                this.picker = picker;
+                this.range = range;
                 ToggleCommand = new RelayCommand(Toggle);
-
-                filter.PropertyChanged += Filter_PropertyChanged;
             }
 
-            private bool GetIsSelected()
-                => !filter.IsEmpty && filter.Range.IsNamed && filter.Range.Contains(Range);
+            public void UpSizeProperties() => OnPropertyChanged(nameof(IsSelected));
 
             private void Toggle()
             {
-                if (filter.IsEmpty)
+                if (picker.IsEmpty)
                 {
-                    filter.Range = Range;
+                    picker.Range = range;
                 }
                 else if (IsSelected)
                 {
-                    if (Range.Equals(SizeRange.Empty))
-                    {
-                        filter.Range -= new SizeRange(Size.MinValue, new Size(1));
-                    }
-                    else
-                    {
-                        filter.Range -= Range;
-                    }
+                    picker.Range -= range;
                 }
-                else if (filter.Range.IsNamed)
+                else if (picker.Range.IsNamed)
                 {
-                    filter.Range += Range;
+                    picker.Range += range;
                 }
                 else
                 {
-                    filter.Range = Range;
-                }
-            }
-
-            private void Filter_PropertyChanged(object sender, PropertyChangedEventArgs e)
-            {
-                if (e.PropertyName == nameof(ISizeRangeFilter.Range))
-                {
-                    IsSelected = GetIsSelected();
-                    OnPropertyChanged(nameof(IsSelected));
+                    picker.Range = range;
                 }
             }
         }
-    }*/
+    }
 }

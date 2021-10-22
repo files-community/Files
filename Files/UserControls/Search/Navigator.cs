@@ -37,7 +37,7 @@ namespace Files.UserControls.Search
 
         public void GoRoot()
         {
-            GoPage(new DateRangePageViewModel(new ModifiedFilter(DateRange.Yesterday)));
+            GoPage(new SizeRangePageViewModel());
         }
         public void GoPage(IFilterPageViewModel viewModel)
         {

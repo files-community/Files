@@ -52,11 +52,13 @@ namespace Files.UserControls.Search
     {
         public DataTemplate GroupTemplate { get; set; }
         public DataTemplate DateRangeTemplate { get; set; }
+        public DataTemplate SizeRangeTemplate { get; set; }
 
         protected override DataTemplate SelectTemplateCore(object item) => item switch
         {
             //IGroupPageViewModel => GroupTemplate,
             IDateRangePickerViewModel => DateRangeTemplate,
+            ISizeRangePickerViewModel => SizeRangeTemplate,
             _ => null,
         };
 
