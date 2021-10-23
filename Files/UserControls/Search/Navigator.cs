@@ -1,6 +1,4 @@
-﻿using Files.Filesystem.Search;
-using Files.ViewModels.Search;
-using System.Collections.ObjectModel;
+﻿using Files.ViewModels.Search;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -8,11 +6,10 @@ namespace Files.UserControls.Search
 {
     public interface INavigator
     {
-        ObservableCollection<IFilter> CurrentCollection { get; }
-
         void Clear();
-        void GoRoot();
-        void GoPage(IFilterPageViewModel viewModel);
+        void Search();
+
+        void GoPage(ISearchPageViewModel viewModel);
         void GoBack();
     }
 
@@ -23,36 +20,12 @@ namespace Files.UserControls.Search
         private readonly NavigationTransitionInfo toRightTransition =
             new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight };
 
-        public static Navigator Instance { get; } = new Navigator();
-
         public Frame Frame { get; set; }
 
-        public ObservableCollection<IFilter> CurrentCollection
-        {
-            get
-            {
-                int count = Frame.BackStack.Count;
-                if (count == 0)
-                {
-                    return null;
-                }
-                var parentViewModel = Frame.BackStack[count - 1].Parameter as IGroupPageViewModel;
-                return parentViewModel?.Picker?.Filters;
-            }
-        }
+        public void Clear() => GoPage(null);
+        public void Search() {}
 
-        private Navigator() {}
-
-        public void Clear()
-        {
-            GoPage(null);
-        }
-
-        public void GoRoot()
-        {
-            GoPage(new GroupPageViewModel(new AndFilterCollection()));
-        }
-        public void GoPage(IFilterPageViewModel viewModel)
+        public void GoPage(ISearchPageViewModel viewModel)
         {
             if (Frame is null)
             {
@@ -63,10 +36,10 @@ namespace Files.UserControls.Search
                 //case ISettingsViewModel :
                 //    Frame?.Navigate(typeof(SettingsPage), viewModel, emptyTransition);
                 //    break;
-                case IMultiFilterPageViewModel :
+                case IMultiSearchPageViewModel :
                     Frame.Navigate(typeof(MultiFilterPage), viewModel, toRightTransition);
                     break;
-                case IFilterPageViewModel:
+                case ISearchPageViewModel:
                     Frame.Navigate(typeof(FilterPage), viewModel, toRightTransition);
                     break;
                 default:

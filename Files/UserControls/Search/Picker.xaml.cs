@@ -1,5 +1,4 @@
-﻿using Files.Filesystem.Search;
-using Files.ViewModels.Search;
+﻿using Files.ViewModels.Search;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 

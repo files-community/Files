@@ -443,7 +443,7 @@ namespace Files.Filesystem.Search
 
         private QueryOptions ToQueryOptions()
         {
-            var settings = Settings.Default;
+            var settings = Settings.Instance;
 
             var query = new QueryOptions
             {

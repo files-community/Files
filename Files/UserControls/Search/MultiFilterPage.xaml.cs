@@ -8,11 +8,11 @@ namespace Files.UserControls.Search
     public sealed partial class MultiFilterPage : Page
     {
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register(nameof(ViewModel), typeof(IMultiFilterPageViewModel), typeof(MultiFilterPage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ViewModel), typeof(IMultiSearchPageViewModel), typeof(MultiFilterPage), new PropertyMetadata(null));
 
-        private IMultiFilterPageViewModel ViewModel
+        private IMultiSearchPageViewModel ViewModel
         {
-            get => (IMultiFilterPageViewModel)GetValue(ViewModelProperty);
+            get => (IMultiSearchPageViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
 
@@ -21,7 +21,7 @@ namespace Files.UserControls.Search
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            ViewModel = e.Parameter as IMultiFilterPageViewModel;
+            ViewModel = e.Parameter as IMultiSearchPageViewModel;
             HeaderCombo.SelectedItem = ViewModel?.Header;
         }
 

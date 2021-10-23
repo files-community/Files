@@ -1,6 +1,5 @@
 ﻿using Files.Extensions;
 using Files.Filesystem.Search;
-using Files.UserControls.Search;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
@@ -11,7 +10,7 @@ using System.Windows.Input;
 
 namespace Files.ViewModels.Search
 {
-    public interface IDateRangePageViewModel : IMultiFilterPageViewModel
+    public interface IDateRangePageViewModel : IMultiSearchPageViewModel
     {
         new IDateRangePickerViewModel Picker { get; }
     }
@@ -28,6 +27,11 @@ namespace Files.ViewModels.Search
         IReadOnlyList<IDateRangeLink> Links { get; }
     }
 
+    public interface IDateRangeHeader : IFilterHeader
+    {
+        IDateRangeFilter GetFilter(DateRange range);
+    }
+
     public interface IDateRangeLink : INotifyPropertyChanged
     {
         bool IsSelected { get; }
@@ -35,21 +39,26 @@ namespace Files.ViewModels.Search
         ICommand ToggleCommand { get; }
     }
 
-    public class CreatedHeader : FilterHeader<CreatedFilter>
+    public class CreatedHeader : FilterHeader<CreatedFilter>, IDateRangeHeader
     {
+        IDateRangeFilter IDateRangeHeader.GetFilter(DateRange range) => GetFilter(range);
         public CreatedFilter GetFilter(DateRange range) => new(range);
     }
-    public class ModifiedHeader : FilterHeader<ModifiedFilter>
+    public class ModifiedHeader : FilterHeader<ModifiedFilter>, IDateRangeHeader
     {
+        IDateRangeFilter IDateRangeHeader.GetFilter(DateRange range) => GetFilter(range);
         public ModifiedFilter GetFilter(DateRange range) => new(range);
     }
-    public class AccessedHeader : FilterHeader<AccessedFilter>
+    public class AccessedHeader : FilterHeader<AccessedFilter>, IDateRangeHeader
     {
+        IDateRangeFilter IDateRangeHeader.GetFilter(DateRange range) => GetFilter(range);
         public AccessedFilter GetFilter(DateRange range) => new(range);
     }
 
     public class DateRangePageViewModel : ObservableObject, IDateRangePageViewModel
     {
+        private readonly ISearchPageContext context;
+
         public IEnumerable<IFilterHeader> Headers { get; } = new List<IFilterHeader>
         {
             new CreatedHeader(),
@@ -70,21 +79,20 @@ namespace Files.ViewModels.Search
             }
         }
 
-        IPickerViewModel IFilterPageViewModel.Picker => Picker;
+        IPickerViewModel ISearchPageViewModel.Picker => Picker;
         public IDateRangePickerViewModel Picker { get; } = new DateRangePickerViewModel();
 
         public ICommand BackCommand { get; }
         public ICommand SaveCommand { get; }
         public ICommand AcceptCommand { get; }
 
-        public DateRangePageViewModel()
+        public DateRangePageViewModel(ISearchPageContext context) : this(context, new CreatedFilter())
         {
-            BackCommand = new RelayCommand(Back);
-            SaveCommand = new RelayCommand(Save);
-            AcceptCommand = new RelayCommand(Accept);
         }
-        public DateRangePageViewModel(DateRangeFilter filter) : this()
+        public DateRangePageViewModel(ISearchPageContext context, IDateRangeFilter filter)
         {
+            this.context = context;
+
             header = filter switch
             {
                 CreatedFilter => Headers.First(h => h is CreatedHeader),
@@ -97,14 +105,25 @@ namespace Files.ViewModels.Search
             {
                 Picker.Range = filter.Range;
             }
+
+            BackCommand = new RelayCommand(Back);
+            SaveCommand = new RelayCommand(Save);
+            AcceptCommand = new RelayCommand(Accept);
         }
 
-        public void Back()
-        {
-            Navigator.Instance.GoBack();
-        }
+        public void Back() => context.Back();
         public void Save()
         {
+            if (Picker.IsEmpty)
+            {
+                context.Save(null);
+            }
+            else
+            {
+                var header = Header as IDateRangeHeader;
+                var filter = header.GetFilter(Picker.Range);
+                context.Save(filter);
+            }
         }
         public void Accept()
         {

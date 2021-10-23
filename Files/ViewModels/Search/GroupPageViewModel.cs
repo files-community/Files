@@ -1,15 +1,13 @@
 ﻿using Files.Filesystem.Search;
-using Files.UserControls.Search;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
 namespace Files.ViewModels.Search
 {
-    public interface IGroupPageViewModel : IMultiFilterPageViewModel
+    public interface IGroupPageViewModel : IMultiSearchPageViewModel
     {
         new IGroupPickerViewModel Picker { get; }
     }
@@ -17,33 +15,35 @@ namespace Files.ViewModels.Search
     public interface IGroupPickerViewModel : IPickerViewModel
     {
         string Description { get; set; }
-        ObservableCollection<IFilter> Filters { get; }
+        IFilterCollection Filters { get; }
         ICommand OpenCommand { get; }
     }
 
     public interface IGroupHeader : IFilterHeader
     {
-        FilterCollection GetFilter(IEnumerable<IFilter> filters);
+        IFilterCollection GetFilter(IEnumerable<IFilter> filters);
     }
 
     public class AndHeader : FilterHeader<AndFilterCollection>, IGroupHeader
     {
-        FilterCollection IGroupHeader.GetFilter(IEnumerable<IFilter> filters) => GetFilter(filters);
+        IFilterCollection IGroupHeader.GetFilter(IEnumerable<IFilter> filters) => GetFilter(filters);
         public AndFilterCollection GetFilter(IEnumerable<IFilter> filters) => new(filters);
     }
     public class OrHeader : FilterHeader<OrFilterCollection>, IGroupHeader
     {
-        FilterCollection IGroupHeader.GetFilter(IEnumerable<IFilter> filters) => GetFilter(filters);
+        IFilterCollection IGroupHeader.GetFilter(IEnumerable<IFilter> filters) => GetFilter(filters);
         public OrFilterCollection GetFilter(IEnumerable<IFilter> filters) => new(filters);
     }
     public class NotHeader : FilterHeader<NotFilterCollection>, IGroupHeader
     {
-        FilterCollection IGroupHeader.GetFilter(IEnumerable<IFilter> filters) => GetFilter(filters);
+        IFilterCollection IGroupHeader.GetFilter(IEnumerable<IFilter> filters) => GetFilter(filters);
         public NotFilterCollection GetFilter(IEnumerable<IFilter> filters) => new(filters);
     }
 
     public class GroupPageViewModel : ObservableObject, IGroupPageViewModel
     {
+        private readonly ISearchPageContext context;
+
         public IEnumerable<IFilterHeader> Headers { get; } = new List<IFilterHeader>
         {
             new AndHeader(),
@@ -64,21 +64,22 @@ namespace Files.ViewModels.Search
             }
         }
 
-        IPickerViewModel IFilterPageViewModel.Picker => Picker;
-        public IGroupPickerViewModel Picker { get; } = new GroupPickerViewModel();
+        IPickerViewModel ISearchPageViewModel.Picker => Picker;
+        public IGroupPickerViewModel Picker { get; }
 
         public ICommand BackCommand { get; }
         public ICommand SaveCommand { get; }
         public ICommand AcceptCommand { get; }
 
-        public GroupPageViewModel()
+        public GroupPageViewModel(ISearchPageContext context) : this(context, null)
         {
-            BackCommand = new RelayCommand(Back);
-            SaveCommand = new RelayCommand(Save);
-            AcceptCommand = new RelayCommand(Accept);
         }
-        public GroupPageViewModel(FilterCollection filter) : this()
+        public GroupPageViewModel(ISearchPageContext context, IFilterCollection filter)
         {
+            this.context = context;
+
+            filter ??= new AndFilterCollection();
+
             header = filter switch
             {
                 AndFilterCollection => Headers.First(h => h is AndHeader),
@@ -86,27 +87,27 @@ namespace Files.ViewModels.Search
                 NotFilterCollection => Headers.First(h => h is NotHeader),
                 _ => Headers.First(),
             };
-            if (filter is not null)
-            {
-                Picker = new GroupPickerViewModel(filter);
-            }
+
+            Picker = new GroupPickerViewModel(context, filter);
             Picker.Description = header?.Description;
+
+            BackCommand = new RelayCommand(Back);
+            SaveCommand = new RelayCommand(Save);
+            AcceptCommand = new RelayCommand(Accept);
         }
 
-        public void Back()
-        {
-            Navigator.Instance.GoBack();
-        }
+        public void Back() => context.Back();
         public void Save()
         {
-            var collection = Navigator.Instance.CurrentCollection;
-            if (collection is not null)
+            if (Picker.IsEmpty)
             {
-                if (!Picker.IsEmpty)
-                {
-                    var header = Header as IGroupHeader;
-                    collection.Add(header.GetFilter(Picker.Filters));
-                }
+                context.Save(null);
+            }
+            else
+            {
+                var header = Header as IGroupHeader;
+                var filter = header.GetFilter(Picker.Filters);
+                context.Save(filter);
             }
         }
         public void Accept()
@@ -118,6 +119,8 @@ namespace Files.ViewModels.Search
 
     public class GroupPickerViewModel : ObservableObject, IGroupPickerViewModel
     {
+        private readonly ISearchPageContext context;
+
         public bool IsEmpty => !Filters.Any();
 
         private string description;
@@ -127,17 +130,16 @@ namespace Files.ViewModels.Search
             set => SetProperty(ref description, value);
         }
 
-        public ObservableCollection<IFilter> Filters { get; } = new ObservableCollection<IFilter>();
+        public IFilterCollection Filters { get; }
 
         public ICommand ClearCommand { get; }
         public ICommand OpenCommand { get; }
 
-        public GroupPickerViewModel() : this(Enumerable.Empty<IFilter>())
+        public GroupPickerViewModel(ISearchPageContext context, IFilterCollection filters) : base()
         {
-        }
-        public GroupPickerViewModel(IEnumerable<IFilter> filters) : base()
-        {
-            Filters = new ObservableCollection<IFilter>(filters);
+            this.context = context;
+
+            Filters = filters;
 
             ClearCommand = new RelayCommand(Clear);
             OpenCommand = new RelayCommand<IFilterHeader>(Open);
@@ -148,10 +150,7 @@ namespace Files.ViewModels.Search
         private void Open(IFilterHeader header)
         {
             var filter = header.GetFilter();
-            var factory = new FilterPageViewModelFactory();
-            var viewModel = factory.GetViewModel(filter);
-
-            Navigator.Instance.GoPage(viewModel);
+            context.GoPage(filter);
         }
     }
 }

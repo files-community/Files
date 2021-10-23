@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 
@@ -32,6 +33,20 @@ namespace Files.Filesystem.Search
     {
         string ToAdvancedQuerySyntax();
     }
+
+    public interface IFilterCollection : IList<IFilter>, IFilter, INotifyPropertyChanged, INotifyCollectionChanged
+    {
+    }
+
+    public interface IDateRangeFilter : IFilter, IHeader
+    {
+        DateRange Range { get; }
+    }
+    public interface ISizeRangeFilter : IFilter, IHeader
+    {
+        SizeRange Range { get; }
+    }
+
     public interface IHeader
     {
         string Glyph { get; }
@@ -41,7 +56,7 @@ namespace Files.Filesystem.Search
 
     public class Settings : ObservableObject, ISettings
     {
-        public static Settings Default { get; } = new();
+        public static Settings Instance { get; } = new();
 
         public ILocation Location { get; } = new Location();
         public IFilter Filter { get; } = new AndFilterCollection();
@@ -61,7 +76,7 @@ namespace Files.Filesystem.Search
         }
     }
 
-    public abstract class FilterCollection : ObservableCollection<IFilter>, IFilter, IHeader
+    public abstract class FilterCollection : ObservableCollection<IFilter>, IFilterCollection, IHeader
     {
         public virtual string Glyph => "\uEC26";
         public abstract string Title { get; }
@@ -131,7 +146,7 @@ namespace Files.Filesystem.Search
         }
     }
 
-    public abstract class DateRangeFilter : IFilter, IHeader
+    public abstract class DateRangeFilter : IDateRangeFilter
     {
         public virtual string Glyph => "\uE163";
         public abstract string Title { get; }
@@ -191,7 +206,7 @@ namespace Files.Filesystem.Search
         public AccessedFilter(DateRange range) : base(range) {}
     }
 
-    public class SizeRangeFilter : IFilter, IHeader
+    public class SizeRangeFilter : ISizeRangeFilter
     {
         public string Glyph => "\uE163";
         public string Title => "Size";

@@ -1,5 +1,7 @@
-﻿using Files.UserControls.Search;
+﻿using Files.Filesystem.Search;
+using Files.UserControls.Search;
 using Files.ViewModels;
+using Files.ViewModels.Search;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -8,7 +10,7 @@ namespace Files.UserControls
 {
     public sealed partial class SearchBox : UserControl
     {
-        private readonly INavigator navigator = Navigator.Instance;
+        private readonly Navigator navigator = new Navigator();
 
         public SearchBoxViewModel SearchBoxViewModel
         {
@@ -36,8 +38,8 @@ namespace Files.UserControls
 
         private void MenuFrame_Loaded(object sender, RoutedEventArgs e)
         {
-            Navigator.Instance.Frame = sender as Frame;
-            navigator.GoRoot();
+            navigator.Frame = sender as Frame;
+            GoRootPage();
         }
 
         private void MenuButton_Loaded(object sender, RoutedEventArgs e)
@@ -53,7 +55,16 @@ namespace Files.UserControls
             }
         }
 
-        private void Flyout_Opened(object sender, object e) => navigator.GoRoot();
+        private void Flyout_Opened(object sender, object e) => GoRootPage();
         private void Flyout_Closed(object sender, object e) => navigator.Clear();
+
+        private void GoRootPage()
+        {
+            ISettings settings = Filesystem.Search.Settings.Instance;
+            var filter = settings.Filter;
+            var context = new SearchPageContext(navigator, filter);
+            var viewModel = new GroupPageViewModel(context, filter as IFilterCollection);
+            navigator.GoPage(viewModel);
+        }
     }
 }

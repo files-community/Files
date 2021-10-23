@@ -8,11 +8,11 @@ namespace Files.UserControls.Search
     public sealed partial class FilterPage : Page
     {
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register(nameof(ViewModel), typeof(IFilterPageViewModel), typeof(FilterPage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ViewModel), typeof(ISearchPageViewModel), typeof(FilterPage), new PropertyMetadata(null));
 
-        private IFilterPageViewModel ViewModel
+        private ISearchPageViewModel ViewModel
         {
-            get => (IFilterPageViewModel)GetValue(ViewModelProperty);
+            get => (ISearchPageViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
 
@@ -21,7 +21,7 @@ namespace Files.UserControls.Search
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            ViewModel = e.Parameter as IFilterPageViewModel;
+            ViewModel = e.Parameter as ISearchPageViewModel;
         }
     }
 }

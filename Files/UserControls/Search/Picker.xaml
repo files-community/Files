@@ -23,9 +23,8 @@
             <StackPanel Orientation="Vertical" Width="200">
                 <TextBlock TextWrapping="Wrap" Text="No filter selected. Add a new filter." Visibility="{x:Bind IsEmpty, Mode=OneWay}" />
                 <TextBlock TextWrapping="Wrap" Text="{x:Bind Description, Mode=OneWay}"
-                    Visibility="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}" />
-                <ItemsControl
-                    Margin="0,8,0,8" ItemsSource="{x:Bind Filters, Mode=OneWay}">
+                    Visibility="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />
+                <ItemsControl Margin="0,8,0,8" ItemsSource="{x:Bind Filters, Mode=OneWay}">
                     <ItemsControl.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Padding" Value="0,2,0,2" />
@@ -34,7 +33,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="search:IFilter">
                             <TextBlock Text="{Binding}" />
-                            <!--<Grid Background="Transparent" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited">
+                            <!--<Grid Background="Transparent">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="32" />
                                     <ColumnDefinition Width="*" />
@@ -54,9 +53,9 @@
                 </ItemsControl>
                 <CommandBar Margin="0,0,0,8" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" IsDynamicOverflowEnabled="False">
                     <AppBarButton x:Name="AddFilterButton" Icon="Add" Label="Add" Loaded="AddFilterButton_Loaded" />
-                    <AppBarButton
+                    <!--<AppBarButton
                         Icon="Clear" Label="Clear" Command="{x:Bind ClearCommand}"
-                        IsEnabled="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}" />
+                        IsEnabled="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />-->
                 </CommandBar>
             </StackPanel>
         </DataTemplate>

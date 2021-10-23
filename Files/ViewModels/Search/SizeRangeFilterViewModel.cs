@@ -1,6 +1,5 @@
 ﻿using Files.Extensions;
 using Files.Filesystem.Search;
-using Files.UserControls.Search;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ using System.Windows.Input;
 
 namespace Files.ViewModels.Search
 {
-    public interface ISizeRangePageViewModel : IFilterPageViewModel
+    public interface ISizeRangePageViewModel : ISearchPageViewModel
     {
         new ISizeRangePickerViewModel Picker { get; }
     }
@@ -32,52 +31,66 @@ namespace Files.ViewModels.Search
         ICommand ToggleCommand { get; }
     }
 
-    public class SizeRangeHeader : FilterHeader<SizeRangeFilter>
+    public class SizeRangeHeader : IFilterHeader
     {
+        private readonly ISizeRangeFilter filter;
+
+        public string Glyph { get; }
+        public string Title { get; }
+        public string Description { get; }
+
+        public SizeRangeHeader()
+        {
+            filter = new SizeRangeFilter();
+            Glyph = filter.Glyph;
+            Title = filter.Title;
+            Description = filter.Description;
+        }
+        public SizeRangeHeader(ISizeRangeFilter filter)
+        {
+            this.filter = filter;
+            Glyph = filter.Glyph;
+            Title = filter.Range.ToString("n");
+            Description = string.Empty;
+        }
+
+        public IFilter GetFilter() => filter;
         public SizeRangeFilter GetFilter(SizeRange range) => new(range);
     }
 
     public class SizeRangePageViewModel : ObservableObject, ISizeRangePageViewModel
     {
+        private readonly ISearchPageContext context;
+
         public IFilterHeader Header { get; } = new SizeRangeHeader();
 
-        IPickerViewModel IFilterPageViewModel.Picker => Picker;
+        IPickerViewModel ISearchPageViewModel.Picker => Picker;
         public ISizeRangePickerViewModel Picker { get; } = new SizeRangePickerViewModel();
 
         public ICommand BackCommand { get; }
         public ICommand SaveCommand { get; }
         public ICommand AcceptCommand { get; }
 
-        public SizeRangePageViewModel()
+        public SizeRangePageViewModel(ISearchPageContext context) : this(context, new SizeRangeFilter())
         {
-            BackCommand = new RelayCommand(Back);
-            SaveCommand = new RelayCommand(Save);
-            AcceptCommand = new RelayCommand(Accept);
         }
-        public SizeRangePageViewModel(SizeRangeFilter filter) : this()
+        public SizeRangePageViewModel(ISearchPageContext context, ISizeRangeFilter filter)
         {
+            this.context = context;
+
             if (filter is not null)
             {
                 Picker.Range = filter.Range;
             }
+
+            BackCommand = new RelayCommand(Back);
+            SaveCommand = new RelayCommand(Save);
+            AcceptCommand = new RelayCommand(Accept);
         }
 
-        public void Back()
-        {
-            Navigator.Instance.GoBack();
-        }
-        public void Save()
-        {
-            var collection = Navigator.Instance.CurrentCollection;
-            if (collection is not null)
-            {
-                if (!Picker.IsEmpty)
-                {
-                    var header = Header as SizeRangeHeader;
-                    collection.Add(header.GetFilter(Picker.Range));
-                }
-            }
-        }
+        public void Back() => context.Back();
+        public void Save() => context.Save(!Picker.IsEmpty ? new SizeRangeFilter(Picker.Range) : null);
+
         public void Accept()
         {
             Save();
