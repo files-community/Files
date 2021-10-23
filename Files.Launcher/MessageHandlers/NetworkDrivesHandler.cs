@@ -14,11 +14,11 @@ namespace FilesFullTrust.MessageHandlers
 {
     public class NetworkDrivesHandler : IMessageHandler
     {
-        public void Initialize(NamedPipeServerStream connection)
+        public void Initialize(PipeStream connection)
         {
         }
 
-        public async Task ParseArgumentsAsync(NamedPipeServerStream connection, Dictionary<string, object> message, string arguments)
+        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
         {
             switch (arguments)
             {
@@ -119,7 +119,7 @@ namespace FilesFullTrust.MessageHandlers
             }
         }
 
-        private async Task ParseNetworkDriveOperationAsync(NamedPipeServerStream connection, Dictionary<string, object> message)
+        private async Task ParseNetworkDriveOperationAsync(PipeStream connection, Dictionary<string, object> message)
         {
             switch (message.Get("netdriveop", ""))
             {

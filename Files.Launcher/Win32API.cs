@@ -364,7 +364,7 @@ namespace FilesFullTrust
             return false;
         }
 
-        public static async Task SendMessageAsync(NamedPipeServerStream pipe, ValueSet valueSet, string requestID = null)
+        public static async Task SendMessageAsync(PipeStream pipe, ValueSet valueSet, string requestID = null)
         {
             await Extensions.IgnoreExceptions(async () =>
             {

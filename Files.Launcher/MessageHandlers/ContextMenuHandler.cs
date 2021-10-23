@@ -23,15 +23,11 @@ namespace FilesFullTrust.MessageHandlers
             handleTable = new DisposableDictionary();
         }
 
-        public void Initialize(NamedPipeServerStream connection)
+        public void Initialize(PipeStream connection)
         {
-            // Preload context menu for better performance
-            // We query the context menu for the app's local folder
-            var preloadPath = ApplicationData.Current.LocalFolder.Path;
-            using var _ = ContextMenu.GetContextMenuForFiles(new string[] { preloadPath }, Shell32.CMF.CMF_NORMAL | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(false));
         }
 
-        public async Task ParseArgumentsAsync(NamedPipeServerStream connection, Dictionary<string, object> message, string arguments)
+        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
         {
             switch (arguments)
             {
