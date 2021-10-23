@@ -106,7 +106,7 @@ namespace Files.Helpers
                 }
 
                 var connection = new NamedPipeAsAppServiceConnection();
-                if (await connection.Connect(@"LOCAL\FilesInteropService_ServerPipe", TimeSpan.FromSeconds(30)))
+                if (await connection.Connect(@"LOCAL\FilesInteropService_ServerPipe", TimeSpan.FromSeconds(15)))
                 {
                     return connection;
                 }
