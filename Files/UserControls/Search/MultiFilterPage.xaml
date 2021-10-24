@@ -9,7 +9,7 @@
     mc:Ignorable="d">
 
     <StackPanel x:Name="RootPanel" Orientation="Vertical" Width="200">
-        <ComboBox x:Name="HeaderCombo" Loaded="Combo_Loaded"
+        <ComboBox x:Name="HeaderCombo" PointerEntered="HeaderCombo_PointerEntered"
                 Width="200" HorizontalAlignment="Stretch"
                 Background="Transparent" BorderBrush="Transparent"
                 ItemsSource="{x:Bind ViewModel.Headers}" SelectedValue="{x:Bind ViewModel.Header, Mode=TwoWay}">

@@ -208,7 +208,7 @@ namespace Files.Filesystem.Search
 
     public class SizeRangeFilter : ISizeRangeFilter
     {
-        public string Glyph => "\uE163";
+        public string Glyph => "\uE8E5";
         public string Title => "Size";
         public string Description => "Size of the item";
 

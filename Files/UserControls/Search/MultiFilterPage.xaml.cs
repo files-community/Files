@@ -1,6 +1,7 @@
 ﻿using Files.ViewModels.Search;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files.UserControls.Search
@@ -25,7 +26,7 @@ namespace Files.UserControls.Search
             HeaderCombo.SelectedItem = ViewModel?.Header;
         }
 
-        private void Combo_Loaded(object sender, RoutedEventArgs e)
+        private void HeaderCombo_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             // prevent a bug of lost focus in uwp. This bug close the flyout when combobox is open.
             CancelButton.Focus(FocusState.Programmatic);
