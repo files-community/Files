@@ -1,7 +1,10 @@
 ﻿using ByteSizeLib;
 using Files.Extensions;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
+using Files.Services;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
@@ -12,6 +15,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.UI.Xaml.Media.Imaging;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
@@ -19,6 +23,7 @@ namespace Files.Filesystem.StorageEnumerators
 {
     public static class Win32StorageEnumerator
     {
+        private static string folderTypeTextLocalized = "FileFolderListItem".GetLocalized();
         private static IFileListCache fileListCache = FileListCacheController.GetInstance();
 
         public static async Task<List<ListedItem>> ListEntries(
@@ -28,9 +33,9 @@ namespace Files.Filesystem.StorageEnumerators
             WIN32_FIND_DATA findData,
             NamedPipeAsAppServiceConnection connection,
             CancellationToken cancellationToken,
-            List<string> skipItems,
             int countLimit,
-            Func<List<ListedItem>, Task> intermediateAction
+            Func<List<ListedItem>, Task> intermediateAction,
+            Dictionary<string, BitmapImage> defaultIconPairs = null
         )
         {
             var sampler = new IntervalSampler(500);
@@ -38,45 +43,48 @@ namespace Files.Filesystem.StorageEnumerators
             var hasNextFile = false;
             var count = 0;
 
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
             do
             {
-                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System || !App.AppSettings.AreSystemItemsHidden)
+                var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
+                var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+                if (!isHidden || (userSettingsService.FilesAndFoldersSettingsService.AreHiddenItemsVisible && (!isSystem || !userSettingsService.FilesAndFoldersSettingsService.AreSystemItemsHidden)))
                 {
-                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden || App.AppSettings.AreHiddenItemsVisible)
+                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
-                        if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+                        var file = await GetFile(findData, path, returnformat, connection, cancellationToken);
+                        if (file != null)
                         {
-                            var file = await GetFile(findData, path, returnformat, connection, cancellationToken);
-                            if (file != null)
+                            if (defaultIconPairs != null)
                             {
-                                if (skipItems?.Contains(file.ItemPath) ?? false)
+                                if (!string.IsNullOrEmpty(file.FileExtension))
                                 {
-                                    skipItems.Remove(file.ItemPath);
+                                    var lowercaseExtension = file.FileExtension.ToLowerInvariant();
+                                    if (defaultIconPairs.ContainsKey(lowercaseExtension))
+                                    {
+                                        file.SetDefaultIcon(defaultIconPairs[lowercaseExtension]);
+                                    }
                                 }
-                                else
-                                {
-                                    tempList.Add(file);
-                                }
-                                ++count;
                             }
+                            tempList.Add(file);
+                            ++count;
                         }
-                        else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                    }
+                    else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                    {
+                        if (findData.cFileName != "." && findData.cFileName != "..")
                         {
-                            if (findData.cFileName != "." && findData.cFileName != "..")
+                            var folder = await GetFolder(findData, path, returnformat, cancellationToken);
+                            if (folder != null)
                             {
-                                var folder = await GetFolder(findData, path, returnformat, cancellationToken);
-                                if (folder != null)
+                                if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
                                 {
-                                    if (skipItems?.Contains(folder.ItemPath) ?? false)
-                                    {
-                                        skipItems.Remove(folder.ItemPath);
-                                    }
-                                    else
-                                    {
-                                        tempList.Add(folder);
-                                    }
-                                    ++count;
+                                    // Set folder icon (found by empty extension string)
+                                    folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
                                 }
+                                tempList.Add(folder);
+                                ++count;
                             }
                         }
                     }
@@ -152,17 +160,14 @@ namespace Files.Filesystem.StorageEnumerators
                 ItemName = itemName,
                 ItemDateModifiedReal = itemModifiedDate,
                 ItemDateCreatedReal = itemCreatedDate,
-                ItemType = "FileFolderListItem".GetLocalized(),
-                LoadFolderGlyph = true,
+                ItemType = folderTypeTextLocalized,
                 FileImage = null,
                 IsHiddenItem = isHidden,
                 Opacity = opacity,
                 LoadFileIcon = false,
                 ItemPath = itemPath,
-                LoadUnknownTypeGlyph = false,
                 FileSize = null,
                 FileSizeBytes = 0,
-                ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(itemPath)
             };
         }
 
@@ -174,10 +179,12 @@ namespace Files.Filesystem.StorageEnumerators
             CancellationToken cancellationToken
         )
         {
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
             string itemName;
-            if (App.AppSettings.ShowFileExtensions && !findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
+            if (userSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions && !findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
             {
                 itemName = findData.cFileName; // never show extension for shortcuts
             }
@@ -231,7 +238,6 @@ namespace Files.Filesystem.StorageEnumerators
                 itemType = itemFileExtension.Trim('.') + " " + itemType;
             }
 
-            bool itemFolderImgVis = false;
             bool itemThumbnailImgVis = false;
             bool itemEmptyImgVis = true;
 
@@ -260,12 +266,6 @@ namespace Files.Filesystem.StorageEnumerators
                     {
                         var isUrl = findData.cFileName.EndsWith(".url");
                         string target = (string)response["TargetPath"];
-                        bool containsFilesOrFolders = false;
-
-                        if ((bool)response["IsFolder"])
-                        {
-                            containsFilesOrFolders = FolderHelpers.CheckForFilesFolders(target);
-                        }
 
                         bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
                         double opacity = 1;
@@ -283,9 +283,7 @@ namespace Files.Filesystem.StorageEnumerators
                             Opacity = opacity,
                             FileImage = null,
                             LoadFileIcon = !(bool)response["IsFolder"] && itemThumbnailImgVis,
-                            LoadUnknownTypeGlyph = !(bool)response["IsFolder"] && !isUrl && itemEmptyImgVis,
                             LoadWebShortcutGlyph = !(bool)response["IsFolder"] && isUrl && itemEmptyImgVis,
-                            LoadFolderGlyph = (bool)response["IsFolder"],
                             ItemName = itemName,
                             ItemDateModifiedReal = itemModifiedDate,
                             ItemDateAccessedReal = itemLastAccessDate,
@@ -299,7 +297,6 @@ namespace Files.Filesystem.StorageEnumerators
                             WorkingDirectory = (string)response["WorkingDirectory"],
                             RunAsAdmin = (bool)response["RunAsAdmin"],
                             IsUrl = isUrl,
-                            ContainsFilesOrFolders = containsFilesOrFolders
                         };
                     }
                 }
@@ -322,25 +319,46 @@ namespace Files.Filesystem.StorageEnumerators
                     opacity = Constants.UI.DimItemOpacity;
                 }
 
-                return new ListedItem(null, dateReturnFormat)
+                if (itemFileExtension == ".zip" && await ZipStorageFolder.CheckDefaultZipApp(itemPath))
                 {
-                    PrimaryItemAttribute = StorageItemTypes.File,
-                    FileExtension = itemFileExtension,
-                    LoadUnknownTypeGlyph = itemEmptyImgVis,
-                    FileImage = null,
-                    LoadFileIcon = itemThumbnailImgVis,
-                    LoadFolderGlyph = itemFolderImgVis,
-                    ItemName = itemName,
-                    IsHiddenItem = isHidden,
-                    Opacity = opacity,
-                    ItemDateModifiedReal = itemModifiedDate,
-                    ItemDateAccessedReal = itemLastAccessDate,
-                    ItemDateCreatedReal = itemCreatedDate,
-                    ItemType = itemType,
-                    ItemPath = itemPath,
-                    FileSize = itemSize,
-                    FileSizeBytes = itemSizeBytes
-                };
+                    return new ZipItem(null, dateReturnFormat)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.Folder, // Treat zip files as folders
+                        FileExtension = itemFileExtension,
+                        FileImage = null,
+                        LoadFileIcon = itemThumbnailImgVis,
+                        ItemName = itemName,
+                        IsHiddenItem = isHidden,
+                        Opacity = opacity,
+                        ItemDateModifiedReal = itemModifiedDate,
+                        ItemDateAccessedReal = itemLastAccessDate,
+                        ItemDateCreatedReal = itemCreatedDate,
+                        ItemType = itemType,
+                        ItemPath = itemPath,
+                        FileSize = itemSize,
+                        FileSizeBytes = itemSizeBytes
+                    };
+                }
+                else
+                {
+                    return new ListedItem(null, dateReturnFormat)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        FileExtension = itemFileExtension,
+                        FileImage = null,
+                        LoadFileIcon = itemThumbnailImgVis,
+                        ItemName = itemName,
+                        IsHiddenItem = isHidden,
+                        Opacity = opacity,
+                        ItemDateModifiedReal = itemModifiedDate,
+                        ItemDateAccessedReal = itemLastAccessDate,
+                        ItemDateCreatedReal = itemCreatedDate,
+                        ItemType = itemType,
+                        ItemPath = itemPath,
+                        FileSize = itemSize,
+                        FileSizeBytes = itemSizeBytes
+                    };
+                }
             }
             return null;
         }

@@ -20,7 +20,7 @@ namespace Files.Helpers
 
         public static event EventHandler<Task<NamedPipeAsAppServiceConnection>> ConnectionChanged;
 
-        static AppServiceConnectionHelper()
+        public static void Register()
         {
             App.Current.Suspending += OnSuspending;
             App.Current.LeavingBackground += OnLeavingBackground;
@@ -33,6 +33,10 @@ namespace Files.Helpers
                 // Need to reinitialize AppService when app is resuming
                 Instance = BuildConnection(true);
                 ConnectionChanged?.Invoke(null, Instance);
+                if (App.MainViewModel != null)
+                {
+                    App.MainViewModel.IsFullTrustElevated = false;
+                }
             }
         }
 
@@ -51,7 +55,7 @@ namespace Files.Helpers
         {
             if (connection == null)
             {
-                App.InteractionViewModel.IsFullTrustElevated = false;
+                App.MainViewModel.IsFullTrustElevated = false;
                 return false;
             }
 
@@ -83,7 +87,7 @@ namespace Files.Helpers
                 }
             }
 
-            App.InteractionViewModel.IsFullTrustElevated = wasElevated;
+            App.MainViewModel.IsFullTrustElevated = wasElevated;
 
             return wasElevated;
         }
@@ -107,7 +111,7 @@ namespace Files.Helpers
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Could not initialize FTP connection!");
+                App.Logger.Warn(ex, "Could not initialize FTP connection!");
             }
             return null;
         }
@@ -166,7 +170,7 @@ namespace Files.Helpers
                     }
 
                     // Begin a new reading operation
-                    var nextInfo = (Buffer: new byte[clientStream.InBufferSize], Message: new StringBuilder());
+                    var nextInfo = (Buffer: new byte[clientStream?.InBufferSize ?? 0], Message: new StringBuilder());
                     BeginRead(nextInfo);
                 }
             }
@@ -232,7 +236,7 @@ namespace Files.Helpers
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Error sending request on pipe.");
+                App.Logger.Warn(ex, "Error sending request on pipe.");
             }
 
             return (AppServiceResponseStatus.Failure, null);
@@ -261,7 +265,7 @@ namespace Files.Helpers
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, "Error sending request on pipe.");
+                App.Logger.Warn(ex, "Error sending request on pipe.");
             }
 
             return AppServiceResponseStatus.Failure;

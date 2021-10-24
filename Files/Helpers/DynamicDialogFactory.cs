@@ -4,6 +4,7 @@ using Files.Filesystem;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Uwp;
 using System;
+using Windows.ApplicationModel.Core;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 
@@ -19,7 +20,7 @@ namespace Files.Helpers
                 SubtitleText = "PropertySaveErrorMessage/Text".GetLocalized(), // We can use subtitle here as our content
                 PrimaryButtonText = "PropertySaveErrorDialog/PrimaryButtonText".GetLocalized(),
                 SecondaryButtonText = "PropertySaveErrorDialog/SecondaryButtonText".GetLocalized(),
-                CloseButtonText = "PropertySaveErrorDialog/CloseButtonText".GetLocalized(),
+                CloseButtonText = "Cancel".GetLocalized(),
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel
             });
             return dialog;
@@ -78,6 +79,12 @@ namespace Files.Helpers
                 tipText.Opacity = 0.0d;
             };
 
+            inputText.Loaded += (s, e) =>
+            {
+                // dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
+                _ = CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => inputText.Focus(Windows.UI.Xaml.FocusState.Programmatic));
+            };
+
             dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
                 TitleText = "RenameDialog/Title".GetLocalized(),
@@ -103,7 +110,7 @@ namespace Files.Helpers
                     vm.HideDialog(); // Rename successful
                 },
                 PrimaryButtonText = "RenameDialog/PrimaryButtonText".GetLocalized(),
-                CloseButtonText = "RenameDialog/SecondaryButtonText".GetLocalized(),
+                CloseButtonText = "Cancel".GetLocalized(),
                 DynamicButtonsEnabled = DynamicDialogButtons.Cancel,
                 DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
             });

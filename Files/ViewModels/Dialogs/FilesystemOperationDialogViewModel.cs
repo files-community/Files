@@ -1,6 +1,7 @@
 ﻿using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
+using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 
@@ -15,7 +17,6 @@ namespace Files.ViewModels.Dialogs
 {
     public class FilesystemOperationDialogViewModel : ObservableObject
     {
-
         public ObservableCollection<FilesystemOperationItemViewModel> Items { get; private set; }
 
         public ListViewSelectionMode ItemsSelectionMode
@@ -103,6 +104,8 @@ namespace Files.ViewModels.Dialogs
 
         public ICommand LoadedCommand { get; private set; }
 
+        public ICommand ApplyToAllCommand { get; private set; }
+
         public FilesystemOperationDialogViewModel()
         {
             // Create commands
@@ -112,10 +115,27 @@ namespace Files.ViewModels.Dialogs
             {
                 UpdatePrimaryButtonEnabled();
             });
+
+            ApplyToAllCommand = new RelayCommand<string>(s =>
+            {
+                ApplyConflictOptionToAll((FileNameConflictResolveOptionType)int.Parse(s));
+            });
+        }
+
+        public void ApplyConflictOptionToAll(FileNameConflictResolveOptionType e)
+        {
+            foreach (var item in Items)
+            {
+                if (!item.ActionTaken)
+                {
+                    item.TakeAction(e);
+                }
+            }
         }
 
         private void PrimaryButton()
         {
+            ApplyConflictOptionToAll(FileNameConflictResolveOptionType.GenerateNewName);
             // Something there?
         }
 
@@ -165,14 +185,7 @@ namespace Files.ViewModels.Dialogs
 
         public void UpdatePrimaryButtonEnabled()
         {
-            if (MustResolveConflicts)
-            {
-                PrimaryButtonEnabled = !Items.Any((item) => !item.ActionTaken);
-            }
-            else if (PermanentlyDeleteLoad) // PermanentlyDeleteLoad - is only loaded (`true`) when deleting items
-            {
-                PrimaryButtonEnabled = true;
-            }
+            PrimaryButtonEnabled = true;
         }
 
         public List<IFilesystemOperationItemModel> GetResult()
@@ -205,7 +218,7 @@ namespace Files.ViewModels.Dialogs
                         // There are {0} conflicting file names
                         subtitleText = string.Format("ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts".GetLocalized(), itemsData.ConflictingItems.Count);
                     }
-                }    
+                }
                 else
                 {
                     if (nonConflictingItems.Count > 0)
@@ -222,7 +235,7 @@ namespace Files.ViewModels.Dialogs
 
                 titleText = "ConflictingItemsDialogTitle".GetLocalized();
                 primaryButtonText = "ConflictingItemsDialogPrimaryButtonText".GetLocalized();
-                secondaryButtonText = "ConflictingItemsDialogSecondaryButtonText".GetLocalized();
+                secondaryButtonText = "Cancel".GetLocalized();
             }
             else
             {
@@ -233,7 +246,7 @@ namespace Files.ViewModels.Dialogs
                             titleText = "CopyItemsDialogTitle".GetLocalized();
                             subtitleText = itemsData.IncomingItems.Count == 1 ? "CopyItemsDialogSubtitleSingle".GetLocalized() : string.Format("CopyItemsDialogSubtitleMultiple".GetLocalized(), itemsData.IncomingItems.Count);
                             primaryButtonText = "CopyItemsDialogPrimaryButtonText".GetLocalized();
-                            secondaryButtonText = "CopyItemsDialogSecondaryButtonText".GetLocalized();
+                            secondaryButtonText = "Cancel".GetLocalized();
                             break;
                         }
 
@@ -242,7 +255,7 @@ namespace Files.ViewModels.Dialogs
                             titleText = "MoveItemsDialogTitle".GetLocalized();
                             subtitleText = itemsData.IncomingItems.Count == 1 ? "MoveItemsDialogSubtitleSingle".GetLocalized() : string.Format("MoveItemsDialogSubtitleMultiple".GetLocalized(), itemsData.IncomingItems.Count);
                             primaryButtonText = "MoveItemsDialogPrimaryButtonText".GetLocalized();
-                            secondaryButtonText = "MoveItemsDialogSecondaryButtonText".GetLocalized();
+                            secondaryButtonText = "Cancel".GetLocalized();
                             break;
                         }
 
@@ -250,8 +263,8 @@ namespace Files.ViewModels.Dialogs
                         {
                             titleText = "DeleteItemsDialogTitle".GetLocalized();
                             subtitleText = itemsData.IncomingItems.Count == 1 ? "DeleteItemsDialogSubtitleSingle".GetLocalized() : string.Format("DeleteItemsDialogSubtitleMultiple".GetLocalized(), itemsData.IncomingItems.Count);
-                            primaryButtonText = "DeleteItemsDialogPrimaryButtonText".GetLocalized();
-                            secondaryButtonText = "DeleteItemsDialogSecondaryButtonText".GetLocalized();
+                            primaryButtonText = "Delete".GetLocalized();
+                            secondaryButtonText = "Cancel".GetLocalized();
                             permanentlyDeleteLoad = true;
                             break;
                         }
@@ -271,10 +284,29 @@ namespace Files.ViewModels.Dialogs
             };
             viewModel.Items = new ObservableCollection<FilesystemOperationItemViewModel>(itemsData.ToItems(
                 viewModel.UpdatePrimaryButtonEnabled, viewModel.OptionGenerateNewName, viewModel.OptionReplaceExisting, viewModel.OptionSkip));
-
+            _ = LoadItemsIcon(viewModel.Items);
             FilesystemOperationDialog dialog = new FilesystemOperationDialog(viewModel);
 
             return dialog;
+        }
+
+        private static async Task LoadItemsIcon(IEnumerable<FilesystemOperationItemViewModel> items)
+        {
+            await Task.Run(() => Task.WhenAll(items.ToList().Select(async (item) =>
+            {
+                try
+                {
+                    var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(item.SourcePath, 64u, Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                    if (iconData != null)
+                    {
+                        await Windows.ApplicationModel.Core.CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
+                        {
+                            item.ItemIcon = await iconData.ToBitmapAsync();
+                        });
+                    }
+                }
+                catch { }
+            })));
         }
     }
 }

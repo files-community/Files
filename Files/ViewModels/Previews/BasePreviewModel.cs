@@ -1,20 +1,29 @@
 ﻿using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
+using Files.Services;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage;
+using Windows.ApplicationModel.Core;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels.Previews
 {
     public abstract class BasePreviewModel : ObservableObject
     {
+        protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         public BasePreviewModel(ListedItem item) : base()
         {
             Item = item;
@@ -48,20 +57,26 @@ namespace Files.ViewModels.Previews
         /// <returns>A list of details</returns>
         public async virtual Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            var (IconData, OverlayData, IsCustom) = await FileThumbnailHelper.LoadIconOverlayAsync(Item.ItemPath, 400);
-
-            if (IconData != null)
+            var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Item.ItemFile, 400, ThumbnailMode.SingleItem);
+            iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
+            if (iconData != null)
             {
-                Item.FileImage = await IconData.ToBitmapAsync();
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () => FileImage = await iconData.ToBitmapAsync());
             }
             else
             {
-                using var icon = await Item.ItemFile.GetThumbnailAsync(ThumbnailMode.SingleItem, 400);
-                Item.FileImage ??= new Windows.UI.Xaml.Media.Imaging.BitmapImage();
-                await Item.FileImage.SetSourceAsync(icon);
+                FileImage ??= await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => new BitmapImage());
             }
 
             return new List<FileProperty>();
+        }
+
+        private BitmapImage fileImage;
+
+        public BitmapImage FileImage
+        {
+            get => fileImage;
+            set => SetProperty(ref fileImage, value);
         }
 
         private async Task<List<FileProperty>> GetSystemFileProperties()
@@ -75,7 +90,18 @@ namespace Files.ViewModels.Previews
 
             list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
                                                                                             (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
-            return list.Where(i => i.Value != null).ToList();
+
+            // adds the value for the file tag
+            if (UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled)
+            {
+                list.FirstOrDefault(x => x.ID == "filetag").Value = Item.FileTagUI?.TagName;
+            }
+            else
+            {
+                _ = list.Remove(list.FirstOrDefault(x => x.ID == "filetag"));
+            }
+
+            return list.Where(i => i.ValueText != null).ToList();
         }
 
         /// <summary>
@@ -85,28 +111,27 @@ namespace Files.ViewModels.Previews
         /// <returns>The task to run</returns>
         public virtual async Task LoadAsync()
         {
-            var detailsFull = new List<FileProperty>();
-            Item.ItemFile ??= await StorageFile.GetFileFromPathAsync(Item.ItemPath);
-            DetailsFromPreview = await LoadPreviewAndDetails();
-            RaiseLoadedEvent();
-            var props = await GetSystemFileProperties();
-
-            // Add the details from the preview function, then the system file properties
-            DetailsFromPreview?.ForEach(i => detailsFull.Add(i));
-            props?.ForEach(i => detailsFull.Add(i));
+            List<FileProperty> detailsFull = new();
+            Item.ItemFile ??= await StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath);
+            await Task.Run(async () =>
+            {
+                DetailsFromPreview = await LoadPreviewAndDetails();
+                if (!UserSettingsService.PreviewPaneSettingsService.ShowPreviewOnly)
+                {
+                    // Add the details from the preview function, then the system file properties
+                    DetailsFromPreview?.ForEach(i => detailsFull.Add(i));
+                    List<FileProperty> props = await GetSystemFileProperties();
+                    if(props is not null)
+                    {
+                        detailsFull.AddRange(props);
+                    }
+                }
+            });
 
             Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(detailsFull);
         }
 
-        public event LoadedEventHandler LoadedEvent;
-
         public delegate void LoadedEventHandler(object sender, EventArgs e);
-
-        protected virtual void RaiseLoadedEvent()
-        {
-            // Raise the event in a thread-safe manner using the ?. operator.
-            LoadedEvent?.Invoke(this, new EventArgs());
-        }
 
         public static async Task LoadDetailsOnly(ListedItem item, List<FileProperty> details = null)
         {
@@ -123,6 +148,22 @@ namespace Files.ViewModels.Previews
             public override Task<List<FileProperty>> LoadPreviewAndDetails()
             {
                 return Task.FromResult(DetailsFromPreview);
+            }
+        }
+
+        public static async Task<string> ReadFileAsText(BaseStorageFile file, int maxLength = 10 * 1024 * 1024)
+        {
+            using (var stream = await file.OpenStreamForReadAsync())
+            {
+                var result = new StringBuilder();
+                var bytesRead = 0;
+                do
+                {
+                    var buffer = new byte[maxLength];
+                    bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                    result.Append(Encoding.UTF8.GetString(buffer, 0, bytesRead));
+                } while (bytesRead > 0 && result.Length <= maxLength);
+                return result.ToString();
             }
         }
     }

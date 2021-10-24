@@ -1,9 +1,12 @@
 ﻿using Files.Enums;
+using Files.Helpers;
 using Files.ViewModels.Dialogs;
+using Microsoft.Toolkit.Uwp;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.UI.Xaml;
+using System.Threading.Tasks;
 
 namespace Files.DataModels
 {
@@ -15,11 +18,14 @@ namespace Files.DataModels
 
         public string DestinationPath;
 
-        public FilesystemItemsOperationItemModel(FilesystemOperationType operationType, string sourcePath, string destinationPath)
+        public string DisplayFileName;
+
+        public FilesystemItemsOperationItemModel(FilesystemOperationType operationType, string sourcePath, string destinationPath, string displayFileName = null)
         {
             this.OperationType = operationType;
             this.SourcePath = sourcePath;
             this.DestinationPath = destinationPath;
+            this.DisplayFileName = displayFileName;
         }
     }
 
@@ -56,40 +62,33 @@ namespace Files.DataModels
         public List<FilesystemOperationItemViewModel> ToItems(Action updatePrimaryButtonEnabled, Action optionGenerateNewName, Action optionReplaceExisting, Action optionSkip)
         {
             List<FilesystemOperationItemViewModel> items = new List<FilesystemOperationItemViewModel>();
-
             List<FilesystemItemsOperationItemModel> nonConflictingItems = IncomingItems.Except(ConflictingItems).ToList();
 
             // Add conflicting items first
-            foreach (var item in ConflictingItems)
-            {
-                items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
+            items.AddRange(ConflictingItems.Select((item, index) => 
+                new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
                     IsConflict = true,
-                    OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
                     SourcePath = item.SourcePath,
                     DestinationPath = item.DestinationPath,
+                    DisplayFileName = item.DisplayFileName,
                     ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName,
-                    ExclamationMarkVisibility = Visibility.Visible,
                     ItemOperation = item.OperationType,
                     ActionTaken = false
-                });
-            }
+                }));
 
             // Then add non-conflicting items
-            foreach (var item in nonConflictingItems)
-            {
-                items.Add(new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
+            items.AddRange(nonConflictingItems.Select((item, index) =>
+                new FilesystemOperationItemViewModel(updatePrimaryButtonEnabled, optionGenerateNewName, optionReplaceExisting, optionSkip)
                 {
                     IsConflict = false,
-                    OperationIconGlyph = GetOperationIconGlyph(item.OperationType),
                     SourcePath = item.SourcePath,
                     DestinationPath = item.DestinationPath,
+                    DisplayFileName = item.DisplayFileName,
                     ConflictResolveOption = FileNameConflictResolveOptionType.NotAConflict,
-                    ExclamationMarkVisibility = Visibility.Collapsed,
                     ItemOperation = item.OperationType,
                     ActionTaken = true
-                });
-            }
+                }));
 
             return items;
         }

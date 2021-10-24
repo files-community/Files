@@ -5,123 +5,256 @@
     xmlns:UserControls="using:Files.UserControls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
+    xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels" xmlns:helpers="using:Files.Helpers"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     mc:Ignorable="d">
     <Page.Resources>
-        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" ControlsResourcesVersion="Version2" />
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light">
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
+                            <Color x:Key="SolidBackgroundAcrylic">#FFFFFF</Color>
+                            <!--  Corner Radius  -->
+                            <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
+                            <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
+                            <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
+                            <!--  Tabs  -->
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#4AFFFFFF" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SubtleFillColorTertiary}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SubtleFillColorSecondary}" />
+                            <SolidColorBrush x:Key="TabViewItemSeparator" Color="{StaticResource DividerStrokeColorDefault}" />
+                            <SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
+                            <SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <!--  Navigation Toolbar  -->
+                            <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="#00000000" />
+                            <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
+                            <!--  Horizontal Tab Control  -->
+                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
+                            <!--  PaneHolderPage  -->
+                            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="Transparent" />
+                            <!--  Status Bar Control  -->
+                            <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="Transparent" />
+                            <!--  File Browser Control  -->
+                            <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
+                            <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
+                            <!--  Preview pane  -->
+                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="#21000000" />
+
+                            <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
+
+                            <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="#113A3A3A" />
+
+                            <Color x:Key="LayerFillColorDefault">#11000000</Color>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Default">
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
+                            <Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
+                            <!--  Corner Radius  -->
+                            <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
+                            <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
+                            <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
+
+                            <!--  Tabs  -->
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#4A000000" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SubtleFillColorTertiary}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SubtleFillColorSecondary}" />
+                            <SolidColorBrush x:Key="TabViewItemSeparator" Color="{StaticResource DividerStrokeColorDefault}" />
+                            <SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
+                            <SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <!--  Navigation Toolbar  -->
+                            <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="#00000000" />
+                            <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
+                            <!--  Horizontal Tab Control  -->
+                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
+                            <!--  PaneHolderPage  -->
+                            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="Transparent" />
+                            <!--  Status Bar Control  -->
+                            <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="Transparent" />
+                            <!--  File Browser Control  -->
+                            <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
+                            <SolidColorBrush x:Key="FileBrowserHeaderBackgroundBrush" Color="Transparent" />
+
+                            <!--  Preview pane  -->
+                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="#31000000" />
+
+                            <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
+
+                            <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="#3C3A3A3A" />
+
+                            <Color x:Key="LayerFillColorDefault">#11000000</Color>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighContrast">
+                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{StaticResource SystemColorWindowColor}" />
+                            <StaticResource x:Key="SolidBackgroundFillColorBase" ResourceKey="SystemColorWindowColor" />
+                            <StaticResource x:Key="SolidBackgroundFillColorSecondary" ResourceKey="SystemColorWindowColor" />
+                            <StaticResource x:Key="SolidBackgroundFillColorTertiary" ResourceKey="SystemColorWindowColor" />
+                            <StaticResource x:Key="SolidBackgroundFillColorQuarternary" ResourceKey="SystemColorWindowColor" />
+                            <StaticResource x:Key="ControlStrokeColorDefault" ResourceKey="SystemColorWindowTextColor" />
+                            <StaticResource x:Key="ControlStrokeColorSecondary" ResourceKey="SystemColorWindowTextColor" />
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorBaseBrush" Color="{StaticResource SystemColorWindowColor}" />
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush" Color="{StaticResource SystemColorWindowColor}" />
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush" Color="{StaticResource SystemColorWindowColor}" />
+                            <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{StaticResource SystemColorWindowColor}" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
+                            <Color x:Key="SolidBackgroundAcrylic">#2C2C2C</Color>
+                            <!--  Corner Radius  -->
+                            <CornerRadius x:Key="ControlCornerRadius">4</CornerRadius>
+                            <CornerRadius x:Key="OverlayCornerRadius">8</CornerRadius>
+                            <CornerRadius x:Key="NavToolbarCornerRadius">0,0,0,8</CornerRadius>
+                            <!--  Tabs  -->
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SystemColorWindowColor}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource SystemColorHighlightColor}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SystemColorHighlightColor}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SystemColorHighlightColor}" />
+                            <SolidColorBrush x:Key="TabViewItemSeparator" Color="{StaticResource SystemColorGrayTextColor}" />
+                            <SolidColorBrush x:Key="TabContainerFillColorPrimary" Color="{StaticResource SolidBackgroundFillColorTertiary}" />
+                            <SolidColorBrush x:Key="TabContainerFillColorSecondary" Color="{StaticResource SolidBackgroundFillColorSecondary}" />
+                            <!--  Navigation Toolbar  -->
+                            <SolidColorBrush x:Key="NavigationToolbarBackgroundBrush" Color="Transparent" />
+                            <SolidColorBrush x:Key="NavigationToolbarBreadcrumbBackgroundBrush" Color="Transparent" />
+                            <!--  Horizontal Tab Control  -->
+                            <SolidColorBrush x:Key="HorizontalTabControlBackgroundBrush" Color="Transparent" />
+                            <!--  PaneHolderPage  -->
+                            <SolidColorBrush x:Key="PaneHolderPageBackgroundBrush" Color="Transparent" />
+                            <!--  Status Bar Control  -->
+                            <SolidColorBrush x:Key="StatusBarBackgroundBrush" Color="Transparent" />
+                            <!--  File Browser Control  -->
+                            <SolidColorBrush x:Key="FileBrowserBackgroundBrush" Color="Transparent" />
+                            <StaticResource x:Key="FileBrowserHeaderBackgroundBrush" ResourceKey="SolidBackgroundFillColorBaseBrush" />
+                            <!--  Preview pane  -->
+                            <SolidColorBrush x:Key="PreviewPaneBackgroundBrush" Color="{StaticResource SolidBackgroundFillColorQuarternary}" />
+
+                            <StaticResource x:Key="PropertiesDialogRootBackgroundBrush" ResourceKey="RootBackgroundBrush" />
+
+                            <SolidColorBrush x:Key="TitlebarContentBackgroundBrush" Color="#3C3A3A3A" />
+
+                            <Color x:Key="LayerFillColorDefault">#11000000</Color>
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+            <StaticResource x:Key="GridViewItemBackgroundSelected" ResourceKey="SystemAccentColor" />
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        </ResourceDictionary>
     </Page.Resources>
     <Page.DataContext>
-        <settingsviewmodels:AppearanceViewModel />
+        <settingsviewmodels:AppearanceViewModel x:Name="ViewModel" PropertyChanged="ViewModel_PropertyChanged" />
     </Page.DataContext>
 
     <Grid>
-        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <StackPanel
-                Margin="12,12,8,8"
-                Orientation="Vertical"
-                Spacing="14">
-                <StackPanel.ChildrenTransitions>
-                    <TransitionCollection>
-                        <RepositionThemeTransition />
-                    </TransitionCollection>
-                </StackPanel.ChildrenTransitions>
+        <StackPanel
+            Margin="12,12,8,8"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Spacing="4">
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <ReorderThemeTransition />
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
 
-                <TextBlock
-                    x:Uid="SettingsAppearanceTitle"
-                    FontSize="22"
-                    FontWeight="Medium"
-                    Text="Appearance" />
+            <TextBlock
+                Padding="0,0,0,12"
+                FontSize="20"
+                FontWeight="Medium"
+                Text="{helpers:ResourceString Name=Appearance}" />
 
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceTheme}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE790;" />
+                </local:SettingsBlockControl.Icon>
                 <ComboBox
                     x:Name="ThemeChooser"
-                    x:Uid="SettingsAppearanceTheme"
-                    Width="Auto"
-                    MinWidth="200"
-                    MaxWidth="250"
-                    Header="App theme"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsAppearanceTheme}"
                     ItemsSource="{Binding Themes}"
                     SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}" />
+            </local:SettingsBlockControl>
 
-                <ComboBox
-                    x:Name="ColorSchemeChooser"
-                    x:Uid="SettingsAppearanceColorScheme"
-                    Width="Auto"
-                    MinWidth="200"
-                    MaxWidth="250"
-                    Header="Color scheme"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    ItemsSource="{Binding ColorSchemes}"
-                    SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
-                    x:Load="{x:Bind ShowColorSchemeSelector}" >
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="helpers:AppTheme">
-                            <Grid>
-                                <TextBlock Text="{x:Bind Name}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceCustomThemes}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE771;" />
+                </local:SettingsBlockControl.Icon>
+                <local:SettingsBlockControl.ExpandableContent>
+                    <GridView
+                        x:Name="AppThemeSelectionGridView"
+                        Padding="8"
+                        ItemsSource="{Binding CustomThemes}"
+                        SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
+                        SelectionMode="Single">
+                        <GridView.ItemTemplate>
+                            <DataTemplate>
+                                <local:ThemeSampleDisplayControl SampleTheme="{Binding Mode=OneWay}" />
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </local:SettingsBlockControl.ExpandableContent>
+                <Button
+                    x:Name="ThemesLearnMoreButton"
+                    x:Uid="SettingsThemesLearnMoreButton"
+                    Height="32"
+                    Padding="8,4,8,4"
+                    VerticalAlignment="Bottom"
+                    AutomationProperties.Name="Learn more about custom themes"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Click="ThemesLearnMoreButton_Click"
+                    ToolTipService.ToolTip="Learn more about custom themes">
+                    <FontIcon FontSize="14" Glyph="&#xE946;" />
+                </Button>
+            </local:SettingsBlockControl>
 
-                <HyperlinkButton
+            <TextBlock
+                x:Uid="SettingsContextMenu"
+                Padding="0,12,0,0"
+                FontSize="14"
+                FontWeight="Medium"
+                Text="Customize the right click context menu" />
+
+            <local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsContextMenuOverflow}" HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE10C;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsContextMenuOverflow}"
+                    IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
+        </StackPanel>
+
+        <muxc:TeachingTip
+            x:Name="ThemesTeachingTip"
+            IsLightDismissEnabled="True"
+            PreferredPlacement="BottomLeft"
+            Target="{x:Bind ThemesLearnMoreButton}">
+            <StackPanel Spacing="12">
+                <TextBlock TextWrapping="Wrap">
+                    <Run x:Uid="SettingsThemesTeachingTipHeader" Text="Custom themes provide a great way for you to personalize Files." />
+                    <Hyperlink NavigateUri="https://files.community/docs/configuring/custom-themes">
+                        <Run x:Uid="SettingsThemesTeachingTipHyperlinkText" Text="View documentation." />
+                    </Hyperlink>
+                </TextBlock>
+
+                <Button
                     x:Name="OpenThemesFolderButton"
                     x:Uid="SettingsAppearanceOpenThemesFolderButton"
-                    Command="{Binding OpenThemesFolderCommand}"
-                    Content="Open themes folder"
-                    x:Load="{x:Bind ShowColorSchemeSelector}" />
-
-                <StackPanel
-                    Width="Auto"
-                    Orientation="Horizontal"
-                    Spacing="8">
-                    <ComboBox
-                        x:Name="DateFormatChooser"
-                        x:Uid="SettingsAppearanceDateFormat"
-                        Width="Auto"
-                        MinWidth="200"
-                        MaxWidth="250"
-                        Header="Date format"
-                        HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                        ItemsSource="{Binding DateFormats}"
-                        SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
-
-                    <HyperlinkButton
-                        x:Uid="SettingsAppearanceDateFormatsTip"
-                        VerticalAlignment="Bottom"
-                        AutomationProperties.Name="Learn more about date formats"
-                        NavigateUri="https://files-community.github.io/docs/#/articles/date-formats"
-                        Style="{ThemeResource TextBlockButtonStyle}"
-                        ToolTipService.ToolTip="Learn more about date formats">
-                        <FontIcon FontSize="14" Glyph="&#xE946;" />
-                    </HyperlinkButton>
-                </StackPanel>
-
-                <ToggleSwitch
-                    x:Name="AcrylicSidebarSwitch"
-                    x:Uid="SettingsAppearanceAcrylicSidebar"
-                    Header="Acrylic sidebar"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding IsAcrylicDisabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}" />
-
-                <TextBlock
-                    x:Uid="SettingsContextMenu"
-                    Padding="0,10,0,0"
-                    FontSize="18"
-                    Text="Customize the right click context menu" />
-
-                <ToggleSwitch
-                    x:Name="ContextMenuToggleSwitch"
-                    x:Uid="SettingsContextMenuOverflowSwitch"
-                    Header="Move overflow items into a sub menu"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}" />
+                    Click="OpenThemesFolderButton_Click"
+                    Content="Open themes folder" />
             </StackPanel>
-        </ScrollViewer>
-
-        <UserControls:RestartControl
-            x:Name="RestartControl"
-            VerticalAlignment="Bottom"
-            ShowDialog="{Binding ShowRestartControl, Mode=TwoWay}" />
+        </muxc:TeachingTip>
     </Grid>
 </Page>

@@ -14,7 +14,6 @@
     xmlns:xh="using:Files.Helpers.XamlHelpers"
     d:DesignHeight="40"
     d:DesignWidth="400"
-    Loading="UserControl_Loading"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -27,31 +26,13 @@
     </UserControl.Resources>
 
     <Grid
-        Height="38"
+        Height="32"
         HorizontalAlignment="Stretch"
-        Background="{ThemeResource SolidBackgroundFillColorBaseBrush}">
+        Background="{ThemeResource StatusBarBackgroundBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-
-        <StackPanel
-            Margin="8,0"
-            VerticalAlignment="Center"
-            Orientation="Horizontal"
-            Spacing="12">
-            <TextBlock Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
-        </StackPanel>
-
-        <muxc:TeachingTip
-            x:Name="StatusCenterTeachingTip"
-            x:Uid="StatusCenterTeachingTip"
-            Title="Status Center"
-            Subtitle="Check the status of file operations here"
-            Target="{x:Bind StatusCenter}"
-            Visibility="Collapsed" />
 
         <muxc:TeachingTip
             x:Name="FullTrustStatusTeachingTip"
@@ -62,95 +43,36 @@
             Visibility="Collapsed" />
 
         <StackPanel
+            x:Name="SelectionDirectoryInformationPanel"
+            Margin="8,0"
+            VerticalAlignment="Center"
+            x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+            Orientation="Horizontal"
+            Spacing="12">
+            <TextBlock Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+        </StackPanel>
+
+        <StackPanel
             Grid.Column="1"
-            Padding="0,2,8,2"
+            Padding="0,0,2,0"
             HorizontalAlignment="Right"
             Orientation="Horizontal"
             Spacing="4">
 
             <Button
                 x:Name="FullTrustStatus"
-                Width="36"
+                Width="32"
                 Height="32"
-                x:Load="{x:Bind InteractionViewModel.IsFullTrustElevated, Mode=OneWay}"
+                x:Load="{x:Bind MainViewModel.IsFullTrustElevated, Mode=OneWay}"
                 AccessKey="M"
                 Background="Transparent"
                 Click="FullTrustStatus_Click"
                 FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}">
-                <FontIcon FontSize="16" Glyph="&#xEA18;" />
+                <FontIcon FontSize="14" Glyph="&#xEA18;" />
             </Button>
-
-            <Grid x:Name="StatusCenterGrid" Visibility="{x:Bind ShowStatusCenter, Mode=OneWay}">
-                <Button
-                    x:Name="StatusCenter"
-                    x:Uid="StatusCenter"
-                    Width="36"
-                    Height="32"
-                    Padding="0"
-                    AccessKey="T"
-                    AutomationProperties.Name="Status center"
-                    Background="Transparent"
-                    Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Ongoing Tasks"
-                    Visibility="Visible">
-                    <Button.Content>
-                        <Grid>
-                            <FontIcon
-                                x:Name="StatusCenterFontIcon"
-                                FontSize="16"
-                                Glyph="&#xF16A;"
-                                RenderTransformOrigin="0.5, 0.5">
-                                <FontIcon.RenderTransform>
-                                    <RotateTransform />
-                                </FontIcon.RenderTransform>
-                            </FontIcon>
-                        </Grid>
-                    </Button.Content>
-                    <Button.Flyout>
-                        <Flyout x:Uid="StatusCenterFlyout" AutomationProperties.Name="Ongoing tasks flyout">
-                            <local:StatusCenter
-                                x:Name="OngoingTasksControl"
-                                Width="300"
-                                MinHeight="300"
-                                MaxHeight="400"
-                                x:FieldModifier="public"
-                                IsTabStop="True"
-                                StatusCenterViewModel="{x:Bind StatusCenterViewModel}" />
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
-            </Grid>
         </StackPanel>
-
-        <Interactivity:Interaction.Behaviors>
-            <Core:DataTriggerBehavior Binding="{x:Bind StatusCenterViewModel.AnyOperationsOngoing, Mode=OneWay}" Value="False">
-                <Core:GoToStateAction StateName="NoOperations" />
-            </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind StatusCenterViewModel.AnyOperationsOngoing, Mode=OneWay}" Value="True">
-                <Core:GoToStateAction StateName="InProgress" />
-            </Core:DataTriggerBehavior>
-        </Interactivity:Interaction.Behaviors>
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="Default">
-                <VisualState x:Name="NoOperations" />
-                <VisualState x:Name="InProgress">
-                    <Storyboard>
-                        <ColorAnimation
-                            Storyboard.TargetName="StatusCenterFontIcon"
-                            Storyboard.TargetProperty="(FontIcon.Foreground).(SolidColorBrush.Color)"
-                            To="{ThemeResource SystemAccentColor}"
-                            Duration="0" />
-                        <DoubleAnimation
-                            RepeatBehavior="Forever"
-                            Storyboard.TargetName="StatusCenterFontIcon"
-                            Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
-                            To="360"
-                            Duration="0:0:1" />
-                    </Storyboard>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>

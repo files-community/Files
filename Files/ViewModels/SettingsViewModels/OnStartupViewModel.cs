@@ -1,7 +1,10 @@
 ﻿using Files.Common;
 using Files.Enums;
 using Files.Filesystem;
+using Files.Helpers;
+using Files.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
@@ -18,19 +21,17 @@ namespace Files.ViewModels.SettingsViewModels
 {
     public class OnStartupViewModel : ObservableObject
     {
-        private bool openNewTabPageOnStartup = App.AppSettings.OpenNewTabPageOnStartup;
-        private bool continueLastSessionOnStartUp = App.AppSettings.ContinueLastSessionOnStartUp;
-        private bool openASpecificPageOnStartup = App.AppSettings.OpenASpecificPageOnStartup;
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         private int selectedPageIndex = -1;
         private bool isPageListEditEnabled;
-        private bool alwaysOpenANewInstance = App.AppSettings.AlwaysOpenANewInstance;
-        private readonly ReadOnlyCollection<IMenuFlyoutItem> addFlyoutItemsSource;
+        private ReadOnlyCollection<IMenuFlyoutItem> addFlyoutItemsSource;
 
         public OnStartupViewModel()
         {
-            if (App.AppSettings.PagesOnStartupList != null)
+            if (UserSettingsService.StartupSettingsService.TabsOnStartupList != null)
             {
-                PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>(App.AppSettings.PagesOnStartupList.Select((p) => new PageOnStartupViewModel(p)));
+                PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>(UserSettingsService.StartupSettingsService.TabsOnStartupList.Select((p) => new PageOnStartupViewModel(p)));
             }
             else
             {
@@ -39,20 +40,22 @@ namespace Files.ViewModels.SettingsViewModels
 
             PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
-            var recentsItem = new MenuFlyoutSubItemViewModel("RecentLocations".GetLocalized());
-            recentsItem.Items.Add(new MenuFlyoutItemViewModel("SidebarHome".GetLocalized(), "Home", AddPageCommand));
-            PopulateRecentItems(recentsItem);
-
-            addFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
-                new MenuFlyoutItemViewModel("Browse".GetLocalized(), null, AddPageCommand),
-                recentsItem,
-            });
+            var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalized());
+            recentsItem.Items.Add(new MenuFlyoutItemViewModel("SidebarHome".GetLocalized(), "Home".GetLocalized(), AddPageCommand));
+            PopulateRecentItems(recentsItem).ContinueWith(_ =>
+            {
+                AddFlyoutItemsSource = new ReadOnlyCollection<IMenuFlyoutItem>(new IMenuFlyoutItem[] {
+                    new MenuFlyoutItemViewModel("Browse".GetLocalized(), null, AddPageCommand),
+                    recentsItem,
+                });
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
-        private async void PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
+        private async Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
         {
             bool hasRecents = false;
             menu.Items.Add(new MenuFlyoutSeparatorViewModel());
+
             try
             {
                 var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
@@ -92,7 +95,7 @@ namespace Files.ViewModels.SettingsViewModels
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Info(ex, "Could not fetch recent items");
+                App.Logger.Info(ex, "Could not fetch recent items");
             }
 
             if (!hasRecents)
@@ -105,46 +108,49 @@ namespace Files.ViewModels.SettingsViewModels
         {
             if (PagesOnStartupList.Count() > 0)
             {
-                App.AppSettings.PagesOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToArray();
+                UserSettingsService.StartupSettingsService.TabsOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToList();
             }
             else
             {
-                App.AppSettings.PagesOnStartupList = null;
+                UserSettingsService.StartupSettingsService.TabsOnStartupList = null;
             }
         }
 
         public bool OpenNewTabPageOnStartup
         {
-            get => openNewTabPageOnStartup;
+            get => UserSettingsService.StartupSettingsService.OpenNewTabOnStartup;
             set
             {
-                if (SetProperty(ref openNewTabPageOnStartup, value))
+                if (value != UserSettingsService.StartupSettingsService.OpenNewTabOnStartup)
                 {
-                    App.AppSettings.OpenNewTabPageOnStartup = value;
+                    UserSettingsService.StartupSettingsService.OpenNewTabOnStartup = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool ContinueLastSessionOnStartUp
         {
-            get => continueLastSessionOnStartUp;
+            get => UserSettingsService.StartupSettingsService.ContinueLastSessionOnStartUp;
             set
             {
-                if (SetProperty(ref continueLastSessionOnStartUp, value))
+                if (value != UserSettingsService.StartupSettingsService.ContinueLastSessionOnStartUp)
                 {
-                    App.AppSettings.ContinueLastSessionOnStartUp = value;
+                    UserSettingsService.StartupSettingsService.ContinueLastSessionOnStartUp = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool OpenASpecificPageOnStartup
         {
-            get => openASpecificPageOnStartup;
+            get => UserSettingsService.StartupSettingsService.OpenSpecificPageOnStartup;
             set
             {
-                if (SetProperty(ref openASpecificPageOnStartup, value))
+                if (value != UserSettingsService.StartupSettingsService.OpenSpecificPageOnStartup)
                 {
-                    App.AppSettings.OpenASpecificPageOnStartup = value;
+                    UserSettingsService.StartupSettingsService.OpenSpecificPageOnStartup = value;
+                    OnPropertyChanged();
                 }
             }
         }
@@ -172,6 +178,7 @@ namespace Files.ViewModels.SettingsViewModels
         public ReadOnlyCollection<IMenuFlyoutItem> AddFlyoutItemsSource
         {
             get => addFlyoutItemsSource;
+            set => SetProperty(ref addFlyoutItemsSource, value);
         }
 
         public RelayCommand ChangePageCommand => new RelayCommand(ChangePage);
@@ -180,12 +187,14 @@ namespace Files.ViewModels.SettingsViewModels
 
         public bool AlwaysOpenANewInstance
         {
-            get => alwaysOpenANewInstance;
+            get => UserSettingsService.StartupSettingsService.AlwaysOpenNewInstance;
             set
             {
-                if (SetProperty(ref alwaysOpenANewInstance, value))
+                if (value != UserSettingsService.StartupSettingsService.AlwaysOpenNewInstance)
                 {
-                    App.AppSettings.AlwaysOpenANewInstance = alwaysOpenANewInstance;
+                    UserSettingsService.StartupSettingsService.AlwaysOpenNewInstance = value;
+                    ApplicationData.Current.LocalSettings.Values["AlwaysOpenANewInstance"] = value; // Needed in Program.cs
+                    OnPropertyChanged();
                 }
             }
         }
@@ -248,11 +257,11 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 get
                 {
-                    if (Path == "Home")
+                    if (Path == "Home".GetLocalized())
                     {
                         return "SidebarHome".GetLocalized();
                     }
-                    if (Path == App.AppSettings.RecycleBinPath)
+                    if (Path == CommonPaths.RecycleBinPath)
                     {
                         return ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
                     }

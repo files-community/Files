@@ -9,68 +9,69 @@ namespace Files.Interacts
 {
     public class BaseLayoutCommandsViewModel : IDisposable
     {
-        #region Private Members
-
-        private readonly IBaseLayoutCommandImplementationModel commandsModel;
-
-        #endregion Private Members
-
         #region Constructor
 
         public BaseLayoutCommandsViewModel(IBaseLayoutCommandImplementationModel commandsModel)
         {
-            this.commandsModel = commandsModel;
+            this.CommandsModel = commandsModel;
 
             InitializeCommands();
         }
 
         #endregion Constructor
 
+
+        public IBaseLayoutCommandImplementationModel CommandsModel { get; }
+
         #region Command Initialization
 
         private void InitializeCommands()
         {
-            RenameItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.RenameItem);
-            CreateShortcutCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CreateShortcut);
-            SetAsLockscreenBackgroundItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.SetAsLockscreenBackgroundItem);
-            SetAsDesktopBackgroundItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.SetAsDesktopBackgroundItem);
-            RunAsAdminCommand = new RelayCommand<RoutedEventArgs>(commandsModel.RunAsAdmin);
-            RunAsAnotherUserCommand = new RelayCommand<RoutedEventArgs>(commandsModel.RunAsAnotherUser);
-            SidebarPinItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.SidebarPinItem);
-            SidebarUnpinItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.SidebarUnpinItem);
-            UnpinDirectoryFromSidebarCommand = new RelayCommand<RoutedEventArgs>(commandsModel.UnpinDirectoryFromSidebar);
-            OpenItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenItem);
-            EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(commandsModel.EmptyRecycleBin);
-            QuickLookCommand = new RelayCommand<RoutedEventArgs>(commandsModel.QuickLook);
-            CopyItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CopyItem);
-            CutItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CutItem);
-            RestoreItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.RestoreItem);
-            DeleteItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.DeleteItem);
-            ShowFolderPropertiesCommand = new RelayCommand<RoutedEventArgs>(commandsModel.ShowFolderProperties);
-            ShowPropertiesCommand = new RelayCommand<RoutedEventArgs>(commandsModel.ShowProperties);
-            OpenFileLocationCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenFileLocation);
-            OpenItemWithApplicationPickerCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenItemWithApplicationPicker);
-            OpenDirectoryInNewTabCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenDirectoryInNewTab);
-            OpenDirectoryInNewPaneCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenDirectoryInNewPane);
-            OpenInNewWindowItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenInNewWindowItem);
-            CreateNewFolderCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CreateNewFolder);
-            CreateNewFileCommand = new RelayCommand<ShellNewEntry>(commandsModel.CreateNewFile);
-            PasteItemsFromClipboardCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PasteItemsFromClipboard);
-            CopyPathOfSelectedItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.CopyPathOfSelectedItem);
-            OpenDirectoryInDefaultTerminalCommand = new RelayCommand<RoutedEventArgs>(commandsModel.OpenDirectoryInDefaultTerminal);
-            ShareItemCommand = new RelayCommand<RoutedEventArgs>(commandsModel.ShareItem);
-            PinDirectoryToSidebarCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PinDirectoryToSidebar);
-            ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(commandsModel.ItemPointerPressed);
-            UnpinItemFromStartCommand = new RelayCommand<RoutedEventArgs>(commandsModel.UnpinItemFromStart);
-            PinItemToStartCommand = new RelayCommand<RoutedEventArgs>(commandsModel.PinItemToStart);
-            PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(commandsModel.PointerWheelChanged);
-            GridViewSizeDecreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(commandsModel.GridViewSizeDecrease);
-            GridViewSizeIncreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(commandsModel.GridViewSizeIncrease);
-            DragEnterCommand = new RelayCommand<DragEventArgs>(commandsModel.DragEnter);
-            DropCommand = new RelayCommand<DragEventArgs>(commandsModel.Drop);
-            RefreshCommand = new RelayCommand<RoutedEventArgs>(commandsModel.RefreshItems);
-            SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(commandsModel.SearchUnindexedItems);
-            CreateFolderWithSelection = new RelayCommand<RoutedEventArgs>(commandsModel.CreateFolderWithSelection);
+            RenameItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RenameItem);
+            CreateShortcutCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CreateShortcut);
+            SetAsLockscreenBackgroundItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SetAsLockscreenBackgroundItem);
+            SetAsDesktopBackgroundItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SetAsDesktopBackgroundItem);
+            RunAsAdminCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RunAsAdmin);
+            RunAsAnotherUserCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RunAsAnotherUser);
+            SidebarPinItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SidebarPinItem);
+            SidebarUnpinItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.SidebarUnpinItem);
+            UnpinDirectoryFromFavoritesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.UnpinDirectoryFromFavorites);
+            OpenItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenItem);
+            EmptyRecycleBinCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.EmptyRecycleBin);
+            QuickLookCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.QuickLook);
+            CopyItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CopyItem);
+            CutItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CutItem);
+            RestoreItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RestoreItem);
+            DeleteItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.DeleteItem);
+            ShowFolderPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowFolderProperties);
+            ShowPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowProperties);
+            OpenFileLocationCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenFileLocation);
+            OpenParentFolderCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenParentFolder);
+            OpenItemWithApplicationPickerCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenItemWithApplicationPicker);
+            OpenDirectoryInNewTabCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewTab);
+            OpenDirectoryInNewPaneCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewPane);
+            OpenInNewWindowItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenInNewWindowItem);
+            CreateNewFolderCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CreateNewFolder);
+            CreateNewFileCommand = new RelayCommand<ShellNewEntry>(CommandsModel.CreateNewFile);
+            PasteItemsFromClipboardCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.PasteItemsFromClipboard);
+            CopyPathOfSelectedItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.CopyPathOfSelectedItem);
+            OpenDirectoryInDefaultTerminalCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInDefaultTerminal);
+            ShareItemCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShareItem);
+            PinDirectoryToFavoritesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.PinDirectoryToFavorites);
+            ItemPointerPressedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.ItemPointerPressed);
+            UnpinItemFromStartCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.UnpinItemFromStart);
+            PinItemToStartCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.PinItemToStart);
+            PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.PointerWheelChanged);
+            GridViewSizeDecreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CommandsModel.GridViewSizeDecrease);
+            GridViewSizeIncreaseCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(CommandsModel.GridViewSizeIncrease);
+            DragOverCommand = new RelayCommand<DragEventArgs>(e => _ = CommandsModel.DragOver(e));
+            DropCommand = new RelayCommand<DragEventArgs>(e => _ = CommandsModel.Drop(e));
+            RefreshCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.RefreshItems);
+            SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(CommandsModel.SearchUnindexedItems);
+            CreateFolderWithSelection = new RelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
+            DecompressArchiveCommand = new RelayCommand(CommandsModel.DecompressArchive);
+            DecompressArchiveHereCommand = new RelayCommand(CommandsModel.DecompressArchiveHere);
+            DecompressArchiveToChildFolderCommand = new RelayCommand(CommandsModel.DecompressArchiveToChildFolder);
         }
 
         #endregion Command Initialization
@@ -95,7 +96,7 @@ namespace Files.Interacts
 
         public ICommand OpenItemCommand { get; private set; }
 
-        public ICommand UnpinDirectoryFromSidebarCommand { get; private set; }
+        public ICommand UnpinDirectoryFromFavoritesCommand { get; private set; }
 
         public ICommand EmptyRecycleBinCommand { get; private set; }
 
@@ -114,6 +115,8 @@ namespace Files.Interacts
         public ICommand ShowPropertiesCommand { get; private set; }
 
         public ICommand OpenFileLocationCommand { get; private set; }
+
+        public ICommand OpenParentFolderCommand { get; private set; }
 
         public ICommand OpenItemWithApplicationPickerCommand { get; private set; }
 
@@ -135,7 +138,7 @@ namespace Files.Interacts
 
         public ICommand ShareItemCommand { get; private set; }
 
-        public ICommand PinDirectoryToSidebarCommand { get; private set; }
+        public ICommand PinDirectoryToFavoritesCommand { get; private set; }
 
         public ICommand ItemPointerPressedCommand { get; private set; }
 
@@ -149,13 +152,21 @@ namespace Files.Interacts
 
         public ICommand GridViewSizeIncreaseCommand { get; private set; }
 
-        public ICommand DragEnterCommand { get; private set; }
+        public ICommand DragOverCommand { get; private set; }
 
         public ICommand DropCommand { get; private set; }
 
         public ICommand RefreshCommand { get; private set; }
+
         public ICommand SearchUnindexedItems { get; private set; }
+
         public ICommand CreateFolderWithSelection { get; private set; }
+
+        public ICommand DecompressArchiveCommand { get; private set; }
+
+        public ICommand DecompressArchiveHereCommand { get; private set; }
+
+        public ICommand DecompressArchiveToChildFolderCommand { get; private set; }
 
         #endregion Commands
 
@@ -163,7 +174,7 @@ namespace Files.Interacts
 
         public void Dispose()
         {
-            commandsModel?.Dispose();
+            CommandsModel?.Dispose();
         }
 
         #endregion IDisposable

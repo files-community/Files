@@ -16,12 +16,12 @@ namespace Files.Helpers
         {
             new AppTheme
             {
-                Name = "DefaultScheme".GetLocalized(),
+                Name = "DefaultTheme".GetLocalized(),
             },
         };
 
         public StorageFolder ThemeFolder { get; set; }
-        public StorageFolder OptionalPackageThemeFolder { get; set; }
+        public StorageFolder OptionalPackageThemesFolder { get; set; }
 
         public string CurrentThemeResources { get; set; }
 
@@ -30,7 +30,7 @@ namespace Files.Helpers
             if (App.OptionalPackageManager.TryGetOptionalPackage(Constants.OptionalPackages.ThemesOptionalPackagesName, out var package))
             {
                 Debug.WriteLine(package.InstalledLocation.Path);
-                OptionalPackageThemeFolder = package.InstalledLocation;
+                OptionalPackageThemesFolder = package.InstalledLocation;
             }
 
             ThemeFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Themes", CreationCollisionOption.OpenIfExists);
@@ -52,19 +52,17 @@ namespace Files.Helpers
             {
                 await TryLoadThemeAsync(App.AppSettings.SelectedTheme);
             }
-
-            LoadOtherThemesAsync();
         }
 
-        private async void LoadOtherThemesAsync()
+        public async Task LoadOtherThemesAsync()
         {
             try
             {
                 await AddThemesAsync(ThemeFolder);
 
-                if (OptionalPackageThemeFolder != null)
+                if (OptionalPackageThemesFolder != null)
                 {
-                    await AddThemesAsync(OptionalPackageThemeFolder, true);
+                    await AddThemesAsync(OptionalPackageThemesFolder, true);
                 }
             }
             catch (Exception)
@@ -81,6 +79,7 @@ namespace Files.Helpers
                 {
                     Name = file.Name.Replace(".xaml", ""),
                     Path = file.Name,
+                    AbsolutePath = file.Path,
                     IsFromOptionalPackage = isOptionalPackage
                 });
             }
@@ -90,26 +89,67 @@ namespace Files.Helpers
         {
             try
             {
-                StorageFile file;
-                if (theme.IsFromOptionalPackage)
+                var xaml = await TryLoadResourceDictionary(theme);
+                if (xaml != null)
                 {
-                    if (OptionalPackageThemeFolder != null)
-                    {
-                        file = await OptionalPackageThemeFolder.GetFileAsync(theme.Path);
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    App.Current.Resources.MergedDictionaries.Add(xaml);
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.Warn(ex, $"Error loading theme: {theme?.Path}");
+                return false;
+            }
+        }
+
+        public async Task<ResourceDictionary> TryLoadResourceDictionary(AppTheme theme)
+        {
+            StorageFile file;
+            if (theme?.Path == null)
+            {
+                return null;
+            }
+            if (theme.IsFromOptionalPackage)
+            {
+                if (OptionalPackageThemesFolder != null)
+                {
+                    file = await OptionalPackageThemesFolder.GetFileAsync(theme.Path);
                 }
                 else
                 {
-                    file = await ThemeFolder.GetFileAsync(theme.Path);
+                    return null;
                 }
-                CurrentThemeResources = await FileIO.ReadTextAsync(file);
-                var xaml = XamlReader.Load(CurrentThemeResources) as ResourceDictionary;
-                App.Current.Resources.MergedDictionaries.Add(xaml);
+            }
+            else
+            {
+                file = await ThemeFolder.GetFileAsync(theme.Path);
+            }
+            var code = await FileIO.ReadTextAsync(file);
+            var xaml = XamlReader.Load(code) as ResourceDictionary;
+            xaml.Add("CustomThemeID", theme.Key);
+            return xaml;
+        }
 
+        public async void UpdateTheme(AppTheme OldTheme, AppTheme NewTheme)
+        {
+            if (OldTheme.Path != null)
+            {
+                RemoveTheme(OldTheme);
+            }
+
+            if (NewTheme.Path != null)
+            {
+                await TryLoadThemeAsync(NewTheme);
+            }
+        }
+
+        public bool RemoveTheme(AppTheme theme)
+        {
+            try
+            {
+                App.Current.Resources.MergedDictionaries.Remove(App.Current.Resources.MergedDictionaries.FirstOrDefault(x => x.TryGetValue("CustomThemeID", out var key) && (key as string) == theme.Key));
                 return true;
             }
             catch (Exception)
@@ -119,10 +159,12 @@ namespace Files.Helpers
         }
     }
 
-    public struct AppTheme
+    public class AppTheme
     {
         public string Name { get; set; }
         public string Path { get; set; }
+        public string AbsolutePath { get; set; }
         public bool IsFromOptionalPackage { get; set; }
+        public string Key => $"{Name}-{IsFromOptionalPackage}";
     }
 }

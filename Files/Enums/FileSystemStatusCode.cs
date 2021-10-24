@@ -14,6 +14,7 @@ namespace Files.Enums
         AlreadyExists = 32,
         NotAFolder = 64,
         NotAFile = 128,
-        InProgress = 256
+        ReadOnly = 256,
+        InProgress = 512
     }
 }

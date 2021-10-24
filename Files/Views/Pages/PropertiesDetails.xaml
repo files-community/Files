@@ -84,21 +84,24 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <StackPanel Margin="10,5,10,5" Spacing="5" Grid.Row="1">
+        <StackPanel
+            Grid.Row="1"
+            Margin="10,5,10,5"
+            Spacing="5">
             <Button
-                    x:Name="ClearPropertiesButton"
-                    x:Uid="ClearPropertiesButton"
-                    Margin="0,10,0,0"
-                    HorizontalAlignment="Stretch">
+                x:Name="ClearPropertiesButton"
+                x:Uid="ClearPropertiesButton"
+                Margin="0,10,0,0"
+                HorizontalAlignment="Stretch">
                 <Button.Flyout>
                     <Flyout x:Name="ClearPropertiesFlyout">
                         <StackPanel Orientation="Vertical" Spacing="5">
                             <TextBlock x:Uid="ClearPropertiesFlyoutText" Text="Confirm?" />
                             <StackPanel Orientation="Horizontal" Spacing="10">
                                 <Button
-                                        x:Uid="ClearPropertiesFlyoutConfirmation"
-                                        Click="ClearPropertiesConfirmation_Click"
-                                        Content="Clear" />
+                                    x:Uid="ClearPropertiesFlyoutConfirmation"
+                                    Click="ClearPropertiesConfirmation_Click"
+                                    Content="Clear" />
                             </StackPanel>
                         </StackPanel>
                     </Flyout>

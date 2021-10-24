@@ -10,39 +10,41 @@ namespace Files.Helpers
 {
     internal class AppUpdater
     {
-        private StoreContext context = null;
-        private IReadOnlyList<StorePackageUpdate> UpdateList = null;
+        private StoreContext context;
 
         public AppUpdater()
         {
         }
 
-        public async void CheckForUpdatesAsync(bool mandantoryOnly = true)
+        public async void CheckForUpdatesAsync(bool mandatoryOnly = true)
         {
             try
             {
                 if (context == null)
                 {
-                    context = StoreContext.GetDefault();
+                    context = await Task.Run(() => StoreContext.GetDefault());
                 }
 
-                UpdateList = await context.GetAppAndOptionalStorePackageUpdatesAsync();
+                var updateList = await context.GetAppAndOptionalStorePackageUpdatesAsync();
 
-                if (mandantoryOnly)
+                if (mandatoryOnly)
                 {
-                    UpdateList = (IReadOnlyList<StorePackageUpdate>)UpdateList.Where(e => e.Mandatory);
+                    updateList = updateList.Where(e => e.Mandatory).ToList();
                 }
 
-                if (UpdateList.Count > 0)
+                if (updateList.Count > 0)
                 {
                     if (await DownloadUpdatesConsent())
                     {
-                        DownloadUpdates();
+                        await DownloadUpdates(updateList);
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+#if !DEBUG
+                App.Logger.Warn(ex, "Could not fetch updates.");
+#endif
             }
         }
 
@@ -52,7 +54,7 @@ namespace Files.Helpers
             {
                 Title = "ConsentDialogTitle".GetLocalized(),
                 Content = "ConsentDialogContent".GetLocalized(),
-                CloseButtonText = "ConsentDialogCloseButtonText".GetLocalized(),
+                CloseButtonText = "Close".GetLocalized(),
                 PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalized()
             };
             ContentDialogResult result = await dialog.ShowAsync();
@@ -64,20 +66,21 @@ namespace Files.Helpers
             return false;
         }
 
-        private IAsyncResult DownloadUpdates()
+        private async Task<StorePackageUpdateResult> DownloadUpdates(IReadOnlyList<StorePackageUpdate> updateList)
         {
-            if (UpdateList == null || UpdateList.Count < 1)
+            if (updateList == null || updateList.Count < 1)
             {
                 return null;
             }
 
             if (context == null)
             {
-                context = StoreContext.GetDefault();
+                context = await Task.Run(() => StoreContext.GetDefault());
             }
 
-            IAsyncResult downloadOperation = (IAsyncResult)context.RequestDownloadAndInstallStorePackageUpdatesAsync(UpdateList);
-            return downloadOperation;
+            App.SaveSessionTabs(); // save the tabs so they can be restored after the update completes
+            var downloadOperation = context.RequestDownloadAndInstallStorePackageUpdatesAsync(updateList);
+            return await downloadOperation.AsTask();
         }
     }
 }

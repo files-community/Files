@@ -17,10 +17,10 @@ namespace Files.Helpers
 
         public JumpListManager()
         {
-            Initialize();
+            JumpListItemPaths = new List<string>();
         }
 
-        private async void Initialize()
+        public async Task InitializeAsync()
         {
             try
             {
@@ -35,7 +35,7 @@ namespace Files.Helpers
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                App.Logger.Warn(ex, ex.Message);
                 instance = null;
             }
         }
@@ -46,26 +46,29 @@ namespace Files.Helpers
             // In that case app should just catch the error and proceed as usual
             try
             {
-                await AddFolder(path);
-                await instance?.SaveAsync();
+                if (instance != null)
+                {
+                    AddFolder(path);
+                    await instance.SaveAsync();
+                }
             }
             catch { }
         }
 
-        private async Task AddFolder(string path)
+        private void AddFolder(string path)
         {
             if (instance != null && !JumpListItemPaths.Contains(path))
             {
                 string displayName;
-                if (path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
+                if (path.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
                 {
                     displayName = "ms-resource:///Resources/SidebarDesktop";
                 }
-                else if (path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+                else if (path.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
                 {
                     displayName = "ms-resource:///Resources/SidebarDownloads";
                 }
-                else if (path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                else if (path.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
                     var localSettings = ApplicationData.Current.LocalSettings;
                     displayName = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
@@ -109,25 +112,27 @@ namespace Files.Helpers
             // In that case app should just catch the error and proceed as usual
             try
             {
-                if (JumpListItemPaths.Contains(path))
+                if (instance != null)
                 {
-                    JumpListItemPaths.Remove(path);
-                    await UpdateAsync();
+                    if (JumpListItemPaths.Remove(path))
+                    {
+                        await instance.SaveAsync();
+                    }
                 }
             }
             catch { }
         }
 
-        private async Task UpdateAsync()
+        private async Task RefreshAsync()
         {
             if (instance != null)
             {
                 // Clear all items to avoid localization issues
-                instance?.Items.Clear();
+                instance.Items.Clear();
 
                 foreach (string path in JumpListItemPaths)
                 {
-                    await AddFolder(path);
+                    AddFolder(path);
                 }
 
                 await instance.SaveAsync();

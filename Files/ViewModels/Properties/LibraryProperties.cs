@@ -2,6 +2,7 @@
 using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
 using Files.Views;
 using Microsoft.Toolkit.Uwp;
@@ -48,10 +49,6 @@ namespace Files.ViewModels.Properties
                 ViewModel.ItemType = Library.ItemType;
                 ViewModel.LoadCustomIcon = Library.LoadCustomIcon;
                 ViewModel.CustomIconSource = Library.CustomIconSource;
-                ViewModel.CustomIcon = Library.CustomIcon;
-                ViewModel.IconData = Library.CustomIconData;
-                ViewModel.LoadFolderGlyph = Library.LoadFolderGlyph;
-                ViewModel.LoadUnknownTypeGlyph = Library.LoadUnknownTypeGlyph;
                 ViewModel.LoadFileIcon = Library.LoadFileIcon;
                 ViewModel.ContainsFilesOrFolders = false;
             }
@@ -62,23 +59,34 @@ namespace Files.ViewModels.Properties
             ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
             ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
 
-            StorageFile libraryFile = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(Library.ItemPath);
+            var fileIconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Library.ItemPath, 80);
+            if (fileIconData != null)
+            {
+                ViewModel.IconData = fileIconData;
+                ViewModel.LoadCustomIcon = false;
+                ViewModel.LoadFileIcon = true;
+            }
+
+            BaseStorageFile libraryFile = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(Library.ItemPath);
             if (libraryFile != null)
             {
                 ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
                 string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-                ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDateFromFormat(libraryFile.DateCreated, returnformat);
-                GetOtherProperties(libraryFile.Properties);
+                ViewModel.ItemCreatedTimestamp = libraryFile.DateCreated.GetFriendlyDateFromFormat(returnformat);
+                if (libraryFile.Properties != null)
+                {
+                    GetOtherProperties(libraryFile.Properties);
+                }
             }
 
-            var storageFolders = new List<StorageFolder>();
+            var storageFolders = new List<BaseStorageFolder>();
             if (Library.Folders != null)
             {
                 try
                 {
                     foreach (var path in Library.Folders)
                     {
-                        StorageFolder folder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(path);
+                        BaseStorageFolder folder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(path);
                         if (!string.IsNullOrEmpty(folder.Path))
                         {
                             storageFolders.Add(folder);
@@ -87,7 +95,7 @@ namespace Files.ViewModels.Properties
                 }
                 catch (Exception ex)
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                    App.Logger.Warn(ex, ex.Message);
                 }
             }
 
@@ -103,7 +111,7 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        private async void GetLibrarySize(List<StorageFolder> storageFolders, CancellationToken token)
+        private async void GetLibrarySize(List<BaseStorageFolder> storageFolders, CancellationToken token)
         {
             ViewModel.ItemSizeVisibility = Visibility.Visible;
             ViewModel.ItemSizeProgressVisibility = Visibility.Visible;
@@ -120,7 +128,7 @@ namespace Files.ViewModels.Properties
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                App.Logger.Warn(ex, ex.Message);
             }
 
             ViewModel.ItemSizeProgressVisibility = Visibility.Collapsed;

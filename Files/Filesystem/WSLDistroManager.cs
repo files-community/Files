@@ -1,5 +1,9 @@
-﻿using Files.UserControls;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.Services;
+using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,11 +14,9 @@ using Windows.UI.Core;
 
 namespace Files.Filesystem
 {
-    public class WSLDistroManager : ObservableObject
+    public class WSLDistroManager
     {
-        public WSLDistroManager()
-        {
-        }
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
         public async Task EnumerateDrivesAsync()
         {
@@ -43,30 +45,32 @@ namespace Files.Filesystem
                 await SidebarControl.SideBarItemsSemaphore.WaitAsync();
                 try
                 {
-                    SidebarControl.SideBarItems.BeginBulkOperation();
-
-                    try
+                    var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
+                    if ((await distroFolder.GetFoldersAsync()).Count != 0)
                     {
-                        var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
-                        if ((await distroFolder.GetFoldersAsync()).Count != 0)
+                        var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "WSL".GetLocalized()) as LocationItem;
+                        if (UserSettingsService.SidebarSettingsService.ShowWslSection && section == null)
                         {
-                            var section = SidebarControl.SideBarItems.FirstOrDefault(x => x.Text == "WSL") as LocationItem;
-                            if (section == null)
+                            section = new LocationItem()
                             {
-                                section = new LocationItem()
-                                {
-                                    Text = "WSL",
-                                    Section = SectionType.WSL,
-                                    Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage()
-                                    {
-                                        UriSource = new Uri("ms-appx:///Assets/WSL/genericpng.png")
-                                    },
-                                    SelectsOnInvoked = false,
-                                    ChildItems = new ObservableCollection<INavigationControlItem>()
-                                };
-                                SidebarControl.SideBarItems.Add(section);
-                            }
+                                Text = "WSL".GetLocalized(),
+                                Section = SectionType.WSL,
+                                SelectsOnInvoked = false,
+                                Icon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/WSL/genericpng.png")),
+                                ChildItems = new ObservableCollection<INavigationControlItem>()
+                            };
+                            var index = (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Favorites) ? 1 : 0) +
+                                        (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Library) ? 1 : 0) +
+                                        (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Drives) ? 1 : 0) +
+                                        (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.CloudDrives) ? 1 : 0) +
+                                        (SidebarControl.SideBarItems.Any(item => item.Section == SectionType.Network) ? 1 : 0); // After network section
+                            SidebarControl.SideBarItems.BeginBulkOperation();
+                            SidebarControl.SideBarItems.Insert(Math.Min(index, SidebarControl.SideBarItems.Count), section);
+                            SidebarControl.SideBarItems.EndBulkOperation();
+                        }
 
+                        if (section != null)
+                        {
                             foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
                             {
                                 Uri logoURI = null;
@@ -97,7 +101,7 @@ namespace Files.Filesystem
 
                                 if (!section.ChildItems.Any(x => x.Path == folder.Path))
                                 {
-                                    section.ChildItems.Add(new WSLDistroItem()
+                                    section.ChildItems.Add(new WslDistroItem()
                                     {
                                         Text = folder.DisplayName,
                                         Path = folder.Path,
@@ -107,18 +111,42 @@ namespace Files.Filesystem
                             }
                         }
                     }
-                    catch (Exception)
-                    {
-                        // WSL Not Supported/Enabled
-                    }
-
-                    SidebarControl.SideBarItems.EndBulkOperation();
+                }
+                catch (Exception)
+                {
+                    // WSL Not Supported/Enabled
                 }
                 finally
                 {
                     SidebarControl.SideBarItemsSemaphore.Release();
                 }
             });
+        }
+
+        private void RemoveWslSideBarSection()
+        {
+            try
+            {
+                var item = (from n in SidebarControl.SideBarItems where n.Text.Equals("WSL".GetLocalized()) select n).FirstOrDefault();
+                if (!UserSettingsService.SidebarSettingsService.ShowWslSection && item != null)
+                {
+                    SidebarControl.SideBarItems.Remove(item);
+                }
+            }
+            catch (Exception)
+            { }
+        }
+
+        public async void UpdateWslSectionVisibility()
+        {
+            if (UserSettingsService.SidebarSettingsService.ShowWslSection)
+            {
+                await EnumerateDrivesAsync();
+            }
+            else
+            {
+                RemoveWslSideBarSection();
+            }
         }
     }
 }

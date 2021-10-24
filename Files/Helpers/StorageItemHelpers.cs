@@ -1,9 +1,10 @@
 using Files.Enums;
 using Files.Filesystem;
+using Files.Filesystem.StorageItems;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 
 namespace Files.Helpers
 {
@@ -19,25 +20,17 @@ namespace Files.Helpers
 
         public static async Task<TOut> ToStorageItem<TOut>(string path, IShellPage associatedInstance = null) where TOut : IStorageItem
         {
-            FilesystemResult<StorageFile> file = null;
-            FilesystemResult<StorageFolder> folder = null;
+            FilesystemResult<BaseStorageFile> file = null;
+            FilesystemResult<BaseStorageFolder> folder = null;
 
             if (path.ToLower().EndsWith(".lnk") || path.ToLower().EndsWith(".url"))
             {
                 // TODO: In the future, when IStorageItemWithPath will inherit from IStorageItem,
-                //      we could implement this code here for getting .lnk files
-                //      for now, we can't
-
-                return default(TOut);
-
-                if (false) // Prevent unnecessary exceptions
-                {
-                    Debugger.Break();
-                    throw new ArgumentException("Function ToStorageItem<TOut>() does not support converting from .lnk and .url files");
-                }
+                // we could implement this code here for getting .lnk files
+                // for now, we can't
+                return default;
             }
-
-            if (typeof(IStorageFile).IsAssignableFrom(typeof(TOut)))
+            else if (typeof(IStorageFile).IsAssignableFrom(typeof(TOut)))
             {
                 await GetFile();
             }
@@ -72,19 +65,20 @@ namespace Files.Helpers
                 return (TOut)(IStorageItem)folder.Result;
             }
 
-            return default(TOut);
+            return default;
 
             // Extensions
 
             async Task GetFile()
             {
-                if (associatedInstance == null)
+                if (associatedInstance == null || associatedInstance.FilesystemViewModel == null)
                 {
-                    file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+                    var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+                    file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path, rootItem));
                 }
                 else
                 {
-                    file = await associatedInstance?.FilesystemViewModel?.GetFileFromPathAsync(path);
+                    file = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(path);
                 }
             }
 
@@ -92,7 +86,8 @@ namespace Files.Helpers
             {
                 if (associatedInstance == null)
                 {
-                    folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+                    var rootItem = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+                    folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, rootItem));
                 }
                 else
                 {
@@ -101,18 +96,25 @@ namespace Files.Helpers
             }
         }
 
+        public static async Task<long> GetFileSize(this IStorageFile file)
+        {
+            BasicProperties properties = await file.GetBasicPropertiesAsync();
+            return (long)properties.Size;
+        }
+
         public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItemWithPath item, IShellPage associatedInstance = null)
         {
             var returnedItem = new FilesystemResult<IStorageItem>(null, FileSystemStatusCode.Generic);
+            var rootItem = associatedInstance == null ? await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(item.Path)) : null;
             if (!string.IsNullOrEmpty(item.Path))
             {
                 returnedItem = (item.ItemType == FilesystemItemType.File) ?
-                    ToType<IStorageItem, StorageFile>(associatedInstance != null ?
+                    ToType<IStorageItem, BaseStorageFile>(associatedInstance != null ?
                         await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.Path) :
-                        await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path))) :
-                    ToType<IStorageItem, StorageFolder>(associatedInstance != null ?
+                        await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path, rootItem))) :
+                    ToType<IStorageItem, BaseStorageFolder>(associatedInstance != null ?
                         await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.Path) :
-                        await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path)));
+                        await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path, rootItem)));
             }
             if (returnedItem.Result == null && item.Item != null)
             {
@@ -148,11 +150,11 @@ namespace Files.Helpers
             }
             else if (item.IsOfType(StorageItemTypes.File))
             {
-                return new StorageFileWithPath(item as StorageFile, string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
+                return new StorageFileWithPath(item.AsBaseStorageFile(), string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
             }
             else if (item.IsOfType(StorageItemTypes.Folder))
             {
-                return new StorageFolderWithPath(item as StorageFolder, string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
+                return new StorageFolderWithPath(item.AsBaseStorageFolder(), string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
             }
             return null;
         }

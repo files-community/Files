@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
@@ -10,33 +11,29 @@ namespace Files.Helpers
 {
     public static class QuickLookHelpers
     {
-        public static async void ToggleQuickLook(IShellPage associatedInstance)
+        public static async Task ToggleQuickLook(IShellPage associatedInstance, bool switchPreview = false)
         {
-            try
+            if (!App.MainViewModel.IsQuickLookEnabled || !associatedInstance.SlimContentPage.IsItemSelected || associatedInstance.SlimContentPage.IsRenamingItem)
             {
-                if (associatedInstance.SlimContentPage.IsItemSelected && !associatedInstance.SlimContentPage.IsRenamingItem)
+                return;
+            }
+            
+            await Common.Extensions.IgnoreExceptions(async () =>
+            {
+                Debug.WriteLine("Toggle QuickLook");
+                var connection = await AppServiceConnectionHelper.Instance;
+
+                if (connection != null)
                 {
-                    Debug.WriteLine("Toggle QuickLook");
-                    if (associatedInstance.ServiceConnection != null)
+                    await connection.SendMessageAsync(new ValueSet()
                     {
-                        await associatedInstance.ServiceConnection.SendMessageAsync(new ValueSet()
-                        {
-                            { "path", associatedInstance.SlimContentPage.SelectedItem.ItemPath },
-                            { "Arguments", "ToggleQuickLook" }
-                        });
-                    }
+                        { "path", associatedInstance.SlimContentPage.SelectedItem.ItemPath },
+                        { "switch", switchPreview },
+                        { "Arguments", "ToggleQuickLook" }
+                    });
                 }
-            }
-            catch (FileNotFoundException)
-            {
-                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundPreviewDialog/Text".GetLocalized());
-                associatedInstance.NavigationToolbar.CanRefresh = false;
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    var ContentOwnedViewModelInstance = associatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance?.RefreshItems(null);
-                });
-            }
+                
+            }, App.Logger);
         }
     }
 }

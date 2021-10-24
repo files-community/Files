@@ -164,6 +164,13 @@
     "ID": null
   },
   {
+    "NameResource": "PropertyPartOfSet",
+    "SectionResource": "PropertySectionMusic",
+    "Property": "System.Music.PartOfSet",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
     "NameResource": "PropertyGenre",
     "SectionResource": "PropertySectionMusic",
     "Property": "System.Music.Genre",
@@ -305,13 +312,6 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyVersion",
-    "SectionResource": "PropertySectionDocument",
-    "Property": "System.Document.Version",
-    "IsReadOnly": true,
-    "ID": null
-  },
-  {
     "NameResource": "PropertyTotalEditingTime",
     "SectionResource": "PropertySectionDocument",
     "Property": "System.Document.TotalEditingTime",
@@ -362,6 +362,13 @@
     "ID": null
   },
   {
+    "NameResource": "PropertyFileDescription",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.FileDescription",
+    "IsReadOnly": false,
+    "ID": null
+  },
+  {
     "NameResource": "PropertyComment",
     "SectionResource": "PropertySectionCore",
     "Property": "System.Comment",
@@ -369,16 +376,16 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyCopyright",
+    "NameResource": "PropertyDateCreated",
     "SectionResource": "PropertySectionCore",
-    "Property": "System.Copyright",
+    "Property": "System.DateCreated",
     "IsReadOnly": true,
     "ID": null
   },
   {
-    "NameResource": "PropertyDateCreated",
-    "SectionResource": "PropertySectionCore",
-    "Property": "System.DateCreated",
+    "NameResource": "PropertyDateTaken",
+    "SectionResource": "PropertySectionPhoto",
+    "Property": "System.Photo.DateTaken",
     "IsReadOnly": true,
     "ID": null
   },
@@ -390,10 +397,63 @@
     "ID": null
   },
   {
-    "NameResource": "PropertyDateTaken",
-    "SectionResource": "PropertySectionPhoto",
-    "Property": "System.Photo.DateTaken",
+    "NameResource": "PropertyCompany",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.Company",
     "IsReadOnly": true,
     "ID": null
+  },
+  {
+    "NameResource": "PropertyCopyright",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.Copyright",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyTrademarks",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.Trademarks",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyLanguage",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.Language",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "PropertyFileVersion",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.FileVersion",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
+    "NameResource": "SyncStatus",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.FilePlaceholderStatus",
+    "IsReadOnly": true,
+    "EnumeratedList": {
+      "0": "CloudDriveSyncStatus_Unknown",
+      "1": "CloudDriveSyncStatus_Online",
+      "2": "CloudDriveSyncStatus_Online",
+      "3": "CloudDriveSyncStatus_Offline",
+      "4": "CloudDriveSyncStatus_Excluded",
+      "5": "CloudDriveSyncStatus_Offline",
+      "8": "CloudDriveSyncStatus_Online",
+      "9": "CloudDriveSyncStatus_Sync",
+      "14": "CloudDriveSyncStatus_Offline",
+      "15": "CloudDriveSyncStatus_Offline"
+    },
+    "ID": null
+  },
+  {
+    "NameResource": "DetailsViewHeaderFlyout_ShowFileTag/Text",
+    "SectionResource": "PropertySectionCore",
+    "IsReadOnly": true,
+    "ID": "filetag"
   }
 ]

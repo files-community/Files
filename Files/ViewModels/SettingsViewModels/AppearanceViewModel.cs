@@ -1,23 +1,21 @@
-﻿using Files.Enums;
-using Files.Helpers;
+﻿using Files.Helpers;
+using Files.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
 namespace Files.ViewModels.SettingsViewModels
 {
     public class AppearanceViewModel : ObservableObject
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
-        private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
-        private bool isAcrylicDisabled = App.AppSettings.IsAcrylicDisabled;
-        private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
         private AppTheme selectedTheme = App.AppSettings.SelectedTheme;
-        private bool showRestartControl = false;
-        public RelayCommand OpenThemesFolderCommand => new RelayCommand(() => SettingsViewModel.OpenThemesFolder());
 
         public AppearanceViewModel()
         {
@@ -27,16 +25,10 @@ namespace Files.ViewModels.SettingsViewModels
                 "LightTheme".GetLocalized(),
                 "DarkTheme".GetLocalized()
             };
-
-            DateFormats = new List<string>
-            {
-                "ApplicationTimeStye".GetLocalized(),
-                "SystemTimeStye".GetLocalized()
-            };
         }
 
         public List<string> Themes { get; set; }
-        public List<AppTheme> ColorSchemes => App.ExternalResourcesHelper.Themes;
+        public List<AppTheme> CustomThemes => App.ExternalResourcesHelper.Themes;
 
         public int SelectedThemeIndex
         {
@@ -46,53 +38,25 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref selectedThemeIndex, value))
                 {
                     ThemeHelper.RootTheme = (ElementTheme)value;
+                    OnPropertyChanged(nameof(SelectedElementTheme));
                 }
             }
         }
 
-        public List<string> DateFormats { get; set; }
-
-        public int SelectedDateFormatIndex
+        public ElementTheme SelectedElementTheme
         {
-            get
-            {
-                return selectedDateFormatIndex;
-            }
-            set
-            {
-                if (SetProperty(ref selectedDateFormatIndex, value))
-                {
-                    App.AppSettings.DisplayedTimeStyle = (TimeStyle)value;
-                }
-            }
-        }
-
-        public bool IsAcrylicDisabled
-        {
-            get
-            {
-                return isAcrylicDisabled;
-            }
-            set
-            {
-                if (SetProperty(ref isAcrylicDisabled, value))
-                {
-                    App.AppSettings.IsAcrylicDisabled = value;
-                }
-            }
+            get => (ElementTheme)selectedThemeIndex;
         }
 
         public bool MoveOverflowMenuItemsToSubMenu
         {
-            get
-            {
-                return moveOverflowMenuItemsToSubMenu;
-            }
+            get => UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu;
             set
             {
-                if (SetProperty(ref moveOverflowMenuItemsToSubMenu, value))
+                if (value != UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu)
                 {
-                    App.AppSettings.MoveOverflowMenuItemsToSubMenu = value;
+                    UserSettingsService.AppearanceSettingsService.MoveOverflowMenuItemsToSubMenu = value;
+                    OnPropertyChanged();
                 }
             }
         }
@@ -107,16 +71,38 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref selectedTheme, value))
                 {
-                    App.AppSettings.SelectedTheme = selectedTheme;
-                    ShowRestartControl = true;
+                    if (selectedTheme != null)
+                    {
+                        // Remove the old resource file and load the new file
+                        App.ExternalResourcesHelper.UpdateTheme(App.AppSettings.SelectedTheme, selectedTheme);
+
+                        App.AppSettings.SelectedTheme = selectedTheme;
+
+                        // Force the application to use the correct resource file
+                        UpdateTheme();
+                    }
                 }
             }
         }
 
-        public bool ShowRestartControl
+        /// <summary>
+        /// Forces the application to use the correct resource styles
+        /// </summary>
+        private async void UpdateTheme()
         {
-            get => showRestartControl;
-            set => SetProperty(ref showRestartControl, value);
+            // Allow time to remove the old theme
+            await Task.Delay(250);
+
+            // Get the index of the current theme
+            var selTheme = SelectedThemeIndex;
+
+            // Toggle between the themes to force the controls to use the new resource styles
+            SelectedThemeIndex = 0;
+            SelectedThemeIndex = 1;
+            SelectedThemeIndex = 2;
+
+            // Restore the theme to the correct theme
+            SelectedThemeIndex = selTheme;
         }
     }
 }

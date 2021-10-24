@@ -144,6 +144,10 @@ namespace Files.Filesystem
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
         Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory);
 
+        Task<ReturnResult> RecycleItemsFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory);
+
+        Task<ReturnResult> CreateShortcutFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory);
+
         #endregion Copy
 
         #region Move

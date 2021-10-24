@@ -1,5 +1,6 @@
 ﻿using Files.DataModels;
 using System;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 
@@ -23,7 +24,7 @@ namespace Files.Interacts
 
         void SidebarUnpinItem(RoutedEventArgs e);
 
-        void UnpinDirectoryFromSidebar(RoutedEventArgs e);
+        void UnpinDirectoryFromFavorites(RoutedEventArgs e);
 
         void OpenItem(RoutedEventArgs e);
 
@@ -45,6 +46,8 @@ namespace Files.Interacts
 
         void OpenFileLocation(RoutedEventArgs e);
 
+        void OpenParentFolder(RoutedEventArgs e);
+
         void OpenItemWithApplicationPicker(RoutedEventArgs e);
 
         void OpenDirectoryInNewTab(RoutedEventArgs e);
@@ -65,7 +68,7 @@ namespace Files.Interacts
 
         void ShareItem(RoutedEventArgs e);
 
-        void PinDirectoryToSidebar(RoutedEventArgs e);
+        void PinDirectoryToFavorites(RoutedEventArgs e);
 
         void ItemPointerPressed(PointerRoutedEventArgs e);
 
@@ -79,14 +82,20 @@ namespace Files.Interacts
 
         void GridViewSizeIncrease(KeyboardAcceleratorInvokedEventArgs e);
 
-        void DragEnter(DragEventArgs e);
+        Task DragOver(DragEventArgs e);
 
-        void Drop(DragEventArgs e);
+        Task Drop(DragEventArgs e);
 
         void RefreshItems(RoutedEventArgs e);
 
         void SearchUnindexedItems(RoutedEventArgs e);
 
         void CreateFolderWithSelection(RoutedEventArgs e);
+
+        void DecompressArchive();
+
+        void DecompressArchiveHere();
+
+        void DecompressArchiveToChildFolder();
     }
 }

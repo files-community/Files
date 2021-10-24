@@ -1,6 +1,7 @@
-﻿using Files.Filesystem;
+﻿using Files.Services;
 using Files.ViewModels;
-using System.Collections.Generic;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using Microsoft.Toolkit.Uwp;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -11,17 +12,30 @@ namespace Files.UserControls
 {
     public sealed partial class PreviewPane : UserControl
     {
-        public PreviewPaneViewModel Model { get; set; } = new PreviewPaneViewModel();
+        public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
+        public PreviewPaneViewModel Model
+        {
+            get => (PreviewPaneViewModel)GetValue(ModelProperty);
+            set => SetValue(ModelProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for Model.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ModelProperty =
+            DependencyProperty.Register(nameof(Model), typeof(PreviewPaneViewModel), typeof(PreviewPane), new PropertyMetadata(null));
+
+        private long modelChangedCallbackToken;
 
         public PreviewPane()
         {
             InitializeComponent();
+            modelChangedCallbackToken = RegisterPropertyChangedCallback(ModelProperty, Model_DependencyPropertyChangedCallback);
         }
 
-        public List<ListedItem> SelectedItems
+        private void Model_DependencyPropertyChangedCallback(DependencyObject sender, DependencyProperty dp)
         {
-            get => Model.SelectedItems;
-            set => Model.SelectedItems = value;
+            // try to refresh the model when the instance is switched
+            Model?.TryRefresh();
         }
 
         public static DependencyProperty IsHorizontalProperty { get; } =
@@ -33,20 +47,22 @@ namespace Files.UserControls
             set
             {
                 SetValue(IsHorizontalProperty, value);
-                EdgeTransitionLocation = value ? EdgeTransitionLocation.Bottom : EdgeTransitionLocation.Right;
             }
         }
 
-        public static DependencyProperty EdgeTransitionLocationProperty =
-            DependencyProperty.Register("EdgeTransitionLocation",
-                                        typeof(EdgeTransitionLocation),
-                                        typeof(PreviewPane),
-                                        new PropertyMetadata(null));
+        private string GetLocalizedText(string resName) => resName.GetLocalized();
 
-        private EdgeTransitionLocation EdgeTransitionLocation
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            get => (EdgeTransitionLocation)GetValue(EdgeTransitionLocationProperty);
-            set => SetValue(EdgeTransitionLocationProperty, value);
+            UnregisterPropertyChangedCallback(ModelProperty, modelChangedCallbackToken);
+            PreviewControlPresenter.Content = null;
+            Model = null;
+            this.Bindings.StopTracking();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Model?.UpdateSelectedItemPreview(true);
         }
     }
 }

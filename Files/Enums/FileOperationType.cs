@@ -29,7 +29,7 @@ namespace Files.Enums
         Move = 4,
 
         /// <summary>
-        /// An item has been extracted
+        /// An archive has been extracted
         /// </summary>
         Extract = 5,
 
@@ -46,6 +46,11 @@ namespace Files.Enums
         /// <summary>
         /// A item has been deleted
         /// </summary>
-        Delete = 8
+        Delete = 8,
+
+        /// <summary>
+        /// A link to an item has been created
+        /// </summary>
+        CreateLink = 9,
     }
 }

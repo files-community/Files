@@ -1,8 +1,13 @@
-﻿namespace Files.Common
+﻿using System;
+using System.IO;
+
+namespace Files.Common
 {
     public class ShellLibraryItem
     {
         public const string EXTENSION = ".library-ms";
+
+        public static readonly string LibrariesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Libraries");
 
         /// <summary>
         /// Full path of library file.<br/>

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Files.Common
 {
-    public class IconFileInfo : INotifyPropertyChanged
+    public class IconFileInfo
     {
         public byte[] IconDataBytes { get; set; }
         public string IconData { get; }

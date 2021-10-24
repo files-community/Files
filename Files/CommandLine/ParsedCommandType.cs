@@ -5,6 +5,8 @@
         Unknown,
         OpenDirectory,
         OpenPath,
-        ExplorerShellCommand
+        ExplorerShellCommand,
+        OutputPath,
+        SelectItem,
     }
 }

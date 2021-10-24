@@ -16,22 +16,15 @@ namespace Files.Controllers
         public SidebarPinnedModel Model { get; set; }
         public string JsonFileName { get; } = "PinnedItems.json";
 
-        private SidebarPinnedController()
+        public SidebarPinnedController()
         {
             Model = new SidebarPinnedModel();
             Model.SetController(this);
         }
 
-        public static async Task<SidebarPinnedController> CreateInstance()
-        {
-            var instance = new SidebarPinnedController();
-            return await instance.InitializeAsync();
-        }
-
-        private async Task<SidebarPinnedController> InitializeAsync()
+        public async Task InitializeAsync()
         {
             await LoadAsync();
-            return this;
         }
 
         private async Task LoadAsync()

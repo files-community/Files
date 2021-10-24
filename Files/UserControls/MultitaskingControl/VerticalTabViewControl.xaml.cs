@@ -25,10 +25,10 @@ namespace Files.UserControls.MultitaskingControl
         {
             if (args.CollectionChange == Windows.Foundation.Collections.CollectionChange.ItemRemoved)
             {
-                App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(VerticalTabView.SelectedItem as TabItem);
+                App.MainViewModel.TabStripSelectedIndex = Items.IndexOf(VerticalTabView.SelectedItem as TabItem);
             }
 
-            if (App.InteractionViewModel.TabStripSelectedIndex >= 0 && App.InteractionViewModel.TabStripSelectedIndex < Items.Count)
+            if (App.MainViewModel.TabStripSelectedIndex >= 0 && App.MainViewModel.TabStripSelectedIndex < Items.Count)
             {
                 CurrentSelectedAppInstance = GetCurrentSelectedTabInstance();
 
@@ -45,14 +45,14 @@ namespace Files.UserControls.MultitaskingControl
 
         private async void TabViewItem_Drop(object sender, DragEventArgs e)
         {
-            e.AcceptedOperation = await ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDrop(sender, e);
+            await ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDrop(sender, e);
             VerticalTabView.CanReorderTabs = true;
             tabHoverTimer.Stop();
         }
 
-        private void TabViewItem_DragEnter(object sender, DragEventArgs e)
+        private async void TabViewItem_DragEnter(object sender, DragEventArgs e)
         {
-            e.AcceptedOperation = ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDragOver(sender, e);
+            await ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDragOver(sender, e);
             if (e.AcceptedOperation != DataPackageOperation.None)
             {
                 VerticalTabView.CanReorderTabs = false;
@@ -161,15 +161,21 @@ namespace Files.UserControls.MultitaskingControl
                 return;
             }
 
-            var indexOfTabViewItem = sender.TabItems.IndexOf(args.Tab);
+            var indexOfTabViewItem = sender.TabItems.IndexOf(args.Item);
             var tabViewItemArgs = (args.Item as TabItem).TabItemArguments;
             var selectedTabViewItemIndex = sender.SelectedIndex;
-            CloseTab(args.Item as TabItem);
+            Items.Remove(args.Item as TabItem);
             if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
             {
-                sender.TabItems.Insert(indexOfTabViewItem, args.Tab);
+                Items.Insert(indexOfTabViewItem, args.Item as TabItem);
                 sender.SelectedIndex = selectedTabViewItemIndex;
             }
+            else
+            {
+                CloseTab(args.Item as TabItem);
+            }
         }
+
+        public override DependencyObject ContainerFromItem(ITabItem item) => VerticalTabView.ContainerFromItem(item);
     }
 }

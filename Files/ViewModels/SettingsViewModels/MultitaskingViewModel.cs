@@ -1,97 +1,48 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Files.Services;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
 namespace Files.ViewModels.SettingsViewModels
 {
     public class MultitaskingViewModel : ObservableObject
     {
-        private bool isMultitaskingExperienceAdaptive = App.AppSettings.IsMultitaskingExperienceAdaptive;
-        private bool isHorizontalTabStripOn = App.AppSettings.IsHorizontalTabStripOn;
-        private bool isVerticalTabFlyoutOn = App.AppSettings.IsVerticalTabFlyoutOn;
-        public InteractionViewModel InteractionViewModel => App.InteractionViewModel;
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        public bool IsMultitaskingExperienceAdaptive
+        public bool IsVerticalTabFlyoutEnabled
         {
-            get
-            {
-                return isMultitaskingExperienceAdaptive;
-            }
+            get => UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled;
             set
             {
-                if (SetProperty(ref isMultitaskingExperienceAdaptive, value))
+                if (value != UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled)
                 {
-                    App.AppSettings.IsMultitaskingExperienceAdaptive = value;
-
-                    // Setup the correct multitasking control
-                    InteractionViewModel.SetMultitaskingControl();
+                    UserSettingsService.MultitaskingSettingsService.IsVerticalTabFlyoutEnabled = value;
+                    OnPropertyChanged();
                 }
             }
         }
-
-        public bool IsHorizontalTabStripOn
-        {
-            get
-            {
-                return isHorizontalTabStripOn;
-            }
-            set
-            {
-                if (SetProperty(ref isHorizontalTabStripOn, value))
-                {
-                    App.AppSettings.IsHorizontalTabStripOn = value;
-
-                    // Setup the correct multitasking control
-                    InteractionViewModel.SetMultitaskingControl();
-                }
-            }
-        }
-
-        public bool IsVerticalTabFlyoutOn
-        {
-            get
-            {
-                return isVerticalTabFlyoutOn;
-            }
-            set
-            {
-                if (SetProperty(ref isVerticalTabFlyoutOn, value))
-                {
-                    App.AppSettings.IsVerticalTabFlyoutOn = value;
-
-                    // Setup the correct multitasking control
-                    InteractionViewModel.SetMultitaskingControl();
-                }
-            }
-        }
-
-        private bool isDualPaneEnabled = App.AppSettings.IsDualPaneEnabled;
-        private bool alwaysOpenDualPaneInNewTab = App.AppSettings.AlwaysOpenDualPaneInNewTab;
 
         public bool IsDualPaneEnabled
         {
-            get
-            {
-                return isDualPaneEnabled;
-            }
+            get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled;
             set
             {
-                if (SetProperty(ref isDualPaneEnabled, value))
+                if (value != UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled)
                 {
-                    App.AppSettings.IsDualPaneEnabled = value;
+                    UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
         public bool AlwaysOpenDualPaneInNewTab
         {
-            get
-            {
-                return alwaysOpenDualPaneInNewTab;
-            }
+            get => UserSettingsService.MultitaskingSettingsService.AlwaysOpenDualPaneInNewTab;
             set
             {
-                if (SetProperty(ref alwaysOpenDualPaneInNewTab, value))
+                if (value != UserSettingsService.MultitaskingSettingsService.AlwaysOpenDualPaneInNewTab)
                 {
-                    App.AppSettings.AlwaysOpenDualPaneInNewTab = value;
+                    UserSettingsService.MultitaskingSettingsService.AlwaysOpenDualPaneInNewTab = value;
+                    OnPropertyChanged();
                 }
             }
         }

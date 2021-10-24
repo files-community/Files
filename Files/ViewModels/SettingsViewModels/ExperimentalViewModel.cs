@@ -1,92 +1,136 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Files.Helpers;
+using Files.Services;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Win32;
+using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.System;
 
 namespace Files.ViewModels.SettingsViewModels
 {
     public class ExperimentalViewModel : ObservableObject
     {
-        private bool showFileOwner = App.AppSettings.ShowFileOwner;
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        public bool ShowFileOwner
+        public ICommand EditFileTagsCommand { get; }
+
+        public ICommand SetAsDefaultExplorerCommand { get; }
+
+        public ICommand SetAsOpenFileDialogCommand { get; }
+
+        public ExperimentalViewModel()
         {
-            get
-            {
-                return showFileOwner;
-            }
+            IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
+            IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
+
+            EditFileTagsCommand =  new AsyncRelayCommand(LaunchFileTagsConfigFile);
+            SetAsDefaultExplorerCommand = new AsyncRelayCommand(SetAsDefaultExplorer);
+            SetAsOpenFileDialogCommand = new AsyncRelayCommand(SetAsOpenFileDialog);
+        }
+
+        public bool AreFileTagsEnabled
+        {
+            get => UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled;
             set
             {
-                if (SetProperty(ref showFileOwner, value))
+                if (value != UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled)
                 {
-                    App.AppSettings.ShowFileOwner = value;
+                    UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
-        private bool useFileListCache = App.AppSettings.UseFileListCache;
-
-        public bool UseFileListCache
+        private async Task LaunchFileTagsConfigFile()
         {
-            get
+            var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/filetags.json"));
+            if (!await Launcher.LaunchFileAsync(configFile))
             {
-                return useFileListCache;
-            }
-            set
-            {
-                if (SetProperty(ref useFileListCache, value))
+                var connection = await AppServiceConnectionHelper.Instance;
+                if (connection != null)
                 {
-                    App.AppSettings.UseFileListCache = value;
+                    await connection.SendMessageAsync(new ValueSet()
+                    {
+                        { "Arguments", "InvokeVerb" },
+                        { "FilePath", configFile.Path },
+                        { "Verb", "open" }
+                    });
                 }
             }
         }
 
-        private bool usePreemptiveCache = App.AppSettings.UsePreemptiveCache;
-
-        public bool UsePreemptiveCache
+        private async Task SetAsDefaultExplorer()
         {
-            get
+            if (IsSetAsDefaultFileManager == DetectIsSetAsDefaultFileManager())
             {
-                return usePreemptiveCache;
+                return;
             }
-            set
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
             {
-                if (SetProperty(ref usePreemptiveCache, value))
+                var (_, _) = await connection.SendMessageForResponseAsync(new ValueSet()
                 {
-                    App.AppSettings.UsePreemptiveCache = value;
-                }
+                    { "Arguments", "SetAsDefaultExplorer" },
+                    { "Value", IsSetAsDefaultFileManager }
+                });
+            }
+            IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
+            if (!IsSetAsDefaultFileManager)
+            {
+                IsSetAsOpenFileDialog = false;
+                await SetAsOpenFileDialog();
             }
         }
 
-        private int preemptiveCacheParallelLimit = App.AppSettings.PreemptiveCacheParallelLimit;
-
-        public int PreemptiveCacheParallelLimit
+        private async Task SetAsOpenFileDialog()
         {
-            get
+            if (IsSetAsOpenFileDialog == DetectIsSetAsOpenFileDialog())
             {
-                return preemptiveCacheParallelLimit;
+                return;
             }
-            set
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
             {
-                if (SetProperty(ref preemptiveCacheParallelLimit, value))
+                var (_, _) = await connection.SendMessageForResponseAsync(new ValueSet()
                 {
-                    App.AppSettings.PreemptiveCacheParallelLimit = value;
-                }
+                    { "Arguments", "SetAsOpenFileDialog" },
+                    { "Value", IsSetAsOpenFileDialog }
+                });
             }
+            IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
         }
 
-        private bool useNewDetailsView = App.AppSettings.UseNewDetailsView;
-
-        public bool UseNewDetailsView
+        private bool DetectIsSetAsDefaultFileManager()
         {
-            get
-            {
-                return useNewDetailsView;
-            }
-            set
-            {
-                if (SetProperty(ref useNewDetailsView, value))
-                {
-                    App.AppSettings.UseNewDetailsView = value;
-                }
-            }
+            using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\Directory\shell");
+            return subkey?.GetValue(string.Empty) as string == "openinfiles";
+        }
+
+        private bool DetectIsSetAsOpenFileDialog()
+        {
+            using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7}");
+            return subkey?.GetValue(string.Empty) as string == "FilesOpenDialog class";
+        }
+
+        private bool isSetAsDefaultFileManager;
+
+        public bool IsSetAsDefaultFileManager
+        {
+            get => isSetAsDefaultFileManager;
+            set => SetProperty(ref isSetAsDefaultFileManager, value);
+        }
+
+        private bool isSetAsOpenFileDialog;
+
+        public bool IsSetAsOpenFileDialog
+        {
+            get => isSetAsOpenFileDialog;
+            set => SetProperty(ref isSetAsOpenFileDialog, value);
         }
     }
 }

@@ -1,7 +1,11 @@
 ﻿using ByteSizeLib;
 using Files.Extensions;
+using Files.Filesystem.StorageItems;
 using Files.Helpers;
+using Files.Services;
 using Files.Views.LayoutModes;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,7 +14,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem.StorageEnumerators
@@ -18,14 +21,14 @@ namespace Files.Filesystem.StorageEnumerators
     public static class UniversalStorageEnumerator
     {
         public static async Task<List<ListedItem>> ListEntries(
-            StorageFolder rootFolder,
+            BaseStorageFolder rootFolder,
             StorageFolderWithPath currentStorageFolder,
             string returnformat,
             Type sourcePageType,
             CancellationToken cancellationToken,
-            List<string> skipItems,
             int countLimit,
-            Func<List<ListedItem>, Task> intermediateAction
+            Func<List<ListedItem>, Task> intermediateAction,
+            Dictionary<string, BitmapImage> defaultIconPairs = null
         )
         {
             var sampler = new IntervalSampler(500);
@@ -71,33 +74,33 @@ namespace Files.Filesystem.StorageEnumerators
                 {
                     if (item.IsOfType(StorageItemTypes.Folder))
                     {
-                        var folder = await AddFolderAsync(item as StorageFolder, currentStorageFolder, returnformat, cancellationToken);
+                        var folder = await AddFolderAsync(item.AsBaseStorageFolder(), currentStorageFolder, returnformat, cancellationToken);
                         if (folder != null)
                         {
-                            if (skipItems?.Contains(folder.ItemPath) ?? false)
+                            if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
                             {
-                                skipItems.Remove(folder.ItemPath);
+                                folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
                             }
-                            else
-                            {
-                                tempList.Add(folder);
-                            }
+                            tempList.Add(folder);
                         }
                     }
                     else
                     {
-                        var file = item as StorageFile;
-                        var fileEntry = await AddFileAsync(file, currentStorageFolder, returnformat, true, sourcePageType, cancellationToken);
+                        var fileEntry = await AddFileAsync(item.AsBaseStorageFile(), currentStorageFolder, returnformat, cancellationToken);
                         if (fileEntry != null)
                         {
-                            if (skipItems?.Contains(fileEntry.ItemPath) ?? false)
+                            if (defaultIconPairs != null)
                             {
-                                skipItems.Remove(fileEntry.ItemPath);
+                                if (!string.IsNullOrEmpty(fileEntry.FileExtension))
+                                {
+                                    var lowercaseExtension = fileEntry.FileExtension.ToLowerInvariant();
+                                    if (defaultIconPairs.ContainsKey(lowercaseExtension))
+                                    {
+                                        fileEntry.SetDefaultIcon(defaultIconPairs[lowercaseExtension]);
+                                    }
+                                }
                             }
-                            else
-                            {
-                                tempList.Add(fileEntry);
-                            }
+                            tempList.Add(fileEntry);
                         }
                     }
                     if (cancellationToken.IsCancellationRequested)
@@ -122,7 +125,7 @@ namespace Files.Filesystem.StorageEnumerators
             return tempList;
         }
 
-        private static async Task<IReadOnlyList<IStorageItem>> EnumerateFileByFile(StorageFolder rootFolder, uint startFrom, uint itemsToIterate)
+        private static async Task<IReadOnlyList<IStorageItem>> EnumerateFileByFile(BaseStorageFolder rootFolder, uint startFrom, uint itemsToIterate)
         {
             var tempList = new List<IStorageItem>();
             for (var i = startFrom; i < startFrom + itemsToIterate; i++)
@@ -153,11 +156,9 @@ namespace Files.Filesystem.StorageEnumerators
             return tempList;
         }
 
-        private static async Task<ListedItem> AddFolderAsync(StorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
+        private static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, string dateReturnFormat, CancellationToken cancellationToken)
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
-            var extraProps = await basicProperties.RetrievePropertiesAsync(new[] { "System.DateCreated" });
-            DateTimeOffset.TryParse(extraProps["System.DateCreated"] as string, out var dateCreated);
             if (!cancellationToken.IsCancellationRequested)
             {
                 return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
@@ -165,15 +166,13 @@ namespace Files.Filesystem.StorageEnumerators
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemName = folder.DisplayName,
                     ItemDateModifiedReal = basicProperties.DateModified,
-                    ItemDateCreatedReal = dateCreated,
+                    ItemDateCreatedReal = folder.DateCreated,
                     ItemType = folder.DisplayType,
                     IsHiddenItem = false,
                     Opacity = 1,
-                    LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
-                    ItemPath = string.IsNullOrEmpty(folder.Path) ? Path.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
-                    LoadUnknownTypeGlyph = false,
+                    ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
                     FileSize = null,
                     FileSizeBytes = 0
                 };
@@ -182,88 +181,27 @@ namespace Files.Filesystem.StorageEnumerators
         }
 
         private static async Task<ListedItem> AddFileAsync(
-            StorageFile file,
+            BaseStorageFile file,
             StorageFolderWithPath currentStorageFolder,
             string dateReturnFormat,
-            bool suppressThumbnailLoading,
-            Type sourcePageType,
             CancellationToken cancellationToken
         )
         {
+            IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
+
             var basicProperties = await file.GetBasicPropertiesAsync();
-            var extraProperties = await basicProperties.RetrievePropertiesAsync(new[] { "System.DateCreated" });
             // Display name does not include extension
-            var itemName = string.IsNullOrEmpty(file.DisplayName) || App.AppSettings.ShowFileExtensions ?
+            var itemName = string.IsNullOrEmpty(file.DisplayName) || userSettingsService.FilesAndFoldersSettingsService.ShowFileExtensions ?
                 file.Name : file.DisplayName;
             var itemModifiedDate = basicProperties.DateModified;
-            DateTimeOffset.TryParse(extraProperties["System.DateCreated"] as string, out var itemCreatedDate);
-            var itemPath = string.IsNullOrEmpty(file.Path) ? Path.Combine(currentStorageFolder.Path, file.Name) : file.Path;
+            var itemCreatedDate = file.DateCreated;
+            var itemPath = string.IsNullOrEmpty(file.Path) ? PathNormalization.Combine(currentStorageFolder.Path, file.Name) : file.Path;
             var itemSize = ByteSize.FromBytes(basicProperties.Size).ToBinaryString().ConvertSizeAbbreviation();
             var itemSizeBytes = basicProperties.Size;
             var itemType = file.DisplayType;
-            var itemFolderImgVis = false;
             var itemFileExtension = file.FileType;
+            var itemThumbnailImgVis = false;
 
-            BitmapImage icon = new BitmapImage();
-            byte[] iconData = null;
-            bool itemThumbnailImgVis;
-            bool itemEmptyImgVis;
-
-            if (sourcePageType != typeof(GridViewBrowser))
-            {
-                try
-                {
-                    var itemThumbnailImg = suppressThumbnailLoading ? null :
-                        await file.GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.UseCurrentScale);
-                    if (itemThumbnailImg != null)
-                    {
-                        itemEmptyImgVis = false;
-                        itemThumbnailImgVis = true;
-                        icon.DecodePixelWidth = 40;
-                        icon.DecodePixelHeight = 40;
-                        await icon.SetSourceAsync(itemThumbnailImg);
-                        iconData = await itemThumbnailImg.ToByteArrayAsync();
-                    }
-                    else
-                    {
-                        itemEmptyImgVis = true;
-                        itemThumbnailImgVis = false;
-                    }
-                }
-                catch
-                {
-                    itemEmptyImgVis = true;
-                    itemThumbnailImgVis = false;
-                    // Catch here to avoid crash
-                }
-            }
-            else
-            {
-                try
-                {
-                    var itemThumbnailImg = suppressThumbnailLoading ? null :
-                        await file.GetThumbnailAsync(ThumbnailMode.ListView, 80, ThumbnailOptions.UseCurrentScale);
-                    if (itemThumbnailImg != null)
-                    {
-                        itemEmptyImgVis = false;
-                        itemThumbnailImgVis = true;
-                        icon.DecodePixelWidth = 80;
-                        icon.DecodePixelHeight = 80;
-                        await icon.SetSourceAsync(itemThumbnailImg);
-                        iconData = await itemThumbnailImg.ToByteArrayAsync();
-                    }
-                    else
-                    {
-                        itemEmptyImgVis = true;
-                        itemThumbnailImgVis = false;
-                    }
-                }
-                catch
-                {
-                    itemEmptyImgVis = true;
-                    itemThumbnailImgVis = false;
-                }
-            }
             if (cancellationToken.IsCancellationRequested)
             {
                 return null;
@@ -291,11 +229,8 @@ namespace Files.Filesystem.StorageEnumerators
                     FileExtension = itemFileExtension,
                     IsHiddenItem = false,
                     Opacity = 1,
-                    LoadUnknownTypeGlyph = itemEmptyImgVis,
-                    FileImage = icon,
-                    CustomIconData = iconData,
+                    FileImage = null,
                     LoadFileIcon = itemThumbnailImgVis,
-                    LoadFolderGlyph = itemFolderImgVis,
                     ItemName = itemName,
                     ItemDateModifiedReal = itemModifiedDate,
                     ItemDateCreatedReal = itemCreatedDate,

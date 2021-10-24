@@ -1,11 +1,13 @@
-﻿using Files.Common;
+﻿using Files.DataModels.NavigationControlItems;
 using Files.Dialogs;
 using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Services;
 using Files.UserControls.Widgets;
 using Files.ViewModels;
 using Files.ViewModels.Pages;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
@@ -23,15 +25,15 @@ namespace Files.Views
 {
     public sealed partial class WidgetsPage : Page, IDisposable
     {
-        private IShellPage AppInstance = null;
-        public SettingsViewModel AppSettings => App.AppSettings;
-        public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
-        public NamedPipeAsAppServiceConnection Connection => AppInstance?.ServiceConnection;
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        private LibraryCards libraryCards;
+        private IShellPage AppInstance = null;
+        public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
+
+        private FolderWidget folderWidget;
         private DrivesWidget drivesWidget;
-        private Bundles bundles;
-        private RecentFiles recentFiles;
+        private BundlesWidget bundlesWidget;
+        private RecentFilesWidget recentFilesWidget;
 
         public YourHomeViewModel ViewModel
         {
@@ -48,6 +50,13 @@ namespace Files.Views
             Widgets.ViewModel.WidgetListRefreshRequestedInvoked += ViewModel_WidgetListRefreshRequestedInvoked;
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            this.Dispose();
+
+            base.OnNavigatedFrom(e);
+        }
+
         public void RefreshWidgetList() => Widgets.ViewModel.RefreshWidgetList();
 
         private void ViewModel_WidgetListRefreshRequestedInvoked(object sender, EventArgs e)
@@ -57,29 +66,27 @@ namespace Files.Views
 
         private void ReloadWidgets()
         {
-            libraryCards = WidgetsHelpers.TryGetWidget<LibraryCards>(Widgets.ViewModel, out bool shouldReloadLibraryCards, libraryCards);
-            drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
-            bundles = WidgetsHelpers.TryGetWidget<Bundles>(Widgets.ViewModel, out bool shouldReloadBundles, bundles);
-            recentFiles = WidgetsHelpers.TryGetWidget<RecentFiles>(Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFiles);
+            folderWidget = WidgetsHelpers.TryGetWidget<FolderWidget>(UserSettingsService.WidgetsSettingsService, Widgets.ViewModel, out bool shouldReloadFolderWidget, folderWidget);
+            drivesWidget = WidgetsHelpers.TryGetWidget<DrivesWidget>(UserSettingsService.WidgetsSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
+            bundlesWidget = WidgetsHelpers.TryGetWidget<BundlesWidget>(UserSettingsService.WidgetsSettingsService, Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
+            recentFilesWidget = WidgetsHelpers.TryGetWidget<RecentFilesWidget>(UserSettingsService.WidgetsSettingsService, Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
 
-            if (shouldReloadLibraryCards && libraryCards != null)
+            if (shouldReloadFolderWidget && folderWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(libraryCards, 0);
+                Widgets.ViewModel.InsertWidget(new(folderWidget), 0);
 
-                libraryCards.LibraryCardInvoked -= LibraryWidget_LibraryCardInvoked;
-                libraryCards.LibraryCardNewPaneInvoked -= LibraryWidget_LibraryCardNewPaneInvoked;
-                libraryCards.LibraryCardPropertiesInvoked -= LibraryWidget_LibraryCardPropertiesInvoked;
-                libraryCards.LibraryCardDeleteInvoked -= LibraryWidget_LibraryCardDeleteInvoked;
-                libraryCards.LibraryCardShowMultiPaneControlsInvoked -= LibraryCards_LibraryCardShowMultiPaneControlsInvoked;
-                libraryCards.LibraryCardInvoked += LibraryWidget_LibraryCardInvoked;
-                libraryCards.LibraryCardNewPaneInvoked += LibraryWidget_LibraryCardNewPaneInvoked;
-                libraryCards.LibraryCardPropertiesInvoked += LibraryWidget_LibraryCardPropertiesInvoked;
-                libraryCards.LibraryCardDeleteInvoked += LibraryWidget_LibraryCardDeleteInvoked;
-                libraryCards.LibraryCardShowMultiPaneControlsInvoked += LibraryCards_LibraryCardShowMultiPaneControlsInvoked;
+                folderWidget.LibraryCardInvoked -= FolderWidget_LibraryCardInvoked;
+                folderWidget.LibraryCardNewPaneInvoked -= FolderWidget_LibraryCardNewPaneInvoked;
+                folderWidget.LibraryCardPropertiesInvoked -= FolderWidget_LibraryCardPropertiesInvoked;
+                folderWidget.FolderWidgethowMultiPaneControlsInvoked -= FolderWidget_FolderWidgethowMultiPaneControlsInvoked;
+                folderWidget.LibraryCardInvoked += FolderWidget_LibraryCardInvoked;
+                folderWidget.LibraryCardNewPaneInvoked += FolderWidget_LibraryCardNewPaneInvoked;
+                folderWidget.LibraryCardPropertiesInvoked += FolderWidget_LibraryCardPropertiesInvoked;
+                folderWidget.FolderWidgethowMultiPaneControlsInvoked += FolderWidget_FolderWidgethowMultiPaneControlsInvoked;
             }
             if (shouldReloadDrivesWidget && drivesWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(drivesWidget, 1);
+                Widgets.ViewModel.InsertWidget(new(drivesWidget), 1);
 
                 drivesWidget.AppInstance = AppInstance;
                 drivesWidget.DrivesWidgetInvoked -= DrivesWidget_DrivesWidgetInvoked;
@@ -87,19 +94,19 @@ namespace Files.Views
                 drivesWidget.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
                 drivesWidget.DrivesWidgetNewPaneInvoked += DrivesWidget_DrivesWidgetNewPaneInvoked;
             }
-            if (shouldReloadBundles && bundles != null)
+            if (shouldReloadBundles && bundlesWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(bundles, 2);
-                ViewModel.LoadBundlesCommand.Execute(bundles.ViewModel);
+                Widgets.ViewModel.InsertWidget(new(bundlesWidget), 2);
+                ViewModel.LoadBundlesCommand.Execute(bundlesWidget.ViewModel);
             }
-            if (shouldReloadRecentFiles && recentFiles != null)
+            if (shouldReloadRecentFiles && recentFilesWidget != null)
             {
-                Widgets.ViewModel.InsertWidget(recentFiles, 3);
+                Widgets.ViewModel.InsertWidget(new(recentFilesWidget), 3);
 
-                recentFiles.RecentFilesOpenLocationInvoked -= RecentFilesWidget_RecentFilesOpenLocationInvoked;
-                recentFiles.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
-                recentFiles.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
-                recentFiles.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
+                recentFilesWidget.RecentFilesOpenLocationInvoked -= RecentFilesWidget_RecentFilesOpenLocationInvoked;
+                recentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
+                recentFilesWidget.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
+                recentFilesWidget.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
             }
         }
 
@@ -110,11 +117,11 @@ namespace Files.Views
             ReloadWidgets();
         }
 
-        private void LibraryCards_LibraryCardShowMultiPaneControlsInvoked(object sender, EventArgs e)
+        private void FolderWidget_FolderWidgethowMultiPaneControlsInvoked(object sender, EventArgs e)
         {
-            LibraryCards libraryCards = sender as LibraryCards;
+            FolderWidget FolderWidget = sender as FolderWidget;
 
-            libraryCards.ShowMultiPaneControls = AppInstance.IsMultiPaneEnabled && AppInstance.IsPageMainPane;
+            FolderWidget.ShowMultiPaneControls = AppInstance.PaneHolder?.IsMultiPaneEnabled ?? false;
         }
 
         private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)
@@ -140,7 +147,7 @@ namespace Files.Views
                 }
                 else
                 {
-                    foreach (DriveItem drive in Enumerable.Concat(App.DrivesManager.Drives, AppSettings.CloudDrivesManager.Drives))
+                    foreach (DriveItem drive in Enumerable.Concat(App.DrivesManager.Drives, App.CloudDrivesManager.Drives))
                     {
                         if (drive.Path.ToString() == new DirectoryInfo(e.ItemPath).Root.ToString())
                         {
@@ -165,11 +172,13 @@ namespace Files.Views
         {
             AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
             {
-                NavPathParam = e.ItemPath
+                NavPathParam = e.ItemPath,
+                SelectItems = new[] { e.ItemName },
+                AssociatedTabInstance = AppInstance
             });
         }
 
-        private void LibraryWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)
+        private void FolderWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)
         {
             AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
             {
@@ -178,19 +187,14 @@ namespace Files.Views
             AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
         }
 
-        private void LibraryWidget_LibraryCardNewPaneInvoked(object sender, LibraryCardInvokedEventArgs e)
+        private void FolderWidget_LibraryCardNewPaneInvoked(object sender, LibraryCardInvokedEventArgs e)
         {
             AppInstance.PaneHolder?.OpenPathInNewPane(e.Path);
         }
 
-        private async void LibraryWidget_LibraryCardPropertiesInvoked(object sender, LibraryCardEventArgs e)
+        private async void FolderWidget_LibraryCardPropertiesInvoked(object sender, LibraryCardEventArgs e)
         {
             await FilePropertiesHelpers.OpenPropertiesWindowAsync(new LibraryItem(e.Library), AppInstance);
-        }
-
-        private async void LibraryWidget_LibraryCardDeleteInvoked(object sender, LibraryCardEventArgs e)
-        {
-            await AppInstance.FilesystemHelpers.DeleteItemAsync(new StorageFileWithPath(null, e.Library.Path), false, false, false);
         }
 
         private void DrivesWidget_DrivesWidgetNewPaneInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
@@ -217,18 +221,19 @@ namespace Files.Views
             AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
             AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
-            AppInstance.NavigationToolbar.CanRefresh = false;
-            AppInstance.NavigationToolbar.CanGoBack = AppInstance.CanNavigateBackward;
-            AppInstance.NavigationToolbar.CanGoForward = AppInstance.CanNavigateForward;
-            AppInstance.NavigationToolbar.CanNavigateToParent = false;
-
-            AppInstance.LoadPreviewPaneChanged();
+            AppInstance.InstanceViewModel.IsPageTypeFtp = false;
+            AppInstance.InstanceViewModel.IsPageTypeZipFolder = false;
+            AppInstance.InstanceViewModel.IsPageTypeLibrary = false;
+            AppInstance.NavToolbarViewModel.CanRefresh = false;
+            AppInstance.NavToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
+            AppInstance.NavToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
+            AppInstance.NavToolbarViewModel.CanNavigateToParent = false;
 
             // Set path of working directory empty
-            await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
+            await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home".GetLocalized());
 
             // Clear the path UI and replace with Favorites
-            AppInstance.NavigationToolbar.PathComponents.Clear();
+            AppInstance.NavToolbarViewModel.PathComponents.Clear();
             string componentLabel = parameters.NavPathParam;
             string tag = parameters.NavPathParam;
             PathBoxItem item = new PathBoxItem()
@@ -236,13 +241,11 @@ namespace Files.Views
                 Title = componentLabel,
                 Path = tag,
             };
-            AppInstance.NavigationToolbar.PathComponents.Add(item);
+            AppInstance.NavToolbarViewModel.PathComponents.Add(item);
         }
 
         #region IDisposable
 
-        // TODO: This Dispose() is never called, please implement the functionality to call this function.
-        //       This IDisposable.Dispose() needs to be called to unhook events in BundlesWidget to avoid memory leaks.
         public void Dispose()
         {
             ViewModel.YourHomeLoadedInvoked -= ViewModel_YourHomeLoadedInvoked;

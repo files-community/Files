@@ -13,7 +13,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>新增：</value>
+    <value>建立日期：</value>
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>檔案名稱</value>
@@ -28,10 +28,10 @@
     <value>檔案類型：</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>修改時間：</value>
+    <value>修改日期：</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>清空所有檔案</value>
+    <value>清理所有檔案</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>您最近開啟過的檔案和資料夾將顯示在此處</value>
@@ -40,37 +40,22 @@
     <value>開啟檔案位置</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>删除</value>
-  </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>最近使用的檔案</value>
-  </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>通用檔案管理器</value>
+    <value>刪除</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>提交問題</value>
-  </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>向開發者回報詳細的問題資訊</value>
+    <value>提交意見反應</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>第三方許可證</value>
+    <value>第三方憑證</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>關於</value>
   </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>外觀</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>檔案和資料夾</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>關於</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>外觀</value>
   </data>
   <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
     <value>檔案和資料夾</value>
@@ -82,25 +67,19 @@
     <value>個人化</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>繼續上次的操作</value>
+    <value>從之前的工作階段開啟索引標籤</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
-    <value>新增索引標籤</value>
+    <value>開啟新索引標籤頁面</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>打開特定的頁面</value>
+    <value>開啟特定頁面</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>啟動時</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>終端機</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>個人化</value>
-  </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>從側邊欄取消釘選</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>桌面</value>
@@ -123,11 +102,8 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>影片</value>
   </data>
-  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>新增索引標籤</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
-    <value>排序方式</value>
+    <value>排序</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
     <value>名稱</value>
@@ -142,10 +118,10 @@
     <value>大小</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
-    <value>升序</value>
+    <value>遞增</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>降序</value>
+    <value>遞減</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
     <value>重新整理</value>
@@ -154,10 +130,7 @@
     <value>貼上</value>
   </data>
   <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>在終端機中打開...</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>新增</value>
+    <value>使用終端機應用程式開啟...</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>資料夾</value>
@@ -169,13 +142,13 @@
     <value>解壓縮</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
-    <value>在新索引標籤中開啟</value>
+    <value>在新索引標籤開啟</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
     <value>在新視窗開啟</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
-    <value>設定為桌面背景</value>
+    <value>設為桌面背景</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>分享</value>
@@ -186,29 +159,11 @@
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>複製</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>删除</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>重新命名</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>固定到側邊欄</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>內容</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>新視窗</value>
-  </data>
-  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>複製位置</value>
-  </data>
-  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
-    <value>貼上</value>
-  </data>
-  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>在終端機中打開...</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>輸入位置</value>
@@ -217,16 +172,16 @@
     <value>搜尋</value>
   </data>
   <data name="NavToolbarSelectAll.Text" xml:space="preserve">
-    <value>全部選擇</value>
+    <value>全部選取</value>
   </data>
   <data name="NavToolbarClearSelection.Text" xml:space="preserve">
-    <value>取消選擇</value>
+    <value>取消選取</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>資料夾</value>
   </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
-    <value>Bitmap 點陣圖</value>
+    <value>Bitmap 檔案</value>
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>文字文件</value>
@@ -247,13 +202,13 @@
     <value>大小</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>歡迎使用通用檔案管理器！</value>
+    <value>歡迎使用 Files！</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>授權</value>
+    <value>權限請求</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>請授權我們使用您的檔案系统。Windows 設定畫面將會開啟，接著您可以授權。您需要在完成設定後重新啟動應用程式。 </value>
+    <value>請授權我們使用您的檔案系统。待「設定」開啟後您就可以授權給我們。您需要在完成設定後重新啟動應用程式。 </value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>資料夾</value>
@@ -267,14 +222,8 @@
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>命名</value>
   </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>取消</value>
-  </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>新索引標籤</value>
-  </data>
   <data name="SystemTheme" xml:space="preserve">
-    <value>Windows預設</value>
+    <value>預設</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>淺色</value>
@@ -286,7 +235,7 @@
     <value>應用程式</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
-    <value>系统</value>
+    <value>系統</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>新增資料夾</value>
@@ -295,22 +244,19 @@
     <value>該資料夾是空的。</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>返回（Alt+向左键）</value>
+    <value>返回（Alt + 向左键）</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>前進（Alt+向右键）</value>
+    <value>下一頁（Alt + 向右鍵）</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>上移（Alt+向上键）</value>
+    <value>上移（Alt + 向上鍵）</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>重新整理（F5）</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>搜尋</value>
-  </data>
-  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>更多選項</value>
+    <value>搜尋（Ctrl + F）</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>磁碟機</value>
@@ -319,31 +265,25 @@
     <value>檔案</value>
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5雜湊碼：</value>
+    <value>MD5 雜湊值：</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>無法完成該操作</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
-    <value>目標資料夾</value>
+    <value>目標資料夾是</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>是源資料夾的子資料夾</value>
+    <value>源資料夾的子資料夾</value>
   </data>
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>跳過</value>
-  </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>取消</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>設定</value>
   </data>
   <data name="NavToolbarInvertSelection.Text" xml:space="preserve">
     <value>反選</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
-    <value>打開</value>
+    <value>開啟</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>內容</value>
@@ -358,25 +298,19 @@
     <value>在新索引標籤打開</value>
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
-    <value>在新視窗中打開</value>
+    <value>在新視窗打開</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
-    <value>實驗性</value>
+    <value>實驗</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>注意：這些是實驗性的功能！</value>
+    <value>警告：此為實驗性功能！</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
-    <value>實驗性</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>檢視預設設定檔</value>
+    <value>實驗</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>目標目錄已存在同名檔案。</value>
-  </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>重新命名</value>
   </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>檔案已存在</value>
@@ -387,26 +321,23 @@
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>設為鎖定畫面</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
-    <value>縮略圖（大）</value>
+  <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
+    <value>大圖示</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
-    <value>縮略圖（中）</value>
+  <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
+    <value>中圖示</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
-    <value>縮略圖（小）</value>
+  <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
+    <value>小圖示</value>
   </data>
-  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
-    <value>磁貼（並排）</value>
+  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
+    <value>並排</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>確定</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
-    <value>無法删除此檔案</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>拒絕使用</value>
+    <value>無法刪除此檔案</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>請插入正確的磁碟機。</value>
@@ -415,22 +346,22 @@
     <value>磁碟機已退出</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>目標檔案可能已被移動或删除。</value>
+    <value>目標檔案可能已被移動或刪除。</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>找不到檔案</value>
   </data>
   <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
-    <value>欲預覽的檔案可能已被移動或删除。</value>
+    <value>欲預覽的檔案可能已被移動或刪除。</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>目標資料夾可能已被移動或删除。</value>
+    <value>目標資料夾可能已被移動或刪除。</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>您把此資料夾刪除了嗎？</value>
+    <value>您把資料夾刪除了嗎?</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>欲删除的檔案正被其他程式使用。</value>
+    <value>欲刪除的檔案正被其他應用程式使用。</value>
   </data>
   <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
     <value>檔案使用中</value>
@@ -442,10 +373,10 @@
     <value>確定</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
-    <value>清空資源回收筒</value>
+    <value>清理資源回收筒</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
-    <value>還原</value>
+    <value>復原</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>{0} 天前</value>
@@ -472,25 +403,22 @@
     <value>新索引標籤</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
-    <value>不支援此操作</value>
+    <value>尚不支援此操作</value>
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
-    <value>{0} 可用，共 {1}</value>
+    <value>剩餘 {0}，共 {1}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>開啟方式</value>
+    <value>開啟檔案</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
-    <value>檔案名稱不能包含下列任何字元：\ / : * ? " &lt; &gt; |</value>
+    <value>檔案名稱不可以包含下列任意字元：　\ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
     <value>確定</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
-    <value>檔案名稱不能包含下列任何字元：\ / : * ? " &lt; &gt; |</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>打開日誌目錄</value>
+    <value>檔案名稱不可以包含下列任意字元：　\ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>已選取的項目</value>
@@ -499,31 +427,7 @@
     <value>已選取的項目</value>
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
-    <value>存取時間:</value>
-  </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>擁有者：</value>
-  </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>壓克力樣式的側邊欄</value>
-  </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
-    <value>日期格式</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>App 佈景主題</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>顯示已知檔案類型的副檔名</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>顯示所有檔案和資料夾</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>顯示所有檔案和資料夾</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>在檔案內容中顯示檔案擁有者</value>
+    <value>存取日期：</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
     <value>項目</value>
@@ -538,25 +442,19 @@
     <value>正在貼上檔案</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>正在將檔案丟進垃圾桶</value>
+    <value>正在將檔案丟進資源回收桶</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>釘選資料夾到側邊欄</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
-    <value>是</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>取消</value>
+  <data name="Yes" xml:space="preserve">
+    <value>確定</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>您確定要全數永久刪除？</value>
+    <value>您確定要永久刪除這些檔案?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
-    <value>清空資源回收筒</value>
+    <value>清理資源回收筒</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
-    <value>位元組</value>
+    <value>個位元組</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
     <value>KB</value>
@@ -574,22 +472,16 @@
     <value>PB</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>位元組</value>
+    <value>B</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>以系統管理員身分執行</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>了解更多的日期格式</value>
-  </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>解除鎖定</value>
   </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>取消</value>
-  </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>輸入密碼以解鎖磁碟</value>
+    <value>輸入密碼以解鎖磁碟機</value>
   </data>
   <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
     <value>密碼</value>
@@ -598,25 +490,25 @@
     <value>請確認密碼並再試一次。</value>
   </data>
   <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
-    <value>BitLocker錯誤</value>
+    <value>BitLocker 錯誤</value>
   </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
-    <value>包含：</value>
+    <value>數量：</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} 個檔案，{1:#,##0} 個資料夾</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
-    <value>以另一位使用者的身分執行</value>
+    <value>以另一名使用者之身分執行</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
-    <value>{0} 的所有類型</value>
+    <value>全為 {0}</value>
   </data>
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
-    <value>不同的類型</value>
+    <value>多種類型</value>
   </data>
   <data name="PropertiesCombinedItemPath" xml:space="preserve">
-    <value>全部都在{0}</value>
+    <value>{0} 中的所有項目</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>已使用空間：</value>
@@ -628,16 +520,13 @@
     <value>容量：</value>
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
-    <value>檔案系統：:</value>
+    <value>檔案系統：</value>
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>最近</value>
   </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>應用程式語言</value>
-  </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
-    <value>將索引標籤移到這裡</value>
+    <value>將索引標籤移至此處</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>狀態</value>
@@ -649,31 +538,31 @@
     <value>頁面：</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>在新視窗中開啟</value>
+    <value>在新視窗開啟</value>
   </data>
   <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>在新的索引標籤開啟資料夾</value>
+    <value>在新索引標籤開啟資料夾</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>開啟一個資料夾時</value>
+    <value>資料夾開啟時</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Windows 預設</value>
+    <value>您的系統語言</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>沒有結果</value>
   </data>
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
-    <value>無法存取並顯示任何項目</value>
+    <value>無法存取並顯示任意項目</value>
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
     <value>移至 {0}</value>
   </data>
   <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
-    <value>來源及目的地的檔名相同。</value>
+    <value>此位置已經有同名的檔案。</value>
   </data>
   <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
-    <value>目的地資料夾和來源資料夾相同。</value>
+    <value>此位置已經有相同的資料夾。</value>
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>複製到 {0}</value>
@@ -688,13 +577,13 @@
     <value>參數：</value>
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
-    <value>目標：</value>
+    <value>目標位置：</value>
   </data>
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
-    <value>捷徑的類型：</value>
+    <value>捷徑類型：</value>
   </data>
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
-    <value>工作目錄：</value>
+    <value>目標目錄：</value>
   </data>
   <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
     <value>應用程式</value>
@@ -730,10 +619,10 @@
     <value>未知</value>
   </data>
   <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
-    <value>開啟日誌位置</value>
+    <value>開啟紀錄檔資料夾</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
-    <value>通用檔案管理器遇到未處理的問題。</value>
+    <value>Files 因不明原因而發生錯誤。</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
     <value>發生錯誤！</value>
@@ -744,20 +633,14 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>貢獻者</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>看看誰為通用檔案管理器做出貢獻</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>版本資訊</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>看看通用檔案管理器的新功能</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>參考項目無效或無法存取。{0}錯誤訊息：{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
-    <value>無效項目</value>
+    <value>無效的項目</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>版本：</value>
@@ -766,10 +649,10 @@
     <value>目前沒有任何可分享的項目…</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
-    <value>您將分享已選擇的項目</value>
+    <value>您將分享已選取項目</value>
   </data>
   <data name="ShareDialogSingleItemDescription" xml:space="preserve">
-    <value>已選擇的項目將被分享</value>
+    <value>將分享已選取項目</value>
   </data>
   <data name="ShareDialogTitle" xml:space="preserve">
     <value>正在分享 {0}</value>
@@ -778,25 +661,25 @@
     <value>正在分享 {0} {1}</value>
   </data>
   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>您欲重新命名的項目不存在。 請檢查您需要重新命名的檔案路徑。</value>
+    <value>您欲重新命名的項目不存在。</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
     <value>項目不存在</value>
   </data>
   <data name="RenameError.NameInvalid.Text" xml:space="preserve">
-    <value>此檔名無效。請檢查新檔名並再試一次。</value>
+    <value>無效的檔名。請確認其有效性並再次命名。</value>
   </data>
   <data name="RenameError.NameInvalid.Title" xml:space="preserve">
-    <value>新檔名無效</value>
+    <value>無效的檔名</value>
   </data>
   <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>新檔名超出最大長度限制。請檢查新檔名並再試一次。</value>
+    <value>新檔名的字數過長。請確認其有效性並再次命名。</value>
   </data>
   <data name="RenameError.TooLong.Title" xml:space="preserve">
-    <value>新檔名太長</value>
+    <value>檔名過長</value>
   </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
-    <value>更多</value>
+    <value>顯示其他選項</value>
   </data>
   <data name="ButtonNo.Content" xml:space="preserve">
     <value>否</value>
@@ -805,22 +688,16 @@
     <value>是</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>應用程式需要重啟以更改語言設定。您要重啟嗎？</value>
+    <value>需要重啟應用程式以更改語言設定。您要現在就重啟嗎?</value>
   </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>贊助我們</value>
   </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>透過PayPal贊助我們</value>
-  </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>我們無法建立此項目</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>拒絕存取</value>
-  </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>取消</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>新增索引標籤</value>
@@ -828,29 +705,11 @@
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>開啟索引標籤</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>自適應 (建議選項)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>基於應用程式視窗的大小自動調整最佳的多工設定。 當視窗縮小，您會發現水平的索引標籤條縮小成在導覽列上的快顯視窗。</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>水平</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>總是從導覽列移除垂直的多工快顯視窗，並在上方顯示傳統的水平頁籤條。這適用於想要時時確認每個開啟的索引標籤的使用者。</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
-    <value>多工</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>垂直</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>將所有水平的索引標籤縮成在導覽列上的垂直快顯視窗。此設計針對同時想要一個乾淨的使用者介面以及高效率的多工體驗的使用者</value>
+    <value>多工處理</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
-    <value>多工</value>
+    <value>多工處理</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>設為</value>
@@ -858,14 +717,14 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>複製位置</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>新建項目</value>
+    <value>新增項目</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>在下面選擇此新項目的類型</value>
+    <value>於下方選擇新項目的類型</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>資料夾</value>
@@ -874,7 +733,7 @@
     <value>新增資料夾</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>版面配置模式</value>
+    <value>檢視模式</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>向後導覽</value>
@@ -888,38 +747,11 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>到上一層資料夾</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>垂直索引標籤列</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>編輯終端機應用程式</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>編輯終端機應用程式</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>檢視設定檔範本</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>應用程式語言</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>終端機應用程式</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
-    <value>將資源回收桶釘選至側邊欄</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>在刪除檔案或資料夾時顯示確認視窗</value>
-  </data>
-  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>更多選項</value>
-  </data>
-  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
-    <value>狀態儀表板</value>
-  </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>一鍵開啟</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>檔案</value>
@@ -934,13 +766,13 @@
     <value>捷徑項目</value>
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
-    <value>磁碟區</value>
+    <value>磁碟機</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
-    <value>移到這裡</value>
+    <value>移至此處</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
-    <value>可以安心的移除硬體</value>
+    <value>可以安心地移除硬體了</value>
   </data>
   <data name="EjectNotificationBody" xml:space="preserve">
     <value>現在可以安心地從電腦移除此硬體。</value>
@@ -955,13 +787,13 @@
     <value>退出</value>
   </data>
   <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>複製索引標籤</value>
+    <value>複製分頁</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
-    <value>將索引標籤移到新視窗</value>
+    <value>將分頁移到新視窗</value>
   </data>
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
-    <value>新索引標籤</value>
+    <value>新分頁</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>搜尋</value>
@@ -981,6 +813,9 @@
   <data name="PropertyTitle" xml:space="preserve">
     <value>標題</value>
   </data>
+  <data name="PropertySubject" xml:space="preserve">
+    <value>主旨</value>
+  </data>
   <data name="PropertyComment" xml:space="preserve">
     <value>註解</value>
   </data>
@@ -992,6 +827,9 @@
   </data>
   <data name="PropertyBitDepth" xml:space="preserve">
     <value>位元深度</value>
+  </data>
+  <data name="PropertyDimensions" xml:space="preserve">
+    <value>尺寸</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
     <value>水平大小</value>
@@ -1009,7 +847,7 @@
     <value>壓縮</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
-    <value>色彩空間：</value>
+    <value>色彩空間</value>
   </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
     <value>十進位經度</value>
@@ -1022,6 +860,12 @@
   </data>
   <data name="PropertyLongitude" xml:space="preserve">
     <value>經度</value>
+  </data>
+  <data name="PropertyLatitudeRef" xml:space="preserve">
+    <value>緯度參考值</value>
+  </data>
+  <data name="PropertyLongitudeRef" xml:space="preserve">
+    <value>經度參考值</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>高度</value>
@@ -1077,6 +921,9 @@
   <data name="PropertyConductor" xml:space="preserve">
     <value>指揮家</value>
   </data>
+  <data name="PropertyDiscNumber" xml:space="preserve">
+    <value>唱片編號</value>
+  </data>
   <data name="PropertyGenre" xml:space="preserve">
     <value>內容類型</value>
   </data>
@@ -1093,7 +940,7 @@
     <value>保護類型</value>
   </data>
   <data name="PropertyAuthorUrl" xml:space="preserve">
-    <value>作者Url</value>
+    <value>作者個人網站連結</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
     <value>內容發布者</value>
@@ -1114,25 +961,40 @@
     <value>製作人</value>
   </data>
   <data name="PropertyPromotionUrl" xml:space="preserve">
-    <value>促銷Url</value>
+    <value>促銷網站連結</value>
+  </data>
+  <data name="PropertyProviderStyle" xml:space="preserve">
+    <value>風格</value>
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
     <value>發行者</value>
   </data>
+  <data name="PropertyThumbnailLargePath" xml:space="preserve">
+    <value>大縮略圖位置</value>
+  </data>
+  <data name="PropertyThumbnailLargeUri" xml:space="preserve">
+    <value>大縮略圖連結</value>
+  </data>
+  <data name="PropertyThumbnailSmallPath" xml:space="preserve">
+    <value>小縮略圖位置</value>
+  </data>
+  <data name="PropertyThumbnailSmallUri" xml:space="preserve">
+    <value>小縮略圖位置</value>
+  </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
-    <value>使用者網站Url</value>
+    <value>使用者網站連結</value>
   </data>
   <data name="PropertyWriter" xml:space="preserve">
     <value>編劇</value>
   </data>
   <data name="PropertyYear" xml:space="preserve">
-    <value>年</value>
+    <value>年份</value>
   </data>
   <data name="PropertyContributor" xml:space="preserve">
-    <value>參與者</value>
+    <value>協作者</value>
   </data>
   <data name="PropertyLastAuthor" xml:space="preserve">
-    <value>前次的作者</value>
+    <value>作者</value>
   </data>
   <data name="PropertyRevisionNumber" xml:space="preserve">
     <value>修訂版編號</value>
@@ -1192,7 +1054,7 @@
     <value>方向</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
-    <value>核心</value>
+    <value>檔案</value>
   </data>
   <data name="PropertySectionImage" xml:space="preserve">
     <value>影像</value>
@@ -1230,14 +1092,11 @@
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>仍要關閉</value>
   </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>取消</value>
-  </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
-    <value>儲存某些屬性時發生錯誤。</value>
+    <value>儲存屬性時發生錯誤。</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
-    <value>可能有某些屬性包含個人資料。</value>
+    <value>部分屬性可能會顯示他人個資。</value>
   </data>
   <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
     <value>清除</value>
@@ -1251,32 +1110,14 @@
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>未指定</value>
   </data>
-  <data name="StatusCenterTeachingTip.Subtitle" xml:space="preserve">
+  <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
     <value>在此檢查檔案操作的狀態</value>
   </data>
-  <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
-    <value>狀態儀表板</value>
-  </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>授權</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>授權</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>網站</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>網站</value>
-  </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>深入了解日期格式</value>
-  </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>拖曳至此</value>
+  <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
+    <value>狀態中心</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>在此搜尋結果</value>
+    <value>從 {1} 搜尋 {0}</value>
   </data>
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>搜尋結果</value>
@@ -1291,31 +1132,19 @@
     <value>傳送包含詳細資訊的問題回報</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>透過PayPal贊助我們</value>
-  </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>將資料夾跟著檔案一起列出及排序</value>
+    <value>透過 PayPal 贊助我們</value>
   </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>詳細資料</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>否</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
-    <value>您要下載並安裝最新版本的通用檔案管理器嗎？</value>
-  </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>是</value>
+    <value>您要下載並安裝最新版本的 Files 嗎？</value>
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
-    <value>已有可用更新</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>隱藏受保護的作業系統檔案 (建議選項)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>隱藏受保護的作業系統檔案 (建議選項)</value>
+    <value>有可用的更新</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
     <value>檔案</value>
@@ -1324,22 +1153,16 @@
     <value>檔案</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
-    <value>建立空檔案</value>
+    <value>新增空白檔案</value>
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>新檔案</value>
   </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>搜尋檔案及資料夾時，顯示未建立索引的部分 (可能會耗費時間)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>為每個個別的資料夾使用個別的檢視模式設定</value>
-  </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
-    <value>原始路徑</value>
+    <value>原始位置</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
-    <value>原始路徑</value>
+    <value>原始位置</value>
   </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>新增</value>
@@ -1350,85 +1173,49 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>移除</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>快取檔案及資料夾以獲得更佳的效能</value>
-  </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>取消</value>
-  </data>
-  <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
-    <value>執行中的工作</value>
-  </data>
-  <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
-    <value>執行中的工作</value>
-  </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>永遠在雙面板模式中開啟新索引標籤</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>開啟雙面板模式</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
-    <value>在第二面板中開啟</value>
-  </data>
-  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
-    <value>新面板</value>
+    <value>在副畫面中開啟</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
-    <value>在第二面板中開啟</value>
+    <value>在副畫面開啟</value>
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
-    <value>雙面板</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>將多餘溢出的項目移到子選單</value>
+    <value>分割畫面</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>自訂右鍵選單</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>資料夾</value>
   </data>
-  <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>詳細資料</value>
+  <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
+    <value>詳細資料（Ctrl + Shift + 1）</value>
   </data>
-  <data name="NavToolbarGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
-    <value>縮略圖（大）</value>
+  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
+    <value>大圖示（Ctrl + Shift + 5）</value>
   </data>
-  <data name="NavToolbarGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
-    <value>縮略圖（中）</value>
+  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
+    <value>中圖示（Ctrl + Shift + 4）</value>
   </data>
-  <data name="NavToolbarGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
-    <value>縮略圖（小）</value>
+  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
+    <value>小圖示（Ctrl + Shift + 3）</value>
   </data>
-  <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>磁磚（並排）</value>
+  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
+    <value>並排（Ctrl + Shift + 2）</value>
   </data>
-  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
-    <value>檢視模式</value>
+  <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
+    <value>大圖示</value>
   </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>顯示選項</value>
+  <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
+    <value>中圖示</value>
   </data>
-  <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
-    <value>縮略圖（大）</value>
+  <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
+    <value>小圖示</value>
   </data>
-  <data name="NavToolbarGridViewMedium.AutomationProperties.Name" xml:space="preserve">
-    <value>縮略圖（中）</value>
+  <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
+    <value>並排</value>
   </data>
-  <data name="NavToolbarGridViewSmall.AutomationProperties.Name" xml:space="preserve">
-    <value>縮略圖（小）</value>
-  </data>
-  <data name="NavToolbarTilesView.AutomationProperties.Name" xml:space="preserve">
-    <value>磁磚（並排）</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
-    <value>顯示副檔名</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
-    <value>顯示隱藏項目</value>
-  </data>
-  <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>詳細資料</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
@@ -1438,16 +1225,16 @@
     <value>刪除日期</value>
   </data>
   <data name="SettingsTabCustomization.Text" xml:space="preserve">
-    <value>客製索引標籤</value>
+    <value>自訂索引標籤</value>
   </data>
   <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
-    <value>啟動通用檔案管理器時</value>
+    <value>啟動 Files 時</value>
   </data>
   <data name="PropertyItemPathDisplay" xml:space="preserve">
-    <value>項目路徑</value>
+    <value>項目位置</value>
   </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
-    <value>開關預覽視窗 (Ctrl + P)</value>
+    <value>開啟/關閉預覽畫面（Ctrl + P）</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>項目名稱</value>
@@ -1456,22 +1243,19 @@
     <value>確認</value>
   </data>
   <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>已有相同名稱的綁定！</value>
+    <value>相同名稱的快速存取欄已存在！</value>
   </data>
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>此欄位不可留白！</value>
   </data>
   <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
-    <value>鍵入綁定名稱</value>
+    <value>輸入名稱</value>
   </data>
   <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
-    <value>鍵入綁定名稱</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>取消</value>
+    <value>輸入名稱</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
-    <value>想要的名稱</value>
+    <value>您想要的名稱</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>確認</value>
@@ -1480,73 +1264,67 @@
     <value>請輸入新名稱</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>重新命名 "{0}"</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>取消</value>
+    <value>重新命名「{0}」</value>
   </data>
   <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
-    <value>想要的名稱</value>
+    <value>您想要的名稱</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>確認</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>新增綁定</value>
+    <value>建立新的快速存取欄</value>
   </data>
   <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>匯出綁定</value>
+    <value>匯出</value>
   </data>
   <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>匯入綁定</value>
+    <value>匯入</value>
   </data>
   <data name="BundlesWidgetCreateBundleItem.Text" xml:space="preserve">
-    <value>建立綁定</value>
+    <value>新增快速存取欄</value>
   </data>
   <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
-    <value>在新索引標籤中開啟</value>
+    <value>在新分頁中開啟</value>
   </data>
   <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
     <value>開啟項目位置</value>
   </data>
   <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>從綁定中移除</value>
+    <value>從快速存取欄中移除</value>
   </data>
   <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
     <value>移除綁定</value>
   </data>
   <data name="BundlesWidgetHeader.Text" xml:space="preserve">
-    <value>綁定</value>
+    <value>快速存取</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>將檔案或資料夾拖到這裡以快速存取</value>
+    <value>將檔案或資料夾拖曳至此處以方便您進行存取</value>
   </data>
   <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
     <value>確認</value>
   </data>
   <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
-    <value>鍵入綁定名稱</value>
+    <value>輸入名稱</value>
   </data>
   <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
-    <value>建立綁定</value>
+    <value>新增快速存取欄</value>
   </data>
   <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>重新命名綁定</value>
+    <value>重新命名快速存取欄</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>更多選項...</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
-    <value>建立綁定</value>
+    <value>新增快速存取欄</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>雲端硬碟</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>從側邊欄取消釘選資料夾</value>
-  </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>網路芳鄰</value>
+    <value>網路磁碟機</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>網路</value>
@@ -1554,8 +1332,8 @@
   <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
     <value>內容</value>
   </data>
-  <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
-    <value>「執行中的工作」快顯視窗</value>
+  <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>執行中的檔案操作</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>網路連線時可用</value>
@@ -1585,22 +1363,19 @@
     <value>預覽檔案</value>
   </data>
   <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
-    <value>已選取檔案的預覽面板</value>
+    <value>預覽已選取的檔案</value>
   </data>
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
-    <value>說明文件</value>
-  </data>
-  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>探索訣竅並深入了解通用檔案管理器</value>
+    <value>使用手冊</value>
   </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
-    <value>前往通用檔案管理器的說明文件網站</value>
+    <value>前往 Files 使用手冊網站</value>
   </data>
   <data name="NavToolbarMultiselect.Text" xml:space="preserve">
     <value>多重選取</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>假如您變更副檔名，檔案可能變得無法使用。您確定要變更？</value>
+    <value>如果您變更副檔名，檔案可能會變成無法使用。您確定要變更嗎？</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD ROM 光碟機</value>
@@ -1615,7 +1390,7 @@
     <value>軟碟機</value>
   </data>
   <data name="DriveTypeNetwork" xml:space="preserve">
-    <value>網路硬碟</value>
+    <value>網路</value>
   </data>
   <data name="DriveTypeNoRootDirectory" xml:space="preserve">
     <value>未掛載的裝置</value>
@@ -1647,14 +1422,8 @@
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>中斷連線</value>
   </data>
-  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
-    <value>「主動式快取」最多可同時執行的執行續 (較小的數量應該會在硬碟上運作得比較好)</value>
-  </data>
-  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
-    <value>啟用主動式快取 (在瀏覽資料夾時預先載入子資料夾的內容)</value>
-  </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>更多綁定選項</value>
+    <value>更多快速存取選項</value>
   </data>
   <data name="DrivesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>更多磁碟機選項</value>
@@ -1665,14 +1434,11 @@
   <data name="Browse" xml:space="preserve">
     <value>瀏覽</value>
   </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>最近位置</value>
-  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>預覽無法使用</value>
+    <value>無法預覽</value>
   </data>
   <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>詳細資料無法使用</value>
+    <value>無法查看詳細資料</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
     <value>未選取任何項目</value>
@@ -1683,35 +1449,23 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>參數</value>
   </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
-    <value>在側邊欄顯示媒體櫃專區</value>
-  </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>媒體櫃</value>
-  </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>在新的面板中開啟</value>
-  </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>預設</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>顏色佈景主題</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>項目計數</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>刪除失敗</value>
+    <value>無法刪除項目</value>
   </data>
   <data name="StatusUnknownError" xml:space="preserve">
-    <value>發生了未知的錯誤。</value>
+    <value>發生未知錯誤。</value>
   </data>
   <data name="StatusDeletionComplete" xml:space="preserve">
     <value>刪除成功</value>
   </data>
   <data name="StatusOperationCompleted" xml:space="preserve">
-    <value>此作業已完成。</value>
+    <value>此次操作已完成。</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
     <value>成功丟入資源回收桶</value>
@@ -1725,11 +1479,8 @@
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>否</value>
   </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>是</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
-    <value>此項作業需要系統管理員身分</value>
+    <value>此操作需要系統管理員身分</value>
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>是否要以系統管理員身分繼續？</value>
@@ -1741,7 +1492,7 @@
     <value>系統管理員</value>
   </data>
   <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
-    <value>通用檔案管理器正以系統管理員身分執行中</value>
+    <value>Files 正以系統管理員身分執行中</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
     <value>釘選至開始功能表</value>
@@ -1749,16 +1500,1151 @@
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
     <value>從開始功能表取消釘選</value>
   </data>
+  <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
+    <value>清單</value>
+  </data>
+  <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>清單（Ctrl + Shift + 6）</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
+    <value>清單</value>
+  </data>
+  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
+    <value>{0:#,##0} 個檔案，{1:#,##0} 個檔案 - 來自 {2:#,##0}</value>
+  </data>
+  <data name="ItemTypeLibrary" xml:space="preserve">
+    <value>媒體櫃</value>
+  </data>
+  <data name="LibraryItemAutomation" xml:space="preserve">
+    <value>媒體櫃</value>
+  </data>
+  <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
+    <value>媒體櫃</value>
+  </data>
+  <data name="LibraryLocations.Text" xml:space="preserve">
+    <value>位置：</value>
+  </data>
+  <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
+    <value>新增</value>
+  </data>
+  <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
+    <value>預設</value>
+  </data>
+  <data name="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" xml:space="preserve">
+    <value>設為預設儲存位置</value>
+  </data>
+  <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
+    <value>移除</value>
+  </data>
+  <data name="LibraryNoLocations.Text" xml:space="preserve">
+    <value>沒有位置</value>
+  </data>
+  <data name="ErrorInputEmpty" xml:space="preserve">
+    <value>輸入欄位不得空白！</value>
+  </data>
+  <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
+    <value>檔案名稱不可以包含下列任意字元：　\ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="ErrorNameInputRestricted" xml:space="preserve">
+    <value>無法使用此名稱！</value>
+  </data>
+  <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
+    <value>已存在相同名稱的媒體櫃！</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
+    <value>刪除媒體櫃</value>
+  </data>
+  <data name="DialogCreateLibraryButtonText" xml:space="preserve">
+    <value>新增</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>開啟儲存空間感知器</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>開啟儲存空間感知器</value>
+  </data>
+  <data name="PropertyISO" xml:space="preserve">
+    <value>ISO 速度</value>
+  </data>
+  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>複製</value>
+  </data>
+  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>將複製 {0} 個項目</value>
+  </data>
+  <data name="CopyItemsDialogTitle" xml:space="preserve">
+    <value>複製檔案</value>
+  </data>
+  <data name="DeleteItemsDialogTitle" xml:space="preserve">
+    <value>刪除檔案</value>
+  </data>
+  <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>移動</value>
+  </data>
+  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>將移動 {0} 個項目</value>
+  </data>
+  <data name="MoveItemsDialogTitle" xml:space="preserve">
+    <value>移動項目</value>
+  </data>
+  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>將刪除 {0} 個項目</value>
+  </data>
+  <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>繼續</value>
+  </data>
+  <data name="ConflictingItemsDialogTitle" xml:space="preserve">
+    <value>檔案已存在</value>
+  </data>
+  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>將複製一個項目</value>
+  </data>
+  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>將刪除一個項目</value>
+  </data>
+  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>將移動一個項目</value>
+  </data>
+  <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
+    <value>永久刪除</value>
+  </data>
+  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
+    <value>沒有找到您想找的檔案嗎？</value>
+  </data>
+  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
+    <value>搜尋未被索引的檔案。</value>
+  </data>
+  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
+    <value>管理小工具</value>
+  </data>
+  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
+    <value>管理小工具</value>
+  </data>
+  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
+    <value>顯示快速存取小工具</value>
+  </data>
+  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
+    <value>顯示磁碟機小工具</value>
+  </data>
+  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
+    <value>顯示最近使用檔案小工具</value>
+  </data>
+  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
+    <value>管理小工具</value>
+  </data>
+  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
+    <value>顯示資料夾小工具</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
+    <value>有 {0} 個同名檔案已存在，且尚有 {1} 個項目等待操作。</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
+    <value>有一個同名檔案已存在，且尚有 {0} 個項目等待操作。</value>
+  </data>
+  <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
+    <value>覆蓋</value>
+  </data>
+  <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
+    <value>跳過</value>
+  </data>
+  <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
+    <value>覆蓋</value>
+  </data>
+  <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
+    <value>跳過</value>
+  </data>
+  <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
+    <value>覆蓋</value>
+  </data>
+  <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
+    <value>跳過</value>
+  </data>
+  <data name="GenerateNewName" xml:space="preserve">
+    <value>自動重新命名</value>
+  </data>
+  <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
+    <value>復原</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
+    <value>有 {0} 個同名檔案已存在。</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
+    <value>有一個同名檔案已存在。</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
+    <value>新增資料夾並將選取項目丟入</value>
+  </data>
+  <data name="ToolTipDescriptionName" xml:space="preserve">
+    <value>名稱：</value>
+  </data>
+  <data name="ToolTipDescriptionType" xml:space="preserve">
+    <value>類型：</value>
+  </data>
+  <data name="ToolTipDescriptionDate" xml:space="preserve">
+    <value>修改日期：</value>
+  </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>選取選項</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>選取選項</value>
   </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>顯示選項</value>
+  <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
+    <value>檔案圖示</value>
   </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>顯示選項</value>
+  <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
+    <value>原始位置</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
+    <value>項目類型</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
+    <value>修改日期</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
+    <value>刪除日期</value>
+  </data>
+  <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
+    <value>調整側邊欄大小</value>
+  </data>
+  <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>新分頁（Ctrl + T）</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>關閉分頁（Ctrl + W）</value>
+  </data>
+  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+    <value>開啟檔案 -</value>
+  </data>
+  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
+    <value>分類</value>
+  </data>
+  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
+    <value>排序</value>
+  </data>
+  <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
+    <value>排序方向</value>
+  </data>
+  <data name="ItemSizeText_Huge" xml:space="preserve">
+    <value>巨大</value>
+  </data>
+  <data name="ItemSizeText_VeryLarge" xml:space="preserve">
+    <value>極大</value>
+  </data>
+  <data name="ItemSizeText_Large" xml:space="preserve">
+    <value>大</value>
+  </data>
+  <data name="ItemSizeText_Medium" xml:space="preserve">
+    <value>中</value>
+  </data>
+  <data name="ItemSizeText_Small" xml:space="preserve">
+    <value>小</value>
+  </data>
+  <data name="ItemSizeText_Tiny" xml:space="preserve">
+    <value>微小</value>
+  </data>
+  <data name="ItemTimeText_Today" xml:space="preserve">
+    <value>今天</value>
+  </data>
+  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+    <value>昨天</value>
+  </data>
+  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+    <value>本週初</value>
+  </data>
+  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+    <value>上週</value>
+  </data>
+  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
+    <value>本月</value>
+  </data>
+  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+    <value>上個月</value>
+  </data>
+  <data name="ItemTimeText_ThisYear" xml:space="preserve">
+    <value>今年</value>
+  </data>
+  <data name="ItemTimeText_Older" xml:space="preserve">
+    <value>更早</value>
+  </data>
+  <data name="ItemTimeText_Before" xml:space="preserve">
+    <value>{0} 前</value>
+  </data>
+  <data name="GroupItemsCount_Singular" xml:space="preserve">
+    <value>{0} 個項目</value>
+  </data>
+  <data name="GroupItemsCount_Plural" xml:space="preserve">
+    <value>{0} 個項目</value>
+  </data>
+  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+    <value>重新開啟已關閉的分頁</value>
+  </data>
+  <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
+    <value>隱私權政策</value>
+  </data>
+  <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>檢視 Files 的隱私權政策</value>
+  </data>
+  <data name="RenameFileDialogTitle" xml:space="preserve">
+    <value>重新命名</value>
+  </data>
+  <data name="StatusDeletionCancelled" xml:space="preserve">
+    <value>已取消刪除</value>
+  </data>
+  <data name="StatusMoveCanceled" xml:space="preserve">
+    <value>已取消移動</value>
+  </data>
+  <data name="StatusCopyCanceled" xml:space="preserve">
+    <value>已取消複製</value>
+  </data>
+  <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
+    <value>已取消將 {0} 個項目從 {1} 移至 {2}</value>
+  </data>
+  <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
+    <value>在移動 {3} 個項目後取消 - 將 {0} 個項目從 {1} 移至 {2}</value>
+  </data>
+  <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
+    <value>在移動 {3} 個項目後取消 - 將 {0} 個項目從 {1} 移至 {2}</value>
+  </data>
+  <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
+    <value>正在將 {0} 個項目從 {1} 移至 {2}</value>
+  </data>
+  <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
+    <value>正在將 {0} 個項目從 {1} 移至 {2}</value>
+  </data>
+  <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
+    <value>成功將 {0} 個項目從 {1} 移至 {2}</value>
+  </data>
+  <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
+    <value>成功將 {0} 個項目從 {1} 移至 {2}</value>
+  </data>
+  <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
+    <value>無法移動 {0} 個項目從 {1} 至 {2}</value>
+  </data>
+  <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
+    <value>無法將 {0} 個項目從 {1} 移至 {2}</value>
+  </data>
+  <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
+    <value>已取消將 {0} 個項目複製到 {1}</value>
+  </data>
+  <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
+    <value>在複製 {2} 個項目後取消 - 將 {0} 個項目複製到 {1}</value>
+  </data>
+  <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
+    <value>在複製 {2} 個項目後取消 - 將 {0} 個項目複製到 {1}</value>
+  </data>
+  <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
+    <value>正在將 {0} 個項目複製到 {1}</value>
+  </data>
+  <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
+    <value>正在將 {0} 個項目複製到 {1}</value>
+  </data>
+  <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
+    <value>成功將 {0} 個項目複製到 {1}</value>
+  </data>
+  <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
+    <value>成功將 {0} 個項目複製到 {1}</value>
+  </data>
+  <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
+    <value>已取消從 {1} 刪除 {0} 個項目</value>
+  </data>
+  <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
+    <value>在刪除 {3} 個項目後取消 - 從 {1} 刪除 {0} 個項目</value>
+  </data>
+  <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
+    <value>在刪除 {3} 個項目後取消 - 從 {1} 刪除 {0} 個項目</value>
+  </data>
+  <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
+    <value>正在從 {1} 刪除 {0} 個項目</value>
+  </data>
+  <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
+    <value>正在從 {1} 刪除 {0} 個項目</value>
+  </data>
+  <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
+    <value>成功從 {1} 刪除 {0} 個項目</value>
+  </data>
+  <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
+    <value>成功從 {1} 刪除 {0} 個項目</value>
+  </data>
+  <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
+    <value>無法從 {1} 刪除 {1} 個項目</value>
+  </data>
+  <data name="TheRecycleBin" xml:space="preserve">
+    <value>資源回收桶</value>
+  </data>
+  <data name="MoveInProgress" xml:space="preserve">
+    <value>正在移動檔案</value>
+  </data>
+  <data name="CopyInProgress.Title" xml:space="preserve">
+    <value>正在複製項目</value>
+  </data>
+  <data name="StatusRecycleFailed" xml:space="preserve">
+    <value>無法將項目丟入資源回收桶</value>
+  </data>
+  <data name="StatusRecycleCancelled" xml:space="preserve">
+    <value>已取消丟入資源回收桶</value>
+  </data>
+  <data name="StatusCancellingOp" xml:space="preserve">
+    <value>取消中</value>
+  </data>
+  <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
+    <value>關閉</value>
+  </data>
+  <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>關閉</value>
+  </data>
+  <data name="NavToolbarWidgets.Label" xml:space="preserve">
+    <value>小工具</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
+    <value>選擇</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>檢視</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>檢視</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
+    <value>檢視</value>
+  </data>
+  <data name="PreviewPaneToggle.Label" xml:space="preserve">
+    <value>預覽</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>排序</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>排序</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
+    <value>排序</value>
+  </data>
+  <data name="NavToolbarLayout.Text" xml:space="preserve">
+    <value>檢視</value>
+  </data>
+  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
+    <value>無法從 {1} 刪除 {0} 個項目</value>
+  </data>
+  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+    <value>新視窗</value>
+  </data>
+  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+    <value>複製位置</value>
+  </data>
+  <data name="NavigationToolbarPaste.Label" xml:space="preserve">
+    <value>貼上</value>
+  </data>
+  <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
+    <value>在終端機中開啟...</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
+    <value>新增</value>
+  </data>
+  <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
+    <value>新增畫面</value>
+  </data>
+  <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
+    <value>安全性</value>
+  </data>
+  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+    <value>進階</value>
+  </data>
+  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+    <value>允許</value>
+  </data>
+  <data name="SecurityDenyLabel.Text" xml:space="preserve">
+    <value>拒絕</value>
+  </data>
+  <data name="SecurityFullControlLabel.Text" xml:space="preserve">
+    <value>完全控制</value>
+  </data>
+  <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
+    <value>列出目錄內容</value>
+  </data>
+  <data name="SecurityModifyLabel.Text" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
+    <value>主體權限 -</value>
+  </data>
+  <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
+    <value>讀取和執行</value>
+  </data>
+  <data name="SecurityReadLabel.Text" xml:space="preserve">
+    <value>讀取</value>
+  </data>
+  <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
+    <value>群組或使用者名稱</value>
+  </data>
+  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+    <value>寫入</value>
+  </data>
+  <data name="SecurityUnknownAccount" xml:space="preserve">
+    <value>帳戶名稱不詳</value>
+  </data>
+  <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
+    <value>您沒有權限查看此項目的安全性設定。點擊「進階」以繼續。</value>
+  </data>
+  <data name="SecurityOwnerLabel.Text" xml:space="preserve">
+    <value>擁有者</value>
+  </data>
+  <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
+    <value>擁有者不詳</value>
+  </data>
+  <data name="SettingsNavSidebar.Content" xml:space="preserve">
+    <value>側邊欄</value>
+  </data>
+  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
+    <value>側邊欄</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>預設</value>
+  </data>
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
+    <value>開啟客製化主題資料夾</value>
+  </data>
+  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>了解更多關於客製化主題的資訊</value>
+  </data>
+  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>了解更多關於客製化主題的資訊</value>
+  </data>
+  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
+    <value>您可以透過客製化主題自訂 Files 的外觀。</value>
+  </data>
+  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
+    <value>欲知詳情請查看使用手冊。</value>
+  </data>
+  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>垂直索引標籤</value>
+  </data>
+  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
+    <value>垂直索引標籤</value>
+  </data>
+  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
+    <value>新分頁（Ctrl + T）</value>
+  </data>
+  <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
+    <value>新增媒體櫃</value>
+  </data>
+  <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
+    <value>重置媒體櫃</value>
+  </data>
+  <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
+    <value>復原</value>
+  </data>
+  <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
+    <value>是否要重置媒體櫃？您所有的檔案都會保留下來。</value>
+  </data>
+  <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
+    <value>重置媒體櫃</value>
+  </data>
+  <data name="RecentFilesHeader.Text" xml:space="preserve">
+    <value>最近使用檔案</value>
+  </data>
+  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
+    <value>在副畫面中開啟</value>
+  </data>
+  <data name="PropertyFileOwner" xml:space="preserve">
+    <value>擁有者</value>
+  </data>
+  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
+    <value>{0} 的進階安全性設定</value>
+  </data>
+  <data name="SecuritySpecialLabel.Text" xml:space="preserve">
+    <value>特殊存取權限</value>
+  </data>
+  <data name="SecurityAdvancedAccessLabel.Text" xml:space="preserve">
+    <value>存取</value>
+  </data>
+  <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
+    <value>適用於</value>
+  </data>
+  <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
+    <value>主體</value>
+  </data>
+  <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
+    <value>檔案</value>
+  </data>
+  <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
+    <value>此資料夾</value>
+  </data>
+  <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
+    <value>子資料夾</value>
+  </data>
+  <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
+    <value>繼承</value>
+  </data>
+  <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
+    <value>權限</value>
+  </data>
+  <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
+    <value>類型</value>
+  </data>
+  <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
+    <value>您沒有權限查看此項目的安全性設定。您可以嘗試獲取此物件的所有權。</value>
+  </data>
+  <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
+    <value>特殊存取權限</value>
+  </data>
+  <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
+    <value>此資料夾及檔案</value>
+  </data>
+  <data name="SecurityAdvancedFolderSubfoldersFiles.Text" xml:space="preserve">
+    <value>此資料夾、子資料夾及檔案</value>
+  </data>
+  <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
+    <value>僅檔案</value>
+  </data>
+  <data name="SecurityAdvancedOnlySubfolders.Text" xml:space="preserve">
+    <value>僅子資料夾</value>
+  </data>
+  <data name="SecurityAdvancedOnlySubfoldersFiles.Text" xml:space="preserve">
+    <value>僅子資料夾及檔案</value>
+  </data>
+  <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
+    <value>僅此資料夾</value>
+  </data>
+  <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
+    <value>此資料夾及子資料夾</value>
+  </data>
+  <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
+    <value>附加資料</value>
+  </data>
+  <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
+    <value>修改權限</value>
+  </data>
+  <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
+    <value>新增資料夾</value>
+  </data>
+  <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
+    <value>新增檔案</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>刪除</value>
+  </data>
+  <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
+    <value>刪除子路徑及檔案</value>
+  </data>
+  <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
+    <value>執行檔案</value>
+  </data>
+  <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
+    <value>讀取屬性</value>
+  </data>
+  <data name="SecurityReadDataLabel.Text" xml:space="preserve">
+    <value>讀取資料</value>
+  </data>
+  <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
+    <value>讀取擴充屬性</value>
+  </data>
+  <data name="SecurityReadPermissionsLabel.Text" xml:space="preserve">
+    <value>讀取權限</value>
+  </data>
+  <data name="SecurityTakeOwnershipLabel.Text" xml:space="preserve">
+    <value>取得擁有權</value>
+  </data>
+  <data name="SecurityTraverseLabel.Text" xml:space="preserve">
+    <value>查看資料夾</value>
+  </data>
+  <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
+    <value>寫入屬性</value>
+  </data>
+  <data name="SecurityWriteDataLabel.Text" xml:space="preserve">
+    <value>寫入資料</value>
+  </data>
+  <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
+    <value>寫入擴充屬性</value>
+  </data>
+  <data name="SecurityNoneLabel.Text" xml:space="preserve">
+    <value>無</value>
+  </data>
+  <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
+    <value>將繼承的權限轉換成此物件中的明確權限</value>
+  </data>
+  <data name="SecurityAdvancedInheritedEnable.Text" xml:space="preserve">
+    <value>啟用繼承</value>
+  </data>
+  <data name="SecurityAdvancedInheritedRemove.Text" xml:space="preserve">
+    <value>移除所有繼承的權限</value>
+  </data>
+  <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
+    <value>重置子權限</value>
+  </data>
+  <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
+    <value>覆蓋所有子物件的權限為此父物件的可繼承權限</value>
+  </data>
+  <data name="CreateBundleBtn.AutomationProperties.Name" xml:space="preserve">
+    <value>新增快速存取欄</value>
+  </data>
+  <data name="CreateBundleBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>新增快速存取欄</value>
+  </data>
+  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
+    <value>關閉畫面</value>
+  </data>
+  <data name="PropertyFileDescription" xml:space="preserve">
+    <value>檔案說明</value>
+  </data>
+  <data name="PropertyCompany" xml:space="preserve">
+    <value>公司</value>
+  </data>
+  <data name="PropertyLanguage" xml:space="preserve">
+    <value>語言</value>
+  </data>
+  <data name="PropertyTrademarks" xml:space="preserve">
+    <value>商標</value>
+  </data>
+  <data name="PropertyFileVersion" xml:space="preserve">
+    <value>檔案版本</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>從雲端下載檔案並載入預覽</value>
+  </data>
+  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
+    <value>要解壓縮檔案至何處</value>
+  </data>
+  <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
+    <value>瀏覽</value>
+  </data>
+  <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
+    <value>完成後開啟目標資料夾</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
+    <value>解壓縮檔案</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
+    <value>解壓縮至此</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
+    <value>解壓縮...</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
+    <value>解壓縮至 {0}\</value>
+  </data>
+  <data name="DetailsArchiveItemCount" xml:space="preserve">
+    <value>{0} 個項目（{1} 個檔案，{2} 個資料夾）</value>
+  </data>
+  <data name="PropertyUncompressedSize" xml:space="preserve">
+    <value>壓縮前的大小</value>
+  </data>
+  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+    <value>保持在最上層</value>
+  </data>
+  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+    <value>返回完整檢視</value>
+  </data>
+  <data name="WSL" xml:space="preserve">
+    <value>WSL</value>
+  </data>
+  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
+    <value>隱藏 [{0}] 選項</value>
+  </data>
+  <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
+    <value>一律使用分割畫面模式開啟索引標籤</value>
+  </data>
+  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
+    <value>開啟分割畫面模式</value>
+  </data>
+  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
+    <value>於標題欄中顯示垂直索引標籤按鈕</value>
+  </data>
+  <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
+    <value>於側邊欄顯示雲端硬碟選項</value>
+  </data>
+  <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
+    <value>於側邊欄顯示磁碟機選項</value>
+  </data>
+  <data name="SettingsShowWslSection.Title" xml:space="preserve">
+    <value>於側邊欄顯示 WSL 選項</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
+    <value>於側邊欄顯示網路選項</value>
+  </data>
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
+    <value>將資源回收桶釘選至我的最愛中</value>
+  </data>
+  <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
+    <value>於側邊欄顯示媒體櫃選項</value>
+  </data>
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
+    <value>選擇您的色彩配置</value>
+  </data>
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
+    <value>客製化主題</value>
+  </data>
+  <data name="SettingsContextMenuOverflow" xml:space="preserve">
+    <value>將右鍵選單溢出的選項移至子選單中</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
+    <value>語言</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
+    <value>顯示已知檔案類型的副檔名</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
+    <value>顯示隱藏的檔案和資料夾</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
+    <value>隱藏受保護的作業系統檔案（建議開啟）</value>
+  </data>
+  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
+    <value>按一下以開啟項目</value>
+  </data>
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
+    <value>將檔案與資料夾視為同一項目進行排序</value>
+  </data>
+  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
+    <value>搜尋檔案或資料夾時一併顯示未被索引的項目（可能會延長搜尋時間）</value>
+  </data>
+  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
+    <value>儲存專屬在該目錄的檢視方式</value>
+  </data>
+  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
+    <value>相關連結</value>
+  </data>
+  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
+    <value>複製</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+    <value>釘選至我的最愛</value>
+  </data>
+  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
+    <value>取消釘選</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
+    <value>取消釘選</value>
+  </data>
+  <data name="NavSettingsButton" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
+    <value>複製</value>
+  </data>
+  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
+    <value>複製</value>
+  </data>
+  <data name="ConsentDialogTitle" xml:space="preserve">
+    <value>有可用的更新</value>
+  </data>
+  <data name="ConsentDialogContent" xml:space="preserve">
+    <value>已準備好安裝更新</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>關閉</value>
+  </data>
+  <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+    <value>新增檔案</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
+    <value>新增資料夾</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
+    <value>新增項目...</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>首頁</value>
+  </data>
+  <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
+    <value>新分頁</value>
+  </data>
+  <data name="NavToolbarSelectAll.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl + A</value>
+  </data>
+  <data name="NavigationToolbarNewPane.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Alt + Shift + +</value>
+  </data>
+  <data name="NavigationToolbarClosePane.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl + Shift + W</value>
+  </data>
+  <data name="NavigationToolbarNewWindow.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl + N</value>
+  </data>
+  <data name="NavigationToolbarEnterCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl + Alt + Up</value>
+  </data>
+  <data name="NavigationToolbarExitCompactOverlay.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl + Alt + Down</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl + Shift + 1</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl + Shift + 2</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSmallIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl + Shift + 3</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutMediumIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl + Shift + 4</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutLargeIcons.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl + Shift + 5</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl + Shift + 6</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl + T</value>
+  </data>
+  <data name="HorizontalMultitaskingControlReopenClosedTab.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl + Shift + T</value>
+  </data>
+  <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
+    <value>已完成解壓縮。</value>
+  </data>
+  <data name="ExtractingArchiveText" xml:space="preserve">
+    <value>正在解壓縮檔案</value>
+  </data>
+  <data name="ExtractingCompleteText" xml:space="preserve">
+    <value>解壓縮完畢！</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNew.KeyboardAcceleratorTextOverride" xml:space="preserve">
+    <value>Ctrl + Shift + N</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
+    <value>終端機應用程式</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
+    <value>編輯終端機應用程式</value>
+  </data>
+  <data name="SettingsDateFormat.Title" xml:space="preserve">
+    <value>日期格式</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
+    <value>刪除檔案或資料夾時顯示確認畫面</value>
+  </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
+    <value>在新索引標籤開啟資料夾</value>
+  </data>
+  <data name="SettingsPrivacy.Title" xml:space="preserve">
+    <value>隱私權政策</value>
+  </data>
+  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
+    <value>Fluent UI 系統圖示</value>
+  </data>
+  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Fluent UI 系統圖示</value>
+  </data>
+  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
+    <value>
+* 個人資料收集聲明 *
+Files 不會收集、存儲、共享或發布任何使用者的個資。
+
+* 非個資數據收集聲明 *
+
+我們使用 App Center 來追蹤使用者在應用程式的使用情況，並藉此查找錯誤及修復問題。所有數據都是以匿名身分回傳至 App Center，你的個資也不會被回傳。
+  </value>
+  </data>
+  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
+    <value>無</value>
+  </data>
+  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
+    <value>名稱</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+    <value>修改日期</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
+    <value>建立日期</value>
+  </data>
+  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
+    <value>大小</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
+    <value>刪除日期</value>
+  </data>
+  <data name="NavToolbarArrangementOptionOriginalFolder.Text" xml:space="preserve">
+    <value>原始資料夾</value>
+  </data>
+  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
+    <value>類型</value>
+  </data>
+  <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
+    <value>遞增</value>
+  </data>
+  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+    <value>遞減</value>
+  </data>
+  <data name="SyncStatus" xml:space="preserve">
+    <value>同步狀態</value>
+  </data>
+  <data name="SettingsShowFavoritesSection.Title" xml:space="preserve">
+    <value>於側邊欄顯示我的最愛選項</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByFileTag.Text" xml:space="preserve">
+    <value>檔案標籤</value>
+  </data>
+  <data name="NavToolbarArrangementOptionFileTag.Text" xml:space="preserve">
+    <value>檔案標籤</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
+    <value>開啟父資料夾</value>
+  </data>
+  <data name="FileTagUnknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
+    <value>檔案標籤</value>
+  </data>
+  <data name="SettingsEditFileTags.AutomationProperties.Name" xml:space="preserve">
+    <value>編輯檔案標籤</value>
+  </data>
+  <data name="SettingsEditFileTags.ToolTipService.ToolTip" xml:space="preserve">
+    <value>編輯檔案標籤</value>
+  </data>
+  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+    <value>編輯檔案標籤</value>
+  </data>
+  <data name="SettingsEnableFileTags.Title" xml:space="preserve">
+    <value>開啟檔案標籤功能</value>
+  </data>
+  <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
+    <value>開啟磁碟機</value>
+  </data>
+  <data name="InsertDiscDialog.Text" xml:space="preserve">
+    <value>請將光碟放入 磁碟機 {0} 中</value>
+  </data>
+  <data name="InsertDiscDialog.Title" xml:space="preserve">
+    <value>插入光碟</value>
+  </data>
+  <data name="ConfictingItemsDialogOptionApplyToAll.Text" xml:space="preserve">
+    <value>全部應用</value>
+  </data>
+  <data name="PropertyPartOfSet" xml:space="preserve">
+    <value>集數</value>
+  </data>
+  <data name="AskCredentialDialog.PrimaryButtonText" xml:space="preserve">
+    <value>確定</value>
+  </data>
+  <data name="AskCredentialDialog.Title" xml:space="preserve">
+    <value>憑證請求</value>
+  </data>
+  <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
+    <value>匿名</value>
+  </data>
+  <data name="CredentialDialogDescription.Text" xml:space="preserve">
+    <value>請提供您的憑證：</value>
+  </data>
+  <data name="CredentialDialogPassword.PlaceholderText" xml:space="preserve">
+    <value>密碼</value>
+  </data>
+  <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
+    <value>使用者名稱</value>
+  </data>
+  <data name="NoSearchResultsFound" xml:space="preserve">
+    <value>找不到任何符合搜尋條件的檔案</value>
+  </data>
+  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>快速存取小工具</value>
+  </data>
+  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>磁碟機小工具</value>
+  </data>
+  <data name="FolderWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>媒體櫃小工具</value>
+  </data>
+  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
+    <value>最近使用檔案小工具</value>
+  </data>
+  <data name="OpenLogLocation" xml:space="preserve">
+    <value>開啟執行紀錄檔資料夾</value>
+  </data>
+  <data name="LinkToFolderCaptionText" xml:space="preserve">
+    <value>建立捷徑至 {0}</value>
+  </data>
+  <data name="NavToolbarColumnsHeader.Text" xml:space="preserve">
+    <value>清單</value>
+  </data>
+  <data name="NavToolbarDetailsHeader.Text" xml:space="preserve">
+    <value>詳細資料</value>
+  </data>
+  <data name="NavToolbarLargeIconsHeader.Text" xml:space="preserve">
+    <value>大圖示</value>
+  </data>
+  <data name="NavToolbarMediumIconsHeader.Text" xml:space="preserve">
+    <value>中圖示</value>
+  </data>
+  <data name="NavToolbarSmallIconsHeader.Text" xml:space="preserve">
+    <value>小圖示</value>
+  </data>
+  <data name="NavToolbarTilesHeader.Text" xml:space="preserve">
+    <value>並排</value>
+  </data>
+  <data name="NavToolbarShowFileExtensionsHeader.Text" xml:space="preserve">
+    <value>顯示檔案副檔名</value>
+  </data>
+  <data name="NavToolbarShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>顯示隱藏項目</value>
+  </data>
+  <data name="NavToolbarShowFileExtensions.AutomationProperties.Name" xml:space="preserve">
+    <value>顯示檔案副檔名</value>
+  </data>
+  <data name="NavToolbarShowHiddenItemsHeader.Text" xml:space="preserve">
+    <value>顯示隱藏項目</value>
+  </data>
+  <data name="SettingsShowFavoritesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>於側邊欄顯示我的最愛選項</value>
+  </data>
+  <data name="SettingsPinRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>將資源回收桶釘選至我的最愛中</value>
+  </data>
+  <data name="SettingsShowCloudDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>於側邊欄顯示雲端硬碟選項</value>
+  </data>
+  <data name="SettingsShowDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>於側邊欄顯示磁碟機選項</value>
+  </data>
+  <data name="SettingsShowLibrarySectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>於側邊欄顯示媒體櫃選項</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>於側邊欄顯示網路選項</value>
+  </data>
+  <data name="SettingsShowWslSectionSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>於側邊欄顯示 WSL 選項</value>
+  </data>
+  <data name="SettingsDateFormatComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>日期格式</value>
+  </data>
+  <data name="SettingsOpenFoldersNewTabToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>在新索引標籤開啟資料夾</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>語言</value>
+  </data>
+  <data name="SettingsShowConfirmDeleteDialogToggleSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>刪除檔案或資料夾時顯示確認畫面</value>
+  </data>
+  <data name="TerminalApplicationsComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>終端機應用程式</value>
+  </data>
+  <data name="OngoingTasks" xml:space="preserve">
+    <value>檔案操作狀態</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
+    <value>載入完整預覽</value>
+  </data>
+  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
+    <value>只顯示預覽畫面</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneDown" xml:space="preserve">
+    <value>移至下一層</value>
+  </data>
+  <data name="SideBarFavoritesMoveOneUp" xml:space="preserve">
+    <value>移至上一層</value>
+  </data>
+  <data name="SideBarFavoritesMoveToBottom" xml:space="preserve">
+    <value>移至最下層</value>
+  </data>
+  <data name="SideBarFavoritesMoveToTop" xml:space="preserve">
+    <value>移至最上層</value>
   </data>
 </root>

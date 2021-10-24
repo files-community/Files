@@ -70,12 +70,16 @@ namespace Files.Filesystem
             }
             else if (ex is ArgumentException) // Item was invalid
             {
-                return (T == typeof(StorageFolder) || T == typeof(StorageFolderWithPath)) ?
+                return (typeof(IStorageFolder).IsAssignableFrom(T) || T == typeof(StorageFolderWithPath)) ?
                     FileSystemStatusCode.NotAFolder : FileSystemStatusCode.NotAFile;
             }
             else if ((uint)ex.HResult == 0x800700B7)
             {
                 return FileSystemStatusCode.AlreadyExists;
+            }
+            else if ((uint)ex.HResult == 0x80071779)
+            {
+                return FileSystemStatusCode.ReadOnly;
             }
             else if ((uint)ex.HResult == 0x800700A1 // The specified path is invalid (usually an mtp device was disconnected)
                 || (uint)ex.HResult == 0x8007016A // The cloud file provider is not running

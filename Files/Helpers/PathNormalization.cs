@@ -1,10 +1,9 @@
-﻿using NLog;
-using System;
+﻿using System;
 using System.IO;
 
 namespace Files.Helpers
 {
-    public class PathNormalization
+    public static class PathNormalization
     {
         public static string GetPathRoot(string path)
         {
@@ -15,7 +14,12 @@ namespace Files.Helpers
             string rootPath = "";
             try
             {
-                rootPath = new Uri(path).GetLeftPart(UriPartial.Authority);
+                var pathAsUri = new Uri(path.Replace("\\", "/"));
+                rootPath = pathAsUri.GetLeftPart(UriPartial.Authority);
+                if (pathAsUri.IsFile && !string.IsNullOrEmpty(rootPath))
+                {
+                    rootPath = new Uri(rootPath).LocalPath;
+                }
             }
             catch (UriFormatException)
             {
@@ -33,11 +37,7 @@ namespace Files.Helpers
             {
                 return path;
             }
-            if (path.StartsWith("\\\\"))
-            {
-                return path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).ToUpperInvariant();
-            }
-            else if (path.StartsWith("ftp://"))
+            if (path.StartsWith("\\\\") || path.StartsWith("//") || FtpHelpers.IsFtpPath(path))
             {
                 return path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).ToUpperInvariant();
             }
@@ -56,10 +56,34 @@ namespace Files.Helpers
                 }
                 catch (UriFormatException ex)
                 {
-                    LogManager.GetCurrentClassLogger().Warn(ex, path);
+                    App.Logger.Warn(ex, path);
                     return path;
                 }
             }
+        }
+
+        public static string TrimPath(this string path)
+        {
+            return path?.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        }
+
+        public static string GetParentDir(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                return string.Empty;
+            }
+            var index = path.Contains("/") ? path.LastIndexOf("/") : path.LastIndexOf("\\");
+            return path.Substring(0, index != -1 ? index : path.Length);
+        }
+
+        public static string Combine(string folder, string name)
+        {
+            if (string.IsNullOrEmpty(folder))
+            {
+                return name;
+            }
+            return folder.Contains("/") ? Path.Combine(folder, name).Replace("\\", "/") : Path.Combine(folder, name);
         }
     }
 }

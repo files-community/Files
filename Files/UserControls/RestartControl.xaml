@@ -12,46 +12,35 @@
     <UserControl.Resources>
         <DataTemplate x:Key="RestartControlTemplate">
             <UserControl>
-                <Grid x:Name="RootGrid">
+                <Grid x:Name="RootGrid" RowSpacing="8">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
                     <TextBlock
                         x:Name="TextBlock"
                         x:Uid="RestartNotificationText"
-                        Grid.RowSpan="2"
+                        Grid.Row="0"
                         VerticalAlignment="Center"
                         TextWrapping="WrapWholeWords" />
 
                     <StackPanel
                         x:Name="ButtonsStackPanel"
-                        Grid.RowSpan="2"
-                        Grid.Column="1"
-                        Margin="20,0,0,0"
+                        Grid.Row="1"
                         VerticalAlignment="Center"
-                        Orientation="Horizontal">
+                        Orientation="Horizontal"
+                        Spacing="8">
 
                         <Button
                             x:Name="YesButton"
                             x:Uid="ButtonYes"
-                            Width="70"
-                            Height="30"
                             Background="{StaticResource SystemAccentColor}"
                             Click="YesButton_Click" />
 
                         <Button
                             x:Name="NoButton"
                             x:Uid="ButtonNo"
-                            Width="70"
-                            Height="30"
-                            Margin="10,0,0,0"
                             Click="NoButton_Click" />
                     </StackPanel>
                 </Grid>

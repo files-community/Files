@@ -21,10 +21,10 @@ namespace Files.Views
         {
             base.Properties_Loaded(sender, e);
 
-            if (BaseProperties != null)
+            if (BaseProperties is FileProperties fileProps)
             {
                 Stopwatch stopwatch = Stopwatch.StartNew();
-                (BaseProperties as FileProperties).GetSystemFileProperties();
+                fileProps.GetSystemFileProperties();
                 stopwatch.Stop();
                 Debug.WriteLine(string.Format("System file properties were obtained in {0} milliseconds", stopwatch.ElapsedMilliseconds));
             }
@@ -37,18 +37,15 @@ namespace Files.Views
                 using DynamicDialog dialog = DynamicDialogFactory.GetFor_PropertySaveErrorDialog();
                 try
                 {
-                    await (BaseProperties as FileProperties).SyncPropertyChangesAsync();
+                    if (BaseProperties is FileProperties fileProps)
+                    {
+                        await fileProps.SyncPropertyChangesAsync();
+                    }
                     return true;
                 }
                 catch
                 {
-                    // Attempting to open more than one ContentDialog
-                    // at a time will throw an error)
-                    if (UIHelpers.IsAnyContentDialogOpen())
-                    {
-                        return false;
-                    }
-                    await dialog.ShowAsync();
+                    await dialog.TryShowAsync();
                     switch (dialog.DynamicResult)
                     {
                         case DynamicDialogResult.Primary:
@@ -67,7 +64,10 @@ namespace Files.Views
         private async void ClearPropertiesConfirmation_Click(object sender, RoutedEventArgs e)
         {
             ClearPropertiesFlyout.Hide();
-            await (BaseProperties as FileProperties).ClearPropertiesAsync();
+            if (BaseProperties is FileProperties fileProps)
+            {
+                await fileProps.ClearPropertiesAsync();
+            }
         }
 
         public override void Dispose()

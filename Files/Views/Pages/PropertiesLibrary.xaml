@@ -5,8 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.ViewModels.Properties"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:mconv="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Name="Page"
     d:DesignHeight="3000"
     Loaded="Properties_Loaded"
@@ -41,12 +41,12 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock
                     x:Uid="LibraryLocations"
-                    Text="Locations:"
-                    TextTrimming="CharacterEllipsis"
+                    Margin="0"
+                    Padding="0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Margin="0"
-                    Padding="0" />
+                    Text="Locations:"
+                    TextTrimming="CharacterEllipsis" />
                 <CommandBar
                     Grid.Column="2"
                     Background="Transparent"
@@ -60,27 +60,27 @@
                     <AppBarButton
                         x:Uid="LibraryLocationsButtonSetDefault"
                         Command="{x:Bind SetDefaultLocationCommand}"
-                        IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
                         Icon="Accept"
+                        IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
                         Label="Default"
                         ToolTipService.ToolTip="Set as default save path" />
                     <AppBarButton
                         x:Uid="LibraryLocationsButtonRemove"
                         Command="{x:Bind RemoveLocationCommand}"
-                        IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
                         Icon="Delete"
+                        IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
                         Label="Remove" />
                 </CommandBar>
             </Grid>
             <ListView
-                Grid.ColumnSpan="2"
-                Grid.Row="2"
                 x:Name="PathsList"
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Margin="-14,0"
+                CanReorderItems="False"
                 ItemsSource="{x:Bind Folders, Mode=OneWay}"
                 SelectedIndex="{x:Bind SelectedFolderIndex, Mode=TwoWay}"
-                SelectionMode="Single"
-                CanReorderItems="False"
-                Margin="-14,0">
+                SelectionMode="Single">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -88,16 +88,14 @@
                                 <ColumnDefinition Width="36" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <FontIcon
-                                Glyph="&#xE008;"
-                                Visibility="{Binding IsDefault, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <FontIcon Glyph="&#xE008;" Visibility="{Binding IsDefault, Converter={StaticResource BoolToVisibilityConverter}}" />
                             <TextBlock
                                 Grid.Column="2"
+                                Margin="0,0,0,2"
+                                VerticalAlignment="Center"
                                 Text="{Binding Path}"
                                 TextTrimming="CharacterEllipsis"
-                                ToolTipService.ToolTip="{Binding Path}"
-                                VerticalAlignment="Center"
-                                Margin="0,0,0,2" />
+                                ToolTipService.ToolTip="{Binding Path}" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -105,9 +103,9 @@
                     <StackPanel Margin="14,5,14,5" Spacing="5">
                         <TextBlock
                             x:Uid="LibraryNoLocations"
-                            Visibility="{x:Bind IsLibraryEmpty, Mode=OneWay}"
                             Text="No locations"
-                            TextWrapping="WrapWholeWords" />
+                            TextWrapping="WrapWholeWords"
+                            Visibility="{x:Bind IsLibraryEmpty, Mode=OneWay}" />
                     </StackPanel>
                 </ListView.Footer>
             </ListView>
@@ -120,7 +118,7 @@
                 HorizontalAlignment="Stretch" />
             -->
 
-            <!-- TODO: add more controls? -->
+            <!--  TODO: add more controls?  -->
         </Grid>
     </StackPanel>
 </local:PropertiesTab>

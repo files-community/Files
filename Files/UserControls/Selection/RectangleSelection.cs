@@ -1,5 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
-using System;
+﻿using System;
 using Windows.Foundation;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
@@ -29,15 +28,11 @@ namespace Files.UserControls.Selection
         /// <param name="selectionRectangle">Rectangle inside a Canvas</param>
         /// <param name="selectionChanged">SelectionChanged event associated with uiElement</param>
         /// <returns></returns>
-        public static RectangleSelection Create(UIElement uiElement, Rectangle selectionRectangle, SelectionChangedEventHandler selectionChanged = null)
+        public static RectangleSelection Create(FrameworkElement uiElement, Rectangle selectionRectangle, SelectionChangedEventHandler selectionChanged = null)
         {
             if (uiElement is ListViewBase)
             {
                 return new RectangleSelection_ListViewBase(uiElement as ListViewBase, selectionRectangle, selectionChanged);
-            }
-            else if (uiElement is DataGrid)
-            {
-                return new RectangleSelection_DataGrid(uiElement as DataGrid, selectionRectangle, selectionChanged);
             }
             else
             {
@@ -68,12 +63,12 @@ namespace Files.UserControls.Selection
             Active
         }
 
-        protected void DrawRectangle(PointerPoint currentPoint, Point originDragPointShifted, UIElement uiElement)
+        protected void DrawRectangle(PointerPoint currentPoint, Point originDragPointShifted, FrameworkElement uiElement)
         {
             // Redraw selection rectangle according to the new point
             if (currentPoint.Position.X >= originDragPointShifted.X)
             {
-                double maxWidth = uiElement.ActualSize.X - originDragPointShifted.X;
+                double maxWidth = uiElement.ActualWidth - originDragPointShifted.X;
                 if (currentPoint.Position.Y <= originDragPointShifted.Y)
                 {
                     // Pointer was moved up and right

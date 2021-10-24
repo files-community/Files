@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.Filesystem;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -32,7 +33,7 @@ namespace Files.ViewModels.Properties
             var np = e.Parameter as Views.Properties.PropertyNavParam;
 
             AppInstance = np.AppInstanceArgument;
-            ViewModel = new SelectedItemsPropertiesViewModel(AppInstance.SlimContentPage);
+            ViewModel = new SelectedItemsPropertiesViewModel();
 
             if (np.navParameter is LibraryItem library)
             {
@@ -40,7 +41,7 @@ namespace Files.ViewModels.Properties
             }
             else if (np.navParameter is ListedItem item)
             {
-                if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                if (item.PrimaryItemAttribute == StorageItemTypes.File || item.IsZipItem)
                 {
                     BaseProperties = new FileProperties(ViewModel, np.tokenSource, Dispatcher, hashProgress, item, AppInstance);
                 }
@@ -65,7 +66,7 @@ namespace Files.ViewModels.Properties
         {
             if (BaseProperties != null && BaseProperties.TokenSource != null)
             {
-                BaseProperties.TokenSource.Cancel();
+                //BaseProperties.TokenSource.Cancel();
             }
 
             base.OnNavigatedFrom(e);

@@ -1,8 +1,10 @@
-﻿using Files.Filesystem;
+﻿using Files.DataModels.NavigationControlItems;
+using Files.Filesystem;
+using Files.Filesystem.StorageItems;
+using Files.Helpers;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Threading.Tasks;
-using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Properties
@@ -23,7 +25,10 @@ namespace Files.ViewModels.Properties
         {
             if (Drive != null)
             {
-                ViewModel.LoadCustomIcon = true;
+                ViewModel.CustomIconSource = Drive.IconSource;
+                ViewModel.IconData = Drive.IconData;
+                ViewModel.LoadCustomIcon = Drive.IconSource != null && Drive.IconData == null;
+                ViewModel.LoadFileIcon = Drive.IconData != null;
                 ViewModel.ItemName = Drive.Text;
                 ViewModel.OriginalItemName = Drive.Text;
                 // Note: if DriveType enum changes, the corresponding resource keys should change too
@@ -31,21 +36,37 @@ namespace Files.ViewModels.Properties
             }
         }
 
-        public override void GetSpecialProperties()
+        public async override void GetSpecialProperties()
         {
             ViewModel.ItemAttributesVisibility = Visibility.Collapsed;
-            StorageFolder diskRoot = Task.Run(async () => await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(Drive.Path)).Result;
+            var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(Drive.Path));
+            BaseStorageFolder diskRoot = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(Drive.Path, item));
 
-            string freeSpace = "System.FreeSpace";
-            string capacity = "System.Capacity";
-            string fileSystem = "System.Volume.FileSystem";
+            if (ViewModel.LoadFileIcon)
+            {
+                if (diskRoot != null)
+                {
+                    ViewModel.IconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(diskRoot, 80, ThumbnailMode.SingleItem);
+                }
+                else
+                {
+                    ViewModel.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Drive.Path, 80);
+                }
+            }
+
+            if (diskRoot == null || diskRoot.Properties == null)
+            {
+                ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
+                return;
+            }
 
             try
             {
-                var properties = Task.Run(async () =>
-                {
-                    return await diskRoot.Properties.RetrievePropertiesAsync(new[] { freeSpace, capacity, fileSystem });
-                }).Result;
+                string freeSpace = "System.FreeSpace";
+                string capacity = "System.Capacity";
+                string fileSystem = "System.Volume.FileSystem";
+
+                var properties = await diskRoot.Properties.RetrievePropertiesAsync(new[] { freeSpace, capacity, fileSystem });
 
                 ViewModel.DriveCapacityValue = (ulong)properties[capacity];
                 ViewModel.DriveFreeSpaceValue = (ulong)properties[freeSpace];
@@ -55,7 +76,7 @@ namespace Files.ViewModels.Properties
             catch (Exception e)
             {
                 ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
-                NLog.LogManager.GetCurrentClassLogger().Warn(e, e.Message);
+                App.Logger.Warn(e, e.Message);
             }
         }
     }

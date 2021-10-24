@@ -3,9 +3,10 @@ using Files.Enums;
 using Files.EventArguments.Bundles;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.SettingsInterfaces;
+using Files.Services;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
@@ -30,15 +31,7 @@ namespace Files.ViewModels.Widgets.Bundles
     /// </summary>
     public class BundlesViewModel : ObservableObject, IDisposable
     {
-        #region Singleton
-
-        private IBundlesSettings BundlesSettings => App.BundlesSettings;
-
-        #endregion Singleton
-
         #region Private Members
-
-        private bool isInitialized;
 
         private bool itemAddedInternally;
 
@@ -50,9 +43,9 @@ namespace Files.ViewModels.Widgets.Bundles
 
         public event EventHandler<string> OpenPathInNewPaneEvent;
 
-        public event EventHandler<BundlesLoadIconOverlayEventArgs> LoadIconOverlayEvent;
+        #region Properties
 
-        #region Public Properties
+        private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetService<IBundlesSettingsService>();
 
         /// <summary>
         /// Collection of all bundles
@@ -83,7 +76,7 @@ namespace Files.ViewModels.Widgets.Bundles
             set => SetProperty(ref noBundlesAddItemLoad, value);
         }
 
-        #endregion Public Properties
+        #endregion Properties
 
         #region Commands
 
@@ -103,14 +96,14 @@ namespace Files.ViewModels.Widgets.Bundles
 
         public BundlesViewModel()
         {
+            Items.CollectionChanged += Items_CollectionChanged;
+
             // Create commands
             InputTextKeyDownCommand = new RelayCommand<KeyRoutedEventArgs>(InputTextKeyDown);
-            OpenAddBundleDialogCommand = new RelayCommand(OpenAddBundleDialog);
+            OpenAddBundleDialogCommand = new AsyncRelayCommand(OpenAddBundleDialog);
             AddBundleCommand = new RelayCommand(() => AddBundle(BundleNameTextInput));
-            ImportBundlesCommand = new RelayCommand(ImportBundles);
-            ExportBundlesCommand = new RelayCommand(ExportBundles);
-
-            Items.CollectionChanged += Items_CollectionChanged;
+            ImportBundlesCommand = new AsyncRelayCommand(ImportBundles);
+            ExportBundlesCommand = new AsyncRelayCommand(ExportBundles);
         }
 
         #endregion Constructor
@@ -126,7 +119,7 @@ namespace Files.ViewModels.Widgets.Bundles
             }
         }
 
-        private async void OpenAddBundleDialog()
+        private async Task OpenAddBundleDialog()
         {
             TextBox inputText = new TextBox()
             {
@@ -159,7 +152,7 @@ namespace Files.ViewModels.Widgets.Bundles
                 TitleText = "BundlesWidgetCreateBundleDialogTitleText".GetLocalized(),
                 SubtitleText = "BundlesWidgetCreateBundleDialogSubtitleText".GetLocalized(),
                 PrimaryButtonText = "BundlesWidgetCreateBundleDialogPrimaryButtonText".GetLocalized(),
-                CloseButtonText = "BundlesWidgetCreateBundleDialogCloseButtonText".GetLocalized(),
+                CloseButtonText = "Cancel".GetLocalized(),
                 PrimaryButtonAction = (vm, e) =>
                 {
                     var (result, reason) = CanAddBundle(inputText.Text);
@@ -205,9 +198,9 @@ namespace Files.ViewModels.Widgets.Bundles
             string savedBundleNameTextInput = name;
             BundleNameTextInput = string.Empty;
 
-            if (BundlesSettings.SavedBundles == null || (BundlesSettings.SavedBundles?.ContainsKey(savedBundleNameTextInput) ?? false)) // Init
+            if (BundlesSettingsService.SavedBundles == null || (BundlesSettingsService.SavedBundles?.ContainsKey(savedBundleNameTextInput) ?? false)) // Init
             {
-                BundlesSettings.SavedBundles = new Dictionary<string, List<string>>()
+                BundlesSettingsService.SavedBundles = new Dictionary<string, List<string>>()
                 {
                     { savedBundleNameTextInput, new List<string>() { null } }
                 };
@@ -221,7 +214,6 @@ namespace Files.ViewModels.Widgets.Bundles
                 NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle,
                 OpenPath = OpenPathHandle,
                 OpenPathInNewPane = OpenPathInNewPaneHandle,
-                LoadIconOverlay = LoadIconOverlayHandle
             });
             NoBundlesAddItemLoad = false;
             itemAddedInternally = false;
@@ -230,7 +222,7 @@ namespace Files.ViewModels.Widgets.Bundles
             Save();
         }
 
-        private async void ImportBundles()
+        private async Task ImportBundles()
         {
             FileOpenPicker filePicker = new FileOpenPicker();
             filePicker.FileTypeFilter.Add(System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName));
@@ -243,7 +235,7 @@ namespace Files.ViewModels.Widgets.Bundles
                 {
                     string data = NativeFileOperationsHelper.ReadStringFromFile(file.Path);
                     var deserialized = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data);
-                    BundlesSettings.ImportSettings(JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data));
+                    BundlesSettingsService.ImportSettings(JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data));
                     await Load(); // Update the collection
                 }
                 catch // Couldn't deserialize, data is corrupted
@@ -252,7 +244,7 @@ namespace Files.ViewModels.Widgets.Bundles
             }
         }
 
-        private async void ExportBundles()
+        private async Task ExportBundles()
         {
             FileSavePicker filePicker = new FileSavePicker();
             filePicker.FileTypeChoices.Add("Json File", new List<string>() { System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName) });
@@ -261,7 +253,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
             if (file != null)
             {
-                NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)BundlesSettings.ExportSettings());
+                NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)BundlesSettingsService.ExportSettings());
             }
         }
 
@@ -277,14 +269,6 @@ namespace Files.ViewModels.Widgets.Bundles
         private void OpenPathInNewPaneHandle(string path)
         {
             OpenPathInNewPaneEvent?.Invoke(this, path);
-        }
-
-        private (byte[] IconData, byte[] OverlayData, bool IsCustom) LoadIconOverlayHandle(string path, uint thumbnailSize)
-        {
-            BundlesLoadIconOverlayEventArgs eventArgs = new BundlesLoadIconOverlayEventArgs(path, thumbnailSize);
-            LoadIconOverlayEvent?.Invoke(this, eventArgs);
-
-            return eventArgs.outData;
         }
 
         /// <summary>
@@ -328,7 +312,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
                     if (bundle.Contents.Count == 0)
                     {
-                        bundle.NoBundleContentsTextVisibility = Visibility.Visible;
+                        bundle.NoBundleContentsTextLoad = true;
                     }
                 }
             }
@@ -350,7 +334,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
         public void Save()
         {
-            if (BundlesSettings.SavedBundles != null)
+            if (BundlesSettingsService.SavedBundles != null)
             {
                 Dictionary<string, List<string>> bundles = new Dictionary<string, List<string>>();
 
@@ -371,18 +355,18 @@ namespace Files.ViewModels.Widgets.Bundles
                     bundles.Add(bundle.BundleName, bundleItems);
                 }
 
-                BundlesSettings.SavedBundles = bundles; // Calls Set()
+                BundlesSettingsService.SavedBundles = bundles; // Calls Set()
             }
         }
 
         public async Task Load()
         {
-            if (BundlesSettings.SavedBundles != null)
+            if (BundlesSettingsService.SavedBundles != null)
             {
                 Items.Clear();
 
                 // For every bundle in saved bundle collection:
-                foreach (var bundle in BundlesSettings.SavedBundles)
+                foreach (var bundle in BundlesSettingsService.SavedBundles)
                 {
                     List<BundleItemViewModel> bundleItems = new List<BundleItemViewModel>();
 
@@ -399,24 +383,22 @@ namespace Files.ViewModels.Widgets.Bundles
                                     NotifyItemRemoved = NotifyBundleItemRemovedHandle,
                                     OpenPath = OpenPathHandle,
                                     OpenPathInNewPane = OpenPathInNewPaneHandle,
-                                    LoadIconOverlay = LoadIconOverlayHandle
                                 });
-                                bundleItems.Last().UpdateIcon();
                             }
                         }
                     }
 
                     // Fill current bundle with collected bundle items
                     itemAddedInternally = true;
-                    Items.Add(new BundleContainerViewModel()
+                    Items.Add(await new BundleContainerViewModel()
                     {
                         BundleName = bundle.Key,
                         NotifyItemRemoved = NotifyItemRemovedHandle,
                         NotifyBundleItemRemoved = NotifyBundleItemRemovedHandle,
                         OpenPath = OpenPathHandle,
                         OpenPathInNewPane = OpenPathInNewPaneHandle,
-                        LoadIconOverlay = LoadIconOverlayHandle
                     }.SetBundleItems(bundleItems));
+
                     itemAddedInternally = false;
                 }
 
@@ -438,7 +420,6 @@ namespace Files.ViewModels.Widgets.Bundles
         public async Task Initialize()
         {
             await Load();
-            isInitialized = true;
         }
 
         public (bool result, string reason) CanAddBundle(string name)
@@ -473,7 +454,6 @@ namespace Files.ViewModels.Widgets.Bundles
             }
 
             Items.CollectionChanged -= Items_CollectionChanged;
-            Items = null;
         }
 
         #endregion IDisposable

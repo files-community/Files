@@ -1,10 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.ViewModels.Properties;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using Windows.Storage;
 
 namespace Files.ViewModels.Previews
 {
@@ -19,7 +16,7 @@ namespace Files.ViewModels.Previews
         }
 
         public static List<string> Extensions => new List<string>() {
-            ".html", ".htm",
+            ".html", ".htm", ".svg",
         };
 
         public string TextValue
@@ -30,7 +27,7 @@ namespace Files.ViewModels.Previews
 
         public async override Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            TextValue = await FileIO.ReadTextAsync(Item.ItemFile);
+            TextValue = await ReadFileAsText(Item.ItemFile); // await FileIO.ReadTextAsync(Item.ItemFile);
             return new List<FileProperty>();
         }
     }

@@ -1,18 +1,16 @@
 ﻿using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.SettingsInterfaces;
+using Files.Services;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.ApplicationModel.Core;
-using Windows.Storage;
 using Windows.Storage.FileProperties;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -20,25 +18,21 @@ namespace Files.ViewModels.Widgets.Bundles
 {
     public class BundleItemViewModel : ObservableObject, IDisposable
     {
-        #region Singleton
-
-        private IBundlesSettings BundlesSettings => App.BundlesSettings;
-
-        #endregion Singleton
-
         #region Actions
 
         public Action<string, FilesystemItemType, bool, bool, IEnumerable<string>> OpenPath { get; set; }
 
         public Action<string> OpenPathInNewPane { get; set; }
 
-        public Func<string, uint, (byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconOverlay { get; set; }
-
         public Action<BundleItemViewModel> NotifyItemRemoved { get; set; }
 
         #endregion Actions
 
-        #region Public Properties
+        #region Properties
+
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
+        private IBundlesSettingsService BundlesSettingsService { get; } = Ioc.Default.GetService<IBundlesSettingsService>();
 
         /// <summary>
         /// The name of a bundle this item is contained within
@@ -53,7 +47,7 @@ namespace Files.ViewModels.Widgets.Bundles
             {
                 string fileName = System.IO.Path.GetFileName(this.Path);
 
-                if (fileName.EndsWith(".lnk"))
+                if (fileName.EndsWith(".lnk") || fileName.EndsWith(".url"))
                 {
                     fileName = fileName.Remove(fileName.Length - 4);
                 }
@@ -79,17 +73,17 @@ namespace Files.ViewModels.Widgets.Bundles
             UriSource = new Uri("ms-appx:///Assets/FolderIcon.svg"),
         };
 
-        public Visibility OpenInNewTabVisibility
+        public bool OpenInNewTabLoad
         {
-            get => TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
+            get => TargetType == FilesystemItemType.Directory;
         }
 
-        public Visibility OpenInNewPaneVisibility
+        public bool OpenInNewPaneLoad
         {
-            get => App.AppSettings.IsDualPaneEnabled && TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
+            get => UserSettingsService.MultitaskingSettingsService.IsDualPaneEnabled && TargetType == FilesystemItemType.Directory;
         }
 
-        #endregion Public Properties
+        #endregion Properties
 
         #region Commands
 
@@ -140,7 +134,7 @@ namespace Files.ViewModels.Widgets.Bundles
 
         #region Public Helpers
 
-        public async void UpdateIcon()
+        public async Task UpdateIcon()
         {
             if (TargetType == FilesystemItemType.Directory) // OpenDirectory
             {
@@ -148,42 +142,11 @@ namespace Files.ViewModels.Widgets.Bundles
             }
             else // NotADirectory
             {
-                try
+                var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, 24u, ThumbnailMode.ListView);
+                if (iconData != null)
                 {
-                    if (Path.EndsWith(".lnk"))
-                    {
-                        var (IconData, OverlayData, IsCustom) = LoadIconOverlay(Path, 24u);
-
-                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
-                        {
-                            Icon = await IconData.ToBitmapAsync();
-                        });
-
-                        return;
-                    }
-
-                    StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>(Path);
-
-                    if (file == null) // No file found
-                    {
-                        Icon = new BitmapImage();
-                        return;
-                    }
-
-                    BitmapImage icon = new BitmapImage();
-                    StorageItemThumbnail thumbnail = await file.GetThumbnailAsync(ThumbnailMode.ListView, 24u, ThumbnailOptions.UseCurrentScale);
-
-                    if (thumbnail != null)
-                    {
-                        await icon.SetSourceAsync(thumbnail);
-
-                        Icon = icon;
-                        OnPropertyChanged(nameof(Icon));
-                    }
-                }
-                catch
-                {
-                    Icon = new BitmapImage(); // Set here no file image
+                    Icon = await iconData.ToBitmapAsync();
+                    OnPropertyChanged(nameof(Icon));
                 }
             }
         }
@@ -195,11 +158,11 @@ namespace Files.ViewModels.Widgets.Bundles
 
         public void RemoveItem()
         {
-            if (BundlesSettings.SavedBundles.ContainsKey(ParentBundleName))
+            if (BundlesSettingsService.SavedBundles.ContainsKey(ParentBundleName))
             {
-                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles;
+                Dictionary<string, List<string>> allBundles = BundlesSettingsService.SavedBundles;
                 allBundles[ParentBundleName].Remove(Path);
-                BundlesSettings.SavedBundles = allBundles;
+                BundlesSettingsService.SavedBundles = allBundles;
                 NotifyItemRemoved(this);
             }
         }
@@ -210,16 +173,10 @@ namespace Files.ViewModels.Widgets.Bundles
 
         public void Dispose()
         {
-            Path = null;
             Icon = null;
-
-            OpenInNewTabCommand = null;
-            OpenItemLocationCommand = null;
-            RemoveItemCommand = null;
 
             OpenPath = null;
             OpenPathInNewPane = null;
-            LoadIconOverlay = null;
         }
 
         #endregion IDisposable

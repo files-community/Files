@@ -15,7 +15,12 @@ namespace Files.UserControls
         }
 
         public static readonly DependencyProperty BitmapIconProperty =
-            DependencyProperty.Register("BitmapIcon", typeof(BitmapImage), typeof(MenuFlyoutItemWithImage), new PropertyMetadata(null));
+            DependencyProperty.Register("BitmapIcon", typeof(BitmapImage), typeof(MenuFlyoutItemWithImage), new PropertyMetadata(null, OnBitmapIconChanged));
+
+        private static void OnBitmapIconChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as MenuFlyoutItem).Icon = e.NewValue != null ? new IconSourceElement() : null;
+        }
 
         public MenuFlyoutItemWithImage()
         {

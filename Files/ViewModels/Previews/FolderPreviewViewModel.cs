@@ -1,5 +1,10 @@
-﻿using Files.Filesystem;
+﻿using Files.Enums;
+using Files.Filesystem;
+using Files.Filesystem.StorageItems;
+using Files.Helpers;
+using Files.Services;
 using Files.ViewModels.Properties;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -11,7 +16,9 @@ namespace Files.ViewModels.Previews
 {
     public class FolderPreviewViewModel
     {
-        private StorageFolder Folder { get; set; }
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
+        private BaseStorageFolder Folder { get; set; }
 
         public ListedItem Item { get; set; }
 
@@ -29,11 +36,18 @@ namespace Files.ViewModels.Previews
 
         private async Task LoadPreviewAndDetailsAsync()
         {
-            Folder = await StorageFolder.GetFolderFromPathAsync(Item.ItemPath);
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+
+            Folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(Item.ItemPath);
             var items = await Folder.GetItemsAsync();
 
-            using var icon = await Folder.GetThumbnailAsync(ThumbnailMode.SingleItem, 400);
-            await Thumbnail.SetSourceAsync(icon);
+            var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Folder, 400, ThumbnailMode.SingleItem);
+            iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 400);
+            if (iconData != null)
+            {
+                Thumbnail = await iconData.ToBitmapAsync();
+            }
 
             var info = await Folder.GetBasicPropertiesAsync();
             Item.FileDetails = new ObservableCollection<FileProperty>()
@@ -46,17 +60,12 @@ namespace Files.ViewModels.Previews
                 new FileProperty()
                 {
                     NameResource = "PropertyDateModified",
-                    Value = info.DateModified,
+                    Value = Extensions.DateTimeExtensions.GetFriendlyDateFromFormat(info.DateModified, returnformat, true)
                 },
                 new FileProperty()
                 {
                     NameResource = "PropertyDateCreated",
-                    Value = info.ItemDate,
-                },
-                new FileProperty()
-                {
-                    NameResource = "PropertyItemName",
-                    Value = Folder.Name,
+                    Value = Extensions.DateTimeExtensions.GetFriendlyDateFromFormat(info.ItemDate, returnformat, true)
                 },
                 new FileProperty()
                 {
@@ -64,6 +73,15 @@ namespace Files.ViewModels.Previews
                     Value = Folder.Path,
                 }
             };
+
+            if (UserSettingsService.FilesAndFoldersSettingsService.AreFileTagsEnabled)
+            {
+                Item.FileDetails.Add(new FileProperty()
+                {
+                    NameResource = "DetailsViewHeaderFlyout_ShowFileTag/Text",
+                    Value = Item.FileTagUI?.TagName
+                });
+            }
         }
     }
 }

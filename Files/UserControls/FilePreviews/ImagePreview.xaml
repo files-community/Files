@@ -8,8 +8,10 @@
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
-
-    <Grid>
+    <Grid
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        CornerRadius="{StaticResource ControlCornerRadius}">
         <Viewbox StretchDirection="DownOnly">
             <Image Source="{x:Bind ViewModel.ImageSource, Mode=OneWay}" />
         </Viewbox>

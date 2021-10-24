@@ -170,7 +170,7 @@ namespace Files.UserControls.Selection
         {
             if (scrollViewer == null)
             {
-                scrollViewer = DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement);
+                scrollViewer = DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement, sv => sv.VerticalScrollMode != ScrollMode.Disabled);
             }
 
             if (scrollViewer != null)
@@ -193,7 +193,7 @@ namespace Files.UserControls.Selection
                 uiElement.PointerCaptureLost += RectangleSelection_PointerReleased;
                 uiElement.PointerCanceled += RectangleSelection_PointerReleased;
 
-                scrollViewer = DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement);
+                scrollViewer = DependencyObjectHelpers.FindChild<ScrollViewer>(uiElement, sv => sv.VerticalScrollMode != ScrollMode.Disabled);
                 if (scrollViewer == null)
                 {
                     uiElement.LayoutUpdated += RectangleSelection_LayoutUpdated;

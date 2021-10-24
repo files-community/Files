@@ -22,6 +22,17 @@ namespace Files.Common
             }
         }
 
+        public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> items, Func<T, TKey> property)
+        {
+            return items.GroupBy(property).Select(x => x.First());
+        }
+
+        public static async Task<IEnumerable<T>> WhereAsync<T>(this IEnumerable<T> source, Func<T, Task<bool>> predicate)
+        {
+            var results = await Task.WhenAll(source.Select(async x => (x, await predicate(x))));
+            return results.Where(x => x.Item2).Select(x => x.Item1);
+        }
+
         public static IEnumerable<TSource> IntersectBy<TSource, TKey>(
             this IEnumerable<TSource> source,
             IEnumerable<TSource> other,
@@ -79,6 +90,60 @@ namespace Files.Common
                 return await task;
             }
             return default;
+        }
+
+        public static bool IgnoreExceptions(Action action, Logger logger = null)
+        {
+            try
+            {
+                action();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger?.Info(ex, ex.Message);
+                return false;
+            }
+        }
+
+        public static async Task<bool> IgnoreExceptions(Func<Task> action, Logger logger = null)
+        {
+            try
+            {
+                await action();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger?.Info(ex, ex.Message);
+                return false;
+            }
+        }
+
+        public static T IgnoreExceptions<T>(Func<T> action, Logger logger = null)
+        {
+            try
+            {
+                return action();
+            }
+            catch (Exception ex)
+            {
+                logger?.Info(ex, ex.Message);
+                return default;
+            }
+        }
+
+        public static async Task<T> IgnoreExceptions<T>(Func<Task<T>> action, Logger logger = null)
+        {
+            try
+            {
+                return await action();
+            }
+            catch (Exception ex)
+            {
+                logger?.Info(ex, ex.Message);
+                return default;
+            }
         }
     }
 }

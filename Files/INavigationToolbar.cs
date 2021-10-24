@@ -1,15 +1,16 @@
-﻿using Files.Views;
+﻿using Files.Helpers;
+using Files.Views;
 using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls
 {
     public interface INavigationToolbar
     {
-        public bool IsSearchRegionVisible { get; set; }
+        public bool IsSearchBoxVisible { get; set; }
         public bool IsEditModeEnabled { get; set; }
         public bool CanRefresh { get; set; }
         public bool CanCopyPathInPage { get; set; }
@@ -30,12 +31,6 @@ namespace Files.UserControls
 
         public event ItemDraggedOverPathItemEventHandler ItemDraggedOverPathItem;
 
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmitted;
-
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs> SearchTextChanged;
-
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs> SearchSuggestionChosen;
-
         public event EventHandler BackRequested;
 
         public event EventHandler ForwardRequested;
@@ -46,7 +41,9 @@ namespace Files.UserControls
 
         public event EventHandler RefreshWidgetsRequested;
 
-        public void ClearSearchBoxQueryText(bool collapseSearchReigon = false);
+        public void SwitchSearchBoxVisibility();
+
+        public ISearchBox SearchBox { get; }
     }
 
     public class ToolbarQuerySubmittedEventArgs
@@ -57,6 +54,7 @@ namespace Files.UserControls
     public class PathNavigationEventArgs
     {
         public string ItemPath { get; set; }
+        public string ItemName { get; set; }
     }
 
     public class ToolbarFlyoutOpenedEventArgs
@@ -80,5 +78,6 @@ namespace Files.UserControls
         public DataPackageView Package { get; set; }
         public string Path { get; set; }
         public DataPackageOperation AcceptedOperation { get; set; }
+        public AsyncManualResetEvent SignalEvent { get; set; }
     }
 }

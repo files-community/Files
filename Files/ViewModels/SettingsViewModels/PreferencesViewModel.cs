@@ -1,33 +1,71 @@
-﻿using Files.DataModels;
-using Files.Filesystem;
+﻿using Files.Controllers;
+using Files.DataModels;
+using Files.Enums;
+using Files.Helpers;
+using Files.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 
 namespace Files.ViewModels.SettingsViewModels
 {
-    public class PreferencesViewModel : ObservableObject
+    public class PreferencesViewModel : ObservableObject, IDisposable
     {
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
+
         private int selectedLanguageIndex = App.AppSettings.DefaultLanguages.IndexOf(App.AppSettings.DefaultLanguage);
         private bool showRestartControl;
-        private Terminal selectedTerminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
-        private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
-        private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
-        private bool showLibrarySection = App.AppSettings.ShowLibrarySection;
-        private bool openFoldersNewTab = App.AppSettings.OpenFoldersNewTab;
+        private Terminal selectedTerminal = App.TerminalController.Model.GetDefaultTerminal();
+        private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
+        private List<Terminal> terminals;
+        private bool disposed;
 
-        public static LibraryManager LibraryManager { get; private set; }
+        public ICommand EditTerminalApplicationsCommand { get; }
 
         public PreferencesViewModel()
         {
             DefaultLanguages = App.AppSettings.DefaultLanguages;
-            Terminals = App.AppSettings.TerminalController.Model.Terminals;
+            Terminals = App.TerminalController.Model.Terminals;
+            DateFormats = new List<string>
+            {
+                "ApplicationTimeStye".GetLocalized(),
+                "SystemTimeStye".GetLocalized()
+            };
 
-            LibraryManager ??= new LibraryManager();
+            EditTerminalApplicationsCommand = new AsyncRelayCommand(LaunchTerminalsConfigFile);
+            App.TerminalController.ModelChanged += ReloadTerminals;
+        }
+
+        private void ReloadTerminals(TerminalController controller)
+        {
+            Terminals = controller.Model.Terminals;
+            SelectedTerminal = controller.Model.GetDefaultTerminal();
+        }
+
+        public List<string> DateFormats { get; set; }
+
+        public int SelectedDateFormatIndex
+        {
+            get
+            {
+                return selectedDateFormatIndex;
+            }
+            set
+            {
+                if (SetProperty(ref selectedDateFormatIndex, value))
+                {
+                    App.AppSettings.DisplayedTimeStyle = (TimeStyle)value;
+                }
+            }
         }
 
         public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; set; }
@@ -59,101 +97,83 @@ namespace Files.ViewModels.SettingsViewModels
             set => SetProperty(ref showRestartControl, value);
         }
 
-        public List<Terminal> Terminals { get; set; }
+        public List<Terminal> Terminals
+        {
+            get => terminals;
+            set => SetProperty(ref terminals, value);
+        }
 
         public Terminal SelectedTerminal
         {
             get { return selectedTerminal; }
             set
             {
-                if (SetProperty(ref selectedTerminal, value))
+                if (value is not null && SetProperty(ref selectedTerminal, value))
                 {
-                    App.AppSettings.TerminalController.Model.DefaultTerminalName = value.Name;
-                    App.AppSettings.TerminalController.SaveModel();
-                }
-            }
-        }
-
-        public RelayCommand EditTerminalApplicationsCommand => new RelayCommand(() => LaunchTerminalsConfigFile());
-
-        public bool PinRecycleBinToSideBar
-        {
-            get
-            {
-                return pinRecycleBinToSideBar;
-            }
-            set
-            {
-                if (SetProperty(ref pinRecycleBinToSideBar, value))
-                {
-                    App.AppSettings.PinRecycleBinToSideBar = value;
+                    App.TerminalController.Model.DefaultTerminalName = value.Name;
+                    App.TerminalController.SaveModel();
                 }
             }
         }
 
         public bool ShowConfirmDeleteDialog
         {
-            get
-            {
-                return showConfirmDeleteDialog;
-            }
+            get => UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog;
             set
             {
-                if (SetProperty(ref showConfirmDeleteDialog, value))
+                if (value != UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog)
                 {
-                    App.AppSettings.ShowConfirmDeleteDialog = value;
+                    UserSettingsService.PreferencesSettingsService.ShowConfirmDeleteDialog = value;
+                    OnPropertyChanged();
                 }
-            }
-        }
-
-        public bool ShowLibrarySection
-        {
-            get
-            {
-                return showLibrarySection;
-            }
-            set
-            {
-                if (SetProperty(ref showLibrarySection, value))
-                {
-                    App.AppSettings.ShowLibrarySection = value;
-                    
-                    LibraryVisibility(App.AppSettings.ShowLibrarySection);
-                }
-            }
-        }
-
-        public async void LibraryVisibility(bool visible)
-        {
-            if (visible)
-            {
-                await LibraryManager.EnumerateLibrariesAsync();
-            }
-            else
-            {
-                LibraryManager.RemoveLibrariesSideBarSection();
             }
         }
 
         public bool OpenFoldersNewTab
         {
-            get
-            {
-                return openFoldersNewTab;
-            }
+            get => UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab;
             set
             {
-                if (SetProperty(ref openFoldersNewTab, value))
+                if (value != UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                 {
-                    App.AppSettings.OpenFoldersNewTab = value;
+                    UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
-        private async void LaunchTerminalsConfigFile()
+        private async Task LaunchTerminalsConfigFile()
         {
-            await Launcher.LaunchFileAsync(
-                await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json")));
+            var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json"));
+
+            if (!await Launcher.LaunchFileAsync(configFile))
+            {
+                var connection = await AppServiceConnectionHelper.Instance;
+                if (connection != null)
+                {
+                    await connection.SendMessageAsync(new ValueSet()
+                    {
+                        { "Arguments", "InvokeVerb" },
+                        { "FilePath", configFile.Path },
+                        { "Verb", "open" }
+                    });
+                }
+            }
+        }
+
+        public void Dispose()
+        {
+            if (!disposed)
+            {
+                App.TerminalController.ModelChanged -= ReloadTerminals;
+                disposed = true;
+                GC.SuppressFinalize(this);
+            }
+        }
+
+        ~PreferencesViewModel()
+        {
+            Dispose();
         }
     }
 }

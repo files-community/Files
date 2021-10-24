@@ -31,11 +31,15 @@ namespace Files.Views
             if (BaseProperties is DriveProperties driveProps)
             {
                 var drive = driveProps.Drive;
+                ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
-                    if (AppInstance.FilesystemViewModel != null)
+                    var remDrive = new System.Text.RegularExpressions.Regex(@"\s*\(\w:\)$");
+                    ViewModel.ItemName = remDrive.Replace(ViewModel.ItemName, ""); // Remove "(C:)" from the new label
+                    var connection = await AppServiceConnectionHelper.Instance;
+                    if (connection != null && AppInstance.FilesystemViewModel != null)
                     {
-                        await AppInstance.ServiceConnection?.SendMessageAsync(new ValueSet()
+                        _ = await connection.SendMessageForResponseAsync(new ValueSet()
                         {
                             { "Arguments", "SetVolumeLabel" },
                             { "drivename", drive.Path },
@@ -53,6 +57,7 @@ namespace Files.Views
             else if (BaseProperties is LibraryProperties libProps)
             {
                 var library = libProps.Library;
+                ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
                 var newName = ViewModel.ItemName;
                 if (!string.IsNullOrWhiteSpace(newName) && ViewModel.OriginalItemName != newName)
                 {
@@ -74,6 +79,7 @@ namespace Files.Views
             }
             else
             {
+                ViewModel.ItemName = ItemFileName.Text; // Make sure ItemName is updated
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
                     return await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.RenameFileItemAsync(item,
@@ -86,17 +92,22 @@ namespace Files.Views
                 if (BaseProperties is CombinedProperties combinedProps)
                 {
                     // Handle each file independently
-                    foreach (var fileOrFolder in combinedProps.List)
+                    if (AppInstance?.SlimContentPage?.ItemManipulationModel != null) // null on homepage
                     {
-                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
+                        foreach (var fileOrFolder in combinedProps.List)
+                        {
+                            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
+                        }
                     }
                     return true;
                 }
                 else
                 {
                     // Handle the visibility attribute for a single file
-                    await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
-
+                    if (AppInstance?.SlimContentPage?.ItemManipulationModel != null) // null on homepage
+                    {
+                        await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() => UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, AppInstance.SlimContentPage.ItemManipulationModel));
+                    }
                     return true;
                 }
             }

@@ -18,12 +18,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>Atvērt jaunā logā</value>
   </data>
-  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>Jauna cilne</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>Jauns logs</value>
-  </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>Mape</value>
   </data>
@@ -33,17 +27,8 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Teksta dokuments</value>
   </data>
-  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>Kopēt atrašanās vietu</value>
-  </data>
-  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
-    <value>Ielīmēt</value>
-  </data>
   <data name="Browse" xml:space="preserve">
     <value>Pārlūkot</value>
-  </data>
-  <data name="RecentLocations" xml:space="preserve">
-    <value>Pēdējās atrašanās vietas</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
     <value>Diski</value>
@@ -59,9 +44,6 @@
   </data>
   <data name="sizeColumn.Header" xml:space="preserve">
     <value>Izmērs</value>
-  </data>
-  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>Atvērt Komandu uzvednē...</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Izveidoja:</value>
@@ -87,9 +69,6 @@
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Izlaist</value>
   </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Atcelt</value>
-  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Vienuma tips:</value>
   </data>
@@ -111,9 +90,6 @@
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Piekļūts:</value>
   </data>
-  <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Īpašnieks:</value>
-  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Notīrīt visus vienumus</value>
   </data>
@@ -132,65 +108,29 @@
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Noņemt šo vienumu</value>
   </data>
-  <data name="RecentItems.Text" xml:space="preserve">
-    <value>Nesenie vienumi</value>
-  </data>
-  <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Faili</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Iesniegt atsauksmes</value>
-  </data>
-  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Nosūtīt izstrādātājiem kļūdas detalizēto aprakstu</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Trešās puses licences</value>
   </data>
-  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>Par</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Akrila sānu josla</value>
-  </data>
-  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
-    <value>Datuma formāts</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
-    <value>Lietotnes motīvs</value>
-  </data>
-  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+  <data name="Appearance" xml:space="preserve">
     <value>Izskats</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
-    <value>Rādīt zināmus failu paplašinājumus</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
-    <value>Rādīt slēptos failus un mapes</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Rādīt slēptos failus un mapes</value>
-  </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Faili un mapes</value>
+    <value>Faili &amp; mapes</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Eksperimentāli</value>
-  </data>
-  <data name="SettingsPageHeader.Text" xml:space="preserve">
-    <value>Iestatījumi</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Par</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>Izskats</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Eksperimentāli</value>
   </data>
   <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Faili un mapes</value>
+    <value>Faili &amp; mapes</value>
   </data>
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
     <value>Startējot</value>
@@ -213,9 +153,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Startējot</value>
   </data>
-  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
-    <value>Rekvizītos rādīt vienuma īpašnieku</value>
-  </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Iestatījumi</value>
   </data>
@@ -236,9 +173,6 @@
   </data>
   <data name="SidebarPictures" xml:space="preserve">
     <value>Attēli</value>
-  </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Atspraust no sānu joslas</value>
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Video</value>
@@ -276,9 +210,6 @@
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>MD5Hash:</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>Jauns</value>
-  </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Mape</value>
   </data>
@@ -315,14 +246,8 @@
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>Kopēt</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>Dzēst</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Pārdēvēt</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Piespraust sānu joslā</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Rekvizīti</value>
@@ -349,16 +274,10 @@
     <value>Ievadiet vienuma nosaukumu</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Noteikt nosaukumu</value>
-  </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Atcelt</value>
-  </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>Jauna cilne</value>
+    <value>Nosaukt</value>
   </data>
   <data name="SystemTheme" xml:space="preserve">
-    <value>Windows noklusējums</value>
+    <value>Noklusējums</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Gaišs</value>
@@ -394,10 +313,7 @@
     <value>Atsvaidzināt (F5)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Meklēt</value>
-  </data>
-  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Papildu opcijas</value>
+    <value>Meklēt (Ctrl+F)</value>
   </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Rekvizīti</value>
@@ -408,14 +324,8 @@
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Rekvizīti</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Apskatīt profilu piemērus</value>
-  </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Šajā mapē jau pastāv vienums ar šādu nosaukumu.</value>
-  </data>
-  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Ģenerēt jaunu nosaukumu</value>
   </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Aizvietot esošo vienumu</value>
@@ -426,16 +336,16 @@
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Iestatīt kā bloķēšanas ekrāna fonu</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutLargeIcons.Text" xml:space="preserve">
     <value>Režģa skats (Liels)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutMediumIcons.Text" xml:space="preserve">
     <value>Režģa skats (Vidējs)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutSmallIcons.Text" xml:space="preserve">
     <value>Režģa skats (Mazs)</value>
   </data>
-  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutTiles.Text" xml:space="preserve">
     <value>Mozaīkas skats</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
@@ -443,9 +353,6 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Mēs nevarējām izdzēst šo vienumu</value>
-  </data>
-  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
-    <value>Piekļuve liegta</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Lūdzu ievietojiet vajadzīgo disku, lai piekļūtu šim vienumam.</value>
@@ -479,9 +386,6 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
-  </data>
-  <data name="NavToolbarLayoutMode.Text" xml:space="preserve">
-    <value>Izkārtojuma veids</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Tikai lasāms</value>
@@ -537,9 +441,6 @@
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Vienuma nosaukums nevar saterēt sekojošos simbolus: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Atvērt datu žurnāla atrašanās vietu</value>
-  </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>vienums atlasīts</value>
   </data>
@@ -561,14 +462,8 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Failu pārvietošana uz Atkritni</value>
   </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Piespraust mapi sānu joslā</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Jā</value>
-  </data>
-  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Atcelt</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Vai esat pārliecināti, ka vēlaties dzēst visus šos failus?</value>
@@ -600,14 +495,8 @@
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Palaist kā administratoram</value>
   </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Uzzināt vairāk par datumu formātiem</value>
-  </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Atbloķēt</value>
-  </data>
-  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Atcelt</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Ievadiet paroli, lai atbloķētu disku</value>
@@ -653,9 +542,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Nesenie</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>Lietotnes valoda</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Pārvietot cilni šeit</value>
@@ -765,14 +651,8 @@
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Ieguldītāji</value>
   </data>
-  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Skatīt, kas izstrādāja Failus</value>
-  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Laidiena piezīmes</value>
-  </data>
-  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Uzzini jaunums lietotnē Faili</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>Atsauktais vienums ir vai nu nederīgs vai nepieejams.{0}Kļūdas ziņojums:{0}{1}</value>
@@ -831,17 +711,11 @@
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Atbalstiet mūs</value>
   </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>Atbalstiet mūs PayPal</value>
-  </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Mēs nevarējām izveidot šo vienumu</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+  <data name="AccessDenied" xml:space="preserve">
     <value>Piekļuve liegta</value>
-  </data>
-  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Atcelt</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Pievienot cilni</value>
@@ -849,26 +723,8 @@
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>Atvērt cilnes</value>
   </data>
-  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptīvs (Ieteicams)</value>
-  </data>
-  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
-    <value>Atlasa labāko daudzuzdevumu veikšanas režīmu, balstoties uz lietotnes loga izmēriem. Kad logs ir mazs, horizontālā ciļņu josla tiek saspiesta izlidojošajā logā navigācijas rīkjoslā.</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Horizontāls</value>
-  </data>
-  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
-    <value>Vienmēr paslēpj vertikālo daudzuzdevumu veikšanas logu no navigācijas rīkjoslas, un parāda tradicionālo horizontālo ciļņu rīkjoslu lietotnes logā. Šis ir piemērots lietotājiem, kuriem nepārtraukti nepieciešams sekot līdzi visām lietotnes instancēm.</value>
-  </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Vairākuzdevumu režīms</value>
-  </data>
-  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Vertikāls</value>
-  </data>
-  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
-    <value>Sakļauj horizontālo lietotnes instanču sarakstu vertikālā izlidojošajā logā navigācijas rīkjoslā. Izstrādāts lietotājiem, kuri vēlas tīru saskarni ar vieglu piekļuvi citām instancēm.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Vairākuzdevumu režīms</value>
@@ -879,7 +735,7 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Kopēt atrašanās vietu</value>
   </data>
-  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Atcelt</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
@@ -915,35 +771,11 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Pāriet vienu mapi augšup</value>
   </data>
-  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
-    <value>Vertikālā ciļņu josla</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Mainīt komandu uzvednes lietotnes</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mainīt komandu uzvednes lietotnes</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
-    <value>Skatīt profilu piemērus</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
-    <value>Lietotnes valoda</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
-    <value>Komandu uzvednes lietotnes</value>
-  </data>
-  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
-    <value>Pārvietot pārpildītos vienumus apakšizvēlnē</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
-    <value>Piespraust Atkritni sānu joslā</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
-    <value>Rādīt piekrišanas izvēlni, kad tiek dzēsti faili vai mapes</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Komandu uzvednes lietotnes</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Bija problēma, saglabājot rekvizītus.</value>
@@ -956,9 +788,6 @@
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Tomēr aizvērt</value>
-  </data>
-  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Atcelt</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Vērtējums</value>
@@ -1248,15 +1077,6 @@
   <data name="PropertyAddress" xml:space="preserve">
     <value>Adrese</value>
   </data>
-  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Papildu opcijas</value>
-  </data>
-  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
-    <value>Statusa centrs</value>
-  </data>
-  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Atvērt vienumus ar vienu klikšķi</value>
-  </data>
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Fails</value>
   </data>
@@ -1308,29 +1128,11 @@
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
     <value>Notīrīt visus rekvizītus</value>
   </data>
-  <data name="StatusCenterTeachingTip.Subtitle" xml:space="preserve">
+  <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
     <value>Pārbaudīt failu darbību statusu šeit</value>
   </data>
-  <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
+  <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
     <value>Statusa centrs</value>
-  </data>
-  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
-    <value>Licence</value>
-  </data>
-  <data name="SettingsAboutLicense.Content" xml:space="preserve">
-    <value>Licence</value>
-  </data>
-  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
-    <value>Tīmekļa vietne</value>
-  </data>
-  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
-    <value>Tīmekļa vietne</value>
-  </data>
-  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>Uzzināt vairāk par datumu formātiem</value>
-  </data>
-  <data name="DragDropWindowText" xml:space="preserve">
-    <value>Nomest šeit</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Meklēt</value>
@@ -1353,35 +1155,17 @@
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Atbalstiet mūs PayPal</value>
   </data>
-  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
-    <value>Parādiet un kārtojiet mapes kopā ar failiem</value>
-  </data>
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Detaļas</value>
   </data>
-  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+  <data name="UpdateClose" xml:space="preserve">
     <value>Nē</value>
   </data>
   <data name="UpdateConsentDialogContent" xml:space="preserve">
     <value>Vai Jūs vēlaties lejupielādēt un instalēt jaunāko Failu versiju?</value>
   </data>
-  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Jā</value>
-  </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Pieejami atjauninājumi</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
-    <value>Paslēpt aizsargātos operētājsistēmas failus (ieteicams)</value>
-  </data>
-  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
-    <value>Paslēpt aizsargātos operētājsistēmas failus (ieteicams)</value>
-  </data>
-  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
-    <value>Meklējot parādīt neindeksētos vienumus (meklēšana var būt ilgāka)</value>
-  </data>
-  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
-    <value>Iespējot atsevišķus iestatījumus katrai mapei</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Pielāgot labā klikšķa izvēlni</value>
@@ -1392,12 +1176,6 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Oriģinālais ceļš</value>
   </data>
-  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
-    <value>Ātrdarbībai glabāt failus un mapes kešatmiņā</value>
-  </data>
-  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
-    <value>Preventīās kešatmiņas paralēlais ierobežojums (mazākam skaitlim vajadzētu strādāt labāk uz cietajiem diskiem)</value>
-  </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Pievienot</value>
   </data>
@@ -1407,26 +1185,8 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Dzēst</value>
   </data>
-  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
-    <value>Atcelt</value>
-  </data>
-  <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Notiekošās darbības</value>
-  </data>
-  <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
-    <value>Notiekošās darbības</value>
-  </data>
-  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
-    <value>Vienmēr atvērt jaunas cilnes dubultajā paneļu režīmā</value>
-  </data>
-  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
-    <value>Iespējot dubulto paneļu skatu</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
     <value>Atvērt otrajā panelī</value>
-  </data>
-  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
-    <value>Jauns panelis</value>
   </data>
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>Atvērt otrajā panelī</value>
@@ -1434,47 +1194,38 @@
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dubulti paneļi</value>
   </data>
-  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+  <data name="FolderWidgetDescription.Text" xml:space="preserve">
     <value>Mapes</value>
   </data>
-  <data name="NavToolbarDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Detalizēts skats (Ctrl+Shift+1)</value>
+  </data>
+  <data name="NavToolbarDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Detalizēts skats</value>
   </data>
-  <data name="NavToolbarDetailsView.AutomationProperties.Name" xml:space="preserve">
-    <value>Detalizēts skats</value>
-  </data>
-  <data name="NavToolbarDisplayOptions.Text" xml:space="preserve">
-    <value>Attēlojuma opcijas</value>
-  </data>
-  <data name="NavToolbarGridViewLarge.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarLargeIcons.AutomationProperties.Name" xml:space="preserve">
     <value>Režģa skats (Liels)</value>
   </data>
-  <data name="NavToolbarGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Režģa skats (Liels)</value>
+  <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Režģa skats (Liels) (Ctrl+Shift+5)</value>
   </data>
-  <data name="NavToolbarGridViewMedium.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarMediumIcons.AutomationProperties.Name" xml:space="preserve">
     <value>Režģa skats (Vidējs)</value>
   </data>
-  <data name="NavToolbarGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Režģa skats (Vidējs)</value>
+  <data name="NavToolbarMediumIcons.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Režģa skats (Vidējs) (Ctrl+Shift+4)</value>
   </data>
-  <data name="NavToolbarGridViewSmall.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarSmallIcons.AutomationProperties.Name" xml:space="preserve">
     <value>Režģa skats (Mazs)</value>
   </data>
-  <data name="NavToolbarGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Režģa skats (Mazs)</value>
+  <data name="NavToolbarSmallIcons.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Režģa skats (Mazs) (Ctrl+Shift+3)</value>
   </data>
-  <data name="NavToolbarTilesView.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavToolbarTiles.AutomationProperties.Name" xml:space="preserve">
     <value>Mozaīkas skats</value>
   </data>
-  <data name="NavToolbarTilesView.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Mozaīkas skats</value>
-  </data>
-  <data name="NavToolbarShowFileExtensions.Header" xml:space="preserve">
-    <value>Rādīt failu paplašinājumus</value>
-  </data>
-  <data name="NavToolbarShowHiddenItems.Header" xml:space="preserve">
-    <value>Rādīt paslēptos vienumus</value>
+  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Mozaīkas skats (Ctrl+Shift+2)</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
     <value>Dzēšanas datums</value>
@@ -1542,9 +1293,6 @@
   <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
     <value>Ievadīt saišķa nosaukumu</value>
   </data>
-  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Atcelt</value>
-  </data>
   <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
     <value>Vēlamais nosaukums</value>
   </data>
@@ -1559,9 +1307,6 @@
   </data>
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>Izveidot saišķi</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
-    <value>Atcelt</value>
   </data>
   <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>Apstiprināt</value>
@@ -1590,9 +1335,6 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Vienuma nosaukums</value>
   </data>
-  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
-    <value>Atspraust mapi no sānu joslas</value>
-  </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Tīkla diski</value>
   </data>
@@ -1611,13 +1353,10 @@
   <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
     <value>Dokumentācija</value>
   </data>
-  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
-    <value>Atrast padomus &amp; un uzzināt vairāk par Failiem</value>
-  </data>
   <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Apmeklējiet Failu dokumentācijas vietni</value>
   </data>
-  <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
+  <data name="OngoingTasksFlyout.AutomationProperties.Name" xml:space="preserve">
     <value>Notiekošo uzdevumu logs</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
@@ -1692,9 +1431,6 @@
   <data name="SideBarDisconnectNetworkDrive.Text" xml:space="preserve">
     <value>Atvienot</value>
   </data>
-  <data name="SettingsUsePreemptiveCache.Header" xml:space="preserve">
-    <value>Izmantot preventīvu saglabāšanu kešatmiņā (preventīvi ielādēt apakšvienumus)</value>
-  </data>
   <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Papildus saišķu opcijas</value>
   </data>
@@ -1716,29 +1452,38 @@
   <data name="PropertyItemArguments" xml:space="preserve">
     <value>Argumenti</value>
   </data>
-  <data name="BundlesOpenInNewPane" xml:space="preserve">
-    <value>Atvērt jaunā panelī</value>
-  </data>
-  <data name="SettingsPreferencesShowLibrarySection.Header" xml:space="preserve">
-    <value>Rādīt bibliotēku sadaļu sānu joslā</value>
-  </data>
-  <data name="DefaultScheme" xml:space="preserve">
-    <value>Noklusējums</value>
-  </data>
-  <data name="SettingsAppearanceColorScheme.Header" xml:space="preserve">
-    <value>Krāsu shēma</value>
-  </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Vienumu skaits</value>
+  </data>
+  <data name="StatusDeletionFailed" xml:space="preserve">
+    <value>Dzēšana neizdevās</value>
   </data>
   <data name="StatusUnknownError" xml:space="preserve">
     <value>Radās nezināma kļūda.</value>
   </data>
+  <data name="StatusDeletionComplete" xml:space="preserve">
+    <value>Dzēšana pabeigta</value>
+  </data>
+  <data name="StatusOperationCompleted" xml:space="preserve">
+    <value>Darbība pabeigta.</value>
+  </data>
+  <data name="StatusRecycleComplete" xml:space="preserve">
+    <value>Pārvietošana uz atkritni pabeigta</value>
+  </data>
+  <data name="StatusMoveComplete" xml:space="preserve">
+    <value>Pārvietošana pabeigta</value>
+  </data>
+  <data name="StatusCopyComplete" xml:space="preserve">
+    <value>Kopēšana pabeigta</value>
+  </data>
   <data name="ElevateConfirmDialog.CloseButtonText" xml:space="preserve">
     <value>Nē</value>
   </data>
-  <data name="ElevateConfirmDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Jā</value>
+  <data name="ElevateConfirmDialog.Title" xml:space="preserve">
+    <value>Šajai darbībai nepieciešamas administratora tiesības</value>
+  </data>
+  <data name="ElevateConfirmDialog.Content" xml:space="preserve">
+    <value>Vai vēlaties turpināt kā administrators?</value>
   </data>
   <data name="HorizontalMultitaskingControlCloseTabsToTheRight.Text" xml:space="preserve">
     <value>Aizvērt cilnes labajā pusē</value>
@@ -1746,16 +1491,944 @@
   <data name="FullTrustStatusTeachingTip.Title" xml:space="preserve">
     <value>Administrators</value>
   </data>
+  <data name="FullTrustStatusTeachingTip.Subtitle" xml:space="preserve">
+    <value>Files ir palaists administratora režīmā</value>
+  </data>
+  <data name="PinItemToStart.Text" xml:space="preserve">
+    <value>Piespraust Sākuma Izvēlnē</value>
+  </data>
+  <data name="UnpinItemFromStart.Text" xml:space="preserve">
+    <value>Atspraust no Sākuma Izvēlnes</value>
+  </data>
+  <data name="NavToolbarColumnView.AutomationProperties.Name" xml:space="preserve">
+    <value>Kolonnu skats</value>
+  </data>
+  <data name="NavToolbarColumnView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Kolonnu skats (Ctrl+Shift+6)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutColumn.Text" xml:space="preserve">
+    <value>Kolonnu skats</value>
+  </data>
+  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
+    <value>{0:#,##0} faili, {1:#,##0} mapes no {2:#,##0} atrašanās vietām</value>
+  </data>
+  <data name="ItemTypeLibrary" xml:space="preserve">
+    <value>Bibliotēka</value>
+  </data>
+  <data name="LibraryItemAutomation" xml:space="preserve">
+    <value>Bibliotēka</value>
+  </data>
+  <data name="PropertiesDialogTabLibrary.Content" xml:space="preserve">
+    <value>Bibliotēka</value>
+  </data>
+  <data name="LibraryLocations.Text" xml:space="preserve">
+    <value>Atrašanās vietas:</value>
+  </data>
+  <data name="LibraryLocationsButtonAdd.Label" xml:space="preserve">
+    <value>Pievienot</value>
+  </data>
+  <data name="LibraryLocationsButtonSetDefault.Label" xml:space="preserve">
+    <value>Noklusējuma</value>
+  </data>
+  <data name="LibraryLocationsButtonSetDefault.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Iestatīt kā noklusējuma saglabāšanas ceļu</value>
+  </data>
+  <data name="LibraryLocationsButtonRemove.Label" xml:space="preserve">
+    <value>Noņemt</value>
+  </data>
+  <data name="LibraryNoLocations.Text" xml:space="preserve">
+    <value>Nav atrašanās vietu</value>
+  </data>
+  <data name="ErrorInputEmpty" xml:space="preserve">
+    <value>Ievades lauks nedrīkst būt tukšs!</value>
+  </data>
+  <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
+    <value>Nosaukums nevar saturēt sekojošos simbolus: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="ErrorNameInputRestricted" xml:space="preserve">
+    <value>Šī vārda izmantošana nav atļauta!</value>
+  </data>
+  <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
+    <value>Bibliotēka ar tādu pašu nosaukumu jau eksistē!</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutDeleteLibrary.Text" xml:space="preserve">
+    <value>Dzēst Bibliotēku</value>
+  </data>
+  <data name="DialogCreateLibraryButtonText" xml:space="preserve">
+    <value>Izveidot</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Atvērt krātuves sensoru</value>
+  </data>
+  <data name="DrivesWidgetOpenStorageSenseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Atvērt krātuves sensoru</value>
+  </data>
+  <data name="PropertyISO" xml:space="preserve">
+    <value>ISO ātrums</value>
+  </data>
+  <data name="CopyItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Kopēt</value>
+  </data>
+  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>{0} vienumi tiks kopēti</value>
+  </data>
+  <data name="CopyItemsDialogTitle" xml:space="preserve">
+    <value>Kopēt vienumu(s)</value>
+  </data>
+  <data name="DeleteItemsDialogTitle" xml:space="preserve">
+    <value>Dzēst vienumu(s)</value>
+  </data>
+  <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Pārvietot</value>
+  </data>
+  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>{0} vienumi tiks pārvietoti</value>
+  </data>
+  <data name="MoveItemsDialogTitle" xml:space="preserve">
+    <value>Pārvietot vienumu(s)</value>
+  </data>
+  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
+    <value>{0} vienumi tiks dzēsti</value>
+  </data>
+  <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Turpināt</value>
+  </data>
+  <data name="ConflictingItemsDialogTitle" xml:space="preserve">
+    <value>Konfliktējoši failu nosaukumi</value>
+  </data>
+  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>Viens vienums tiks kopēts</value>
+  </data>
+  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>Viens vienums tiks dzēsts</value>
+  </data>
+  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
+    <value>Viens vienums tiks pārvietots</value>
+  </data>
+  <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
+    <value>Neatgriezeniski dzēst</value>
+  </data>
+  <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
+    <value>Neatradāt, ko meklējāt?</value>
+  </data>
+  <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
+    <value>Meklēt neindeksētos vienumus.</value>
+  </data>
+  <data name="NavToolbarWidgets.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Pārvaldīt logrīkus</value>
+  </data>
+  <data name="NavToolbarWidgetsManager.AutomationProperties.Name" xml:space="preserve">
+    <value>Pārvaldīt logrīkus</value>
+  </data>
+  <data name="NavToolbarShowBundlesWidget.Header" xml:space="preserve">
+    <value>Rādīt Saišņu logrīku</value>
+  </data>
+  <data name="NavToolbarShowDrivesWidget.Header" xml:space="preserve">
+    <value>Rādīt Disku logrīku</value>
+  </data>
+  <data name="NavToolbarShowRecentFilesWidget.Header" xml:space="preserve">
+    <value>Rādīt Neseno Failu logrīku</value>
+  </data>
+  <data name="NavToolbarManageWidgetsFlyoutHeader.Text" xml:space="preserve">
+    <value>Pārvaldīt logrīkus</value>
+  </data>
+  <data name="NavToolbarShowFolderWidget.Header" xml:space="preserve">
+    <value>Rādīt Bibliotēkas logrīku</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
+    <value>Ir {0} konfliktējoši failu nosaukumi un {1} izejoši vienumi.</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
+    <value>Ir viens konfliktējošs failu nosaukums un {0} izejoši vienumi.</value>
+  </data>
+  <data name="ConflictingItemsDialogItemOptionReplaceExisting.Text" xml:space="preserve">
+    <value>Aizvietot esošo</value>
+  </data>
+  <data name="ConflictingItemsDialogItemOptionSkip.Text" xml:space="preserve">
+    <value>Izlaist</value>
+  </data>
+  <data name="ConflictingItemsDialogOptionReplaceExisting.Text" xml:space="preserve">
+    <value>Aizvietot esošos</value>
+  </data>
+  <data name="ConflictingItemsDialogOptionSkip.Text" xml:space="preserve">
+    <value>Izlaist</value>
+  </data>
+  <data name="ConflictingItemsDialogTakenActionReplaceExisting" xml:space="preserve">
+    <value>Aizvietot esošo</value>
+  </data>
+  <data name="ConflictingItemsDialogTakenActionSkip" xml:space="preserve">
+    <value>Izlaist</value>
+  </data>
+  <data name="GenerateNewName" xml:space="preserve">
+    <value>Ģenerēt jaunu nosaukumu</value>
+  </data>
+  <data name="ConflictingItemsDialogUndoOption.Text" xml:space="preserve">
+    <value>Atsaukt</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
+    <value>Ir {0} konfliktējoši failu nosaukumi.</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
+    <value>Ir viens konfliktējošs failu nosaukums.</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
+    <value>Izveidot mapi ar atlasi</value>
+  </data>
+  <data name="ToolTipDescriptionName" xml:space="preserve">
+    <value>Nosaukums:</value>
+  </data>
+  <data name="ToolTipDescriptionType" xml:space="preserve">
+    <value>Tips:</value>
+  </data>
+  <data name="ToolTipDescriptionDate" xml:space="preserve">
+    <value>Modificēšanas datums:</value>
+  </data>
   <data name="NavToolbarSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Atlases opcijas</value>
   </data>
   <data name="NavToolbarSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Atlases opcijas</value>
   </data>
-  <data name="NavToolbarDisplayOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Attēlojuma opcijas</value>
+  <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
+    <value>Faila ikona</value>
   </data>
-  <data name="NavToolbarDisplayOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Attēlojuma opcijas</value>
+  <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
+    <value>Oriģinālā ceļa kolonna</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
+    <value>Vienuma tipa kolonna</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
+    <value>Modificēšanas datuma kolonna</value>
+  </data>
+  <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
+    <value>Dzēšanas datuma kolonna</value>
+  </data>
+  <data name="ResizeElementKeyboardControl.AutomationProperties.Name" xml:space="preserve">
+    <value>Sānu joslas izmēra mainītājs</value>
+  </data>
+  <data name="HorizontalMultitaskingControlAddButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Jauna cilne (Ctrl+T)</value>
+  </data>
+  <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Aizvērt cilni (Ctrl+W)</value>
+  </data>
+  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+    <value>Atvērt ar</value>
+  </data>
+  <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
+    <value>Grupēt pēc</value>
+  </data>
+  <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
+    <value>Kārtot pēc</value>
+  </data>
+  <data name="NavToolbarSortDirectionRadioButtons.Header" xml:space="preserve">
+    <value>Kārtošanas virziens</value>
+  </data>
+  <data name="ItemSizeText_Huge" xml:space="preserve">
+    <value>Milzīgs</value>
+  </data>
+  <data name="ItemSizeText_VeryLarge" xml:space="preserve">
+    <value>Ļoti liels</value>
+  </data>
+  <data name="ItemSizeText_Large" xml:space="preserve">
+    <value>Liels</value>
+  </data>
+  <data name="ItemSizeText_Medium" xml:space="preserve">
+    <value>Vidējs</value>
+  </data>
+  <data name="ItemSizeText_Small" xml:space="preserve">
+    <value>Mazs</value>
+  </data>
+  <data name="ItemSizeText_Tiny" xml:space="preserve">
+    <value>Niecīgs</value>
+  </data>
+  <data name="ItemTimeText_Today" xml:space="preserve">
+    <value>Šodien</value>
+  </data>
+  <data name="ItemTimeText_Yesterday" xml:space="preserve">
+    <value>Vakar</value>
+  </data>
+  <data name="ItemTimeText_ThisWeek" xml:space="preserve">
+    <value>Šonedēļ</value>
+  </data>
+  <data name="ItemTimeText_LastWeek" xml:space="preserve">
+    <value>Pagājušajā nedēļā</value>
+  </data>
+  <data name="ItemTimeText_ThisMonth" xml:space="preserve">
+    <value>Šajā mēnesī</value>
+  </data>
+  <data name="ItemTimeText_LastMonth" xml:space="preserve">
+    <value>Pagājušajā mēnesī</value>
+  </data>
+  <data name="ItemTimeText_ThisYear" xml:space="preserve">
+    <value>Šogad</value>
+  </data>
+  <data name="ItemTimeText_Older" xml:space="preserve">
+    <value>Vecāks</value>
+  </data>
+  <data name="ItemTimeText_Before" xml:space="preserve">
+    <value>Pirms {0}</value>
+  </data>
+  <data name="GroupItemsCount_Singular" xml:space="preserve">
+    <value>{0} vienums</value>
+  </data>
+  <data name="GroupItemsCount_Plural" xml:space="preserve">
+    <value>{0} vienumi</value>
+  </data>
+  <data name="HorizontalMultitaskingControlReopenClosedTab.Text" xml:space="preserve">
+    <value>Atkārtoti atvērt aizvērto cilni</value>
+  </data>
+  <data name="SettingsAboutPrivacyPolicy.Text" xml:space="preserve">
+    <value>Privātuma politika</value>
+  </data>
+  <data name="SettingsAboutPrivacyPolicyListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Skatīt Files privātuma politiku</value>
+  </data>
+  <data name="RenameFileDialogTitle" xml:space="preserve">
+    <value>Pārdēvēt</value>
+  </data>
+  <data name="StatusDeletionCancelled" xml:space="preserve">
+    <value>Dzēšana atcelta</value>
+  </data>
+  <data name="StatusMoveCanceled" xml:space="preserve">
+    <value>Pārvietošana atcelta</value>
+  </data>
+  <data name="StatusCopyCanceled" xml:space="preserve">
+    <value>Kopēšana atcelta</value>
+  </data>
+  <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
+    <value>{0} vienuma pārvietošana no {1} uz {2} tika atcelta</value>
+  </data>
+  <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
+    <value>{0} vienumu pārvietošana no {1} uz {2} tika atcelta pēc {3} vienumu pārvietošanas</value>
+  </data>
+  <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
+    <value>{0} vienuma pārvietošana no {1} uz {2} tika atcelta pēc {3} vienuma pārvietošanas</value>
+  </data>
+  <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
+    <value>Pārvieto {0} vienumu no {1} uz {2}</value>
+  </data>
+  <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
+    <value>Pārvieto {0} vienumus no {1} uz {2}</value>
+  </data>
+  <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
+    <value>Veiksmīgi pārvietots {0} vienums no {1} uz {2}</value>
+  </data>
+  <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
+    <value>Veiksmīgi pārvietoti {0} vienumi no {1} uz {2}</value>
+  </data>
+  <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
+    <value>Neizdevās pārvietot {0} vienumu no {1} uz {2}</value>
+  </data>
+  <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
+    <value>Neizdevās pārvietot {0} vienumus no {1} uz {2}</value>
+  </data>
+  <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
+    <value>{0} vienuma kopēšana uz {1} tika atcelta</value>
+  </data>
+  <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
+    <value>{0} vienumu kopēšana uz {1} tika atcelta pēc {2} vienumu kopēšanas</value>
+  </data>
+  <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
+    <value>{0} vienumu kopēšana uz {1} tika pārtraukta pēc {2} vienumu kopēšanas</value>
+  </data>
+  <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
+    <value>{0} vienums tiek kopēts uz {1}</value>
+  </data>
+  <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
+    <value>{0} vienumi tiek kopēti uz {1}</value>
+  </data>
+  <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
+    <value>{0} vienums tika veiksmīgi kopēts uz {0}</value>
+  </data>
+  <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
+    <value>{0} vienumi tika veiksmīgi kopēti uz {1}</value>
+  </data>
+  <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
+    <value>{0} vienuma dzēšana no {1} tika atcelta</value>
+  </data>
+  <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
+    <value>{0} vienumu dzēšana no {1} tika atcelta pēc {3} vienumu dzēšanas</value>
+  </data>
+  <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
+    <value>{0} vienumu dzēšana no {1} tika atcelta pēc {3} vienuma dzēšanas</value>
+  </data>
+  <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
+    <value>{0} vienumi tiek dzēsti no {1}</value>
+  </data>
+  <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
+    <value>{0} vienumi tiek dzēsti no {1}</value>
+  </data>
+  <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
+    <value>{0} vienums tika veiksmīgi dzēsts no {1}</value>
+  </data>
+  <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
+    <value>{0} vienumi tika veiksmīgi dzēsti no {1}</value>
+  </data>
+  <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
+    <value>Neizdevās dzēst {0} vienumu no {1}</value>
+  </data>
+  <data name="TheRecycleBin" xml:space="preserve">
+    <value>Atkritne</value>
+  </data>
+  <data name="MoveInProgress" xml:space="preserve">
+    <value>Vienumu pārvietošana</value>
+  </data>
+  <data name="CopyInProgress.Title" xml:space="preserve">
+    <value>Vienumu kopēšana</value>
+  </data>
+  <data name="StatusRecycleFailed" xml:space="preserve">
+    <value>Pārvietošana uz atkritni neizdevās</value>
+  </data>
+  <data name="StatusRecycleCancelled" xml:space="preserve">
+    <value>Pārvietošana uz atkritni atcelta</value>
+  </data>
+  <data name="StatusCancellingOp" xml:space="preserve">
+    <value>tiek atcelts</value>
+  </data>
+  <data name="OngoingTasksDismissBannerButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Noraidīt</value>
+  </data>
+  <data name="OngoingTasksDismissBannerButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Noraidīt</value>
+  </data>
+  <data name="NavToolbarWidgets.Label" xml:space="preserve">
+    <value>Logrīki</value>
+  </data>
+  <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
+    <value>Atlasīt</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Izkārtojums</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Izkārtojums</value>
+  </data>
+  <data name="NavToolbarLayoutOptionsButton.Label" xml:space="preserve">
+    <value>Izkārtojums</value>
+  </data>
+  <data name="PreviewPaneToggle.Label" xml:space="preserve">
+    <value>Priekšskatīt</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Kārtot</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Kārtot</value>
+  </data>
+  <data name="NavToolbarSortOptionsButton.Label" xml:space="preserve">
+    <value>Kārtot</value>
+  </data>
+  <data name="NavToolbarLayout.Text" xml:space="preserve">
+    <value>Izkārtojums</value>
+  </data>
+  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
+    <value>Neizdevās dzēst {0} vienumus no {1}</value>
+  </data>
+  <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
+    <value>Jauns logs</value>
+  </data>
+  <data name="NavigationToolbarCopyPath.Label" xml:space="preserve">
+    <value>Kopēšanas atrašanās vieta</value>
+  </data>
+  <data name="NavigationToolbarPaste.Label" xml:space="preserve">
+    <value>Ielīmēt</value>
+  </data>
+  <data name="NavigationToolbarOpenInTerminal.Label" xml:space="preserve">
+    <value>Atvērt terminālī...</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
+    <value>Jauns</value>
+  </data>
+  <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
+    <value>Jauns panelis</value>
+  </data>
+  <data name="PropertiesDialogTabSecurity.Content" xml:space="preserve">
+    <value>Drošība</value>
+  </data>
+  <data name="SecurityAdvancedPermissions.Text" xml:space="preserve">
+    <value>Papildu atļaujas</value>
+  </data>
+  <data name="SecurityAllowLabel.Text" xml:space="preserve">
+    <value>Atļaut</value>
+  </data>
+  <data name="SecurityDenyLabel.Text" xml:space="preserve">
+    <value>Aizliegt</value>
+  </data>
+  <data name="SecurityFullControlLabel.Text" xml:space="preserve">
+    <value>Pilnīga kontrole</value>
+  </data>
+  <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
+    <value>Rādīt mapju saturu</value>
+  </data>
+  <data name="SecurityModifyLabel.Text" xml:space="preserve">
+    <value>Modificēt</value>
+  </data>
+  <data name="SecurityPermissionsLabel.Text" xml:space="preserve">
+    <value>Atļaujas</value>
+  </data>
+  <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
+    <value>Lasīt un izpildīt</value>
+  </data>
+  <data name="SecurityReadLabel.Text" xml:space="preserve">
+    <value>Lasīt</value>
+  </data>
+  <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
+    <value>Grupa vai lietotājvārdi</value>
+  </data>
+  <data name="SecurityWriteLabel.Text" xml:space="preserve">
+    <value>Lasīt</value>
+  </data>
+  <data name="SecurityUnknownAccount" xml:space="preserve">
+    <value>Nezināms konts</value>
+  </data>
+  <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
+    <value>Jums nav atļauju, lai skatītu šī objekta drošības rekvizītus. Nospiediet "Papildu atļaujas", lai turpinātu.</value>
+  </data>
+  <data name="SecurityOwnerLabel.Text" xml:space="preserve">
+    <value>Īpašnieks</value>
+  </data>
+  <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
+    <value>Nezināms īpašnieks</value>
+  </data>
+  <data name="SettingsNavSidebar.Content" xml:space="preserve">
+    <value>Sānu josla</value>
+  </data>
+  <data name="SettingsSidebarTitle.Text" xml:space="preserve">
+    <value>Sānu josla</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>Noklusējums</value>
+  </data>
+  <data name="SettingsAppearanceOpenThemesFolderButton.Content" xml:space="preserve">
+    <value>Atvērt motīvu mapi</value>
+  </data>
+  <data name="SettingsThemesLearnMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Uzzināt vairāk par pielāgojamiem motīviem</value>
+  </data>
+  <data name="SettingsThemesLearnMoreButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Uzzināt vairāk par pielāgojamiem motīviem</value>
+  </data>
+  <data name="SettingsThemesTeachingTipHeader.Text" xml:space="preserve">
+    <value>Pielāgojamie motīvi ir lielisks veids, kā personalizēt Files.</value>
+  </data>
+  <data name="SettingsThemesTeachingTipHyperlinkText.Text" xml:space="preserve">
+    <value>Skatīt dokumentāciju.</value>
+  </data>
+  <data name="VerticalTabFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Vertikālais ciļņu izlecošais logs</value>
+  </data>
+  <data name="VerticalTabFlyout.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vertikālais ciļņu izlecošais logs</value>
+  </data>
+  <data name="HorizontalMultitaskingControlAddButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Jauna cilne (Ctrl+T)</value>
+  </data>
+  <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
+    <value>Izveidot jaunu bibliotēku</value>
+  </data>
+  <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
+    <value>Atjaunot sākotnējās bibliotēkas</value>
+  </data>
+  <data name="DialogRestoreLibrariesButtonText" xml:space="preserve">
+    <value>Atjaunot</value>
+  </data>
+  <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
+    <value>Vai esat droši, ka vēlaties atjaunot sākotnējās bibliotēkas? Visi faili tiks saglabāti.</value>
+  </data>
+  <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
+    <value>Atjaunot bibliotēkas</value>
+  </data>
+  <data name="RecentFilesHeader.Text" xml:space="preserve">
+    <value>Nesenie faili</value>
+  </data>
+  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
+    <value>Atvērt jaunā cilnē</value>
+  </data>
+  <data name="PropertyFileOwner" xml:space="preserve">
+    <value>Īpašnieks</value>
+  </data>
+  <data name="SecurityAdvancedPermissionsTitle" xml:space="preserve">
+    <value>Papildus atļaujas priekš {0}</value>
+  </data>
+  <data name="SecuritySpecialLabel.Text" xml:space="preserve">
+    <value>Īpašs</value>
+  </data>
+  <data name="SecurityAdvancedAccessLabel.Text" xml:space="preserve">
+    <value>Piekļuve</value>
+  </data>
+  <data name="SecurityAdvancedAppliesToLabel.Text" xml:space="preserve">
+    <value>Piemērots</value>
+  </data>
+  <data name="SecurityAdvancedEntityLabel.Text" xml:space="preserve">
+    <value>Vienība</value>
+  </data>
+  <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
+    <value>faili</value>
+  </data>
+  <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
+    <value>šī mape</value>
+  </data>
+  <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
+    <value>apakšmapes</value>
+  </data>
+  <data name="SecurityAdvancedInheritedLabel.Text" xml:space="preserve">
+    <value>Mantots</value>
+  </data>
+  <data name="SecurityAdvancedInheritedNoLabel" xml:space="preserve">
+    <value>Nē</value>
+  </data>
+  <data name="SecurityAdvancedPermissionsLabel.Text" xml:space="preserve">
+    <value>Atļaujas</value>
+  </data>
+  <data name="SecurityAdvancedTypeLabel.Text" xml:space="preserve">
+    <value>Tips</value>
+  </data>
+  <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
+    <value>Jums nav atļaujas, lai skatītu šī objekta drošības īpašības. Varat mēģināt pārņemt šī objekta īpašumtiesības.</value>
+  </data>
+  <data name="SecurityAdvancedSpecialLabel.Text" xml:space="preserve">
+    <value>Īpašs</value>
+  </data>
+  <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
+    <value>Šī mape un faili</value>
+  </data>
+  <data name="SecurityAdvancedFolderSubfoldersFiles.Text" xml:space="preserve">
+    <value>Šī mape, apakšmapes un faili</value>
+  </data>
+  <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
+    <value>Tikai faili</value>
+  </data>
+  <data name="SecurityAdvancedOnlySubfolders.Text" xml:space="preserve">
+    <value>Tikai apakšmapes</value>
+  </data>
+  <data name="SecurityAdvancedOnlySubfoldersFiles.Text" xml:space="preserve">
+    <value>Tikai apakšmapes un failus</value>
+  </data>
+  <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
+    <value>Tikai šo mapi</value>
+  </data>
+  <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
+    <value>Šī mape un apakšmapes</value>
+  </data>
+  <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
+    <value>Papildināt datus</value>
+  </data>
+  <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
+    <value>Mainīt atļauju</value>
+  </data>
+  <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
+    <value>Izveidot mapes</value>
+  </data>
+  <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
+    <value>Izveidot failus</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Dzēst</value>
+  </data>
+  <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
+    <value>Dzēst apakšmapes un failus</value>
+  </data>
+  <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
+    <value>Izpildīt failus</value>
+  </data>
+  <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
+    <value>Lasīt atribūtus</value>
+  </data>
+  <data name="SecurityReadDataLabel.Text" xml:space="preserve">
+    <value>Lasīt datus</value>
+  </data>
+  <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
+    <value>Lasīt paplašinātos atribūtus</value>
+  </data>
+  <data name="SecurityReadPermissionsLabel.Text" xml:space="preserve">
+    <value>Lasīt atļaujas</value>
+  </data>
+  <data name="SecurityTakeOwnershipLabel.Text" xml:space="preserve">
+    <value>Pārņemt īpašumtiesības</value>
+  </data>
+  <data name="SecurityTraverseLabel.Text" xml:space="preserve">
+    <value>Apmeklēt mapi</value>
+  </data>
+  <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
+    <value>Rakstīt atribūtus</value>
+  </data>
+  <data name="SecurityWriteDataLabel.Text" xml:space="preserve">
+    <value>Rakstīt datus</value>
+  </data>
+  <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
+    <value>Rakstīt paplašinātos atribūtus</value>
+  </data>
+  <data name="SecurityNoneLabel.Text" xml:space="preserve">
+    <value>Nav</value>
+  </data>
+  <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
+    <value>Pārveidot iedzimtās atļaujas uz tiešajām atļaujām</value>
+  </data>
+  <data name="SecurityAdvancedInheritedEnable.Text" xml:space="preserve">
+    <value>Iespējot pārmantošanu</value>
+  </data>
+  <data name="SecurityAdvancedInheritedRemove.Text" xml:space="preserve">
+    <value>Noņemt visas iedzimtās atļaujas</value>
+  </data>
+  <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
+    <value>Atiestatīt bērnu atļaujas</value>
+  </data>
+  <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Aizvietot visas bērnu objektu atļaujas ar iedzimtajām atļaujām no šī objekta</value>
+  </data>
+  <data name="CreateBundleBtn.AutomationProperties.Name" xml:space="preserve">
+    <value>Izveidot saišķi</value>
+  </data>
+  <data name="CreateBundleBtn.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Izveidot saišķi</value>
+  </data>
+  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
+    <value>Aizvērt paneli</value>
+  </data>
+  <data name="PropertyFileDescription" xml:space="preserve">
+    <value>Faila apraksts</value>
+  </data>
+  <data name="PropertyCompany" xml:space="preserve">
+    <value>Uzņēmums</value>
+  </data>
+  <data name="PropertyLanguage" xml:space="preserve">
+    <value>Valoda</value>
+  </data>
+  <data name="PropertyTrademarks" xml:space="preserve">
+    <value>Preču zīmes</value>
+  </data>
+  <data name="PropertyFileVersion" xml:space="preserve">
+    <value>Faila versija</value>
+  </data>
+  <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Lejupielādē vienumu no mākoņa un atver priekšskatījumu</value>
+  </data>
+  <data name="DecompressArchiveDialog.Title" xml:space="preserve">
+    <value>Atlasīt mērķi un izvilkt failus</value>
+  </data>
+  <data name="DecompressArchiveDialogBrowseFolder.Content" xml:space="preserve">
+    <value>Pārlūkot</value>
+  </data>
+  <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
+    <value>Atvērt mērķa mapi, kad pabeigts</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractFilesOption" xml:space="preserve">
+    <value>Izvilkt failus</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractHereOption" xml:space="preserve">
+    <value>Izvilkt šeit</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractionOptions" xml:space="preserve">
+    <value>Izvilkt...</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
+    <value>Izvilkt uz {0}\</value>
+  </data>
+  <data name="DetailsArchiveItemCount" xml:space="preserve">
+    <value>{0} vienumi ({1} faili, {2} mapes)</value>
+  </data>
+  <data name="PropertyUncompressedSize" xml:space="preserve">
+    <value>Nesaspiestais izmērs</value>
+  </data>
+  <data name="NavigationToolbarEnterCompactOverlay.Label" xml:space="preserve">
+    <value>Atvērt kompakto pārklāju</value>
+  </data>
+  <data name="NavigationToolbarExitCompactOverlay.Label" xml:space="preserve">
+    <value>Iziet kompakto pārklājumu</value>
+  </data>
+  <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
+    <value>Slēpt {0} sekciju</value>
+  </data>
+  <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
+    <value>Vienmēr atvērt jaunas cilnes dubultu paneļu režīmā</value>
+  </data>
+  <data name="SettingsMultitaskingEnableDualPane" xml:space="preserve">
+    <value>Iespējot dubultu paneļu skatu</value>
+  </data>
+  <data name="SettingsVerticalTabFlyout" xml:space="preserve">
+    <value>Rādīt vertikālo ciļņu izlēcošo logu virsraksta joslā</value>
+  </data>
+  <data name="SettingsShowCloudDrivesSection.Title" xml:space="preserve">
+    <value>Rādīt tīkla disku sekciju sānu joslā</value>
+  </data>
+  <data name="SettingsShowDrivesSection.Title" xml:space="preserve">
+    <value>Rādīt disku sekciju sānu joslā</value>
+  </data>
+  <data name="SettingsShowWslSection.Title" xml:space="preserve">
+    <value>Rādīt WSL sekciju sānu joslā</value>
+  </data>
+  <data name="SettingsShowNetworkDrivesSection.Title" xml:space="preserve">
+    <value>Rādīt tīkla disku sekciju sānu joslā</value>
+  </data>
+  <data name="SettingsPinRecycleBin.Title" xml:space="preserve">
+    <value>Piespraust atkritni favorītos</value>
+  </data>
+  <data name="SettingsShowLibrarySection.Title" xml:space="preserve">
+    <value>Rādīt bibliotēkas sekciju sānu joslā</value>
+  </data>
+  <data name="SettingsAppearanceTheme" xml:space="preserve">
+    <value>Izvēlēties krāsu</value>
+  </data>
+  <data name="SettingsAppearanceCustomThemes" xml:space="preserve">
+    <value>Pielāgojamie motīvi</value>
+  </data>
+  <data name="SettingsContextMenuOverflow" xml:space="preserve">
+    <value>Pārvietot pārpildes vienumus apakšizvēlnē</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.Title" xml:space="preserve">
+    <value>Valoda</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
+    <value>Rādīt paplašinājumus zināmiem failu tipiem</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
+    <value>Rādīt slēptos failus un mapes</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems" xml:space="preserve">
+    <value>Paslēpt aizsargātos operētājsistēmas failus (Ieteicams)</value>
+  </data>
+  <data name="SettingsOpenFilesWithOneClick" xml:space="preserve">
+    <value>Atvērt vienumus ar vienu klikšķi</value>
+  </data>
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
+    <value>Rādīt un kārtot mapes kopā ar failiem</value>
+  </data>
+  <data name="SettingsSearchUnindexedItems" xml:space="preserve">
+    <value>Rādīt neindeksētos vienumus, meklētjot failus vai mapes (meklēšana var būt ilgāka)</value>
+  </data>
+  <data name="SettingsEnableLayoutPreferencesPerFolder" xml:space="preserve">
+    <value>Iespējot atšķirīgus iestatījumus katrai mapei</value>
+  </data>
+  <data name="SettingsUsefulLinks.Title" xml:space="preserve">
+    <value>Noderīgas saites</value>
+  </data>
+  <data name="SettingCopyVersionInfo.Content" xml:space="preserve">
+    <value>Kopēt</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutPinToFavorites.Text" xml:space="preserve">
+    <value>Piespraust pie favorītiem</value>
+  </data>
+  <data name="SideBarUnpinFromFavorites.Text" xml:space="preserve">
+    <value>Atspraust no favorītiem</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutUnpinFromFavorites.Text" xml:space="preserve">
+    <value>Atspraust no favorītiem</value>
+  </data>
+  <data name="NavSettingsButton" xml:space="preserve">
+    <value>Iestatījumi</value>
+  </data>
+  <data name="NavigationToolbarCopy.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Kopēt</value>
+  </data>
+  <data name="NavigationToolbarCopy.Label" xml:space="preserve">
+    <value>Kopēt</value>
+  </data>
+  <data name="ConsentDialogTitle" xml:space="preserve">
+    <value>Pieejami atjauninājumi</value>
+  </data>
+  <data name="ConsentDialogContent" xml:space="preserve">
+    <value>Atjauninājumi pieejami instalēšanai</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Aizvērt</value>
+  </data>
+  <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>Atjaunināt</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddFileMenuItem.Text" xml:space="preserve">
+    <value>Pievienot failu</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
+    <value>Pievienot mapi</value>
+  </data>
+  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
+    <value>Pievienot vienumu...</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Mājas</value>
+  </data>
+  <data name="TabViewVerticalNewTab.Text" xml:space="preserve">
+    <value>Jauna cilne</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplications.Title" xml:space="preserve">
+    <value>Termināļa lietotnes</value>
+  </data>
+  <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
+    <value>Arhīva izvilkšana veiksmīgi pabeigta.</value>
+  </data>
+  <data name="ExtractingArchiveText" xml:space="preserve">
+    <value>Izvelk arhīvu</value>
+  </data>
+  <data name="ExtractingCompleteText" xml:space="preserve">
+    <value>Izvilkšana pabeigta!</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplicationsExpander.Title" xml:space="preserve">
+    <value>Rediģēt termināļu lietotnes</value>
+  </data>
+  <data name="SettingsDateFormat.Title" xml:space="preserve">
+    <value>Datuma formāts</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialog.Title" xml:space="preserve">
+    <value>Dzēšot failus vai mapes, rādīt apstiprinājuma vaicājumu</value>
+  </data>
+  <data name="SettingsPreferencesOpenFoldersNewTab.Title" xml:space="preserve">
+    <value>Atvērt mapes jaunā cilnē</value>
+  </data>
+  <data name="SettingsPrivacy.Title" xml:space="preserve">
+    <value>Privātuma politika</value>
+  </data>
+  <data name="SettingsFluentUISystemIconsLicenseButton.Content" xml:space="preserve">
+    <value>Fluent UI Sistēmas ikonas</value>
+  </data>
+  <data name="SettingsFluentUISystemIconsLicenseButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Fluent UI sistēmas ikonas</value>
+  </data>
+  <data name="SettingsPrivacyPolicyMarkdownBlock.Text" xml:space="preserve">
+    <value>
+*Personīgas informācijas glabāšana* 
+Files nevāc, nesaglabā, nekoplieto un nepublicē jebkādu personīgu informāciju.
+
+*Nepersonīgas informācijas glabāšana*
+
+Mēs lietojam App Center, lai sekotu līdzi programmas lietojumam, atrastu un novērstu kļūdas. Visa informācija, kas sūtīta App Center, ir anonīma un nesatur personīgus datus.
+  </value>
+  </data>
+  <data name="NavToolbarGroupByOptionNone.Text" xml:space="preserve">
+    <value>Nav</value>
+  </data>
+  <data name="NavToolbarArrangementOptionName.Text" xml:space="preserve">
+    <value>Vārds</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateModified.Text" xml:space="preserve">
+    <value>Modificēšanas datums</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateCreated.Text" xml:space="preserve">
+    <value>Izveides datums</value>
+  </data>
+  <data name="NavToolbarArrangementOptionSize.Text" xml:space="preserve">
+    <value>Lielums</value>
+  </data>
+  <data name="NavToolbarArrangementOptionDateDeleted.Text" xml:space="preserve">
+    <value>Dzēšanas datums</value>
+  </data>
+  <data name="NavToolbarArrangementOptionType.Text" xml:space="preserve">
+    <value>Tips</value>
+  </data>
+  <data name="NavToolbarSortDirectionOptionAscending.Text" xml:space="preserve">
+    <value>Augošā secībā</value>
+  </data>
+  <data name="NavToolbarSortDirectionOptionDescending.Text" xml:space="preserve">
+    <value>Dilstošā secībā</value>
+  </data>
+  <data name="SyncStatus" xml:space="preserve">
+    <value>Sinhronizācijas statuss</value>
+  </data>
+  <data name="FileTagUnknown" xml:space="preserve">
+    <value>Nezināms</value>
+  </data>
+  <data name="InsertDiscDialog.Title" xml:space="preserve">
+    <value>Ievietot disku</value>
   </data>
 </root>

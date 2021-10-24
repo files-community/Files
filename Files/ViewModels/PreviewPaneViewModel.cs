@@ -1,79 +1,64 @@
 ﻿using Files.Filesystem;
+using Files.Services;
 using Files.UserControls.FilePreviews;
 using Files.ViewModels.Previews;
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
-using static Files.App;
 
 namespace Files.ViewModels
 {
-    public class PreviewPaneViewModel : ObservableObject
+    public class PreviewPaneViewModel : ObservableObject, IDisposable
     {
-        private List<ListedItem> selectedItems;
+        private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>();
 
-        public List<ListedItem> SelectedItems
+        private CancellationTokenSource loadCancellationTokenSource;
+
+        private bool isItemSelected;
+
+        public bool IsItemSelected
         {
-            get => selectedItems;
-            set
-            {
-                if (SetProperty(ref selectedItems, value))
-                {
-                    SelectedItem = SelectedItems?.FirstOrDefault();
-                }
-            }
+            get => isItemSelected;
+            set => SetProperty(ref isItemSelected, value);
         }
 
         private ListedItem selectedItem;
 
-        private CancellationTokenSource loadCancellationTokenSource;
-
         public ListedItem SelectedItem
         {
             get => selectedItem;
-            set
-            {
-                SetProperty(ref selectedItem, value);
-                SelectedItem?.FileDetails?.Clear();
-                SelectedItemChanged();
-            }
+            set => SetProperty(ref selectedItem, value);
         }
 
-        private string previewErrorText;
+        private PreviewPaneStates previewPaneState;
 
-        public string PreviewErrorText
+        public PreviewPaneStates PreviewPaneState
         {
-            get => previewErrorText;
-            set => SetProperty(ref previewErrorText, value);
+            get => previewPaneState;
+            set => SetProperty(ref previewPaneState, value);
         }
 
-        private string detailsErrorText;
+        private bool showCloudItemButton;
 
-        public string DetailsErrorText
+        public bool ShowCloudItemButton
         {
-            get => detailsErrorText;
-            set => SetProperty(ref detailsErrorText, value);
-        }
-
-        private Visibility detailsListVisibility = Visibility.Collapsed;
-
-        public Visibility DetailsListVisibility
-        {
-            get => detailsListVisibility;
-            set => SetProperty(ref detailsListVisibility, value);
+            get => showCloudItemButton;
+            set => SetProperty(ref showCloudItemButton, value);
         }
 
         private UIElement previewPaneContent;
@@ -86,36 +71,20 @@ namespace Files.ViewModels
 
         public PreviewPaneViewModel()
         {
+            UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
         }
 
-        private async Task LoadPreviewControlAsync(CancellationToken token)
+        private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
         {
-            DetailsErrorText = "";
-            PreviewErrorText = "";
-
             if (SelectedItem.IsHiddenItem)
             {
-                DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
-                PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
+                PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
+
                 PreviewPaneContent = null;
                 return;
             }
 
-            foreach (var extension in AppData.FilePreviewExtensionManager.Extensions)
-            {
-                if (extension.FileExtensions.Contains(SelectedItem.FileExtension))
-                {
-                    var extControl = await LoadPreviewControlFromExtension(SelectedItem, extension);
-                    if (!token.IsCancellationRequested && extControl != null)
-                    {
-                        PreviewPaneContent = extControl;
-                    }
-
-                    return;
-                }
-            }
-
-            var control = await GetBuiltInPreviewControlAsync(SelectedItem);
+            var control = await GetBuiltInPreviewControlAsync(SelectedItem, downloadItem);
 
             if (token.IsCancellationRequested)
             {
@@ -125,20 +94,37 @@ namespace Files.ViewModels
             if (control != null)
             {
                 PreviewPaneContent = control;
+                PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
                 return;
             }
 
             var basicModel = new BasicPreviewViewModel(SelectedItem);
             await basicModel.LoadAsync();
             control = new BasicPreview(basicModel);
+
+            if (token.IsCancellationRequested)
+            {
+                return;
+            }
             PreviewPaneContent = control;
+            PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
         }
 
-        private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item)
+        private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item, bool downloadItem)
         {
+
+            ShowCloudItemButton = false;
+
             if (item.IsShortcutItem)
             {
                 var model = new ShortcutPreviewViewModel(SelectedItem);
+                await model.LoadAsync();
+                return new BasicPreview(model);
+            }
+
+            if (SelectedItem.IsZipItem)
+            {
+                var model = new ArchivePreviewViewModel(item);
                 await model.LoadAsync();
                 return new BasicPreview(model);
             }
@@ -152,6 +138,12 @@ namespace Files.ViewModels
 
             if (item.FileExtension == null)
             {
+                return null;
+            }
+
+            if (item.SyncStatusUI.SyncStatus == Enums.CloudDriveSyncStatus.FileOnline && !downloadItem)
+            {
+                ShowCloudItemButton = true;
                 return null;
             }
 
@@ -205,6 +197,13 @@ namespace Files.ViewModels
                 return new RichTextPreview(model);
             }
 
+            if (CodePreviewViewModel.Extensions.Contains(ext))
+            {
+                var model = new CodePreviewViewModel(item);
+                await model.LoadAsync();
+                return new CodePreview(model);
+            }
+
             var control = await TextPreviewViewModel.TryLoadAsTextAsync(SelectedItem);
             if (control != null)
             {
@@ -217,7 +216,7 @@ namespace Files.ViewModels
         private async Task<UIElement> LoadPreviewControlFromExtension(ListedItem item, Extension extension)
         {
             UIElement control = null;
-            var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
+            var file = await StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath);
             string sharingToken = SharedStorageAccessManager.AddFile(file);
             var result = await extension.Invoke(new ValueSet() { { "token", sharingToken } });
 
@@ -235,30 +234,33 @@ namespace Files.ViewModels
             return control;
         }
 
-        private async void SelectedItemChanged()
+        public async void UpdateSelectedItemPreview(bool downloadItem = false)
         {
             loadCancellationTokenSource?.Cancel();
-            if (SelectedItem != null && SelectedItems.Count == 1)
+            if (SelectedItem != null && IsItemSelected)
             {
+                SelectedItem?.FileDetails?.Clear();
+
                 try
                 {
-                    DetailsListVisibility = Visibility.Visible;
+                    PreviewPaneState = PreviewPaneStates.LoadingPreview;
                     loadCancellationTokenSource = new CancellationTokenSource();
-                    await LoadPreviewControlAsync(loadCancellationTokenSource.Token);
+                    await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine(e);
                     loadCancellationTokenSource?.Cancel();
-                    // If initial loading fails, attempt to load a basic preivew (thumbnail and details only)
+                    // If initial loading fails, attempt to load a basic preview (thumbnail and details only)
                     // If that fails, revert to no preview/details available as long as the item is not a shortcut or folder
-                    if(!SelectedItem.IsShortcutItem && SelectedItem.PrimaryItemAttribute != StorageItemTypes.Folder)
+                    if (SelectedItem != null && !SelectedItem.IsShortcutItem && SelectedItem.PrimaryItemAttribute != StorageItemTypes.Folder)
                     {
                         try
                         {
                             var basicModel = new BasicPreviewViewModel(SelectedItem);
                             await basicModel.LoadAsync();
                             PreviewPaneContent = new BasicPreview(basicModel);
+                            PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
                             return;
                         }
                         catch (Exception ex)
@@ -268,25 +270,62 @@ namespace Files.ViewModels
                     }
 
                     PreviewPaneContent = null;
-                    DetailsListVisibility = Visibility.Collapsed;
-                    DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
-                    PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
+                    PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
                 }
             }
-            else if (SelectedItem != null)
+            else if (IsItemSelected)
             {
                 PreviewPaneContent = null;
-                DetailsErrorText = "PreviewPaneDetailsNotAvailableText".GetLocalized();
-                PreviewErrorText = "DetailsPanePreviewNotAvaliableText".GetLocalized();
-                DetailsListVisibility = Visibility.Collapsed;
+                PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
             }
             else
             {
                 PreviewPaneContent = null;
-                DetailsErrorText = "NoItemSelected".GetLocalized();
-                PreviewErrorText = "NoItemSelected".GetLocalized();
-                DetailsListVisibility = Visibility.Collapsed;
+                PreviewPaneState = PreviewPaneStates.NoItemSelected;
             }
         }
+
+        public ICommand ShowPreviewOnlyInvoked => new RelayCommand(() => UpdateSelectedItemPreview());
+
+        private void UserSettingsService_OnSettingChangedEvent(object sender, EventArguments.SettingChangedEventArgs e)
+        {
+            switch (e.settingName)
+            {
+                case nameof(UserSettingsService.PreviewPaneSettingsService.ShowPreviewOnly):
+                    // the preview will need refreshing as the file details won't be accurate
+                    needsRefresh = true;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// true if the content needs to be refreshed the next time the model is used
+        /// </summary>
+        private bool needsRefresh = false;
+
+        /// <summary>
+        /// refreshes the content if it needs to be refreshed, does nothing otherwise
+        /// </summary>
+        public void TryRefresh()
+        {
+            if (needsRefresh)
+            {
+                UpdateSelectedItemPreview();
+            }
+        }
+
+        public void Dispose()
+        {
+            UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+        }
+    }
+
+    public enum PreviewPaneStates
+    {
+        NoItemSelected,
+        NoPreviewAvailable,
+        NoPreviewOrDetailsAvailable,
+        PreviewAndDetailsAvailable,
+        LoadingPreview,
     }
 }

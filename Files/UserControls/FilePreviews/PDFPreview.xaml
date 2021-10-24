@@ -6,24 +6,44 @@
     xmlns:local="using:Files.UserControls.FilePreviews"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:vms="using:Files.ViewModels.Previews"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
-
-    <ListView
-        x:Name="PageList"
-        ItemsSource="{x:Bind ViewModel.Pages, Mode=OneWay}"
-        SelectionMode="None">
-        <ListView.ItemTemplate>
-            <DataTemplate x:DataType="Page">
-                <Grid Margin="0,5,0,5">
-                    <Image Source="{Binding PageImage}" />
-                </Grid>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-
-        <ListView.Footer>
-            <muxc:ProgressBar IsIndeterminate="True" Visibility="{x:Bind ViewModel.LoadingBarVisibility, Mode=OneWay}" />
-        </ListView.Footer>
-    </ListView>
+    <UserControl.Resources>
+        <DataTemplate x:Key="PageTemplate" x:DataType="vms:PageViewModel">
+            <Grid
+                Margin="4"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                CornerRadius="{StaticResource ControlCornerRadius}">
+                <Viewbox
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    StretchDirection="DownOnly">
+                    <Image
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Source="{x:Bind PageImage}" />
+                </Viewbox>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <FlipView
+            x:Name="PageList"
+            Background="Transparent"
+            ItemTemplate="{StaticResource PageTemplate}"
+            ItemsSource="{x:Bind ViewModel.Pages, Mode=OneWay}" />
+        <muxc:PipsPager
+            x:Name="FlipViewPipsPager"
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            NumberOfPages="{x:Bind ViewModel.PageCount, Mode=OneWay}"
+            SelectedPageIndex="{x:Bind Path=PageList.SelectedIndex, Mode=TwoWay}" />
+    </Grid>
 </UserControl>

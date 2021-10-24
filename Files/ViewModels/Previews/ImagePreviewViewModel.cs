@@ -1,9 +1,10 @@
 ﻿using Files.Filesystem;
 using Files.ViewModels.Properties;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media;
@@ -20,7 +21,7 @@ namespace Files.ViewModels.Previews
         }
 
         public static List<string> Extensions => new List<string>() {
-            ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff", ".ico", ".svg", ".webp"
+            ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff", ".ico", ".webp"
         };
 
         public ImageSource ImageSource
@@ -31,21 +32,12 @@ namespace Files.ViewModels.Previews
 
         public override async Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            FileRandomAccessStream stream = (FileRandomAccessStream)await Item.ItemFile.OpenAsync(FileAccessMode.Read);
-
-            // svg files require a different type of source
-            if (!Item.ItemPath.EndsWith(".svg"))
-            {
-                var bitmap = new BitmapImage();
-                ImageSource = bitmap;
+            using IRandomAccessStream stream = await Item.ItemFile.OpenAsync(FileAccessMode.Read);
+            await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () => {
+                BitmapImage bitmap = new();
                 await bitmap.SetSourceAsync(stream);
-            }
-            else
-            {
-                var bitmap = new SvgImageSource();
                 ImageSource = bitmap;
-                await bitmap.SetSourceAsync(stream);
-            }
+            });
 
             return new List<FileProperty>();
         }
