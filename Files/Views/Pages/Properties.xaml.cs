@@ -59,7 +59,7 @@ namespace Files.Views
             TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem && !listedItem.IsLibraryItem ? Visibility.Visible : Visibility.Collapsed;
             TabSecurity.Visibility = args.Item is DriveItem ||
                 (listedItem != null && !listedItem.IsLibraryItem && !listedItem.IsRecycleBinItem) ? Visibility.Visible : Visibility.Collapsed;
-            TabCustomization.Visibility = listedItem != null && listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder ? Visibility.Collapsed : Visibility.Collapsed;
+            TabCustomization.Visibility = listedItem != null && listedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder ? Visibility.Visible : Visibility.Collapsed;
             base.OnNavigatedTo(e);
         }
 

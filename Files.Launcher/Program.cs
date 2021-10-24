@@ -248,32 +248,6 @@ namespace FilesFullTrust
             }
         }
 
-        private static void SetCustomDirectoryIcon(string folderPath, string iconFile, int iconIndex = 0)
-        {
-            string fileName = "desktop.ini";
-            if (!Directory.Exists(folderPath))
-            {
-                return;
-            }
-            var folder = new DirectoryInfo(folderPath);
-            fileName = Path.Combine(folderPath, fileName);
-
-            // Create the file
-            using (var sw = File.CreateText(fileName))
-            {
-                sw.WriteLine("[.ShellClassInfo]");
-                sw.WriteLine("ConfirmFileOp={0}", true);
-                sw.WriteLine("NoSharing={0}", false);
-                sw.WriteLine("IconFile={0}", iconFile);
-                sw.WriteLine("IconIndex={0}", iconIndex);
-                sw.WriteLine("InfoTip={0}", folder.Name);
-                sw.Close();
-            }
-
-            // "Hide" the desktop.ini
-            File.SetAttributes(fileName, File.GetAttributes(fileName) | System.IO.FileAttributes.Hidden);
-        }
-
         private static bool HandleCommandLineArgs()
         {
             var localSettings = ApplicationData.Current.LocalSettings;

@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Microsoft.Win32.SafeHandles;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -272,6 +273,59 @@ namespace FilesFullTrust
                 }
             }
             return iconsList;
+        }
+
+        public static IList<IconFileInfo> ExtractIconsFromDLL(string file)
+        {
+            var iconsList = new List<IconFileInfo>();
+            var currentProc = Process.GetCurrentProcess();
+            using var icoCnt = Shell32.ExtractIcon(currentProc.Handle, file, -1);
+            if (icoCnt == null)
+            {
+                return null;
+            }
+            int count = icoCnt.DangerousGetHandle().ToInt32();
+            int maxIndex = count - 1;
+            if (maxIndex == 0)
+            {
+                using (var icon = Shell32.ExtractIcon(currentProc.Handle, file, 0))
+                {
+                    using var image = icon.ToBitmap();
+                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                    var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                    iconsList.Add(new IconFileInfo(icoStr, 0));
+                }
+            }
+            else if (maxIndex > 0)
+            {
+                for (int i = 0; i <= maxIndex; i++)
+                {
+                    using (var icon = Shell32.ExtractIcon(currentProc.Handle, file, i))
+                    {
+                        using var image = icon.ToBitmap();
+                        byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                        var icoStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                        iconsList.Add(new IconFileInfo(icoStr, i));
+                    }
+                }
+            }
+            else
+            {
+                return null;
+            }
+            return iconsList;
+        }
+
+        public static bool SetCustomDirectoryIcon(string folderPath, string iconFile, int iconIndex = 0)
+        {
+            var fcs = new Shell32.SHFOLDERCUSTOMSETTINGS();
+            fcs.dwSize = (uint)Marshal.SizeOf(fcs);
+            fcs.dwMask = Shell32.FOLDERCUSTOMSETTINGSMASK.FCSM_ICONFILE;
+            fcs.pszIconFile = iconFile;
+            fcs.cchIconFile = 0;
+            fcs.iIconIndex = iconIndex;
+
+            return Shell32.SHGetSetFolderCustomSettings(ref fcs, folderPath, Shell32.FCS.FCS_FORCEWRITE).Succeeded;
         }
 
         public static void UnlockBitlockerDrive(string drive, string password)

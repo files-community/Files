@@ -102,6 +102,21 @@ namespace FilesFullTrust.MessageHandlers
                     await Win32API.SendMessageAsync(connection, responseEnum, message.Get("RequestID", (string)null));
                     break;
 
+                case "GetFolderIconsFromDLL":
+                    var iconInfos = Win32API.ExtractIconsFromDLL((string)message["iconFile"]);
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "IconInfos", JsonConvert.SerializeObject(iconInfos) },
+                    }, message.Get("RequestID", (string)null));
+                    break;
+
+                case "SetCustomFolderIcon":
+                    await Win32API.SendMessageAsync(connection, new ValueSet()
+                    {
+                        { "Success", Win32API.SetCustomDirectoryIcon((string)message["folder"], (string)message["iconFile"], (int)message.Get("iconIndex", 0L)) },
+                    }, message.Get("RequestID", (string)null));
+                    break;
+
                 case "GetSelectedIconsFromDLL":
                     var selectedIconInfos = Win32API.ExtractSelectedIconsFromDLL((string)message["iconFile"], JsonConvert.DeserializeObject<List<int>>((string)message["iconIndexes"]), Convert.ToInt32(message["requestedIconSize"]));
                     await Win32API.SendMessageAsync(connection, new ValueSet()
