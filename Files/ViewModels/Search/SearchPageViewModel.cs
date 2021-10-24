@@ -61,8 +61,6 @@ namespace Files.ViewModels.Search
 
     public interface ISearchPageContext
     {
-        ISearchPageContext GetChild(IFilter filter);
-
         void Back();
         void GoPage(IFilter filter);
 
@@ -105,21 +103,17 @@ namespace Files.ViewModels.Search
 
     public class FilterContextFactory : IFilterContextFactory
     {
-        private readonly ISearchPageContext groupContext;
+        private readonly ISearchPageContext context;
 
-        public FilterContextFactory(ISearchPageContext groupContext) => this.groupContext = groupContext;
+        public FilterContextFactory(ISearchPageContext context) => this.context = context;
 
-        public IFilterContext GetContext(IFilter filter)
+        public IFilterContext GetContext(IFilter filter) => filter switch
         {
-            var childContext = groupContext.GetChild(filter);
-            return filter switch
-            {
-                IFilterCollection f => new GroupContext(childContext, f),
-                IDateRangeFilter f => new DateRangeContext(childContext, f),
-                ISizeRangeFilter f => new SizeRangeContext(childContext, f),
-                _ => null,
-            };
-        }
+            IFilterCollection f => new GroupContext(context, f),
+            IDateRangeFilter f => new DateRangeContext(context, f),
+            ISizeRangeFilter f => new SizeRangeContext(context, f),
+            _ => null,
+        };
     }
 
     public class SearchPageContext : ISearchPageContext
@@ -134,15 +128,11 @@ namespace Files.ViewModels.Search
         private SearchPageContext(INavigator navigator, IFilterCollection collection, IFilter filter) : this(navigator, filter)
             => this.collection = collection;
 
-        ISearchPageContext ISearchPageContext.GetChild(IFilter filter) => GetChild(filter);
-        public SearchPageContext GetChild(IFilter filter)
-            => new SearchPageContext(navigator, this.filter as IFilterCollection, filter);
-
         public void Back() => navigator.GoBack();
 
         public void GoPage(IFilter filter)
         {
-            var child = GetChild(filter);
+            var child = new SearchPageContext(navigator, this.filter as IFilterCollection, filter);
             var factory = new SearchPageViewModelFactory(child);
             var viewModel = factory.GetViewModel(filter);
 
