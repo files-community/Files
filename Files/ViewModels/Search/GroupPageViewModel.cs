@@ -20,7 +20,6 @@ namespace Files.ViewModels.Search
         IEnumerable<IFilterContext> Contexts { get; }
 
         ICommand OpenCommand { get; }
-        ICommand ClearCommand { get; }
     }
 
     public interface IGroupHeader : IFilterHeader

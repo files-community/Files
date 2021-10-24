@@ -219,7 +219,7 @@
                     BorderThickness="{TemplateBinding BorderThickness}"
                     Template="{StaticResource ButtonTemplate}"
                     AutomationProperties.AccessibilityView="Raw" />
-                <AppBarButton x:Name="MenuButton" Foreground="{ThemeResource SystemAccentColor}"
+                <!--SystemAccentColor--><AppBarButton x:Name="MenuButton"
                     Grid.Row="1" Grid.Column="2" Loaded="MenuButton_Loaded"
                     VerticalAlignment="Stretch"
                     MinWidth="34" IsTabStop="False"
