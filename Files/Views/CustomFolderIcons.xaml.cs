@@ -37,7 +37,7 @@ namespace Files.Views
             this.InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             selectedFolderPath = (e.Parameter as IconSelectorInfo).SelectedDirectory;
@@ -46,7 +46,7 @@ namespace Files.Views
             var iconInfoCollection = (e.Parameter as IconSelectorInfo).Icons as List<IconFileInfo>;
             foreach (IconFileInfo iFInfo in iconInfoCollection)
             {
-                //await iFInfo.LoadImageFromModelString();
+                iFInfo.IconDataBytes = Convert.FromBase64String(iFInfo.IconData);
             }
             IconSelectionGrid.ItemsSource = iconInfoCollection;
         }
@@ -80,7 +80,7 @@ namespace Files.Views
                     var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>(response["IconInfos"] as string);
                     foreach (IconFileInfo iFInfo in icons)
                     {
-                        //await iFInfo.LoadImageFromModelString();
+                        iFInfo.IconDataBytes = Convert.FromBase64String(iFInfo.IconData);
                     }
                     IconSelectionGrid.ItemsSource = icons;
                 }

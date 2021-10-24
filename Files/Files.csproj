@@ -281,6 +281,7 @@
     <Compile Include="UserControls\FolderEmptyIndicator.xaml.cs">
       <DependentUpon>FolderEmptyIndicator.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ImageFromBytes.cs" />
     <Compile Include="UserControls\InnerNavigationToolbar.xaml.cs">
       <DependentUpon>InnerNavigationToolbar.xaml</DependentUpon>
     </Compile>
