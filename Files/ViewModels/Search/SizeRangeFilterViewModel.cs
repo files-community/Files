@@ -31,30 +31,40 @@ namespace Files.ViewModels.Search
         ICommand ToggleCommand { get; }
     }
 
-    public class SizeRangeHeader : IFilterHeader
+    public interface ISizeRangeContext : IFilterContext
     {
+    }
+
+    public class SizeRangeContext : ISizeRangeContext
+    {
+        private readonly ISearchPageContext context;
         private readonly ISizeRangeFilter filter;
 
-        public string Glyph { get; }
-        public string Title { get; }
-        public string Description { get; }
+        public string Glyph => filter.Glyph;
+        public string Label => filter.Range.ToString("n");
+        public string Parameter => string.Empty;
 
-        public SizeRangeHeader()
+        public ICommand OpenCommand { get; }
+        public ICommand ClearCommand { get; }
+
+        public SizeRangeContext(ISearchPageContext context, ISizeRangeFilter filter)
         {
-            filter = new SizeRangeFilter();
-            Glyph = filter.Glyph;
-            Title = filter.Title;
-            Description = filter.Description;
-        }
-        public SizeRangeHeader(ISizeRangeFilter filter)
-        {
+            this.context = context;
             this.filter = filter;
-            Glyph = filter.Glyph;
-            Title = filter.Range.ToString("n");
-            Description = string.Empty;
+
+            OpenCommand = new RelayCommand(Open);
+            ClearCommand = new RelayCommand(Clear);
         }
 
-        public IFilter GetFilter() => filter;
+        IFilter IFilterContext.GetFilter() => filter;
+        public ISizeRangeFilter GetFilter() => filter;
+
+        private void Open() => context.GoPage(filter);
+        private void Clear() => context.Save(null);
+    }
+
+    public class SizeRangeHeader : FilterHeader<SizeRangeFilter>
+    {
         public SizeRangeFilter GetFilter(SizeRange range) => new(range);
     }
 

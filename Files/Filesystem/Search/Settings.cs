@@ -34,7 +34,7 @@ namespace Files.Filesystem.Search
         string ToAdvancedQuerySyntax();
     }
 
-    public interface IFilterCollection : IList<IFilter>, IFilter, INotifyPropertyChanged, INotifyCollectionChanged
+    public interface IFilterCollection : IList<IFilter>, IFilter, IHeader, INotifyPropertyChanged, INotifyCollectionChanged
     {
     }
 
@@ -76,7 +76,7 @@ namespace Files.Filesystem.Search
         }
     }
 
-    public abstract class FilterCollection : ObservableCollection<IFilter>, IFilterCollection, IHeader
+    public abstract class FilterCollection : ObservableCollection<IFilter>, IFilterCollection
     {
         public virtual string Glyph => "\uEC26";
         public abstract string Title { get; }

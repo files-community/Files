@@ -12,6 +12,7 @@
 
     <UserControl.Resources>
 
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         <converters:VisiblityInvertConverter x:Key="VisiblityInvertConverter" />
 
         <local:PickerTemplateSelector x:Key="PickerTemplateSelector"
@@ -24,38 +25,46 @@
                 <TextBlock TextWrapping="Wrap" Text="No filter selected. Add a new filter." Visibility="{x:Bind IsEmpty, Mode=OneWay}" />
                 <TextBlock TextWrapping="Wrap" Text="{x:Bind Description, Mode=OneWay}"
                     Visibility="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />
-                <ItemsControl Margin="0,8,0,8" ItemsSource="{x:Bind Filters, Mode=OneWay}">
+                <ItemsControl Margin="0,8,0,8" ItemsSource="{x:Bind Contexts, Mode=OneWay}">
                     <ItemsControl.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
-                            <Setter Property="Padding" Value="0,2,0,2" />
+                            <Setter Property="Padding" Value="0" />
                         </Style>
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="search:IFilter">
-                            <TextBlock Text="{Binding}" />
-                            <!--<Grid Background="Transparent">
+                        <DataTemplate x:DataType="vm:IFilterContext">
+                            <Grid x:Name="ContextItem" Margin="0,4,0,4" ColumnSpacing="8" Background="Transparent"
+                                PointerEntered="ContextItem_PointerEntered" PointerExited="ContextItem_PointerExited">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition Width="16" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition Width="16" />
                                 </Grid.ColumnDefinitions>
-                                <FontIcon Width="32" FontSize="14" Glyph="{x:Bind Filter.Glyph}" />
-                                <ContentControl Grid.Column="1" Content="{Binding}" ContentTemplateSelector="{StaticResource ButtonTemplateSelector}" />
-                                <Button Width="32" x:Name="CloseButton" Click="CloseButton_Click"
-                                        Grid.Column="2" Visibility="Collapsed" Background="Transparent" BorderBrush="Transparent">
+                                <FontIcon Width="16" FontSize="14" Glyph="{x:Bind Glyph}" VerticalAlignment="Center" />
+                                <Button Grid.Column="1" CornerRadius="8" Command="{x:Bind OpenCommand}">
+                                    <Button.Content>
+                                        <TextBlock TextWrapping="Wrap">
+                                            <Run Text="{x:Bind Label}" />
+                                            <Run FontWeight="Light" Text="{x:Bind Parameter}" />
+                                        </TextBlock>
+                                    </Button.Content>
+                                </Button>
+                                <Button x:Name="CloseButton" Grid.Column="2" Visibility="Collapsed"
+                                    Width="16" Padding="0" Background="Transparent" BorderBrush="Transparent"
+                                    VerticalAlignment="Center" Command="{x:Bind ClearCommand}">
                                     <Button.Content>
                                         <FontIcon FontSize="10" Glyph="&#xE10A;" />
                                     </Button.Content>
                                 </Button>
-                            </Grid>-->
+                            </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 <CommandBar Margin="0,0,0,8" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" IsDynamicOverflowEnabled="False">
                     <AppBarButton x:Name="AddFilterButton" Icon="Add" Label="Add" Loaded="AddFilterButton_Loaded" />
-                    <!--<AppBarButton
+                    <AppBarButton
                         Icon="Clear" Label="Clear" Command="{x:Bind ClearCommand}"
-                        IsEnabled="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />-->
+                        IsEnabled="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}" />
                 </CommandBar>
             </StackPanel>
         </DataTemplate>

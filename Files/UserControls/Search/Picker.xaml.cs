@@ -1,6 +1,8 @@
 ﻿using Files.ViewModels.Search;
+using Microsoft.Toolkit.Uwp.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace Files.UserControls.Search
 {
@@ -51,6 +53,29 @@ namespace Files.UserControls.Search
                 Command = (ViewModel as IGroupPickerViewModel).OpenCommand,
                 CommandParameter = header,
             };
+        }
+
+        private void ContextItem_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (sender is FrameworkElement element)
+            {
+                var button = element.FindDescendant("CloseButton") as Button;
+                if (button is not null)
+                {
+                    button.Visibility = Visibility.Visible;
+                }
+            }
+        }
+        private void ContextItem_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (sender is FrameworkElement element)
+            {
+                var button = element.FindDescendant("CloseButton") as Button;
+                if (button is not null)
+                {
+                    button.Visibility = Visibility.Collapsed;
+                }
+            }
         }
     }
 

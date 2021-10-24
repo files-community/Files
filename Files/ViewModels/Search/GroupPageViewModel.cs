@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 
@@ -16,12 +17,19 @@ namespace Files.ViewModels.Search
     {
         string Description { get; set; }
         IFilterCollection Filters { get; }
+        IEnumerable<IFilterContext> Contexts { get; }
+
         ICommand OpenCommand { get; }
+        ICommand ClearCommand { get; }
     }
 
     public interface IGroupHeader : IFilterHeader
     {
         IFilterCollection GetFilter(IEnumerable<IFilter> filters);
+    }
+
+    public interface IGroupContext : IFilterContext
+    {
     }
 
     public class AndHeader : FilterHeader<AndFilterCollection>, IGroupHeader
@@ -38,6 +46,38 @@ namespace Files.ViewModels.Search
     {
         IFilterCollection IGroupHeader.GetFilter(IEnumerable<IFilter> filters) => GetFilter(filters);
         public NotFilterCollection GetFilter(IEnumerable<IFilter> filters) => new(filters);
+    }
+
+    public class GroupContext : IGroupContext
+    {
+        private readonly ISearchPageContext context;
+        private readonly IFilterCollection filter;
+
+        public string Glyph => filter.Glyph;
+        public string Label => filter.Title;
+        public string Parameter => filter.Count switch
+        {
+            <= 1 => string.Format("({0} item)", filter.Count),
+            _ => string.Format("({0} items)", filter.Count),
+        };
+
+        public ICommand OpenCommand { get; }
+        public ICommand ClearCommand { get; }
+
+        public GroupContext(ISearchPageContext context, IFilterCollection filter)
+        {
+            this.context = context;
+            this.filter = filter;
+
+            OpenCommand = new RelayCommand(Open);
+            ClearCommand = new RelayCommand(Clear);
+        }
+
+        IFilter IFilterContext.GetFilter() => filter;
+        public IFilterCollection GetFilter() => filter;
+
+        private void Open() => context.GoPage(filter);
+        private void Clear() => context.Save(null);
     }
 
     public class GroupPageViewModel : ObservableObject, IGroupPageViewModel
@@ -132,6 +172,15 @@ namespace Files.ViewModels.Search
 
         public IFilterCollection Filters { get; }
 
+        public IEnumerable<IFilterContext> Contexts
+        {
+            get
+            {
+                var factory = new FilterContextFactory(context);
+                return Filters.Select(filter => factory.GetContext(filter));
+            }
+        }
+
         public ICommand ClearCommand { get; }
         public ICommand OpenCommand { get; }
 
@@ -140,6 +189,7 @@ namespace Files.ViewModels.Search
             this.context = context;
 
             Filters = filters;
+            Filters.PropertyChanged += Filters_PropertyChanged;
 
             ClearCommand = new RelayCommand(Clear);
             OpenCommand = new RelayCommand<IFilterHeader>(Open);
@@ -152,5 +202,12 @@ namespace Files.ViewModels.Search
             var filter = header.GetFilter();
             context.GoPage(filter);
         }
+
+        private void Filters_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(IsEmpty));
+            OnPropertyChanged(nameof(Contexts));
+        }
+
     }
 }

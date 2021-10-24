@@ -32,6 +32,10 @@ namespace Files.ViewModels.Search
         IDateRangeFilter GetFilter(DateRange range);
     }
 
+    public interface IDateRangeContext : IFilterContext
+    {
+    }
+
     public interface IDateRangeLink : INotifyPropertyChanged
     {
         bool IsSelected { get; }
@@ -53,6 +57,34 @@ namespace Files.ViewModels.Search
     {
         IDateRangeFilter IDateRangeHeader.GetFilter(DateRange range) => GetFilter(range);
         public AccessedFilter GetFilter(DateRange range) => new(range);
+    }
+
+    public class DateRangeContext : IDateRangeContext
+    {
+        private readonly ISearchPageContext context;
+        private readonly IDateRangeFilter filter;
+
+        public string Glyph => filter.Glyph;
+        public string Label => filter.Range.ToString("n");
+        public string Parameter => string.Empty;
+
+        public ICommand OpenCommand { get; }
+        public ICommand ClearCommand { get; }
+
+        public DateRangeContext(ISearchPageContext context, IDateRangeFilter filter)
+        {
+            this.context = context;
+            this.filter = filter;
+
+            OpenCommand = new RelayCommand(Open);
+            ClearCommand = new RelayCommand(Clear);
+        }
+
+        IFilter IFilterContext.GetFilter() => filter;
+        public IDateRangeFilter GetFilter() => filter;
+
+        private void Open() => context.GoPage(filter);
+        private void Clear() => context.Save(null);
     }
 
     public class DateRangePageViewModel : ObservableObject, IDateRangePageViewModel
