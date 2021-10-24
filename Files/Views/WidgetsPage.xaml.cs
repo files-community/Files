@@ -1,6 +1,5 @@
 ﻿using Files.DataModels.NavigationControlItems;
 using Files.Dialogs;
-using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Services;
@@ -9,15 +8,10 @@ using Files.ViewModels;
 using Files.ViewModels.Pages;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Uwp;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 

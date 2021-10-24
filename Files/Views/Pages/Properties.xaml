@@ -3,8 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:helpers="using:Files.Helpers"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="700"
     d:DesignWidth="400"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="False"
@@ -93,19 +94,19 @@
                     Visibility="Collapsed">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE946;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItem
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem
                     x:Name="TabCustomization"
                     x:Uid="PropertiesDialogTabCustomization"
                     Content="Customization"
                     Tag="Customization"
                     Visibility="Collapsed">
-                    <NavigationViewItem.Icon>
+                    <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE771;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-            </NavigationView.MenuItems>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </muxc:NavigationView.MenuItems>
 
             <Frame
                 x:Name="contentFrame"

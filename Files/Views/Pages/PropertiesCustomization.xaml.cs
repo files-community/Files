@@ -1,5 +1,6 @@
 ﻿using Files.Common;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.ViewModels.Properties;
 using Newtonsoft.Json;
 using System;
@@ -8,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -40,21 +42,30 @@ namespace Files.Views
         {
             string initialPath = @"C:\Windows\System32\SHELL32.dll";
 
-            var response = await AppInstance?.ServiceConnection?.SendMessageForResponseAsync(new ValueSet()
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
             {
-                { "Arguments", "GetFolderIconsFromDLL" },
-                { "iconFile", initialPath }
-            });
-            if (AppInstance?.ServiceConnection != null && response.Data != null)
-            {
-                var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>(response.Data["IconInfos"] as string);
-                (sender as Frame).Navigate(typeof(CustomFolderIcons), new IconSelectorInfo { Connection = AppInstance?.ServiceConnection, Icons = icons, InitialPath = initialPath, SelectedDirectory = (BaseProperties as FolderProperties)?.Item.ItemPath }, new SuppressNavigationTransitionInfo());
+                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                {
+                    { "Arguments", "GetFolderIconsFromDLL" },
+                    { "iconFile", initialPath }
+                });
+                if (status == AppServiceResponseStatus.Success && response.ContainsKey("IconInfos"))
+                {
+                    var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>(response["IconInfos"] as string);
+                    (sender as Frame).Navigate(typeof(CustomFolderIcons), new IconSelectorInfo {
+                        Icons = icons,
+                        InitialPath = initialPath,
+                        SelectedDirectory = (BaseProperties as FolderProperties)?.Item.ItemPath
+                    },
+                    new SuppressNavigationTransitionInfo());
+                }
             }
         }
 
         public override async Task<bool> SaveChangesAsync(ListedItem item)
         {
-            return true;
+            return await Task.FromResult(true);
         }
 
         public override void Dispose()
@@ -66,7 +77,6 @@ namespace Files.Views
             public string SelectedDirectory;
             public IList<IconFileInfo> Icons;
             public string InitialPath;
-            public Helpers.NamedPipeAsAppServiceConnection Connection;
         }
     }
 }

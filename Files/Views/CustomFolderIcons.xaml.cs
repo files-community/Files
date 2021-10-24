@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.AppService;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -28,7 +29,6 @@ namespace Files.Views
     /// </summary>
     public sealed partial class CustomFolderIcons : Page
     {
-        private NamedPipeAsAppServiceConnection serviceConnection = null;
         private string selectedFolderPath = null;
         private string iconResourceItemPath = null;
 
@@ -43,11 +43,10 @@ namespace Files.Views
             selectedFolderPath = (e.Parameter as IconSelectorInfo).SelectedDirectory;
             iconResourceItemPath = (e.Parameter as IconSelectorInfo).InitialPath;
             ItemDisplayedPath.Text = iconResourceItemPath;
-            serviceConnection = (e.Parameter as IconSelectorInfo).Connection;
             var iconInfoCollection = (e.Parameter as IconSelectorInfo).Icons as List<IconFileInfo>;
             foreach (IconFileInfo iFInfo in iconInfoCollection)
             {
-                await iFInfo.LoadImageFromModelString();
+                //await iFInfo.LoadImageFromModelString();
             }
             IconSelectionGrid.ItemsSource = iconInfoCollection;
         }
@@ -68,30 +67,40 @@ namespace Files.Views
 
         private async void LoadIconsForPath(string path)
         {
-            var response = await serviceConnection?.SendMessageForResponseAsync(new ValueSet()
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
             {
-                { "Arguments", "GetFolderIconsFromDLL" },
-                { "iconFile", path }
-            });
-
-            var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>(response.Data["IconInfos"] as string);
-            foreach (IconFileInfo iFInfo in icons)
-            {
-                await iFInfo.LoadImageFromModelString();
+                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                {
+                    { "Arguments", "GetFolderIconsFromDLL" },
+                    { "iconFile", path }
+                });
+                if (status == AppServiceResponseStatus.Success && response.ContainsKey("IconInfos"))
+                {
+                    var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>(response["IconInfos"] as string);
+                    foreach (IconFileInfo iFInfo in icons)
+                    {
+                        //await iFInfo.LoadImageFromModelString();
+                    }
+                    IconSelectionGrid.ItemsSource = icons;
+                }
             }
-            IconSelectionGrid.ItemsSource = icons;
         }
 
         private async void IconSelectionGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedIconInfo = (sender as GridView).SelectedItem as IconFileInfo;
-            await serviceConnection?.SendMessageAsync(new ValueSet()
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
             {
-                {"Arguments", "SetCustomFolderIcon" },
-                {"iconIndex", selectedIconInfo.Index },
-                {"folder", selectedFolderPath },
-                {"iconFile", iconResourceItemPath }
-            });
+                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                {
+                    {"Arguments", "SetCustomFolderIcon" },
+                    {"iconIndex", selectedIconInfo.Index },
+                    {"folder", selectedFolderPath },
+                    {"iconFile", iconResourceItemPath }
+                });
+            }
         }
     }
 }

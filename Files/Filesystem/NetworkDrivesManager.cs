@@ -127,7 +127,6 @@ namespace Files.Filesystem
                         section = new LocationItem()
                         {
                             Text = "SidebarNetworkDrives".GetLocalized(),
-                            IconIndex = Constants.IconIndexes.NetworkDrives,
                             Section = SectionType.Network,
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.NetworkDrives),

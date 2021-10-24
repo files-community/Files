@@ -1,5 +1,4 @@
 ﻿using Files.DataModels;
-using Files.Views;
 using Newtonsoft.Json;
 using System;
 using System.IO;

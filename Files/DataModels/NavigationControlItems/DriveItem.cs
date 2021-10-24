@@ -6,7 +6,6 @@ using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
@@ -130,8 +129,6 @@ namespace Files.DataModels.NavigationControlItems
             get => showStorageSense;
             set => SetProperty(ref showStorageSense, value);
         }
-        public int IconIndex { get; set; } = Constants.IconIndexes.GenericDiskDrive;
-        public byte[] IconData { get; set; }
 
         public DriveItem()
         {

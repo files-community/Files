@@ -111,33 +111,5 @@ namespace Files.Helpers
                 return null;
             }
         }
-
-        public static async Task<IList<IconFileInfo>> LoadSelectedIconsAsync(string filePath, IList<int> indexes, NamedPipeAsAppServiceConnection connection, int iconSize = 48, bool rawDataOnly = true)
-        {
-            if (connection != null)
-            {
-                var value = new ValueSet();
-                value.Add("Arguments", "GetSelectedIconsFromDLL");
-                value.Add("iconFile", filePath);
-                value.Add("requestedIconSize", iconSize);
-                value.Add("iconIndexes", JsonConvert.SerializeObject(indexes));
-                var (status, response) = await connection.SendMessageForResponseAsync(value);
-                if (status == AppServiceResponseStatus.Success)
-                {
-                    var icons = JsonConvert.DeserializeObject<IList<IconFileInfo>>((string)response["IconInfos"]);
-
-                    if (icons != null && !rawDataOnly)
-                    {
-                        foreach (IconFileInfo iFInfo in icons)
-                        {
-                            await iFInfo.LoadImageFromModelString();
-                        }
-                    }
-
-                    return icons;
-                }
-            }
-            return null;
-        }
     }
 }

@@ -2,7 +2,6 @@
 using Files.DataModels.NavigationControlItems;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {

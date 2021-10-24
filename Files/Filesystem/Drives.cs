@@ -140,7 +140,6 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarDrives".GetLocalized(),
                             Section = SectionType.Drives,
-                            IconIndex = Constants.IconIndexes.ThisPC,
                             SelectsOnInvoked = false,
                             Icon = await UIHelpers.GetIconResource(Constants.ImageRes.ThisPC),
                             ChildItems = new ObservableCollection<INavigationControlItem>()
