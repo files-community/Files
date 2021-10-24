@@ -1,9 +1,14 @@
 ﻿using Files.Common;
 using Files.Helpers;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -14,12 +19,16 @@ namespace Files.Views
 {
     public sealed partial class CustomFolderIcons : Page
     {
-        private string selectedFolderPath = null;
-        private string iconResourceItemPath = null;
+        private string selectedFolderPath;
+        private string iconResourceItemPath;
+        private IShellPage appInstance;
+
+        public ICommand RestoreDefaultIconCommand { get; private set; }
 
         public CustomFolderIcons()
         {
             this.InitializeComponent();
+            RestoreDefaultIconCommand = new AsyncRelayCommand(RestoreDefaultIcon);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -27,13 +36,10 @@ namespace Files.Views
             base.OnNavigatedTo(e);
             selectedFolderPath = (e.Parameter as IconSelectorInfo).SelectedDirectory;
             iconResourceItemPath = (e.Parameter as IconSelectorInfo).InitialPath;
+            appInstance = (e.Parameter as IconSelectorInfo).AppInstance;
             ItemDisplayedPath.Text = iconResourceItemPath;
-            var iconInfoCollection = (e.Parameter as IconSelectorInfo).Icons as List<IconFileInfo>;
-            foreach (IconFileInfo iFInfo in iconInfoCollection)
-            {
-                iFInfo.IconDataBytes = Convert.FromBase64String(iFInfo.IconData);
-            }
-            IconSelectionGrid.ItemsSource = iconInfoCollection;
+
+            LoadIconsForPath(iconResourceItemPath);
         }
 
         private async void PickDllButton_Click(object sender, RoutedEventArgs e)
@@ -75,17 +81,41 @@ namespace Files.Views
         private async void IconSelectionGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedIconInfo = (sender as GridView).SelectedItem as IconFileInfo;
+            if (await SetCustomFolderIcon(selectedFolderPath, iconResourceItemPath, selectedIconInfo.Index))
+            {
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                {
+                    appInstance?.FilesystemViewModel?.RefreshItems(null);
+                });
+            }
+        }
+
+        private async Task RestoreDefaultIcon()
+        {
+            if (await SetCustomFolderIcon(selectedFolderPath, null))
+            {
+                await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
+                {
+                    appInstance?.FilesystemViewModel?.RefreshItems(null);
+                });
+            }
+        }
+
+        private async Task<bool> SetCustomFolderIcon(string folderPath, string iconFile, int iconIndex = 0)
+        {
             var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
             {
-                _ = await connection.SendMessageForResponseAsync(new ValueSet()
+                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
                 {
                     {"Arguments", "SetCustomFolderIcon" },
-                    {"iconIndex", selectedIconInfo.Index },
-                    {"folder", selectedFolderPath },
-                    {"iconFile", iconResourceItemPath }
+                    {"iconIndex", iconIndex },
+                    {"folder", folderPath },
+                    {"iconFile", iconFile }
                 });
+                return status == AppServiceResponseStatus.Success && response.Get("Success", false);
             }
+            return false;
         }
     }
 }

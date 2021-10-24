@@ -53,7 +53,7 @@
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
-            <Button Content="Restore default" />
+            <Button Content="Restore default" Command="{x:Bind RestoreDefaultIconCommand}" />
         </StackPanel>
     </Grid>
 </Page>

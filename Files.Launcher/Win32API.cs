@@ -1,5 +1,4 @@
 ﻿using Files.Common;
-using Microsoft.Win32.SafeHandles;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
