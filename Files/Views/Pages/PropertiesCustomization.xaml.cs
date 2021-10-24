@@ -17,11 +17,13 @@ namespace Files.Views
         private void CustomIconsSelectorFrame_Loaded(object sender, RoutedEventArgs e)
         {
             string initialPath = @"C:\Windows\System32\SHELL32.dll";
+            var item = (BaseProperties as FileProperties)?.Item ?? (BaseProperties as FolderProperties)?.Item;
             (sender as Frame).Navigate(typeof(CustomFolderIcons), new IconSelectorInfo
             {
                 AppInstance = AppInstance,
                 InitialPath = initialPath,
-                SelectedDirectory = (BaseProperties as FolderProperties)?.Item.ItemPath
+                SelectedItem = item.ItemPath,
+                IsShortcut = item.IsShortcutItem
             }, new SuppressNavigationTransitionInfo());
         }
 
@@ -37,7 +39,8 @@ namespace Files.Views
         public class IconSelectorInfo
         {
             public IShellPage AppInstance;
-            public string SelectedDirectory;
+            public string SelectedItem;
+            public bool IsShortcut;
             public string InitialPath;
         }
     }

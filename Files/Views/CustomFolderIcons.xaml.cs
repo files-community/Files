@@ -19,11 +19,12 @@ namespace Files.Views
 {
     public sealed partial class CustomFolderIcons : Page
     {
-        private string selectedFolderPath;
+        private string selectedItemPath;
         private string iconResourceItemPath;
         private IShellPage appInstance;
 
         public ICommand RestoreDefaultIconCommand { get; private set; }
+        public bool IsShortcutItem { get; private set; }
 
         public CustomFolderIcons()
         {
@@ -34,12 +35,16 @@ namespace Files.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            selectedFolderPath = (e.Parameter as IconSelectorInfo).SelectedDirectory;
-            iconResourceItemPath = (e.Parameter as IconSelectorInfo).InitialPath;
-            appInstance = (e.Parameter as IconSelectorInfo).AppInstance;
-            ItemDisplayedPath.Text = iconResourceItemPath;
+            if (e.Parameter is IconSelectorInfo selectorInfo)
+            {
+                selectedItemPath = selectorInfo.SelectedItem;
+                IsShortcutItem = selectorInfo.IsShortcut;
+                iconResourceItemPath = selectorInfo.InitialPath;
+                appInstance = selectorInfo.AppInstance;
+                ItemDisplayedPath.Text = iconResourceItemPath;
 
-            LoadIconsForPath(iconResourceItemPath);
+                LoadIconsForPath(iconResourceItemPath);
+            }
         }
 
         private async void PickDllButton_Click(object sender, RoutedEventArgs e)
@@ -48,12 +53,16 @@ namespace Files.Views
             picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder;
             picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
             picker.FileTypeFilter.Add(".dll");
+            picker.FileTypeFilter.Add(".exe");
             picker.FileTypeFilter.Add(".ico");
-            var file = await picker.PickSingleFileAsync();
-            iconResourceItemPath = file.Path;
-            ItemDisplayedPath.Text = iconResourceItemPath;
 
-            LoadIconsForPath(file.Path);
+            var file = await picker.PickSingleFileAsync();
+            if (file != null)
+            {
+                iconResourceItemPath = file.Path;
+                ItemDisplayedPath.Text = iconResourceItemPath;
+                LoadIconsForPath(file.Path);
+            }
         }
 
         private async void LoadIconsForPath(string path)
@@ -81,7 +90,14 @@ namespace Files.Views
         private async void IconSelectionGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedIconInfo = (sender as GridView).SelectedItem as IconFileInfo;
-            if (await SetCustomFolderIcon(selectedFolderPath, iconResourceItemPath, selectedIconInfo.Index))
+            if (selectedIconInfo == null)
+            {
+                return;
+            }
+            var setIconTask = IsShortcutItem ?
+                SetCustomFileIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index) :
+                SetCustomFolderIcon(selectedItemPath, iconResourceItemPath, selectedIconInfo.Index);
+            if (await setIconTask)
             {
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                 {
@@ -92,7 +108,10 @@ namespace Files.Views
 
         private async Task RestoreDefaultIcon()
         {
-            if (await SetCustomFolderIcon(selectedFolderPath, null))
+            var setIconTask = IsShortcutItem ?
+                SetCustomFileIcon(selectedItemPath, null) :
+                SetCustomFolderIcon(selectedItemPath, null);
+            if (await setIconTask)
             {
                 await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(() =>
                 {
@@ -111,6 +130,24 @@ namespace Files.Views
                     {"Arguments", "SetCustomFolderIcon" },
                     {"iconIndex", iconIndex },
                     {"folder", folderPath },
+                    {"iconFile", iconFile }
+                });
+                return status == AppServiceResponseStatus.Success && response.Get("Success", false);
+            }
+            return false;
+        }
+
+        private async Task<bool> SetCustomFileIcon(string filePath, string iconFile, int iconIndex = 0)
+        {
+            var connection = await AppServiceConnectionHelper.Instance;
+            if (connection != null)
+            {
+                var (status, response) = await connection.SendMessageForResponseAsync(new ValueSet()
+                {
+                    {"Arguments", "FileOperation" },
+                    {"fileop", "SetLinkIcon" },
+                    {"iconIndex", iconIndex },
+                    {"filepath", filePath },
                     {"iconFile", iconFile }
                 });
                 return status == AppServiceResponseStatus.Success && response.Get("Success", false);
