@@ -22,7 +22,7 @@
 
         <DataTemplate x:Key="GroupPickerTemplate" x:DataType="vm:IGroupPickerViewModel">
             <StackPanel Orientation="Vertical" Width="200">
-                <TextBlock TextWrapping="Wrap" Text="No filter selected. Add a new filter." Visibility="{x:Bind IsEmpty, Mode=OneWay}" />
+                <TextBlock TextWrapping="Wrap" Text="No filter selected." Visibility="{x:Bind IsEmpty, Mode=OneWay}" />
                 <TextBlock TextWrapping="Wrap" Text="{x:Bind Description, Mode=OneWay}"
                     Visibility="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />
                 <ItemsControl Margin="0,8,0,8" ItemsSource="{x:Bind Contexts, Mode=OneWay}">

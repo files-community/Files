@@ -8,13 +8,13 @@
     mc:Ignorable="d">
 
     <StackPanel Orientation="Vertical">
-        <!--<TextBlock Text="Search Options" FontSize="18" FontWeight="SemiBold" />
-        <local:FilterPicker ViewModel="{x:Bind ViewModel.Filter, Mode=OneWay}" />
-        <StackPanel Orientation="Vertical" Spacing="4" Margin="0,16,0,0">
+        <TextBlock Text="Search Options" Margin="0,0,0,8" FontSize="18" FontWeight="SemiBold" />
+        <local:Picker ViewModel="{x:Bind ViewModel.PickerViewModel}" />
+        <StackPanel Orientation="Vertical" Spacing="4">
             <TextBlock FontSize="14" FontWeight="SemiBold" Text="Search in" />
-            <CheckBox Content="Subfolders" IsChecked="{x:Bind ViewModel.Location.UseSubFolders, Mode=TwoWay}" />
-            <CheckBox Content="System files" IsChecked="{x:Bind ViewModel.Location.UseSystemFiles, Mode=TwoWay}" />
-            <CheckBox Content="Compressed files" IsChecked="{x:Bind ViewModel.Location.UseCompressedFiles, Mode=TwoWay}" />
+            <CheckBox Content="Subfolders" IsChecked="{x:Bind ViewModel.LocationViewModel.UseSubFolders, Mode=TwoWay}" />
+            <CheckBox Content="System files" IsChecked="{x:Bind ViewModel.LocationViewModel.UseSystemFiles, Mode=TwoWay}" />
+            <CheckBox Content="Compressed files" IsChecked="{x:Bind ViewModel.LocationViewModel.UseCompressedFiles, Mode=TwoWay}" />
         </StackPanel>
         <HyperlinkButton Content="Search &amp; indexing options…" />
         <Grid Width="200" ColumnSpacing="8" Margin="0,16,0,0">
@@ -23,7 +23,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" HorizontalAlignment="Stretch" Content="Search" />
-            <Button Grid.Column="1" Content="Filters" HorizontalAlignment="Stretch" />
-        </Grid>-->
+            <Button Grid.Column="1" Content="Default" HorizontalAlignment="Stretch" />
+        </Grid>
     </StackPanel>
 </Page>

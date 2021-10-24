@@ -9,7 +9,7 @@ namespace Files.UserControls.Search
         void Clear();
         void Search();
 
-        void GoPage(ISearchPageViewModel viewModel);
+        void GoPage(object viewModel);
         void GoBack();
     }
 
@@ -25,7 +25,7 @@ namespace Files.UserControls.Search
         public void Clear() => GoPage(null);
         public void Search() {}
 
-        public void GoPage(ISearchPageViewModel viewModel)
+        public void GoPage(object viewModel)
         {
             if (Frame is null)
             {
@@ -33,9 +33,9 @@ namespace Files.UserControls.Search
             }
             switch (viewModel)
             {
-                //case ISettingsViewModel :
-                //    Frame?.Navigate(typeof(SettingsPage), viewModel, emptyTransition);
-                //    break;
+                case ISettingsViewModel :
+                    Frame.Navigate(typeof(SettingsPage), viewModel, emptyTransition);
+                    break;
                 case IMultiSearchPageViewModel :
                     Frame.Navigate(typeof(MultiFilterPage), viewModel, toRightTransition);
                     break;

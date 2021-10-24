@@ -1,28 +1,36 @@
 ﻿using Files.Filesystem.Search;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using System.Windows.Input;
 
 namespace Files.ViewModels.Search
 {
-    /*public interface ISettingsViewModel
+    public interface ISettingsViewModel
     {
-        ILocationViewModel Location { get; }
-        IFilterViewModel Filter { get; }
+        ILocationViewModel LocationViewModel { get; }
+        IPickerViewModel PickerViewModel { get; }
+
+        ICommand SearchCommand { get; }
     }
 
     public class SettingsViewModel : ObservableObject, ISettingsViewModel
     {
-        public ILocationViewModel Location { get; }
-        public IFilterViewModel Filter { get; }
+        public ILocationViewModel LocationViewModel { get; }
+        public IPickerViewModel PickerViewModel { get; }
 
-        public SettingsViewModel() : this(SearchSettings.Default)
-        {
-        }
-        public SettingsViewModel(ISettings settings)
-        {
-            var factory = new FilterViewModelFactory();
+        public ICommand SearchCommand { get; }
 
-            Location = new LocationViewModel(settings.Location);
-            Filter = factory.GetViewModel(settings.Filter);
+        public SettingsViewModel(ISearchPageContext context, ISettings settings)
+        {
+            var filter = settings.Filter as IFilterCollection;
+
+            LocationViewModel = new LocationViewModel(settings.Location);
+            PickerViewModel = new GroupPickerViewModel(context, filter)
+            {
+                Description = filter.Description
+            };
+
+            SearchCommand = new RelayCommand(context.Search);
         }
-    }*/
+    }
 }

@@ -61,9 +61,8 @@ namespace Files.UserControls
         private void GoRootPage()
         {
             ISettings settings = Filesystem.Search.Settings.Instance;
-            var filter = settings.Filter;
-            var context = new SearchPageContext(navigator, filter);
-            var viewModel = new GroupPageViewModel(context, filter as IFilterCollection);
+            var context = new SearchPageContext(navigator, settings.Filter);
+            var viewModel = new ViewModels.Search.SettingsViewModel(context, settings);
             navigator.GoPage(viewModel);
         }
     }

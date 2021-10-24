@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace Files.ViewModels.Search
 {
-    /*public interface ILocationViewModel : INotifyPropertyChanged
+    public interface ILocationViewModel : INotifyPropertyChanged
     {
         public bool UseSubFolders { get; set; }
         public bool UseSystemFiles { get; set; }
@@ -58,5 +58,5 @@ namespace Files.ViewModels.Search
                 OnPropertyChanged(nameof(UseCompressedFiles));
             }
         }
-    }*/
+    }
 }
