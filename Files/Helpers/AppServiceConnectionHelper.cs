@@ -184,7 +184,7 @@ namespace Files.Helpers
 
             using var cts = new CancellationTokenSource();
             cts.CancelAfter(timeout);
-            await serverStream.WaitForConnectionAsync();
+            await serverStream.WaitForConnectionAsync(cts);
 
             var info = (Buffer: new byte[serverStream.InBufferSize], Message: new StringBuilder());
             BeginRead(info);
