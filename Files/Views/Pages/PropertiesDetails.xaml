@@ -41,7 +41,7 @@
                 <DataTemplate x:DataType="properties:FileProperty">
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition x:Name="ValueSpacing" Width="150" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>

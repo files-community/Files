@@ -650,5 +650,6 @@ namespace Files.ViewModels
             get => isHidden;
             set => SetProperty(ref isHidden, value);
         }
+        public object ValueSpacing { get; set; }
     }
 }

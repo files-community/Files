@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{BEA4C9E6-F
 		History.txt = History.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProjectFiles", "TestProjectFiles\TestProjectFiles.csproj", "{E2423EF6-811D-4252-8124-165DB059792E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -176,6 +178,26 @@ Global
 		{A2FF3F3B-8EBC-4108-B99D-1476B7876656}.Release|x64.Build.0 = Release|x64
 		{A2FF3F3B-8EBC-4108-B99D-1476B7876656}.Release|x86.ActiveCfg = Release|Win32
 		{A2FF3F3B-8EBC-4108-B99D-1476B7876656}.Release|x86.Build.0 = Release|Win32
+		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|ARM.Build.0 = Debug|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|x64.Build.0 = Debug|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|x86.Build.0 = Debug|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Release|ARM.ActiveCfg = Release|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Release|ARM.Build.0 = Release|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Release|ARM64.Build.0 = Release|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Release|x64.ActiveCfg = Release|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Release|x64.Build.0 = Release|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Release|x86.ActiveCfg = Release|Any CPU
+		{E2423EF6-811D-4252-8124-165DB059792E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
