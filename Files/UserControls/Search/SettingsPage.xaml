@@ -17,7 +17,7 @@
             <CheckBox Content="Compressed files" IsChecked="{x:Bind ViewModel.LocationViewModel.UseCompressedFiles, Mode=TwoWay}" />
         </StackPanel>
         <HyperlinkButton Content="Search &amp; indexing options…" />
-        <Grid Width="200" ColumnSpacing="8" Margin="0,16,0,0">
+        <Grid ColumnSpacing="8" Margin="0,16,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />

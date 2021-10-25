@@ -10,8 +10,12 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <ControlTemplate x:Name="SearchBoxTemplate" TargetType="AutoSuggestBox">
+            <ControlTemplate x:Name="SearchBoxTemplate" TargetType="AutoSuggestBox">
             <Grid x:Name="LayoutRoot" DataContext="{x:Bind DataContext, Mode=OneWay}">
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroup x:Name="Orientation">
@@ -219,7 +223,7 @@
                     BorderThickness="{TemplateBinding BorderThickness}"
                     Template="{StaticResource ButtonTemplate}"
                     AutomationProperties.AccessibilityView="Raw" />
-                <!--SystemAccentColor--><AppBarButton x:Name="MenuButton"
+                <!--SystemAccentColor--><!--<AppBarButton x:Name="MenuButton"
                     Grid.Row="1" Grid.Column="2" Loaded="MenuButton_Loaded"
                     VerticalAlignment="Stretch"
                     MinWidth="34" IsTabStop="False"
@@ -268,7 +272,7 @@
                             </Grid>
                         </Flyout>
                     </AppBarButton.Flyout>
-                </AppBarButton>
+                </AppBarButton>-->
                 <Button x:Name="QueryButton"
                     Grid.Row="1" Grid.Column="3" IsTabStop="False"
                     VerticalAlignment="Stretch"
@@ -432,9 +436,17 @@
             </Grid>
         </DataTemplate>
 
+        </ResourceDictionary>
+
     </UserControl.Resources>
 
-    <AutoSuggestBox
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="36" />
+        </Grid.ColumnDefinitions>
+
+        <AutoSuggestBox
         x:Name="SearchRegion" DataContext="{x:Bind SearchBoxViewModel, Mode=OneWay}"
         x:Uid="NavigationToolbarSearchReigon"
         ItemTemplate="{StaticResource SuggestionTemplate}"
@@ -447,12 +459,60 @@
         TextChanged="SearchRegion_TextChanged"
         Template="{StaticResource SearchBoxTemplate}"
         UpdateTextOnSelect="False">
-        <AutoSuggestBox.QueryIcon>
-            <FontIcon FontSize="14" Glyph="&#xE094;" />
-        </AutoSuggestBox.QueryIcon>
-        <AutoSuggestBox.KeyboardAccelerators>
-            <KeyboardAccelerator Key="Escape" Invoked="SearchRegion_Escaped" />
-        </AutoSuggestBox.KeyboardAccelerators>
-    </AutoSuggestBox>
+            <AutoSuggestBox.QueryIcon>
+                <FontIcon FontSize="14" Glyph="&#xE094;" />
+            </AutoSuggestBox.QueryIcon>
+            <AutoSuggestBox.KeyboardAccelerators>
+                <KeyboardAccelerator Key="Escape" Invoked="SearchRegion_Escaped" />
+            </AutoSuggestBox.KeyboardAccelerators>
+        </AutoSuggestBox>
+        <Button x:Name="MenuButton" Grid.Column="1" Visibility="Visible"
+                    Loaded="MenuButton_Loaded" Width="36" Height="32" Padding="0"
+                        Background="Transparent" BorderBrush="Transparent"
+                Foreground="{StaticResource SystemControlForegroundBaseHighBrush}"
+                    AutomationProperties.AccessibilityView="Raw">
+            <Button.Content>
+                <FontIcon FontSize="14" Glyph="&#xE71C;" />
+            </Button.Content>
+            <Button.Flyout>
+                <Flyout Placement="BottomEdgeAlignedRight" Opened="Flyout_Opened" Closed="Flyout_Closed">
+                    <!--<Flyout.FlyoutPresenterStyle>
+                        <Style TargetType="FlyoutPresenter">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="FlyoutPresenter">
+                                        <Border
+                                        Margin="-106,-4,-39,0"
+                                        Background="{TemplateBinding Background}" CornerRadius="0,0,8,8"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                            <ScrollViewer
+                                            x:Name="ScrollViewer"
+                                            AutomationProperties.AccessibilityView="Raw"
+                                            HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                            HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                            VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                            VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                            ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                                <ContentPresenter
+                                                Margin="{TemplateBinding Padding}"
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                Content="{TemplateBinding Content}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                ContentTransitions="{TemplateBinding ContentTransitions}" />
+                                            </ScrollViewer>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Flyout.FlyoutPresenterStyle>-->
+                    <Frame x:Name="MenuFrame" Loaded="MenuFrame_Loaded" Width="244" />
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+    </Grid>
+
 
 </UserControl>

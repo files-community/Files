@@ -8,9 +8,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel x:Name="RootPanel" Orientation="Vertical" Width="200">
+    <StackPanel x:Name="RootPanel" Orientation="Vertical" Width="244">
         <ComboBox x:Name="HeaderCombo" PointerEntered="HeaderCombo_PointerEntered"
-                Width="200" HorizontalAlignment="Stretch"
+                Width="244" HorizontalAlignment="Stretch"
                 Background="Transparent" BorderBrush="Transparent"
                 ItemsSource="{x:Bind ViewModel.Headers}" SelectedValue="{x:Bind ViewModel.Header, Mode=TwoWay}">
             <ComboBox.ItemTemplate>
@@ -32,7 +32,7 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <Rectangle Margin="0,0,0,8" Height="1" HorizontalAlignment="Stretch" Fill="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
-        <local:Picker Width="200" ViewModel="{x:Bind ViewModel.Picker, Mode=OneWay}" />
+        <local:Picker Width="244" ViewModel="{x:Bind ViewModel.Picker, Mode=OneWay}" />
         <Grid HorizontalAlignment="Stretch" Margin="0,24,0,8" ColumnSpacing="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />

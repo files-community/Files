@@ -21,10 +21,10 @@
             SizeRangeTemplate="{StaticResource SizeRangePickerTemplate}" />
 
         <DataTemplate x:Key="GroupPickerTemplate" x:DataType="vm:IGroupPickerViewModel">
-            <StackPanel Orientation="Vertical" Width="200">
+            <StackPanel Orientation="Vertical" Width="244">
                 <TextBlock TextWrapping="Wrap" Text="No filter selected." Visibility="{x:Bind IsEmpty, Mode=OneWay}" />
-                <TextBlock TextWrapping="Wrap" Text="{x:Bind Description, Mode=OneWay}"
-                    Visibility="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />
+                <!--<TextBlock TextWrapping="Wrap" Text="{x:Bind Description, Mode=OneWay}"
+                    Visibility="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />-->
                 <ItemsControl Margin="0,8,0,8" ItemsSource="{x:Bind Contexts, Mode=OneWay}">
                     <ItemsControl.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
@@ -70,7 +70,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="DateRangePickerTemplate" x:DataType="vm:IDateRangePickerViewModel">
-            <StackPanel Orientation="Vertical" Width="200">
+            <StackPanel Orientation="Vertical" Width="244">
                 <StackPanel MinHeight="64">
                     <StackPanel
                         Margin="8,0,8,16" Orientation="Vertical"
@@ -103,8 +103,8 @@
         </DataTemplate>
 
         <DataTemplate x:Key="SizeRangePickerTemplate" x:DataType="vm:ISizeRangePickerViewModel">
-            <StackPanel Orientation="Vertical" Width="200">
-                <StackPanel MinHeight="64">
+            <StackPanel Orientation="Vertical" Width="244">
+                <StackPanel MinHeight="64" HorizontalAlignment="Stretch">
                     <StackPanel
                         Margin="8,0,8,16" Orientation="Vertical"
                         Visibility="{x:Bind IsEmpty, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
@@ -140,11 +140,11 @@
 
         <ControlTemplate x:Name="HeaderItemTemplate" x:Key="HeaderItemTemplate" TargetType="MenuFlyoutItem">
             <Button
-                HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Background="Transparent" BorderBrush="Transparent"
+                MaxWidth="244" HorizontalContentAlignment="Left" Background="Transparent" BorderBrush="Transparent"
                 Content="{TemplateBinding Tag}" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}">
                 <Button.ContentTemplate>
                     <DataTemplate x:DataType="vm:IFilterHeader">
-                        <StackPanel Orientation="Vertical" Width="200">
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Stretch">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="32" />

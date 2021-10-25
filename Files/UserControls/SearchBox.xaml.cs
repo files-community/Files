@@ -65,5 +65,10 @@ namespace Files.UserControls
             var viewModel = new ViewModels.Search.SettingsViewModel(context, settings);
             navigator.GoPage(viewModel);
         }
+
+        private void MenuButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

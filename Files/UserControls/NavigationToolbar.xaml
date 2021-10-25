@@ -335,7 +335,7 @@
         Background="{ThemeResource NavigationToolbarBackgroundBrush}"
         ColumnSpacing="0"
         CornerRadius="{StaticResource NavToolbarCornerRadius}">
-        
+
         <Grid Padding="8,0,8,8" ColumnSpacing="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -479,7 +479,7 @@
             <uc:SearchBox
                 x:Name="SearchRegion"
                 Grid.Column="2"
-                Width="240"
+                Width="276"
                 Height="33"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
