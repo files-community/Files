@@ -1,0 +1,166 @@
+From ce45b2319482bebf19274b6c8af120b15eb06fc5 Mon Sep 17 00:00:00 2001
+From: LiamMcDonnell97 <liam.r.mcdonnell@hotmail.com>
+Date: Sun, 24 Oct 2021 20:09:28 -0700
+Subject: [PATCH] Issue #6470 resolved, in the details for files there was a
+ spacing issue when scaling the window, and now it is left ancored to the
+ window for much easier viewing of the file detail values.
+
+---
+ Files.sln                                     | 22 ++++++++++
+ .../SelectedItemsPropertiesViewModel.cs       |  1 +
+ Files/Views/Pages/PropertiesDetails.xaml      |  2 +-
+ TestProjectFiles/TestProjectFiles.csproj      | 25 +++++++++++
+ TestProjectFiles/UnitTest1.cs                 | 43 +++++++++++++++++++
+ 5 files changed, 92 insertions(+), 1 deletion(-)
+ create mode 100644 TestProjectFiles/TestProjectFiles.csproj
+ create mode 100644 TestProjectFiles/UnitTest1.cs
+
+diff --git a/Files.sln b/Files.sln
+index 6d5fce23..672af4ae 100644
+--- a/Files.sln
++++ b/Files.sln
+@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{BEA4C9E6-F
+ 		History.txt = History.txt
+ 	EndProjectSection
+ EndProject
++Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProjectFiles", "TestProjectFiles\TestProjectFiles.csproj", "{E2423EF6-811D-4252-8124-165DB059792E}"
++EndProject
+ Global
+ 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+ 		Debug|Any CPU = Debug|Any CPU
+@@ -176,6 +178,26 @@ Global
+ 		{A2FF3F3B-8EBC-4108-B99D-1476B7876656}.Release|x64.Build.0 = Release|x64
+ 		{A2FF3F3B-8EBC-4108-B99D-1476B7876656}.Release|x86.ActiveCfg = Release|Win32
+ 		{A2FF3F3B-8EBC-4108-B99D-1476B7876656}.Release|x86.Build.0 = Release|Win32
++		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|Any CPU.Build.0 = Debug|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|ARM.ActiveCfg = Debug|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|ARM.Build.0 = Debug|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|ARM64.ActiveCfg = Debug|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|ARM64.Build.0 = Debug|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|x64.ActiveCfg = Debug|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|x64.Build.0 = Debug|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|x86.ActiveCfg = Debug|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Debug|x86.Build.0 = Debug|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Release|Any CPU.ActiveCfg = Release|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Release|Any CPU.Build.0 = Release|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Release|ARM.ActiveCfg = Release|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Release|ARM.Build.0 = Release|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Release|ARM64.ActiveCfg = Release|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Release|ARM64.Build.0 = Release|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Release|x64.ActiveCfg = Release|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Release|x64.Build.0 = Release|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Release|x86.ActiveCfg = Release|Any CPU
++		{E2423EF6-811D-4252-8124-165DB059792E}.Release|x86.Build.0 = Release|Any CPU
+ 	EndGlobalSection
+ 	GlobalSection(SolutionProperties) = preSolution
+ 		HideSolutionNode = FALSE
+diff --git a/Files/ViewModels/SelectedItemsPropertiesViewModel.cs b/Files/ViewModels/SelectedItemsPropertiesViewModel.cs
+index 3c5a2c53..2519e3b2 100644
+--- a/Files/ViewModels/SelectedItemsPropertiesViewModel.cs
++++ b/Files/ViewModels/SelectedItemsPropertiesViewModel.cs
+@@ -650,5 +650,6 @@ namespace Files.ViewModels
+             get => isHidden;
+             set => SetProperty(ref isHidden, value);
+         }
++        public object ValueSpacing { get; set; }
+     }
+ }
+\ No newline at end of file
+diff --git a/Files/Views/Pages/PropertiesDetails.xaml b/Files/Views/Pages/PropertiesDetails.xaml
+index 1b60f1bc..632a928f 100644
+--- a/Files/Views/Pages/PropertiesDetails.xaml
++++ b/Files/Views/Pages/PropertiesDetails.xaml
+@@ -41,7 +41,7 @@
+                 <DataTemplate x:DataType="properties:FileProperty">
+                     <Grid HorizontalAlignment="Stretch">
+                         <Grid.ColumnDefinitions>
+-                            <ColumnDefinition Width="*" />
++                            <ColumnDefinition x:Name="ValueSpacing" Width="150" />
+                             <ColumnDefinition Width="*" />
+                             <ColumnDefinition Width="Auto" />
+                         </Grid.ColumnDefinitions>
+diff --git a/TestProjectFiles/TestProjectFiles.csproj b/TestProjectFiles/TestProjectFiles.csproj
+new file mode 100644
+index 00000000..37516e8a
+--- /dev/null
++++ b/TestProjectFiles/TestProjectFiles.csproj
+@@ -0,0 +1,25 @@
++<Project Sdk="Microsoft.NET.Sdk">
++
++  <PropertyGroup>
++    <TargetFramework>netcoreapp3.1</TargetFramework>
++
++    <IsPackable>false</IsPackable>
++  </PropertyGroup>
++
++  <ItemGroup>
++    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
++    <PackageReference Include="NUnit" Version="3.13.1" />
++    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
++    <PackageReference Include="coverlet.collector" Version="3.0.2" />
++  </ItemGroup>
++
++  <ItemGroup>
++    <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj" />
++    <ProjectReference Include="..\Common\Common.csproj" />
++    <ProjectReference Include="..\Files.Launcher\Files.Launcher.csproj" />
++    <ProjectReference Include="..\Files.OpenDialog\CustomOpenDialog\CustomOpenDialog.vcxproj" />
++    <ProjectReference Include="..\Files.Package\Files.Package.wapproj" />
++    <ProjectReference Include="..\Files\Files.csproj" />
++  </ItemGroup>
++
++</Project>
+diff --git a/TestProjectFiles/UnitTest1.cs b/TestProjectFiles/UnitTest1.cs
+new file mode 100644
+index 00000000..aca6243b
+--- /dev/null
++++ b/TestProjectFiles/UnitTest1.cs
+@@ -0,0 +1,43 @@
++using NUnit.Framework;
++using Files;
++using Files.Views;
++
++namespace TestProjectFiles
++{
++    public class Tests
++    {
++        [SetUp]
++        public void Setup()
++        {
++        }
++        /// <summary>
++        /// Testing for Details instantiation
++        /// </summary>
++        [Test]
++        public void TestDetailsInstantiation()
++        {
++            PropertiesDetails propertiesDetails = new PropertiesDetails();
++            Assert.IsNotNull(propertiesDetails);
++        }
++        /// <summary>
++        /// Testing for Details spacing
++        /// </summary>
++        [Test]
++        public void TestDetailsCorrectSpacing()
++        {
++            PropertiesDetails propertiesDetails = new PropertiesDetails();
++            var testSpacing = propertiesDetails.ViewModel.ValueSpacing;
++            Assert.AreEqual(testSpacing, "150");
++        }
++        /// <summary>
++        /// Testing for Details spacing
++        /// </summary>
++        [Test]
++        public void TestDetailsCorrectNotSpacing()
++        {
++            PropertiesDetails propertiesDetails = new PropertiesDetails();
++            var testSpacing = propertiesDetails.ViewModel.ValueSpacing;
++            Assert.AreNotEqual(testSpacing, "*");
++        }
++    }
++}
+\ No newline at end of file
+-- 
+2.33.0.windows.2
+
