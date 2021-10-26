@@ -101,8 +101,8 @@ namespace Files.ViewModels
             set => SetProperty(ref sizeColumn, value);
         }
 
-        public double TotalWidth => IconColumn.Length.Value + TagColumn.Length.Value + NameColumn.Length.Value + SizeColumn.Length.Value + DateModifiedColumn.Length.Value + OriginalPathColumn.Length.Value
-            + ItemTypeColumn.Length.Value + DateDeletedColumn.Length.Value + DateCreatedColumn.Length.Value + StatusColumn.Length.Value;
+        public double TotalWidth => IconColumn.Length.Value + TagColumn.Length.Value + NameColumn.Length.Value + DateModifiedColumn.Length.Value + OriginalPathColumn.Length.Value
+            + ItemTypeColumn.Length.Value + DateDeletedColumn.Length.Value + DateCreatedColumn.Length.Value + SizeColumn.Length.Value + StatusColumn.Length.Value;
 
         public void SetDesiredSize(double width)
         {
