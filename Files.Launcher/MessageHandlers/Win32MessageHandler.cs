@@ -16,11 +16,11 @@ namespace FilesFullTrust.MessageHandlers
 {
     public class Win32MessageHandler : IMessageHandler
     {
-        public void Initialize(NamedPipeServerStream connection)
+        public void Initialize(PipeStream connection)
         {
         }
 
-        public async Task ParseArgumentsAsync(NamedPipeServerStream connection, Dictionary<string, object> message, string arguments)
+        public async Task ParseArgumentsAsync(PipeStream connection, Dictionary<string, object> message, string arguments)
         {
             switch (arguments)
             {
@@ -117,7 +117,7 @@ namespace FilesFullTrust.MessageHandlers
                         Directory.CreateDirectory(destFolder);
                         if (enable)
                         {
-                            foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledPath, "Files.Launcher", "Assets", "FilesOpenDialog")))
+                            foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.Launcher", "Assets", "FilesOpenDialog")))
                             {
                                 File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true);
                             }
@@ -144,7 +144,7 @@ namespace FilesFullTrust.MessageHandlers
                         Directory.CreateDirectory(destFolder);
                         if (enable)
                         {
-                            foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledPath, "Files.Launcher", "Assets", "FilesOpenDialog")))
+                            foreach (var file in Directory.GetFiles(Path.Combine(Package.Current.InstalledLocation.Path, "Files.Launcher", "Assets", "FilesOpenDialog")))
                             {
                                 File.Copy(file, Path.Combine(destFolder, Path.GetFileName(file)), true);
                             }

@@ -1,5 +1,4 @@
 ﻿using Files.Common;
-using Microsoft.Win32.SafeHandles;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -11,6 +10,8 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
+using Windows.Security.Authentication.Web;
+using Windows.Storage;
 
 namespace Files.Helpers
 {
@@ -99,11 +100,13 @@ namespace Files.Helpers
                 if (launchFullTrust)
                 {
                     // Launch fulltrust process
+                    ApplicationData.Current.LocalSettings.Values["PackageSid"] =
+                        WebAuthenticationBroker.GetCurrentApplicationCallbackUri().Host.ToUpper();
                     await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
                 }
 
                 var connection = new NamedPipeAsAppServiceConnection();
-                if (await connection.Connect(@$"\\.\pipe\{"FilesInteropService_ServerPipe"}", TimeSpan.FromSeconds(15)))
+                if (await connection.Connect(@"LOCAL\FilesInteropService_ServerPipe", TimeSpan.FromSeconds(15)))
                 {
                     return connection;
                 }
@@ -119,8 +122,7 @@ namespace Files.Helpers
 
     public class NamedPipeAsAppServiceConnection : IDisposable
     {
-        private NamedPipeClientStream clientStream;
-        private SafePipeHandle pipeHandle;
+        private NamedPipeServerStream serverStream;
 
         public event EventHandler<Dictionary<string, object>> RequestReceived;
 
@@ -135,12 +137,12 @@ namespace Files.Helpers
 
         private void BeginRead((byte[] Buffer, StringBuilder Message) info)
         {
-            clientStream?.BeginRead(info.Buffer, 0, info.Buffer.Length, EndReadCallBack, info);
+            serverStream?.BeginRead(info.Buffer, 0, info.Buffer.Length, EndReadCallBack, info);
         }
 
         private void EndReadCallBack(IAsyncResult result)
         {
-            var readBytes = clientStream?.EndRead(result) ?? 0;
+            var readBytes = serverStream?.EndRead(result) ?? 0;
             if (readBytes > 0)
             {
                 var info = ((byte[] Buffer, StringBuilder Message))result.AsyncState;
@@ -148,7 +150,7 @@ namespace Files.Helpers
                 // Get the read bytes and append them
                 info.Message.Append(Encoding.UTF8.GetString(info.Buffer, 0, readBytes));
 
-                if (!clientStream.IsMessageComplete) // Message is not complete, continue reading
+                if (!serverStream.IsMessageComplete) // Message is not complete, continue reading
                 {
                     BeginRead(info);
                 }
@@ -170,7 +172,7 @@ namespace Files.Helpers
                     }
 
                     // Begin a new reading operation
-                    var nextInfo = (Buffer: new byte[clientStream?.InBufferSize ?? 0], Message: new StringBuilder());
+                    var nextInfo = (Buffer: new byte[serverStream?.InBufferSize ?? 0], Message: new StringBuilder());
                     BeginRead(nextInfo);
                 }
             }
@@ -178,32 +180,13 @@ namespace Files.Helpers
 
         public async Task<bool> Connect(string pipeName, TimeSpan timeout = default)
         {
-            SafePipeHandle safePipeHandle = null;
+            serverStream = new NamedPipeServerStream(pipeName, PipeDirection.InOut, NamedPipeServerStream.MaxAllowedServerInstances, PipeTransmissionMode.Message, PipeOptions.Asynchronous, 2048, 2048);
 
             using var cts = new CancellationTokenSource();
             cts.CancelAfter(timeout);
-            while (true)
-            {
-                IntPtr Handle = NativeFileOperationsHelper.CreateFileFromApp(pipeName, NativeFileOperationsHelper.GENERIC_READ | NativeFileOperationsHelper.GENERIC_WRITE, 0, IntPtr.Zero, NativeFileOperationsHelper.OPEN_EXISTING, 0x40000000, IntPtr.Zero);
+            await serverStream.WaitForConnectionAsync(cts.Token);
 
-                safePipeHandle = new SafePipeHandle(Handle, true);
-
-                if (!safePipeHandle.IsInvalid)
-                {
-                    break;
-                }
-                else if (cts.Token.IsCancellationRequested || isDisposed)
-                {
-                    return false;
-                }
-                await Task.Delay(200);
-            }
-
-            pipeHandle = safePipeHandle;
-            clientStream = new NamedPipeClientStream(PipeDirection.InOut, true, true, safePipeHandle);
-            clientStream.ReadMode = PipeTransmissionMode.Message;
-
-            var info = (Buffer: new byte[clientStream.InBufferSize], Message: new StringBuilder());
+            var info = (Buffer: new byte[serverStream.InBufferSize], Message: new StringBuilder());
             BeginRead(info);
 
             return true;
@@ -211,7 +194,7 @@ namespace Files.Helpers
 
         public async Task<(AppServiceResponseStatus Status, Dictionary<string, object> Data)> SendMessageForResponseAsync(ValueSet valueSet)
         {
-            if (clientStream == null)
+            if (serverStream == null)
             {
                 return (AppServiceResponseStatus.Failure, null);
             }
@@ -223,7 +206,7 @@ namespace Files.Helpers
                 var tcs = new TaskCompletionSource<Dictionary<string, object>>();
                 messageList.TryAdd(guid, tcs);
                 var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Dictionary<string, object>(valueSet)));
-                await clientStream.WriteAsync(serialized, 0, serialized.Length);
+                await serverStream.WriteAsync(serialized, 0, serialized.Length);
                 var response = await tcs.Task;
 
                 return (AppServiceResponseStatus.Success, response);
@@ -244,7 +227,7 @@ namespace Files.Helpers
 
         public async Task<AppServiceResponseStatus> SendMessageAsync(ValueSet valueSet)
         {
-            if (clientStream == null)
+            if (serverStream == null)
             {
                 return AppServiceResponseStatus.Failure;
             }
@@ -254,7 +237,7 @@ namespace Files.Helpers
                 var guid = Guid.NewGuid().ToString();
                 valueSet.Add("RequestID", guid);
                 var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Dictionary<string, object>(valueSet)));
-                await clientStream.WriteAsync(serialized, 0, serialized.Length);
+                await serverStream.WriteAsync(serialized, 0, serialized.Length);
                 return AppServiceResponseStatus.Success;
             }
             catch (System.IO.IOException)
@@ -278,17 +261,12 @@ namespace Files.Helpers
                 m.Value.TrySetCanceled();
             }
             messageList.Clear();
-            clientStream?.Dispose();
-            clientStream = null;
-            pipeHandle?.Dispose();
-            pipeHandle = null;
+            serverStream?.Dispose();
+            serverStream = null;
         }
-
-        private bool isDisposed = false;
 
         public void Dispose()
         {
-            this.isDisposed = true;
             this.Cleanup();
         }
     }
