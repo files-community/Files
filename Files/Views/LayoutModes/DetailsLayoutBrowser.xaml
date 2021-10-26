@@ -672,10 +672,8 @@
                                     Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
                                     <FontIcon
                                         x:Name="CloudDriveSyncStatusGlyph"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
                                         AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"
-                                        Foreground="{x:Bind SyncStatusUI.Foreground, Mode=OneWay}"
+                                        FontSize="12"
                                         Glyph="{x:Bind SyncStatusUI.Glyph, Mode=OneWay}" />
                                 </Grid>
 
