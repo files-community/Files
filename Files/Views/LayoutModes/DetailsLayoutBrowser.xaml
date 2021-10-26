@@ -341,12 +341,11 @@
                                     Width="{x:Bind ColumnsViewModel.SizeColumn.Length, Mode=OneWay}"
                                     MaxWidth="{x:Bind ColumnsViewModel.SizeColumn.MaxLength, Mode=OneWay}" />
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition x:Name="Column11" Width="0" />
                                 <ColumnDefinition
                                     x:Name="Column10"
                                     Width="{x:Bind ColumnsViewModel.StatusColumn.Length, Mode=OneWay}"
                                     MaxWidth="{x:Bind ColumnsViewModel.StatusColumn.MaxLength, Mode=OneWay}" />
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition x:Name="Column11" Width="0" />
                             </Grid.ColumnDefinitions>
 
                             <Grid Grid.Column="0" />
