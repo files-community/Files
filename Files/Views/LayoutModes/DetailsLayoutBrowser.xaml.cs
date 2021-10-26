@@ -666,11 +666,11 @@ namespace Files.Views.LayoutModes
             ColumnsViewModel.TagColumn.UserLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.OriginalPathColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.DateDeletedColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
-            ColumnsViewModel.StatusColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.DateModifiedColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.DateCreatedColumn.UserLength = new GridLength(Column8.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column9.ActualWidth, GridUnitType.Pixel);
             ColumnsViewModel.SizeColumn.UserLength = new GridLength(Column10.ActualWidth, GridUnitType.Pixel);
+            ColumnsViewModel.StatusColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
         }
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -750,11 +750,11 @@ namespace Files.Views.LayoutModes
                     2 => ColumnsViewModel.TagColumn,
                     3 => ColumnsViewModel.OriginalPathColumn,
                     4 => ColumnsViewModel.DateDeletedColumn,
-                    5 => ColumnsViewModel.StatusColumn,
+                    5 => ColumnsViewModel.SizeColumn,
                     6 => ColumnsViewModel.DateModifiedColumn,
                     7 => ColumnsViewModel.DateCreatedColumn,
                     8 => ColumnsViewModel.ItemTypeColumn,
-                    _ => ColumnsViewModel.SizeColumn
+                    _ => ColumnsViewModel.StatusColumn
                 };
                 if (columnToResize == 1)
                 {
