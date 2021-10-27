@@ -576,7 +576,7 @@ namespace Files.Views.LayoutModes
             ContentChanged(LastColumnShellPage);
         }
 
-        private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
+        private void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
         {
             if (listViewItem != null)
             {
