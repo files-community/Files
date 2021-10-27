@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Files.Controllers;
 
 namespace Files.DataModels
 {
@@ -31,9 +32,16 @@ namespace Files.DataModels
             return Terminals.First();
         }
 
-        public void ResetToDefaultTerminal()
+        public async void ResetToDefaultTerminal()
         {
-            DefaultTerminalName = "cmd";
+            if (await TerminalController.IsWindowsTerminalBuildInstalled())
+            {
+                DefaultTerminalName = "Windows Terminal";
+            }
+            else
+            {
+                DefaultTerminalName = "cmd";
+            }
         }
 
         public void AddTerminal(Terminal terminal)

@@ -4,6 +4,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -143,13 +144,28 @@ namespace Files.Controllers
             catch
             {
                 var model = new TerminalFileModel();
-                model.Terminals.Add(new Terminal()
+
+                if (await IsWindowsTerminalBuildInstalled())
                 {
-                    Name = "CMD",
-                    Path = "cmd.exe",
-                    Arguments = "",
-                    Icon = ""
-                });
+                    model.Terminals.Add(new Terminal()
+                    {
+                        Name = "Windows Terminal",
+                        Path = "wt.exe",
+                        Arguments = "-d .",
+                        Icon = ""
+                    });
+                }
+                else
+                {
+                    model.Terminals.Add(new Terminal()
+                    {
+                        Name = "CMD",
+                        Path = "cmd.exe",
+                        Arguments = "",
+                        Icon = ""
+                    });
+                }
+                
                 model.ResetToDefaultTerminal();
                 return model;
             }
@@ -157,45 +173,53 @@ namespace Files.Controllers
 
         public async Task GetInstalledTerminalsAsync()
         {
-            var windowsTerminal = new Terminal()
+            var terminalDefs = new Dictionary<Terminal, bool>();
+
+            terminalDefs.Add(new Terminal()
             {
                 Name = "Windows Terminal",
                 Path = "wt.exe",
                 Arguments = "-d .",
                 Icon = ""
-            };
+            }, await IsWindowsTerminalBuildInstalled());
 
-            var fluentTerminal = new Terminal()
+            terminalDefs.Add(new Terminal()
             {
                 Name = "Fluent Terminal",
                 Path = "flute.exe",
                 Arguments = "",
                 Icon = ""
-            };
+            }, await PackageHelper.IsAppInstalledAsync("53621FSApps.FluentTerminal_87x1pks76srcp"));
+            
+            terminalDefs.Add(new Terminal()
+            {
+                Name = "CMD",
+                Path = "cmd.exe",
+                Arguments = "",
+                Icon = ""
+            }, true);   // CMD will always be present (for now at least)
 
-            bool isWindowsTerminalInstalled = await PackageHelper.IsAppInstalledAsync("Microsoft.WindowsTerminal_8wekyb3d8bbwe");
-            bool isWindowsTerminalPreviewInstalled = await PackageHelper.IsAppInstalledAsync("Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe");
-            bool isFluentTerminalInstalled = await PackageHelper.IsAppInstalledAsync("53621FSApps.FluentTerminal_87x1pks76srcp");
-
-            if (isWindowsTerminalInstalled || isWindowsTerminalPreviewInstalled)
+            foreach(KeyValuePair<Terminal, bool> terminalItem in terminalDefs)
             {
-                Model.AddTerminal(windowsTerminal);
-            }
-            else
-            {
-                Model.RemoveTerminal(windowsTerminal);
-            }
-
-            if (isFluentTerminalInstalled)
-            {
-                Model.AddTerminal(fluentTerminal);
-            }
-            else
-            {
-                Model.RemoveTerminal(fluentTerminal);
+                if (terminalItem.Value)
+                {
+                    Model.AddTerminal(terminalItem.Key);
+                }
+                else
+                {
+                    Model.RemoveTerminal(terminalItem.Key);
+                }
             }
 
             SaveModel();
+        }
+
+        public async static Task<bool> IsWindowsTerminalBuildInstalled()
+        {
+            bool isWindowsTerminalInstalled = await PackageHelper.IsAppInstalledAsync("Microsoft.WindowsTerminal_8wekyb3d8bbwe");
+            bool isWindowsTerminalPreviewInstalled = await PackageHelper.IsAppInstalledAsync("Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe");
+
+            return isWindowsTerminalPreviewInstalled || isWindowsTerminalInstalled;
         }
 
         public void SaveModel()
