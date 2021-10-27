@@ -2776,7 +2776,10 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Folder path</value>
   </data>
-  <data name="SettingsEnableSavingRecentItems" xml:space="preserve">
+  <data name="SettingsEnableSavingRecentItems.Title" xml:space="preserve">
+    <value>Enable saving recently opened directories and files</value>
+  </data>
+  <data name="SettingsEnableSavingRecentItemsToggleSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Enable saving recently opened directories and files</value>
   </data>
 </root>

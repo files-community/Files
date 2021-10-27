@@ -156,7 +156,7 @@
                 </local:SettingsBlockControl.Icon>
                 <ToggleSwitch
                     x:Name="IsSavingRecentItemsEnabled"
-                    x:Uid="SettingsEnableSavingRecentItems"
+                    x:Uid="SettingsEnableSavingRecentItemsToggleSwitch"
                     AutomationProperties.Name="Enable saving recently opened directories and files"
                     IsOn="{Binding IsSavingRecentItemsEnabled, Mode=TwoWay}"
                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
