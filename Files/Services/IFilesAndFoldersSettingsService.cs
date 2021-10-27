@@ -49,11 +49,6 @@ namespace Files.Services
         bool AreLayoutPreferencesPerFolder { get; set; }
 
         /// <summary>
-        /// Enables saving recent items opened.
-        /// </summary>
-        bool IsSavingRecentItemsEnabled { get; set; }
-
-        /// <summary>
         /// Enables adaptive layout that adjusts layout mode based on the context of the directory
         /// </summary>
         bool AdaptiveLayoutEnabled { get; set; }

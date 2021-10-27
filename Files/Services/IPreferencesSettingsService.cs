@@ -11,5 +11,10 @@
         /// Gets or sets a value indicating whether or not to open folders in new tab.
         /// </summary>
         bool OpenFoldersInNewTab { get; set; }
+
+        /// <summary>
+        /// Enables saving recent items opened.
+        /// </summary>
+        bool IsSavingRecentItemsEnabled { get; set; }
     }
 }

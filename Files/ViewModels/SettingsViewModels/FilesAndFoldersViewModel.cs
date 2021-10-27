@@ -1,7 +1,6 @@
 ﻿using Files.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using Windows.Storage.AccessCache;
 
 namespace Files.ViewModels.SettingsViewModels
 {
@@ -108,27 +107,6 @@ namespace Files.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder)
                 {
                     UserSettingsService.FilesAndFoldersSettingsService.AreLayoutPreferencesPerFolder = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool IsSavingRecentItemsEnabled
-        {
-            get => UserSettingsService.FilesAndFoldersSettingsService.IsSavingRecentItemsEnabled;
-            set
-            {
-                if (value != UserSettingsService.FilesAndFoldersSettingsService.IsSavingRecentItemsEnabled)
-                {
-                    UserSettingsService.FilesAndFoldersSettingsService.IsSavingRecentItemsEnabled = value;
-                    
-                    if (!UserSettingsService.FilesAndFoldersSettingsService.IsSavingRecentItemsEnabled)
-                    {
-                        var mru = StorageApplicationPermissions.MostRecentlyUsedList;
-                        mru.Clear();
-                        UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget = false;
-                    }
-                    
                     OnPropertyChanged();
                 }
             }

@@ -146,6 +146,21 @@
                     IsOn="{Binding OpenFoldersNewTab, Mode=TwoWay}"
                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
+
+            <local:SettingsBlockControl
+                x:Uid="SettingsEnableSavingRecentItems"
+                Title="Enable saving recently opened directories and files"
+                HorizontalAlignment="Stretch">
+                <local:SettingsBlockControl.Icon>
+                    <FontIcon Glyph="&#xE823;" />
+                </local:SettingsBlockControl.Icon>
+                <ToggleSwitch
+                    x:Name="IsSavingRecentItemsEnabled"
+                    x:Uid="SettingsEnableSavingRecentItems"
+                    AutomationProperties.Name="Enable saving recently opened directories and files"
+                    IsOn="{Binding IsSavingRecentItemsEnabled, Mode=TwoWay}"
+                    Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+            </local:SettingsBlockControl>
         </StackPanel>
 
         <UserControls:RestartControl

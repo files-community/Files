@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.Storage.AccessCache;
 using Windows.System;
 
 namespace Files.ViewModels.SettingsViewModels
@@ -137,6 +138,27 @@ namespace Files.ViewModels.SettingsViewModels
                 if (value != UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab)
                 {
                     UserSettingsService.PreferencesSettingsService.OpenFoldersInNewTab = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool IsSavingRecentItemsEnabled
+        {
+            get => UserSettingsService.PreferencesSettingsService.IsSavingRecentItemsEnabled;
+            set
+            {
+                if (value != UserSettingsService.PreferencesSettingsService.IsSavingRecentItemsEnabled)
+                {
+                    UserSettingsService.PreferencesSettingsService.IsSavingRecentItemsEnabled = value;
+
+                    if (!UserSettingsService.PreferencesSettingsService.IsSavingRecentItemsEnabled)
+                    {
+                        var mru = StorageApplicationPermissions.MostRecentlyUsedList;
+                        mru.Clear();
+                        UserSettingsService.WidgetsSettingsService.ShowRecentFilesWidget = false;
+                    }
+
                     OnPropertyChanged();
                 }
             }
