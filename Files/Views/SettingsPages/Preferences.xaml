@@ -7,7 +7,7 @@
     xmlns:datamodels="using:Files.DataModels"
     xmlns:local="using:Files.UserControls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
+    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels" xmlns:helpers="using:Files.Helpers"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
