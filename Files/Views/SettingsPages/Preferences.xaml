@@ -148,16 +148,14 @@
             </local:SettingsBlockControl>
 
             <local:SettingsBlockControl
-                x:Uid="SettingsEnableSavingRecentItems"
-                Title="Enable saving recently opened directories and files"
+                Title="{helpers:ResourceString Name=SettingsEnableSavingRecentItems}"
                 HorizontalAlignment="Stretch">
                 <local:SettingsBlockControl.Icon>
                     <FontIcon Glyph="&#xE823;" />
                 </local:SettingsBlockControl.Icon>
                 <ToggleSwitch
                     x:Name="IsSavingRecentItemsEnabled"
-                    x:Uid="SettingsEnableSavingRecentItemsToggleSwitch"
-                    AutomationProperties.Name="Enable saving recently opened directories and files"
+                    AutomationProperties.Name="{helpers:ResourceString Name=SettingsEnableSavingRecentItems}"
                     IsOn="{Binding IsSavingRecentItemsEnabled, Mode=TwoWay}"
                     Style="{StaticResource RightAlignedToggleSwitchStyle}" />
             </local:SettingsBlockControl>
