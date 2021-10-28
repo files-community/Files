@@ -741,7 +741,7 @@ namespace Files.Views.LayoutModes
                 8 => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
                 _ => 20 // cloud status column
             };
-            var colunmSizeToFit = new[] { 5 }.Contains(columnToResize) ? maxItemLength : MeasureTextColumn(columnToResize, 5, maxItemLength);
+            var colunmSizeToFit = new[] { 5 }.Contains(columnToResize) ? maxItemLength : MeasureTextColumn(columnToResize, 9, maxItemLength);
             if (colunmSizeToFit > 0)
             {
                 var column = columnToResize switch
