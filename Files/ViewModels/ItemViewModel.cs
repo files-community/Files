@@ -1378,7 +1378,7 @@ namespace Files.ViewModels
                 client.Port = FtpHelpers.GetFtpPort(path);
                 client.Credentials = FtpManager.Credentials.Get(client.Host, FtpManager.Anonymous);
                 
-                static FtpProfile WrappedAutoConnectFtpAsync(FtpClient client)
+                static Task<FtpProfile> WrappedAutoConnectFtpAsync(FtpClient client)
                 {
                     try
                     {
