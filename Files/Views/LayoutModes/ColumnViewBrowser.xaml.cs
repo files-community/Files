@@ -10,6 +10,7 @@ using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -160,28 +161,6 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private void ColumnViewBase_DismissColumn(object sender, EventArgs e)
-        {
-            if ((sender as ListView).FindAscendant<ColumnViewBrowser>() != this)
-            {
-                return;
-            }
-            DismissOtherBlades(sender as ListView);
-        }
-
-        private void ColumnViewBase_UnFocusPreviousListView(object sender, EventArgs e)
-        {
-            if ((sender as ListView).FindAscendant<ColumnViewBrowser>() != this)
-            {
-                return;
-            }
-        }
-
-        private void FileList_GotFocus(object sender, RoutedEventArgs e)
-        {
-            Debug.WriteLine("Got focus");
-        }
-
         private void ColumnViewBase_ItemInvoked(object sender, EventArgs e)
         {
             var column = sender as ColumnParam;
@@ -189,6 +168,8 @@ namespace Files.Views.LayoutModes
             {
                 return;
             }
+
+            DismissOtherBlades(sender as ListView);
 
             var frame = new Frame();
             frame.Navigated += Frame_Navigated;
@@ -242,12 +223,6 @@ namespace Files.Views.LayoutModes
             //await viewmodel.SetWorkingDirectoryAsync(NavParam);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-            ColumnViewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
-            ColumnViewBase.ItemInvoked += ColumnViewBase_ItemInvoked;
-            ColumnViewBase.UnFocusPreviousListView -= ColumnViewBase_UnFocusPreviousListView;
-            ColumnViewBase.UnFocusPreviousListView += ColumnViewBase_UnFocusPreviousListView;
-            ColumnViewBase.DismissColumn -= ColumnViewBase_DismissColumn;
-            ColumnViewBase.DismissColumn += ColumnViewBase_DismissColumn;
             parameters = (NavigationArguments)eventArgs.Parameter;
             if (parameters.IsLayoutSwitch)
             {
@@ -264,9 +239,6 @@ namespace Files.Views.LayoutModes
         {
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-            ColumnViewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
-            ColumnViewBase.UnFocusPreviousListView -= ColumnViewBase_UnFocusPreviousListView;
-            ColumnViewBase.DismissColumn -= ColumnViewBase_DismissColumn;
         }
 
         private async void ReloadItemIcons()
@@ -399,12 +371,10 @@ namespace Files.Views.LayoutModes
         public override void Dispose()
         {
             base.Dispose();
+            ColumnHost.ActiveBlades.ForEach(x => (((x.Content as Frame)?.Content as ColumnShellPage).SlimContentPage as ColumnViewBase).ItemInvoked -= ColumnViewBase_ItemInvoked);
             ColumnHost.ActiveBlades.Select(x => (x.Content as Frame)?.Content).OfType<IDisposable>().ForEach(x => x.Dispose());
             UnhookEvents();
             CommandsViewModel?.Dispose();
-            ColumnViewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
-            ColumnViewBase.UnFocusPreviousListView -= ColumnViewBase_UnFocusPreviousListView;
-            ColumnViewBase.DismissColumn -= ColumnViewBase_DismissColumn;
         }
 
         #endregion IDisposable
@@ -568,6 +538,7 @@ namespace Files.Views.LayoutModes
                         {
                             disposableContent.Dispose();
                         }
+                        (((ColumnHost.ActiveBlades[index + 1].Content as Frame).Content as ColumnShellPage).SlimContentPage as ColumnViewBase).ItemInvoked -= ColumnViewBase_ItemInvoked;
                         ColumnHost.Items.RemoveAt(index + 1);
                         ColumnHost.ActiveBlades.RemoveAt(index + 1);
                     }
@@ -647,6 +618,8 @@ namespace Files.Views.LayoutModes
         {
             var c = sender as IShellPage;
             c.ContentChanged -= ColumnViewBrowser_ContentChanged;
+            (c.SlimContentPage as ColumnViewBase).ItemInvoked -= ColumnViewBase_ItemInvoked;
+            (c.SlimContentPage as ColumnViewBase).ItemInvoked += ColumnViewBase_ItemInvoked;
             ContentChanged(c);
         }
 

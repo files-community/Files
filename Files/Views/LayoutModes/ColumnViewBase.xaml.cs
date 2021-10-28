@@ -149,11 +149,7 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        public static event EventHandler ItemInvoked;
-
-        public static event EventHandler DismissColumn;
-
-        public static event EventHandler UnFocusPreviousListView;
+        public event EventHandler ItemInvoked;
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
@@ -319,7 +315,6 @@ namespace Files.Views.LayoutModes
 
         private async void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UnFocusPreviousListView?.Invoke(FileList, EventArgs.Empty);
             SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x != null).ToList();
             if (SelectedItems.Count == 1)
             {
@@ -409,7 +404,6 @@ namespace Files.Views.LayoutModes
             {
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    DismissColumn?.Invoke(sender as ListView, EventArgs.Empty);
                     listViewItem = FileList.ContainerFromItem(item) as ListViewItem;
                     ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
                 }
@@ -467,7 +461,6 @@ namespace Files.Views.LayoutModes
 
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    DismissColumn?.Invoke(sender as ListView, EventArgs.Empty);
                     listViewItem = FileList.ContainerFromItem(item) as ListViewItem;
                     ItemInvoked?.Invoke(new ColumnParam { Path = item.ItemPath, ListView = FileList }, EventArgs.Empty);
                 }
