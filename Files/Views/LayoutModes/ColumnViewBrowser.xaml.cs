@@ -154,6 +154,10 @@ namespace Files.Views.LayoutModes
             {
                 DismissOtherBlades(ColumnHost.ActiveBlades[ColumnHost.ActiveBlades.Count - 2]);
             }
+            else
+            {
+                (ParentShellPageInstance as ModernShellPage)?.Up_Click();
+            }
         }
 
         public void SetSelectedPathOrNavigate(PathNavigationEventArgs e)
