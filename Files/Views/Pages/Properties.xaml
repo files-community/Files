@@ -98,8 +98,7 @@
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Name="TabCustomization"
-                    x:Uid="PropertiesDialogTabCustomization"
-                    Content="Customization"
+                    Content="{helpers:ResourceString Name=Customization}"
                     Tag="Customization"
                     Visibility="Collapsed">
                     <muxc:NavigationViewItem.Icon>

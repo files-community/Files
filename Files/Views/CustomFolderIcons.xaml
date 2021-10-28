@@ -6,6 +6,7 @@
     xmlns:common="using:Files.Common"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     MaxWidth="372"
     Background="Transparent"
@@ -20,7 +21,7 @@
             <TextBlock
                 Padding="0,8"
                 FontWeight="SemiBold"
-                Text="Pick a custom folder icon" />
+                Text="{helpers:ResourceString Name=ChooseCustomIcon}" />
             <Grid ColumnSpacing="4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -34,7 +35,7 @@
                     x:Name="PickDllButton"
                     Grid.Column="1"
                     Click="PickDllButton_Click"
-                    Content="Browse..." />
+                    Content="{helpers:ResourceString Name=Browse}" />
             </Grid>
             <GridView
                 x:Name="IconSelectionGrid"
@@ -62,7 +63,7 @@
                 x:Name="RestoreDefaultButton"
                 x:Load="{x:Bind IsShortcutItem, Converter={StaticResource BoolNegationConverter}}"
                 Command="{x:Bind RestoreDefaultIconCommand}"
-                Content="Restore default" />
+                Content="{helpers:ResourceString Name=RestoreDefault}" />
         </StackPanel>
     </Grid>
 </Page>

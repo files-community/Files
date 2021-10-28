@@ -2776,4 +2776,13 @@ We use App Center to keep track of app usage, find bugs, and fix crashes. All in
   <data name="NavToolbarArrangementOptionFolderPath.Text" xml:space="preserve">
     <value>Folder path</value>
   </data>
+  <data name="ChooseCustomIcon" xml:space="preserve">
+    <value>Choose a custom folder icon</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Customization</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>Restore default</value>
+  </data>
 </root>
