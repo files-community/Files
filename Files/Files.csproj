@@ -1491,7 +1491,7 @@
       <Version>1.3.3</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
-      <Version>2.0.6</Version>
+      <Version>2.0.7</Version>
     </PackageReference>
     <PackageReference Include="Ude.NetStandard">
       <Version>1.2.0</Version>
