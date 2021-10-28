@@ -1377,12 +1377,26 @@ namespace Files.ViewModels
                 client.Host = FtpHelpers.GetFtpHost(path);
                 client.Port = FtpHelpers.GetFtpPort(path);
                 client.Credentials = FtpManager.Credentials.Get(client.Host, FtpManager.Anonymous);
+                
+                static FtpProfile WrappedAutoConnectFtpAsync(FtpClient client)
+                {
+                    try
+                    {
+                        return await client.AutoConnectAsync();
+                    }
+                    catch (FtpAuthenticationException)
+                    {
+                        return null;
+                    }
+                    
+                    throw new InvalidOperationException();
+                }
 
                 await Task.Run(async () =>
                 {
                     try
                     {
-                        if (!client.IsConnected && await client.AutoConnectAsync() is null)
+                        if (!client.IsConnected && await WrappedAutoConnectFtpAsync(client) is null)
                         {
                             await CoreApplication.MainView.DispatcherQueue.EnqueueAsync(async () =>
                             {
@@ -1403,7 +1417,7 @@ namespace Files.ViewModels
                                 }
                             });
                         }
-                        if (!client.IsConnected && await client.AutoConnectAsync() is null)
+                        if (!client.IsConnected && await WrappedAutoConnectFtpAsync(client) is null)
                         {
                             throw new InvalidOperationException();
                         }
