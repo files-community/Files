@@ -40,10 +40,10 @@
             <GridView
                 x:Name="IconSelectionGrid"
                 HorizontalAlignment="Stretch"
-                ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                ScrollViewer.HorizontalScrollMode="Auto"
-                ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                ScrollViewer.VerticalScrollMode="Disabled"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                ScrollViewer.HorizontalScrollMode="Disabled"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollMode="Auto"
                 SelectionChanged="IconSelectionGrid_SelectionChanged"
                 SelectionMode="Single">
                 <GridView.ItemsPanel>
