@@ -750,10 +750,10 @@ namespace Files.Views.LayoutModes
                     2 => ColumnsViewModel.TagColumn,
                     3 => ColumnsViewModel.OriginalPathColumn,
                     4 => ColumnsViewModel.DateDeletedColumn,
-                    5 => ColumnsViewModel.SizeColumn,
-                    6 => ColumnsViewModel.DateModifiedColumn,
-                    7 => ColumnsViewModel.DateCreatedColumn,
-                    8 => ColumnsViewModel.ItemTypeColumn,
+                    5 => ColumnsViewModel.DateModifiedColumn,
+                    6 => ColumnsViewModel.DateCreatedColumn,
+                    7 => ColumnsViewModel.ItemTypeColumn,
+                    8 => ColumnsViewModel.SizeColumn,
                     _ => ColumnsViewModel.StatusColumn
                 };
                 if (columnToResize == 1)
