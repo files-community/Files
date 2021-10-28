@@ -32,15 +32,15 @@ namespace Files.DataModels
             return Terminals.First();
         }
 
-        public async void ResetToDefaultTerminal()
+        public void ResetToDefaultTerminal()
         {
-            if (await TerminalController.IsWindowsTerminalBuildInstalled())
+            if (Terminals.Any(x => x.Name == "Windows Terminal"))
             {
                 DefaultTerminalName = "Windows Terminal";
             }
             else
             {
-                DefaultTerminalName = "cmd";
+                DefaultTerminalName = "CMD";
             }
         }
 

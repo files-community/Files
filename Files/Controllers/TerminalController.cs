@@ -1,12 +1,13 @@
 ﻿using Files.DataModels;
 using Files.Enums;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
@@ -139,39 +140,27 @@ namespace Files.Controllers
             {
                 StorageFile defaultFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(defaultTerminalPath));
                 var defaultContent = await FileIO.ReadTextAsync(defaultFile);
-                return JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
+                var model = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
+                await GetInstalledTerminalsAsync(model);
+                model.ResetToDefaultTerminal();
+                return model;
             }
             catch
             {
                 var model = new TerminalFileModel();
-
-                if (await IsWindowsTerminalBuildInstalled())
-                {
-                    model.Terminals.Add(new Terminal()
-                    {
-                        Name = "Windows Terminal",
-                        Path = "wt.exe",
-                        Arguments = "-d .",
-                        Icon = ""
-                    });
-                }
-                else
-                {
-                    model.Terminals.Add(new Terminal()
-                    {
-                        Name = "CMD",
-                        Path = "cmd.exe",
-                        Arguments = "",
-                        Icon = ""
-                    });
-                }
-                
+                await GetInstalledTerminalsAsync(model);
                 model.ResetToDefaultTerminal();
                 return model;
             }
         }
 
-        public async Task GetInstalledTerminalsAsync()
+        private async Task GetInstalledTerminalsAsync()
+        {
+            await GetInstalledTerminalsAsync(Model);
+            SaveModel();
+        }
+
+        private async Task GetInstalledTerminalsAsync(TerminalFileModel model)
         {
             var terminalDefs = new Dictionary<Terminal, bool>();
 
@@ -190,28 +179,17 @@ namespace Files.Controllers
                 Arguments = "",
                 Icon = ""
             }, await PackageHelper.IsAppInstalledAsync("53621FSApps.FluentTerminal_87x1pks76srcp"));
-            
+
             terminalDefs.Add(new Terminal()
             {
                 Name = "CMD",
                 Path = "cmd.exe",
                 Arguments = "",
                 Icon = ""
-            }, true);   // CMD will always be present (for now at least)
+            }, true);    // CMD will always be present (for now at least)
 
-            foreach(KeyValuePair<Terminal, bool> terminalItem in terminalDefs)
-            {
-                if (terminalItem.Value)
-                {
-                    Model.AddTerminal(terminalItem.Key);
-                }
-                else
-                {
-                    Model.RemoveTerminal(terminalItem.Key);
-                }
-            }
-
-            SaveModel();
+            terminalDefs.Where(x => x.Value).ForEach(x => model.AddTerminal(x.Key));
+            terminalDefs.Where(x => !x.Value).ForEach(x => model.RemoveTerminal(x.Key));
         }
 
         public async static Task<bool> IsWindowsTerminalBuildInstalled()
