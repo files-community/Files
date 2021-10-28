@@ -24,7 +24,6 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
@@ -840,7 +839,6 @@ namespace Files.Views
             NavToolbarViewModel.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
             NavToolbarViewModel.ItemDraggedOverPathItem -= ColumnShellPage_NavigationRequested;
             NavToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
-            //NavToolbarViewModel.RefreshWidgetsRequested -= ColumnShellPage_RefreshWidgetsRequested;
 
             NavToolbarViewModel.SearchBox.TextChanged -= ColumnShellPage_TextChanged;
             NavToolbarViewModel.SearchBox.SuggestionChosen -= ColumnShellPage_SuggestionChosen;

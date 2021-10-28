@@ -18,13 +18,8 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Files.Views.LayoutModes
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class ColumnViewBase : BaseLayout
     {
         public ColumnViewBase() : base()
@@ -155,16 +150,7 @@ namespace Files.Views.LayoutModes
         {
             base.OnNavigatedTo(eventArgs);
             var param = (eventArgs.Parameter as NavigationArguments);
-            //NavParam = param.NavPathParam;
-            //var viewmodel = new ItemViewModel(FolderSettings);
-            //await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(NavParam);
-            //await viewmodel.SetWorkingDirectoryAsync(NavParam);
             ParentShellPageInstance.IsCurrentInstance = true;
-            var parameters = (NavigationArguments)eventArgs.Parameter;
-            if (parameters.IsLayoutSwitch)
-            {
-                //ReloadItemIcons();
-            }
         }
 
         protected override void InitializeCommandsViewModel()
